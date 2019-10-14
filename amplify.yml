@@ -1,0 +1,13 @@
+version: 0.1
+frontend:
+  phases:
+    build:
+      commands: 
+          - hugo
+          
+  artifacts:
+    baseDirectory: public
+    files:
+      - '**/*'
+  cache:
+    paths: []
