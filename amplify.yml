@@ -2,11 +2,12 @@ version: 0.1
 frontend:
   phases:
     build:
-      commands: 
-          - hugo
-          
+      commands:
+        - cd workshop/
+        - hugo
+
   artifacts:
-    baseDirectory: public
+    baseDirectory: workshop/public
     files:
       - '**/*'
   cache:
