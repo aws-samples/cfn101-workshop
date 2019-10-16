@@ -1,17 +1,12 @@
-# Local Development
+## My Project
 
-+ clone the repo (depends on your setup, bellow is example using CoC plugin)
+TODO: Fill this README out!
 
-`git clone codecommit://builders@cfn-101-workshop`
+Be sure to:
 
-+ install `hugo`
+* Change the title in this README
+* Edit your repository description on GitHub
 
-`brew install hugo`
+## License
 
-+ install `hugo-learn-theme` via submodules
-
-`git submodule update --init --recursive`
-
-+ start local server
-
-`hugo serve`
+This library is licensed under the MIT-0 License. See the LICENSE file.
