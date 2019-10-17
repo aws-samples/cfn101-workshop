@@ -1,0 +1,102 @@
+AWSTemplateFormatVersion: 2010-09-09
+
+Parameters:
+  AmplifyAppName:
+    Type: String
+
+  Repository:
+    Type: String
+    Description: GitHub Repository URL
+
+  OAuthToken:
+    Type: String
+    Description: GitHub Repository URL
+    NoEcho: true
+
+  Domain:
+    Type: String
+    Description: Domain parameter to connect a custom domain to your app.
+
+  SubDomain:
+    Type: String
+    Description: The SubDomain parameter to connect a subdomain (e.g. foo.yourdomain.com)
+
+Resources:
+  AmplifyRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - amplify.amazonaws.com
+            Action:
+              - sts:AssumeRole
+      Policies:
+        - PolicyName: Amplify
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              - Effect: Allow
+                Action: "amplify:*"
+                Resource: "*"
+
+  AmplifyApp:
+    Type: "AWS::Amplify::App"
+    Properties:
+      Name: !Ref AmplifyAppName
+      Repository: !Ref Repository
+      Description: CFN101 Workshop App
+      OauthToken: !Ref OAuthToken
+      AutoBranchCreationConfig:
+        EnableAutoBranchCreation: true
+        EnableAutoBuild: true
+      BuildSpec: |-
+        version: 0.1
+        frontend:
+          phases:
+            build:
+              commands:
+                - cd workshop
+                - hugo
+          artifacts:
+            baseDirectory: workshop/public
+            files:
+              - '**/*'
+          cache:
+            paths: []
+      Tags:
+        - Key: Name
+          Value: !Ref AmplifyAppName
+      IAMServiceRole: !GetAtt AmplifyRole.Arn
+
+  AmplifyBranch:
+    Type: AWS::Amplify::Branch
+    Properties:
+      BranchName: master
+      AppId: !GetAtt AmplifyApp.AppId
+      Description: Master Branch
+      EnableAutoBuild: true
+      Tags:
+        - Key: Name
+          Value: !Sub ${AmplifyAppName}-master
+        - Key: Branch
+          Value: master
+
+  AmplifyDomain:
+    Type: AWS::Amplify::Domain
+    Properties:
+      DomainName: !Ref Domain
+      AppId: !GetAtt AmplifyApp.AppId
+      SubDomainSettings:
+        - Prefix: !Ref SubDomain
+          BranchName: !GetAtt AmplifyBranch.BranchName
+
+Outputs:
+  DefaultDomain:
+    Value: !GetAtt AmplifyApp.DefaultDomain
+
+  CustomDomainUrl:
+    Value: !Join [ ".", [!Ref SubDomain, !Ref Domain ]]

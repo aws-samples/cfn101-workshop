@@ -5,7 +5,6 @@ frontend:
       commands:
         - cd workshop/
         - hugo
-
   artifacts:
     baseDirectory: workshop/public
     files:
