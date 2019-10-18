@@ -14,7 +14,7 @@ pygmentsCodeFences = true
 pygmentsStyle = "monokai"
 
 [params]
-  editURL = "https://github.com/aws-samples/cfn101-workshop/edit/master/content/"
+  editURL = "https://github.com/aws-samples/cfn101-workshop/edit/master/workshop/content/"
   description = "CFN 101 Workshop"
   author = "EMEA Solution Builders"
   disableBreadcrumb = false
