@@ -1,9 +1,8 @@
 +++
 title = "Prerequisites"
 date = 2019-10-16T17:18:51+01:00
-weight = 15
+weight = 20
 chapter = true
-pre = ""
 +++
 
 # Prerequisites for the Workshop
