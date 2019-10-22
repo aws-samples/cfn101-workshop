@@ -51,8 +51,8 @@ Resources:
       Description: CFN101 Workshop App
       OauthToken: !Ref OAuthToken
       AutoBranchCreationConfig:
-        EnableAutoBranchCreation: true
-        EnableAutoBuild: true
+        EnableAutoBranchCreation: false
+        EnableAutoBuild: false
       BuildSpec: |-
         version: 0.1
         frontend:
