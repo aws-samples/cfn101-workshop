@@ -1,5 +1,5 @@
 ---
-title: "Files for labs"
+title: "Files for Lab Resources"
 date: 2019-10-22T11:33:42+01:00
 weight: 200
 ---
