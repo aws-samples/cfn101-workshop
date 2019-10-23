@@ -1,11 +1,41 @@
-## My Project
+## AWS CloudFormation 101 - Workshop
 
-TODO: Fill this README out!
+## Developer Guide
 
-Be sure to:
+This workshop is built with markdown as a static HTML site using [hugo](http://gohugo.io).
 
-* Change the title in this README
-* Edit your repository description on GitHub
+```bash
+brew install hugo
+```
+
+You'll find the content of the workshop in the [workshop](workshop/) directory.
+
+Lab resources can be found in the [code](code/) directory. 
+
+You can start up a local development server by running:
+
+```bash
+cd workshop
+hugo server
+open http://localhost:1313/
+```
+
+## Website Infrastructure
+
+The workshop is available at https://cfn101.solution.builders. It's a static website
+hosted via [AWS Amplify](https://aws.amazon.com/amplify/).
+
+It is implemented as a CloudFormation stack under the [infrastructure](infrastructure/) directory.
+
+```bash
+cd infrastructure/
+
+# Create an `.env` file and populate it with your own values
+cp .env.example .env
+
+# run the deployment script
+env $(cat .env | xargs) ./deploy.sh
+```
 
 ## License
 
