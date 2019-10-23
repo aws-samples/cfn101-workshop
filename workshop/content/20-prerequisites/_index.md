@@ -5,8 +5,6 @@ weight = 20
 chapter = false
 +++
 
-# Prerequisites for the Workshop
-
 To perform this workshop, you'll need the following:
 
 {{% children showhidden="false" %}}
