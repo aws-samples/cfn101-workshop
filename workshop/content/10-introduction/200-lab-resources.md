@@ -8,11 +8,11 @@ The CloudFormation templates can be found in `code/` directory of the `cfn101-wo
 
 1. Clone the repository to your working directory
 
-```bash
-mkdir workspace
-cd workspace
-git clone https://github.com/aws-samples/cfn101-workshop
-```
+    ```bash
+    mkdir workspace
+    cd workspace
+    git clone https://github.com/aws-samples/cfn101-workshop
+    ```
 
 1. Or Download ZIP file from [Github repository](https://github.com/aws-samples/cfn101-workshop)
 ![Title](/10-introduction/git-download.png)
