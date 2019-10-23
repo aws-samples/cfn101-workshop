@@ -25,19 +25,19 @@ here](https://portal.aws.amazon.com/billing/signup).
 1. Go to the AWS IAM console and [create a new user](https://console.aws.amazon.com/iam/home?#/users$new).
 1. Type a name for your user (e.g. `cfn-workshop`) and choose "Programmatic access".
 
-    ![](./new-user-1.png)
+    ![](/20-prerequisites/new-user-1.png)
 
 1. Click **Next: Permissions** to continue to the next step.
 1. Click **Attach existing policies directly** and choose **AdministratorAccess**.
 
-    ![](./new-user-2.png)
+    ![](/20-prerequisites/new-user-2.png)
 
 1. Click **Next: Review**
 1. Click **Create User**
 1. In the next screen, you'll see your **Access key ID** and you will have the option
    to click **Show** to show the **Secret access key**. Keep this browser window open.
 
-    ![](./new-user-3.png)
+    ![](/20-prerequisites/new-user-3.png)
 
 ## Configure your credentials
 
