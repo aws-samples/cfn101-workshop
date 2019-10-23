@@ -15,7 +15,7 @@ git clone https://github.com/aws-samples/cfn101-workshop
 ```
 
 1. Or Download ZIP file from [Github repository](https://github.com/aws-samples/cfn101-workshop)
-![Title](./git_download.png)
+![Title](./git-download.png)
 
 1. Open the downloaded file in text editor of your choice (through the workshop, we will use VSCode)
 ![Title](./vscode.png)

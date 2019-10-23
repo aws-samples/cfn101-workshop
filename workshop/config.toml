@@ -1,4 +1,4 @@
-RelativeURLs=true
+relativeURLs=true
 CanonifyURLs=true
 languageCode = "en-US"
 defaultContentLanguage = "en"
@@ -8,7 +8,7 @@ theme = "learn"
 metaDataFormat = "yaml"
 defaultContentLanguageInSubdir= true
 
-uglyurls = true
+uglyurls = false
 sectionPagesMenu = "main"
 pygmentsCodeFences = true
 pygmentsStyle = "monokai"
