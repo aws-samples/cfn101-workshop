@@ -9,7 +9,7 @@ chapter = true
 
 Welcome to the AWS CloudFormation Workshop!
 
-![Title](./AWS-CloudFormation@4x.png)
+![Title](./aws-cloudformation.png)
 
 The intent of this workshop is to educate builders about the features of AWS CloudFormation and how to get started building quickly.
 
