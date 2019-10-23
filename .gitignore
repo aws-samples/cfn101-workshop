@@ -3,3 +3,4 @@ workshop/public
 resources/_gen
 .idea
 infrastructure/.env
+.DS_Store
