@@ -16,8 +16,6 @@ with different configuration values, such as how many instances to deploy for th
 #### A Template example of the high level YAML Structure:
 
 ```yaml
-# The AWSTemplateFormatVersion section (optional) identifies the capabilities of the template.
-
 AWSTemplateFormatVersion: "2010-09-09"
 
 Description: "A text description of the template usage"
