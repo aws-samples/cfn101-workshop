@@ -5,8 +5,8 @@ weight = 40
 chapter = true
 +++
 
-### Chapter X
+![](./ec2-1.png)
 
-# Some Chapter title
+In this section, you'll write an EC2 template using most of the CloudFormation template features. 
 
-Lorem Ipsum.
+Then, you use the AWS Management Console to deploy the EC2 stack.
