@@ -25,7 +25,7 @@ open http://localhost:1313/
 The workshop is available at https://cfn101.solution.builders. It's a static website
 hosted via [AWS Amplify](https://aws.amazon.com/amplify/).
 
-It is implemented as a CloudFormation stack under the [infrastructure](infrastructure/) directory.
+The infrastructure is implemented as a CloudFormation stack. The template exists in the [infrastructure](infrastructure/) directory.
 
 ```bash
 cd infrastructure/
