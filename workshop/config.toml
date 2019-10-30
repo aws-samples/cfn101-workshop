@@ -25,7 +25,7 @@ pygmentsStyle = "monokai"
   disableLanguageSwitchingButton = false
   disableShortcutsTitle = true
   disableInlineCopyToClipBoard = true
-  showVisitedLinks = true
+  showVisitedLinks = false
 
 [outputs]
 home = [ "HTML", "RSS", "JSON"]
