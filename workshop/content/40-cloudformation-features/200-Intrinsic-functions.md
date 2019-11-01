@@ -48,10 +48,8 @@ template more flexible. Lets convert AMI ID to variable and pass it to resource 
         Type: String
         Description: The ID of the AMI.
 ```
-
 **Challenge:**
 Add the `AmiID` to ParameterGroup and label it `Amazon Machine Image ID`
-
 {{%expand "Expand here to see the solution" %}}
 ```yaml
     ParameterGroups:
@@ -83,7 +81,7 @@ Yaml Syntax:
   !Join [ delimiter, [ comma-delimited list of values ] ]
 ```
 
-Lets Tag our instance:
+It is always good idea to Tag your resources, so lets do it now and use _Fn::Join_ function:
 
 ```yaml
       Tags:
