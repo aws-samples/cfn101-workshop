@@ -16,7 +16,7 @@ You can find full list of supported functions in
 {{% /notice %}}
 
 {{% notice note %}} 
-You can use intrinsic functions only in specific parts of a template. Currently, you can use intrinsic functions in 
+Intrinsic functions can only be used in certain parts of a template. You can use intrinsic functions in 
 **resource properties, outputs, metadata attributes, and update policy attributes**.
 {{% /notice %}}
 
