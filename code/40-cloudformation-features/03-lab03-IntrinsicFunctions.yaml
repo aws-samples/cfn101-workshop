@@ -29,5 +29,6 @@ Resources:
   MyEC2Instance:
     Type: 'AWS::EC2::Instance'
     Properties:
-      ImageId: ami-00a1270ce1e007c27 #
+     # Update the code below
+      ImageId: ami-00a1270ce1e007c27
       InstanceType: !Ref InstanceType
