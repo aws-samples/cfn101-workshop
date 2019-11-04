@@ -4,14 +4,14 @@ date: 2019-11-01T13:36:34Z
 weight: 200
 ---
   
-AWS CloudFormation provides several built-in functions that help you manage your stacks. 
+AWS CloudFormation provides several built-in functions that help you manage your stacks. Use intrinsic functions in 
+your templates to assign values to properties that are not available until runtime.
 
-AWS CloudFormation supports around 13 functions. In this Lab, you will use `Ref` and `Fn::Join` functions to assign 
-values to your EC2 resource properties. 
+In this Lab, you will use the `Ref` and `Fn::Join` functions to assign values to your EC2 resource properties. 
 
 {{% notice info %}}
 More functions, such as `Fn::Base64`, `Fn::FindInMap`, `Fn::GetAtt` and `Fn::Sub` will be introduced in the feature labs.
-You can find full list of supported functions in
+You can find full list of supported functions in the
 [AWS Documentation](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference.html).
 {{% /notice %}}
 
@@ -34,7 +34,7 @@ Yaml Syntax:
   !Ref
 ```
 
-In the last lab you have "hard coded" AMI ID directly in EC2 Resource property. We need to fix that to make your 
+In the last lab you have "hard coded" an AMI ID directly into the EC2 Resource property. You will now amend this to make your 
 template more flexible. Lets convert AMI ID to variable and pass it to resource property at the runtime.
 
 1. First, create new parameter called `AmiID` and put it in the `Parameters` section of your template.
