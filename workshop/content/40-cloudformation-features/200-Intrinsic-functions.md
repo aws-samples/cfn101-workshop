@@ -24,7 +24,7 @@ Intrinsic functions can only be used in certain parts of a template. You can use
 
 1. Go to `code/40-cloudformation-features/` directory.
 1. Open the `03-lab03-IntrinsicFunctions.yaml` file.
-1. Copy the code as you go through the topics bellow.
+1. Copy the code as you go through the topics below.
 
 #### Ref <a id="ref"></a>
 The intrinsic function _Ref_ returns the value of the specified _parameter_ or _resource_.
