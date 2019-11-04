@@ -1,7 +1,7 @@
 ---
 title: "Lab 03: Intrinsic Functions"
 date: 2019-11-01T13:36:34Z
-weight: 200
+weight: 300
 ---
   
 AWS CloudFormation provides several built-in functions that help you manage your stacks. Use intrinsic functions in 

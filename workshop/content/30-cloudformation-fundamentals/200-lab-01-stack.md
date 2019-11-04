@@ -1,7 +1,7 @@
 ---
 title: "Lab 01: Template and Stack"
 date: 2019-10-25T17:41:16+01:00
-weight: 110
+weight: 200
 ---
 
 Lets deploy our first stack. In this Lab, you will write simple template which will deploy S3 bucket. 

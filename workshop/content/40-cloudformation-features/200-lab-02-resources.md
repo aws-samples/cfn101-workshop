@@ -1,5 +1,5 @@
 ---
-title: "Lab 02: Template Anatomy"
+title: "Lab 02: Resources"
 date: 2019-10-28T14:35:59Z
 weight: 110
 ---
@@ -11,7 +11,7 @@ As you read through different sections, there is a code at the end, which you sh
 **Lets go!**
 
 1. Go to `code/40-cloudformation-features/` directory.
-1. Open the `01-lab02-TemplateAnatomy.yaml` file.
+1. Open the `01-lab02-Resources.yaml` file.
 1. Copy the code as you go through the topics bellow.
 
 #### Format Version
@@ -112,8 +112,8 @@ Bellow is an example, how to get the latest Amazon Linux 2 AMI ID in London Regi
 Once you have your AMI ID, copy and paste it to _ImageId_ property.
 
 {{% notice info %}} 
-You can find working solution for **London Region** in `code/40-cloudformation-features/02-lab02-TemplateAnatomySolution.yaml` file.
+You can find working solution for **London Region** in `code/40-cloudformation-features/02-lab02-Resources-Solution.yaml` file.
 {{% /notice %}}
 
 Now your EC2 template is ready to be deployed. Go back to AWS console and deploy the stack same way as you did in 
-the [Lab 01: Template and Stack](../30-cloudformation-fundamentals/110-lab-01.md)
+the [Lab 01: Template and Stack](../30-cloudformation-fundamentals/200-lab-01-stack.md)
