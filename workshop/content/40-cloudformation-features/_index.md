@@ -9,4 +9,6 @@ chapter = true
 
 In this section, you'll write an EC2 template using most of the CloudFormation template features. 
 
-Then, you use the AWS Management Console to deploy the EC2 stack.
+Then, you will use the AWS Management Console to deploy the EC2 stack.
+
+{{% children showhidden="false" %}}
