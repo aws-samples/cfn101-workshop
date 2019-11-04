@@ -1,23 +1,18 @@
 ---
-title: "Intrinsic Functions"
+title: "Lab 03: Intrinsic Functions"
 date: 2019-11-01T13:36:34Z
 weight: 200
 ---
   
 AWS CloudFormation provides several built-in functions that help you manage your stacks. 
 
-In this Lab, you will use intrinsic functions to assign values to your EC2 resource properties. 
-The following functions will be used in this exercise:
-
-* [Ref](#ref)
-* [Fn::Join](#join)
-* [Fn::Sub](#sub)
-* [Fn::FindInMap](#find-in-map)
-* [Fn::GetAtt](#get-att)
+AWS CloudFormation supports around 13 functions. In this Lab, you will use `Ref` and `Fn::Join` functions to assign 
+values to your EC2 resource properties. 
 
 {{% notice info %}}
-Full list of functions is available at 
-[AWS Documentation](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference.html) 
+More functions, such as `Fn::Base64`, `Fn::FindInMap`, `Fn::GetAtt` and `Fn::Sub` will be introduced in the feature labs.
+You can find full list of supported functions in
+[AWS Documentation](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference.html).
 {{% /notice %}}
 
 {{% notice note %}} 
@@ -89,8 +84,12 @@ It is always good idea to Tag your resources, so lets do it now and use _Fn::Joi
           Value: !Join [ ' ', [ !Ref InstanceType, Web Server ] ]
 ```
 
-#### Fn::Sub <a id="sub"></a>
+#### Exercise
 
-#### Fn::FindInMap <a id="find-in-map"></a>
+Now it is a time to update your stack. 
 
-#### Fn::GetAtt <a id="get-att"></a>
+Go to AWS console and update your Cloudformation Stack.
+
+{{%expand "Expand here to see the solution" %}}
+![](/40-cloudformation-features/update-1.gif)
+{{% /expand %}}
