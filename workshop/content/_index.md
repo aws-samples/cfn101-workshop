@@ -7,6 +7,11 @@ chapter = true
 
 # Welcome Builders!
 
+{{% notice warning %}} 
+Hi there, thank you for the interest in the CFN101 - Workshop. 
+Currently the Workshop is under development. Content is changing frequently.
+{{% /notice %}}
+
 Welcome to the AWS CloudFormation Workshop!
 
 ![](./aws-cloudformation.png)
