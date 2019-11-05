@@ -56,7 +56,7 @@ the [Lab 03: Intrinsic Functions](../300-lab-03-functions)
 {{% /expand %}}
 
 #### Exercise
-> In this exercise, you should assign an Elastic IP to your EC2 instance. Then, add an Output to in the _Outputs_ 
+> In this exercise, you should assign an Elastic IP to your EC2 instance. Then, add an output of the Elastic IP to the _Outputs_ 
 >section of the template. You should continue using the `code/40-cloudformation-features/07-lab05-Outputs.yaml` template.
 
 1. Create `AWS::EC2::EIP` resource and attach it to your existing EC2 instance.
