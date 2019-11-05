@@ -42,3 +42,5 @@ Resources:
       Tags:
         - Key: Name
           Value: !Join [ ' ', [ !Ref InstanceType, Web Server ] ]
+
+# Add your code here!
