@@ -53,27 +53,28 @@ It will return the value of the second level key in that map
 
 ## Implementing a simple map
 
-Let's use a simple map to configure an EC2 instance type according to a parameter, `EnvironmentType`. 
+Below is a simple template defining a single EC2 instance. It uses a simple mapping to configure the EC2 instance type according to a parameter, `EnvironmentType`. Next, each part of the template will be discussed individually.
+
 
 ```yaml
 Parameters:
   EnvironmentType: 
-    Description: Environment Type
+    Description: "Specify the Environment type of the stack"
     Type: String
-    Default: Dev
+    Default: "Dev"
     AllowedValues:
-      - Dev
-      - Test
-      - Production
+      - "Dev"
+      - "Test"
+      - "Production"
 
 Mappings:
   EnvironmentToInstanceType: # Map Name
     Dev: # Top level key
-      Type: t3.micro # Second level key
+      Type: "t3.micro" # Second level key
     Test:
-      Type: t3.nano
+      Type: "t3.nano"
     Production: 
-      Type: t3.small
+      Type: "t3.small"
 
 Resources:
   EC2Instance:
@@ -87,7 +88,7 @@ Resources:
       InstanceType: !FindInMap
         - EnvironmentToInstanceType # Map Name
         - !Ref EnvironmentType # Top Level Key
-        - Type # Second Level Key
+        - "Type" # Second Level Key
 ```
 
 
@@ -99,13 +100,13 @@ It allows three possible values, `Dev`, `Test` or `Production`.
 ```yaml
 Parameters:
   EnvironmentType: 
-    Description: Environment Type
+    Description: "Specify the Environment type of the stack"
     Type: String
-    Default: Dev
+    Default: "Dev"
     AllowedValues:
-      - Dev
-      - Test
-      - Production
+      - "Dev"
+      - "Test"
+      - "Production"
 
 # Rest of Template omitted
 ```
@@ -120,11 +121,11 @@ Each top level key contains a single `Type` second level key.
 Mappings:
   EnvironmentToInstanceType: # Map Name
     Dev: # Top level key
-      Type: t3.micro # Second level key
+      Type: "t3.micro" # Second level key
     Test:
-      Type: t3.nano
+      Type: "t3.nano"
     Production: 
-      Type: t3.small
+      Type: "t3.small"
 ```
 
 ### Resources
@@ -146,16 +147,71 @@ Resources:
       InstanceType: !FindInMap
         - EnvironmentToInstanceType # Map Name
         - !Ref EnvironmentType # Top Level Key
-        - Type # Second Level Key
+        - "Type" # Second Level Key
 ```
 
 
-This examples demonstrates how a Mapping can be used to configure a template for 
+This examples demonstrates how mapping is used in a CloudFormation template. It allows the creation of flexible templates.
 
-## Challenge #1 - Simple Map
+## Exercise #1 - Simple Map
+Now it's your turn! 
+In our fictitious scenario, each environment has a seperate ssh key to access it.
+Each key has a title of the form `{Environment}-key`. For example, the key for the dev environment is `dev-key`
+Add a new property, `KeyName`, that uses a map to determine the key name from the `Environment Parameter`.
 
+A template to get you started is available at `code/40-cloudformation-features/05-lab04-Mapping.yaml`
 
-## Advanced Maps
-## Challenge #2 - Advanced Maps
+{{%expand "Need a hint?" %}}
+1. Add an `KeyName` property to the `EC2Instance` in the resource section.
+2. Try adding a second level key to the existing map to specify the different key names.
+3. Reference that key with the `Fn::FindInMap`
+{{% /expand%}}
+
+{{%expand "Expand to see the solution" %}}
+```yaml
+Parameters:
+  EnvironmentType: 
+    Description: Environment Type
+    Type: String
+    Default: Dev
+    AllowedValues:
+      - "Dev"
+      - "Test"
+      - "Production"
+
+Mappings:
+  EnvironmentToInstanceType: # Map Name
+    Dev: # Top level key
+      Type: "t3.micro" # Second level key
+      KeyName: "dev-key"
+    Test:
+      Type: "t3.nano"
+      KeyName: "test-key"
+    Production: 
+      Type: "t3.small"
+      KeyName: "production-key"
+
+Resources:
+  EC2Instance:
+    Type: AWS::EC2::Instance
+    Properties: 
+      ImageId: "ami-79fd7eee"
+      KeyName: !FindInMap
+        - EnvironmentToInstanceType
+        - !Ref EnvironmentType
+        - "KeyName"
+
+      # Use the intrinsic function FindInMap to lookup the 
+      # InstanceType value from the EnvironmentToInstanceTypeMap.
+      # It references the EnvironmentType parameter provided to the template
+      InstanceType: !FindInMap
+        - EnvironmentToInstanceType # Map Name
+        - !Ref EnvironmentType # Top Level Key
+        - "Type" # Second Level Key
+```
+{{% /expand%}}
 
 ## Conclusion
+
+In this lab, we used mappings to create flexible CloudFormation templates. Mapping can be used to configure properties according to other parameters or pseudo parameters. One template can contain many maps, each with multiple top and second level keys
+
