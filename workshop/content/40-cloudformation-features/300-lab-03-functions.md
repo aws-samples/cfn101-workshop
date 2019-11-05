@@ -63,7 +63,7 @@ Add the `AmiID` to ParameterGroup and label it `Amazon Machine Image ID`
 ```
 {{% /expand %}}
 
-1. Use `Ref` function to pass user input to resource property.
+1. Use the intrinsic function `Ref` to pass the `AmiID` parameter input to resource property.
 ```yaml
           ImageId: !Ref AmiID
 ```
@@ -76,7 +76,7 @@ Yaml Syntax:
   !Join [ delimiter, [ comma-delimited list of values ] ]
 ```
 
-It is always good idea to Tag your resources, so lets do it now and use _Fn::Join_ function:
+It is always good idea to tag your resources. You can use the intrinsic function _Fn::Join_ to create a string.
 
 ```yaml
       Tags:
@@ -88,7 +88,7 @@ It is always good idea to Tag your resources, so lets do it now and use _Fn::Joi
 
 Now it is a time to update your stack. 
 
-Go to AWS console and update your Cloudformation Stack.
+Go to the AWS console and update your CloudFormation Stack.
 
 {{%expand "Expand here to see the solution" %}}
 ![](/40-cloudformation-features/update-1.gif)
