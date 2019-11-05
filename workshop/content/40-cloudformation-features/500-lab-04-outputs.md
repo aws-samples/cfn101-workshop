@@ -32,20 +32,18 @@ Outputs:
 1. Open the `07-lab05-Outputs.yaml` file.
 1. Copy the code as you go through the topics below.
 
-To get the _PublicDnsName_ of the instance, you will need to use `Fn::GetAtt` intrinsic function. Lets first check
-[AWS Documentation](https://docs.aws.amazon.com/en_pv/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-instance.html#aws-properties-ec2-instance-return-values)
-for available attributes. You can see that, _PublicDnsName_ is valid return value for `Fn::GetAtt` function.
+    To get the _PublicDnsName_ of the instance, you will need to use `Fn::GetAtt` intrinsic function. Lets first check
+    [AWS Documentation](https://docs.aws.amazon.com/en_pv/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-instance.html#aws-properties-ec2-instance-return-values)
+    for available attributes. You can see that, _PublicDnsName_ is valid return value for `Fn::GetAtt` function.
+    Add bellow section to your template:
 
-Add bellow section to your template:
 ```yaml
 Outputs:
-  EC2PublicDNS:
-    Description: 'Public DNS of EC2 instance'
-    Value: !GetAtt MyEC2Instance.PublicDnsName
+      EC2PublicDNS:
+        Description: 'Public DNS of EC2 instance'
+        Value: !GetAtt MyEC2Instance.PublicDnsName
 ``` 
-
 1. Go to the AWS console and update your stack with a new template.
-
 {{%expand "How do I update Stack?" %}}
 Go to the AWS console and deploy the stack same way as you did in 
 the [Lab 03: Intrinsic Functions](../300-lab-03-functions)
@@ -54,7 +52,7 @@ the [Lab 03: Intrinsic Functions](../300-lab-03-functions)
 
 1. View the output value on the [AWS CloudFormation console](https://console.aws.amazon.com/cloudformation), in the _Outputs_ tab.
 {{%expand "How to view Outputs?" %}}
-![](/40-cloudformation-features/update-1.gif)
+![](/40-cloudformation-features/outputs-1.gif)
 {{% /expand %}}
 
 #### Exercise
