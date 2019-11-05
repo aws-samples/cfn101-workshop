@@ -25,7 +25,8 @@ A Mapping Section can contain multiple maps. Each map contains atleast one key
 A key in a map has two components, a top level key and a second level key.
 Each key contains one or more Name - Value pairs. Each top level key must contain atleast one second level key.
 
-Here is a simple Mapping section. It contains one Map, `Mapping01`. \
+
+Here is a simplified example of a Mapping section. It contains one Map, `Mapping01`. \
 `Mapping01` contains three top level keys, `TopLevelKey01`, `TopLevelKey02` and `TopLevelKey03`. \
 Each top level key contains one second level key, `SecondLevelKey`.
 ```yaml
@@ -43,8 +44,113 @@ Mappings:
 
 [`Fn::FindInMap`](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference-findinmap.html) is an intrinsic function used to lookup the value of a key in a map.
 
+It takes three parameters:
+* `MapName`
+* `TopLevelKey`
+* `SecondLevelKey`
+
+It will return the value of the second level key in that map
 
 ## Implementing a simple map
+
+Let's use a simple map to configure an EC2 instance type according to a parameter, `EnvironmentType`. 
+
+```yaml
+Parameters:
+  EnvironmentType: 
+    Description: Environment Type
+    Type: String
+    Default: Dev
+    AllowedValues:
+      - Dev
+      - Test
+      - Production
+
+Mappings:
+  EnvironmentToInstanceType: # Map Name
+    Dev: # Top level key
+      Type: t3.micro # Second level key
+    Test:
+      Type: t3.nano
+    Production: 
+      Type: t3.small
+
+Resources:
+  EC2Instance:
+    Type: AWS::EC2::Instance
+    Properties: 
+      ImageId: "ami-79fd7eee"
+
+      # Use the intrinsic function FindInMap to lookup the 
+      # InstanceType value from the EnvironmentToInstanceTypeMap.
+      # It references the EnvironmentType parameter provided to the template
+      InstanceType: !FindInMap
+        - EnvironmentToInstanceType # Map Name
+        - !Ref EnvironmentType # Top Level Key
+        - Type # Second Level Key
+```
+
+
+### Parameters
+
+The parameters section specifies one parameter, `EnvironmentType`
+It allows three possible values, `Dev`, `Test` or `Production`.
+
+```yaml
+Parameters:
+  EnvironmentType: 
+    Description: Environment Type
+    Type: String
+    Default: Dev
+    AllowedValues:
+      - Dev
+      - Test
+      - Production
+
+# Rest of Template omitted
+```
+
+
+### Mapping
+
+The mapping section defines one map, `EnvironmentToInstanceType`.
+The map contains three top level keys, one for each environment.
+Each top level key contains a single `Type` second level key.
+```yaml
+Mappings:
+  EnvironmentToInstanceType: # Map Name
+    Dev: # Top level key
+      Type: t3.micro # Second level key
+    Test:
+      Type: t3.nano
+    Production: 
+      Type: t3.small
+```
+
+### Resources
+
+The resource section defines one resource, an [EC2 instance](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-instance.html).
+The `InstanceType` property defines the type of EC2 instance.The intrinsic function `Fn::FindInMap` is used to lookup the value in the `EnvironmentToInstanceType` map.
+The parameter `EnvironmentType` is passed as the top level key using the intrinsic function `Fn::Ref`.
+Finally, the second level key is specified as `Type`
+```yaml
+Resources:
+  EC2Instance:
+    Type: AWS::EC2::Instance
+    Properties: 
+      ImageId: "ami-79fd7eee"
+
+      # Use the intrinsic function FindInMap to lookup the 
+      # InstanceType value from the EnvironmentToInstanceTypeMap.
+      # It references the EnvironmentType parameter provided to the template
+      InstanceType: !FindInMap
+        - EnvironmentToInstanceType # Map Name
+        - !Ref EnvironmentType # Top Level Key
+        - Type # Second Level Key
+```
+
+
+This examples demonstrates how a Mapping can be used to configure a template for 
 
 ## Challenge #1 - Simple Map
 
