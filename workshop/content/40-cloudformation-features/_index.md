@@ -5,6 +5,8 @@ weight = 40
 chapter = true
 +++
 
+### Chapter 1
+
 ![](./template-1.png)
 
 In this section, you'll write a simple CloudFormation template to understand its structure.
