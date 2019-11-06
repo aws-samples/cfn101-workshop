@@ -9,10 +9,14 @@ Metadata:
           default: 'Amazon EC2 Configuration'
         Parameters:
           - InstanceType
+          - AmiID
 
     ParameterLabels:
       InstanceType:
         default: 'Type of EC2 Instance'
+
+      AmiID:
+        default: 'Amazon Machine Image ID'
 
 Parameters:
   InstanceType:
@@ -24,10 +28,18 @@ Parameters:
       - m1.large
     Description: 'Enter t2.micro, m1.small, or m1.large. Default is t2.micro.'
 
+  AmiID:
+    Type: AWS::EC2::Image::Id
+    Description: The ID of the AMI.
+
 Resources:
   MyEC2Instance:
     Type: 'AWS::EC2::Instance'
     Properties:
-     # Update the code below
-      ImageId: ami-00a1270ce1e007c27
+      ImageId: !Ref AmiID
       InstanceType: !Ref InstanceType
+      Tags:
+        - Key: Name
+          Value: !Join [ ' ', [ !Ref InstanceType, Web Server ] ]
+
+# Add your code here!

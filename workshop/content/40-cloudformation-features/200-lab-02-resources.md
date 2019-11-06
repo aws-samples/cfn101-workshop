@@ -116,4 +116,4 @@ You can find working solution for **London Region** in `code/40-cloudformation-f
 {{% /notice %}}
 
 Now your EC2 template is ready to be deployed. Go back to AWS console and deploy the stack same way as you did in 
-the [Lab 01: Template and Stack](../30-cloudformation-fundamentals/200-lab-01-stack.md)
+the [Lab 01: Template and Stack](/30-cloudformation-fundamentals/200-lab-01-stack)
