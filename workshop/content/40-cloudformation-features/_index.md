@@ -5,10 +5,12 @@ weight = 40
 chapter = true
 +++
 
-![](./ec2-1.png)
+![](./template-1.png)
 
-In this section, you'll write an EC2 template using most of the CloudFormation template features. 
+In this section, you'll write a simple CloudFormation template to understand its structure.
 
-Then, you will use the AWS Management Console to deploy the EC2 stack.
+Then, you will use AWS CloudFormation to create a _stack_ based on your template.
+
+Finally, you will learn how to update your stack when you change your template.
 
 {{% children showhidden="false" %}}
