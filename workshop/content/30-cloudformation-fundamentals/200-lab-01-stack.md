@@ -4,7 +4,8 @@ date: 2019-10-25T17:41:16+01:00
 weight: 200
 ---
 
-Lets deploy our first stack. In this Lab, you will write simple template which will deploy S3 bucket. 
+Let's deploy our first stack. In this Lab, you will write simple template which
+will deploy an S3 bucket.
 
 The bucket will be used later on when we introduce _Nested Stacks_.
 
@@ -14,7 +15,7 @@ The code samples will use the YAML format. This is to reduce the length of code 
 
 #### Demo
 
-Here's an example of deploying a CloudFormation template using the console.
+Here's an example of deploying a CloudFormation template using the console:
 
 ![](/30-cloudformation-fundamentals/template-example.gif)
 
@@ -22,18 +23,20 @@ Here's an example of deploying a CloudFormation template using the console.
 
 1. Go to `code/30-cloudformation-fundementals/` directory.
 1. Open the `01-lab01-StackExample.yaml` file.
-1. Here is a sample CloudFormation template defining an S3 Bucket. It has a single Output, containing the bucket name. Copy the code below and save to the `01-lab01-StackExample.yaml` file.
+1. Here is a sample CloudFormation template defining an S3 Bucket. It has a
+   single Output, containing the bucket name. Copy the code below and save to
+   the `01-lab01-StackExample.yaml` file.
 
-```yaml
-  Resources:
-      S3Bucket:
-        Type: AWS::S3::Bucket
+  ```yaml
+    Resources:
+        S3Bucket:
+          Type: AWS::S3::Bucket
 
-  Outputs:
-      CFNWorkshopS3Bucket:
-        Description: S3 bucket for CFN workshop
-        Value: !Ref S3Bucket
-```
+    Outputs:
+        CFNWorkshopS3Bucket:
+          Description: S3 bucket for CFN workshop
+          Value: !Ref S3Bucket
+  ```
 
 1. Log in to your AWS account and go to [CloudFormation](https://console.aws.amazon.com/cloudformation).
 1. Click on _Create stack_ and choose _Upload template file_.
