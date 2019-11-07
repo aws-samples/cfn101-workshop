@@ -11,7 +11,7 @@ chapter = true
 
 In the previous chapter, you have covered CloudFormation fundamentals and learned about various _Template_ sections.
 
-Yu have created empty EC2 instance with Elastic IP, however is is not very realistic scenario.
+You have created empty EC2 instance with Elastic IP, however is is not very realistic scenario.
 
 So in this chapter you will improve the existing template with these features:
 
