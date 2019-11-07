@@ -5,7 +5,7 @@ weight = 1
 chapter = true
 +++
 
-# Welcome Builders!
+# Welcome, Builders!
 
 {{% notice warning %}} 
 Hi there, thank you for the interest in the CFN101 - Workshop. 
@@ -16,10 +16,8 @@ Welcome to the AWS CloudFormation Workshop!
 
 ![](./aws-cloudformation.png)
 
-The intent of this workshop is to educate builders about the features of AWS CloudFormation and how to get started building quickly.
+The intent of this workshop is to educate builders about the features of AWS
+CloudFormation and how to get started building quickly.
 
-Background in CloudFormation, command line, git, and development workflow is not required, we will give you helping hand.
-
-
-
- 
+A background in CloudFormation, command line, git, and development workflows is
+not required.

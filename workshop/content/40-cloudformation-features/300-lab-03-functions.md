@@ -22,7 +22,7 @@ Intrinsic functions can only be used in certain parts of a template. You can use
 
 **Lets go!**
 
-1. Go to `code/40-cloudformation-features/` directory.
+1. Go to the `code/40-cloudformation-features/` directory.
 1. Open the `03-lab03-IntrinsicFunctions.yaml` file.
 1. Copy the code as you go through the topics below.
 
