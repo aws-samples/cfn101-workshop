@@ -9,10 +9,8 @@ chapter = true
 
 ![](./template-1.png)
 
-In this section, you'll write a simple CloudFormation template to understand its structure.
-
-Then, you will use AWS CloudFormation to create a _stack_ based on your template.
-
-Finally, you will learn how to update your stack when you change your template.
+In this section you will write a simple CloudFormation template, 
+create a CloudFormation stack based on your template, 
+and learn how to update the stack as you make changes.
 
 {{% children showhidden="false" %}}
