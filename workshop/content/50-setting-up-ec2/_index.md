@@ -19,3 +19,5 @@ So in this chapter you will improve the existing template with these features:
 + Attach IAM role to the instance and login to it via SSM Session Manager.
 + Bootstrap instance with _UserData_.
 + Use `cfn-init` to handle some of the bootstrap tasks.
+
+{{% children showhidden="false" %}}
