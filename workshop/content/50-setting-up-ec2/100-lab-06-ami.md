@@ -36,7 +36,7 @@ to the text box. ![](/50-setting-up-ec2/ssm-1.png)
 {{% /expand %}}
 
 #### Exercise
-Deploy the template in different AWS Region other then the one you are currently using.
+Deploy the template in different AWS Region to the one you have been using.
 
 {{%expand "Solution" %}}
 ![](/50-setting-up-ec2/new-region-1.gif)
