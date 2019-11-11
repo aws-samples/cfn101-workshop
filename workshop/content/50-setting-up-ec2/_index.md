@@ -9,7 +9,7 @@ chapter = true
 
 ![](./ec2-1.png)
 
-In the previous chapter, you have covered CloudFormation fundamentals and learned about various _Template_ sections.
+In the previous chapter, you learnt the CloudFormation fundamentals and about various _Template_ sections.
 
 You have created empty EC2 instance with Elastic IP, however is is not very realistic scenario.
 
