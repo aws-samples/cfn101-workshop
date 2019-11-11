@@ -17,7 +17,7 @@ In this chapter you will improve the existing template with these features:
 
 + Use the latest Amazon Linux 2 AMI and deploy in any region using SSM parameter Store.
 + Attach IAM role to the instance and login to it via SSM Session Manager.
-+ Bootstrap instance with _UserData_.
++ Bootstrap the instance using a _UserData_ script.
 + Use `cfn-init` to handle some of the bootstrap tasks.
 
 {{% children showhidden="false" %}}
