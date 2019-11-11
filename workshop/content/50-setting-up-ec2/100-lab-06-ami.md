@@ -5,7 +5,7 @@ weight: 100
 ---
 
 ### Use Case
-Consider the use case of deploying your current template in different region. You will have to manually change `AmiID`
+Consider the use case of deploying your current template in different regions. You will have to manually change `AmiID`
 property in your template to match the AMI ID for that particular AWS Region. Similarly, if there is an update to 
 Amazon Machine Image, and you would like to use the latest image, the same manual process applies.
 
@@ -36,14 +36,14 @@ to the text box. ![](/50-setting-up-ec2/ssm-1.png)
 {{% /expand %}}
 
 #### Exercise
-Deploy the template in different AWS Region other then the one you are currently using.
+Deploy the template in different AWS Region to the one you have been using.
 
 {{%expand "Solution" %}}
 ![](/50-setting-up-ec2/new-region-1.gif)
 {{% /expand %}}
 
 {{% notice note %}}
-Notice, that you didnt have to update AMI ID parameter. By leveraging the CloudFormation integration with Systems 
+Notice, that you did not have to update AMI ID parameter. By using CloudFormation's integration with Systems 
 Manager Parameter Store, your templates is now more generic and reusable.
 {{% /notice %}}
 
