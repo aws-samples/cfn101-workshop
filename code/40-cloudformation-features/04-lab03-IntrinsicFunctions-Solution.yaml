@@ -30,7 +30,6 @@ Parameters:
 
   AmiID:
     Type: AWS::EC2::Image::Id
-    Default: ''
     Description: 'The ID of the AMI.'
 
 Resources:
