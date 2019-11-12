@@ -65,7 +65,7 @@ Parameters:
     AllowedValues:
       - "Dev"
       - "Test"
-      - "Production"
+
     
   AmiID:
     Type: AWS::EC2::Image::Id
@@ -77,8 +77,6 @@ Mappings:
       Type: "t3.micro" # Second level key
     Test:
       Type: "t3.nano"
-    Production: 
-      Type: "t3.small"
 
 Resources:
   EC2Instance:
@@ -99,7 +97,7 @@ Resources:
 ### Parameters
 
 The parameters section specifies two parameters, `EnvironmentType` and AMI ID
-It allows three possible values, `Dev`, `Test` or `Production`.
+It allows two possible values, `Dev` or `Test`.
 
 ```yaml
 Parameters:
@@ -110,7 +108,6 @@ Parameters:
     AllowedValues:
       - "Dev"
       - "Test"
-      - "Production"
   
   AmiID:
     Type: AWS::EC2::Image::Id
@@ -123,7 +120,7 @@ Parameters:
 ### Mapping
 
 The mapping section defines one map, `EnvironmentToInstanceType`.
-The map contains three top level keys, one for each environment.
+The map contains two top level keys, one for each environment.
 Each top level key contains a single `Type` second level key.
 ```yaml
 Mappings:
@@ -132,8 +129,6 @@ Mappings:
       Type: "t3.micro" # Second level key
     Test:
       Type: "t3.nano"
-    Production: 
-      Type: "t3.small"
 ```
 
 ### Resources
@@ -163,16 +158,14 @@ This examples demonstrates how mapping is used in a CloudFormation template. It 
 
 ## Exercise #1 - Simple Map
 Now it's your turn! 
-In our fictitious scenario, each environment has a seperate ssh key to access it.
-Each key has a title of the form `{Environment}-key`. For example, the key for the dev environment is `dev-key`
-Add a new property, `KeyName`, that uses a map to determine the key name from the `Environment Parameter`.
-
+You might have noticed our map is missing the most important environment, Production! 
+Add this environment to the template. The Environment name is `Production`. The instance type is `t3.small`
 A template to get you started is available at `code/40-cloudformation-features/05-lab04-Mapping.yaml`
 
 {{%expand "Need a hint?" %}}
-1. Add an `KeyName` property to the `EC2Instance` in the resource section.
-2. Try adding a second level key to the existing map to specify the different key names.
-3. Reference that key with the `Fn::FindInMap`
+2. Try adding a third top level key to represent `Production` to the existing map.
+2. Add a second level key that matches the other two environments.
+3. Make sure the value is `t3.small`.
 {{% /expand%}}
 
 {{%expand "Expand to see the solution" %}}
@@ -191,23 +184,16 @@ Mappings:
   EnvironmentToInstanceType: # Map Name
     Dev: # Top level key
       Type: "t3.micro" # Second level key
-      KeyName: "dev-key"
     Test:
       Type: "t3.nano"
-      KeyName: "test-key"
     Production: 
       Type: "t3.small"
-      KeyName: "production-key"
 
 Resources:
   EC2Instance:
     Type: AWS::EC2::Instance
     Properties: 
       ImageId: !Ref AmiID
-      KeyName: !FindInMap
-        - EnvironmentToInstanceType
-        - !Ref EnvironmentType
-        - "KeyName"
 
       # Use the intrinsic function FindInMap to lookup the 
       # InstanceType value from the EnvironmentToInstanceTypeMap.
