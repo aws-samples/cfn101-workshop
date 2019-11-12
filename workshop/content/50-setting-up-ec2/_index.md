@@ -13,7 +13,7 @@ In the previous chapter, you learnt the CloudFormation fundamentals and about va
 
 You have created empty EC2 instance with Elastic IP. This is a simplistic scenario.
 
-In this chapter you will improve the existing template with these features:
+In this chapter you will improve the existing template with the following features:
 
 + Use Systems Manager Parameter Store to deploy the latest Amazon Linux 2 AMI in any region.
 + Attach an IAM role to the instance and login to it using SSM Session Manager.
