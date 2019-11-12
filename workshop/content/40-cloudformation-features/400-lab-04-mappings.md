@@ -9,7 +9,7 @@ weight: 300
 This lab will cover Mapping, which allows you to lookup values from a set of predefined keys.
 
 ### Motivation
-A common use for Mappings is to configure a template according to different environments, such as dev, test and production.
+A common use for Mapping is to configure a template according to different environments, such as dev, test and production.
 
 Rather than have 3 similar templates, one for each of dev, test and production, mapping allows you to have one template. Keys and their corresponding values are predefined in a map. These keys can be accessed in other parts of your template.
 
@@ -66,7 +66,7 @@ Parameters:
       - "Dev"
       - "Test"
       - "Production"
-
+    
   AmiID:
     Type: AWS::EC2::Image::Id
     Description: 'Amazon Machine Image ID'
@@ -111,7 +111,7 @@ Parameters:
       - "Dev"
       - "Test"
       - "Production"
-
+  
   AmiID:
     Type: AWS::EC2::Image::Id
     Description: 'Amazon Machine Image ID'
