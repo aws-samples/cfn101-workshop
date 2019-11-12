@@ -38,7 +38,7 @@ Mappings:
 Resources:
   # Copy the SSMIAMRole here.
 
-  # Copy the EC2InstanceProfile here
+  # Copy the EC2InstanceProfile here.
 
   MyEC2Instance:
     Type: 'AWS::EC2::Instance'

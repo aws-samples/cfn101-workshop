@@ -11,6 +11,7 @@ AWS Systems Manager capability that lets you manage your Amazon EC2 instances th
 browser-based shell or through the AWS CLI.
 
 Session Manager has several benefits over the SSH using Bastion host:
+
 + No need to manage SSH keys.
 + No need to open up any inbound ports in Security Groups.
 + Use IAM policies and users to control access to your instances, and don’t need to distribute SSH keys.
@@ -63,7 +64,7 @@ Session Manager has several benefits over the SSH using Bastion host:
         - !Ref SSMIAMRole
 ```
 
-##### 3. Attach an IAM Instance Profile to an Amazon EC2 Instance
+##### 4. Attach an IAM Instance Profile to an Amazon EC2 Instance
 
 ```yaml
       IamInstanceProfile: !Ref EC2InstanceProfile
@@ -73,8 +74,32 @@ Session Manager has several benefits over the SSH using Bastion host:
 You can attach the instance profile to new Amazon EC2 instances when you launch them, or to existing Amazon EC2 instances.
 {{% /notice %}}
   
-##### 3. Use IAM policies to restrict which IAM user or role can start a session with an EC2 instance.
-##### 4. Configure audit logs.
-##### 5. Use IAM policies to make sure engineers are not able to modify the audit log settings.
+#### Exercise
+
+Log in to instance using SSM Session manager. Retrieve AMI ID from instance metadata using `curl`
+
+{{%expand "Need a hint?" %}}
+Check out the AWS Documentation [Instance Metadata and User Data](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instance-metadata.html?shortFooter=true#instancedata-data-retrieval).
+{{% /expand %}}
+
+{{%expand "Want to see the solution?" %}}
+![ssm-sm](/50-setting-up-ec2/ssm-sm-1.gif)
+{{% /expand %}}
+  
+**Congratulations! You have configured Session Manager and now have access to your EC2 instance.**
+
+{{% notice warning %}}
+Further configuration should be done, if intended to use SSM Session Manager outside of this workshop. See recommendations
+and link to documentation bellow.
+{{% /notice %}}
+
+##### Recommendations:
+
++ Use IAM policies to restrict which IAM user or role can start a session with an EC2 instance.
++ Configure Amazon CloudWatch Logs and/or S3 bucket to audit logs.
++ Use IAM policies to make sure IAM users are not able to modify the audit log settings.
+
+Please refer to [Setting Up AWS Systems Manager](https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-setting-up.html)
+documentation.
 
 
