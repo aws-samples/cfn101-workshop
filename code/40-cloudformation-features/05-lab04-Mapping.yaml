@@ -7,6 +7,9 @@ Parameters:
       - Dev
       - Test
       - Production
+  AmiID:
+    Type: AWS::EC2::Image::Id
+    Description: 'Amazon Machine Image ID'
 
 Mappings:
   EnvironmentToInstanceType: # Map Name
@@ -21,7 +24,7 @@ Resources:
   EC2Instance:
     Type: AWS::EC2::Instance
     Properties: 
-      ImageId: "ami-79fd7eee"
+      ImageId: !Ref AmiID
 
       # Use the intrinsic function FindInMap to lookup the 
       # InstanceType value from the EnvironmentToInstanceTypeMap.

@@ -67,6 +67,10 @@ Parameters:
       - "Test"
       - "Production"
 
+  AmiID:
+    Type: AWS::EC2::Image::Id
+    Description: 'Amazon Machine Image ID'
+
 Mappings:
   EnvironmentToInstanceType: # Map Name
     Dev: # Top level key
@@ -80,7 +84,7 @@ Resources:
   EC2Instance:
     Type: AWS::EC2::Instance
     Properties: 
-      ImageId: "ami-79fd7eee"
+      ImageId: !Ref AmiID
 
       # Use the intrinsic function FindInMap to lookup the 
       # InstanceType value from the EnvironmentToInstanceTypeMap.
@@ -94,7 +98,7 @@ Resources:
 
 ### Parameters
 
-The parameters section specifies one parameter, `EnvironmentType`
+The parameters section specifies two parameters, `EnvironmentType` and AMI ID
 It allows three possible values, `Dev`, `Test` or `Production`.
 
 ```yaml
@@ -107,6 +111,10 @@ Parameters:
       - "Dev"
       - "Test"
       - "Production"
+
+  AmiID:
+    Type: AWS::EC2::Image::Id
+    Description: 'Amazon Machine Image ID'
 
 # Rest of Template omitted
 ```
@@ -139,7 +147,7 @@ Resources:
   EC2Instance:
     Type: AWS::EC2::Instance
     Properties: 
-      ImageId: "ami-79fd7eee"
+      ImageId: !Ref AmiID
 
       # Use the intrinsic function FindInMap to lookup the 
       # InstanceType value from the EnvironmentToInstanceTypeMap.
@@ -195,7 +203,7 @@ Resources:
   EC2Instance:
     Type: AWS::EC2::Instance
     Properties: 
-      ImageId: "ami-79fd7eee"
+      ImageId: !Ref AmiID
       KeyName: !FindInMap
         - EnvironmentToInstanceType
         - !Ref EnvironmentType
