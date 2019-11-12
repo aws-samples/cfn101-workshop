@@ -1,0 +1,83 @@
+AWSTemplateFormatVersion: '2010-09-09'
+
+Description: 'Amazon EC2 - Workshop template.'
+
+Metadata:
+  AWS::CloudFormation::Interface:
+    ParameterGroups:
+      - Label:
+          default: 'Amazon EC2 Configuration'
+        Parameters:
+          - AmiID
+
+    ParameterLabels:
+      AmiID:
+        default: 'Amazon Machine Image ID'
+
+Parameters:
+  AmiID:
+    Type: AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>
+    Description: The ID of the AMI.
+    Default: /aws/service/ami-amazon-linux-latest/amzn2-ami-hvm-x86_64-gp2
+
+  EnvType:
+    Description: Environment type.
+    Default: test
+    Type: String
+    AllowedValues:
+      - test
+      - prod
+    ConstraintDescription: 'Specify either test or prod.'
+
+Mappings:
+  Environment:
+    InstanceType:
+      test: t2.micro
+      prod: m4.large
+
+Resources:
+  SSMIAMRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - ec2.amazonaws.com
+            Action:
+              - sts:AssumeRole
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore
+      
+  EC2InstanceProfile:
+    Type: AWS::IAM::InstanceProfile
+    Properties:
+      Path: /
+      Roles:
+        - !Ref SSMIAMRole
+  
+  MyEC2Instance:
+    Type: 'AWS::EC2::Instance'
+    Properties:
+      IamInstanceProfile: !Ref EC2InstanceProfile
+      ImageId: !Ref AmiID
+      InstanceType: !FindInMap [Environment, InstanceType, !Ref EnvType]
+      Tags:
+        - Key: Name
+          Value: !Join [ ' ', [ !Ref EnvType, Web Server ] ]
+
+  EC2EIP:
+    Type: 'AWS::EC2::EIP'
+    Properties:
+      Domain: vpc
+      InstanceId: !Ref MyEC2Instance
+
+Outputs:
+  EC2PublicDNS:
+    Description: 'Public DNS of EC2 instance'
+    Value: !GetAtt MyEC2Instance.PublicDnsName
+
+  ElasticIP:
+    Description: 'Elastic IP assigned to EC2'
+    Value: !Ref EC2EIP
