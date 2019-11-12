@@ -16,8 +16,9 @@ Metadata:
 
 Parameters:
   AmiID:
-    Type: AWS::EC2::Image::Id
-    Description: 'The ID of the AMI.'
+    Type: AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>
+    Description: The ID of the AMI.
+    Default: /aws/service/ami-amazon-linux-latest/amzn2-ami-hvm-x86_64-gp2
 
   EnvType:
     Description: Environment type.

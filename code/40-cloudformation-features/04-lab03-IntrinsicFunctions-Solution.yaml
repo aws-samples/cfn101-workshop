@@ -24,13 +24,12 @@ Parameters:
     Default: t2.micro
     AllowedValues:
       - t2.micro
-      - m1.small
-      - m1.large
-    Description: 'Enter t2.micro, m1.small, or m1.large. Default is t2.micro.'
+      - m4.large
+    Description: 'Enter t2.micro or m4.large. Default is t2.micro.'
 
   AmiID:
     Type: AWS::EC2::Image::Id
-    Description: The ID of the AMI.
+    Description: 'The ID of the AMI.'
 
 Resources:
   MyEC2Instance:

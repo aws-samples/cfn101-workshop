@@ -16,8 +16,9 @@ Metadata:
 
 Parameters:
   AmiID:
-    Type: AWS::EC2::Image::Id
-    Description: 'The ID of the AMI.'
+    Type: AWS::EC2::Image::Id # Replace this with SSM parameter type
+    Description: The ID of the AMI.
+    Default: '' # Provide an Amazon Linux AMI alias
 
   EnvType:
     Description: Environment type.
