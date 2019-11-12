@@ -21,7 +21,7 @@ The [`Mapping`](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/m
 
 
 
-A Mapping Section can contain multiple maps. Each map contains atleast one key
+A Mapping Section can contain multiple maps. Each map contains atleast one key.
 A key in a map has two components, a top level key and a second level key.
 Each key contains one or more Name - Value pairs. Each top level key must contain atleast one second level key.
 
