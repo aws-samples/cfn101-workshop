@@ -11,7 +11,7 @@ Amazon Machine Image, and you would like to use the latest image, the same manua
 
 ### Solution
 To fix this, you can use the existing _Parameters_ section of your CloudFormation template and define Systems Manager 
-parameter type.
+parameter type. A Systems Manager parameter type allows you to reference parameters held in the System Manager Parameter Store.
 
 1. Go to the `code/50-setting-up-ec2/` directory.
 
