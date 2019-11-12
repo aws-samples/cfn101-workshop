@@ -1,7 +1,7 @@
 ---
 title: "Lab 04: Mapping & Conditionals"
 date: 2019-11-01T13:36:34Z
-weight: 300
+weight: 400
 ---
 
 ## Introduction
