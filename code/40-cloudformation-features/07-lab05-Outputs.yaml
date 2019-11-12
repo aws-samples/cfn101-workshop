@@ -24,15 +24,15 @@ Parameters:
     Default: test
     Type: String
     AllowedValues:
-      - prod
       - test
-    ConstraintDescription: 'Must specify prod or test.'
+      - prod
+    ConstraintDescription: 'Specify either test or prod.'
 
 Mappings:
   Environment:
     InstanceType:
-      prod: m4.large
       test: t2.micro
+      prod: m4.large
 
 Resources:
   MyEC2Instance:

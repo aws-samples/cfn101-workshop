@@ -16,9 +16,9 @@ Metadata:
 
 Parameters:
   AmiID:
-    Type: AWS::EC2::Image::Id # Replace this with SSM parameter type
+    Type: AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>
     Description: The ID of the AMI.
-    Default: '' # Provide an Amazon Linux AMI alias
+    Default: /aws/service/ami-amazon-linux-latest/amzn2-ami-hvm-x86_64-gp2
 
   EnvType:
     Description: Environment type.
@@ -36,6 +36,7 @@ Mappings:
       prod: m4.large
 
 Resources:
+  # Put your IAM code here.
   MyEC2Instance:
     Type: 'AWS::EC2::Instance'
     Properties:
