@@ -15,11 +15,11 @@ Parameters:
 Mappings:
   EnvironmentToInstanceType: # Map Name
     Dev: # Top level key
-      Type: "t3.micro" # Second level key
+      InstanceType: "t3.micro" # Second level key
     Test:
-      Type: "t3.nano"
+      InstanceType: "t3.nano"
     Production: 
-      Type: "t3.small"
+      InstanceType: "t3.small"
 
 Resources:
   EC2Instance:
@@ -33,4 +33,4 @@ Resources:
       InstanceType: !FindInMap
         - EnvironmentToInstanceType # Map Name
         - !Ref EnvironmentType # Top Level Key
-        - "Type" # Second Level Key
+        - "InstanceType" # Second Level Key

@@ -74,9 +74,9 @@ Parameters:
 Mappings:
   EnvironmentToInstanceType: # Map Name
     Dev: # Top level key
-      Type: "t3.micro" # Second level key
+      InstanceType: "t3.micro" # Second level key
     Test:
-      Type: "t3.nano"
+      InstanceType: "t3.nano"
 
 Resources:
   EC2Instance:
@@ -90,7 +90,7 @@ Resources:
       InstanceType: !FindInMap
         - EnvironmentToInstanceType # Map Name
         - !Ref EnvironmentType # Top Level Key
-        - "Type" # Second Level Key
+        - "InstanceType" # Second Level Key
 ```
 
 
@@ -121,14 +121,14 @@ Parameters:
 
 The mapping section defines one map, `EnvironmentToInstanceType`.
 The map contains two top level keys, one for each environment.
-Each top level key contains a single `Type` second level key.
+Each top level key contains a single `InstanceType` second level key.
 ```yaml
 Mappings:
   EnvironmentToInstanceType: # Map Name
     Dev: # Top level key
-      Type: "t3.micro" # Second level key
+      InstanceType: "t3.micro" # Second level key
     Test:
-      Type: "t3.nano"
+      InstanceType: "t3.nano"
 ```
 
 ### Resources
@@ -136,7 +136,7 @@ Mappings:
 The resource section defines one resource, an [EC2 instance](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-instance.html).
 The `InstanceType` property defines the type of EC2 instance.The intrinsic function `Fn::FindInMap` is used to lookup the value in the `EnvironmentToInstanceType` map.
 The parameter `EnvironmentType` is passed as the top level key using the intrinsic function `Fn::Ref`.
-Finally, the second level key is specified as `Type`
+Finally, the second level key is specified as `InstanceType`
 ```yaml
 Resources:
   EC2Instance:
@@ -150,7 +150,7 @@ Resources:
       InstanceType: !FindInMap
         - EnvironmentToInstanceType # Map Name
         - !Ref EnvironmentType # Top Level Key
-        - "Type" # Second Level Key
+        - "InstanceType" # Second Level Key
 ```
 
 
@@ -164,7 +164,7 @@ A template to get you started is available at `code/40-cloudformation-features/0
 
 {{%expand "Need a hint?" %}}
 2. Try adding a third top level key to represent `Production` to the existing map.
-2. Add a second level key that matches the other two environments.
+2. Add an `InstanceType` second level key that matches the other two environments.
 3. Make sure the value is `t3.small`.
 {{% /expand%}}
 
@@ -183,11 +183,11 @@ Parameters:
 Mappings:
   EnvironmentToInstanceType: # Map Name
     Dev: # Top level key
-      Type: "t3.micro" # Second level key
+      InstanceType: "t3.micro" # Second level key
     Test:
-      Type: "t3.nano"
+      InstanceType: "t3.nano"
     Production: 
-      Type: "t3.small"
+      InstanceType: "t3.small"
 
 Resources:
   EC2Instance:
@@ -201,7 +201,7 @@ Resources:
       InstanceType: !FindInMap
         - EnvironmentToInstanceType # Map Name
         - !Ref EnvironmentType # Top Level Key
-        - "Type" # Second Level Key
+        - "InstanceType" # Second Level Key
 ```
 {{% /expand%}}
 
