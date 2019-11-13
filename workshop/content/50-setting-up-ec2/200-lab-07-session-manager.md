@@ -17,7 +17,7 @@ Session Manager has several benefits over using SSH:
 + You can use IAM policies and users to control access to your instances.
 + Commands and responses can be logged to Amazon CloudWatch and to an S3 bucket.
 
-#### How it works?
+#### How Session Manager works
 
 1. The administrator authenticates against IAM.
 1. IAM authorizes to start a session on an EC2 instance by evaluating applicable IAM policies.
