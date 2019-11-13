@@ -66,7 +66,7 @@ The AWS managed policy, `AmazonSSMManagedInstanceCore`, allows an instance to us
         - !Ref SSMIAMRole
 ```
 
-##### 4. Attach an IAM Instance Profile to an Amazon EC2 Instance
+##### 4. Attach the IAM Instance Profile to an Amazon EC2 Instance
 
 ```yaml
       IamInstanceProfile: !Ref EC2InstanceProfile
