@@ -20,7 +20,7 @@ Session Manager has several benefits over using SSH:
 #### How it works?
 
 1. The administrator authenticates against IAM.
-1. IAM authorizes to start a session for an EC2 instance (IAM policy).
+1. IAM authorizes to start a session on an EC2 instance by evaluating applicable IAM policies.
 1. The administrator uses the AWS Management Console or the terminal (AWS CLI and additional plugin required) to 
    start a session via Systems Manager.
 1. The Systems Manager agent running on the EC2 instance connects to the AWS Systems Manager service
