@@ -14,7 +14,7 @@ Session Manager has several benefits over using SSH:
 
 + No need to manage SSH keys.
 + No need to open up any inbound ports in Security Groups.
-+ Use IAM policies and users to control access to your instances, and don’t need to distribute SSH keys.
++ You can use IAM policies and users to control access to your instances.
 + Commands and responses can be logged to Amazon CloudWatch and to an S3 bucket.
 
 #### How it works?
