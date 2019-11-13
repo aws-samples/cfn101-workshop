@@ -10,7 +10,7 @@ weight: 200
 AWS Systems Manager capability that lets you manage your Amazon EC2 instances through an interactive one-click 
 browser-based shell or through the AWS CLI.
 
-Session Manager has several benefits over the SSH using Bastion host:
+Session Manager has several benefits over using SSH:
 
 + No need to manage SSH keys.
 + No need to open up any inbound ports in Security Groups.
