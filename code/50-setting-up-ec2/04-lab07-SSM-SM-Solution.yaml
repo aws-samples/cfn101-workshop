@@ -36,9 +36,31 @@ Mappings:
       prod: m4.large
 
 Resources:
+  SSMIAMRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - ec2.amazonaws.com
+            Action:
+              - sts:AssumeRole
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore
+      
+  EC2InstanceProfile:
+    Type: AWS::IAM::InstanceProfile
+    Properties:
+      Path: /
+      Roles:
+        - !Ref SSMIAMRole
+  
   MyEC2Instance:
     Type: 'AWS::EC2::Instance'
     Properties:
+      IamInstanceProfile: !Ref EC2InstanceProfile
       ImageId: !Ref AmiID
       InstanceType: !FindInMap [Environment, InstanceType, !Ref EnvType]
       Tags:

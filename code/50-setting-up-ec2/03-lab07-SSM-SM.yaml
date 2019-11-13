@@ -36,10 +36,14 @@ Mappings:
       prod: m4.large
 
 Resources:
-  # Put your IAM code here.
+  # Copy the SSMIAMRole here.
+
+  # Copy the EC2InstanceProfile here.
+
   MyEC2Instance:
     Type: 'AWS::EC2::Instance'
     Properties:
+      # Attach the InstanceProfile to the EC2 instance
       ImageId: !Ref AmiID
       InstanceType: !FindInMap [Environment, InstanceType, !Ref EnvType]
       Tags:
