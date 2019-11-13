@@ -7,10 +7,10 @@ weight: 100
 #### Workshop topics covered:
 
 + [Introduction](/10-introduction)
-+ [Lab Prerequisites](/20-prerequisites)
++ [Prerequisites](/20-prerequisites)
 + [CloudFormation Fundamentals](/30-cloudformation-fundamentals)
 + [CloudFormation Features](/40-cloudformation-features)
-+ [Provisioning EC2 Instance](/50-setting-up-ec2)
++ [Setting up an EC2 Instance](/50-setting-up-ec2)
 + [CloudFormation Package and Deploy](/60-cloudformation-package-and-deploy)
 + [Setting up Nested Stack](/70-setting-up-nested-stack)
 + [Next Steps](/80-next-steps)

@@ -77,6 +77,9 @@ The AWS managed policy, `AmazonSSMManagedInstanceCore`, allows an instance to us
 {{% notice note %}}
 You can attach the instance profile to new Amazon EC2 instances at launch time, or to existing Amazon EC2 instances.
 {{% /notice %}}
+
+##### 5. Update the Stack
+  Go to the AWS console and update the _Stack_ with updated template.
   
 #### Exercise
 
