@@ -37,7 +37,8 @@ You can proceed to the next step as SSM Agent is pre-installed on Amazon Linux A
   please refer to AWS Documentation - [Working with SSM Agent](https://docs.aws.amazon.com/systems-manager/latest/userguide/ssm-agent.html)
 
 ##### 2. Create an IAM role for the EC2 instance which grants access to the AWS Systems Manager
-  The AWS managed policy, `AmazonSSMManagedInstanceCore`, enables an instance to use AWS Systems Manager service core functionality.
+
+The AWS managed policy, `AmazonSSMManagedInstanceCore`, allows an instance to use AWS Systems Manager service core functionality.
   
   ```yaml
   SSMIAMRole:
