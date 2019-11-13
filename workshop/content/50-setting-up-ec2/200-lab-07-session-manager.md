@@ -34,7 +34,7 @@ Session Manager has several benefits over using SSH:
 ##### 1. Install the AWS Systems Manager agent on EC2 instance
 
 You can proceed to the next step as SSM Agent is pre-installed on Amazon Linux AMIs. For other operating systems 
-  please refer to AWS Documentation - [Working with SSM Agent](https://docs.aws.amazon.com/systems-manager/latest/userguide/ssm-agent.html)
+  please refer to the AWS documentation for [Working with SSM Agent](https://docs.aws.amazon.com/systems-manager/latest/userguide/ssm-agent.html)
 
 ##### 2. Create an IAM role for the EC2 instance which grants access to the AWS Systems Manager
 
