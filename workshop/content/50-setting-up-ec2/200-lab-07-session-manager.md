@@ -90,7 +90,7 @@ Check out the AWS Documentation [Instance Metadata and User Data](https://docs.a
 
 {{% notice warning %}}
 Further configuration should be done, if intended to use SSM Session Manager outside of this workshop. See recommendations
-and link to documentation bellow.
+See recommendations and documentation links below for further details.
 {{% /notice %}}
 
 ##### Recommendations:
