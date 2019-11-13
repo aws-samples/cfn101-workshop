@@ -23,8 +23,8 @@ Session Manager has several benefits over using SSH:
 1. IAM authorizes to start a session on an EC2 instance by evaluating applicable IAM policies.
 1. The administrator uses the AWS Management Console or the terminal (AWS CLI and additional plugin required) to 
    start a session via Systems Manager.
-1. The Systems Manager agent running on the EC2 instance connects to the AWS Systems Manager service
-   and executes commands on the machine. Therefore, the EC2 instance needs access to the Internet or a VPC endpoint.
+1. The Systems Manager agent running on the EC2 instance (the EC2 instance needs access to the Internet or a VPC endpoint) connects to the AWS Systems Manager service
+   and executes the commands on the instance.
 1. The Session Manager sends audit logs to CloudWatch Logs or S3.
 
 ![ssm](/50-setting-up-ec2/ssm-sm-1.png)
@@ -73,15 +73,15 @@ The AWS managed policy, `AmazonSSMManagedInstanceCore`, allows an instance to us
 ```
 
 {{% notice note %}}
-You can attach the instance profile to new Amazon EC2 instances when you launch them, or to existing Amazon EC2 instances.
+You can attach the instance profile to new Amazon EC2 instances at launch time, or to existing Amazon EC2 instances.
 {{% /notice %}}
   
 #### Exercise
 
-Log in to instance using SSM Session manager. Retrieve AMI ID from instance metadata using `curl`
+Log in to instance using SSM Session Manager and retrieve the AMI ID from instance metadata using `curl`
 
 {{%expand "Need a hint?" %}}
-Check out the AWS Documentation [Instance Metadata and User Data](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instance-metadata.html?shortFooter=true#instancedata-data-retrieval).
+Review the AWS documentation for [Instance Metadata and User Data](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instance-metadata.html?shortFooter=true#instancedata-data-retrieval).
 {{% /expand %}}
 
 {{%expand "Want to see the solution?" %}}
@@ -91,17 +91,17 @@ Check out the AWS Documentation [Instance Metadata and User Data](https://docs.a
 **Congratulations! You have configured Session Manager and now have access to your EC2 instance.**
 
 {{% notice warning %}}
-Further configuration should be done, if intended to use SSM Session Manager outside of this workshop. See recommendations
+Outside of this workshop you should take additional steps to configure and secure access to SSM Session Manager.
 See recommendations and documentation links below for further details.
 {{% /notice %}}
 
 ##### Recommendations:
 
-+ Use IAM policies to restrict which IAM user or role can start a session with an EC2 instance.
++ Use IAM policies to restrict which IAM user or role can start a session on an EC2 instance.
 + Configure Amazon CloudWatch Logs and/or S3 bucket to audit logs.
 + Use IAM policies to make sure IAM users are not able to modify the audit log settings.
 
-Please refer to [Setting Up AWS Systems Manager](https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-setting-up.html)
+Please refer to the [Setting Up AWS Systems Manager](https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-setting-up.html)
 documentation.
 
 
