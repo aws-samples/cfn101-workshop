@@ -8,7 +8,7 @@ weight: 200
 
 [Session Manager](https://docs.aws.amazon.com/systems-manager/latest/userguide/session-manager.html) is a fully managed 
 AWS Systems Manager capability that lets you manage your Amazon EC2 instances through an interactive one-click 
-browser-based shell or through the AWS CLI.
+browser-based terminal or via the AWS CLI.
 
 Session Manager has several benefits over using SSH:
 
