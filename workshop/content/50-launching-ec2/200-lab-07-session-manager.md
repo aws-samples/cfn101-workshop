@@ -29,7 +29,7 @@ Session Manager has several benefits over using SSH:
 
 > The EC2 instance needs access to the internet or a VPC Endpoints for Session Manager to work. 
 
-![ssm](/50-setting-up-ec2/ssm-sm-1.png)
+![ssm](/50-launching-ec2/ssm-sm-1.png)
 
 #### Configuration
 
@@ -77,6 +77,9 @@ The AWS managed policy, `AmazonSSMManagedInstanceCore`, allows an instance to us
 {{% notice note %}}
 You can attach the instance profile to new Amazon EC2 instances at launch time, or to existing Amazon EC2 instances.
 {{% /notice %}}
+
+##### 5. Update the Stack
+  Go to the AWS console and update the _Stack_ with updated template.
   
 #### Exercise
 
@@ -87,7 +90,7 @@ Review the AWS documentation for [Instance Metadata and User Data](https://docs.
 {{% /expand %}}
 
 {{%expand "Want to see the solution?" %}}
-![ssm-sm](/50-setting-up-ec2/ssm-sm-1.gif)
+![ssm-sm](/50-launching-ec2/ssm-sm-1.gif)
 {{% /expand %}}
   
 **Congratulations! You have configured Session Manager and now have access to your EC2 instance.**
