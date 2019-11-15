@@ -10,7 +10,7 @@ weight: 100
 + [Prerequisites](/20-prerequisites)
 + [CloudFormation Fundamentals](/30-cloudformation-fundamentals)
 + [CloudFormation Features](/40-cloudformation-features)
-+ [Setting up an EC2 Instance](/50-setting-up-ec2)
++ [Launching an EC2 Instance](/50-launching-ec2)
 + [CloudFormation Package and Deploy](/60-cloudformation-package-and-deploy)
 + [Setting up Nested Stack](/70-setting-up-nested-stack)
 + [Next Steps](/80-next-steps)

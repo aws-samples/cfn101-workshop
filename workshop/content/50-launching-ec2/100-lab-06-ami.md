@@ -13,7 +13,7 @@ Amazon Machine Image, and you would like to use the latest image, the same manua
 To fix this, you can use the existing _Parameters_ section of your CloudFormation template and define Systems Manager 
 parameter type. A Systems Manager parameter type allows you to reference parameters held in the System Manager Parameter Store.
 
-1. Go to the `code/50-setting-up-ec2/` directory.
+1. Go to the `code/50-launching-ec2/` directory.
 
 1. Open the `01-lab06-SSM.yaml` file.
 
@@ -28,18 +28,18 @@ parameter type. A Systems Manager parameter type allows you to reference paramet
 1. Go to the AWS console and update your stack with a new template.
 {{% notice info %}}
 If CloudFormation console is using _ami-xxxxxxx_ as an `Amazon Machine Image ID` copy and paste default value `/aws/service/ami-amazon-linux-latest/amzn2-ami-hvm-x86_64-gp2`
-to the text box. ![](/50-setting-up-ec2/ssm-1.png)
+to the text box. ![](/50-launching-ec2/ssm-1.png)
 {{% /notice %}}
 
 {{%expand "How do I update a Stack?" %}}
-![](/50-setting-up-ec2/update-2.gif)
+![](/50-launching-ec2/update-2.gif)
 {{% /expand %}}
 
 #### Exercise
 Deploy the template in different AWS Region to the one you have been using.
 
 {{%expand "Solution" %}}
-![](/50-setting-up-ec2/new-region-1.gif)
+![](/50-launching-ec2/new-region-1.gif)
 {{% /expand %}}
 
 {{% notice note %}}
