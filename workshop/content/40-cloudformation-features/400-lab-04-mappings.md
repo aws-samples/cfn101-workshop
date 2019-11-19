@@ -11,7 +11,7 @@ This lab will cover Mappings, which allow you to lookup values from a set of pre
 A common use for Mappings is to configure a template according to different environments, such as dev, test and production.
  Mapping allows you to have one template, rather than 3 similar templates. 
  
- Keys and their corresponding values are predefined in the `Mappings` section. These value of these keys can be accessed in other parts of your CloudFormation template.
+ Keys and their corresponding values are predefined in the `Mappings` section. The value of these keys are referenced in other parts of your CloudFormation template.
 
 ### Key Components
 
