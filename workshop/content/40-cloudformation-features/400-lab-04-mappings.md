@@ -147,28 +147,18 @@ Parameters:
       - "Production"
 
 Mappings:
-  EnvironmentToInstanceType: # Map Name
-    Dev: # Top level key
-      InstanceType: "t3.micro" # Second level key
+  EnvironmentToInstanceType:
+    Dev:
+      InstanceType: "t3.micro" key
     Test:
       InstanceType: "t3.nano"
     Production: 
       InstanceType: "t3.small"
 
-Resources:
-  EC2Instance:
-    Type: AWS::EC2::Instance
-    Properties: 
-      ImageId: !Ref AmiID
-
-      # Use the intrinsic function FindInMap to lookup the 
-      # InstanceType value from the EnvironmentToInstanceTypeMap.
-      # It references the EnvironmentType parameter provided to the template
-      InstanceType: !FindInMap
-        - EnvironmentToInstanceType # Map Name
-        - !Ref EnvironmentType # Top Level Key
-        - "InstanceType" # Second Level Key
+# Resources section omitted..
 ```
+
+See `code/05/lab04-Mapping-Solution.yaml` for the full solution.
 {{% /expand%}}
 
 ## Conclusion
