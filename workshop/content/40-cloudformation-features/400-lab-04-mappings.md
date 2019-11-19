@@ -8,10 +8,10 @@ weight: 400
 
 This lab will cover Mappings, which allow you to lookup values from a set of predefined keys.
 
-### Motivation
 A common use for Mappings is to configure a template according to different environments, such as dev, test and production.
-
-Rather than have 3 similar templates, one for each of dev, test and production, mapping allows you to have one template. Keys and their corresponding values are predefined in a map. These keys can be accessed in other parts of your template.
+ Mapping allows you to have one template, rather than 3 similar templates. 
+ 
+ Keys and their corresponding values are predefined in the `Mappings` section. These value of these keys can be accessed in other parts of your CloudFormation template.
 
 ### Key Components
 
@@ -20,10 +20,9 @@ Rather than have 3 similar templates, one for each of dev, test and production, 
 The [`Mappings`](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/mappings-section-structure.html) section is a top level section of a CloudFormation template. It is used to define maps, their keys and values.
 
 
-
-A Mappings Section can contain multiple maps. Each map contains atleast one key.
-A key in a map has two components, a top level key and a second level key.
-Each key contains one or more Name - Value pairs. Each top level key must contain atleast one second level key.
+A Mappings Section contains one or more maps. Each map contains at least one key. \
+Each key is another map! It contains one or more keys that map to values.
+Each key contains one or more Name - Value pairs. Each top level key  contains one or more second level keys.
 
 
 Here is a simplified example of a Mappings section. It contains one Map, `Mapping01`. \
@@ -45,16 +44,16 @@ Mappings:
 [`Fn::FindInMap`](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference-findinmap.html) is an intrinsic function used to lookup the value of a key in a map.
 
 It takes three parameters:
+
 * `MapName`
 * `TopLevelKey`
 * `SecondLevelKey`
 
-It will return the value of the second level key in that map
+It will return the value associated with the top level and second level key combination of the map.
 
 ## Implementing a simple map
 
-Below is a simple template defining a single EC2 instance. It uses a simple mappings section to configure the EC2 instance type according to a parameter, `EnvironmentType`. Next, each part of the template will be discussed individually.
-
+Below is a simple CloudFormation template. It uses simple mappings section to configure the EC2 instance type according to a parameter, `EnvironmentType`.
 
 ```yaml
 Parameters:
@@ -93,32 +92,6 @@ Resources:
         - "InstanceType" # Second Level Key
 ```
 
-
-### Parameters
-
-The parameters section specifies two parameters, `EnvironmentType` and AMI ID
-It allows two possible values, `Dev` or `Test`.
-
-```yaml
-Parameters:
-  EnvironmentType: 
-    Description: "Specify the Environment type of the stack"
-    Type: String
-    Default: "Dev"
-    AllowedValues:
-      - "Dev"
-      - "Test"
-  
-  AmiID:
-    Type: AWS::EC2::Image::Id
-    Description: 'Amazon Machine Image ID'
-
-# Rest of Template omitted
-```
-
-
-### Mapping
-
 The mapping section defines one map, `EnvironmentToInstanceType`.
 The map contains two top level keys, one for each environment.
 Each top level key contains a single `InstanceType` second level key.
@@ -131,12 +104,8 @@ Mappings:
       InstanceType: "t3.nano"
 ```
 
-### Resources
-
-The resource section defines one resource, an [EC2 instance](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-instance.html).
-The `InstanceType` property defines the type of EC2 instance.The intrinsic function `Fn::FindInMap` is used to lookup the value in the `EnvironmentToInstanceType` map.
+The `InstanceType` property defines the type of EC2 instance. The intrinsic function `Fn::FindInMap` is used to lookup the value in the `EnvironmentToInstanceType` map.
 The parameter `EnvironmentType` is passed as the top level key using the intrinsic function `Fn::Ref`.
-Finally, the second level key is specified as `InstanceType`
 
 ```yaml
 Resources:
@@ -155,12 +124,13 @@ Resources:
 ```
 
 
-This examples demonstrates how mapping is used in a CloudFormation template. It allows the creation of flexible templates.
+This examples demonstrates how mapping is used in a CloudFormation template. It allows the creation of flexible templates. 
 
-## Exercise #1 - Simple Map
+## Exercise - A simple map
 Now it's your turn.
 You might have noticed our Mappings section is missing the most important environment, Production! 
 Add this environment to the template we've used in the lab. 
+
 * The Environment name is `Production`. 
 * The instance type should be `t3.small`
 The lab template is available at `code/40-cloudformation-features/05-lab04-Mapping.yaml`
