@@ -43,13 +43,6 @@ Mappings:
 
 [`Fn::FindInMap`](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference-findinmap.html) is an intrinsic function used to lookup the value of a key in a map.
 
-It takes three parameters:
-
-* `MapName`
-* `TopLevelKey`
-* `SecondLevelKey`
-
-It will return the value associated with the top level and second level key combination of the map.
 
 ## Implementing a simple map
 
