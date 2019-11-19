@@ -41,7 +41,7 @@ Mappings:
 
 #### Fn::FindInMap
 
-[`Fn::FindInMap`](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference-findinmap.html) is an intrinsic function used to lookup the value of a key in a map.
+[`Fn::FindInMap`](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference-findinmap.html) is an intrinsic function used to return the value of a key in a map.
 
 
 ## Implementing a simple map
