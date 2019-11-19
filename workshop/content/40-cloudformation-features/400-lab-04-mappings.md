@@ -25,18 +25,20 @@ Each key is another map! It contains one or more keys that map to values.
 Each key contains one or more Name - Value pairs. Each top level key  contains one or more second level keys.
 
 
-Here is a simplified example of a Mappings section. It contains one Map, `Mapping01`. \
-`Mapping01` contains three top level keys, `TopLevelKey01`, `TopLevelKey02` and `TopLevelKey03`. \
-Each top level key contains one second level key, `SecondLevelKey`.
+Here is a simplified example of a Mappings section. It contains one Map, `AnExampleMapping`. \
+`AnExampleMapping` contains three top level keys, `Key01`, `Key02` and `Key03`. \
+Each top level key contains one or more `Name`:`Value` pairs.
+
 ```yaml
 Mappings: 
-  Mapping01: 
-    TopLevelKey01: 
-      SecondLevelKey: Value01
-    TopLevelKey02: 
-      SecondLevelKey: Value02
-    TopLevelKey03: 
-      SecondLevelKey: Value03
+  AnExampleMapping: 
+    Key01: 
+      Name: Value01
+      AnotherName: Value02
+    Key02: 
+      Name: Value02
+    Key03: 
+      Name: Value03
 ```
 
 
