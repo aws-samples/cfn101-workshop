@@ -37,7 +37,7 @@ Parameters:
 # Add a Mappings section here!
 
 Resources:
-  MyEC2Instance:
+  WebServerInstance:
     Type: AWS::EC2::Instance
     Properties:
       ImageId: !Ref AmiID

@@ -42,7 +42,7 @@ Mappings:
 ```
 
 
-## Implementing a simple map
+### Implementing a simple map
 
 ##### 1. Lets start with creating `EnvironmentType` parameter in the _Parameters_ section of the template. Replace the 
 `InstanceType` parameter with the code bellow (you will not need InstanceType parameter anymore as you will use mapping
@@ -53,10 +53,10 @@ Parameters:
   EnvironmentType:
     Description: 'Specify the Environment type of the stack.'
     Type: String
-    Default: 'Test'
+    Default: Test
     AllowedValues:
-      - 'Test'
-      - 'Prod'
+      - Test
+      - Prod
     ConstraintDescription: 'Specify either Test or Prod.'
 ```
 {{% notice note %}}
@@ -80,7 +80,7 @@ Mappings:
   map and will return the value back to `InstanceType` property. 
 ```yaml
 Resources:
-  EC2Instance:
+  WebServerInstance:
     Type: AWS::EC2::Instance
     Properties: 
       ImageId: !Ref AmiID
@@ -100,10 +100,12 @@ Resources:
 
 ## Exercise - Add `Dev` environment
 Now it's your turn.
-Lets add another key to your `EnvironmentToInstanceType` map. It will need to contain `Dev` key name, and name-value 
-pair `InstanceType: t3.nano`
+Lets add another Environment `Dev` to your template. It will need to contain `Dev` key name, and name-value 
+pair `InstanceType: t3.nano`. Also, don't forget to add `Dev` to `EnvironmentType` parameter.
 
 {{%expand "Need a hint?" %}}
+1. In a _Parameters_ section
+  * Add `Dev` to the `EnvironmentType` AllowedValues list.
 1. In a `Mappings` section. 
   * Add a top level key of `Dev`.
   * Add a name-value pair `InstanceType: t3.nano`.
@@ -111,6 +113,17 @@ pair `InstanceType: t3.nano`
 
 {{%expand "Expand to see the solution" %}}
 ```yaml
+Parameters:
+  EnvironmentType:
+    Description: 'Specify the Environment type of the stack.'
+    Type: String
+    Default: Test
+    AllowedValues:
+      - Dev
+      - Test
+      - Prod
+    ConstraintDescription: 'Specify either Dev, Test or Prod.'
+
 Mappings:
   EnvironmentToInstanceType: # Map Name
     Dev:

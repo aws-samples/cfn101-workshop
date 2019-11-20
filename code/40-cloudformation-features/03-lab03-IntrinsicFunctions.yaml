@@ -24,7 +24,7 @@ Parameters:
     Description: 'Enter t3.micro or t3.small. Default is t3.micro.'
 
 Resources:
-  MyEC2Instance:
+  WebServerInstance:
     Type: AWS::EC2::Instance
     Properties:
       # Update the code below

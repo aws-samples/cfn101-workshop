@@ -32,7 +32,7 @@ Parameters:
     Description: 'The ID of the AMI.'
 
 Resources:
-  MyEC2Instance:
+  WebServerInstance:
     Type: AWS::EC2::Instance
     Properties:
       ImageId: !Ref AmiID

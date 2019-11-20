@@ -18,34 +18,32 @@ Parameters:
   EnvironmentType:
     Description: 'Specify the Environment type of the stack.'
     Type: String
-    Default: 'Test'
+    Default: Test
     AllowedValues:
-      - 'Test'
-      - 'Prod'
-    ConstraintDescription: 'Specify either Test or Prod.'
+      - Dev
+      - Test
+      - Prod
+    ConstraintDescription: 'Specify either Dev, Test or Prod.'
 
   AmiID:
     Type: AWS::EC2::Image::Id
     Description: 'The ID of the AMI.'
 
 Mappings:
-  EnvironmentToInstanceType: # Map Name
+  EnvironmentToInstanceType:
     Dev:
       InstanceType: t3.nano
-    Test: # Top level key
-      InstanceType: t3.micro # Second level key
+    Test:
+      InstanceType: t3.micro
     Prod:
       InstanceType: t3.small
 
 Resources:
-  EC2Instance:
+  WebServerInstance:
     Type: AWS::EC2::Instance
     Properties:
       ImageId: !Ref AmiID
-      InstanceType: !FindInMap
-        - EnvironmentToInstanceType # Map Name
-        - !Ref EnvironmentType # Top Level Key
-        - InstanceType # Second Level Key
+      InstanceType: !FindInMap [EnvironmentToInstanceType, !Ref EnvironmentType, InstanceType]
       Tags:
         - Key: Name
           Value: !Join [ ' ', [ !Ref EnvironmentType, Web Server ] ]
