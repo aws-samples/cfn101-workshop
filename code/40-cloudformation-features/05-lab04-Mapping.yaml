@@ -1,36 +1,37 @@
+AWSTemplateFormatVersion: '2010-09-09'
+
+Description: 'Amazon EC2 - Workshop template.'
+
+Metadata:
+  AWS::CloudFormation::Interface:
+    ParameterGroups:
+      - Label:
+          default: 'Amazon EC2 Configuration'
+        Parameters:
+          - AmiID
+
+    ParameterLabels:
+      AmiID:
+        default: 'Amazon Machine Image ID'
+
 Parameters:
-  EnvironmentType: 
-    Description: Environment Type
-    Type: String
-    Default: Dev
-    AllowedValues:
-      - Dev
-      - Test
-      - Production
   AmiID:
     Type: AWS::EC2::Image::Id
-    Description: 'Amazon Machine Image ID'
+    Description: 'The ID of the AMI.'
 
-Mappings:
-  EnvironmentToInstanceType: # Map Name
-    Dev: # Top level key
-      InstanceType: t3.micro # Second level key
-    Test:
-      InstanceType: t3.nano
-    Production: 
-      InstanceType: t3.small
+  EnvType:
+    Description: Environment type.
+    Default: test
+    Type: String
+    AllowedValues:
+      - test
+      - prod
+    ConstraintDescription: 'Specify either test or prod.'
 
 Resources:
-  EC2Instance:
-    Type: AWS::EC2::Instance
-    Properties: 
-      ImageId: !Ref AmiID
-
-      # Use the intrinsic function FindInMap to lookup the 
-      # InstanceType value from the EnvironmentToInstanceTypeMap.
-      # It references the EnvironmentType parameter provided to the template
-      InstanceType: !FindInMap
-        - EnvironmentToInstanceType # Map Name
-        - !Ref EnvironmentType # Top Level Key
-        - 'InstanceType' # Second Level Key
-
+  MyEC2Instance:
+    Type: 'AWS::EC2::Instance'
+    Properties:
+     # Update the code below
+      ImageId: ami-00a1270ce1e007c27
+      InstanceType: t3.micro

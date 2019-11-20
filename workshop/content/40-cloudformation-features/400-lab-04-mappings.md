@@ -119,41 +119,42 @@ This examples demonstrates how mapping is used in a CloudFormation template. It 
 
 ## Exercise - A simple map
 Now it's your turn.
-You might have noticed our Mappings section is missing the most important environment, Production! 
-Add this environment to the template we've used in the lab. 
+Lets add a Mappings section to our template. It will need to contain the instance type for `test` and `prod`. 
+Update the `InstanceType` property of make use of this Mappings section.
+The template has been updated to add an `EnvType` parameter.
 
-* The Environment name is `Production`. 
-* The instance type should be `t3.small`
+* The instance types should be `t3.nano` and `t3.micro` for test and prod respectively.
 The lab template is available at `code/40-cloudformation-features/05-lab04-Mapping.yaml`
 
 {{%expand "Need a hint?" %}}
-2. Try adding a third top level key to represent `Production` to the existing map.
-2. Add an `InstanceType` second level key that matches the other two environments.
-3. Make sure the value is `t3.small`.
+1. Create a `Mappings` section. 
+  * Add a top level key of `InstanceType`.
+  * Add a name-value pair for each of `test` and `prod`.
+2. Update the `MyEC2Instance` resource.
+  * Update the `InstanceType` property
+  * Use the intrinsic function `Fn::FindInMap`
+  * Reference the `EnvType` parameter
+
 {{% /expand%}}
 
 {{%expand "Expand to see the solution" %}}
 ```yaml
-Parameters:
-  EnvironmentType: 
-    Description: Environment Type
-    Type: String
-    Default: Dev
-    AllowedValues:
-      - "Dev"
-      - "Test"
-      - "Production"
-
 Mappings:
-  EnvironmentToInstanceType:
-    Dev:
-      InstanceType: "t3.micro" key
-    Test:
-      InstanceType: "t3.nano"
-    Production: 
-      InstanceType: "t3.small"
+  Environment:
+    InstanceType:
+      test: t2.micro
+      prod: m4.large
 
-# Resources section omitted..
+Resources:
+  MyEC2Instance:
+    Type: 'AWS::EC2::Instance'
+    Properties:
+      ImageId: !Ref AmiID
+      InstanceType: !FindInMap [Environment, InstanceType, !Ref EnvType]
+      Tags:
+        - Key: Name
+          Value: !Join [ ' ', [ !Ref EnvType, Web Server ] ]
+
 ```
 
 See `code/05/lab04-Mapping-Solution.yaml` for the full solution.
