@@ -8,33 +8,41 @@ Metadata:
       - Label:
           default: 'Amazon EC2 Configuration'
         Parameters:
+          # Remove InstanceType group.
+          - InstanceType
           - AmiID
 
     ParameterLabels:
+      # Remove the InstanceType parameter label.
+      InstanceType:
+        default: 'Type of EC2 Instance'
+
       AmiID:
         default: 'Amazon Machine Image ID'
 
 Parameters:
+  # Replace the InstanceType parameter with EnvironmentType parameter.
+  InstanceType:
+    Type: String
+    Default: t3.micro
+    AllowedValues:
+      - t3.micro
+      - t3.small
+    Description: 'Enter t3.micro or t3.small. Default is t3.micro.'
+
   AmiID:
     Type: AWS::EC2::Image::Id
     Description: 'The ID of the AMI.'
 
-  EnvType:
-    Description: Environment type.
-    Default: test
-    Type: String
-    AllowedValues:
-      - test
-      - prod
-    Constrai
-    
 # Add a Mappings section here!
-
 
 Resources:
   MyEC2Instance:
-    Type: 'AWS::EC2::Instance'
+    Type: AWS::EC2::Instance
     Properties:
-      ImageId: ami-00a1270ce1e007c27
-     # Update the code below
-      InstanceType: t3.micro
+      ImageId: !Ref AmiID
+      # Update the InstanceType property with !FindInMap function
+      InstanceType: !Ref InstanceType
+      Tags:
+        - Key: Name
+          Value: !Join [ ' ', [ !Ref InstanceType, Web Server ] ]

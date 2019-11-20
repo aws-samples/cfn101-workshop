@@ -44,117 +44,81 @@ Mappings:
 
 ## Implementing a simple map
 
-Below is a simple CloudFormation template. It uses simple mappings section to configure the EC2 instance type according to a parameter, `EnvironmentType`.
+##### 1. Lets start with creating `EnvironmentType` parameter in the _Parameters_ section of the template. Replace the 
+`InstanceType` parameter with the code bellow (you will not need InstanceType parameter anymore as you will use mapping
+ instead).
 
 ```yaml
 Parameters:
-  EnvironmentType: 
-    Description: "Specify the Environment type of the stack"
+  EnvironmentType:
+    Description: 'Specify the Environment type of the stack.'
     Type: String
-    Default: "Dev"
+    Default: 'Test'
     AllowedValues:
-      - "Dev"
-      - "Test"
-
-    
-  AmiID:
-    Type: AWS::EC2::Image::Id
-    Description: 'Amazon Machine Image ID'
-
-Mappings:
-  EnvironmentToInstanceType: # Map Name
-    Dev: # Top level key
-      InstanceType: "t3.micro" # Second level key
-    Test:
-      InstanceType: "t3.nano"
-
-Resources:
-  EC2Instance:
-    Type: AWS::EC2::Instance
-    Properties: 
-      ImageId: !Ref AmiID
-
-      # Use the intrinsic function FindInMap to lookup the 
-      # InstanceType value from the EnvironmentToInstanceTypeMap.
-      # It references the EnvironmentType parameter provided to the template
-      InstanceType: !FindInMap
-        - EnvironmentToInstanceType # Map Name
-        - !Ref EnvironmentType # Top Level Key
-        - "InstanceType" # Second Level Key
+      - 'Test'
+      - 'Prod'
+    ConstraintDescription: 'Specify either Test or Prod.'
 ```
+{{% notice note %}}
+Dont forget to remove `InstanceType` from _ParameterGroups_ and form _ParameterLabels_ section of the template.
+{{% /notice %}}
 
-The mapping section defines one map, `EnvironmentToInstanceType`.
-The map contains two top level keys, one for each environment.
-Each top level key contains a single `InstanceType` second level key.
+##### 2. Next, create mapping section `EnvironmentToInstanceType`
+  The map contains two top level keys, one for each environment. Each top level key contains a single
+  `InstanceType` second level key.
 ```yaml
 Mappings:
   EnvironmentToInstanceType: # Map Name
-    Dev: # Top level key
-      InstanceType: "t3.micro" # Second level key
-    Test:
-      InstanceType: "t3.nano"
+    Test: # Top level key
+      InstanceType: t3.micro # Second level key
+    Prod:
+      InstanceType: t3.nano
 ```
 
-The `InstanceType` property defines the type of EC2 instance. The intrinsic function `Fn::FindInMap` is used to lookup the value in the `EnvironmentToInstanceType` map.
-The parameter `EnvironmentType` is passed as the top level key using the intrinsic function `Fn::Ref`.
-
+##### 3. Next, modify the `InstanceType` property  
+  By using the intrinsic function `Fn::FindInMap` CloudFormation will lookup the value in the `EnvironmentToInstanceType` 
+  map and will return the value back to `InstanceType` property. 
 ```yaml
 Resources:
   EC2Instance:
     Type: AWS::EC2::Instance
     Properties: 
       ImageId: !Ref AmiID
-
-      # Use the intrinsic function FindInMap to lookup the 
-      # InstanceType value from the EnvironmentToInstanceTypeMap.
-      # It references the EnvironmentType parameter provided to the template
       InstanceType: !FindInMap
         - EnvironmentToInstanceType # Map Name
         - !Ref EnvironmentType # Top Level Key
-        - "InstanceType" # Second Level Key
+        - InstanceType # Second Level Key
 ```
 
+##### 4. Finally, update the `Tag` property
+  As you have deleted `InstanceType` parameter, you need to update the tag. Reference `EnviromentType` in the tag property.
+  ```yaml
+      Tags:
+        - Key: Name
+          Value: !Join [ ' ', [ !Ref EnvironmentType, Web Server ] ]
+```
 
-This examples demonstrates how mapping is used in a CloudFormation template. It allows the creation of flexible templates. 
-
-## Exercise - A simple map
+## Exercise - Add `Dev` environment
 Now it's your turn.
-Lets add a Mappings section to our template. It will need to contain the instance type for `test` and `prod`. 
-Update the `InstanceType` property of make use of this Mappings section.
-The template has been updated to add an `EnvType` parameter.
-
-* The instance types should be `t3.nano` and `t3.micro` for test and prod respectively.
-The lab template is available at `code/40-cloudformation-features/05-lab04-Mapping.yaml`
+Lets add another key to your `EnvironmentToInstanceType` map. It will need to contain `Dev` key name, and name-value 
+pair `InstanceType: t3.nano`
 
 {{%expand "Need a hint?" %}}
-1. Create a `Mappings` section. 
-  * Add a top level key of `InstanceType`.
-  * Add a name-value pair for each of `test` and `prod`.
-2. Update the `MyEC2Instance` resource.
-  * Update the `InstanceType` property
-  * Use the intrinsic function `Fn::FindInMap`
-  * Reference the `EnvType` parameter
-
+1. In a `Mappings` section. 
+  * Add a top level key of `Dev`.
+  * Add a name-value pair `InstanceType: t3.nano`.
 {{% /expand%}}
 
 {{%expand "Expand to see the solution" %}}
 ```yaml
 Mappings:
-  Environment:
-    InstanceType:
-      test: t2.micro
-      prod: m4.large
-
-Resources:
-  MyEC2Instance:
-    Type: 'AWS::EC2::Instance'
-    Properties:
-      ImageId: !Ref AmiID
-      InstanceType: !FindInMap [Environment, InstanceType, !Ref EnvType]
-      Tags:
-        - Key: Name
-          Value: !Join [ ' ', [ !Ref EnvType, Web Server ] ]
-
+  EnvironmentToInstanceType: # Map Name
+    Dev:
+      InstanceType: t3.nano
+    Test: # Top level key
+      InstanceType: t3.micro # Second level key
+    Prod:
+      InstanceType: t3.small
 ```
 
 See `code/05/lab04-Mapping-Solution.yaml` for the full solution.
@@ -162,5 +126,8 @@ See `code/05/lab04-Mapping-Solution.yaml` for the full solution.
 
 ## Conclusion
 
-In this lab, you used mappings to create flexible CloudFormation templates. Use Mappings to configure properties according to other parameters or pseudo parameters. A template can contain many maps, each with multiple top and second level keys. A Common use for a Mappings section is to provide different configurations depending on an environment type.
+In this lab, you used mappings to create flexible CloudFormation templates. Use Mappings to configure properties 
+according to other parameters or pseudo parameters. A template can contain many maps, each with multiple top and 
+second level keys. A Common use for a Mappings section is to provide different configurations depending on an 
+environment type.
 
