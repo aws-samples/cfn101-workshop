@@ -75,11 +75,12 @@ You will write bash script to install the application.
   
   {{% notice note %}}
   Scripts entered as user data are executed as `root`, so do not use `sudo` command in the script.
+  The _UserData_ needs to be Base64 encoded.
   {{% /notice %}}
   
 ```yaml
   UserData:
-    Fn::Base64: !Sub |
+    Fn::Base64: |
       #!/bin/bash
       yum update -y
       yum install -y httpd php
