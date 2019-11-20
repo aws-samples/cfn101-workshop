@@ -72,7 +72,7 @@ Mappings:
     Test: # Top level key
       InstanceType: t3.micro # Second level key
     Prod:
-      InstanceType: t3.nano
+      InstanceType: t3.small
 ```
 
 ##### 3. Next, modify the `InstanceType` property  
