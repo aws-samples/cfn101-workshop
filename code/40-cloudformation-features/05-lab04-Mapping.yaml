@@ -26,12 +26,15 @@ Parameters:
     AllowedValues:
       - test
       - prod
-    ConstraintDescription: 'Specify either test or prod.'
+    Constrai
+    
+# Add a Mappings section here!
+
 
 Resources:
   MyEC2Instance:
     Type: 'AWS::EC2::Instance'
     Properties:
-     # Update the code below
       ImageId: ami-00a1270ce1e007c27
+     # Update the code below
       InstanceType: t3.micro
