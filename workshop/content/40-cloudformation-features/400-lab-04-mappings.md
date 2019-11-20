@@ -44,9 +44,9 @@ Mappings:
 
 ### Implementing a simple map
 
-##### 1. Lets start with creating `EnvironmentType` parameter in the _Parameters_ section of the template. Replace the 
-`InstanceType` parameter with the code bellow (you will not need InstanceType parameter anymore as you will use mapping
- instead).
+##### 1. Lets start with creating _EnvironmentType_ parameter 
+  In the _Parameters_ section of the template. Replace the `InstanceType` parameter with the code bellow 
+  (you will not need InstanceType parameter anymore as you will use mapping instead).
 
 ```yaml
 Parameters:
@@ -63,7 +63,7 @@ Parameters:
 Dont forget to remove `InstanceType` from _ParameterGroups_ and form _ParameterLabels_ section of the template.
 {{% /notice %}}
 
-##### 2. Next, create mapping section `EnvironmentToInstanceType`
+##### 2. Next, create _EnvironmentToInstanceType_ in the mapping section 
   The map contains two top level keys, one for each environment. Each top level key contains a single
   `InstanceType` second level key.
 ```yaml
@@ -75,7 +75,7 @@ Mappings:
       InstanceType: t3.small
 ```
 
-##### 3. Next, modify the `InstanceType` property  
+##### 3. Next, modify the _InstanceType_ property  
   By using the intrinsic function `Fn::FindInMap` CloudFormation will lookup the value in the `EnvironmentToInstanceType` 
   map and will return the value back to `InstanceType` property. 
 ```yaml
@@ -90,7 +90,7 @@ Resources:
         - InstanceType # Second Level Key
 ```
 
-##### 4. Finally, update the `Tag` property
+##### 4. Finally, update the _Tags_ property
   As you have deleted `InstanceType` parameter, you need to update the tag. Reference `EnviromentType` in the tag property.
   ```yaml
       Tags:
