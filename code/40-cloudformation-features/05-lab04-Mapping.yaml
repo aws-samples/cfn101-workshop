@@ -26,7 +26,7 @@ Parameters:
     AllowedValues:
       - test
       - prod
-    Constrai
+    ConstraintDescription: 'Specify either test or prod.'
     
 # Add a Mappings section here!
 
