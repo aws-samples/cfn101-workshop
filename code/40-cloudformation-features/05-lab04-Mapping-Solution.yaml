@@ -1,0 +1,45 @@
+AWSTemplateFormatVersion: '2010-09-09'
+
+Description: 'Amazon EC2 - Workshop template.'
+
+Metadata:
+  AWS::CloudFormation::Interface:
+    ParameterGroups:
+      - Label:
+          default: 'Amazon EC2 Configuration'
+        Parameters:
+          - AmiID
+
+    ParameterLabels:
+      AmiID:
+        default: 'Amazon Machine Image ID'
+
+Parameters:
+  AmiID:
+    Type: AWS::EC2::Image::Id
+    Description: 'The ID of the AMI.'
+
+  EnvType:
+    Description: Environment type.
+    Default: test
+    Type: String
+    AllowedValues:
+      - test
+      - prod
+    ConstraintDescription: 'Specify either test or prod.'
+
+Mappings:
+  Environment:
+    InstanceType:
+      test: t2.micro
+      prod: m4.large
+
+Resources:
+  MyEC2Instance:
+    Type: 'AWS::EC2::Instance'
+    Properties:
+      ImageId: !Ref AmiID
+      InstanceType: !FindInMap [Environment, InstanceType, !Ref EnvType]
+      Tags:
+        - Key: Name
+          Value: !Join [ ' ', [ !Ref EnvType, Web Server ] ]
