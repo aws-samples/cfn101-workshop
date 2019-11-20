@@ -95,6 +95,7 @@ You will write bash script to install the application.
 ```
 
 The script above configures the following:
+**TODO**
 
   {{% notice warning %}}
   In order to replace an instance, you need to modify a property that forces it to replace it. 
@@ -103,6 +104,13 @@ The script above configures the following:
   Look for "replacement" here.
   http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-instance.html
   {{% /notice %}}
+  
+#### Exercise
+**TODO**
+Create /var/www/html/index.html file and display instance ID by using curl and instance metadata.
+
+Congratulations, you have successfully bootstrap an EC2 instance. In a next section you will look into CloudFormation 
+helper scripts to improve your bash script further.
 
 
   
