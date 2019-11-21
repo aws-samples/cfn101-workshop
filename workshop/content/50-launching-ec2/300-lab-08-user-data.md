@@ -71,7 +71,7 @@ Go to your template from previous lab, or you can use the one provided in `code/
 
 ##### 3. Install Apache web server on the instance:
 
-You will write bash script to install the application. 
+You will write a bash script to install the application. 
   
   {{% notice note %}}
   Scripts entered as user data are executed as `root`, so do not use `sudo` command in the script.
