@@ -107,7 +107,7 @@ The script above configures the following:
   
 #### Exercise
 **TODO**
-Create /var/www/html/index.html file and display instance ID by using curl and instance metadata.
+Create `/var/www/html/index.html` file and display the instance ID by using curl and the [instance metadata](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instance-metadata.html) endpoint.
 
 Congratulations, you have successfully bootstrap an EC2 instance. In a next section you will look into CloudFormation 
 helper scripts to improve your bash script further.
