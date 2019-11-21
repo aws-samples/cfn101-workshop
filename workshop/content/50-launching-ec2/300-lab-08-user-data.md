@@ -53,7 +53,7 @@ Go to your template from previous lab, or you can use the one provided in `code/
               CidrIp: 0.0.0.0/0
 ```
 
-  + finally, associate security group with EC2 instance:
+  + finally, associate the security group with the EC2 instance:
   ```yaml
       MyEC2Instance:
         Type: AWS::EC2::Instance
