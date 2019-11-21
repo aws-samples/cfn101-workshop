@@ -13,7 +13,7 @@ This lab introduces the concept of `UserData`. In this lab you will deploy an Ap
 application. 
 
 First, you will bootstrap existing EC2 instance to install web server and content. Next, you will create 
-EC2 _Security Group_ and allow access on port 80 to the instance. Finally, you will view the content served by the web 
+an EC2 _Security Group_ and allow access on port 80 to the instance. Finally, you will view the content served by the web 
 server.
 
 The following diagram provides high-level overview of the architecture you will implement.
