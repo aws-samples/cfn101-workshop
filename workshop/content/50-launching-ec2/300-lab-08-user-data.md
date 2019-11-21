@@ -37,7 +37,7 @@ Go to your template from previous lab, or you can use the one provided in `code/
           # Add ingress rule to the Security Group
 ```
 
-  + As Apache web server will server content on port 80, add ingress rule to the security group and open it up to the 
+  + As the Apache web server will serve content on port 80, add an ingress rule to the security group and open it up to the 
   world:
   ```yaml
       # Add Security Group resource here
