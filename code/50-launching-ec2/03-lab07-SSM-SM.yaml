@@ -15,25 +15,29 @@ Metadata:
         default: 'Amazon Machine Image ID'
 
 Parameters:
+  EnvironmentType:
+    Description: 'Specify the Environment type of the stack.'
+    Type: String
+    Default: Test
+    AllowedValues:
+      - Dev
+      - Test
+      - Prod
+    ConstraintDescription: 'Specify either Dev, Test or Prod.'
+
   AmiID:
     Type: AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>
-    Description: The ID of the AMI.
+    Description: 'The ID of the AMI.'
     Default: /aws/service/ami-amazon-linux-latest/amzn2-ami-hvm-x86_64-gp2
 
-  EnvType:
-    Description: Environment type.
-    Default: test
-    Type: String
-    AllowedValues:
-      - test
-      - prod
-    ConstraintDescription: 'Specify either test or prod.'
-
 Mappings:
-  Environment:
-    InstanceType:
-      test: t2.micro
-      prod: m4.large
+  EnvironmentToInstanceType:
+    Dev:
+      InstanceType: t3.nano
+    Test:
+      InstanceType: t3.micro
+    Prod:
+      InstanceType: t3.small
 
 Resources:
   # Copy the SSMIAMRole here.
@@ -45,10 +49,10 @@ Resources:
     Properties:
       # Attach the InstanceProfile to the EC2 instance
       ImageId: !Ref AmiID
-      InstanceType: !FindInMap [Environment, InstanceType, !Ref EnvType]
+      InstanceType: !FindInMap [EnvironmentToInstanceType, !Ref EnvironmentType, InstanceType]
       Tags:
         - Key: Name
-          Value: !Join [ ' ', [ !Ref EnvType, Web Server ] ]
+          Value: !Join [ ' ', [ !Ref EnvironmentType, Web Server ] ]
 
   WebServerEIP:
     Type: AWS::EC2::EIP
