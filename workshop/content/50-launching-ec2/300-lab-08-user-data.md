@@ -62,7 +62,7 @@ Go to your template from previous lab, or you can use the one provided in `code/
           ImageId: !Ref AmiID
           InstanceType: !FindInMap [Environment, InstanceType, !Ref EnvType]
           # Attach SecurityGroup here
-          SecurityGroups:
+          SecurityGroupIds:
             - !Ref WebServerSecurityGroup
           Tags:
             - Key: Name
@@ -74,43 +74,63 @@ Go to your template from previous lab, or you can use the one provided in `code/
 You will write a bash script to install the application. 
   
   {{% notice note %}}
-  Scripts entered as user data are executed as `root`, so do not use `sudo` command in the script.
-  The _UserData_ needs to be Base64 encoded.
+  Scripts entered as user data are executed as _root_, so do not use `sudo` command in the script.\
+  _UserData_ must be Base64 encoded when passed from CloudFormation to EC2 instance. Use `Fn::Base64` intrinsic 
+  function to encode the input string.
   {{% /notice %}}
+  
   
 ```yaml
-  UserData:
-    Fn::Base64: |
-      #!/bin/bash
-      yum update -y
-      yum install -y httpd php
-      systemctl start httpd
-      systemctl enable httpd
-      usermod -a -G apache ec2-user
-      chown -R ec2-user:apache /var/www
-      chmod 2775 /var/www
-      find /var/www -type d -exec chmod 2775 {} \;
-      find /var/www -type f -exec chmod 0664 {} \;
-      echo "<?php phpinfo(); ?>" > /var/www/html/phpinfo.php
+      UserData:
+        Fn::Base64: |
+          #!/bin/bash
+          yum update -y
+          yum install -y httpd php
+          systemctl start httpd
+          systemctl enable httpd
+          usermod -a -G apache ec2-user
+          chown -R ec2-user:apache /var/www
+          chmod 2775 /var/www
+          find /var/www -type d -exec chmod 2775 {} \;
+          find /var/www -type f -exec chmod 0664 {} \;
+
+          # PHP script to display Instance ID and Availability Zone
+          cat << 'EOF' > /var/www/html/index.php
+            <!DOCTYPE html>
+            <html>
+            <body>
+              <center>
+
+                <?php
+                # Get the instance ID from meta-data and store it in the $instance_id variable
+                $url = "http://169.254.169.254/latest/meta-data/instance-id";
+                $instance_id = file_get_contents($url);
+                # Get the instance's availability zone from metadata and store it in the $zone variable
+                $url = "http://169.254.169.254/latest/meta-data/placement/availability-zone";
+                $zone = file_get_contents($url);
+                ?>
+
+                <h2>EC2 Instance ID: <?php echo $instance_id ?></h2>
+                <h2>Availability Zone: <?php echo $zone ?></h2>
+
+              </center>
+            </body>
+            </html>
+          EOF
 ```
 
-The script above configures the following:
-**TODO**
+##### 4. Update CloudFormation stack
+Similar to previous labs, update the stack with an updated template. Once the CloudFormation finishes updating the stack,
+you can then check to see that your script has completed the tasks.
 
-  {{% notice warning %}}
-  In order to replace an instance, you need to modify a property that forces it to replace it. 
-  If you trying to update stack only after changing a "userdata" property it will not replace an instance, hence the 
-  instance will not be bootstrapped with it.
-  Look for "replacement" here.
-  http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-instance.html
-  {{% /notice %}}
-  
-#### Exercise
-**TODO**
-Create `/var/www/html/index.html` file and display the instance ID by using curl and the [instance metadata](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instance-metadata.html) endpoint.
+In a web browser, enter the URL of the instance associated Elastic IP address (you can get the Elastic IP from the
+ _Outputs_ tab of the CloudFormation console).
 
-Congratulations, you have successfully bootstrap an EC2 instance. In a next section you will look into CloudFormation 
-helper scripts to improve your bash script further.
+`http://WebServerElasticIP`
 
+You should see the page similar to the picture bellow:
 
-  
+![php-page](/50-launching-ec2/php.png)
+
+Congratulations, you have successfully bootstrap an EC2 instance. In a next section you will look into a different way
+to install software and start services on Amazon EC2 - CloudFormation _Helper Scripts_.
