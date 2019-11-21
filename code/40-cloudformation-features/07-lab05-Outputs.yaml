@@ -15,33 +15,37 @@ Metadata:
         default: 'Amazon Machine Image ID'
 
 Parameters:
+  EnvironmentType:
+    Description: 'Specify the Environment type of the stack.'
+    Type: String
+    Default: Test
+    AllowedValues:
+      - Dev
+      - Test
+      - Prod
+    ConstraintDescription: 'Specify either Dev, Test or Prod.'
+
   AmiID:
     Type: AWS::EC2::Image::Id
     Description: 'The ID of the AMI.'
 
-  EnvType:
-    Description: Environment type.
-    Default: test
-    Type: String
-    AllowedValues:
-      - test
-      - prod
-    ConstraintDescription: 'Specify either test or prod.'
-
 Mappings:
-  Environment:
-    InstanceType:
-      test: t2.micro
-      prod: m4.large
+  EnvironmentToInstanceType: # Map Name
+    Dev:
+      InstanceType: t3.nano
+    Test: # Top level key
+      InstanceType: t3.micro # Second level key
+    Prod:
+      InstanceType: t3.small
 
 Resources:
-  MyEC2Instance:
-    Type: 'AWS::EC2::Instance'
+  WebServerInstance:
+    Type: AWS::EC2::Instance
     Properties:
       ImageId: !Ref AmiID
-      InstanceType: !FindInMap [Environment, InstanceType, !Ref EnvType]
+      InstanceType: !FindInMap [EnvironmentToInstanceType, !Ref EnvironmentType, InstanceType]
       Tags:
         - Key: Name
-          Value: !Join [ ' ', [ !Ref EnvType, Web Server ] ]
+          Value: !Join [ ' ', [ !Ref EnvironmentType, Web Server ] ]
 
-# Add your code here!
+  # Add your code here!

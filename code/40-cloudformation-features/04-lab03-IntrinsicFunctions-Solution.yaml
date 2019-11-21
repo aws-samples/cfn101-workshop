@@ -21,19 +21,19 @@ Metadata:
 Parameters:
   InstanceType:
     Type: String
-    Default: t2.micro
+    Default: t3.micro
     AllowedValues:
-      - t2.micro
-      - m4.large
-    Description: 'Enter t2.micro or m4.large. Default is t2.micro.'
+      - t3.micro
+      - t3.small
+    Description: 'Enter t3.micro or t3.small. Default is t3.micro.'
 
   AmiID:
     Type: AWS::EC2::Image::Id
     Description: 'The ID of the AMI.'
 
 Resources:
-  MyEC2Instance:
-    Type: 'AWS::EC2::Instance'
+  WebServerInstance:
+    Type: AWS::EC2::Instance
     Properties:
       ImageId: !Ref AmiID
       InstanceType: !Ref InstanceType
