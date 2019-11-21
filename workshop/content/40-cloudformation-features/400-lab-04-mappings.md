@@ -45,7 +45,7 @@ Mappings:
 ### Implementing a simple map
 
 ##### 1. Lets start with creating _EnvironmentType_ parameter 
-  In the _Parameters_ section of the template. Replace the `InstanceType` parameter with the code bellow 
+  In the _Parameters_ section of the template. Replace the `InstanceType` parameter with the code below 
   (you will not need InstanceType parameter anymore as you will use mapping instead).
 
 ```yaml
@@ -76,7 +76,7 @@ Mappings:
 ```
 
 ##### 3. Next, modify the _InstanceType_ property  
-  By using the intrinsic function `Fn::FindInMap` CloudFormation will lookup the value in the `EnvironmentToInstanceType` 
+  Using the intrinsic function `Fn::FindInMap`, CloudFormation will lookup the value in the `EnvironmentToInstanceType` 
   map and will return the value back to `InstanceType` property. 
 ```yaml
 Resources:
