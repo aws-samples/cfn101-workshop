@@ -18,13 +18,13 @@ server.
 
 The following diagram provides high-level overview of the architecture you will implement.
 
-![](./web-server.png)
+![](/50-launching-ec2/userdata.png)
 
 **Let's go!**
 
 ##### 1. Amend your template
 
-Go to your template from previous lab, or you can use the one provided in `code/50-launching-ec2/05-lab08-UserData.yaml`
+Go to your template from previous lab, or you can use the one provided in `code/50-launching-ec2/05-lab08-UserData.yaml`.
 
 ##### 2. Create Security Group
   + Lets start by creating Security Group:

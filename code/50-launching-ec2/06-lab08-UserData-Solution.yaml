@@ -62,7 +62,7 @@ Resources:
         - !Ref SSMIAMRole
 
   WebServerInstance:
-    Type: 'AWS::EC2::Instance'
+    Type: AWS::EC2::Instance
     Properties:
       IamInstanceProfile: !Ref WebServerInstanceProfile
       ImageId: !Ref AmiID
@@ -97,7 +97,7 @@ Resources:
           CidrIp: 0.0.0.0/0
 
   WebServerEIP:
-    Type: 'AWS::EC2::EIP'
+    Type: AWS::EC2::EIP
     Properties:
       Domain: vpc
       InstanceId: !Ref WebServerInstance

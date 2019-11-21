@@ -56,9 +56,9 @@ Resources:
       Path: /
       Roles:
         - !Ref SSMIAMRole
-  
-  MyEC2Instance:
-    Type: 'AWS::EC2::Instance'
+
+  WebServerInstance:
+    Type: AWS::EC2::Instance
     Properties:
       IamInstanceProfile: !Ref EC2InstanceProfile
       ImageId: !Ref AmiID
@@ -67,17 +67,17 @@ Resources:
         - Key: Name
           Value: !Join [ ' ', [ !Ref EnvType, Web Server ] ]
 
-  EC2EIP:
-    Type: 'AWS::EC2::EIP'
+  WebServerEIP:
+    Type: AWS::EC2::EIP
     Properties:
       Domain: vpc
-      InstanceId: !Ref MyEC2Instance
+      InstanceId: !Ref WebServerInstance
 
 Outputs:
-  EC2PublicDNS:
+  WebServerPublicDNS:
     Description: 'Public DNS of EC2 instance'
-    Value: !GetAtt MyEC2Instance.PublicDnsName
+    Value: !GetAtt WebServerInstance.PublicDnsName
 
-  ElasticIP:
+  WebServerElasticIP:
     Description: 'Elastic IP assigned to EC2'
-    Value: !Ref EC2EIP
+    Value: !Ref WebServerEIP
