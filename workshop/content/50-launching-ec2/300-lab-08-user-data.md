@@ -5,7 +5,7 @@ weight: 300
 ---
 
 >You can use AWS CloudFormation to automatically install, configure, and start applications on Amazon EC2 instances. 
-Doing so enables you to easily duplicate deployments and update existing installations without connecting directly to 
+Doing so enables you to easily replicate deployments and update existing installations without connecting directly to 
 the instance, which can save you a lot of time and effort.
 
 #### Lab Overview
@@ -17,9 +17,9 @@ an EC2 _Security Group_ and allow access on port 80 to the instance. Finally, yo
 server.
 
 {{% notice note %}}
-The existing EC2 instance in CloudFormation stack will be replaced as a result of modifying a _Security Group_. 
-You can find the properties, where update requires [Replacement](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-updating-stacks-update-behaviors.html#update-replacement) 
-of EC2 instance [here](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-instance.html?shortFooter=true#aws-properties-ec2-instance-properties).
+The EC2 instance in the CloudFormation stack will be _replaced_ as a result of modifying the _Security Group_ property.
+You can find the properties where updates require [Replacement](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-updating-stacks-update-behaviors.html#update-replacement) 
+of EC2 instances [here](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-instance.html?shortFooter=true#aws-properties-ec2-instance-properties).
 {{% /notice %}}
 
 The following diagram provides a high-level overview of the architecture you will implement.
