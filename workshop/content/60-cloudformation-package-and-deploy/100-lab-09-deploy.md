@@ -14,7 +14,7 @@ weight: 100
 The `aws cloudformation deploy` command is used to deploy CloudFormation templates using the CLI.
 When used, it requires the a template to be passed to it. This can be either a file in S3, or locally.
 
-You can use the `parameter-overrides` Option to specify parameters in the template. This can be either a json file, or a string containing 'key=value' pairs.
+You can use the `--parameter-overrides` option to specify parameters in the template. This can be either a json file, or a string containing 'key=value' pairs.
 
 Let's deploy a CloudFormation template using the CLI.
 
