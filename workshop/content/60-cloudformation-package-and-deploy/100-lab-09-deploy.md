@@ -37,6 +37,8 @@ aws cloudformation validate-template \
     --template-body file://code/60-package-and-deploy/02-lab09-bad-template.yaml
 ```
 
+Notice what happens! Try to fix the errors, then validate the template again.
+
 ## Packaging a template
 
 Cloudformation components often reference external files in S3. An example of this the `AWS::Lambda::Function` resource. The Component requires the code for the function to be in S#. What if the external files are on your local machine?
