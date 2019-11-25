@@ -12,9 +12,15 @@ the instance, which can save you a lot of time and effort.
 This lab introduces the concept of `UserData`. In this lab you will deploy an Apache Web server with a simple PHP 
 application. 
 
-First, you will bootstrap existing EC2 instance to install web server and content. Then you will create 
+First, you will bootstrap EC2 instance to install web server and content. Then you will create 
 an EC2 _Security Group_ and allow access on port 80 to the instance. Finally, you will view the content served by the web 
 server.
+
+{{% notice note %}}
+The existing EC2 instance in CloudFormation stack will be replaced as a result of modifying a _Security Group_. 
+You can find the properties, where update requires [Replacement](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-updating-stacks-update-behaviors.html#update-replacement) 
+of EC2 instance [here](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-instance.html?shortFooter=true#aws-properties-ec2-instance-properties).
+{{% /notice %}}
 
 The following diagram provides a high-level overview of the architecture you will implement.
 
