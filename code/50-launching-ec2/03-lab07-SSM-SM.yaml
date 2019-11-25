@@ -45,7 +45,7 @@ Resources:
   # Copy the EC2InstanceProfile here.
 
   WebServerInstance:
-    Type: 'AWS::EC2::Instance'
+    Type: AWS::EC2::Instance
     Properties:
       # Attach the InstanceProfile to the EC2 instance
       ImageId: !Ref AmiID
@@ -55,7 +55,7 @@ Resources:
           Value: !Join [ ' ', [ !Ref EnvironmentType, Web Server ] ]
 
   WebServerEIP:
-    Type: 'AWS::EC2::EIP'
+    Type: AWS::EC2::EIP
     Properties:
       Domain: vpc
       InstanceId: !Ref WebServerInstance
