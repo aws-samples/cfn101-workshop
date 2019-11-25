@@ -7,6 +7,7 @@ weight: 500
 The CloudFormation templates can be found in `code/` directory of the `cfn101-workshop` folder.
 
 1. Clone the repository to your working directory
+
 ```bash
 mkdir workspace
 cd workspace
