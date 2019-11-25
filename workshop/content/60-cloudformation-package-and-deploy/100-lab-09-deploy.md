@@ -20,10 +20,10 @@ Let's deploy a CloudFormation template using the CLI.
 
 ```bash
 aws cloudformation deploy \
-    # Assumes you are in the root of the cfn101 directory
-    --template-file ./code/60-package-and-deploy/01-lab-08-deploy.yaml \
-    --stackname cfn101_lab09_deploy \
-    --parameter-overides "EnvType=Prod"
+    --template-file code/60-package-and-deploy/01-lab09-deploy.yaml \
+    --stack-name cfn101-lab09-deploy \
+    --parameter-overrides "EnvType=Prod" \
+    --capabilities CAPABILITY_IAM
 ```
 ## Validating a template
 
@@ -34,7 +34,7 @@ Let's validate a template.
 
 ```bash
 aws cloudformation validate-template \
-    --template-file ./code/60-package-and-deploy/02-lab08-bad-template.yaml
+    --template-body file://code/60-package-and-deploy/02-lab09-bad-template.yaml
 ```
 
 ## Packaging a template
