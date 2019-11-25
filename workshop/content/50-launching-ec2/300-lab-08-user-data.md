@@ -12,11 +12,11 @@ the instance, which can save you a lot of time and effort.
 This lab introduces the concept of `UserData`. In this lab you will deploy an Apache Web server with a simple PHP 
 application. 
 
-First, you will bootstrap existing EC2 instance to install web server and content. Next, you will create 
+First, you will bootstrap existing EC2 instance to install web server and content. Then you will create 
 an EC2 _Security Group_ and allow access on port 80 to the instance. Finally, you will view the content served by the web 
 server.
 
-The following diagram provides high-level overview of the architecture you will implement.
+The following diagram provides a high-level overview of the architecture you will implement.
 
 ![](/50-launching-ec2/userdata.png)
 
@@ -24,10 +24,10 @@ The following diagram provides high-level overview of the architecture you will 
 
 ##### 1. Amend your template
 
-Go to your template from previous lab, or you can use the one provided in `code/50-launching-ec2/05-lab08-UserData.yaml`.
+Open your editor with the template from the previous lab, or alternatively you can use the skeleton template provided in `code/50-launching-ec2/05-lab08-UserData.yaml`.
 
 ##### 2. Create Security Group
-  + Lets start by creating a Security Group:
+Begin by creating a Security Group:
   ```yaml
       # Add Security Group resource here
       WebServerSecurityGroup:
@@ -37,8 +37,7 @@ Go to your template from previous lab, or you can use the one provided in `code/
           # Add ingress rule to the Security Group
 ```
 
-  + As the Apache web server will serve content on port 80, add an ingress rule to the security group and open it up to the 
-  world:
+As the Apache web server will serve content on port 80, you will need to create an ingress rule in the security group to allow access from the Internet:
   ```yaml
       # Add Security Group resource here
       WebServerSecurityGroup:
@@ -53,7 +52,7 @@ Go to your template from previous lab, or you can use the one provided in `code/
               CidrIp: 0.0.0.0/0
 ```
 
-  + finally, associate the security group with the EC2 instance:
+Finally, associate the security group with the EC2 instance:
   ```yaml
       MyEC2Instance:
         Type: AWS::EC2::Instance
@@ -74,7 +73,7 @@ Go to your template from previous lab, or you can use the one provided in `code/
 You will write a bash script to install the application. 
   
   {{% notice note %}}
-  Scripts entered as user data are executed as _root_, so do not use `sudo` command in the script.\
+  User data scripts are executed as the _root_ user, so there is no need to use `sudo` commands in the script.\
   _UserData_ must be Base64 encoded when passed from CloudFormation to EC2 instance. Use `Fn::Base64` intrinsic 
   function to encode the input string.
   {{% /notice %}}
@@ -120,17 +119,17 @@ You will write a bash script to install the application.
 ```
 
 ##### 4. Update CloudFormation stack
-Similar to previous labs, update the stack with an updated template. Once the CloudFormation finishes updating the stack,
-you can then check to see that your script has completed the tasks.
+Similar to previous labs, update the stack with the updated template. Once CloudFormation completes updating the stack,
+you can then check to see that your script has setup a web server on the EC2 instance.
 
 In a web browser, enter the URL of the instance associated Elastic IP address (you can get the Elastic IP from the
  _Outputs_ tab of the CloudFormation console).
 
 `http://WebServerElasticIP`
 
-You should see the page similar to the picture bellow:
+You should see a page similar to the picture below:
 
 ![php-page](/50-launching-ec2/php.png)
 
-Congratulations, you have successfully bootstrap an EC2 instance. In a next section you will look into a different way
+Congratulations, you have successfully bootstrapped an EC2 instance. In the next section you will learn a different way
 to install software and start services on Amazon EC2 - CloudFormation _Helper Scripts_.
