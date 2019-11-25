@@ -90,3 +90,5 @@ Outputs:
   WebServerElasticIP:
     Description: 'Elastic IP assigned to EC2'
     Value: !Ref WebServerEIP
+
+  # Add WebsiteURL output here
