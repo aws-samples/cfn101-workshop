@@ -60,12 +60,12 @@ aws cloudformation deploy \
     --capabilities CAPABILITY_IAM
 ```
 
+### Capabilities
 
-Cloudformation components often reference external files in S3. An example of this the `AWS::Lambda::Function` resource. The Component requires the code for the function to be in S#. What if the external files are on your local machine?
+You may recall when using the console, there is a box at the end asking you to acknowledge that deploying this template may require the creation of IAM resources. This is required as creating IAM policies will change the permissions of your account. This is to ensure you don't accidentally change the permissions unintentionally.
 
-`aws cloudformation package` is a useful command that solves this problem. When given a template that references local resources, it will upload the resources to an S3 bucket. An updated template is returned. The local file references in the template are updated to reference the uploaded assets in S3.
+When using the CLI, you are also required to acknowledge the creation of IAM resources. This is done using the `--capabilities` flag, as demonstrated in the previous example. Read more about the possible capabilities in the [`aws cloudformation deploy` documentation](https://docs.aws.amazon.com/cli/latest/reference/cloudformation/deploy/index.html)
 
-This command will be used in the next section when deploying nested stacks.
 
 
 
