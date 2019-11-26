@@ -32,7 +32,7 @@ Currently, your template  does not contain anything to be packaged. In the next 
 ## Validating a template
 
 Sometimes a CloudFormation template deployment will fail due to syntax errors in the template.
-`validate-template` checks a CloudFormation template to ensure it is valid JSON or YAML. This is useful to speed up development time. 
+[`aws cloudformation validate-template`](https://docs.aws.amazon.com/cli/latest/reference/cloudformation/validate-template.html) checks a CloudFormation template to ensure it is valid JSON or YAML. This is useful to speed up development time. 
 
 Let's validate a template.
 
