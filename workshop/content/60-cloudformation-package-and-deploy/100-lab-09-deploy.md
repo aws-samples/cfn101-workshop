@@ -43,7 +43,23 @@ aws cloudformation validate-template \
 
 Notice what happens! Try to fix the errors, then validate the template again.
 
-## Packaging a template
+## Deploying a template using the CLI
+
+The [`aws cloudformation deploy`](https://docs.aws.amazon.com/cli/latest/reference/cloudformation/deploy/index.html) command is used to deploy CloudFormation templates using the CLI.
+When used, it requires the a template to be passed to it. This can be either a file in S3, or local.
+
+You can use the `--parameter-overrides` option to specify parameters in the template. This can be either a json file, or a string containing 'key=value' pairs.
+
+Let's deploy a CloudFormation template using the CLI.
+
+```bash
+aws cloudformation deploy \
+    --template-file code/60-package-and-deploy/01-lab09-deploy.yaml \
+    --stack-name cfn101-lab09-deploy \
+    --parameter-overrides "EnvType=Prod" \
+    --capabilities CAPABILITY_IAM
+```
+
 
 Cloudformation components often reference external files in S3. An example of this the `AWS::Lambda::Function` resource. The Component requires the code for the function to be in S#. What if the external files are on your local machine?
 
