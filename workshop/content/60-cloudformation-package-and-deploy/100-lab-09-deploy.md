@@ -9,22 +9,26 @@ weight: 100
 So far, you have used the console to deploy CloudFormation templates. It is also possible to use the AWS CLI and AWS SDKs to deploy CloudFormation templates. In this section, you will learn how to use the AWS CLI to work with CloudFormation templates.
 This section will cover three key commands, used to package, validate and deploy CloudFormation templates.
 
-## Deploying a template using the CLI
+## Packaging a template
 
-The `aws cloudformation deploy` command is used to deploy CloudFormation templates using the CLI.
-When used, it requires the a template to be passed to it. This can be either a file in S3, or locally.
+Cloudformation components often reference external files in S3. An example of this the `AWS::Lambda::Function` resource. The Component requires the code for the function to be in S#. What if the external files are on your local machine?
 
-You can use the `--parameter-overrides` option to specify parameters in the template. This can be either a json file, or a string containing 'key=value' pairs.
+[`aws cloudformation package`](https://docs.aws.amazon.com/cli/latest/reference/cloudformation/package.html) is a useful command that solves this problem. When given a template that references local resources, it will upload the resources to an S3 bucket. An updated template is returned. The local file references in the template are updated to reference the uploaded assets in S3.
 
-Let's deploy a CloudFormation template using the CLI.
+This is a required step if you wish to deploy Nested Stacks. These are CloudFormation templates that reference other CloudFormation templates. You will learn this in a future section.
+
+When you package a template, you are required to specify an S3 Bucket to package the contents to.
+
+Here is an example of using the [`aws cloudformation package`](https://docs.aws.amazon.com/cli/latest/reference/cloudformation/package.html) command
 
 ```bash
-aws cloudformation deploy \
+aws cloudformation package \
     --template-file code/60-package-and-deploy/01-lab09-deploy.yaml \
-    --stack-name cfn101-lab09-deploy \
-    --parameter-overrides "EnvType=Prod" \
-    --capabilities CAPABILITY_IAM
+    --s3-bucket example-bucket-name
 ```
+
+Currently, your template  does not contain anything to be packaged. In the next section, you will add components that require packaging before you can deploy them.
+
 ## Validating a template
 
 Sometimes a CloudFormation template deployment will fail due to syntax errors in the template.
