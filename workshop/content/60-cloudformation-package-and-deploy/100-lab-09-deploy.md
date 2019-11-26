@@ -6,8 +6,8 @@ weight: 100
 
 ## Overview
 
-* Introduction to `deploy command`
-* How many ways to deploy Cloud Formation
+So far, you have used the console to deploy CloudFormation templates. It is also possible to use the AWS CLI and AWS SDKs to deploy CloudFormation templates. In this section, you will learn how to use the AWS CLI to work with CloudFormation templates.
+This section will cover three key commands, used to package, validate and deploy CloudFormation templates.
 
 ## Deploying a template using the CLI
 
