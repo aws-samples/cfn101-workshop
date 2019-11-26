@@ -67,5 +67,8 @@ You may recall when using the console, there is a box at the end asking you to a
 When using the CLI, you are also required to acknowledge the creation of IAM resources. This is done using the `--capabilities` flag, as demonstrated in the previous example. Read more about the possible capabilities in the [`aws cloudformation deploy` documentation](https://docs.aws.amazon.com/cli/latest/reference/cloudformation/deploy/index.html)
 
 
+## Conclusion
+
+Using the CLI is a powerful way to deploy CloudFormation templates. The `package` command simplifies deployment of templates that use features such as nested stacks, or refer to other local assets. The `validate` command can speed up development of templates by catching errors more quickly. The `package` command allows you to deploy CloudFormation templates.
 
 
