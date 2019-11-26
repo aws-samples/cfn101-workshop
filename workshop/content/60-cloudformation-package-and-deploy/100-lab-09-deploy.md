@@ -23,7 +23,7 @@ Here is an example of using the [`aws cloudformation package`](https://docs.aws.
 
 ```bash
 aws cloudformation package \
-    --template-file code/60-package-and-deploy/01-lab09-deploy.yaml \
+    --template-file code/60-cloudformation-package-and-deploy/01-lab10-deploy.yaml \
     --s3-bucket example-bucket-name
 ```
 
@@ -38,7 +38,7 @@ Let's validate a template.
 
 ```bash
 aws cloudformation validate-template \
-    --template-body file://code/60-package-and-deploy/02-lab09-bad-template.yaml
+    --template-body file://code/60-cloudformation-package-and-deploy/02-lab10-bad-template.yaml
 ```
 
 Notice what happens! Try to fix the errors, then validate the template again.
@@ -54,7 +54,7 @@ Let's deploy a CloudFormation template using the CLI.
 
 ```bash
 aws cloudformation deploy \
-    --template-file code/60-package-and-deploy/01-lab09-deploy.yaml \
+    --template-file code/60-cloudformation-package-and-deploy/01-lab10-deploy.yaml \
     --stack-name cfn101-lab09-deploy \
     --parameter-overrides "EnvType=Prod" \
     --capabilities CAPABILITY_IAM
