@@ -86,10 +86,14 @@ Resources:
                     # Get the instance's availability zone from metadata and store it in the $zone variable
                     $url = "http://169.254.169.254/latest/meta-data/placement/availability-zone";
                     $zone = file_get_contents($url);
+                    # Get the instance AMI ID and store it in the $ami_id variable
+                    $url = "http://169.254.169.254/latest/meta-data/ami-id";
+                    $ami_id = file_get_contents($url);
                     ?>
 
                     <h2>EC2 Instance ID: <?php echo $instance_id ?></h2>
                     <h2>Availability Zone: <?php echo $zone ?></h2>
+                    <h2>AMI ID: <?php echo $ami_id ?></h2>
 
                   </center>
                 </body>
@@ -115,9 +119,6 @@ Resources:
                 path=Resources.WebServerInstance.Metadata.AWS::CloudFormation::Init
                 action=/opt/aws/bin/cfn-init -s ${AWS::StackName} -r WebServerInstance --region ${AWS::Region}
                 runas=root
-              mode: 000644
-              owner: apache
-              group: apache
 
           services:
             sysvinit:

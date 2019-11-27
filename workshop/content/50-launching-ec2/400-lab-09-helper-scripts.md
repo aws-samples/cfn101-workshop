@@ -211,9 +211,6 @@ update to deploy the change. (To see this in action, please refer to the exercis
                 path=Resources.WebServerInstance.Metadata.AWS::CloudFormation::Init
                 action=/opt/aws/bin/cfn-init -s ${AWS::StackName} -r WebServerInstance --region ${AWS::Region}
                 runas=root
-              mode: 000644
-              owner: apache
-              group: apache
 ```
 
 2. Enable and start `cfn-hup` in `services` section of the template.
@@ -292,4 +289,5 @@ TODO
 + modify index.php file and add SecurityGroup id to the page
 + update stack
 + cfn-hup will restart the service
++ open new browser window in private mode
 + see the result
