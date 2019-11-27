@@ -89,7 +89,7 @@ Resources:
       UserData:
         Fn::Base64:
           !Sub |
-          #!/bin/bash
+          #!/bin/bash -xe
           # Update aws-cfn-bootstrap to the latest
 
           # Call cfn-init script to install files and packages

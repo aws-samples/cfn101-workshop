@@ -44,13 +44,13 @@ The configuration of `cfn-init` is separated into sections. The configuration se
 order: packages, groups, users, sources, files, commands, and then services.
 
 {{% notice note %}}
- If you require a different order, separate your sections into different config keys, and then use a `configset` that 
- specifies the order in which the config keys should be processed.
+ If you require a different order, separate your sections into different config keys, and then use a [configset](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-init.html?shortFooter=true#aws-resource-init-configsets)
+ that specifies the order in which the config keys should be processed.
 {{% /notice %}}
 
 ##### 1. Install HTTPD and PHP packages
-Your instance is running Amazon Linux 2, which is based on the RedHat distribution, so you will use `yum` package 
-manager to install the packages. 
+Your instance is running Amazon Linux 2, which is based on the RedHat distribution, so you will use `yum` package manager
+ to install the packages. 
 ```yaml
   WebServerInstance:
     Type: AWS::EC2::Instance
@@ -66,8 +66,8 @@ manager to install the packages.
 ```
 
 ##### 2. Create index.php file
-Use the _files_ key to create files on the EC2 instance. The content can be either inline in the template or the 
-content can be pulled from a URL.
+Use the _files_ key to create files on the EC2 instance. The content can be either inline in the template or the content 
+can be pulled from a URL.
 ```yaml
   WebServerInstance:
     Type: AWS::EC2::Instance
@@ -80,7 +80,7 @@ content can be pulled from a URL.
             yum:
               httpd: []
               php: []
-          # Create index.php file
+          # Create /var/www/html/index.php file
           files:
             /var/www/html/index.php:
               content: |
@@ -110,6 +110,8 @@ content can be pulled from a URL.
 ```
 
 ##### 3. Enable and start Apache web server
+You can use the `services` key to define which services should be enabled or disabled when the instance is launched. On Linux
+ systems, this key is supported by using `sysvinit`.
 ```yaml
   WebServerInstance:
     Type: AWS::EC2::Instance
@@ -122,30 +124,10 @@ content can be pulled from a URL.
             yum:
               httpd: []
               php: []
-          # Create index.php file
+          # Create /var/www/html/index.php file
           files:
             /var/www/html/index.php:
-              content: |
-                <!DOCTYPE html>
-                <html>
-                <body>
-                  <center>
-    
-                    <?php
-                    # Get the instance ID from meta-data and store it in the $instance_id variable
-                    $url = "http://169.254.169.254/latest/meta-data/instance-id";
-                    $instance_id = file_get_contents($url);
-                    # Get the instance's availability zone from metadata and store it in the $zone variable
-                    $url = "http://169.254.169.254/latest/meta-data/placement/availability-zone";
-                    $zone = file_get_contents($url);
-                    ?>
-    
-                    <h2>EC2 Instance ID: <?php echo $instance_id ?></h2>
-                    <h2>Availability Zone: <?php echo $zone ?></h2>
-    
-                  </center>
-                </body>
-                </html>
+              content: {...}
               mode: 000644
               owner: apache
               group: apache
