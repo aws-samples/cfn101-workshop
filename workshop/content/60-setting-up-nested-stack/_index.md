@@ -5,8 +5,6 @@ weight = 60
 chapter = true
 +++
 
-### Chapter X
-
 # Nested Stacks
 
 * What will this section cover
