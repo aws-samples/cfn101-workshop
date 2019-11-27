@@ -252,7 +252,7 @@ script to signal AWS CloudFormation when all the applications are installed and 
             # Call cfn-init script to install files and packages
             /opt/aws/bin/cfn-init -v --stack ${AWS::StackName} --resource WebServerInstance --region ${AWS::Region}
             # Call cfn-signal script to send a signal with exit code 
-            /opt/aws/bin/cfn-signal --exit-code $? --stack ${AWS::StackName} --resource WebServerInstance --region ${AWS::Region}
+            /opt/aws/bin/cfn-signal --exit-code $? -s ${AWS::StackName} -r WebServerInstance --region ${AWS::Region}
 
     CreationPolicy:
       ResourceSignal:
@@ -262,6 +262,7 @@ script to signal AWS CloudFormation when all the applications are installed and 
 
 #### Update the stack
 TODO
+
 + need to mention that instance has to be replaced for changes in UserData to take effect
 + what would be the best way to force replacement? need to find something elegant (removing and adding SG feels awkward)
 
