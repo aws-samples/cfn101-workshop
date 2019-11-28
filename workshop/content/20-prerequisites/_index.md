@@ -5,7 +5,7 @@ weight = 20
 chapter = false
 +++
 
-To perform this workshop, you'll need the following:
+To complete this workshop, you will need to perform the following:
 
 {{% children showhidden="false" %}}
 

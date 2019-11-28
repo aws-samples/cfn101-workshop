@@ -1,14 +1,14 @@
 ---
-title: "AWS Account and User"
+title: "Create an AWS Account"
 date: 2019-10-18T12:55:54+01:00
-weight: 200
+weight: 100
 ---
 
-## AWS Account for Experimentation
+## Create an AWS Account for Experimentation
 
 To deploy our app, you'll need access to an AWS account. If you already have an
 account and your system is configured with credentials of an administrator user,
-you can [move to the next step](./300-git.html).
+you can [move to the next step](../200-awscli).
 
 {{% notice warning %}}
 If you are using an existing account, either personal or
@@ -35,28 +35,8 @@ here](https://portal.aws.amazon.com/billing/signup).
 1. Click **Next: Review**
 1. Click **Create User**
 1. In the next screen, you'll see your **Access key ID** and you will have the option
-   to click **Show** to show the **Secret access key**. Keep this browser window open.
+   to click **Show** to show the **Secret access key**.
 
     ![](/20-prerequisites/new-user-3.png)
 
-## Configure your credentials
-
-Open a terminal window and use `aws configure` to set up your environment. Type
-the __access key ID__ and __secret key__ and choose a default region (you can
-use `us-east-1`, `eu-west-1`, `us-west-2` for example). Preferably use a region
-that doesn't have any resources already deployed into it.
-
-```bash
-aws configure
-```
-
-And fill in the information from the console:
-
-```bash
-AWS Access Key ID [None]: <type key ID here>
-AWS Secret Access Key [None]: <type access key>
-Default region name [None]: <choose region (e.g. "us-east-1", "eu-west-1")>
-Default output format [None]: <leave blank>
-```
-
-
+    ***Important:** Keep this browser window open for the next step or take a note of the access key ID and secret access key.*
