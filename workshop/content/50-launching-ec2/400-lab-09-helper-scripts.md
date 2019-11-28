@@ -262,9 +262,19 @@ script to signal AWS CloudFormation when all the applications are installed and 
 
 #### Update the stack
 TODO
+To update the stack and reflect on changes you have done in `UserData` property, the EC2 instance needs to be replaced. 
 
-+ need to mention that instance has to be replaced for changes in UserData to take effect
-+ what would be the best way to force replacement? need to find something elegant (removing and adding SG feels awkward)
+1. Create `AvailabilityZone` parameter in the template.
+```yaml
+Parameters:
+  AvailabilityZone:
+    Type: AWS::EC2::AvailabilityZone::Name
+```
+
+2. Check the current availability zone of the Web Server instance.
+
+3. Update the stack using different availability zone than the current one.
+
 
 #### Exercise
 TODO

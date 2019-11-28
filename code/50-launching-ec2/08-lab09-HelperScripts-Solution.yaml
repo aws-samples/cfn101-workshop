@@ -15,6 +15,9 @@ Metadata:
         default: 'Amazon Machine Image ID'
 
 Parameters:
+  AvailabilityZone:
+    Type: AWS::EC2::AvailabilityZone::Name
+
   EnvironmentType:
     Description: 'Specify the Environment type of the stack.'
     Type: String
@@ -134,6 +137,7 @@ Resources:
                   - /etc/cfn/hooks.d/cfn-auto-reloader.conf
 
     Properties:
+      AvailabilityZone: !Ref AvailabilityZone
       IamInstanceProfile: !Ref WebServerInstanceProfile
       ImageId: !Ref AmiID
       InstanceType: !FindInMap [EnvironmentToInstanceType, !Ref EnvironmentType, InstanceType]
