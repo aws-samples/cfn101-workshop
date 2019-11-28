@@ -16,8 +16,8 @@ Welcome to the AWS CloudFormation Workshop!
 
 ![](./aws-cloudformation.png)
 
-The intent of this workshop is to educate builders about the features of AWS
-CloudFormation and how to get started building quickly.
+The intent of this workshop is to educate builders about the features of [AWS
+CloudFormation](https://aws.amazon.com/cloudformation/) and how to get started building quickly.
 
 A background in CloudFormation, command line, git, and development workflows is
 not required.
