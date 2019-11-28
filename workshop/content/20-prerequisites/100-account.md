@@ -39,6 +39,4 @@ here](https://portal.aws.amazon.com/billing/signup).
 
     ![](/20-prerequisites/new-user-3.png)
 
-{{% notice note %}}
-Important: Keep this browser window open for the next step or take a note of the access key ID and secret access key.
-{{% /notice %}}
+    ***Important:** Keep this browser window open for the next step or take a note of the access key ID and secret access key.*
