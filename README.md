@@ -8,6 +8,15 @@ This workshop is built with markdown as a static HTML site using [hugo](http://g
 brew install hugo
 ```
 
+The hugo is using [hugo-theme-learn](https://github.com/matcornic/hugo-theme-learn) theme. To start, clone the repo and 
+initialize submodule:
+
+```bash
+git clone https://github.com/aws-samples/cfn101-workshop.git
+cd cfn101-workshop
+git submodule init && git submodule update
+```
+
 You'll find the content of the workshop in the [workshop](workshop/) directory.
 
 Lab resources can be found in the [code](code/) directory. 
