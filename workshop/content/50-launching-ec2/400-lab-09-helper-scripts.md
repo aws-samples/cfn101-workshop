@@ -8,7 +8,7 @@ weight: 400
 In this lab we will look into CloudFormation [Helper Scripts](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/cfn-helper-scripts-reference.html). 
 What you have learned in previous lab is a great starting point. However as you may noticed from your `UserData` example,
 procedural scripting is not ideal. You have deployed simple PHP application, but imagine trying to write much more 
-complicated app in userdata, that would be very tricky.
+complicated app in userdata. That would be very tricky.
 
 To solve this problem, CloudFormation provides Python based helper scripts. These helper scripts make CloudFormation 
 a lot more powerful and enable you to fine tune templates to better fit your use case.
@@ -30,7 +30,7 @@ The helper scripts come preinstalled on Amazon Linux and can be updated periodic
 
 #### Configure _Metadata_ section
 You need to use `AWS::CloudFormation::Init` type to include metadata on an Amazon EC2 instance. When your template calls 
-`cfn-init` script, the script will look for resources in metadata section. Let's add the metadata to your template:
+the `cfn-init` script, the script will look for resources in metadata section. Let's add the metadata to your template:
 ```yaml
   WebServerInstance:
     Type: AWS::EC2::Instance
@@ -49,7 +49,7 @@ order: packages, groups, users, sources, files, commands, and then services.
 {{% /notice %}}
 
 ##### 1. Install HTTPD and PHP packages
-Your instance is running Amazon Linux 2, which is based on the RedHat distribution, so you will use `yum` package manager
+Your instance is running Amazon Linux 2, which is based on the RedHat distribution. You will use `yum` package manager
  to install the packages. 
 ```yaml
   WebServerInstance:
@@ -141,7 +141,7 @@ You can use the `services` key to define which services should be enabled or dis
 
 ##### 4. Call `cfn-init` script
 The metadata scripts are not executed by default, you need to call `cfn-init` helper script in UserData section to execute it.
-In the code bellow, first update `aws-cfn-bootstrap` to ensure to get latest version of helper scripts. Then, install
+In the code below, first update `aws-cfn-bootstrap` to ensure to get latest version of helper scripts. Then, install
 the files and packages from metadata.
 ```yaml
       UserData:
@@ -158,7 +158,7 @@ The intrinsic function `!Sub` will dynamically replace values in `${AWS::StackNa
 {{% /notice %}}
 
 #### Configure cfn-hup
-It is a good practice to include `cfn-hup` helper script, with which you can make configuration updates to running 
+It is a good practice to include a `cfn-hup` helper script, with which you can make configuration updates to running 
 instances by updating the stack template. For example, you could change the sample PHP application and then run a stack
 update to deploy the change. (To see this in action, please refer to the exercise section of this lab.)
 
