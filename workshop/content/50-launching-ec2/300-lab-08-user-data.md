@@ -147,5 +147,7 @@ You should see a page similar to the picture below:
 
 ![php-page](/50-launching-ec2/php.png)
 
+---
+
 Congratulations, you have successfully bootstrapped an EC2 instance. In the next section you will learn a different way
 to install software and start services on Amazon EC2 - CloudFormation _Helper Scripts_.

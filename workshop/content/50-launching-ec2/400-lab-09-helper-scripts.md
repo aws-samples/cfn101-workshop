@@ -262,7 +262,7 @@ script to signal AWS CloudFormation when all the applications are installed and 
 
 #### Update the stack
 TODO
-To update the stack and reflect on changes you have done in `UserData` property, the EC2 instance needs to be replaced. 
+To update the stack and apply the changes you have done in `UserData` property, the EC2 instance needs to be replaced. 
 
 1. Create `AvailabilityZone` parameter in the template.
 ```yaml
@@ -271,16 +271,43 @@ Parameters:
     Type: AWS::EC2::AvailabilityZone::Name
 ```
 
-2. Check the current availability zone of the Web Server instance.
+2. Check the availability zone of the deployed Web Server instance.
+ 
+  + Go to https://console.aws.amazon.com/ec2
+  + In the left hand pane click _Instances_.
+  + Select the `<enviroment Web Server` instance and make a note of the _Availability zone_ value. For example `eu-west-2a`.
 
 3. Update the stack using different availability zone than the current one.
 
+![az-update](/50-launching-ec2/az-update-1.png)
 
 #### Exercise
-TODO
+This exercise will demonstrate, how `cfn-hup` updates the application when you update the stack. You will update index.php file
+ to show AMI ID on the page.
 
-+ modify index.php file and add SecurityGroup id to the page
-+ update stack
-+ cfn-hup will restart the service
-+ open new browser window in private mode
-+ see the result
+##### 1. Modify index.php file 
+
+Locate the `/var/www/html/index.php` in the _files_ section of the EC2 metadata
+
+Add code below to the `<\?php {...} ?>` block:
+```php
+                    # Get the instance AMI ID and store it in the $ami_id variable
+                    $url = "http://169.254.169.254/latest/meta-data/ami-id";
+                    $ami_id = file_get_contents($url);
+```
+Add code bellow to html `<h2>` tags:
+```html
+                    <h2>AMI ID: <?php echo $ami_id ?></h2>
+```
+##### 2. Update the stack with a new template:
+`cfn-hup` will detect changes in metadata section, and will automatically deploy the new version. 
+
+##### 3. Verify that changes has been deployed successfully
+Open a new browser window in private mode and enter the `WebsiteURL` (you can get the WebsiteURL from the _Outputs_ tab of the CloudFormation console).
+You should see AMI ID added to the page, simillar to the picture bellow.
+
+![ami-id](/50-launching-ec2/ami-id-1.png)
+
+---
+
+Congratulations, you have successfully bootstrapped an EC2 instance using CloudFormation Helper Scripts. 
