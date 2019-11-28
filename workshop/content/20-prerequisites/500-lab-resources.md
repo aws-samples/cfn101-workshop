@@ -1,5 +1,5 @@
 ---
-title: "Get the Lab Resources"
+title: Get the Lab Resources
 date: 2019-10-22T11:33:42+01:00
 weight: 500
 ---

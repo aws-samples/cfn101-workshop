@@ -1,11 +1,11 @@
-+++
-title = "Launching an EC2 Instance"
-date = 2019-10-22T12:06:55+01:00
-weight = 50
-chapter = true
-+++
+---
+title: Launching an EC2 Instance
+date: 2019-10-22T12:06:55+01:00
+weight: 50
+chapter: true
+---
 
-### Chapter 2
+# Launching an EC2 Instance
 
 ![](./ec2-1.png)
 
