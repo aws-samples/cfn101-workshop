@@ -1,11 +1,9 @@
-+++
-title = "CloudFormation Package and Deploy"
-date = 2019-10-22T12:19:24+01:00
-weight = 60
-chapter = true
-+++
-
-### Chapter X
+---
+title: CloudFormation Package and Deploy
+date: 2019-10-22T12:19:24+01:00
+weight: 60
+chapter: true
+---
 
 # Some Chapter title
 

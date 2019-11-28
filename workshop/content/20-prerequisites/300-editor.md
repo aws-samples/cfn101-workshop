@@ -1,5 +1,5 @@
 ---
-title: "Install a code editor"
+title: Install a code editor
 date: 2019-10-18T14:28:46+01:00
 weight: 300
 ---

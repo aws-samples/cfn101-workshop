@@ -1,5 +1,5 @@
 ---
-title: " CloudFormation Terminology"
+title: CloudFormation Terminology
 date: 2019-10-25T16:15:53+01:00
 weight: 100
 ---

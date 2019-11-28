@@ -1,5 +1,5 @@
 ---
-title: "Create an AWS Account"
+title: Create an AWS Account
 date: 2019-10-18T12:55:54+01:00
 weight: 100
 ---
