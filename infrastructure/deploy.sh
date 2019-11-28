@@ -1,8 +1,11 @@
 #!/usr/bin/env bash
 
-# To run the script execute: $ env $(cat  infrastructure/.env | xargs) ./infrastructure/deploy.sh
+# Import configuration
+. ./.env
+
+# Deploy the workshop
 aws cloudformation deploy \
-  --template-file ./infrastructure/amplify.template \
+  --template-file ./amplify.template \
   --capabilities CAPABILITY_IAM \
   --region ${REGION} \
   --stack-name ${STACK_NAME} \
