@@ -7,7 +7,7 @@ weight: 400
 ### Overview
 In this lab we will look into CloudFormation [Helper Scripts](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/cfn-helper-scripts-reference.html). 
 What you have learned in previous lab is a great starting point. However as you may noticed from your `UserData` example,
-procedural scripting is not ideal. You have deployed simple PHP application, but imagine trying to write much more 
+procedural scripting is not ideal. You have deployed a simple PHP application, but imagine trying to write much more 
 complicated app in userdata. That would be very tricky.
 
 To solve this problem, CloudFormation provides Python based helper scripts. These helper scripts make CloudFormation 
@@ -261,10 +261,9 @@ script to signal AWS CloudFormation when all the applications are installed and 
 ```
 
 #### Update the stack
-TODO
-To update the stack and apply the changes you have done in `UserData` property, the EC2 instance needs to be replaced. 
+To update the stack and apply the changes you have made in the `UserData` property, the EC2 instance needs to be replaced. 
 
-1. Create `AvailabilityZone` parameter in the template.
+1. Create an `AvailabilityZone` parameter in the template.
 ```yaml
 Parameters:
   AvailabilityZone:
@@ -277,12 +276,12 @@ Parameters:
   + In the left hand pane click _Instances_.
   + Select the `<enviroment Web Server` instance and make a note of the _Availability zone_ value. For example `eu-west-2a`.
 
-3. Update the stack using different availability zone than the current one.
+3. Update the stack to use a different availability zone than the current one.
 
 ![az-update](/50-launching-ec2/az-update-1.png)
 
 #### Exercise
-This exercise will demonstrate, how `cfn-hup` updates the application when you update the stack. You will update index.php file
+This exercise will demonstrate how `cfn-hup` updates the application when you update the stack. You will update index.php file
  to show AMI ID on the page.
 
 ##### 1. Modify index.php file 
