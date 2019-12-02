@@ -11,7 +11,7 @@ procedural scripting is not ideal. You have deployed a simple PHP application, b
 complicated app in userdata. That would be very tricky.
 
 To solve this problem, CloudFormation provides Python based helper scripts. These helper scripts make CloudFormation 
-a lot more powerful and enable you to fine tune templates to better fit your use case.
+a lot more powerful and enable you to fine tune templates to better fit your use case. For example, you can update application configuration without recreating an instance.
 
 The helper scripts come preinstalled on Amazon Linux and can be updated periodically by using `yum install -y aws-cfn-bootstrap`
 
