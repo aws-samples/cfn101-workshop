@@ -21,7 +21,7 @@ You can start up a local development server by running:
 
 ```bash
 cd workshop
-hugo server
+hugo serve
 ```
 
 Once the server is running, you can open <http://localhost:1313> in your browser.
