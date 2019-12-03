@@ -126,7 +126,7 @@ You will write a bash script to install the application.
 
 ##### 5. Add the **WebsiteURL** to CloudFormation _Outputs_
 
-Copy and paste the code below to _Outputs_ section of the CloudFormation template.
+Copy and paste the code below to the _Outputs_ section of the CloudFormation template.
 
 ```yaml
   WebsiteURL:
