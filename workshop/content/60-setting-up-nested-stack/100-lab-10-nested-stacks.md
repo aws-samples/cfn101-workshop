@@ -37,8 +37,9 @@ You can find working solution in `code/60-setting-up-nested-stack/02-solution`. 
 
 ### Nested Stack Resource
 
-To reference a CloudFormation in your template, use the `AWS::CloudFormation::Stack` resource.
-It looks like this
+To reference a CloudFormation stack in your template, use the `AWS::CloudFormation::Stack` resource.
+
+It looks like this:
 
 ```bash
 Resources:
@@ -51,6 +52,7 @@ Resources:
 ```
 
 The `TemplateURL` property is used to reference the CloudFormation template that you wish to nest.
+
 The `Parameters` property allows you to pass parameters to your nested CloudFormation template.
 
 ### Prepare S3 bucket
@@ -62,9 +64,9 @@ For example:
 
 Bucket name: `cfn-workshop-s3-s3bucket-2cozhsniu50t`
 
-If you dont have S3 bucket, please go back to [Lab01](/30-cloudformation-fundamentals/200-lab-01-stack.md) and create one.
+If you dont have S3 bucket, please go back to [Lab01](../../30-cloudformation-fundamentals/200-lab-01-stack) and create one.
 
-### Reference VPC stack in parent stack
+### Create VPC Nested Stack
 
 The VPC template has been created for you. This template wil create VPC stack with 2 Public Subnets, Internet Gateway, and Route tables.
 
@@ -132,7 +134,7 @@ that parameter name in main template has to match parameter name in the VPC temp
 1. Locate the `vpc.yaml` file and select it.
 1. Click _Upload_ button to upload the file.
 
-#### 4. Create Nested Stack
+#### 4. Deploy VPC Nested Stack
 
 1. Navigate to CloudFormation in the console and click _Create stack With new resources (standard)_.
 1. In **Prepare template** select _Template is ready_.
@@ -145,12 +147,13 @@ that parameter name in main template has to match parameter name in the VPC temp
 1. Navigate through the wizard leaving everything default.
 1. Acknowledge IAM capabilities and click on _Create stack_
 
+### Create IAM Nested Stack
 
-### Create IAM instance role stack
+#### 1. Prepare IAM role template
 
-The IAM instance role resource has been removed from ec2 template for you. Copy the code bellow to the 
-1. go to `code/60-setting-up-nested-stack/01-working directory/02-lab10-iam.yaml`
-1. copy the code bellow to the _Resources_ section of the template
+The IAM instance role resource has been removed from ec2 template for you.
+1. Open `code/60-setting-up-nested-stack/01-working directory/02-lab10-iam.yaml`.
+1. Copy the code bellow to the _Resources_ section of the template
 ```yaml
   SSMIAMRole:
     Type: AWS::IAM::Role
@@ -174,6 +177,29 @@ The IAM instance role resource has been removed from ec2 template for you. Copy 
         - !Ref SSMIAMRole
 ```
 
+#### 2. Reference IAM stack in parent stack
+
+```yaml
+  IamStack:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL: !Sub https://${S3BucketName}.s3.amazonaws.com/iam.yaml
+      TimeoutInMinutes: 10
+```
+
+#### 3. Upload the IAM stack to S3
+
+Similarly to VPC stack, upload the IAM template to the S3.
+
+#### 4. Deploy IAM Nested Stack
+
+Update previously created stack with a new template.
+
+1. Navigate to Cloudformation service in the AWS console.
+1. Select the _root_ stack (it is the one without nested tag associated).
+1. Select _replace current template_
+1. Upload the new template file
+1. Follow the wizard and click _Update stack_
 
 ## Making changes to nested stacks
 

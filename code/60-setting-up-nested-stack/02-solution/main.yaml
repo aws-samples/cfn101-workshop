@@ -54,3 +54,9 @@ Resources:
         PublicSubnet1Cidr: !Ref PublicSubnet1Cidr
         PublicSubnet2Cidr: !Ref PublicSubnet2Cidr
 
+  IamStack:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL: !Sub https://${S3BucketName}.s3.amazonaws.com/iam.yaml
+      TimeoutInMinutes: 10
+
