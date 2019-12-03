@@ -289,13 +289,13 @@ This exercise will demonstrate how `cfn-hup` updates the application when you up
 
 Locate the `/var/www/html/index.php` in the _files_ section of the EC2 metadata
 
-Add code below to the `<\?php {...} ?>` block:
+Add the code below to the `<\?php {...} ?>` block:
 ```php
                     # Get the instance AMI ID and store it in the $ami_id variable
                     $url = "http://169.254.169.254/latest/meta-data/ami-id";
                     $ami_id = file_get_contents($url);
 ```
-Add code bellow to html `<h2>` tags:
+Add the code below to html `<h2>` tags:
 ```html
                     <h2>AMI ID: <?php echo $ami_id ?></h2>
 ```
@@ -310,7 +310,7 @@ Add code bellow to html `<h2>` tags:
 ##### 3. Verify that changes has been deployed successfully
 
 Open a new browser window in private mode and enter the `WebsiteURL` (you can get the WebsiteURL from the _Outputs_ tab of the CloudFormation console).
-You should see AMI ID added to the page, simillar to the picture bellow.
+You should see the AMI ID added to the page, similar to the picture below.
 
 ![ami-id](/50-launching-ec2/ami-id-1.png)
 
