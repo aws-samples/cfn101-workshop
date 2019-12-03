@@ -10,7 +10,7 @@ What you have learned in previous lab is a great starting point. However as you 
 procedural scripting is not ideal. You have deployed a simple PHP application, but imagine trying to write much more 
 complicated app in userdata. That would be very tricky.
 
-To solve this problem, CloudFormation provides Python based helper scripts. These helper scripts make CloudFormation 
+To solve this problem, CloudFormation provides helper scripts. These helper scripts make CloudFormation 
 a lot more powerful and enable you to fine tune templates to better fit your use case. For example, you can update application configuration without recreating an instance.
 
 The helper scripts come preinstalled on Amazon Linux and can be updated periodically by using `yum install -y aws-cfn-bootstrap`
@@ -29,7 +29,7 @@ The helper scripts come preinstalled on Amazon Linux and can be updated periodic
 **Let's start...**
 
 #### Configure _Metadata_ section
-You need to use `AWS::CloudFormation::Init` type to include metadata on an Amazon EC2 instance. When your template calls 
+You need to use the `AWS::CloudFormation::Init` type to include metadata for an Amazon EC2 instance. When your template calls 
 the `cfn-init` script, the script will look for resources in metadata section. Let's add the metadata to your template:
 ```yaml
   WebServerInstance:
@@ -65,8 +65,8 @@ Your instance is running Amazon Linux 2, so you will use `yum` package manager t
 ```
 
 ##### 2. Create index.php file
-Use the _files_ key to create files on the EC2 instance. The content can be either inline in the template or the content 
-can be pulled from a URL.
+Use the _files_ key to create files on the EC2 instance. The content can either be specified inline in the template, or 
+as a URL that is retrieved by the instance.
 ```yaml
   WebServerInstance:
     Type: AWS::EC2::Instance
@@ -110,7 +110,7 @@ can be pulled from a URL.
 
 ##### 3. Enable and start Apache web server
 You can use the `services` key to define which services should be enabled or disabled when the instance is launched. On Linux
- systems, this key is supported by using `sysvinit`.
+ systems, this key is supported by using the `sysvinit` key.
 ```yaml
   WebServerInstance:
     Type: AWS::EC2::Instance
@@ -140,7 +140,7 @@ You can use the `services` key to define which services should be enabled or dis
 
 ##### 4. Call `cfn-init` script
 The metadata scripts are not executed by default, you need to call `cfn-init` helper script in UserData section to execute it.
-In the code below, first update `aws-cfn-bootstrap` to ensure to get latest version of helper scripts. Then, install
+In the code below, first update `aws-cfn-bootstrap` to retrieve the latest version of the helper scripts. Then, install
 the files and packages from metadata.
 ```yaml
       UserData:
@@ -222,7 +222,7 @@ _CREATE\_COMPLETE_.
 
 To prevent this you can add a [CreationPolicy](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-attribute-creationpolicy.html)
 attribute to the instance. In conjunction with the creation policy, you need to run the `cfn-signal` helper 
-script to signal AWS CloudFormation when all the applications are installed and configured.
+script to notify AWS CloudFormation when all the applications are installed and configured.
 
 1. Add Creation policy to `WebServerInstance` resource
 ```yaml
@@ -241,7 +241,7 @@ script to signal AWS CloudFormation when all the applications are installed and 
         Timeout: PT10M
 ```
 
-2. Call cfn-signal from UserData parameter
+2. Call cfn-signal from the UserData parameter
 ```yaml
       UserData:
         Fn::Base64:
