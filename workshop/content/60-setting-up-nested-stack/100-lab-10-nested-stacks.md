@@ -23,11 +23,11 @@ In this lab, you will build:
 
 Top level and first level hierarchy of nested stacks.
 
-[nested-stack-hierarchy](/60-setting-up-nested-stack/nested-stack-1.png)
+![nested-stack-hierarchy](/60-setting-up-nested-stack/nested-stack-hierarchy.png)
 
 The following diagram represents high level overview of the infrastructure:
 
-[nested-stack-architecture](/60-setting-up-nested-stack/nested-stack-2.png)
+![nested-stack-architecture](/60-setting-up-nested-stack/nested-stack-2.png)
 
 You will find working directory in `code/60-setting-up-nested-stack/01-working directory`. You should copy/paste lab code there.
 
