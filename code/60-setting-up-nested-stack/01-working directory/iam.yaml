@@ -1,0 +1,4 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: IAM Instance Role for SSM System Manager
+Resources:
+  # Copy the code here
