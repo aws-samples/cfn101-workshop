@@ -281,6 +281,7 @@ Parameters:
 ![az-update](/50-launching-ec2/az-update-1.png)
 
 #### Exercise
+
 This exercise will demonstrate how `cfn-hup` updates the application when you update the stack. You will update index.php file
  to show AMI ID on the page.
 
@@ -299,9 +300,15 @@ Add code bellow to html `<h2>` tags:
                     <h2>AMI ID: <?php echo $ami_id ?></h2>
 ```
 ##### 2. Update the stack with a new template:
+
 `cfn-hup` will detect changes in metadata section, and will automatically deploy the new version. 
 
+1. Goto the CloudFormation console
+1. Select your existing EC2 stack.
+1. Update the stack with a new template.
+
 ##### 3. Verify that changes has been deployed successfully
+
 Open a new browser window in private mode and enter the `WebsiteURL` (you can get the WebsiteURL from the _Outputs_ tab of the CloudFormation console).
 You should see AMI ID added to the page, simillar to the picture bellow.
 
