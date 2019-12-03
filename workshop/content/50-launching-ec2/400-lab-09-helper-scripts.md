@@ -49,8 +49,7 @@ order: packages, groups, users, sources, files, commands, and then services.
 {{% /notice %}}
 
 ##### 1. Install HTTPD and PHP packages
-Your instance is running Amazon Linux 2, which is based on the RedHat distribution. You will use `yum` package manager
- to install the packages. 
+Your instance is running Amazon Linux 2, so you will use `yum` package manager to install the packages. 
 ```yaml
   WebServerInstance:
     Type: AWS::EC2::Instance
@@ -158,9 +157,10 @@ The intrinsic function `!Sub` will dynamically replace values in `${AWS::StackNa
 {{% /notice %}}
 
 #### Configure cfn-hup
-It is a good practice to include a `cfn-hup` helper script, with which you can make configuration updates to running 
-instances by updating the stack template. For example, you could change the sample PHP application and then run a stack
-update to deploy the change. (To see this in action, please refer to the exercise section of this lab.)
+Installing the `cfn-hup` helper script enables existing EC2 instances to apply template updates of _UserData_. For example, 
+you could change the sample PHP application in the template and deploy this by updating the existing stack. Without using 
+`cfn-hup`, you would need to either replace the EC2 instance or manually apply the update outside of CloudFormation. 
+(To see this in action, please refer to the exercise section of this lab.)
 
 1. Add two files to the `files` section of the  `AWS::CloudFormation::Init`:
 
