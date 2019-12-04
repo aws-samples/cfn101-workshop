@@ -152,8 +152,10 @@ that parameter name in main template has to match parameter name in the VPC temp
 #### 1. Prepare IAM role template
 
 The IAM instance role resource has been removed from ec2 template for you.
+
 1. Open `code/60-setting-up-nested-stack/01-working directory/02-lab10-iam.yaml`.
 1. Copy the code bellow to the _Resources_ section of the template
+
 ```yaml
   SSMIAMRole:
     Type: AWS::IAM::Role
@@ -361,7 +363,8 @@ It's possible to change the template of a nested stack. For example, you may edi
 <!-- TODO Write steps for completing main.template -->
 ## Conclusion
 
-<!-- TODO Write Conclusion -->
+Nested stacks are allow you to compose CloudFormation templates. This allows you to decompose large templates into smaller reusable components. It also assists in avoid resource limits of a single template. These components are defined in a template like any other CloudFormation resource.
+
 
 
 
