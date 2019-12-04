@@ -134,17 +134,5 @@ Resources:
         Ref: VPCIGW
 
 Outputs:
-  VpcID:
+  VpcId:
     Value: !Ref VPC
-
-  PublicSubnets:
-    Value: !Join
-      - ','
-      - - !Ref VPCPublicSubnet1
-        - !Ref VPCPublicSubnet2
-
-  VPCPublicSubnet1RouteTable:
-    Value: !Ref VPCPublicSubnet1RouteTable
-
-  VPCPublicSubnet2RouteTable:
-    Value: !Ref VPCPublicSubnet2RouteTable

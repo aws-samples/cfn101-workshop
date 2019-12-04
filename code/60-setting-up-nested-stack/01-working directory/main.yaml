@@ -8,9 +8,15 @@ Parameters:
     Description: S3 bucket name for the Nested Stacks. S3 bucket name can include numbers, lowercase letters, uppercase letters, and hyphens (-). It cannot start or end with a hyphen (-).
     Type: String
 
-  # Add code from Pass VPC parameters from the main templateP
+  # 1. Add code from "Create VPC parameters in main template" section
+
+  # 4. Add code from "Create EC2 parameters in main template" section
 
 Resources:
-  # Add code from Create VPC Nested Stack
+  # 2. Add code from "Create VPC resource in main template" section
 
-  # Add code from Create IAM Nested Stack
+  # 3. Add code from "Create IAM resource in main template" section
+
+  # 5. Add code from "Create EC2 parameters in main template" section
+
+  # 6. Add code from "Add Parameters to EC2 stack" section

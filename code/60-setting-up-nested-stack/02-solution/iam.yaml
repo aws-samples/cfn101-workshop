@@ -21,3 +21,7 @@ Resources:
       Path: /
       Roles:
         - !Ref SSMIAMRole
+
+Outputs:
+  WebServerInstanceProfile:
+    Value: !Ref WebServerInstanceProfile
