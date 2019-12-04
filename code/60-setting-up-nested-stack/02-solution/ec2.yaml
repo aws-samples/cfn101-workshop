@@ -15,8 +15,9 @@ Metadata:
         default: 'Amazon Machine Image ID'
 
 Parameters:
-  AvailabilityZone:
-    Type: AWS::EC2::AvailabilityZone::Name
+  SubnetId:
+    Type: AWS::EC2::Subnet::Id
+    Description: 'The Subnet ID'
 
   EnvironmentType:
     Description: 'Specify the Environment type of the stack.'
@@ -35,7 +36,7 @@ Parameters:
 
   VpcId:
     Type: AWS::EC2::VPC::Id
-    Description: 'The ID of the VPC'
+    Description: 'The VPC ID'
 
   WebServerInstanceProfile:
     Type: String
@@ -125,7 +126,7 @@ Resources:
                   - /etc/cfn/hooks.d/cfn-auto-reloader.conf
 
     Properties:
-      AvailabilityZone: !Ref AvailabilityZone
+      SubnetId: !Ref SubnetId
       IamInstanceProfile: !Ref WebServerInstanceProfile
       ImageId: !Ref AmiID
       InstanceType: !FindInMap [EnvironmentToInstanceType, !Ref EnvironmentType, InstanceType]

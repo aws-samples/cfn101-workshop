@@ -70,13 +70,13 @@ Resources:
       TemplateURL: !Sub https://${S3BucketName}.s3.amazonaws.com/iam.yaml
       TimeoutInMinutes: 10
 
-#  EC2Stack:
-#    Type: AWS::CloudFormation::Stack
-#    Properties:
-#      TemplateURL: !Sub https://${S3BucketName}.s3.amazonaws.com/ec2.yaml
-#      TimeoutInMinutes: 20
-#      Parameters:
-#        AvailabilityZone: !Select [0, !Ref AvailabilityZones]
-#        EnvironmentType: !Ref EnvironmentType
-#        VpcId: !GetAtt VpcStack.Outputs.VpcId
-#        WebServerInstanceProfile: !GetAtt IamStack.Outputs.WebServerInstanceProfile
+  EC2Stack:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL: !Sub https://${S3BucketName}.s3.amazonaws.com/ec2.yaml
+      TimeoutInMinutes: 20
+      Parameters:
+        EnvironmentType: !Ref EnvironmentType
+        VpcId: !GetAtt VpcStack.Outputs.VpcId
+        SubnetId: !GetAtt VpcStack.Outputs.PublicSubnet1
+        WebServerInstanceProfile: !GetAtt IamStack.Outputs.WebServerInstanceProfile

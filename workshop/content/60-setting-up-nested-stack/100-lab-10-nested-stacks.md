@@ -210,9 +210,9 @@ Update previously created stack with a new template.
 Similarly to VPC template, if you look into _Parameters_ section of the `code/60-setting-up-nested-stack/01-working directory/ec2.yaml` template
 there are three parameters:
 
-`AvailabilityZone` - you can get the value from existing parameter `AvailabilityZones` by using intrinsic function `!Select`
-`EnvironmentType` - this property has a default value and is likely to change often, so you need to create this one
-`AmiID` - this property has default value so it can be left out from the main template
+`SubnetId` - this property will be passed from VPC stack once the VPC stack is created.
+`EnvironmentType` - this property has a default value and is likely to change often, so you need to create this one.
+`AmiID` - this property has default value so it can be left out from the main template.
 
 Add code bellow to _Properties_ section of the main template:
 ```yaml
@@ -239,14 +239,17 @@ Add code bellow to _Properties_ section of the main template:
 #### 3. Add Parameters to EC2 stack
 ```yaml
       Parameters:
-        AvailabilityZone: !Select [0, !Ref AvailabilityZones]
         EnvironmentType: !Ref EnvironmentType
 ```
 
 #### 4. Pass variable from another nested stack
 
-Before you update your CloudFormation nested stack, there is a last thing to do. You need to tell EC2 Security Group in which VPC to be created.
-Without specifying VPC parameter, Security group is created in the _Default_ VPC. Lets fix that:
+Before you update your CloudFormation nested stack, there are a couple more things to do. 
+
++ You need to tell EC2 Security Group in which VPC to be created.
+    Without specifying VPC parameter, Security group is created in the _Default_ VPC.
+    
++ You ned to tell EC2 instance in which subnet to be created.
 
 ##### 1. Prep Security Group resource
 
@@ -264,11 +267,15 @@ Without specifying VPC parameter, Security group is created in the _Default_ VPC
           CidrIp: 0.0.0.0/0
       VpcId: !Ref VpcId
 ```
-1. Next, create parameter `VpcId` you have just referenced and add it to _Parameters_ section of the template.
+1. Next, create parameters `VpcId` and `SubnetId` in _Parameters_ section of the template.
 ```yaml
   VpcId:
     Type: AWS::EC2::VPC::Id
-    Description: 'The ID of the VPC'
+    Description: 'The VPC ID'
+    
+  SubnetId:
+    Type: AWS::EC2::Subnet::Id
+    Description: 'The Subnet ID'
 ``` 
 
 ##### 2. Prep VPC template
@@ -281,11 +288,17 @@ Add the code bellow to `code/60-setting-up-nested-stack/01-working directory/vpc
 Outputs:
   VpcId:
     Value: !Ref VPC
+
+  PublicSubnet1:
+    Value: !Ref VPCPublicSubnet1
+
+  PublicSubnet2:
+    Value: !Ref VPCPublicSubnet2
 ```
 
 ##### 3. Add VpcId to _EC2Stack_ stack
 
-Add `VpcId` parameter to the EC2 stack in the main.yaml template.
+Add `VpcId` and `SubnetId` parameters to the EC2 stack in the main.yaml template.
 ```yaml
   EC2Stack:
     Type: AWS::CloudFormation::Stack
@@ -293,9 +306,9 @@ Add `VpcId` parameter to the EC2 stack in the main.yaml template.
       TemplateURL: !Sub https://${S3BucketName}.s3.amazonaws.com/ec2.yaml
       TimeoutInMinutes: 20
       Parameters:
-        AvailabilityZone: !Select [0, !Ref AvailabilityZones]
         EnvironmentType: !Ref EnvironmentType
         VpcId: !GetAtt VpcStack.Outputs.VpcId
+        SubnetId: !GetAtt VpcStack.Outputs.PublicSubnet1
 ```
 
 ##### 4. Prep IAM template
@@ -327,9 +340,9 @@ Add `WebServerInstanceProfile` parameter to the EC2 stack in the main.yaml templ
       TemplateURL: !Sub https://${S3BucketName}.s3.amazonaws.com/ec2.yaml
       TimeoutInMinutes: 20
       Parameters:
-        AvailabilityZone: !Select [0, !Ref AvailabilityZones]
         EnvironmentType: !Ref EnvironmentType
         VpcId: !GetAtt VpcStack.Outputs.VpcId
+        SubnetId: !GetAtt VpcStack.Outputs.PublicSubnet1
         WebServerInstanceProfile: !GetAtt IamStack.Outputs.WebServerInstanceProfile
 ```
 
