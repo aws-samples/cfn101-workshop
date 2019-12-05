@@ -96,9 +96,9 @@ The only required property of EC2 resource type is _ImageId_. There are two ways
 
 ##### 1. Via terminal using AWS CLI
 
-You can use AWS CLI to query AWS Systems Manager Parameter Store
+You can use the AWS CLI to query the AWS Systems Manager Parameter Store.
 
-Bellow is an example, how to get the latest Amazon Linux 2 AMI ID in London Region.
+Below is an example of how to get the latest Amazon Linux 2 AMI ID in London Region:
 
 ```bash
   aws ssm get-parameters \
@@ -112,7 +112,7 @@ Bellow is an example, how to get the latest Amazon Linux 2 AMI ID in London Regi
 Once you have your AMI ID, copy and paste it to _ImageId_ property.
 
 {{% notice info %}} 
-You can find working solution for **London Region** in `code/40-cloudformation-features/02-lab02-Resources-Solution.yaml` file.
+You can find a working solution for the **London Region** in `code/40-cloudformation-features/02-lab02-Resources-Solution.yaml` file.
 {{% /notice %}}
 
 Now your EC2 template is ready to be deployed. Go back to AWS console and deploy the stack same way as you did in 
