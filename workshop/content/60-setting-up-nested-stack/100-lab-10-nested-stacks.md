@@ -319,7 +319,7 @@ Outputs:
 ##### 3. Add VpcId to _EC2Stack_ stack
 
 Add `VpcId` and `SubnetId` parameters to the EC2 stack in the `main.yaml` template.
-```yaml
+```yaml {hl_lines=[8,9]}
   EC2Stack:
     Type: AWS::CloudFormation::Stack
     Properties:
@@ -379,7 +379,6 @@ Update your previously created stack with a new parent template.
 1. Select _replace current template_.
 1. Upload the new template file.
 1. Follow the wizard, Acknowledge IAM capabilities and click on _Update stack_.
-
 
 ## Making changes to nested stacks
 
