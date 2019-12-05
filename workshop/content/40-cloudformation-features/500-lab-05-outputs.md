@@ -26,22 +26,22 @@ Outputs:
       Name: Value to export
 ```
 
-**Lets go!**
+**Let's go!**
 
 1. Go to the `code/40-cloudformation-features/` directory.
 1. Open the `07-lab05-Outputs.yaml` file.
 1. Copy the code as you go through the topics below.
 
-    To get the _PublicDnsName_ of the instance, you will need to use `Fn::GetAtt` intrinsic function. Lets first check
+    To get the _PublicDnsName_ of the instance, you will need to use `Fn::GetAtt` intrinsic function. Let's first check
     the [AWS Documentation](https://docs.aws.amazon.com/en_pv/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-instance.html#aws-properties-ec2-instance-return-values)
     for available attributes. You can see that _PublicDnsName_ is valid return value for `Fn::GetAtt` function.
     Add the section below to your template:
 
 ```yaml
 Outputs:
-      EC2PublicDNS:
-        Description: 'Public DNS of EC2 instance'
-        Value: !GetAtt MyEC2Instance.PublicDnsName
+  EC2PublicDNS:
+    Description: 'Public DNS of EC2 instance'
+    Value: !GetAtt MyEC2Instance.PublicDnsName
 ``` 
 1. Go to the AWS console and update your stack with a new template.
 {{%expand "How do I update a Stack?" %}}

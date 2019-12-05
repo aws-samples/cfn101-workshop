@@ -44,7 +44,7 @@ Mappings:
 
 ### Implementing a simple map
 
-##### 1. Lets start with creating _EnvironmentType_ parameter 
+##### 1. Let's start with creating _EnvironmentType_ parameter 
   In the _Parameters_ section of the template. Replace the `InstanceType` parameter with the code below 
   (you will not need InstanceType parameter anymore as you will use mapping instead).
 
@@ -92,7 +92,7 @@ Resources:
 
 ##### 4. Finally, update the _Tags_ property
   As you have deleted `InstanceType` parameter, you need to update the tag. Reference `EnviromentType` in the tag property.
-  ```yaml
+```yaml
       Tags:
         - Key: Name
           Value: !Join [ ' ', [ !Ref EnvironmentType, Web Server ] ]
@@ -100,15 +100,15 @@ Resources:
 
 ## Exercise - Add `Dev` environment
 Now it's your turn.
-Lets add another Environment `Dev` to your template. It will need to contain `Dev` key name, and name-value 
+Let's add another Environment `Dev` to your template. It will need to contain `Dev` key name, and name-value 
 pair `InstanceType: t3.nano`. Also, don't forget to add `Dev` to `EnvironmentType` parameter.
 
 {{%expand "Need a hint?" %}}
-1. In a _Parameters_ section
-  * Add `Dev` to the `EnvironmentType` AllowedValues list.
-1. In a `Mappings` section. 
-  * Add a top level key of `Dev`.
-  * Add a name-value pair `InstanceType: t3.nano`.
+  1. In a _Parameters_ section
+    * Add `Dev` to the `EnvironmentType` AllowedValues list.
+  1. In a `Mappings` section. 
+    * Add a top level key of `Dev`.
+    * Add a name-value pair `InstanceType: t3.nano`.
 {{% /expand%}}
 
 {{%expand "Expand to see the solution" %}}

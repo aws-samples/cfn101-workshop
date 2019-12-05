@@ -27,7 +27,7 @@ Session Manager has several benefits over using SSH:
    and executes the commands on the instance.
 1. The Session Manager sends audit logs to CloudWatch Logs or S3.
 
-> The EC2 instance needs access to the internet or a VPC Endpoints for Session Manager to work. 
+> The EC2 instance needs access to the internet or a VPC Endpoint for Session Manager to work. 
 
 ![ssm](/50-launching-ec2/ssm-sm-1.png)
 
@@ -42,7 +42,7 @@ You can proceed to the next step as SSM Agent is pre-installed on Amazon Linux A
 
 The AWS managed policy, `AmazonSSMManagedInstanceCore`, allows an instance to use AWS Systems Manager service core functionality.
   
-  ```yaml
+```yaml
   SSMIAMRole:
     Type: AWS::IAM::Role
     Properties:
@@ -56,7 +56,7 @@ The AWS managed policy, `AmazonSSMManagedInstanceCore`, allows an instance to us
               - sts:AssumeRole
       ManagedPolicyArns:
         - arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore
-  ```
+```
 ##### 3. Create an IAM Instance Profile
   
 ```yaml

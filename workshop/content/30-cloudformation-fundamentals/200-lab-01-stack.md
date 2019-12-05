@@ -26,9 +26,7 @@ Here's an example of deploying a CloudFormation template using the console:
 
 1. Open the `01-lab01-StackExample.yaml` file in your code editor.
 
-1. Here is a sample CloudFormation template that defines an S3 Bucket. It has a
-   single Output that contains the bucket name. Copy the code below and save to
-   the `01-lab01-StackExample.yaml` file.
+1. Here is a sample CloudFormation template that defines an S3 Bucket. It has a single Output that contains the bucket name. Copy the code below and save to the `01-lab01-StackExample.yaml` file.
 
     ```yaml
     Resources:

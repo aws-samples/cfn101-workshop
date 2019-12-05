@@ -12,7 +12,7 @@ As you read through different sections, there is code at the end, which you shou
 
 1. Go to `code/40-cloudformation-features/` directory.
 1. Open the `01-lab02-Resources.yaml` file.
-1. Copy the code as you go through the topics bellow.
+1. Copy the code as you go through the topics below.
 
 #### Format Version
 The _AWSTemplateFormatVersion_ section identifies the capabilities of the template. The latest template format
@@ -101,7 +101,7 @@ You can use AWS CLI to query AWS Systems Manager Parameter Store
 Below is an example of how to get the latest Amazon Linux 2 AMI ID in London region.
 
 ```bash
-  aws ssm get-parameters \
+aws ssm get-parameters \
   --names /aws/service/ami-amazon-linux-latest/amzn2-ami-hvm-x86_64-gp2 \
   --query Parameters[].Value \
   --region eu-west-2 \
