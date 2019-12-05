@@ -4,11 +4,11 @@ date: 2019-10-28T14:35:59Z
 weight: 110
 ---
 
-Lets build EC2 template. In this Lab, you will write CloudFormation template and learn more about its sections. 
+Let's build an EC2 template. In this Lab, you will write a CloudFormation template and learn more about its sections. 
 
-As you read through different sections, there is a code at the end, which you should copy to your template file.
+As you read through different sections, there is code at the end, which you should copy to your template file.
 
-**Lets go!**
+**Let's go!**
 
 1. Go to `code/40-cloudformation-features/` directory.
 1. Open the `01-lab02-Resources.yaml` file.
@@ -74,7 +74,7 @@ Parameters:
 
 #### Resources
 
-The required _Resources_ section declares the AWS resources that you want to include in the stack. Lets add the EC2 resource to your stack.
+The required _Resources_ section declares the AWS resources that you want to include in the stack. Let's add the EC2 resource to your stack.
 
 ```yaml
 Resources:
@@ -85,11 +85,11 @@ Resources:
       InstanceType: !Ref InstanceType
 ```
 
-The only required property of EC2 resource type is _ImageId_. There are two ways to find out correct AMI ID for the AWS Region:
+The only required property of the EC2 resource type is _ImageId_. There are two ways to find out correct AMI ID for the AWS Region:
 
 ##### 1. Via Console
-1. open [AWS EC2 console](https://console.aws.amazon.com/ec2)
-1. click _Instances_ -> _Launch Instance_
+1. Open [AWS EC2 console](https://console.aws.amazon.com/ec2)
+1. Click _Instances_ -> _Launch Instance_
 1. Copy the **Amazon Linux 2 AMI** `ami-xxxxxxxxx`
 
 ![](/40-cloudformation-features/ami-1.gif)
@@ -98,7 +98,7 @@ The only required property of EC2 resource type is _ImageId_. There are two ways
 
 You can use AWS CLI to query AWS Systems Manager Parameter Store
 
-Bellow is an example, how to get the latest Amazon Linux 2 AMI ID in London Region.
+Below is an example of how to get the latest Amazon Linux 2 AMI ID in London region.
 
 ```bash
   aws ssm get-parameters \
@@ -116,4 +116,4 @@ You can find working solution for **London Region** in `code/40-cloudformation-f
 {{% /notice %}}
 
 Now your EC2 template is ready to be deployed. Go back to AWS console and deploy the stack same way as you did in 
-the [Lab 01: Template and Stack](/30-cloudformation-fundamentals/200-lab-01-stack)
+[Lab 01: Template and Stack](/30-cloudformation-fundamentals/200-lab-01-stack)
