@@ -48,7 +48,7 @@ Mappings:
 
 ##### 1. Lets start with creating _EnvironmentType_ parameter 
   In the _Parameters_ section of the template. Replace the `InstanceType` parameter with the code below 
-  (you will not need InstanceType parameter anymore as you will use mapping instead).
+  (you will not need the InstanceType parameter anymore as you will use a mapping instead).
 
 ```yaml
 Parameters:
@@ -62,7 +62,7 @@ Parameters:
     ConstraintDescription: 'Specify either Test or Prod.'
 ```
 {{% notice note %}}
-Dont forget to remove `InstanceType` from _ParameterGroups_ and form _ParameterLabels_ section of the template.
+Dont forget to remove `InstanceType` from the _ParameterGroups_ and _ParameterLabels_ sections of the template.
 {{% /notice %}}
 
 ##### 2. Next, create _EnvironmentToInstanceType_ in the mapping section 
@@ -93,16 +93,16 @@ Resources:
 ```
 
 ##### 4. Finally, update the _Tags_ property
-  As you have deleted `InstanceType` parameter, you need to update the tag. Reference `EnviromentType` in the tag property.
+  As you have deleted the `InstanceType` parameter, you will need to update the tag. Reference `EnviromentType` in the tag property.
   ```yaml
       Tags:
         - Key: Name
-          Value: !Join [ ' ', [ !Ref EnvironmentType, Web Server ] ]
+          Value: !Sub ${EnvironmentType} ${Web Server}
 ```
 
 ## Exercise - Add `Dev` environment
 Now it's your turn.
-Lets add another Environment `Dev` to your template. It will need to contain `Dev` key name, and name-value 
+Let's add another Environment `Dev` to your template. It will need to contain a `Dev` key name, and the name-value 
 pair `InstanceType: t3.nano`. Also, don't forget to add `Dev` to `EnvironmentType` parameter.
 
 {{%expand "Need a hint?" %}}
