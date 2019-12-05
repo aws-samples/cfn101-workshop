@@ -12,4 +12,4 @@ To install VS Code, use your operating system's package manager (e.g. `brew cask
 
 We recommend you install the [AWS CloudFormation Linter](https://github.com/aws-cloudformation/cfn-python-lint).  A [linter](https://en.wikipedia.org/wiki/Lint_(software)) will proactively flag basic errors in your CloudFormation templates before you deploy them.
 
-If you are using Visual Studio Code, you must install the [cfn-lint](https://marketplace.visualstudio.com/items?itemName=kddejong.vscode-cfn-lint) plugin.
+If you are using Visual Studio Code, you should install the [cfn-lint](https://marketplace.visualstudio.com/items?itemName=kddejong.vscode-cfn-lint) plugin.
