@@ -352,8 +352,8 @@ Outputs:
 
 ##### 6. Add WebServerInstanceProfile to _EC2Stack_ stack
 
-Add `WebServerInstanceProfile` parameter to the EC2 stack in the main.yaml template.
-```yaml
+Add `WebServerInstanceProfile` parameter to the EC2 stack in the `main.yaml` template.
+```yaml {hl_lines=[10]}
   EC2Stack:
     Type: AWS::CloudFormation::Stack
     Properties:
