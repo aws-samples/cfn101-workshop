@@ -80,7 +80,7 @@ Yaml Syntax:
 !Join [ delimiter, [ comma-delimited list of values ] ]
 ```
 
-It is always good idea to tag your resources. You can use the intrinsic function _Fn::Join_ to create a string.
+It is always a good idea to tag your resources. You can use the intrinsic function _Fn::Join_ to create a string.
 
 ```yaml
       Tags:
@@ -90,7 +90,7 @@ It is always good idea to tag your resources. You can use the intrinsic function
 
 #### Exercise
 
-Now it is a time to update your stack. 
+Now it is time to update your stack. 
 
 Go to the AWS console and update your CloudFormation Stack.
 
