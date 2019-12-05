@@ -9,15 +9,17 @@ weight: 400
 This lab will cover Mappings, which allow you to lookup values from a set of predefined keys.
 
 A common use for Mappings is to configure a template according to different environments, such as dev, test and production.
- Mapping allows you to have one template, rather than 3 similar templates. 
+Mapping allows you to have one template, rather than 3 similar templates. 
  
- Keys and their corresponding values are predefined in the `Mappings` section. The value of these keys are referenced in other parts of your CloudFormation template.
+Keys and their corresponding values are predefined in the `Mappings` section. The values of these keys are referenced 
+in other parts of your CloudFormation template.
 
 ### Key Components
 
 #### Mapping Section
 
-The [`Mappings`](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/mappings-section-structure.html) section is a top level section of a CloudFormation template. It is used to define maps, their keys and values.
+The [`Mappings`](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/mappings-section-structure.html) section 
+is a top level section of a CloudFormation template. It is used to define maps, their keys and values.
 
 
 A Mappings Section contains one or more maps. Each map contains at least one key. \
