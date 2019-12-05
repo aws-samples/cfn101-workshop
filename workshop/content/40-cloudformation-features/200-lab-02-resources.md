@@ -12,7 +12,7 @@ As you read through different sections, there is a code at the end, which you sh
 
 1. Go to `code/40-cloudformation-features/` directory.
 1. Open the `01-lab02-Resources.yaml` file.
-1. Copy the code as you go through the topics bellow.
+1. Copy the code as you go through the topics below.
 
 #### Format Version
 The _AWSTemplateFormatVersion_ section identifies the capabilities of the template. The latest template format
@@ -98,7 +98,7 @@ The only required property of EC2 resource type is _ImageId_. There are two ways
 
 You can use AWS CLI to query AWS Systems Manager Parameter Store
 
-Bellow is an example, how to get the latest Amazon Linux 2 AMI ID in London Region.
+Below is an example, how to get the latest Amazon Linux 2 AMI ID in London Region.
 
 ```bash
   aws ssm get-parameters \

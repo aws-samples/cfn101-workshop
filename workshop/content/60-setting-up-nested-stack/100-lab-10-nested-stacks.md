@@ -75,7 +75,7 @@ The VPC template has been created for you. This template will create VPC stack w
 #### 1. Create VPC parameters in main template
 
 If you look in the file `code/60-setting-up-nested-stack/01-working directory/vpc.yaml` file, you will notice that there are some parameters in the _Parameters_ section of the template.
-The parameters are added to the main template so that they can be passed to the nested stack. Copy the code bellow to the  _Parameters_ section of the `main.yaml` template.
+The parameters are added to the main template so that they can be passed to the nested stack. Copy the code below to the  _Parameters_ section of the `main.yaml` template.
 ```yaml
   AvailabilityZones:
     Type: List<AWS::EC2::AvailabilityZone::Name>
@@ -182,7 +182,7 @@ The IAM instance role resource has been removed from ec2 template for you.
 ```
 
 #### 2. Create IAM resource in main template
-Copy the code bellow to the _Resources_ section of the `main.yaml` template.
+Copy the code below to the _Resources_ section of the `main.yaml` template.
 
 ```yaml
   IamStack:
@@ -217,7 +217,7 @@ there are three parameters:
 `EnvironmentType` - this property has a default value and is likely to change often, so let's add this one.
 `AmiID` - this property has default value, it can be left out from the main template.
 
-Add code bellow to the _Parameters_ section of the main template:
+Add code below to the _Parameters_ section of the main template:
 ```yaml
   EnvironmentType:
     Description: 'Specify the Environment type of the stack.'
@@ -232,7 +232,7 @@ Add code bellow to the _Parameters_ section of the main template:
 
 #### 2. Create EC2 resource in main template
 
-Copy the code bellow to the _Resources_ section of the `main.yaml` template.
+Copy the code below to the _Resources_ section of the `main.yaml` template.
 ```yaml
   EC2Stack:
     Type: AWS::CloudFormation::Stack
@@ -265,7 +265,7 @@ Before you update your CloudFormation nested stack, there are a couple more thin
 ##### 1. Prep Security Group resource
 
 1. Open up `code/60-setting-up-nested-stack/01-working directory/ec2.yaml` and locate the `WebServerSecurityGroup` resource.
-1. Add `VpcId` property and reference VpcId parameter. Your security Group should look like the code bellow.
+1. Add `VpcId` property and reference VpcId parameter. Your security Group should look like the code below.
 ```yaml
   WebServerSecurityGroup:
     Type: AWS::EC2::SecurityGroup
@@ -294,7 +294,7 @@ Before you update your CloudFormation nested stack, there are a couple more thin
 To pass the variable from one stack to another, you need to first output the value in the stack that will be passing it on.
 Then, using intrinsic function `!GetAtt`, CloudFormation will get the value from that stack and will pass it on as a parameter.
 
-Add the code bellow to `code/60-setting-up-nested-stack/01-working directory/vpc.yaml` template.
+Add the code below to `code/60-setting-up-nested-stack/01-working directory/vpc.yaml` template.
 ```yaml
 Outputs:
   VpcId:
