@@ -27,7 +27,7 @@ Top level and first level hierarchy of nested stacks.
 
 The following diagram represents high level overview of the infrastructure:
 
-![nested-stack-architecture](/60-setting-up-nested-stack/nested-stack-2.png)
+![nested-stack-architecture](/60-setting-up-nested-stack/ns-architecture.png)
 
 You will find working directory in `code/60-setting-up-nested-stack/01-working directory`. You should copy/paste lab code there.
 
@@ -68,7 +68,7 @@ If you dont have S3 bucket, please go back to [Lab01](../../30-cloudformation-fu
 
 ### Create VPC Nested Stack
 
-The VPC template has been created for you. This template wil create VPC stack with 2 Public Subnets, Internet Gateway, and Route tables.
+The VPC template has been created for you. This template will create VPC stack with 2 Public Subnets, Internet Gateway, and Route tables.
 
 #### 1. Create VPC parameters in main template
 
@@ -107,8 +107,8 @@ You need to pass in those parameters from the main stack. Copy the code bellow t
 ```
 
 #### 2. Create VPC resource in main template
-In the code bellow, note that passing parameter values to resource works the same as you single standalone template. The only difference is,
-that parameter name in main template has to match parameter name in the VPC template
+In the code bellow, note that passing parameter values to resources works the same as in single standalone template. Make sure,
+that parameter name in main template matches parameter name in the VPC template.
 
 ```yaml
   VpcStack:
@@ -211,8 +211,8 @@ Similarly to VPC template, if you look into _Parameters_ section of the `code/60
 there are three parameters:
 
 `SubnetId` - this property will be passed from VPC stack once the VPC stack is created.
-`EnvironmentType` - this property has a default value and is likely to change often, so you need to create this one.
-`AmiID` - this property has default value so it can be left out from the main template.
+`EnvironmentType` - this property has a default value and is likely to change often, so let's add this one.
+`AmiID` - this property has default value, it can be left out from the main template.
 
 Add code bellow to _Properties_ section of the main template:
 ```yaml
@@ -246,10 +246,9 @@ Add code bellow to _Properties_ section of the main template:
 
 Before you update your CloudFormation nested stack, there are a couple more things to do. 
 
-+ You need to tell EC2 Security Group in which VPC to be created.
-    Without specifying VPC parameter, Security group is created in the _Default_ VPC.
++ You need to tell EC2 Security Group in which VPC to be created. Without specifying VPC parameter, Security group is created in the _Default_ VPC.
     
-+ You ned to tell EC2 instance in which subnet to be created.
++ You need to tell EC2 instance in which subnet to be created.
 
 ##### 1. Prep Security Group resource
 
