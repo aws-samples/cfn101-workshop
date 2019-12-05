@@ -32,6 +32,7 @@ here](https://portal.aws.amazon.com/billing/signup).
 
     ![](/20-prerequisites/new-user-2.png)
 
+1. Click **Next: Tags**
 1. Click **Next: Review**
 1. Click **Create User**
 1. In the next screen, you'll see your **Access key ID** and you will have the option
