@@ -74,7 +74,11 @@ The VPC template has been created for you. It is titled `vpc.yaml`. This templat
 
 #### 1. Create VPC parameters in main template
 
-If you look in the file `code/60-setting-up-nested-stack/01-working directory/vpc.yaml` file, you will notice that there are some parameters in the _Parameters_ section of the template.
+{{% notice info %}} 
+All of the files referenced in this lab can be found within `code/60-setting-up-nested-stack/01-working`
+{{% /notice %}}
+
+If you look in the file `vpc.yaml` file, you will notice that there are some parameters in the _Parameters_ section of the template.
 The parameters are added to the main template so that they can be passed to the nested stack. Copy the code below to the  _Parameters_ section of the `main.yaml` template.
 
 ```yaml
@@ -280,7 +284,9 @@ Before you update your CloudFormation nested stack, there are a couple more thin
           CidrIp: 0.0.0.0/0
       VpcId: !Ref VpcId
 ```
-1. Next, create parameters `VpcId` and `SubnetId` in _Parameters_ section of the template.
+
+1. Next, create two parameters, `VpcId` and `SubnetId` in _Parameters_ section of `ec2.yaml`.
+
 ```yaml
   VpcId:
     Type: AWS::EC2::VPC::Id
@@ -296,7 +302,7 @@ Before you update your CloudFormation nested stack, there are a couple more thin
 To pass the variable from one stack to another, you need to first output the value in the stack that will be passing it on.
 Then, using intrinsic function `!GetAtt`, CloudFormation will get the value from that stack and will pass it on as a parameter.
 
-Add the code bellow to `code/60-setting-up-nested-stack/01-working directory/vpc.yaml` template.
+Add the code below to `vpc.yaml` template.
 ```yaml
 Outputs:
   VpcId:
@@ -311,7 +317,7 @@ Outputs:
 
 ##### 3. Add VpcId to _EC2Stack_ stack
 
-Add `VpcId` and `SubnetId` parameters to the EC2 stack in the main.yaml template.
+Add `VpcId` and `SubnetId` parameters to the EC2 stack in the `main.yaml` template.
 ```yaml
   EC2Stack:
     Type: AWS::CloudFormation::Stack
@@ -326,7 +332,7 @@ Add `VpcId` and `SubnetId` parameters to the EC2 stack in the main.yaml template
 
 ##### 4. Prep IAM template
 
-Open up `code/60-setting-up-nested-stack/01-working directory/iam.yaml` and add the code below.
+Open up `iam.yaml` and add the code below.
 ```yaml
 Outputs:
   WebServerInstanceProfile:
@@ -335,7 +341,7 @@ Outputs:
 
 ##### 5. Prep EC2 template
 
-1. Open up `code/60-setting-up-nested-stack/01-working directory/ec2.yaml`
+1. Open up `ec2.yaml`
 1. Create parameter `WebServerInstanceProfile` in _Parameters_ section of the template.
 ```yaml
   WebServerInstanceProfile:
