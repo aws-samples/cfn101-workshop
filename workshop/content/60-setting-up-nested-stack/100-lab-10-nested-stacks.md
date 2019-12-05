@@ -250,7 +250,7 @@ Copy the code below to the _Resources_ section of the `main.yaml` template.
 #### 3. Add EnvironmentType to EC2 stack
 
 Add `EnvironmentType` parameter to the EC2 stack in the main.yaml template.
-```yaml
+```yaml {hl_lines=[7]}
   EC2Stack:
     Type: AWS::CloudFormation::Stack
     Properties:
