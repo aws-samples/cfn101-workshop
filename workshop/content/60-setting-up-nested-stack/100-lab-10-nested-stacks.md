@@ -7,9 +7,11 @@ weight: 100
 ## Introduction
 
 Your CloudFormation template has grown considerably over the course of this workshop. As your infrastructure grows, common 
-patterns can emerge in which you declare the same components in each of your templates. For example, IAM instance role will 
-very likely be used for every EC2 instance created, to enable SSH access. Instead of copying and pasting the same configuration 
-into EC2 template, you can create dedicated template for IAM instance role and then use the `AWS::CloudFormation:Stack`
+patterns can emerge in which you declare the same components in each of your templates. 
+
+For example, an IAM instance role will 
+very likely be used for every EC2 instance created to enable SSH access. Instead of copying and pasting the same configuration 
+into every EC2 template, you can create dedicated template for an IAM instance role and then use the `AWS::CloudFormation:Stack`
 resource to reference that template from within other templates.
 
 ## Lab Overview
@@ -29,9 +31,9 @@ The following diagram represents high level overview of the infrastructure:
 
 ![nested-stack-architecture](/60-setting-up-nested-stack/ns-architecture.png)
 
-You will find working directory in `code/60-setting-up-nested-stack/01-working directory`. You should copy/paste lab code there.
+You will find the working directory in `code/60-setting-up-nested-stack/01-working directory`. You should copy/paste lab code there.
 
-You can find working solution in `code/60-setting-up-nested-stack/02-solution`. You can reference this against your code.
+You can find the working solution in `code/60-setting-up-nested-stack/02-solution`. You can reference this against your code.
 
 **Let's start..**
 
@@ -57,7 +59,8 @@ The `Parameters` property allows you to pass parameters to your nested CloudForm
 
 ### Prepare S3 bucket
 
-In order to deploy Nested Stacks, CloudFormation needs to find them somewhere. In the very first lab, you have created simple
+Whilst single templates can be deployed from your local machine, Nested Stacks require that the nested templates are stored in an S3 bucket.
+In the very first lab, you have created simple
 CloudFormation template which created S3 bucket. Please make a note of the bucket name.
 
 For example:
@@ -72,8 +75,8 @@ The VPC template has been created for you. This template will create VPC stack w
 
 #### 1. Create VPC parameters in main template
 
-If you look in `code/60-setting-up-nested-stack/01-working directory/vpc.yaml` file, you will notice that there are some parameters in the _Parameters_ section of the template.
-You need to pass in those parameters from the main stack. Copy the code bellow to the `main.yaml` template to the _Parameters_ section.
+If you look in the file `code/60-setting-up-nested-stack/01-working directory/vpc.yaml`, you will notice that there are some parameters in the _Parameters_ section of the template.
+You need to pass in those parameters from the main stack. Copy the code below to the `main.yaml` template to the _Parameters_ section.
 ```yaml
   AvailabilityZones:
     Type: List<AWS::EC2::AvailabilityZone::Name>
@@ -154,7 +157,7 @@ that parameter name in main template matches parameter name in the VPC template.
 The IAM instance role resource has been removed from ec2 template for you.
 
 1. Open `code/60-setting-up-nested-stack/01-working directory/02-lab10-iam.yaml`.
-1. Copy the code bellow to the _Resources_ section of the template
+1. Copy the code below to the _Resources_ section of the template
 
 ```yaml
   SSMIAMRole:
@@ -191,11 +194,11 @@ The IAM instance role resource has been removed from ec2 template for you.
 
 #### 3. Upload the IAM stack to S3
 
-Similarly to VPC stack, upload the IAM template to the S3.
+Similarly to the VPC stack, upload the IAM template to the S3.
 
 #### 4. Deploy IAM Nested Stack
 
-Update previously created stack with a new template.
+Update the previously created stack with a new template.
 
 1. Navigate to Cloudformation service in the AWS console.
 1. Select the _root_ stack (it is the one without nested tag associated).
@@ -364,7 +367,7 @@ Update previously created stack with a new template.
 
 ## Making changes to nested stacks
 
-It's possible to change the template of a nested stack. For example, you may edit the properties of a resource in a stack, or add a resource. If you do so, deploy the parent stack to update the child stack.
+It's possible to change the template of a nested stack. For example, you may edit the properties of a resource in a stack, or add a resource. First, make the updates to the required stacks. Then upload the changed nested templates to S3. Finally, redeploy the parent stack to update the entire nested stack
 
 ## Why is it useful?
 
@@ -376,7 +379,6 @@ It's possible to change the template of a nested stack. For example, you may edi
 ## Conclusion
 
 Nested stacks are allow you to compose CloudFormation templates. This allows you to decompose large templates into smaller reusable components. It also assists in avoid resource limits of a single template. These components are defined in a template like any other CloudFormation resource.
-
 
 
 
