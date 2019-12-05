@@ -216,7 +216,7 @@ Update the previously created stack with a new template.
 
 #### 1. Create EC2 parameters in main template
 
-Similarly to VPC template, if you look into _Parameters_ section of the `code/60-setting-up-nested-stack/01-working directory/ec2.yaml` template
+Similarly to VPC template, if you look into _Parameters_ section of the `ec2.yaml` template
 there are three parameters:
 
 `SubnetId` - this property will be passed from VPC stack once the VPC stack is created.
