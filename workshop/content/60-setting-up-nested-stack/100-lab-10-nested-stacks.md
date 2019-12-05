@@ -371,9 +371,6 @@ Update previously created stack with a new template.
 1. Upload the new template file.
 1. Follow the wizard, Acknowledge IAM capabilities and click on _Update stack_.
 
----
-<-- End of rezabekf PR -->
-
 ## Making changes to nested stacks
 
 It's possible to change the template of a nested stack. For example, you may edit the properties of a resource in a stack, or add a resource. First, make the updates to the required stacks. Then upload the changed nested templates to S3. Finally, redeploy the parent stack to update the entire nested stack
