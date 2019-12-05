@@ -1,5 +1,5 @@
 ---
-title: "Lab 06: Multi Region Latest AMI"
+title: 'Lab 06: Multi Region Latest AMI'
 date: 2019-11-07T13:46:21Z
 weight: 100
 ---

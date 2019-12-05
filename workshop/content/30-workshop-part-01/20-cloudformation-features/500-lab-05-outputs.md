@@ -1,5 +1,5 @@
 ---
-title: "Lab 05: Outputs"
+title: 'Lab 05: Outputs'
 date: 2019-11-05T09:25:05Z
 weight: 500
 ---

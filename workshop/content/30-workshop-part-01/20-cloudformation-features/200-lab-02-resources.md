@@ -1,7 +1,7 @@
 ---
-title: "Lab 02: Resources"
+title: 'Lab 02: Resources'
 date: 2019-10-28T14:35:59Z
-weight: 110
+weight: 200
 ---
 
 Let's build an EC2 template. In this Lab, you will write a CloudFormation template and learn more about its sections. 
@@ -92,7 +92,7 @@ The only required property of the EC2 resource type is _ImageId_. There are two 
 1. Click _Instances_ -> _Launch Instance_
 1. Copy the **Amazon Linux 2 AMI** `ami-xxxxxxxxx`
 
-![](/40-cloudformation-features/ami-1.gif)
+![ami-gif](../ami-1.gif)
 
 ##### 1. Via terminal using AWS CLI
 

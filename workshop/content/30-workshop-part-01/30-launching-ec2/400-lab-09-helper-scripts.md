@@ -1,5 +1,5 @@
 ---
-title: "Lab 09: Helper Scripts"
+title: 'Lab 09: Helper Scripts'
 date: 2019-11-25T15:08:39Z
 weight: 400
 ---

@@ -1,5 +1,5 @@
 ---
-title: "Lab 07: SSM - Session Manager"
+title: 'Lab 07: SSM - Session Manager'
 date: 2019-11-08T11:23:07Z
 weight: 200
 ---
