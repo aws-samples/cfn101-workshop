@@ -34,44 +34,44 @@ Open your editor with the template from the previous lab, or alternatively you c
 
 ##### 2. Create Security Group
 Begin by creating a Security Group:
-  ```yaml
-      # Add Security Group resource here
-      WebServerSecurityGroup:
-        Type: AWS::EC2::SecurityGroup
-        Properties:
-          GroupDescription: 'Enable HTTP access via port 80'
-          # Add ingress rule to the Security Group
+```yaml
+  # Add Security Group resource here
+  WebServerSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: 'Enable HTTP access via port 80'
+      # Add ingress rule to the Security Group
 ```
 
 As the Apache web server will serve content on port 80, you will need to create an ingress rule in the security group to allow access from the Internet:
-  ```yaml
-      # Add Security Group resource here
-      WebServerSecurityGroup:
-        Type: AWS::EC2::SecurityGroup
-        Properties:
-          GroupDescription: 'Enable HTTP access via port 80'
-          # Add ingress rule to the Security Group
-          SecurityGroupIngress:
-            - IpProtocol: tcp
-              FromPort: 80
-              ToPort: 80
-              CidrIp: 0.0.0.0/0
+```yaml
+# Add Security Group resource here
+  WebServerSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: 'Enable HTTP access via port 80'
+      # Add ingress rule to the Security Group
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 80
+          ToPort: 80
+          CidrIp: 0.0.0.0/0
 ```
 
 Finally, associate the security group with the EC2 instance:
-  ```yaml
-      MyEC2Instance:
-        Type: AWS::EC2::Instance
-        Properties:
-          IamInstanceProfile: !Ref EC2InstanceProfile
-          ImageId: !Ref AmiID
-          InstanceType: !FindInMap [Environment, InstanceType, !Ref EnvType]
-          # Attach SecurityGroup here
-          SecurityGroupIds:
-            - !Ref WebServerSecurityGroup
-          Tags:
-            - Key: Name
-              Value: !Join [ ' ', [ !Ref EnvType, Web Server ] ]
+```yaml
+  MyEC2Instance:
+    Type: AWS::EC2::Instance
+    Properties:
+      IamInstanceProfile: !Ref EC2InstanceProfile
+      ImageId: !Ref AmiID
+      InstanceType: !FindInMap [Environment, InstanceType, !Ref EnvType]
+      # Attach SecurityGroup here
+      SecurityGroupIds:
+        - !Ref WebServerSecurityGroup
+      Tags:
+        - Key: Name
+          Value: !Join [ ' ', [ !Ref EnvType, Web Server ] ]
 ```
 
 ##### 3. Install Apache web server on the instance
@@ -129,9 +129,9 @@ You will write a bash script to install the application.
 Copy and paste the code below to the _Outputs_ section of the CloudFormation template.
 
 ```yaml
-  WebsiteURL:
-    Value: !Sub http://${WebServerEIP}
-    Description: Application URL
+    WebsiteURL:
+      Value: !Sub http://${WebServerEIP}
+      Description: Application URL
 
 ```
 
