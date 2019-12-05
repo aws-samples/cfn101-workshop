@@ -2,10 +2,8 @@
 title: Introduction
 date: 2019-10-14T15:52:25+01:00
 weight: 10
-chapter: true
+chapter: false
 ---
-
-# Introduction
 
 In the **first part** of the workshop, you will set up a development environment and learn about the basic CloudFormation components and features by setting up simple [EC2](https://aws.amazon.com/ec2/) Web Server. 
 
