@@ -74,7 +74,7 @@ Finally, associate the security group with the EC2 instance:
               Value: !Join [ ' ', [ !Ref EnvType, Web Server ] ]
 ```
 
-##### 3. Install Apache web server on the instance:
+##### 3. Install Apache web server on the instance
 
 You will write a bash script to install the application. 
   
@@ -124,18 +124,30 @@ You will write a bash script to install the application.
           EOF
 ```
 
-##### 4. Update CloudFormation stack
+##### 5. Add the **WebsiteURL** to CloudFormation _Outputs_
+
+Copy and paste the code below to the _Outputs_ section of the CloudFormation template.
+
+```yaml
+  WebsiteURL:
+    Value: !Sub http://${WebServerEIP}
+    Description: Application URL
+
+```
+
+##### 5. Update CloudFormation stack
 Similar to previous labs, update the stack with the updated template. Once CloudFormation completes updating the stack,
 you can then check to see that your script has setup a web server on the EC2 instance.
 
-In a web browser, enter the URL of the instance associated Elastic IP address (you can get the Elastic IP from the
- _Outputs_ tab of the CloudFormation console).
+In a web browser, enter the `WebsiteURL` (you can get the WebsiteURL from the _Outputs_ tab of the CloudFormation console).
 
-`http://WebServerElasticIP`
+![outputs](/50-launching-ec2/outputs-1.png)
 
 You should see a page similar to the picture below:
 
 ![php-page](/50-launching-ec2/php.png)
+
+---
 
 Congratulations, you have successfully bootstrapped an EC2 instance. In the next section you will learn a different way
 to install software and start services on Amazon EC2 - CloudFormation _Helper Scripts_.

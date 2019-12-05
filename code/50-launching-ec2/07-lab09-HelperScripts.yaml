@@ -63,18 +63,50 @@ Resources:
 
   WebServerInstance:
     Type: AWS::EC2::Instance
+    # Configure Metadata
+
+      # Install HTTPD and PHP packages
+
+      # Create /var/www/html/index.php file
+
+      # Add /etc/cfn/cfn-hup.conf file
+
+      # Add /etc/cfn/hooks.d/cfn-auto-reloader.conf file
+
+      # Enable and start Apache web server
+
+      # Enable and start cfn-hup service
+
     Properties:
       IamInstanceProfile: !Ref WebServerInstanceProfile
       ImageId: !Ref AmiID
       InstanceType: !FindInMap [EnvironmentToInstanceType, !Ref EnvironmentType, InstanceType]
-      # Attach SecurityGroup here
+      SecurityGroupIds:
+        - !Ref WebServerSecurityGroup
       Tags:
         - Key: Name
           Value: !Join [ ' ', [ !Ref EnvironmentType, Web Server ] ]
-      # Add user data here
+      UserData:
+        Fn::Base64:
+          !Sub |
+          #!/bin/bash -xe
+          # Update aws-cfn-bootstrap to the latest
 
-  # Add Security Group resource here
-      # Add ingress rule to the Security Group
+          # Call cfn-init script to install files and packages
+
+          # Call cfn-signal script to send a signal with exit code
+
+    # Add Creation policy
+
+  WebServerSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: 'Enable HTTP access via port 80'
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 80
+          ToPort: 80
+          CidrIp: 0.0.0.0/0
 
   WebServerEIP:
     Type: AWS::EC2::EIP
@@ -91,4 +123,6 @@ Outputs:
     Description: 'Elastic IP assigned to EC2'
     Value: !Ref WebServerEIP
 
-  # Add WebsiteURL output here
+  WebsiteURL:
+    Value: !Sub http://${WebServerEIP}
+    Description: Application URL

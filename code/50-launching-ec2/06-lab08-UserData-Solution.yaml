@@ -133,3 +133,7 @@ Outputs:
   WebServerElasticIP:
     Description: 'Elastic IP assigned to EC2'
     Value: !Ref WebServerEIP
+
+  WebsiteURL:
+    Value: !Sub http://${WebServerEIP}
+    Description: Application URL
