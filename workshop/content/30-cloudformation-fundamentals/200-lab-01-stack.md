@@ -34,7 +34,7 @@ Here's an example of deploying a CloudFormation template using the console:
     Resources:
       S3Bucket:
         Type: AWS::S3::Bucket
-  
+
     Outputs:
       CFNWorkshopS3Bucket:
         Description: S3 bucket for CFN workshop
