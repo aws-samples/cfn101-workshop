@@ -26,7 +26,7 @@ AWSTemplateFormatVersion: '2010-09-09'
 The _Description_ section enables you to include comments about your template.
 
 ```yaml
-Description : 'AWS CLoudFormation Workshop template.'
+Description : 'AWS CloudFormation Workshop template.'
 ```
 
 #### Metadata
