@@ -30,7 +30,7 @@ Here's an example of deploying a CloudFormation template using the console:
    single Output that contains the bucket name. Copy the code below and save to
    the `01-lab01-StackExample.yaml` file.
 
-    ```yaml
+```yaml
     Resources:
       S3Bucket:
         Type: AWS::S3::Bucket
@@ -39,7 +39,7 @@ Here's an example of deploying a CloudFormation template using the console:
       CFNWorkshopS3Bucket:
         Description: S3 bucket for CFN workshop
         Value: !Ref S3Bucket
-    ```
+```
 
 1. Log in to your AWS account and go to [CloudFormation](https://console.aws.amazon.com/cloudformation).
 

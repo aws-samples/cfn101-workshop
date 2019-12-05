@@ -92,7 +92,7 @@ Resources:
 
 ##### 4. Finally, update the _Tags_ property
   As you have deleted `InstanceType` parameter, you need to update the tag. Reference `EnviromentType` in the tag property.
-  ```yaml
+```yaml
       Tags:
         - Key: Name
           Value: !Join [ ' ', [ !Ref EnvironmentType, Web Server ] ]

@@ -42,7 +42,7 @@ You can proceed to the next step as SSM Agent is pre-installed on Amazon Linux A
 
 The AWS managed policy, `AmazonSSMManagedInstanceCore`, allows an instance to use AWS Systems Manager service core functionality.
   
-  ```yaml
+```yaml
   SSMIAMRole:
     Type: AWS::IAM::Role
     Properties:
@@ -56,7 +56,7 @@ The AWS managed policy, `AmazonSSMManagedInstanceCore`, allows an instance to us
               - sts:AssumeRole
       ManagedPolicyArns:
         - arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore
-  ```
+```
 ##### 3. Create an IAM Instance Profile
   
 ```yaml
