@@ -264,14 +264,14 @@ Add `EnvironmentType` parameter to the EC2 stack in the main.yaml template.
 
 Before you update your CloudFormation nested stack, there are a couple more things to do. 
 
-+ You need to specify which VPC to create the EC2 Security Group in. Without specifying the VPC parameter, the Security group will be created in the _Default_ VPC.
++ You need to specify which VPC to create the EC2 security group in. Without specifying the VPC parameter, the security group will be created in the _Default_ VPC.
     
 + You need to specify which subnet to create the EC2 instance in.
 
-##### 1. Prep Security Group resource
+##### 1. Prepare the security group resource
 
 1. Open up `code/60-setting-up-nested-stack/01-working directory/ec2.yaml` and locate the `WebServerSecurityGroup` resource.
-1. Add `VpcId` property and reference VpcId parameter. Your Security Group resource should look like the code below.
+1. Add `VpcId` property and reference VpcId parameter. Your security group resource should look like the code below.
 
 ```yaml {hl_lines=[10]}
   WebServerSecurityGroup:
