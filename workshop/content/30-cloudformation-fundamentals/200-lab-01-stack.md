@@ -22,7 +22,7 @@ Here's an example of deploying a CloudFormation template using the console:
 
 **Now try it yourself:**
 
-1. Go to the `code/30-cloudformation-fundementals/` directory.
+1. Go to the `code/30-cloudformation-fundamentals/` directory.
 
 1. Open the `01-lab01-StackExample.yaml` file in your code editor.
 
