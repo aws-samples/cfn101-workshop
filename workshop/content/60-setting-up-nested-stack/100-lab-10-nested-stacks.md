@@ -188,7 +188,7 @@ The IAM instance role resource has been removed from ec2 template for you.
 ```
 
 #### 2. Create IAM resource in main template
-Copy the code bellow to the _Resources_ section of the `main.yaml` template.
+Copy the code below to the _Resources_ section of the `main.yaml` template.
 
 ```yaml
   IamStack:
@@ -223,7 +223,7 @@ there are three parameters:
 `EnvironmentType` - this property has a default value and is likely to change often, so let's add this one.
 `AmiID` - this property has default value, it can be left out from the main template.
 
-Add code bellow to the _Parameters_ section of the main template:
+Add code below to the _Parameters_ section of the main template:
 ```yaml
   EnvironmentType:
     Description: 'Specify the Environment type of the stack.'
@@ -238,7 +238,7 @@ Add code bellow to the _Parameters_ section of the main template:
 
 #### 2. Create EC2 resource in main template
 
-Copy the code bellow to the _Resources_ section of the `main.yaml` template.
+Copy the code below to the _Resources_ section of the `main.yaml` template.
 ```yaml
   EC2Stack:
     Type: AWS::CloudFormation::Stack
