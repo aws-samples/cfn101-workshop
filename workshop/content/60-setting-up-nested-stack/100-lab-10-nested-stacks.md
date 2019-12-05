@@ -272,6 +272,7 @@ Before you update your CloudFormation nested stack, there are a couple more thin
 
 1. Open up `code/60-setting-up-nested-stack/01-working directory/ec2.yaml` and locate the `WebServerSecurityGroup` resource.
 1. Add `VpcId` property and reference VpcId parameter. Your Security Group resource should look like the code below.
+
 ```yaml
   WebServerSecurityGroup:
     Type: AWS::EC2::SecurityGroup
@@ -379,20 +380,11 @@ Update previously created stack with a new template.
 1. Upload the new template file.
 1. Follow the wizard, Acknowledge IAM capabilities and click on _Update stack_.
 
----
-<-- End of rezabekf PR -->
 
 ## Making changes to nested stacks
 
 It's possible to change the template of a nested stack. For example, you may edit the properties of a resource in a stack, or add a resource. First, make the updates to the required stacks. Then upload the changed nested templates to S3. Finally, redeploy the parent stack to update the entire nested stack
 
-## Why is it useful?
-
-<!-- TODO convert to prose -->
-* Decompose large templates - Avoid resource definition limits
-* Reuse common components
-
-<!-- TODO Write steps for completing main.template -->
 ## Conclusion
 
 Nested stacks are allow you to compose CloudFormation templates. This allows you to decompose large templates into smaller reusable components. It also assists in avoid resource limits of a single template. These components are defined in a template like any other CloudFormation resource.
