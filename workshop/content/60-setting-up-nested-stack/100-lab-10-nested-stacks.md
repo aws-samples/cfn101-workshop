@@ -42,7 +42,7 @@ To reference a CloudFormation stack in your template, use the `AWS::CloudFormati
 
 It looks like this:
 
-```bash
+```yaml
 Resources:
     NestedStackExample
         Type: AWS::CloudFormation::Stack
