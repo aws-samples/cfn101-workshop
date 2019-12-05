@@ -101,11 +101,11 @@ You can use AWS CLI to query AWS Systems Manager Parameter Store
 Bellow is an example, how to get the latest Amazon Linux 2 AMI ID in London Region.
 
 ```bash
-  aws ssm get-parameters \
-  --names /aws/service/ami-amazon-linux-latest/amzn2-ami-hvm-x86_64-gp2 \
-  --query Parameters[].Value \
-  --region eu-west-2 \
-  --output text
+aws ssm get-parameters \
+--names /aws/service/ami-amazon-linux-latest/amzn2-ami-hvm-x86_64-gp2 \
+--query Parameters[].Value \
+--region eu-west-2 \
+--output text
 ```
 
 #### Final Template
