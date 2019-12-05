@@ -5,10 +5,10 @@ weight: 500
 ---
 
 _Outputs_ enable us to get access to information about resources within a stack. For example, you can output an EC2 
-instance Public DNS name once is created.
+instance's Public DNS name once it is created.
 
-Furthermore, output values can be imported into other stacks. This is known as cross-stack references. 
-(You will see this in action once we get to _Nested Stacks_ lab.)
+Furthermore, output values can be imported into other stacks. These are known as cross-stack references. 
+(You will see this in action once we get to the _Nested Stacks_ lab.)
 
 ##### YAML Syntax:
 The _Outputs_ section consists of the key name `Outputs`, followed by a colon. 
@@ -45,7 +45,7 @@ Outputs:
 ``` 
 1. Go to the AWS console and update your stack with a new template.
 {{%expand "How do I update a Stack?" %}}
-Go to the AWS console and deploy the stack same way as you did in 
+Go to the AWS console and deploy the stack the same way you did in 
 the [Lab 03: Intrinsic Functions](../300-lab-03-functions)
 ![](/40-cloudformation-features/update-1.gif)
 {{% /expand %}}
@@ -59,8 +59,8 @@ the [Lab 03: Intrinsic Functions](../300-lab-03-functions)
 > In this exercise, you should assign an Elastic IP to your EC2 instance. Then, add an output of the Elastic IP to the _Outputs_ 
 >section of the template. You should continue using the `code/40-cloudformation-features/07-lab05-Outputs.yaml` template.
 
-1. Create `AWS::EC2::EIP` resource and attach it to your existing EC2 instance.
-1. Create logical ID called `ElasticIP` and add it to the Outputs section of the template. 
+1. Create an `AWS::EC2::EIP` resource and attach it to your existing EC2 instance.
+1. Create a logical ID called `ElasticIP` and add it to the Outputs section of the template. 
 
 {{%expand "Need a hint?" %}}
 Check out the AWS Documentation for [AWS::EC2::EIP resource](https://docs.aws.amazon.com/en_pv/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-eip.html)
