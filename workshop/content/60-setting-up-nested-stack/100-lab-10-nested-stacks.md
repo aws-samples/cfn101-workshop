@@ -223,7 +223,7 @@ there are three parameters:
 * `EnvironmentType` - this property has a default value and is likely to change often, so let's add this one.
 * `AmiID` - this property has default value, it can be left out from the main template.
 
-Add code below to the _Parameters_ section of the main template:
+Add the code below to the _Parameters_ section of the main template:
 ```yaml
   EnvironmentType:
     Description: 'Specify the Environment type of the stack.'
@@ -249,7 +249,7 @@ Copy the code below to the _Resources_ section of the `main.yaml` template.
 
 #### 3. Add EnvironmentType to EC2 stack
 
-Add `EnvironmentType` parameter to the EC2 stack in the main.yaml template.
+Add the `EnvironmentType` parameter to the EC2 stack in the `main.yaml template`.
 ```yaml {hl_lines=[7]}
   EC2Stack:
     Type: AWS::CloudFormation::Stack
@@ -270,7 +270,7 @@ Before you update your CloudFormation nested stack, there are a couple more thin
 
 ##### 1. Prepare the security group resource
 
-1. Open up `code/60-setting-up-nested-stack/01-working directory/ec2.yaml` and locate the `WebServerSecurityGroup` resource.
+1. Open up `ec2.yaml` and locate the `WebServerSecurityGroup` resource.
 1. Add `VpcId` property and reference VpcId parameter. Your security group resource should look like the code below.
 
 ```yaml {hl_lines=[10]}
@@ -303,7 +303,7 @@ Before you update your CloudFormation nested stack, there are a couple more thin
 To pass the variable from one stack to another, you need to create an output containing the value in the stack that will be passing it on.
 Using the intrinsic function `!GetAtt`, CloudFormation can access the value from that stack and will pass it on as a parameter.
 
-Add the code below to `vpc.yaml` template.
+Add the code below to the `vpc.yaml` template.
 ```yaml
 Outputs:
   VpcId:
@@ -343,7 +343,7 @@ Outputs:
 ##### 5. Prep EC2 template
 
 1. Open up `ec2.yaml`
-1. Create parameter `WebServerInstanceProfile` in _Parameters_ section of the template.
+1. Create the parameter `WebServerInstanceProfile` in the _Parameters_ section of the template.
 ```yaml
   WebServerInstanceProfile:
     Type: String
@@ -352,7 +352,7 @@ Outputs:
 
 ##### 6. Add WebServerInstanceProfile to _EC2Stack_ stack
 
-Add `WebServerInstanceProfile` parameter to the EC2 stack in the `main.yaml` template.
+Add the `WebServerInstanceProfile` parameter to the EC2 stack in the `main.yaml` template.
 ```yaml {hl_lines=[10]}
   EC2Stack:
     Type: AWS::CloudFormation::Stack
@@ -367,8 +367,9 @@ Add `WebServerInstanceProfile` parameter to the EC2 stack in the `main.yaml` tem
 ```
 
 #### 5. Upload the EC2 stack to S3
+Before you can deploy the updated nested stack, you must update the templates in your S3 bucket that are referenced by the parent template, `main.yaml`.
 
-Similar to the [VPC stack](#3-upload-the-vpc-stack-to-s3), upload the `ec2.yaml` template to your S3 bucket.
+Similar to the [uploading the VPC stack](#3-upload-the-vpc-stack-to-s3) in a previous step, upload the `ec2.yaml` and `iam.yaml` templates to your S3 bucket.
 
 #### 6. Deploy EC2 Nested Stack
 
@@ -378,11 +379,11 @@ Update your previously created stack with a new parent template.
 1. Select the _root_ stack (it is the one without nested tag associated).
 1. Select _replace current template_.
 1. Upload the new template file.
-1. Follow the wizard, Acknowledge IAM capabilities and click on _Update stack_.
+1. Follow the wizard, acknowledge IAM capabilities and click on _Update stack_.
 
 ## Making changes to nested stacks
 
-It's possible to change the template of a nested stack. For example, you may edit the properties of a resource in a stack, or add a resource. First, make the updates to the required stacks. Then upload the changed nested templates to S3. Finally, redeploy the parent stack to update the entire nested stack
+It's possible to change components of a nested stack. For example, you may edit the properties of a resource in a stack, or add a resource. First, make the updates to the required stacks. Then upload the changed nested templates to S3. Finally, redeploy the parent stack to update the entire nested stack
 
 ## Conclusion
 
