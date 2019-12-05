@@ -34,7 +34,7 @@ Yaml Syntax:
   !Ref
 ```
 
-In the last lab you have "hard coded" an AMI ID directly into the EC2 Resource property. You will now amend this to make your 
+In the last lab you "hard coded" an AMI ID directly into the EC2 Resource property. You will now amend this to make your 
 template more flexible. Lets convert AMI ID to variable and pass it to resource property at the runtime.
 
 1. First, create new parameter called `AmiID` and put it in the `Parameters` section of your template.
@@ -76,7 +76,7 @@ Yaml Syntax:
   !Join [ delimiter, [ comma-delimited list of values ] ]
 ```
 
-It is always good idea to tag your resources. You can use the intrinsic function _Fn::Join_ to create a string.
+It is always a good idea to tag your resources. You can use the intrinsic function _Fn::Join_ to create a string.
 
 ```yaml
       Tags:
@@ -86,7 +86,7 @@ It is always good idea to tag your resources. You can use the intrinsic function
 
 #### Exercise
 
-Now it is a time to update your stack. 
+Now it is time to update your stack. 
 
 Go to the AWS console and update your CloudFormation Stack.
 
