@@ -27,6 +27,6 @@ A background in CloudFormation, command line, git, and development workflows is 
 + [CloudFormation Fundamentals](/30-cloudformation-fundamentals)
 + [CloudFormation Features](/40-cloudformation-features)
 + [Launching an EC2 Instance](/50-launching-ec2)
-+ [CloudFormation Package and Deploy](/60-cloudformation-package-and-deploy)
-+ [Setting up Nested Stack](/70-setting-up-nested-stack)
++ [Setting up Nested Stack](/60-setting-up-nested-stack)
++ [CloudFormation Package and Deploy](/70-cloudformation-package-and-deploy)
 + [Next Steps](/80-next-steps)
