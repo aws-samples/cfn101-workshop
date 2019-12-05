@@ -39,12 +39,13 @@ template more flexible. Lets convert AMI ID to variable and pass it to resource 
 
 1. First, create new parameter called `AmiID` and put it in the `Parameters` section of your template.
 ```yaml
-      AmiID:
-        Type: String
-        Description: The ID of the AMI.
+  AmiID:
+    Type: AWS::EC2::Image::Id
+    Description: 'The ID of the AMI.'
 ```
 **Challenge:**
 Add the `AmiID` to ParameterGroup and label it `Amazon Machine Image ID`
+
 {{%expand "Expand here to see the solution" %}}
 ```yaml
     ParameterGroups:
@@ -65,7 +66,7 @@ Add the `AmiID` to ParameterGroup and label it `Amazon Machine Image ID`
 
 1. Use the intrinsic function `Ref` to pass the `AmiID` parameter input to resource property.
 ```yaml
-          ImageId: !Ref AmiID
+      ImageId: !Ref AmiID
 ```
 
 #### Fn::Join <a id="join"></a>
