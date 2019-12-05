@@ -39,9 +39,9 @@ Outputs:
 
 ```yaml
 Outputs:
-      EC2PublicDNS:
-        Description: 'Public DNS of EC2 instance'
-        Value: !GetAtt MyEC2Instance.PublicDnsName
+  EC2PublicDNS:
+    Description: 'Public DNS of EC2 instance'
+    Value: !GetAtt MyEC2Instance.PublicDnsName
 ``` 
 1. Go to the AWS console and update your stack with a new template.
 {{%expand "How do I update a Stack?" %}}
