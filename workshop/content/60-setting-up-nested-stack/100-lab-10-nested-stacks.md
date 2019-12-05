@@ -182,6 +182,7 @@ The IAM instance role resource has been removed from ec2 template for you.
 ```
 
 #### 2. Create IAM resource in main template
+Copy the code bellow to the main.yaml template to the _Resources_ section.
 
 ```yaml
   IamStack:
@@ -193,7 +194,7 @@ The IAM instance role resource has been removed from ec2 template for you.
 
 #### 3. Upload the IAM stack to S3
 
-Similarly to the VPC stack, upload the IAM template to the S3.
+Similarly to the [VPC stack](#3-upload-the-vpc-stack-to-s3), upload the IAM template to the S3.
 
 #### 4. Deploy IAM Nested Stack
 
@@ -203,7 +204,7 @@ Update the previously created stack with a new template.
 1. Select the _root_ stack (it is the one without nested tag associated).
 1. Select _replace current template_
 1. Upload the new template file.
-1. Follow the wizard, Acknowledge IAM capabilities and click on _Update stack_.
+1. Follow the wizard, acknowledge IAM capabilities and click on _Update stack_.
 
 ### Create EC2 Nested Stack
 
@@ -230,6 +231,8 @@ Add code bellow to _Properties_ section of the main template:
 ```
 
 #### 2. Create EC2 resource in main template
+
+Copy the code bellow to the main.yaml template to the _Resources_ section.
 ```yaml
   EC2Stack:
     Type: AWS::CloudFormation::Stack
@@ -238,8 +241,15 @@ Add code bellow to _Properties_ section of the main template:
       TimeoutInMinutes: 20
 ```
 
-#### 3. Add Parameters to EC2 stack
+#### 3. Add EnvironmentType to EC2 stack
+
+Add `EnvironmentType` parameter to the EC2 stack in the main.yaml template.
 ```yaml
+  EC2Stack:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL: !Sub https://${S3BucketName}.s3.amazonaws.com/ec2.yaml
+      TimeoutInMinutes: 20
       Parameters:
         EnvironmentType: !Ref EnvironmentType
 ```
@@ -347,9 +357,9 @@ Add `WebServerInstanceProfile` parameter to the EC2 stack in the main.yaml templ
         WebServerInstanceProfile: !GetAtt IamStack.Outputs.WebServerInstanceProfile
 ```
 
-#### 5. Upload the IAM stack to S3
+#### 5. Upload the EC2 stack to S3
 
-Similarly to other stacks, upload the EC2 template to the S3.
+Similarly to [VPC stack](#3-upload-the-vpc-stack-to-s3), upload the EC2 template to the S3.
 
 #### 6. Deploy EC2 Nested Stack
 
