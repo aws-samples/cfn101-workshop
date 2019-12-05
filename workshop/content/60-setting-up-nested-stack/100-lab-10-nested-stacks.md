@@ -207,7 +207,7 @@ Similarly to the [VPC stack](#3-upload-the-vpc-stack-to-s3), upload the IAM temp
 Update the previously created stack with a new template.
 
 1. Navigate to Cloudformation service in the AWS console.
-1. Select the _root_ stack (it is the one without nested tag associated).
+1. Select the _root_ stack (it is the one without the **nested** tag associated).
 1. Select _replace current template_
 1. Upload the new template file.
 1. Follow the wizard, acknowledge IAM capabilities and click on _Update stack_.
