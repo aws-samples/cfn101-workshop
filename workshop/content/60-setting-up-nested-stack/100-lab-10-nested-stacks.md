@@ -7,10 +7,11 @@ weight: 100
 ## Introduction
 
 Your CloudFormation template has grown considerably over the course of this workshop. As your infrastructure grows, common 
-patterns can emerge in which you declare the same components in each of your templates. For example, IAM instance role will 
-very likely be used for every EC2 instance created, to enable SSH access. Instead of copying and pasting the same configuration 
-into EC2 template, you can create dedicated template for IAM instance role and then use the `AWS::CloudFormation:Stack`
-resource to reference that template from within other templates.
+patterns can emerge in which you declare the same components in each of your templates. 
+
+For example, you may wish to enable Systems Manager Session Manager access to every EC2 Instance. Instead of copying and 
+pasting the same IAM role configuration, you can create a dedicated template containing the IAM role for the instance. You 
+can then use this template via `AWS::CloudFormation::Stack`
 
 ## Lab Overview
 
@@ -73,7 +74,7 @@ The VPC template has been created for you. This template will create VPC stack w
 #### 1. Create VPC parameters in main template
 
 If you look in `code/60-setting-up-nested-stack/01-working directory/vpc.yaml` file, you will notice that there are some parameters in the _Parameters_ section of the template.
-You need to pass in those parameters from the main stack. Copy the code bellow to the `main.yaml` template to the _Parameters_ section.
+The parameters are added to the main template so that they can be passed to the nested stack. Copy the code bellow to the `main.yaml` template to the _Parameters_ section.
 ```yaml
   AvailabilityZones:
     Type: List<AWS::EC2::AvailabilityZone::Name>
@@ -200,8 +201,8 @@ Update previously created stack with a new template.
 1. Navigate to Cloudformation service in the AWS console.
 1. Select the _root_ stack (it is the one without nested tag associated).
 1. Select _replace current template_
-1. Upload the new template file
-1. Follow the wizard and click _Update stack_
+1. Upload the new template file.
+1. Follow the wizard, Acknowledge IAM capabilities and click on _Update stack_.
 
 ### Create EC2 Nested Stack
 
@@ -355,9 +356,9 @@ Update previously created stack with a new template.
 
 1. Navigate to Cloudformation service in the AWS console.
 1. Select the _root_ stack (it is the one without nested tag associated).
-1. Select _replace current template_
-1. Upload the new template file
-1. Follow the wizard and click _Update stack_
+1. Select _replace current template_.
+1. Upload the new template file.
+1. Follow the wizard, Acknowledge IAM capabilities and click on _Update stack_.
 
 ---
 <-- End of rezabekf PR -->
