@@ -164,53 +164,53 @@ you could change the sample PHP application in the template and deploy this by u
 
 1. Add two files to the `files` section of the  `AWS::CloudFormation::Init`:
 
-+ /etc/cfn/cfn-hup.conf
-+ /etc/cfn/hooks.d/cfn-auto-reloader.conf
+    + /etc/cfn/cfn-hup.conf
+    + /etc/cfn/hooks.d/cfn-auto-reloader.conf
 
-```yaml
-          # Create /var/www/html/index.php file
-          files:
-            /var/www/html/index.php:
-              content: {...}
-              mode: 000644
-              owner: apache
-              group: apache
-          # Create /etc/cfn/cfn-hup.conf
-            /etc/cfn/cfn-hup.conf:
-              content: !Sub |
-                [main]
-                stack=${AWS::StackId}
-                region=${AWS::Region}
-                interval=1
-              mode: 000400
-              owner: root
-              group: root
-          # Create /etc/cfn/hooks.d/cfn-auto-reloader.conf
-            /etc/cfn/hooks.d/cfn-auto-reloader.conf:
-              content: !Sub |
-                [cfn-auto-reloader-hook]
-                triggers=post.update
-                path=Resources.WebServerInstance.Metadata.AWS::CloudFormation::Init
-                action=/opt/aws/bin/cfn-init -s ${AWS::StackName} -r WebServerInstance --region ${AWS::Region}
-                runas=root
-```
+    ```yaml
+              # Create /var/www/html/index.php file
+              files:
+                /var/www/html/index.php:
+                  content: {...}
+                  mode: 000644
+                  owner: apache
+                  group: apache
+              # Create /etc/cfn/cfn-hup.conf
+                /etc/cfn/cfn-hup.conf:
+                  content: !Sub |
+                    [main]
+                    stack=${AWS::StackId}
+                    region=${AWS::Region}
+                    interval=1
+                  mode: 000400
+                  owner: root
+                  group: root
+              # Create /etc/cfn/hooks.d/cfn-auto-reloader.conf
+                /etc/cfn/hooks.d/cfn-auto-reloader.conf:
+                  content: !Sub |
+                    [cfn-auto-reloader-hook]
+                    triggers=post.update
+                    path=Resources.WebServerInstance.Metadata.AWS::CloudFormation::Init
+                    action=/opt/aws/bin/cfn-init -s ${AWS::StackName} -r WebServerInstance --region ${AWS::Region}
+                    runas=root
+    ```
 
 2. Enable and start `cfn-hup` in `services` section of the template.
-```yaml
-          # Enable and start Apache web server
-          services:
-            sysvinit:
-              httpd:
-                enabled: true
-                ensureRunning: true
-          # Enable and start cfn-hup service
-              cfn-hup:
-                enabled: true
-                ensureRunning: true
-                files:
-                  - /etc/cfn/cfn-hup.conf
-                  - /etc/cfn/hooks.d/cfn-auto-reloader.conf
-```
+    ```yaml
+              # Enable and start Apache web server
+              services:
+                sysvinit:
+                  httpd:
+                    enabled: true
+                    ensureRunning: true
+              # Enable and start cfn-hup service
+                  cfn-hup:
+                    enabled: true
+                    ensureRunning: true
+                    files:
+                      - /etc/cfn/cfn-hup.conf
+                      - /etc/cfn/hooks.d/cfn-auto-reloader.conf
+    ```
 
 #### Configure cfn-signal and CreationPolicy attribute
 Finally, you need a way to instruct AWS CloudFormation to complete stack creation only after all the services 
@@ -225,56 +225,56 @@ attribute to the instance. In conjunction with the creation policy, you need to 
 script to notify AWS CloudFormation when all the applications are installed and configured.
 
 1. Add Creation policy to `WebServerInstance` resource
-```yaml
-      UserData:
-        Fn::Base64:
-          !Sub |
-            #!/bin/bash -xe
-            # Update aws-cfn-bootstrap to the latest
-            yum install -y aws-cfn-bootstrap
-            # Call cfn-init script to install files and packages
-            /opt/aws/bin/cfn-init -v --stack ${AWS::StackName} --resource WebServerInstance --region ${AWS::Region}
-    # Add Creation policy
-    CreationPolicy:
-      ResourceSignal:
-        Count: 1
-        Timeout: PT10M
-```
+    ```yaml
+          UserData:
+            Fn::Base64:
+              !Sub |
+                #!/bin/bash -xe
+                # Update aws-cfn-bootstrap to the latest
+                yum install -y aws-cfn-bootstrap
+                # Call cfn-init script to install files and packages
+                /opt/aws/bin/cfn-init -v --stack ${AWS::StackName} --resource WebServerInstance --region ${AWS::Region}
+        # Add Creation policy
+        CreationPolicy:
+          ResourceSignal:
+            Count: 1
+            Timeout: PT10M
+    ```
 
 2. Call cfn-signal from the UserData parameter
-```yaml
-      UserData:
-        Fn::Base64:
-          !Sub |
-            #!/bin/bash -xe
-            # Update aws-cfn-bootstrap to the latest
-            yum install -y aws-cfn-bootstrap
-            # Call cfn-init script to install files and packages
-            /opt/aws/bin/cfn-init -v --stack ${AWS::StackName} --resource WebServerInstance --region ${AWS::Region}
-            # Call cfn-signal script to send a signal with exit code 
-            /opt/aws/bin/cfn-signal --exit-code $? -s ${AWS::StackName} -r WebServerInstance --region ${AWS::Region}
+    ```yaml
+          UserData:
+            Fn::Base64:
+              !Sub |
+                #!/bin/bash -xe
+                # Update aws-cfn-bootstrap to the latest
+                yum install -y aws-cfn-bootstrap
+                # Call cfn-init script to install files and packages
+                /opt/aws/bin/cfn-init -v --stack ${AWS::StackName} --resource WebServerInstance --region ${AWS::Region}
+                # Call cfn-signal script to send a signal with exit code 
+                /opt/aws/bin/cfn-signal --exit-code $? -s ${AWS::StackName} -r WebServerInstance --region ${AWS::Region}
 
-    CreationPolicy:
-      ResourceSignal:
-        Count: 1
-        Timeout: PT10M
-```
+        CreationPolicy:
+          ResourceSignal:
+            Count: 1
+            Timeout: PT10M
+    ```
 
 #### Update the stack
 To update the stack and apply the changes you have made in the `UserData` property, the EC2 instance needs to be replaced. 
 
 1. Create an `AvailabilityZone` parameter in the template.
-```yaml
-Parameters:
-  AvailabilityZone:
-    Type: AWS::EC2::AvailabilityZone::Name
-```
+    ```yaml
+    Parameters:
+      AvailabilityZone:
+        Type: AWS::EC2::AvailabilityZone::Name
+    ```
 
 2. Check the availability zone of the deployed Web Server instance.
  
-  + Go to https://console.aws.amazon.com/ec2
-  + In the left hand pane click _Instances_.
-  + Select the `<enviroment Web Server` instance and make a note of the _Availability zone_ value. For example `eu-west-2a`.
+    + Go to https://console.aws.amazon.com/ec2
+    + In the left hand pane click _Instances_.
+    + Select the `<enviroment Web Server` instance and make a note of the _Availability zone_ value. For example `eu-west-2a`.
 
 3. Update the stack to use a different availability zone than the current one.
 

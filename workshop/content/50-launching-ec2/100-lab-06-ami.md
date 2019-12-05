@@ -18,12 +18,12 @@ parameter type. A Systems Manager parameter type allows you to reference paramet
 1. Open the `01-lab06-SSM.yaml` file.
 
 1. Update the `AmiID` parameter to:
-```yaml
-    AmiID:
-      Type: AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>
-      Description: The ID of the AMI.
-      Default: '/aws/service/ami-amazon-linux-latest/amzn2-ami-hvm-x86_64-gp2'
-```
+    ```yaml
+        AmiID:
+          Type: AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>
+          Description: The ID of the AMI.
+          Default: '/aws/service/ami-amazon-linux-latest/amzn2-ami-hvm-x86_64-gp2'
+    ```
 
 1. Go to the AWS console and update your stack with a new template.
 {{% notice info %}}

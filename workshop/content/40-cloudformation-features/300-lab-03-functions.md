@@ -31,49 +31,53 @@ The intrinsic function _Ref_ returns the value of the specified _parameter_ or _
 
 Yaml Syntax:
 ```
-  !Ref
+!Ref
 ```
 
 In the last lab you have "hard coded" an AMI ID directly into the EC2 Resource property. You will now amend this to make your 
 template more flexible. Let's convert AMI ID to variable and pass it to resource property at the runtime.
 
 1. First, create new parameter called `AmiID` and put it in the `Parameters` section of your template.
-```yaml
+    
+    ```yaml
       AmiID:
         Type: String
         Description: The ID of the AMI.
-```
-**Challenge:**
-Add the `AmiID` to ParameterGroup and label it `Amazon Machine Image ID`
-{{%expand "Expand here to see the solution" %}}
+    ```
+
+    **Challenge:**
+
+    Add the `AmiID` to ParameterGroup and label it `Amazon Machine Image ID`
+    
+      {{%expand "Expand here to see the solution" %}}
 ```yaml
-    ParameterGroups:
-      - Label:
-          default: 'Amazon EC2 Configuration'
-        Parameters:
-          - InstanceType
-          - AmiID
+      ParameterGroups:
+        - Label:
+            default: 'Amazon EC2 Configuration'
+          Parameters:
+            - InstanceType
+            - AmiID
 
-    ParameterLabels:
-      InstanceType:
-        default: 'Type of EC2 Instance'
+      ParameterLabels:
+        InstanceType:
+          default: 'Type of EC2 Instance'
 
-      AmiID:
-        default: 'Amazon Machine Image ID'
+        AmiID:
+          default: 'Amazon Machine Image ID'
 ```
-{{% /expand %}}
+    {{% /expand %}}
 
 1. Use the intrinsic function `Ref` to pass the `AmiID` parameter input to resource property.
-```yaml
+    ```yaml
           ImageId: !Ref AmiID
-```
+    ```
 
 #### Fn::Join <a id="join"></a>
 The intrinsic function _Fn::Join_ appends a set of values into a single value, separated by the specified delimiter.
 
 Yaml Syntax:
 ```
-  !Join [ delimiter, [ comma-delimited list of values ] ]
+!Join [ delimiter, [ comma-delimited list of values ] ]
 ```
 
 It is always good idea to tag your resources. You can use the intrinsic function _Fn::Join_ to create a string.

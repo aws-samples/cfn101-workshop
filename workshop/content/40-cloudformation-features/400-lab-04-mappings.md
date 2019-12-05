@@ -104,11 +104,11 @@ Let's add another Environment `Dev` to your template. It will need to contain `D
 pair `InstanceType: t3.nano`. Also, don't forget to add `Dev` to `EnvironmentType` parameter.
 
 {{%expand "Need a hint?" %}}
-1. In a _Parameters_ section
-  * Add `Dev` to the `EnvironmentType` AllowedValues list.
-1. In a `Mappings` section. 
-  * Add a top level key of `Dev`.
-  * Add a name-value pair `InstanceType: t3.nano`.
+  1. In a _Parameters_ section
+    * Add `Dev` to the `EnvironmentType` AllowedValues list.
+  1. In a `Mappings` section. 
+    * Add a top level key of `Dev`.
+    * Add a name-value pair `InstanceType: t3.nano`.
 {{% /expand%}}
 
 {{%expand "Expand to see the solution" %}}

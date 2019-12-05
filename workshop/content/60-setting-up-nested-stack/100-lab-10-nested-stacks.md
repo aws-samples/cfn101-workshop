@@ -44,12 +44,12 @@ It looks like this:
 
 ```bash
 Resources:
-    NestedStackExample
-        Type: AWS::CloudFormation::Stack
-        Properties: 
-            Parameters: 
-                ExampleKey: ExampleValue
-            TemplateURL: "Path/To/Template"
+  NestedStackExample
+    Type: AWS::CloudFormation::Stack
+    Properties: 
+      Parameters: 
+        ExampleKey: ExampleValue
+      TemplateURL: "Path/To/Template"
 ```
 
 The `TemplateURL` property is used to reference the CloudFormation template that you wish to nest.
@@ -266,28 +266,28 @@ Before you update your CloudFormation nested stack, there are a couple more thin
 
 1. Open up `code/60-setting-up-nested-stack/01-working directory/ec2.yaml` and locate the `WebServerSecurityGroup` resource.
 1. Add `VpcId` property and reference VpcId parameter. Your security Group should look like the code below.
-```yaml
-  WebServerSecurityGroup:
-    Type: AWS::EC2::SecurityGroup
-    Properties:
-      GroupDescription: 'Enable HTTP access via port 80'
-      SecurityGroupIngress:
-        - IpProtocol: tcp
-          FromPort: 80
-          ToPort: 80
-          CidrIp: 0.0.0.0/0
-      VpcId: !Ref VpcId
-```
+    ```yaml
+      WebServerSecurityGroup:
+        Type: AWS::EC2::SecurityGroup
+        Properties:
+          GroupDescription: 'Enable HTTP access via port 80'
+          SecurityGroupIngress:
+            - IpProtocol: tcp
+              FromPort: 80
+              ToPort: 80
+              CidrIp: 0.0.0.0/0
+          VpcId: !Ref VpcId
+    ```
 1. Next, create parameters `VpcId` and `SubnetId` in _Parameters_ section of the template.
-```yaml
-  VpcId:
-    Type: AWS::EC2::VPC::Id
-    Description: 'The VPC ID'
-    
-  SubnetId:
-    Type: AWS::EC2::Subnet::Id
-    Description: 'The Subnet ID'
-``` 
+    ```yaml
+      VpcId:
+        Type: AWS::EC2::VPC::Id
+        Description: 'The VPC ID'
+        
+      SubnetId:
+        Type: AWS::EC2::Subnet::Id
+        Description: 'The Subnet ID'
+    ``` 
 
 ##### 2. Prep VPC template
 
@@ -335,11 +335,11 @@ Outputs:
 
 1. Open up `code/60-setting-up-nested-stack/01-working directory/ec2.yaml`
 1. Create parameter `WebServerInstanceProfile` in _Parameters_ section of the template.
-```yaml
-  WebServerInstanceProfile:
-    Type: String
-    Description: 'Instance profile resource ID'
-``` 
+    ```yaml
+      WebServerInstanceProfile:
+        Type: String
+        Description: 'Instance profile resource ID'
+    ``` 
 
 ##### 6. Add WebServerInstanceProfile to _EC2Stack_ stack
 

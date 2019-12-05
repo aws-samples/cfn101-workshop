@@ -124,7 +124,7 @@ You will write a bash script to install the application.
           EOF
 ```
 
-##### 5. Add the **WebsiteURL** to CloudFormation _Outputs_
+##### 4. Add the **WebsiteURL** to CloudFormation _Outputs_
 
 Copy and paste the code below to the _Outputs_ section of the CloudFormation template.
 
