@@ -44,7 +44,7 @@ Mappings:
 
 ### Implementing a simple map
 
-##### 1. Lets start with creating _EnvironmentType_ parameter 
+##### 1. Let's start with creating _EnvironmentType_ parameter 
   In the _Parameters_ section of the template. Replace the `InstanceType` parameter with the code below 
   (you will not need InstanceType parameter anymore as you will use mapping instead).
 
@@ -100,7 +100,7 @@ Resources:
 
 ## Exercise - Add `Dev` environment
 Now it's your turn.
-Lets add another Environment `Dev` to your template. It will need to contain `Dev` key name, and name-value 
+Let's add another Environment `Dev` to your template. It will need to contain `Dev` key name, and name-value 
 pair `InstanceType: t3.nano`. Also, don't forget to add `Dev` to `EnvironmentType` parameter.
 
 {{%expand "Need a hint?" %}}

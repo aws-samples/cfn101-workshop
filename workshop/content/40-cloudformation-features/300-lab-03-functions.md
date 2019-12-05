@@ -20,7 +20,7 @@ Intrinsic functions can only be used in certain parts of a template. You can use
 **resource properties, outputs, metadata attributes, and update policy attributes**.
 {{% /notice %}}
 
-**Lets go!**
+**Let's go!**
 
 1. Go to the `code/40-cloudformation-features/` directory.
 1. Open the `03-lab03-IntrinsicFunctions.yaml` file.
@@ -35,7 +35,7 @@ Yaml Syntax:
 ```
 
 In the last lab you have "hard coded" an AMI ID directly into the EC2 Resource property. You will now amend this to make your 
-template more flexible. Lets convert AMI ID to variable and pass it to resource property at the runtime.
+template more flexible. Let's convert AMI ID to variable and pass it to resource property at the runtime.
 
 1. First, create new parameter called `AmiID` and put it in the `Parameters` section of your template.
 ```yaml

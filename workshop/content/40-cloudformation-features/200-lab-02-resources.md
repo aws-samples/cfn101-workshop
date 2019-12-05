@@ -4,11 +4,11 @@ date: 2019-10-28T14:35:59Z
 weight: 110
 ---
 
-Lets build EC2 template. In this Lab, you will write CloudFormation template and learn more about its sections. 
+Let's build EC2 template. In this Lab, you will write CloudFormation template and learn more about its sections. 
 
 As you read through different sections, there is a code at the end, which you should copy to your template file.
 
-**Lets go!**
+**Let's go!**
 
 1. Go to `code/40-cloudformation-features/` directory.
 1. Open the `01-lab02-Resources.yaml` file.
@@ -74,7 +74,7 @@ Parameters:
 
 #### Resources
 
-The required _Resources_ section declares the AWS resources that you want to include in the stack. Lets add the EC2 resource to your stack.
+The required _Resources_ section declares the AWS resources that you want to include in the stack. Let's add the EC2 resource to your stack.
 
 ```yaml
 Resources:
