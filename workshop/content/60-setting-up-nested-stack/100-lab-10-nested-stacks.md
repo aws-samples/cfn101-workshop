@@ -1,5 +1,5 @@
 ---
-title: "Lab 10: Nested Stacks"
+title: 'Lab 10: Nested Stacks'
 date: 2019-11-13T16:52:42Z
 weight: 100
 ---
@@ -217,7 +217,7 @@ there are three parameters:
 `EnvironmentType` - this property has a default value and is likely to change often, so let's add this one.
 `AmiID` - this property has default value, it can be left out from the main template.
 
-Add code bellow to _Properties_ section of the main template:
+Add code bellow to the _Parameters_ section of the main template:
 ```yaml
   EnvironmentType:
     Description: 'Specify the Environment type of the stack.'
