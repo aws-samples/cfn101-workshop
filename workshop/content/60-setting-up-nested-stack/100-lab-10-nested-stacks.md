@@ -75,7 +75,7 @@ The VPC template has been created for you. This template will create VPC stack w
 #### 1. Create VPC parameters in main template
 
 If you look in the file `code/60-setting-up-nested-stack/01-working directory/vpc.yaml` file, you will notice that there are some parameters in the _Parameters_ section of the template.
-The parameters are added to the main template so that they can be passed to the nested stack. Copy the code bellow to the  _Parameters_ section of the `main.yaml` template.
+The parameters are added to the main template so that they can be passed to the nested stack. Copy the code below to the  _Parameters_ section of the `main.yaml` template.
 ```yaml
   AvailabilityZones:
     Type: List<AWS::EC2::AvailabilityZone::Name>
