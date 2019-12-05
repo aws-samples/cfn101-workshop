@@ -273,7 +273,7 @@ Before you update your CloudFormation nested stack, there are a couple more thin
 1. Open up `code/60-setting-up-nested-stack/01-working directory/ec2.yaml` and locate the `WebServerSecurityGroup` resource.
 1. Add `VpcId` property and reference VpcId parameter. Your Security Group resource should look like the code below.
 
-```yaml
+```yaml {hl_lines=[10]}
   WebServerSecurityGroup:
     Type: AWS::EC2::SecurityGroup
     Properties:
