@@ -30,7 +30,7 @@ The following diagram represents high level overview of the infrastructure:
 
 ![nested-stack-architecture](/60-setting-up-nested-stack/ns-architecture.png)
 
-You will find the working directory in `code/60-setting-up-nested-stack/01-working directory`. You should copy/paste lab code there.
+You will find the working directory in `code/60-setting-up-nested-stack/01-working directory`. In the rest of this lab you should add your code to the templates here.
 
 You can find the working solution in `code/60-setting-up-nested-stack/02-solution`. You can reference this against your code.
 
