@@ -227,18 +227,18 @@ script to notify AWS CloudFormation when all the applications are installed and 
 1. Add Creation policy to `WebServerInstance` resource
 ```yaml
       UserData:
-        Fn::Base64:
-          !Sub |
-            #!/bin/bash -xe
-            # Update aws-cfn-bootstrap to the latest
-            yum install -y aws-cfn-bootstrap
-            # Call cfn-init script to install files and packages
-            /opt/aws/bin/cfn-init -v --stack ${AWS::StackName} --resource WebServerInstance --region ${AWS::Region}
-    # Add Creation policy
-    CreationPolicy:
-      ResourceSignal:
-        Count: 1
-        Timeout: PT10M
+          Fn::Base64:
+            !Sub |
+              #!/bin/bash -xe
+              # Update aws-cfn-bootstrap to the latest
+              yum install -y aws-cfn-bootstrap
+              # Call cfn-init script to install files and packages
+              /opt/aws/bin/cfn-init -v --stack ${AWS::StackName} --resource WebServerInstance --region ${AWS::Region}
+      # Add Creation policy
+      CreationPolicy:
+        ResourceSignal:
+          Count: 1
+          Timeout: PT10M
 ```
 
 2. Call cfn-signal from the UserData parameter
