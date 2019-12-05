@@ -219,9 +219,9 @@ Update the previously created stack with a new template.
 Similarly to VPC template, if you look into _Parameters_ section of the `ec2.yaml` template
 there are three parameters:
 
-`SubnetId` - this property will be passed from VPC stack once the VPC stack is created.
-`EnvironmentType` - this property has a default value and is likely to change often, so let's add this one.
-`AmiID` - this property has default value, it can be left out from the main template.
+* `SubnetId` - this property will be passed from VPC stack once the VPC stack is created.
+* `EnvironmentType` - this property has a default value and is likely to change often, so let's add this one.
+* `AmiID` - this property has default value, it can be left out from the main template.
 
 Add code below to the _Parameters_ section of the main template:
 ```yaml
