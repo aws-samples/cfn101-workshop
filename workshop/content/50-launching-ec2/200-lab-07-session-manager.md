@@ -27,7 +27,7 @@ Session Manager has several benefits over using SSH:
    and executes the commands on the instance.
 1. The Session Manager sends audit logs to CloudWatch Logs or S3.
 
-> The EC2 instance needs access to the internet or a VPC Endpoints for Session Manager to work. 
+> The EC2 instance needs access to the internet or a VPC Endpoint for Session Manager to work. 
 
 ![ssm](/50-launching-ec2/ssm-sm-1.png)
 
