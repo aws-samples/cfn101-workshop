@@ -368,11 +368,11 @@ Add `WebServerInstanceProfile` parameter to the EC2 stack in the `main.yaml` tem
 
 #### 5. Upload the EC2 stack to S3
 
-Similarly to [VPC stack](#3-upload-the-vpc-stack-to-s3), upload the EC2 template to the S3.
+Similar to the [VPC stack](#3-upload-the-vpc-stack-to-s3), upload the `ec2.yaml` template to your S3 bucket.
 
 #### 6. Deploy EC2 Nested Stack
 
-Update previously created stack with a new template.
+Update your previously created stack with a new parent template.
 
 1. Navigate to Cloudformation service in the AWS console.
 1. Select the _root_ stack (it is the one without nested tag associated).
