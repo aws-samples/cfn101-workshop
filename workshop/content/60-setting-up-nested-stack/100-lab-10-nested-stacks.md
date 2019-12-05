@@ -70,7 +70,7 @@ If you dont have S3 bucket, please go back to [Lab01](../../30-cloudformation-fu
 
 ### Create VPC Nested Stack
 
-The VPC template has been created for you. This template will create VPC stack with 2 Public Subnets, Internet Gateway, and Route tables.
+The VPC template has been created for you. It is titled `vpc.yaml`. This template will create VPC stack with 2 Public Subnets, Internet Gateway, and Route tables.
 
 #### 1. Create VPC parameters in main template
 
