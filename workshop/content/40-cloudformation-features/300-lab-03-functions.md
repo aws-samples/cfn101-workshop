@@ -38,17 +38,17 @@ In the last lab you have "hard coded" an AMI ID directly into the EC2 Resource p
 template more flexible. Let's convert AMI ID to variable and pass it to resource property at the runtime.
 
 1. First, create new parameter called `AmiID` and put it in the `Parameters` section of your template.
-    
+
     ```yaml
       AmiID:
-        Type: String
-        Description: The ID of the AMI.
+        Type: AWS::EC2::Image::Id
+        Description: 'The ID of the AMI.'
     ```
-
+   
     **Challenge:**
-
-    Add the `AmiID` to ParameterGroup and label it `Amazon Machine Image ID`
     
+    Add the `AmiID` to ParameterGroup and label it `Amazon Machine Image ID`
+
       {{%expand "Expand here to see the solution" %}}
 ```yaml
       ParameterGroups:

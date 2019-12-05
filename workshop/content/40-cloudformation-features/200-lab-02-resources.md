@@ -26,7 +26,7 @@ AWSTemplateFormatVersion: '2010-09-09'
 The _Description_ section enables you to include comments about your template.
 
 ```yaml
-Description : 'AWS CLoudFormation Workshop template.'
+Description : 'AWS CloudFormation Workshop template.'
 ```
 
 #### Metadata
@@ -102,10 +102,10 @@ Below is an example of how to get the latest Amazon Linux 2 AMI ID in London reg
 
 ```bash
 aws ssm get-parameters \
-  --names /aws/service/ami-amazon-linux-latest/amzn2-ami-hvm-x86_64-gp2 \
-  --query Parameters[].Value \
-  --region eu-west-2 \
-  --output text
+--names /aws/service/ami-amazon-linux-latest/amzn2-ami-hvm-x86_64-gp2 \
+--query Parameters[].Value \
+--region eu-west-2 \
+--output text
 ```
 
 #### Final Template
@@ -116,4 +116,4 @@ You can find working solution for **London Region** in `code/40-cloudformation-f
 {{% /notice %}}
 
 Now your EC2 template is ready to be deployed. Go back to AWS console and deploy the stack same way as you did in 
-[Lab 01: Template and Stack](/30-cloudformation-fundamentals/200-lab-01-stack)
+[Lab 01: Template and Stack](/30-cloudformation-fundamentals/200-lab-01-stack).
