@@ -4,7 +4,7 @@ date: 2019-10-28T14:35:59Z
 weight: 110
 ---
 
-Lets build EC2 template. In this Lab, you will write CloudFormation template and learn more about its sections. 
+Lets build an EC2 template. In this Lab, you will write CloudFormation template and learn more about its sections. 
 
 As you read through different sections, there is a code at the end, which you should copy to your template file.
 
