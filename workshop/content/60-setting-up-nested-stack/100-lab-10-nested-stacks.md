@@ -110,8 +110,9 @@ The parameters are added to the main template so that they can be passed to the 
 ```
 
 #### 2. Create VPC resource in main template
-In the code below, note that passing parameter values to resources works the same as if using a single standalone template. Make sure,
-that parameter name in the main template matches parameter name in the VPC template.
+In the code below, note that passing parameter values to resources works the same as if using a single standalone template. Make sure that parameter name in the main template matches parameter name in the VPC template.
+
+Add this code in the _Resources_ section of the main template (`main.yaml`)
 
 ```yaml
   VpcStack:
