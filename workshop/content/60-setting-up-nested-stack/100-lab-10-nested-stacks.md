@@ -75,7 +75,7 @@ The VPC template has been created for you. This template will create VPC stack w
 #### 1. Create VPC parameters in main template
 
 If you look in the file `code/60-setting-up-nested-stack/01-working directory/vpc.yaml` file, you will notice that there are some parameters in the _Parameters_ section of the template.
-The parameters are added to the main template so that they can be passed to the nested stack. Copy the code bellow to the `main.yaml` template to the _Parameters_ section.
+The parameters are added to the main template so that they can be passed to the nested stack. Copy the code bellow to the  _Parameters_ section of the `main.yaml` template.
 ```yaml
   AvailabilityZones:
     Type: List<AWS::EC2::AvailabilityZone::Name>
@@ -109,8 +109,8 @@ The parameters are added to the main template so that they can be passed to the 
 ```
 
 #### 2. Create VPC resource in main template
-In the code bellow, note that passing parameter values to resources works the same as in single standalone template. Make sure,
-that parameter name in main template matches parameter name in the VPC template.
+In the code below, note that passing parameter values to resources works the same as if using a single standalone template. Make sure,
+that parameter name in the main template matches parameter name in the VPC template.
 
 ```yaml
   VpcStack:
@@ -182,7 +182,7 @@ The IAM instance role resource has been removed from ec2 template for you.
 ```
 
 #### 2. Create IAM resource in main template
-Copy the code bellow to the main.yaml template to the _Resources_ section.
+Copy the code bellow to the _Resources_ section of the `main.yaml` template.
 
 ```yaml
   IamStack:
@@ -232,7 +232,7 @@ Add code bellow to the _Parameters_ section of the main template:
 
 #### 2. Create EC2 resource in main template
 
-Copy the code bellow to the main.yaml template to the _Resources_ section.
+Copy the code bellow to the _Resources_ section of the `main.yaml` template.
 ```yaml
   EC2Stack:
     Type: AWS::CloudFormation::Stack

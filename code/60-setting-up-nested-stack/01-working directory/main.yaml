@@ -17,6 +17,6 @@ Resources:
 
   # 3. Add code from "Create IAM resource in main template" section
 
-  # 5. Add code from "Create EC2 parameters in main template" section
+  # 5. Add code from "Create EC2 resource in main template" section
 
   # 6. Add code from "Add Parameters to EC2 stack" section
