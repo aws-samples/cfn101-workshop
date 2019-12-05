@@ -271,7 +271,7 @@ Before you update your CloudFormation nested stack, there are a couple more thin
 ##### 1. Prep Security Group resource
 
 1. Open up `code/60-setting-up-nested-stack/01-working directory/ec2.yaml` and locate the `WebServerSecurityGroup` resource.
-1. Add `VpcId` property and reference VpcId parameter. Your security Group should look like the code bellow.
+1. Add `VpcId` property and reference VpcId parameter. Your Security Group resource should look like the code below.
 ```yaml
   WebServerSecurityGroup:
     Type: AWS::EC2::SecurityGroup
@@ -299,8 +299,8 @@ Before you update your CloudFormation nested stack, there are a couple more thin
 
 ##### 2. Prep VPC template
 
-To pass the variable from one stack to another, you need to first output the value in the stack that will be passing it on.
-Then, using intrinsic function `!GetAtt`, CloudFormation will get the value from that stack and will pass it on as a parameter.
+To pass the variable from one stack to another, you need to create an output containing the value in the stack that will be passing it on.
+Using the intrinsic function `!GetAtt`, CloudFormation can access the value from that stack and will pass it on as a parameter.
 
 Add the code below to `vpc.yaml` template.
 ```yaml
