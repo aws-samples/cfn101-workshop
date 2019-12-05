@@ -11,7 +11,7 @@ patterns can emerge in which you declare the same components in each of your tem
 
 For example, you may wish to enable Systems Manager Session Manager access to every EC2 Instance. Instead of copying and 
 pasting the same IAM role configuration, you can create a dedicated template containing the IAM role for the instance. You 
-can then use this template via `AWS::CloudFormation::Stack`
+can then use this template like a resource via `AWS::CloudFormation::Stack`
 
 ## Lab Overview
 
