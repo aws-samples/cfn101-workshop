@@ -1,5 +1,5 @@
 ---
-title: "Lab 04: Mapping"
+title: 'Lab 04: Mapping'
 date: 2019-11-01T13:36:34Z
 weight: 400
 ---

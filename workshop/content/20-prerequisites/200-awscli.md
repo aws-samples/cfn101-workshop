@@ -1,5 +1,5 @@
 ---
-title: Install and configure the AWS CLI
+title: 'Install and configure the AWS CLI'
 date: 2019-10-18T12:51:19+01:00
 weight: 200
 ---

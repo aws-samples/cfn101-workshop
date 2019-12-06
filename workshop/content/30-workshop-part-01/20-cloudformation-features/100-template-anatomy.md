@@ -1,5 +1,5 @@
 ---
-title: Template Anatomy
+title: 'Template Anatomy'
 date: 2019-10-28T11:11:22Z
 weight: 100
 ---

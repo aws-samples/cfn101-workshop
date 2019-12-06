@@ -1,5 +1,5 @@
 ---
-title: CloudFormation Terminology
+title: 'CloudFormation Terminology'
 date: 2019-10-25T16:15:53+01:00
 weight: 100
 ---
@@ -48,4 +48,4 @@ A stack contains a collection of AWS resources that you can manage as a single u
 
     * If a resource cannot be deleted, any remaining resources are retained until the stack can be successfully deleted.
 
-![](/30-cloudformation-fundamentals/cfn-stack.png)
+![cfn-stack](../cfn-stack.png)

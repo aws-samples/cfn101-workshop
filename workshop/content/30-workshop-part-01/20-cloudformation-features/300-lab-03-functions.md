@@ -1,5 +1,5 @@
 ---
-title: "Lab 03: Intrinsic Functions"
+title: 'Lab 03: Intrinsic Functions'
 date: 2019-11-01T13:36:34Z
 weight: 300
 ---
@@ -82,7 +82,7 @@ Yaml Syntax:
 
 It is always a good idea to tag your resources. You can use the intrinsic function _Fn::Join_ to create a string.
 
-```yaml
+```yml
       Tags:
         - Key: Name
           Value: !Join [ ' ', [ !Ref InstanceType, Web Server ] ]
@@ -95,5 +95,5 @@ Now it is time to update your stack.
 Go to the AWS console and update your CloudFormation Stack.
 
 {{%expand "Expand here to see the solution" %}}
-![](/40-cloudformation-features/update-1.gif)
+![update-gif](../update-1.gif)
 {{% /expand %}}

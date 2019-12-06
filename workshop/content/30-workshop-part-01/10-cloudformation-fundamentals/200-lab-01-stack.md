@@ -1,5 +1,5 @@
 ---
-title: "Lab 01: Template and Stack"
+title: 'Lab 01: Template and Stack'
 date: 2019-10-25T17:41:16+01:00
 weight: 200
 ---
@@ -18,7 +18,7 @@ Throughout this workshop, code samples will use the YAML format. If you prefer t
 
 Here's an example of deploying a CloudFormation template using the console:
 
-![](/30-cloudformation-fundamentals/template-example.gif)
+![template-example](../template-example.gif)
 
 **Now try it yourself:**
 
