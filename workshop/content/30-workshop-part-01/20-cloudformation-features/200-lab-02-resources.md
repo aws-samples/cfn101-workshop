@@ -105,8 +105,7 @@ Below is an example of how to get the latest Amazon Linux 2 AMI ID in London reg
 ```bash
 aws ssm get-parameters \
 --names /aws/service/ami-amazon-linux-latest/amzn2-ami-hvm-x86_64-gp2 \
---query Parameters[].Value \
---region eu-west-2 \
+--query "Parameters[].Value" \
 --output text
 ```
 
