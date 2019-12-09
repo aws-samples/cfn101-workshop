@@ -4,10 +4,20 @@ date: 2019-11-01T13:36:34Z
 weight: 300
 ---
   
-AWS CloudFormation provides several built-in functions that help you manage your stacks. Use intrinsic functions in 
-your templates to assign values to properties that are not available until runtime.
+When creating a CloudFormation template, it's common to reference one CloudFormation resource from another. 
+For example, if you have a security group, you need to know the ID of the VPC to attach the group to. 
+This is a problem because the `VpcId` is only known when you deploy the VPC resource. 
 
-In this Lab, you will use the `Ref` and `Fn::Join` functions to assign values to your EC2 resource properties. 
+How can you refer to values in your CloudFormation template that are only know at deployment?
+
+CloudFormation provides several built in functions that help with this problem.
+These can evaluate expressions in CloudFormation when being deployed. 
+
+For example, it is often neccessary to refer to one CloudFormation resource in another resource using the function, `Fn::Ref`. 
+AWS CloudFormation provides several built-in functions that help you manage your stacks. 
+Use intrinsic functions in your templates to assign values to properties that are not available until runtime.
+
+In this Lab, you will use the [`Fn::Ref`](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference-ref.html) and [`Fn::Join`](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference-join.html) functions to assign values to your EC2 resource properties. 
 
 {{% notice info %}}
 More functions, such as `Fn::Base64`, `Fn::FindInMap`, `Fn::GetAtt` and `Fn::Sub` will be introduced in the feature labs.
