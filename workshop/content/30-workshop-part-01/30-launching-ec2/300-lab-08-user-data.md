@@ -24,7 +24,7 @@ of EC2 instances [here](https://docs.aws.amazon.com/AWSCloudFormation/latest/Use
 
 The following diagram provides a high-level overview of the architecture you will implement.
 
-![](/50-launching-ec2/userdata.png)
+![](../userdata.png)
 
 **Let's go!**
 
@@ -141,11 +141,11 @@ you can then check to see that your script has setup a web server on the EC2 ins
 
 In a web browser, enter the `WebsiteURL` (you can get the WebsiteURL from the _Outputs_ tab of the CloudFormation console).
 
-![outputs](/50-launching-ec2/outputs-1.png)
+![outputs](../outputs-1.png)
 
 You should see a page similar to the picture below:
 
-![php-page](/50-launching-ec2/php.png)
+![php-page](../php.png)
 
 ---
 

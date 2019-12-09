@@ -47,12 +47,12 @@ Outputs:
 {{%expand "How do I update a Stack?" %}}
 Go to the AWS console and deploy the stack the same way you did in 
 the [Lab 03: Intrinsic Functions](../300-lab-03-functions)
-![](/40-cloudformation-features/update-1.gif)
+![](../update-1.gif)
 {{% /expand %}}
 
 1. View the output value on the [AWS CloudFormation console](https://console.aws.amazon.com/cloudformation), in the _Outputs_ tab.
 {{%expand "How to view Outputs?" %}}
-![](/40-cloudformation-features/outputs-1.gif)
+![](../outputs-1.gif)
 {{% /expand %}}
 
 #### Exercise
