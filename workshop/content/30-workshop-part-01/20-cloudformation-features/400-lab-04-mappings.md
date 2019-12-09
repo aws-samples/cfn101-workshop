@@ -137,6 +137,10 @@ Mappings:
 See `code/40-cloudformation-features/05-lab04-Mapping-Solution.yaml` for the full solution.
 {{% /expand%}}
 
+### Deploy the solution
+
+Now that you have added a Mappings section to your template, deploy it again using the console.
+
 ## Conclusion
 
 In this lab, you used mappings to create flexible CloudFormation templates. Use Mappings to configure properties 
