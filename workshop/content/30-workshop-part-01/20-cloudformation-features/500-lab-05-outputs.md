@@ -41,7 +41,7 @@ Outputs:
 Outputs:
   EC2PublicDNS:
     Description: 'Public DNS of EC2 instance'
-    Value: !GetAtt MyEC2Instance.PublicDnsName
+    Value: !GetAtt WebServerInstance.PublicDnsName
 ``` 
 1. Go to the AWS console and update your stack with a new template.
 {{%expand "How do I update a Stack?" %}}
@@ -69,7 +69,7 @@ Check out the AWS Documentation for [AWS::EC2::EIP resource](https://docs.aws.am
 {{%expand "Want to see the solution?" %}}
 ```yaml
 Resources:
-  MyEC2Instance:
+  WebServerInstance:
     Type: 'AWS::EC2::Instance'
     Properties:
       ImageId: !Ref AmiID
@@ -82,12 +82,12 @@ Resources:
     Type: 'AWS::EC2::EIP'
     Properties:
       Domain: vpc
-      InstanceId: !Ref MyEC2Instance
+      InstanceId: !Ref WebServerInstance
 
 Outputs:
   EC2PublicDNS:
     Description: 'Public DNS of EC2 instance'
-    Value: !GetAtt MyEC2Instance.PublicDnsName
+    Value: !GetAtt WebServerInstance.PublicDnsName
 
   ElasticIP:
     Description: 'Elastic IP assigned to EC2'
