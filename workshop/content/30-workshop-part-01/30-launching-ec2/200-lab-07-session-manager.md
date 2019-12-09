@@ -29,7 +29,7 @@ Session Manager has several benefits over using SSH:
 
 > The EC2 instance needs access to the internet or a VPC Endpoint for Session Manager to work. 
 
-![ssm](/50-launching-ec2/ssm-sm-1.png)
+![ssm](../ssm-sm-1.png)
 
 #### Configuration
 
