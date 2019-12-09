@@ -5,8 +5,8 @@ weight: 100
 ---
 
 ### Use Case
-Consider the use case of deploying your current template in different regions. You will have to manually change `AmiID`
-property in your template to match the AMI ID for that particular AWS Region. Similarly, if there is an update to the 
+Consider the use case of deploying your current template in different regions. You would need to manually change `AmiID`
+property in your template to match the AMI ID for each AWS Region. Similarly, if there is an update to the 
 Amazon Machine Image, and you would like to use the latest image, the same manual process would apply.
 
 ### Solution
