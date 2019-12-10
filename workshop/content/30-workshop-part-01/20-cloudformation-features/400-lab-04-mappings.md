@@ -40,6 +40,12 @@ Mappings:
 
 You will now add a `Mappings` section to your own template. 
 
+{{% notice info %}}
+The templates for this lab can be found in `code/40-cloudformation-features`\
+The starting template is `05-lab04-Mapping.yaml` \
+The final template is `05-lab04-Mapping-Solution.yaml`
+{{% /notice %}}
+
 This section will define two possible environments, `test` and `prod`. It will use a new parameter, `EnvironmentType`.
 
 You will use this mapping to configure the `InstanceType` property of the `AWS::EC2::Resource` according to the environment specified.
