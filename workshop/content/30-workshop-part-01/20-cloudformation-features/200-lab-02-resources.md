@@ -55,12 +55,12 @@ AWS CloudFormation supports the following parameter types:
 
 |Type|Description|Example|
 |----|----|----|
-|_String_|A literal string.|"MyUserName"|
-|_Number_|An integer or float.|"123"|
-|_List\<Number\>_|An array of integers or floats.|"10,20,30"|
-|_CommaDelimitedList_|An array of literal strings.|"test,dev,prod"|
-|[AWS-Specific Parameter Types](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/parameters-section-structure.html#aws-specific-parameter-types)|AWS values such as Amazon VPC IDs.|_AWS::EC2::VPC::Id_|
-|[SSM Parameter Types](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/parameters-section-structure.html#aws-ssm-parameter-types)|Parameters that correspond to existing parameters in Systems Manager Parameter Store.|_AWS::SSM::Parameter::Value\<AWS::EC2::Image::Id\>_|
+| _String_ |A literal string.|"MyUserName"|
+| _Number_ |An integer or float.|"123"|
+| _List\<Number\>_ |An array of integers or floats.|"10,20,30"|
+| _CommaDelimitedList_ |An array of literal strings.|"test,dev,prod"|
+|[AWS-Specific Parameter Types](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/parameters-section-structure.html#aws-specific-parameter-types)|AWS values such as Amazon VPC IDs.| _AWS::EC2::VPC::Id_ |
+|[SSM Parameter Types](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/parameters-section-structure.html#aws-ssm-parameter-types)|Parameters that correspond to existing parameters in Systems Manager Parameter Store.| _AWS::SSM::Parameter::Value\<AWS::EC2::Image::Id\>_ |
  
 ```yaml
 Parameters:
