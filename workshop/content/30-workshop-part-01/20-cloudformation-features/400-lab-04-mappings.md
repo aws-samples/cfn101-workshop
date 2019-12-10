@@ -20,7 +20,7 @@ A common use for Mappings is to configure a template according to different envi
 The [`Mappings`](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/mappings-section-structure.html) section is a top level section of a CloudFormation template. It is used to define maps, their keys and values.
 
 
-A Mappings Section contains one or more maps. Each map contains at least one key. \
+![A diagram of the structure of a mappings section](../mapping.png)
 Each key is another map! It contains one or more keys that map to values.
 Each key contains one or more Name - Value pairs. Each top level key  contains one or more second level keys.
 
