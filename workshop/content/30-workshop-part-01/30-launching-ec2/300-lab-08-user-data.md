@@ -60,7 +60,7 @@ As the Apache web server will serve content on port 80, you will need to create 
 
 Finally, associate the security group with the EC2 instance:
 ```yaml
-  MyEC2Instance:
+  WebServerInstance:
     Type: AWS::EC2::Instance
     Properties:
       IamInstanceProfile: !Ref EC2InstanceProfile

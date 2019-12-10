@@ -80,7 +80,7 @@ The required _Resources_ section declares the AWS resources that you want to inc
 
 ```yaml
 Resources:
-  MyEC2Instance:
+  WebServerInstance:
     Type: 'AWS::EC2::Instance'
     Properties:
       ImageId: <replace with AMI ID ami-xxxxx>
