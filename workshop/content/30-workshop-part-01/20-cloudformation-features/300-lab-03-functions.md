@@ -61,9 +61,16 @@ template more flexible. Let's convert AMI ID to variable and pass it to resource
     ```
 **Optional Challenge:**
     
-The _Metadata_ section of a template allows arbitary YAML or JSON. One use is specifying ParameterGroups and ParameterLabels. These are used when deploying a CloudFormation template by the AWS Console. They are used to improve the experience of users deploying your template.
-You can improve your CloudFormation template by adding the `AmiID` to the existing `Amazon EC2 Configuration` ParameterGroup.
-Add the `AmiID` to [ParameterGroup in the Metadata section](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-cloudformation-interface-parametergroup.html). Add a label of `Amazon Machine Image ID` using the [ParameterLabel key](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-cloudformation-interface-parameterlabel.html)
+The _Metadata_ section of a template allows arbitary YAML or JSON. 
+
+One use is specifying ParameterGroups and ParameterLabels. 
+These are used when deploying a CloudFormation template by the AWS Console. 
+They are used to improve the experience of users deploying your template.
+
+You can improve your CloudFormation template by adding the `AmiID` to the existing `Amazon EC2 Configuration` [ParameterGroup](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-cloudformation-interface-parametergroup.html).
+
+1. Add the `AmiID` to the [ParameterGroup in the Metadata section](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-cloudformation-interface-parametergroup.html). 
+2. Add a label of `Amazon Machine Image ID` using the [ParameterLabel key](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-cloudformation-interface-parameterlabel.html)
 
 {{%expand "Expand here to see the solution" %}}
 ```yaml
@@ -83,7 +90,6 @@ Add the `AmiID` to [ParameterGroup in the Metadata section](https://docs.aws.ama
 ```
 {{% /expand %}}
 
-``
 
 #### Fn::Join <a id="join"></a>
 The intrinsic function _Fn::Join_ appends a set of values into a single value, separated by the specified delimiter.
