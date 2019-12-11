@@ -100,18 +100,17 @@ The only required property of the EC2 resource type is _ImageId_. There are two 
 
 You can use the AWS CLI to query the AWS Systems Manager Parameter Store.
 
-Below is an example of how to get the latest Amazon Linux 2 AMI ID.
+Below is an example of how to get the latest Amazon Linux 2 AMI ID for the *London* (eu-west-2) region
 
 ```bash
+# Note that this will for only for the London (eu-west-2) region
+# Update the --region flag to use a different region
 aws ssm get-parameters \
 --names /aws/service/ami-amazon-linux-latest/amzn2-ami-hvm-x86_64-gp2 \
+--region eu-west-2
 --query "Parameters[].Value" \
---output text
+--output text 
 ```
-
-{{% notice info %}} 
-The command above assumes you have set a region in your `AWS CLI` config. You can also specify a region using the `--region` flag.
-{{% /notice %}}
 
 #### Final Template
 Once you have your AMI ID, copy and paste it to _ImageId_ property.
