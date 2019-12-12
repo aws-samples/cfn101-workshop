@@ -30,7 +30,9 @@ Description : 'AWS CloudFormation Workshop template.'
 ```
 
 #### Metadata
-You can use the _Metadata_ section to include arbitrary JSON or YAML objects. For example, group and order the Amazon EC2 Configuration parameters with _AWS::CloudFormation::Interface_.
+You can use the [_Metadata_ section](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/metadata-section-structure.html) to include arbitrary JSON or YAML objects. 
+This section is useful for providing information to other tools that interact with your CloudFormation template. 
+For example, when deploying CloudFormation templates via the AWS console, you can improve the experience of users deploying your templates by specify how to order, label and group parameters. This can be done with the [_AWS::CloudFormation::Interface_](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-cloudformation-interface.html) key. 
 
 ```yaml
 Metadata:
@@ -53,12 +55,12 @@ AWS CloudFormation supports the following parameter types:
 
 |Type|Description|Example|
 |----|----|----|
-|_String_|A literal string.|"MyUserName"|
-|_Number_|An integer or float.|"123"|
-|_List\<Number\>_|An array of integers or floats.|"10,20,30"|
-|_CommaDelimitedList_|An array of literal strings.|"test,dev,prod"|
-|[AWS-Specific Parameter Types](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/parameters-section-structure.html#aws-specific-parameter-types)|AWS values such as Amazon VPC IDs.|_AWS::EC2::VPC::Id_|
-|[SSM Parameter Types](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/parameters-section-structure.html#aws-ssm-parameter-types)|Parameters that correspond to existing parameters in Systems Manager Parameter Store.|_AWS::SSM::Parameter::Value\<AWS::EC2::Image::Id\>_|
+| _String_ |A literal string.|"MyUserName"|
+| _Number_ |An integer or float.|"123"|
+| _List\<Number\>_ |An array of integers or floats.|"10,20,30"|
+| _CommaDelimitedList_ |An array of literal strings.|"test,dev,prod"|
+|[AWS-Specific Parameter Types](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/parameters-section-structure.html#aws-specific-parameter-types)|AWS values such as Amazon VPC IDs.| _AWS::EC2::VPC::Id_ |
+|[SSM Parameter Types](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/parameters-section-structure.html#aws-ssm-parameter-types)|Parameters that correspond to existing parameters in Systems Manager Parameter Store.| _AWS::SSM::Parameter::Value\<AWS::EC2::Image::Id\>_ |
  
 ```yaml
 Parameters:
@@ -78,7 +80,7 @@ The required _Resources_ section declares the AWS resources that you want to inc
 
 ```yaml
 Resources:
-  MyEC2Instance:
+  WebServerInstance:
     Type: 'AWS::EC2::Instance'
     Properties:
       ImageId: <replace with AMI ID ami-xxxxx>
@@ -98,14 +100,16 @@ The only required property of the EC2 resource type is _ImageId_. There are two 
 
 You can use the AWS CLI to query the AWS Systems Manager Parameter Store.
 
-Below is an example of how to get the latest Amazon Linux 2 AMI ID in London region.
+Below is an example of how to get the latest Amazon Linux 2 AMI ID for the *London* (eu-west-2) region
 
 ```bash
+# Note that this will for only for the London (eu-west-2) region
+# Update the --region flag to use a different region
 aws ssm get-parameters \
 --names /aws/service/ami-amazon-linux-latest/amzn2-ami-hvm-x86_64-gp2 \
---query Parameters[].Value \
---region eu-west-2 \
---output text
+--region eu-west-2
+--query "Parameters[].Value" \
+--output text 
 ```
 
 #### Final Template

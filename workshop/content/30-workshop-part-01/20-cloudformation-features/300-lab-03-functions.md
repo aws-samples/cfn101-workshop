@@ -4,10 +4,20 @@ date: 2019-11-01T13:36:34Z
 weight: 300
 ---
   
-AWS CloudFormation provides several built-in functions that help you manage your stacks. Use intrinsic functions in 
-your templates to assign values to properties that are not available until runtime.
+When creating a CloudFormation template, it's common to reference one CloudFormation resource from another. 
+For example, if you have a security group, you need to know the ID of the VPC to attach the group to. 
+This is a problem because the `VpcId` is only known when you deploy the VPC resource. 
 
-In this Lab, you will use the `Ref` and `Fn::Join` functions to assign values to your EC2 resource properties. 
+How can you refer to values in your CloudFormation template that are only know at deployment?
+
+CloudFormation provides several built in functions that help with this problem.
+These can evaluate expressions in CloudFormation when being deployed. 
+
+For example, it is often neccessary to refer to one CloudFormation resource in another resource using the function, `Fn::Ref`. 
+AWS CloudFormation provides several built-in functions that help you manage your stacks. 
+Use intrinsic functions in your templates to assign values to properties that are not available until runtime.
+
+In this Lab, you will use the [`Fn::Ref`](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference-ref.html) and [`Fn::Join`](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference-join.html) functions to assign values to your EC2 resource properties. 
 
 {{% notice info %}}
 More functions, such as `Fn::Base64`, `Fn::FindInMap`, `Fn::GetAtt` and `Fn::Sub` will be introduced in the feature labs.
@@ -45,11 +55,24 @@ template more flexible. Let's convert AMI ID to variable and pass it to resource
         Description: 'The ID of the AMI.'
     ```
    
-    **Challenge:**
+1. Use the intrinsic function `Ref` to pass the `AmiID` parameter input to resource property.
+    ```yaml
+          ImageId: !Ref AmiID
+    ```
+**Optional Challenge:**
     
-    Add the `AmiID` to ParameterGroup and label it `Amazon Machine Image ID`
+The _Metadata_ section of a template allows arbitary YAML or JSON. 
 
-      {{%expand "Expand here to see the solution" %}}
+One use is specifying ParameterGroups and ParameterLabels. 
+These are used when deploying a CloudFormation template by the AWS Console. 
+They are used to improve the experience of users deploying your template.
+
+You can improve your CloudFormation template by adding the `AmiID` to the existing `Amazon EC2 Configuration` [ParameterGroup](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-cloudformation-interface-parametergroup.html).
+
+1. Add the `AmiID` to the [ParameterGroup in the Metadata section](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-cloudformation-interface-parametergroup.html). 
+2. Add a label of `Amazon Machine Image ID` using the [ParameterLabel key](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-cloudformation-interface-parameterlabel.html)
+
+{{%expand "Expand here to see the solution" %}}
 ```yaml
       ParameterGroups:
         - Label:
@@ -65,12 +88,8 @@ template more flexible. Let's convert AMI ID to variable and pass it to resource
         AmiID:
           default: 'Amazon Machine Image ID'
 ```
-    {{% /expand %}}
+{{% /expand %}}
 
-1. Use the intrinsic function `Ref` to pass the `AmiID` parameter input to resource property.
-    ```yaml
-          ImageId: !Ref AmiID
-    ```
 
 #### Fn::Join <a id="join"></a>
 The intrinsic function _Fn::Join_ appends a set of values into a single value, separated by the specified delimiter.

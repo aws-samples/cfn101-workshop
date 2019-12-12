@@ -278,7 +278,7 @@ To update the stack and apply the changes you have made in the `UserData` proper
 
 3. Update the stack to use a different availability zone than the current one.
 
-![az-update](/50-launching-ec2/az-update-1.png)
+![az-update](../az-update-1.png)
 
 #### Exercise
 
@@ -312,7 +312,7 @@ Add the code below to html `<h2>` tags:
 Open a new browser window in private mode and enter the `WebsiteURL` (you can get the WebsiteURL from the _Outputs_ tab of the CloudFormation console).
 You should see the AMI ID added to the page, similar to the picture below.
 
-![ami-id](/50-launching-ec2/ami-id-1.png)
+![ami-id](../ami-id-1.png)
 
 ---
 

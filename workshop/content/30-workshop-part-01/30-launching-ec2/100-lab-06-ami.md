@@ -5,8 +5,8 @@ weight: 100
 ---
 
 ### Use Case
-Consider the use case of deploying your current template in different regions. You will have to manually change `AmiID`
-property in your template to match the AMI ID for that particular AWS Region. Similarly, if there is an update to the 
+Consider the use case of deploying your current template in different regions. You would need to manually change `AmiID`
+property in your template to match the AMI ID for each AWS Region. Similarly, if there is an update to the 
 Amazon Machine Image, and you would like to use the latest image, the same manual process would apply.
 
 ### Solution
@@ -28,18 +28,19 @@ parameter type. A Systems Manager parameter type allows you to reference paramet
 1. Go to the AWS console and update your stack with a new template.
 {{% notice info %}}
 If CloudFormation console is using _ami-xxxxxxx_ as an `Amazon Machine Image ID` copy and paste default value `/aws/service/ami-amazon-linux-latest/amzn2-ami-hvm-x86_64-gp2`
-to the text box. ![](/50-launching-ec2/ssm-1.png)
+to the text box. 
+![](../ssm-1.png)
 {{% /notice %}}
 
 {{%expand "How do I update a Stack?" %}}
-![](/50-launching-ec2/update-2.gif)
+![](../update-2.gif)
 {{% /expand %}}
 
 #### Exercise
 Deploy the template in different AWS Region to the one you have been using.
 
 {{%expand "Solution" %}}
-![](/50-launching-ec2/new-region-1.gif)
+![](../new-region-1.gif)
 {{% /expand %}}
 
 {{% notice note %}}

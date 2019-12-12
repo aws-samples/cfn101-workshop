@@ -101,7 +101,7 @@ Resources:
 ## Exercise - Add `Dev` environment
 Now it's your turn.
 Let's add another Environment `Dev` to your template. It will need to contain `Dev` key name, and name-value 
-pair `InstanceType: t3.nano`. Also, don't forget to add `Dev` to `EnvironmentType` parameter.
+pair `InstanceType: t3.nano`. Also, don't forget to add `Dev` to the `EnvironmentType` parameter.
 
 {{%expand "Need a hint?" %}}
   1. In a _Parameters_ section
@@ -134,8 +134,12 @@ Mappings:
       InstanceType: t3.small
 ```
 
-See `code/05/lab04-Mapping-Solution.yaml` for the full solution.
+See `code/40-cloudformation-features/05-lab04-Mapping-Solution.yaml` for the full solution.
 {{% /expand%}}
+
+### Deploy the solution
+
+Now that you have added a Mappings section to your template, deploy it again using the console.
 
 ## Conclusion
 

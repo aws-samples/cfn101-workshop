@@ -27,5 +27,5 @@ Resources:
   WebServerInstance:
     Type: AWS::EC2::Instance
     Properties:
-      ImageId: ami-00a1270ce1e007c27
+      ImageId: ami-00a1270ce1e007c27 # This ImageId will only work in the London region
       InstanceType: !Ref InstanceType
