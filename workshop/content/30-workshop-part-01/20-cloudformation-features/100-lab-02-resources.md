@@ -1,18 +1,30 @@
 ---
 title: 'Lab 02: Resources'
 date: 2019-10-28T14:35:59Z
-weight: 200
+weight: 100
 ---
 
-Let's build an EC2 template. In this Lab, you will write a CloudFormation template and learn more about its sections. 
+### Overview
+
+In this Lab, you will learn little bit more about CloudFormation top-level sections, including Format Version, Description, Metadata, Parameters and Resources.
+
+### Topics Covered
+By the end of this lab, you will be able to:
+
++ Understand CloudFormation template structure and some of its sections.
++ Deploy an EC2 instance via CloudFormation.
++ Query SSM parameter store to get latest Amazon Linux AMI ID.
+
+### Start Lab
+
+{{% notice note %}}
 
 As you read through different sections, there is code at the end, which you should copy to your template file.
 
-**Let's go!**
+{{% /notice %}}
 
-1. Go to `code/40-cloudformation-features/` directory.
+1. Go to `code/20-cloudformation-features/` directory.
 1. Open the `01-lab02-Resources.yaml` file.
-1. Copy the code as you go through the topics below.
 
 #### Format Version
 The _AWSTemplateFormatVersion_ section identifies the capabilities of the template. The latest template format
@@ -78,46 +90,62 @@ Parameters:
 
 The required _Resources_ section declares the AWS resources that you want to include in the stack. Let's add the EC2 resource to your stack.
 
-```yaml
+```yaml {hl_lines=[6]}
 Resources:
   WebServerInstance:
     Type: 'AWS::EC2::Instance'
     Properties:
-      ImageId: <replace with AMI ID ami-xxxxx>
       InstanceType: !Ref InstanceType
+      ImageId: <replace with AMI ID ami-xxxxx>
 ```
 
-The only required property of the EC2 resource type is _ImageId_. There are two ways to find out correct AMI ID for the AWS Region:
+The only required property of the EC2 resource type is _ImageId_. Let's find the AMI ID via AWS console:
 
-##### 1. Via Console
-1. Open [AWS EC2 console](https://console.aws.amazon.com/ec2)
-1. Click _Instances_ -> _Launch Instance_
-1. Copy the **Amazon Linux 2 AMI** `ami-xxxxxxxxx`
+  1. Open **[AWS EC2 console](https://console.aws.amazon.com/ec2)**
+  1. Click **Instances** -> **Launch Instance**.
+  1. Copy the **Amazon Linux 2 AMI** `ami-xxxxxxxxx` ID.
+  {{% expand "Expand to see the solution" %}}
+  ![ami-gif](../ami-1.gif)
+  {{% /expand %}}
+  1. Once you have your AMI ID, copy and paste it to **ImageId** property.
 
-![ami-gif](../ami-1.gif)
-
-##### 1. Via terminal using AWS CLI
-
-You can use the AWS CLI to query the AWS Systems Manager Parameter Store.
-
-Below is an example of how to get the latest Amazon Linux 2 AMI ID for the *London* (eu-west-2) region
-
-```bash
-# Note that this will for only for the London (eu-west-2) region
-# Update the --region flag to use a different region
-aws ssm get-parameters \
---names /aws/service/ami-amazon-linux-latest/amzn2-ami-hvm-x86_64-gp2 \
---region eu-west-2
---query "Parameters[].Value" \
---output text 
-```
-
-#### Final Template
-Once you have your AMI ID, copy and paste it to _ImageId_ property.
-
-{{% notice info %}} 
+{{% notice info %}}
+ 
 You can find a working solution for the **London Region** in `code/40-cloudformation-features/02-lab02-Resources-Solution.yaml` file.
+
 {{% /notice %}}
 
 Now your EC2 template is ready to be deployed. Go back to AWS console and deploy the stack same way as you did in 
 [Lab 01: Template and Stack](/30-cloudformation-fundamentals/200-lab-01-stack).
+
+### Challenge
+
+I this exercise, use the AWS CLI to query the AWS Systems Manager Parameter Store te get latest Amazon Linux AMI ID. 
+
+To complete this challenge, you have to have [AWS CLI](/20-prerequisites/200-awscli) configured.
+
+{{%expand "Need a hint?" %}}
+
+Check out the [AWS Compute Blog](https://aws.amazon.com/blogs/compute/query-for-the-latest-amazon-linux-ami-ids-using-aws-systems-manager-parameter-store/) to find out.
+
+{{% /expand %}}
+
+{{%expand "Want to see the solution?" %}}
+
+Copy the code below to your terminal. Make sure to change the `--region` flag to use a region that you are deploying your Cloudforamtion to.
+
+```bash
+aws ssm get-parameters \
+--names /aws/service/ami-amazon-linux-latest/amzn2-ami-hvm-x86_64-gp2 \
+--query "Parameters[].Value" \
+--region eu-west-2 \
+--output text
+```
+
+![ami-id-gif](../ami-id.gif)
+
+{{% /expand %}}
+
+---
+### Conclusion
+Congratulations! You now have successfully learned how to deploy EC2 instance via CloudFormation.
