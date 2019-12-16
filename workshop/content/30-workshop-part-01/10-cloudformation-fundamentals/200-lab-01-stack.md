@@ -5,7 +5,7 @@ weight: 200
 ---
 
 ### Overview
-In this lab you will learn how to use **AWS CloudFormation** to provision S3 bucket. 
+This lab will start with the most basic template containing only Resources object, which contains a single resource declaration of the S3 bucket.
 
 ### Topics Covered
 By the end of this lab, you will be able to:
@@ -67,4 +67,3 @@ Check out the AWS Documentation for [AWS::S3::Bucket](https://docs.aws.amazon.co
 ### Conclusion
 
 Great work! You have written your first CloudFormation template and created your first stack.
-

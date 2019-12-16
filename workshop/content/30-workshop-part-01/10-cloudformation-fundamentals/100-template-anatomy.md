@@ -34,7 +34,7 @@ Resources: 'set of resources' (required) # a components of your infrastructure
 Outputs: 'set of outputs' (optional) # values that are returned whenever you view your stack's properties
 ```
 
-The only required top-level object is the **Resources** object, which must declare at least one resource. This lab will start with the most basic template containing only Resources object, which contains a single resource declaration.
+The only required top-level object is the **Resources** object, which must declare at least one resource.
 
 Definition of each of these objects can be found in the online [Template Anatomy](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/template-anatomy.html) documentation.
 
