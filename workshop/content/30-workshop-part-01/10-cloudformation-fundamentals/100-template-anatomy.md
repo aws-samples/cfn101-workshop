@@ -34,22 +34,15 @@ Resources: 'set of resources' (required) # a components of your infrastructure
 Outputs: 'set of outputs' (optional) # values that are returned whenever you view your stack's properties
 ```
 
-The only required top-level object is the **Resources** object, which must declare at least one resource.
-
-Definition of each of these objects can be found in the online [Template Anatomy](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/template-anatomy.html) documentation.
+The only required top-level object is the **Resources** object, which must declare at least one resource. Definition of each of these objects can be found in the online [Template Anatomy](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/template-anatomy.html) documentation.
 
 ### Stack
 
-A stack is a deployment of a CloudFormation template. You can create multiple stacks from a single CloudFormation template.
+A stack is a deployment of a CloudFormation template. You can create multiple stacks from a single CloudFormation template. A stack contains a collection of AWS resources that you can manage as a single unit. All the resources in a stack are defined by the stack's AWS CloudFormation template.
 
-A stack contains a collection of AWS resources that you can manage as a single unit.
+AWS CloudFormation will create, update or delete a stack in its entirety:
 
-+ All the resources in a stack are defined by the stack's AWS CloudFormation template.
-
-* AWS CloudFormation will create, update or delete a stack in its entirety.
-
-    * If a stack cannot be created or updated in its entirety, AWS CloudFormation will roll it back, and automatically delete any resources that were created.
-
-    * If a resource cannot be deleted, any remaining resources are retained until the stack can be successfully deleted.
+  * If a stack cannot be created or updated in its entirety, AWS CloudFormation will roll it back, and automatically delete any resources that were created.
+  * If a resource cannot be deleted, any remaining resources are retained until the stack can be successfully deleted.
 
 ![cfn-stack](../cfn-stack.png)
