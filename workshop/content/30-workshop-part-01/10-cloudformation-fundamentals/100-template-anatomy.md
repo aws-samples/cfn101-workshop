@@ -6,11 +6,11 @@ weight: 100
 
 ### Template
 
-**An AWS CloudFormation template** is a declaration of the AWS resources that make up a **stack**. The template is stored as a text file
-in either JavaScript Object Notation (JSON) or YAML format. Because they are just text files, you can create and edit them in any text editor
-and manage them in your source control system with the rest of your source code.
+**An AWS CloudFormation template** is a declaration of the AWS resources that make up a **stack**. The template is stored as a text file in either JavaScript Object Notation (JSON) or YAML format. Because they are just text files, you can create and edit them in any text editor and manage them in your source control system with the rest of your source code.
   
-In this workshop, you will use YAML structure that CloudFormation can interpret to declare the AWS resources you want to create and configure.   
+{{% notice note %}} 
+Throughout this workshop, code samples will use the YAML format. If you prefer to use JSON, please be aware of [the differences](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/template-formats.html).
+{{% /notice %}}
 
 The following example shows an AWS CloudFormation YAML template structure and its top-level objects:
 
@@ -34,8 +34,7 @@ Resources: 'set of resources' (required) # a components of your infrastructure
 Outputs: 'set of outputs' (optional) # values that are returned whenever you view your stack's properties
 ```
 
-The only required top-level object is the **Resources** object, which must declare at least one resource. This lab will start with the most basic template
-containing only Resources object, which contains a single resource declaration.
+The only required top-level object is the **Resources** object, which must declare at least one resource. This lab will start with the most basic template containing only Resources object, which contains a single resource declaration.
 
 Definition of each of these objects can be found in the online [Template Anatomy](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/template-anatomy.html) documentation.
 
