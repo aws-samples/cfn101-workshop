@@ -53,14 +53,14 @@ Check out the AWS Documentation for [AWS::S3::Bucket](https://docs.aws.amazon.co
 {{%expand "Want to see the solution?" %}}
 1. Replace the code in your template with the code bellow:
    
-   ```yaml
-   Resources:
+    ```yaml
+    Resources:
      S3Bucket:
        Type: AWS::S3::Bucket
        Properties:
          VersioningConfiguration:
            Status: Enabled
-   ```
+    ```
    
 1. Update the stack as per demo bellow:
    ![stack-update](../stack-update.gif)
