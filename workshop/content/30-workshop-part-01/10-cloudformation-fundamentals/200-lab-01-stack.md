@@ -18,13 +18,11 @@ By the end of this lab, you will be able to:
 1. Go to the `code/10-cloudformation-fundamentals/` directory.
 2. Open the `01-lab01-StackExample.yaml` file in your code editor.
 3. Here is a sample CloudFormation template that defines an S3 Bucket. It has a single resource that contains the S3 bucket. Copy the code below and save to the `01-lab01-StackExample.yaml` file.
-    
-   ```yaml
-   Resources:
-     S3Bucket:
-       Type: AWS::S3::Bucket
-   ```
-   
+
+        Resources:
+          S3Bucket:
+            Type: AWS::S3::Bucket
+            
 4. Open the **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** link in a new tab and log in to your AWS account.
 5. Click on **Create stack** (_With new resources (Standard)_ if you have clicked at the top right corner).
 6. In **Prepare template**, choose **Template is ready**.
@@ -53,17 +51,15 @@ Check out the AWS Documentation for [AWS::S3::Bucket](https://docs.aws.amazon.co
 {{%expand "Want to see the solution?" %}}
 1. Replace the code in your template with the code bellow:
 
-    ```yaml
-    Resources:
-      S3Bucket:
-        Type: AWS::S3::Bucket
-        Properties:
-          VersioningConfiguration:
-            Status: Enabled
-    ```  
+        Resources:
+          S3Bucket:
+            Type: AWS::S3::Bucket
+            Properties:
+              VersioningConfiguration:
+                Status: Enabled
    
-2. Update the stack as per demo bellow:
-   ![stack-update](../stack-update.gif)
+1. Update the stack as per demo bellow:
+        ![stack-update](../stack-update.gif)
 {{% /expand %}}
 
 ---
