@@ -18,9 +18,7 @@ By the end of this lab, you will be able to:
 ### Start Lab
 
 {{% notice note %}}
-
 As you read through each sections, there are code samples at the end. Copy these into your own template file. 
-
 {{% /notice %}}
 
 1. Go to `code/20-cloudformation-features/` directory.
@@ -125,13 +123,10 @@ In this exercise, use the AWS CLI to query the AWS Systems Manager Parameter Sto
 To complete this challenge, you have to have [AWS CLI](/20-prerequisites/200-awscli) configured.
 
 {{%expand "Need a hint?" %}}
-
 Check out the [AWS Compute Blog](https://aws.amazon.com/blogs/compute/query-for-the-latest-amazon-linux-ami-ids-using-aws-systems-manager-parameter-store/) to find out.
-
 {{% /expand %}}
 
 {{%expand "Want to see the solution?" %}}
-
 Copy the code below to your terminal. Make sure to change the `--region` flag to use a region that you are deploying your CloudFormation to.
 
 ```bash
@@ -143,7 +138,6 @@ aws ssm get-parameters \
 ```
 
 ![ami-id-gif](../ami-id.gif)
-
 {{% /expand %}}
 
 ---
