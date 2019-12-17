@@ -19,7 +19,7 @@ By the end of this lab, you will be able to:
 
 {{% notice note %}}
 
-As you read through different sections, there is code at the end, which you should copy to your template file.
+As you read through each sections, there are code samples at the end. Copy these into your own template file. 
 
 {{% /notice %}}
 
@@ -120,7 +120,7 @@ Now your EC2 template is ready to be deployed. Go back to AWS console and deploy
 
 ### Challenge
 
-I this exercise, use the AWS CLI to query the AWS Systems Manager Parameter Store te get latest Amazon Linux AMI ID. 
+In this exercise, use the AWS CLI to query the AWS Systems Manager Parameter Store the get latest Amazon Linux AMI ID. 
 
 To complete this challenge, you have to have [AWS CLI](/20-prerequisites/200-awscli) configured.
 
@@ -132,7 +132,7 @@ Check out the [AWS Compute Blog](https://aws.amazon.com/blogs/compute/query-for-
 
 {{%expand "Want to see the solution?" %}}
 
-Copy the code below to your terminal. Make sure to change the `--region` flag to use a region that you are deploying your Cloudforamtion to.
+Copy the code below to your terminal. Make sure to change the `--region` flag to use a region that you are deploying your CloudFormation to.
 
 ```bash
 aws ssm get-parameters \
