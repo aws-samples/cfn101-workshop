@@ -100,8 +100,22 @@ You can find a working solution for the **London Region** in `code/40-cloudforma
 
 {{% /notice %}}
 
-Now your EC2 template is ready to be deployed. Go back to AWS console and deploy the stack same way as you did in 
-[Lab 01: Template and Stack](/30-cloudformation-fundamentals/200-lab-01-stack).
+Now your EC2 template is ready to be deployed. Go back to AWS console and deploy the stack same way as you did in [Lab 01: Template and Stack](/30-cloudformation-fundamentals/200-lab-01-stack).
+
+1. Open the **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** link in a new tab and log in to your AWS account.
+1. Click on **Create stack** (_With new resources (Standard)_ if you have clicked at the top right corner).
+1. In **Prepare template**, choose **Template is ready**.
+1. In **Template source**, choose **Upload a template file**.
+1. Click on **Choose file** button and navigate to your workshop directory.
+1. Select the file `01-lab02-Resources.yaml`.
+1. Click **Next**.
+1. Provide a **Stack name**. For example **cfn-workshop-ec2**. 
+    + The _Stack name_ identifies the stack. Use a name to help you distinguish the purpose of this stack.
+    + For **Type of EC2 Instance** select you preferred instance size, for example **t3.micro**.
+    + Click **Next**.
+1. You can leave **Configure stack options** default, click **Next**.
+1. On the **Review <stack_name>** page, scroll down to the bottom and click on **Create stack**.
+1. You can click the **refresh** button a few times until you see in the status **CREATE_COMPLETE**.
 
 ### Challenge
 

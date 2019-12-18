@@ -9,14 +9,10 @@ Metadata:
           default: 'Amazon EC2 Configuration'
         Parameters:
           - InstanceType
-          - AmiID
 
     ParameterLabels:
       InstanceType:
         default: 'Type of EC2 Instance'
-
-      AmiID:
-        default: 'Amazon Machine Image ID'
 
 Parameters:
   InstanceType:
@@ -39,4 +35,6 @@ Resources:
       InstanceType: !Ref InstanceType
       Tags:
         - Key: Name
-          Value: !Join [ ' ', [ !Ref InstanceType, Web Server ] ]
+          Value: !Join [ '-', [ !Ref InstanceType, webserver ] ]
+        - Key: InstanceType
+          Value: !Sub ${InstanceType}

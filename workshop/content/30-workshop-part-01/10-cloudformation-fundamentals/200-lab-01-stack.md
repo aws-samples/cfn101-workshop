@@ -30,7 +30,7 @@ By the end of this lab, you will be able to:
 1. Click on **Choose file** button and navigate to your workshop directory.
 1. Select the file `01-lab01-StackExample.yaml` referenced in step 1.
 1. Click **Next**.
-1. Provide a **Stack name**. For example _cfn-workshop-s3_. 
+1. Provide a **Stack name**. For example **cfn-workshop-s3**. 
     + The _Stack name_ identifies the stack. Use a name to help you distinguish the purpose of this stack.
     + Click **Next**.
 1. You can leave **Configure stack options** default, click **Next**.
