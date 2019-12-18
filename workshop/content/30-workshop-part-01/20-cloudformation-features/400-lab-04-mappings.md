@@ -30,7 +30,7 @@ Each top level key contains one or more `Key: Value` pairs.
 ### Topics Covered
 In this Lab, you will:
 
-+ Crate a mapping for environment type such as _test_ or _prod_. Each environment type will be mapped to different instance type.
++ Create a mapping for environment type such as _test_ or _prod_. Each environment type will be mapped to different instance type.
 + Find the required value in mappings and reference it in properties section of the EC2 resource.
 
 ### Start Lab
@@ -43,11 +43,9 @@ The starting template is `05-lab04-Mapping.yaml` \
 The final template is `06-lab04-Mapping-Solution.yaml`
 {{% /notice %}}
 
-This section will define two possible environments, `test` and `prod`. It will use a new parameter, `EnvironmentType`.
-
-You will use this mapping to configure the `InstanceType` property of the `AWS::EC2::Resource` according to the environment specified.
-
 #### 1. Let's start with creating _EnvironmentType_ parameter
+
+This section will define two possible environments, `test` and `prod`. It will use a new parameter, `EnvironmentType`.
  
 In the _Parameters_ section of the template. Replace the `InstanceType` parameter with the code below (you will not need the `InstanceType `parameter anymore. You will use the mapping instead).
 
@@ -77,7 +75,7 @@ The map contains two top level keys, one for each environment. Each top level ke
           InstanceType: t3.small
 
 #### 3. Next, modify the _InstanceType_ property
-  
+
 Using the intrinsic function `Fn::FindInMap`, CloudFormation will lookup the value in the `EnvironmentToInstanceType` map and will return the value back to `InstanceType` property. 
 
     Resources:
