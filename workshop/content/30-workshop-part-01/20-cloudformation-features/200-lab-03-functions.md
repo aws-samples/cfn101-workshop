@@ -14,7 +14,7 @@ Intrinsic functions are built-in functions that help you manage your stacks. Wit
 
 In this Lab, you will:
 
-+ Use the **[Fn::Ref](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference-ref.html)** function to dynamically assign parameter value to the resource property.
++ Use the **[Fn::Ref](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference-ref.html)** function to dynamically assign parameter values to a resource property.
 + Tag a instance with **[Fn::Join](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference-join.html)** function.
 + Add a tag to the instance using **[Fn::Sub](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference-sub.html)** function.
 
@@ -78,7 +78,7 @@ Now it is time to update your stack. Go to the AWS console and update your Cloud
 1. Click on **Choose file** button and navigate to your workshop directory.
 1. Select the file `03-lab03-IntrinsicFunctions.yaml` and click **Next**.
 1. For **Type of EC2 Instance** select you preferred instance size, for example **t3.micro**.
-1. For **Amazon Machine Image ID* copy and paste AMI ID you have hardcoded in `01-lab02-Resources.yaml` file and click **Next**.
+1. For **Amazon Machine Image ID** copy and paste AMI ID you have hardcoded in `01-lab02-Resources.yaml` file and click **Next**.
 1. You can leave **Configure stack options** default, click **Next**.
 1. On the **Review <stack_name>** page, scroll down to the bottom and click on **Update stack**.
 1. You can click the **refresh** button a few times until you see in the status **UPDATE_COMPLETE**.
