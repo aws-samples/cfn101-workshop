@@ -16,7 +16,7 @@ In this Lab, you will:
 
 + Use the **[Fn::Ref](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference-ref.html)** function to dynamically assign parameter value to the resource property.
 + Tag a instance with **[Fn::Join](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference-join.html)** function.
-+ Get a value and inject it at a runtime with **[Fn::GetAtt](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference-getatt.html)** function.
++ Add a tag to the instance using **[Fn::Sub](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference-sub.html)** function.
 
 ### Start Lab
 
@@ -51,7 +51,7 @@ In the last lab you have "hard coded" an AMI ID directly into the EC2 Resource p
 
 #### Fn::Join
 
-It is always a good idea to tag your resources. You can use the intrinsic function **Fn::Join** to append set of values into a single value, separated by the specified delimiter.
+To help you manage your AWS resources, you can optionally assign your own metadata to each resource in the form of **tags**. Each tag is a simple label consisting of a customer-defined key and an optional value that can help you to categorize resources by purpose, owner, environment, or other criteria. Let's use the intrinsic function **Fn::Join** to name your instance.
 
 1. Add property `Tags` to the `Properties` section. 
 1. Reference `InstanceType` parameter and add a word _webserver_, delimited with dash `-` to the tags property.
