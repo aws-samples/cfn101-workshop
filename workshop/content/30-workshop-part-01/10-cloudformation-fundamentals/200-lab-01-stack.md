@@ -4,57 +4,68 @@ date: 2019-10-25T17:41:16+01:00
 weight: 200
 ---
 
-Let's deploy our first stack. In this Lab, you will:
+### Overview
+This lab will start with the most basic template containing only Resources object, which contains a single resource declaration of the S3 bucket.
 
-1. Write a simple CloudFormation template that describes an [S3](https://aws.amazon.com/s3/) bucket.
+### Topics Covered
+By the end of this lab, you will be able to:
 
-2. Deploy the template to a CloudFormation stack.
++ Write a simple CloudFormation template that describes an [S3](https://aws.amazon.com/s3/) bucket.
++ Deploy the template and create a CloudFormation stack.
 
-{{% notice note %}} 
-Throughout this workshop, code samples will use the YAML format. If you prefer to use JSON, please be aware of [the differences](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/template-formats.html).
-{{% /notice %}}
+### Start Lab
 
-#### Demo
-
-Here's an example of deploying a CloudFormation template using the console:
-
-![template-example](../template-example.gif)
-
-**Now try it yourself:**
-
-1. Go to the `code/30-cloudformation-fundamentals/` directory.
-
+1. Go to the `code/10-cloudformation-fundamentals/` directory.
 1. Open the `01-lab01-StackExample.yaml` file in your code editor.
+1. Here is a sample CloudFormation template that defines an S3 Bucket. It has a single resource that contains the S3 bucket. Copy the code below and save to the `01-lab01-StackExample.yaml` file.
 
-1. Here is a sample CloudFormation template that defines an S3 Bucket. It has a single Output that contains the bucket name. Copy the code below and save to the `01-lab01-StackExample.yaml` file.
-
-    ```yaml
-    Resources:
-      S3Bucket:
-        Type: AWS::S3::Bucket
-
-    Outputs:
-      CFNWorkshopS3Bucket:
-        Description: S3 bucket for CFN workshop
-        Value: !Ref S3Bucket
-    ```
-
-1. Log in to your AWS account and go to [CloudFormation](https://console.aws.amazon.com/cloudformation).
-
-1. Click on _Create stack_ and choose _Upload template file_.
-
+        Resources:
+          S3Bucket:
+            Type: AWS::S3::Bucket
+            
+1. Open the **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** link in a new tab and log in to your AWS account.
+1. Click on **Create stack** (_With new resources (Standard)_ if you have clicked at the top right corner).
+1. In **Prepare template**, choose **Template is ready**.
+1. In **Template source**, choose **Upload a template file**.
+1. Click on **Choose file** button and navigate to your workshop directory.
 1. Select the file `01-lab01-StackExample.yaml` referenced in step 1.
+1. Click **Next**.
+1. Provide a **Stack name**. For example **cfn-workshop-s3**. 
+    + The _Stack name_ identifies the stack. Use a name to help you distinguish the purpose of this stack.
+    + Click **Next**.
+1. You can leave **Configure stack options** default, click **Next**.
+1. On the **Review <stack_name>** page, scroll down to the bottom and click on **Create stack**.
+1. You can click the **refresh** button a few times until you see in the status **CREATE_COMPLETE**.
 
-1. Click _Next_.
+### Challenge
+In this exercise, enable versioning on the S3 bucket. Enabled versioning will prevent objects from being deleted or overwritten by mistake or to archive objects so that you can retrieve previous versions of them. 
 
-1. Provide a _Stack name_.
+1. Create a property `VersioningConfiguration` in the `Properties` section of the S3 resource.
+1. Set the `Status` to `Enabled`.
+1. Update the stack to reflect the changes made in the template. 
 
-    * The _Stack name_ identifies the stack. Use a name to help you distinguish the purpose of this stack.
+{{%expand "Need a hint?" %}}
+Check out the AWS Documentation for [AWS::S3::Bucket](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-s3-bucket.html) resource.
+{{% /expand %}}
 
-1. Click _Next_ and _Create stack_.
+{{%expand "Want to see the solution?" %}}
+1. Replace the code in your template with the code bellow:
+
+        Resources:
+          S3Bucket:
+            Type: AWS::S3::Bucket
+            Properties:
+              VersioningConfiguration:
+                Status: Enabled
+   
+1. Update the stack as per demo bellow:
+
+    ![stack-update](../stack-update.gif)
+    
+{{% /expand %}}
 
 ---
 
-Great work! You have deployed your first CloudFormation template.
+### Conclusion
 
-Deploying the template creates a single S3 Bucket in your account. In the Outputs tab, you will see the bucket name.
+Great work! You have written your first CloudFormation template and created your first stack.

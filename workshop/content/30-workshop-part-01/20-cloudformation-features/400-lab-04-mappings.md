@@ -142,7 +142,7 @@ Mappings:
       InstanceType: t3.small
 ```
 
-See `code/05/lab04-Mapping-Solution.yaml` for the full solution.
+See `code/40-cloudformation-features/05-lab04-Mapping-Solution.yaml` for the full solution.
 {{% /expand%}}
 
 ## Deploy the solution

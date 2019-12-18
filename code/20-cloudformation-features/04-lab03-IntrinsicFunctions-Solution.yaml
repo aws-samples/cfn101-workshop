@@ -23,9 +23,18 @@ Parameters:
       - t3.small
     Description: 'Enter t3.micro or t3.small. Default is t3.micro.'
 
+  AmiID:
+    Type: AWS::EC2::Image::Id
+    Description: 'The ID of the AMI.'
+
 Resources:
   WebServerInstance:
     Type: AWS::EC2::Instance
     Properties:
-      ImageId: ami-00a1270ce1e007c27
+      ImageId: !Ref AmiID
       InstanceType: !Ref InstanceType
+      Tags:
+        - Key: Name
+          Value: !Join [ '-', [ !Ref InstanceType, webserver ] ]
+        - Key: InstanceType
+          Value: !Sub ${InstanceType}

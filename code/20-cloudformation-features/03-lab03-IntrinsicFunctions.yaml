@@ -23,10 +23,13 @@ Parameters:
       - t3.small
     Description: 'Enter t3.micro or t3.small. Default is t3.micro.'
 
+  # Add AmiId parameter here
+
 Resources:
   WebServerInstance:
     Type: AWS::EC2::Instance
     Properties:
-      # Update the code below
+      # Use !Ref function in ImageId property
       ImageId: ami-00a1270ce1e007c27
       InstanceType: !Ref InstanceType
+      # Add Tags property here
