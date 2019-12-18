@@ -23,6 +23,7 @@ As you read through each sections, there are code samples at the end. Copy these
 
 1. Go to `code/20-cloudformation-features/` directory.
 1. Open the `01-lab02-Resources.yaml` file.
+1. Copy the code as you go through the topics below.
 
 #### Format Version
 The _AWSTemplateFormatVersion_ section identifies the capabilities of the template. The latest template format version is _2010-09-09_ and is currently the only valid value. 

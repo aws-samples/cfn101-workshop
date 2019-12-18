@@ -41,8 +41,8 @@ Resources:
     Type: AWS::EC2::Instance
     Properties:
       ImageId: !Ref AmiID
-      # Update the InstanceType property with !FindInMap function
+      # Update the 'InstanceType' property with !FindInMap function
       InstanceType: !Ref InstanceType
       Tags:
         - Key: Name
-          Value: !Join [ ' ', [ !Ref InstanceType, Web Server ] ]
+          Value: !Join [ ' ', [ !Ref InstanceType, Web Server ] ] # replace the 'InstanceType' with 'EnvironmentType'
