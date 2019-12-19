@@ -26,9 +26,8 @@ Parameters:
     ConstraintDescription: 'Specify either Dev, Test or Prod.'
 
   AmiID:
-    Type: AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>
+    Type: AWS::EC2::Image::Id
     Description: 'The ID of the AMI.'
-    Default: /aws/service/ami-amazon-linux-latest/amzn2-ami-hvm-x86_64-gp2
 
 Mappings:
   EnvironmentToInstanceType:
@@ -49,17 +48,4 @@ Resources:
         - Key: Name
           Value: !Join [ ' ', [ !Ref EnvironmentType, Web Server ] ]
 
-  WebServerEIP:
-    Type: AWS::EC2::EIP
-    Properties:
-      Domain: vpc
-      InstanceId: !Ref WebServerInstance
-
-Outputs:
-  WebServerPublicDNS:
-    Description: 'Public DNS of EC2 instance'
-    Value: !GetAtt WebServerInstance.PublicDnsName
-
-  WebServerElasticIP:
-    Description: 'Elastic IP assigned to EC2'
-    Value: !Ref WebServerEIP
+  # Add your code here!

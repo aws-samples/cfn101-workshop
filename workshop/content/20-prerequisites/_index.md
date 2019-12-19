@@ -1,11 +1,13 @@
-+++
-title = "Prerequisites"
-date = 2019-10-16T17:18:51+01:00
-weight = 20
-chapter = false
-+++
+---
+title: 'Prerequisites'
+date: 2019-10-16T17:18:51+01:00
+weight: 20
+chapter: true
+---
 
-To perform this workshop, you'll need the following:
+# Prerequisites
+
+To complete this workshop, you will need to perform the following:
 
 {{% children showhidden="false" %}}
 

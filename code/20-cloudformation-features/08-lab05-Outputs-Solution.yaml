@@ -26,9 +26,8 @@ Parameters:
     ConstraintDescription: 'Specify either Dev, Test or Prod.'
 
   AmiID:
-    Type: AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>
+    Type: AWS::EC2::Image::Id
     Description: 'The ID of the AMI.'
-    Default: /aws/service/ami-amazon-linux-latest/amzn2-ami-hvm-x86_64-gp2
 
 Mappings:
   EnvironmentToInstanceType:
@@ -50,7 +49,7 @@ Resources:
           Value: !Join [ ' ', [ !Ref EnvironmentType, Web Server ] ]
 
   WebServerEIP:
-    Type: AWS::EC2::EIP
+    Type: 'AWS::EC2::EIP'
     Properties:
       Domain: vpc
       InstanceId: !Ref WebServerInstance

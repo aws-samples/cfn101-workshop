@@ -40,14 +40,73 @@ Mappings:
       InstanceType: t3.small
 
 Resources:
+  SSMIAMRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - ec2.amazonaws.com
+            Action:
+              - sts:AssumeRole
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore
+
+  WebServerInstanceProfile:
+    Type: AWS::IAM::InstanceProfile
+    Properties:
+      Path: /
+      Roles:
+        - !Ref SSMIAMRole
+
   WebServerInstance:
     Type: AWS::EC2::Instance
+    # Configure Metadata
+
+      # Install HTTPD and PHP packages
+
+      # Create /var/www/html/index.php file
+
+      # Add /etc/cfn/cfn-hup.conf file
+
+      # Add /etc/cfn/hooks.d/cfn-auto-reloader.conf file
+
+      # Enable and start Apache web server
+
+      # Enable and start cfn-hup service
+
     Properties:
+      IamInstanceProfile: !Ref WebServerInstanceProfile
       ImageId: !Ref AmiID
       InstanceType: !FindInMap [EnvironmentToInstanceType, !Ref EnvironmentType, InstanceType]
+      SecurityGroupIds:
+        - !Ref WebServerSecurityGroup
       Tags:
         - Key: Name
           Value: !Join [ ' ', [ !Ref EnvironmentType, Web Server ] ]
+      UserData:
+        Fn::Base64:
+          !Sub |
+          #!/bin/bash -xe
+          # Update aws-cfn-bootstrap to the latest
+
+          # Call cfn-init script to install files and packages
+
+          # Call cfn-signal script to send a signal with exit code
+
+    # Add Creation policy
+
+  WebServerSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: 'Enable HTTP access via port 80'
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 80
+          ToPort: 80
+          CidrIp: 0.0.0.0/0
 
   WebServerEIP:
     Type: AWS::EC2::EIP
@@ -63,3 +122,7 @@ Outputs:
   WebServerElasticIP:
     Description: 'Elastic IP assigned to EC2'
     Value: !Ref WebServerEIP
+
+  WebsiteURL:
+    Value: !Sub http://${WebServerEIP}
+    Description: Application URL
