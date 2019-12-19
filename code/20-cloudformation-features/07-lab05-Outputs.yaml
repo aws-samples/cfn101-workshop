@@ -30,11 +30,11 @@ Parameters:
     Description: 'The ID of the AMI.'
 
 Mappings:
-  EnvironmentToInstanceType: # Map Name
+  EnvironmentToInstanceType:
     Dev:
       InstanceType: t3.nano
-    Test: # Top level key
-      InstanceType: t3.micro # Second level key
+    Test:
+      InstanceType: t3.micro
     Prod:
       InstanceType: t3.small
 
