@@ -1,7 +1,7 @@
 ---
 title: 'Lab 05: Outputs'
 date: 2019-11-05T09:25:05Z
-weight: 500
+weight: 400
 ---
 
 ### Overview
@@ -49,7 +49,6 @@ In this Lab, you will:
             
 1. Go to the AWS console and update your stack with a new template.    
 {{%expand "How do I update a Stack?" %}}
-Go to the AWS console and deploy the stack the same way you did in the [Lab 03: Intrinsic Functions](../300-lab-03-functions)
 ![](../update-1.gif)
 {{% /expand %}}
 
