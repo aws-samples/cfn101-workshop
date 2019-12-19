@@ -9,7 +9,8 @@ chapter: true
 
 # CloudFormation 201
 
-TODO - write little bit about part one
+Welcome to the second part of the workshop. This part introduces more advanced CloudFormation concepts. First you will learn to use nested stacks, which allow you to compose CloudFormation stacks from multiple templates. 
+Next, you will learn to use CloudFormation using the AWS CLI.
 
 ## Workshop topics covered:
 
