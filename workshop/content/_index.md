@@ -6,11 +6,6 @@ weight: 1
 
 # Welcome, Builders!
 
-{{% notice warning %}} 
-Hi there, thank you for the interest in the CFN101 - Workshop. 
-Currently the Workshop is under development. Content is changing frequently.
-{{% /notice %}}
-
 ![](./aws-cloudformation.png)
 
 Welcome to the AWS CloudFormation Workshop!
