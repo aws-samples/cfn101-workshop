@@ -40,19 +40,19 @@ Mappings:
       InstanceType: t3.small
 
 Resources:
-  # Copy the SSMIAMRole here.
+  # Add the code from '2. Create an IAM role for the EC2 instance' step here.
 
-  # Copy the EC2InstanceProfile here.
+  # Add the code from '3. Create an IAM Instance Profile' step here.
 
   WebServerInstance:
     Type: AWS::EC2::Instance
     Properties:
-      # Attach the InstanceProfile to the EC2 instance
+      # Add the code from '4. Attach the IAM Instance Profile to an Amazon EC2 Instance' step here.
       ImageId: !Ref AmiID
       InstanceType: !FindInMap [EnvironmentToInstanceType, !Ref EnvironmentType, InstanceType]
       Tags:
         - Key: Name
-          Value: !Join [ ' ', [ !Ref EnvironmentType, Web Server ] ]
+          Value: !Join [ '-', [ !Ref EnvironmentType, webserver ] ]
 
   WebServerEIP:
     Type: AWS::EC2::EIP
