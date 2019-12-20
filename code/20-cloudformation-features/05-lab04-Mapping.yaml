@@ -45,4 +45,4 @@ Resources:
       InstanceType: !Ref InstanceType
       Tags:
         - Key: Name
-          Value: !Join [ ' ', [ !Ref InstanceType, Web Server ] ] # replace the 'InstanceType' with 'EnvironmentType'
+          Value: !Join [ '-', [ !Ref InstanceType, webserver ] ] # replace the 'InstanceType' with 'EnvironmentType'

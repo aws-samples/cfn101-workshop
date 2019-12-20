@@ -4,11 +4,9 @@ date: 2019-11-08T11:23:07Z
 weight: 200
 ---
 
-#### Overview
+### Overview
 
-[Session Manager](https://docs.aws.amazon.com/systems-manager/latest/userguide/session-manager.html) is a fully managed 
-AWS Systems Manager capability that lets you manage your Amazon EC2 instances through an interactive one-click 
-browser-based terminal or via the AWS CLI.
+[Session Manager](https://docs.aws.amazon.com/systems-manager/latest/userguide/session-manager.html) is a fully managed AWS Systems Manager capability that lets you manage your Amazon EC2 instances through an interactive one-click browser-based terminal or via the AWS CLI.
 
 Session Manager has several benefits over using SSH:
 
@@ -27,62 +25,100 @@ Session Manager has several benefits over using SSH:
    and executes the commands on the instance.
 1. The Session Manager sends audit logs to CloudWatch Logs or S3.
 
-> The EC2 instance needs access to the internet or a VPC Endpoint for Session Manager to work. 
+{{% notice note %}}
+The EC2 instance needs access to the internet or a VPC Endpoint for Session Manager to work. 
+{{% /notice %}}
 
 ![ssm](../ssm-sm-1.png)
 
-#### Configuration
+### Topics Covered
+In this Lab, you will learn:
 
-##### 1. Install the AWS Systems Manager agent on EC2 instance
++ How to create IAM role for the EC2 instance which grants access to the AWS Systems Manager.
++ Attach the IAM role to the EC2 instance.
++ Log in to instance using SSM Session Manager.
 
-You can proceed to the next step as SSM Agent is pre-installed on Amazon Linux AMIs. For other operating systems 
-  please refer to the AWS documentation for [Working with SSM Agent](https://docs.aws.amazon.com/systems-manager/latest/userguide/ssm-agent.html)
+### Start Lab
 
-##### 2. Create an IAM role for the EC2 instance which grants access to the AWS Systems Manager
+1. Go to the `code/30-launching-ec2/` directory.
+1. Open the `03-lab07-SSM-SM.yaml` file.
+1. Copy the code as you go through the topics below.
 
-The AWS managed policy, `AmazonSSMManagedInstanceCore`, allows an instance to use AWS Systems Manager service core functionality.
-This will allow you to connect to the EC2 instance using Systems Manager Session Manager.
+#### 1. Install the AWS Systems Manager agent on EC2 instance
+
+You can proceed to the next step as SSM Agent is pre-installed on Amazon Linux AMIs. For other operating systems, please refer to the AWS documentation for [Working with SSM Agent](https://docs.aws.amazon.com/systems-manager/latest/userguide/ssm-agent.html)
+
+#### 2. Create an IAM role for the EC2 instance
+The AWS managed policy, `AmazonSSMManagedInstanceCore`, allows an instance to use AWS Systems Manager service core functionality. This will allow you to connect to the EC2 instance using Systems Manager Session Manager.
   
-```yaml
-  SSMIAMRole:
-    Type: AWS::IAM::Role
-    Properties:
-      AssumeRolePolicyDocument:
-        Statement:
-          - Effect: Allow
-            Principal:
-              Service:
-                - ec2.amazonaws.com
-            Action:
-              - sts:AssumeRole
-      ManagedPolicyArns:
-        - arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore
-```
-##### 3. Create an IAM Instance Profile
+    SSMIAMRole:
+      Type: AWS::IAM::Role
+      Properties:
+        AssumeRolePolicyDocument:
+          Statement:
+            - Effect: Allow
+              Principal:
+                Service:
+                  - ec2.amazonaws.com
+              Action:
+                - sts:AssumeRole
+        ManagedPolicyArns:
+          - arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore
+
+#### 3. Create an IAM Instance Profile
+
+Create Instance profile resource.
   
-```yaml
-  EC2InstanceProfile:
-    Type: AWS::IAM::InstanceProfile
-    Properties:
-      Path: /
-      Roles:
-        - !Ref SSMIAMRole
-```
+    EC2InstanceProfile:
+      Type: AWS::IAM::InstanceProfile
+      Properties:
+        Path: /
+        Roles:
+          - !Ref SSMIAMRole
 
-##### 4. Attach the IAM Instance Profile to an Amazon EC2 Instance
+#### 4. Attach the IAM Instance Profile to an Amazon EC2 Instance
 
-```yaml
-      IamInstanceProfile: !Ref EC2InstanceProfile
-```
+Attach the role to the instance with `IamInstanceProfile` property.
+
+    WebServerInstance:
+      Type: AWS::EC2::Instance
+      Properties:
+        IamInstanceProfile: !Ref WebServerInstanceProfile
+        ImageId: !Ref AmiID
+        InstanceType: !FindInMap [EnvironmentToInstanceType, !Ref EnvironmentType, InstanceType]
+        Tags:
+          - Key: Name
+            Value: !Join [ ' ', [ !Ref EnvironmentType, Web Server ] ]
 
 {{% notice note %}}
-You can attach the instance profile to new Amazon EC2 instances at launch time, or to existing Amazon EC2 instances.
+You can attach the instance profile to the new Amazon EC2 instances at launch time, or to existing Amazon EC2 instances.
 {{% /notice %}}
 
-##### 5. Update the Stack
-  Go to the AWS console and update the _Stack_ with updated template.
+#### 5. Update the Stack
   
-#### Exercise
+Go to the AWS console and update your stack with a new template.
+
+1. Open the **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** link in a new tab and log in to your AWS account.
+1. Click on the stack name, for example **cfn-workshop-ec2**.
+1. In the top right corner click on **Update**.
+1. In **Prepare template**, choose **Replace current template**.
+1. In **Template source**, choose **Upload a template file**.
+1. Click on **Choose file** button and navigate to your workshop directory.
+1. Select the file `04-lab07-SSM-SM.yaml` and click **Next**.
+1. For **Amazon Machine Image ID** leave the default value in.
+1. For **EnvironmentType** select the different environment than is listed. For example if you have **Dev** selected, choose **Test** and click **Next**.    
+{{%notice note %}}
+For System Manager to work, the instance need to meet following conditions:     
+  \- **Access to the internet or a VPC Endpoint.** \
+  \- **Role attached with correct permission.** \
+By changing the environment, instance will be stopped and started again. This will help to start `ssm-agent` which may have timed-out as the role wasn't attached in previous lab.
+{{% /notice %}}
+    
+1. You can leave **Configure stack options** default, click **Next**.
+1. On the **Review <stack_name>** page, scroll down to the bottom and tick **I acknowledge that AWS CloudFormation might create IAM resources** check box, then click on **Update stack**.
+1. You can click the **refresh** button a few times until you see in the status **UPDATE_COMPLETE**.
+  
+### Challenge
 
 Log in to instance using SSM Session Manager and retrieve the AMI ID from instance metadata using `curl`
 
@@ -91,14 +127,15 @@ Review the AWS documentation for [Instance Metadata and User Data](https://docs.
 {{% /expand %}}
 
 {{%expand "Want to see the solution?" %}}
-![ssm-sm](/50-launching-ec2/ssm-sm-1.gif)
+Pate the following command inside the instance terminal:
+
+    curl http://169.254.169.254/latest/meta-data/ami-id
+
+![ssm-sm](../ssm-sm-1.gif)
 {{% /expand %}}
-  
-**Congratulations! You have configured Session Manager and now have access to your EC2 instance.**
 
 {{% notice warning %}}
-Outside of this workshop you should take additional steps to configure and secure access to SSM Session Manager.
-See recommendations and documentation links below for further details.
+Outside of this workshop you should take additional steps to configure and secure access to SSM Session Manager. See recommendations and documentation link below for further details.
 {{% /notice %}}
 
 ##### Recommendations:
@@ -110,4 +147,7 @@ See recommendations and documentation links below for further details.
 Please refer to the [Setting Up AWS Systems Manager](https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-setting-up.html)
 documentation.
 
+---
+### Conclusion
 
+Congratulations! You have configured Session Manager and now have remote access to your EC2 instance.

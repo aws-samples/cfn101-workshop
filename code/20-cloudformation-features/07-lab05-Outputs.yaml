@@ -46,6 +46,6 @@ Resources:
       InstanceType: !FindInMap [EnvironmentToInstanceType, !Ref EnvironmentType, InstanceType]
       Tags:
         - Key: Name
-          Value: !Join [ ' ', [ !Ref EnvironmentType, Web Server ] ]
+          Value: !Join [ '-', [ !Ref EnvironmentType, webserver ] ]
 
   # Add your code here!
