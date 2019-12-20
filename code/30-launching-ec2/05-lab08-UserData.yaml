@@ -70,7 +70,7 @@ Resources:
       # Attach SecurityGroup here
       Tags:
         - Key: Name
-          Value: !Join [ ' ', [ !Ref EnvironmentType, Web Server ] ]
+          Value: !Join [ '-', [ !Ref EnvironmentType, webserver ] ]
       # Add user data here
 
   # Add Security Group resource here
