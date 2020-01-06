@@ -67,14 +67,14 @@ Resources:
       IamInstanceProfile: !Ref WebServerInstanceProfile
       ImageId: !Ref AmiID
       InstanceType: !FindInMap [EnvironmentToInstanceType, !Ref EnvironmentType, InstanceType]
-      # Attach SecurityGroup here
+      # Associate the security group with EC2 instance with 'SecurityGroupIds' property.
       Tags:
         - Key: Name
           Value: !Join [ '-', [ !Ref EnvironmentType, webserver ] ]
-      # Add user data here
+      # Add the code from '2. Install Apache web server on the instance' step here.
 
-  # Add Security Group resource here
-      # Add ingress rule to the Security Group
+  # Add the code from '1. Create Security Group' step here.
+      # Add 'SecurityGroupIngress' property inside the 'WebServerSecurityGroup' resource here.
 
   WebServerEIP:
     Type: AWS::EC2::EIP
@@ -91,4 +91,4 @@ Outputs:
     Description: 'Elastic IP assigned to EC2'
     Value: !Ref WebServerEIP
 
-  # Add WebsiteURL output here
+  # Add the code from '3. Add the **WebsiteURL** to CloudFormation _Outputs_' step here.
