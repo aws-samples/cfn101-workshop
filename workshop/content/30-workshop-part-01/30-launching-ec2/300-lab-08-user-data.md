@@ -23,7 +23,7 @@ The following diagram provides a high-level overview of the architecture you wil
 
 1. Go to the `code/30-launching-ec2/` directory.
 1. Open the `05-lab08-UserData.yaml` file.
-1. Open your editor with the template from the previous lab, or alternatively you can use the skeleton template provided in `code/30-launching-ec2/05-lab08-UserData.yaml`.
+1. Copy the code as you go through the topics below.
 
 #### 1. Create Security Group
     
