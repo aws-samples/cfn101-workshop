@@ -299,15 +299,15 @@ This exercise will demonstrate how `cfn-hup` updates the application when you up
 Locate the `/var/www/html/index.php` in the _files_ section of the EC2 metadata
 
 Add the code below to the `<\?php {...} ?>` block:
-```php
-                    # Get the instance AMI ID and store it in the $ami_id variable
-                    $url = "http://169.254.169.254/latest/meta-data/ami-id";
-                    $ami_id = file_get_contents($url);
-```
+
+    # Get the instance AMI ID and store it in the $ami_id variable
+    $url = "http://169.254.169.254/latest/meta-data/ami-id";
+    $ami_id = file_get_contents($url);
+                    
 Add the code below to html `<h2>` tags:
-```html
-                    <h2>AMI ID: <?php echo $ami_id ?></h2>
-```
+
+    <h2>AMI ID: <?php echo $ami_id ?></h2>
+
 ##### 2. Update the stack with a new template:
 
 `cfn-hup` will detect changes in metadata section, and will automatically deploy the new version. 
