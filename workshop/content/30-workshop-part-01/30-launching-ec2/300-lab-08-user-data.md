@@ -61,9 +61,7 @@ Finally, associate the security group with the EC2 instance.
             Value: !Join [ '-', [ !Ref EnvironmentType, webserver ] ]
 
 {{% notice note %}}
-The EC2 instance in the CloudFormation stack will be _replaced_ as a result of modifying the _Security Group_ property.
-You can find the properties where updates require [Replacement](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-updating-stacks-update-behaviors.html#update-replacement) 
-of EC2 instances [here](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-instance.html?shortFooter=true#aws-properties-ec2-instance-properties).
+The EC2 instance in the CloudFormation stack will be _replaced_ as a result of modifying the _Security Group_ property. You can find the properties where updates require [Replacement](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-updating-stacks-update-behaviors.html#update-replacement) of EC2 instances [here](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-instance.html?shortFooter=true#aws-properties-ec2-instance-properties).
 {{% /notice %}}
 
 #### 2. Install Apache web server on the instance

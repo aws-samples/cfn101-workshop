@@ -15,6 +15,8 @@ Metadata:
         default: 'Amazon Machine Image ID'
 
 Parameters:
+  # 11. Add AvailabilityZone parameter from '5. Update the stack' section here
+
   EnvironmentType:
     Description: 'Specify the Environment type of the stack.'
     Type: String
@@ -63,21 +65,26 @@ Resources:
 
   WebServerInstance:
     Type: AWS::EC2::Instance
-    # Configure Metadata
+    Metadata:
+      # 1. Add code from '1. Configure _Metadata_ section' here
+        config:
+          packages:
+            # 2. Add the code from '1. Install HTTPD and PHP packages' section here
 
-      # Install HTTPD and PHP packages
+          files:
+            # 3. Add the /var/www/html/index.php file from '2. Create index.php file' section here
 
-      # Create /var/www/html/index.php file
+            # 6. Add the /etc/cfn/cfn-hup.conf file from '3. Configure cfn-hup' section here
 
-      # Add /etc/cfn/cfn-hup.conf file
+            # 7. Add the /etc/cfn/hooks.d/cfn-auto-reloader.conf file from '3. Configure cfn-hup' section here
 
-      # Add /etc/cfn/hooks.d/cfn-auto-reloader.conf file
+          services:
+            # 4. Add the code from '3. Enable and start Apache web server' section here
 
-      # Enable and start Apache web server
-
-      # Enable and start cfn-hup service
+            # 8. Add the code from '3. Configure cfn-hup' section here
 
     Properties:
+      # 12. Add AvailabilityZone property from '5. Update the stack' section here
       IamInstanceProfile: !Ref WebServerInstanceProfile
       ImageId: !Ref AmiID
       InstanceType: !FindInMap [EnvironmentToInstanceType, !Ref EnvironmentType, InstanceType]
@@ -87,16 +94,11 @@ Resources:
         - Key: Name
           Value: !Join [ '-', [ !Ref EnvironmentType, webserver ] ]
       UserData:
-        Fn::Base64:
-          !Sub |
-          #!/bin/bash -xe
-          # Update aws-cfn-bootstrap to the latest
+        # 5. Add the code from '4. Call cfn-init script' here
 
-          # Call cfn-init script to install files and packages
+        # 10. Add the cfn-signal from '4. Configure cfn-signal and CreationPolicy attribute' here
 
-          # Call cfn-signal script to send a signal with exit code
-
-    # Add Creation policy
+    # 9. Add the Creation policy parameter from '4. Configure cfn-signal and CreationPolicy attribute' here
 
   WebServerSecurityGroup:
     Type: AWS::EC2::SecurityGroup
