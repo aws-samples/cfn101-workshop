@@ -1,6 +1,6 @@
 AWSTemplateFormatVersion: '2010-09-09'
 
-Description: CFN 101 Workshop - Lab 06 Multi Region Latest AMI. (uksb-1qbkepbim)
+Description: CFN 101 Workshop - Lab 06 Multi Region Latest AMI. (uksb-1qbkepbgl)
 
 Metadata:
   AWS::CloudFormation::Interface:
