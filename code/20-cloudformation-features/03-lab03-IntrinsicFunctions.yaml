@@ -1,6 +1,6 @@
 AWSTemplateFormatVersion: '2010-09-09'
 
-Description: 'Amazon EC2 - Workshop template.'
+Description: CFN 101 Workshop - Lab 03 Intrinsic Functions.
 
 Metadata:
   AWS::CloudFormation::Interface:

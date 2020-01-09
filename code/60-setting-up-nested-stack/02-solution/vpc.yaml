@@ -1,5 +1,5 @@
 AWSTemplateFormatVersion: "2010-09-09"
-Description: 'Amazon VPC - Workshop Template'
+Description: CFN 201 Workshop - Amazon VPC template.
 
 Parameters:
   AvailabilityZones:

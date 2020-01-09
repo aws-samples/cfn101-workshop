@@ -1,6 +1,6 @@
 AWSTemplateFormatVersion: '2010-09-09'
 
-Description: Amazon EC2 - Workshop template. (uksb-1qbkepbgl)
+Description: CFN 101 Workshop - Lab 08 User Data. (uksb-1qbkgojls)
 
 Metadata:
   AWS::CloudFormation::Interface:
