@@ -1,6 +1,6 @@
 AWSTemplateFormatVersion: '2010-09-09'
 
-Description: 'Amazon EC2 - Workshop template.'
+Description: Amazon EC2 - Workshop template. (uksb-1qbkepbim)
 
 Metadata:
   AWS::CloudFormation::Interface:
