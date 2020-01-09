@@ -1,5 +1,5 @@
 AWSTemplateFormatVersion: "2010-09-09"
-Description: 'CloudFormation101 - Workshop. The root stack for Nested Stacks.'
+Description: CloudFormation101 - Workshop. The root stack for Nested Stacks. (uksb-1qbkepbiu)
 
 Parameters:
   S3BucketName:
