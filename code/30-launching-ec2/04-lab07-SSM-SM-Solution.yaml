@@ -1,6 +1,6 @@
 AWSTemplateFormatVersion: '2010-09-09'
 
-Description: CFN 101 Workshop - Lab 07 SSM - Session Manager. (uksb-1qbkgojk1)
+Description: CFN 101 Workshop - Lab 07 SSM - Session Manager. (uksb-1qbkgojls)
 
 Metadata:
   AWS::CloudFormation::Interface:

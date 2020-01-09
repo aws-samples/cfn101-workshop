@@ -1,6 +1,6 @@
 AWSTemplateFormatVersion: '2010-09-09'
 
-Description: CFN 101 Workshop - Lab 09 Helper Scripts. (uksb-1qbkgojm4)
+Description: CFN 101 Workshop - Lab 09 Helper Scripts. (uksb-1qbkgojmc)
 
 Metadata:
   AWS::CloudFormation::Interface:

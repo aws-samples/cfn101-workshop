@@ -1,6 +1,6 @@
 AWSTemplateFormatVersion: '2010-09-09'
 
-Description: CFN 101 Workshop - Lab 08 User Data. (uksb-1qbkgojls)
+Description: CFN 101 Workshop - Lab 08 User Data. (uksb-1qbkgojm4)
 
 Metadata:
   AWS::CloudFormation::Interface:
