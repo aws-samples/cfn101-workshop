@@ -33,7 +33,7 @@ The _AWSTemplateFormatVersion_ section identifies the capabilities of the templa
 #### Description
 The _Description_ section enables you to include comments about your template.
 
-    Description : 'AWS CloudFormation Workshop template.'
+    Description : CFN 101 Workshop - Lab 02 Resources.
 
 #### Metadata
 You can use the [_Metadata_ section](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/metadata-section-structure.html) to include arbitrary JSON or YAML objects. This section is useful for providing information to other tools that interact with your CloudFormation template. For example, when deploying CloudFormation templates via the AWS console, you can improve the experience of users deploying your templates by specify how to order, label and group parameters. This can be done with the [_AWS::CloudFormation::Interface_](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-cloudformation-interface.html) key. 
