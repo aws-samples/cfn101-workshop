@@ -333,6 +333,15 @@ You should see the AMI ID added to the page, similar to the picture below.
 
 ![ami-id](../ami-id-1.png)
 
+### Clean up
+
+Follow these steps to clean up created resources:
+
+1. In in the **[CloudFormation console](https://console.aws.amazon.com/cloudformation)**, select the the stack you have created in this lab. For example `cfn-workshop-ec2`.
+1. In the top right corner, click on **Delete**.
+1. In the pop up window click on **Delete stack**.
+1. You can click the **refresh** button a few times until you see in the status **DELETE_COMPLETE**.
+
 ---
 
 ### Conclusion

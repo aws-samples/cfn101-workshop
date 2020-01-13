@@ -33,11 +33,11 @@ Parameters:
 Mappings:
   EnvironmentToInstanceType:
     Dev:
-      InstanceType: t3.nano
+      InstanceType: t2.nano
     Test:
-      InstanceType: t3.micro
+      InstanceType: t2.micro
     Prod:
-      InstanceType: t3.small
+      InstanceType: t2.small
 
 Resources:
   # Add the code from '2. Create an IAM role for the EC2 instance' step here.

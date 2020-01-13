@@ -70,9 +70,8 @@ AWS CloudFormation supports the following parameter types:
         Default: t2.micro
         AllowedValues:
           - t2.micro
-          - m1.small
-          - m1.large
-        Description: 'Enter t2.micro, m1.small, or m1.large. Default is t2.micro.'
+          - t2.small
+        Description: 'Enter t2.micro or t2.small. Default is t2.micro.'
 
 #### Resources
 
@@ -90,6 +89,9 @@ The only required property of the EC2 resource type is _ImageId_. Let's find the
   1. Open **[AWS EC2 console](https://console.aws.amazon.com/ec2)**
   1. Click **Instances** -> **Launch Instance**.
   1. Copy the **Amazon Linux 2 AMI** `ami-xxxxxxxxx` ID.
+  {{% notice note %}}
+  Make sure to use **(x86)** AMI ID, if the region supports both x86 and ARM architectures.
+  {{% /notice %}}
   {{% expand "Expand to see the solution" %}}
   ![ami-gif](../ami-1.gif)
   {{% /expand %}}
@@ -97,7 +99,7 @@ The only required property of the EC2 resource type is _ImageId_. Let's find the
 
 {{% notice info %}}
  
-You can find a working solution for the **London Region** in `code/40-cloudformation-features/02-lab02-Resources-Solution.yaml` file.
+You can find a working solution for the **London Region** in `code/20-cloudformation-features/02-lab02-Resources-Solution.yaml` file.
 
 {{% /notice %}}
 
@@ -112,10 +114,13 @@ Now your EC2 template is ready to be deployed. Go back to AWS console and deploy
 1. Click **Next**.
 1. Provide a **Stack name**. For example **cfn-workshop-ec2**. 
     + The _Stack name_ identifies the stack. Use a name to help you distinguish the purpose of this stack.
-    + For **Type of EC2 Instance** select you preferred instance size, for example **t3.micro**.
+    + For **Type of EC2 Instance** select you preferred instance size, for example **t2.micro**.
     + Click **Next**.
 1. You can leave **Configure stack options** default, click **Next**.
 1. On the **Review <stack_name>** page, scroll down to the bottom and click on **Create stack**.
+    {{% notice tip %}}
+  This will create EC2 instance in your account. To check the cost of the deployed stack, click on **Estimate cost** on the review page.
+    {{% /notice %}}
 1. You can click the **refresh** button a few times until you see in the status **CREATE_COMPLETE**.
 
 ### Challenge

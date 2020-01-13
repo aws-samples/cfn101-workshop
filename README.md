@@ -1,5 +1,9 @@
 ## AWS CloudFormation 101 - Workshop
 
+## Workshop site
+
+Go to [https://cfn101.solution.builders](https://cfn101.solution.builders/) to start a workshop.
+
 ## Developer Guide
 
 This workshop is built with markdown as a static HTML site using [hugo](http://gohugo.io).
