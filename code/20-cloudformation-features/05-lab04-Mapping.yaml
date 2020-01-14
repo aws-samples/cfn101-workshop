@@ -24,11 +24,11 @@ Parameters:
   # Replace the InstanceType parameter with EnvironmentType parameter.
   InstanceType:
     Type: String
-    Default: t3.micro
+    Default: t2.micro
     AllowedValues:
-      - t3.micro
-      - t3.small
-    Description: 'Enter t3.micro or t3.small. Default is t3.micro.'
+      - t2.micro
+      - t2.small
+    Description: 'Enter t2.micro or t2.small. Default is t2.micro.'
 
   AmiID:
     Type: AWS::EC2::Image::Id

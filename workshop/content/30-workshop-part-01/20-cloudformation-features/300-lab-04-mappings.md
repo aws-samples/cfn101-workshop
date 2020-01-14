@@ -30,7 +30,7 @@ Each top level key contains one or more `Key: Value` pairs.
 ### Topics Covered
 In this Lab, you will:
 
-+ Create a mapping for environment type such as _test_ or _prod_. Each environment type will be mapped to different instance type.
++ Create a mapping for environment type such as _Test_ or _Prod_. Each environment type will be mapped to different instance type.
 + Find the required value in mappings and reference it in properties section of the EC2 resource.
 
 ### Start Lab
@@ -45,7 +45,7 @@ The final template is `06-lab04-Mapping-Solution.yaml`
 
 #### 1. Let's start with creating _EnvironmentType_ parameter
 
-This section will define two possible environments, `test` and `prod`. It will use a new parameter, `EnvironmentType`.
+This section will define two possible environments, `Test` and `Prod`. It will use a new parameter, `EnvironmentType`.
  
 In the _Parameters_ section of the template. Replace the `InstanceType` parameter with the code below (you will not need the `InstanceType `parameter anymore. You will use the mapping instead).
 
@@ -70,9 +70,9 @@ The map contains two top level keys, one for each environment. Each top level ke
     Mappings:
       EnvironmentToInstanceType: # Map Name
         Test: # Top level key
-          InstanceType: t3.micro # Second level key
+          InstanceType: t2.micro # Second level key
         Prod:
-          InstanceType: t3.small
+          InstanceType: t2.small
 
 #### 3. Next, modify the _InstanceType_ property
 
@@ -94,7 +94,7 @@ As you have deleted the `InstanceType` parameter, you will need to update the ta
 
     Tags:
       - Key: Name
-        Value: !Join [ ' ', [ !Ref EnvironmentType, Web Server ] ]
+        Value: !Join [ '-', [ !Ref EnvironmentType, webserver ] ]
         
 #### 5. Finally, Deploy the solution
 
@@ -115,16 +115,16 @@ Now that you have added a Mappings section to your template, go to the AWS conso
 
 ### Challenge
 
-Add another Environment, `dev`, to your template. It will need to contain `dev` key name, and name-value pair `InstanceType: t3.nano`. 
+Add another Environment, `Dev`, to your template. It will need to contain `Dev` key name, and name-value pair `InstanceType: t2.nano`. 
 
-Don't forget to add `dev` to the list of allowed values for the `EnvironmentType` parameter.
+Don't forget to add `Dev` to the list of allowed values for the `EnvironmentType` parameter.
 
 {{%expand "Need a hint?" %}}
   1. In a _Parameters_ section
     * Add `Dev` to the `EnvironmentType` AllowedValues list.
   1. In a `Mappings` section. 
     * Add a top level key of `Dev`.
-    * Add a name-value pair `InstanceType: t3.nano`.
+    * Add a name-value pair `InstanceType: t2.nano`.
 {{% /expand%}}
 
 {{%expand "Expand to see the solution" %}}
@@ -143,17 +143,21 @@ Don't forget to add `dev` to the list of allowed values for the `EnvironmentType
     Mappings:
       EnvironmentToInstanceType: # Map Name
         Dev:
-          InstanceType: t3.nano
+          InstanceType: t2.nano
         Test: # Top level key
-          InstanceType: t3.micro # Second level key
+          InstanceType: t2.micro # Second level key
         Prod:
-          InstanceType: t3.small
+          InstanceType: t2.small
 
 See `code/20-cloudformation-features/06-lab04-Mapping-Solution.yaml` for the full solution.
 
 {{% /expand%}}
 
 To test that your solution works, update the stack as you did in step [5. Finally, Deploy the solution](#5-finally-deploy-the-solution) and change the `EnvironmentType` to **Dev**.
+
+{{% notice note %}}
+Changing the instance type will cause some downtime as EC2 instance has to be stopped before changing the type.
+{{% /notice %}}
 
 ---
 ### Conclusion

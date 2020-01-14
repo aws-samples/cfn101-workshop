@@ -1,6 +1,6 @@
 AWSTemplateFormatVersion: '2010-09-09'
 
-Description: CFN 101 Workshop - Lab 06 Multi Region Latest AMI. (uksb-1qbkepbgl)
+Description: CFN 101 Workshop - Lab 06 Multi Region Latest AMI. (uksb-1qbkgojk1)
 
 Metadata:
   AWS::CloudFormation::Interface:
@@ -33,11 +33,11 @@ Parameters:
 Mappings:
   EnvironmentToInstanceType:
     Dev:
-      InstanceType: t3.nano
+      InstanceType: t2.nano
     Test:
-      InstanceType: t3.micro
+      InstanceType: t2.micro
     Prod:
-      InstanceType: t3.small
+      InstanceType: t2.small
 
 Resources:
   WebServerInstance:

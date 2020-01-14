@@ -4,6 +4,10 @@ date: 2019-11-25T14:55:21Z
 weight: 100
 ---
 
+{{% notice warning %}} 
+Hi there, thank you for the interest in the CFN201 - Workshop. Currently the Part 02 of the workshop is under development.
+{{% /notice %}}
+
 ## Overview
 
 So far, you have used the console to deploy CloudFormation templates. 

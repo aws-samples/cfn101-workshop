@@ -5,7 +5,11 @@ weight = 70
 chapter = true
 +++
 
-### Package and Deploy
+# Package and Deploy
+
+{{% notice warning %}} 
+Hi there, thank you for the interest in the CFN201 - Workshop. Currently the Part 02 of the workshop is under development.
+{{% /notice %}}
 
 So far, you have deployed CloudFormation templates using the Console. It is also possible to use the AWS CLI to deploy a CloudFormation template. In this chapter, you will use the AWS CLI to deploy a CloudFormation template.
 

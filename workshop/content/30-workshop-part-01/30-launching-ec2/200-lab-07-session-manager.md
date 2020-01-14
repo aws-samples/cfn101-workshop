@@ -69,7 +69,7 @@ The AWS managed policy, `AmazonSSMManagedInstanceCore`, allows an instance to us
 
 Create Instance profile resource.
   
-    EC2InstanceProfile:
+    WebServerInstanceProfile:
       Type: AWS::IAM::InstanceProfile
       Properties:
         Path: /

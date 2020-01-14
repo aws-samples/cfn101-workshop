@@ -20,7 +20,7 @@ The _Outputs_ section consists of the key name `Outputs`, followed by a colon.
         Value: Value to return
         Export:
           Name: Value to export
-
+    
 {{% notice note %}}
 You can declare a maximum of 60 outputs in a template.
 {{% /notice %}}
@@ -42,10 +42,10 @@ In this Lab, you will:
     
     Add the section below to your template:
 
-        Outputs:
-          EC2PublicDNS:
-            Description: 'Public DNS of EC2 instance'
-            Value: !GetAtt WebServerInstance.PublicDnsName
+       Outputs:
+         EC2PublicDNS:
+           Description: 'Public DNS of EC2 instance'
+           Value: !GetAtt WebServerInstance.PublicDnsName
             
 1. Go to the AWS console and update your stack with a new template.    
 {{%expand "How do I update a Stack?" %}}
@@ -79,7 +79,7 @@ Check out the AWS Documentation for [AWS::EC2::EIP resource](https://docs.aws.am
           InstanceType: !FindInMap [EnvironmentToInstanceType, !Ref EnvironmentType, InstanceType]
           Tags:
             - Key: Name
-              Value: !Join [ ' ', [ !Ref EnvironmentType, Web Server ] ]
+              Value: !Join [ '-', [ !Ref EnvironmentType, webserver ] ]
     
       WebServerEIP:
         Type: 'AWS::EC2::EIP'

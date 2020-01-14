@@ -20,10 +20,10 @@ In this Lab, you will learn:
 1. Open the `01-lab06-SSM.yaml` file.
 1. Update the `AmiID` parameter to:
 
-        AmiID:
-          Type: AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>
-          Description: The ID of the AMI.
-          Default: '/aws/service/ami-amazon-linux-latest/amzn2-ami-hvm-x86_64-gp2'
+       AmiID:
+         Type: AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>
+         Description: The ID of the AMI.
+         Default: '/aws/service/ami-amazon-linux-latest/amzn2-ami-hvm-x86_64-gp2'
 
 Go to the AWS console and update your stack with a new template.
 
@@ -35,7 +35,7 @@ Go to the AWS console and update your stack with a new template.
 1. Click on **Choose file** button and navigate to your workshop directory.
 1. Select the file `01-lab06-SSM.yaml` and click **Next**.
 1. For **Amazon Machine Image ID** copy and paste in `/aws/service/ami-amazon-linux-latest/amzn2-ami-hvm-x86_64-gp2`
-1. For **EnvironmentType** select the different environment than is listed. For example if you have **Test** selected, choose **Dev** and click **Next**.
+1. For **EnvironmentType** select the different environment than is listed. For example if you have **Dev** selected, choose **Test** and click **Next**.
 1. You can leave **Configure stack options** default, click **Next**.
 1. On the **Review <stack_name>** page, scroll down to the bottom and click on **Update stack**.
 1. You can click the **refresh** button a few times until you see in the status **UPDATE_COMPLETE**.
