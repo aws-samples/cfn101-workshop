@@ -88,7 +88,7 @@ Attach the role to the instance with `IamInstanceProfile` property.
         InstanceType: !FindInMap [EnvironmentToInstanceType, !Ref EnvironmentType, InstanceType]
         Tags:
           - Key: Name
-            Value: !Join [ ' ', [ !Ref EnvironmentType, Web Server ] ]
+            Value: !Join [ '-', [ !Ref EnvironmentType, Web Server ] ]
 
 {{% notice note %}}
 You can attach the instance profile to the new Amazon EC2 instances at launch time, or to existing Amazon EC2 instances.
