@@ -239,7 +239,7 @@ To prevent this you can add a [CreationPolicy](https://docs.aws.amazon.com/AWSCl
              # Call cfn-init script to install files and packages
              /opt/aws/bin/cfn-init -v --stack ${AWS::StackName} --resource WebServerInstance --region ${AWS::Region}
              # Call cfn-signal script to send a signal with exit code 
-             /opt/aws/bin/cfn-signal --exit-code $? -s ${AWS::StackName} -r WebServerInstance --region ${AWS::Region}
+             /opt/aws/bin/cfn-signal --exit-code $? --stack ${AWS::StackName} -resource WebServerInstance --region ${AWS::Region}
 
 #### 5. Update the stack
 To update the stack and apply the changes you have made in the `UserData` property, the EC2 instance needs to be replaced. You can find the properties which will replace an EC2 instances [here](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-instance.html?shortFooter=true#aws-properties-ec2-instance-properties).
