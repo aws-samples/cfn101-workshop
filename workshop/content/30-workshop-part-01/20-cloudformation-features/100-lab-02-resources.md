@@ -105,6 +105,11 @@ You can find a working solution for the **London Region** in `code/20-cloudforma
 
 Now your EC2 template is ready to be deployed. Go back to AWS console and deploy the stack same way as you did in [Lab 01: Template and Stack](/30-cloudformation-fundamentals/200-lab-01-stack).
 
+{{% notice warning %}}
+To complete this and future labs you will need **Default VPC** in the region you will be deploying CloudFormation templates to. \
+If you have deleted your default VPC, you can create a new one by following the AWS documentation for **[Creating a Default VPC](https://docs.aws.amazon.com/vpc/latest/userguide/default-vpc.html#create-default-vpc)**.
+{{% /notice %}}
+
 1. Open the **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** link in a new tab and log in to your AWS account.
 1. Click on **Create stack** (_With new resources (Standard)_ if you have clicked at the top right corner).
 1. In **Prepare template**, choose **Template is ready**.
