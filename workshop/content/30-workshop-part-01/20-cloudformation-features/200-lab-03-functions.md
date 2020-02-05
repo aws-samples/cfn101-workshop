@@ -6,7 +6,7 @@ weight: 200
 
 ### Overview
 
-This lab shows how to use **[Intrinsic Functions](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference.html)** in your template. 
+This lab shows how to use **[Intrinsic Functions](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference.html)** in your template.
 
 Intrinsic functions are built-in functions that help you manage your stacks. Without them, you will be limited to very basic templates, similar to the S3 template you have seen in a **[Lab01](/30-workshop-part-01/10-cloudformation-fundamentals/200-lab-01-stack)**.
 
@@ -24,8 +24,8 @@ In this Lab, you will:
 1. Open the `03-lab03-IntrinsicFunctions.yaml` file.
 1. Copy the code as you go through the topics below.
 
-{{% notice note %}} 
-Intrinsic functions can only be used in certain parts of a template. You can use intrinsic functions in 
+{{% notice note %}}
+Intrinsic functions can only be used in certain parts of a template. You can use intrinsic functions in
 **resource properties, outputs, metadata attributes, and update policy attributes**.
 {{% /notice %}}
 
@@ -38,9 +38,9 @@ In the last lab you have "hard coded" an AMI ID directly into the EC2 Resource p
          AmiID:
            Type: AWS::EC2::Image::Id
            Description: 'The ID of the AMI.'
-   
+
 1. Use the intrinsic function `Ref` to pass the `AmiID` parameter input to the EC2 resource property.
-          
+
        Resources:
          WebServerInstance:
            Type: AWS::EC2::Instance
@@ -53,7 +53,7 @@ In the last lab you have "hard coded" an AMI ID directly into the EC2 Resource p
 
 To help you manage your AWS resources, you can optionally assign your own metadata to each resource in the form of **tags**. Each tag is a simple label consisting of a customer-defined key and an optional value that can help you to categorize resources by purpose, owner, environment, or other criteria. Let's use the intrinsic function **Fn::Join** to name your instance.
 
-1. Add property `Tags` to the `Properties` section. 
+1. Add property `Tags` to the `Properties` section.
 1. Reference `InstanceType` parameter and add a word _webserver_, delimited with dash `-` to the tags property.
 
        Resources:
@@ -97,7 +97,7 @@ Now it is time to update your stack. Go to the AWS console and update your Cloud
     ![tags-png](../tags.png)
 
 ### Challenge
-Crete another tag named `InstanceType` and use intrinsic function **Fn::Sub** to return type of the instance. 
+Crete another tag named `InstanceType` and use intrinsic function **Fn::Sub** to return type of the instance.
 
 The syntax for the short form is `!Sub`
 
@@ -108,7 +108,7 @@ Check out the AWS Documentation for **[Fn::Sub](https://docs.aws.amazon.com/AWSC
 {{%expand "Want to see the solution?" %}}
 
 1. Add the `InstanceType` tag to your template.
-    
+
        Resources:
          WebServerInstance:
            Type: AWS::EC2::Instance
@@ -120,7 +120,7 @@ Check out the AWS Documentation for **[Fn::Sub](https://docs.aws.amazon.com/AWSC
                  Value: !Join [ '-', [ !Ref InstanceType, webserver ] ]
                - Key: InstanceType
                  Value: !Sub ${InstanceType}
-                  
+
 1. Go to the AWS console and update your CloudFormation Stack.
 1. In the EC2 console, verify that `InstanceType` tag has been created.
 

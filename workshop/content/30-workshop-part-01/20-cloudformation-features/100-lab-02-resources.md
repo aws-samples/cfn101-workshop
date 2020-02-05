@@ -18,7 +18,7 @@ By the end of this lab, you will be able to:
 ### Start Lab
 
 {{% notice note %}}
-As you read through each sections, there are code samples at the end. Copy these into your own template file. 
+As you read through each sections, there are code samples at the end. Copy these into your own template file.
 {{% /notice %}}
 
 1. Go to `code/20-cloudformation-features/` directory.
@@ -26,8 +26,8 @@ As you read through each sections, there are code samples at the end. Copy these
 1. Copy the code as you go through the topics below.
 
 #### Format Version
-The _AWSTemplateFormatVersion_ section identifies the capabilities of the template. The latest template format version is _2010-09-09_ and is currently the only valid value. 
- 
+The _AWSTemplateFormatVersion_ section identifies the capabilities of the template. The latest template format version is _2010-09-09_ and is currently the only valid value.
+
     AWSTemplateFormatVersion: '2010-09-09'
 
 #### Description
@@ -36,7 +36,7 @@ The _Description_ section enables you to include comments about your template.
     Description : CFN 101 Workshop - Lab 02 Resources.
 
 #### Metadata
-You can use the [_Metadata_ section](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/metadata-section-structure.html) to include arbitrary JSON or YAML objects. This section is useful for providing information to other tools that interact with your CloudFormation template. For example, when deploying CloudFormation templates via the AWS console, you can improve the experience of users deploying your templates by specify how to order, label and group parameters. This can be done with the [_AWS::CloudFormation::Interface_](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-cloudformation-interface.html) key. 
+You can use the [_Metadata_ section](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/metadata-section-structure.html) to include arbitrary JSON or YAML objects. This section is useful for providing information to other tools that interact with your CloudFormation template. For example, when deploying CloudFormation templates via the AWS console, you can improve the experience of users deploying your templates by specify how to order, label and group parameters. This can be done with the [_AWS::CloudFormation::Interface_](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-cloudformation-interface.html) key.
 
     Metadata:
       AWS::CloudFormation::Interface:
@@ -63,7 +63,7 @@ AWS CloudFormation supports the following parameter types:
 | _CommaDelimitedList_ |An array of literal strings.|"test,dev,prod"|
 |[AWS-Specific Parameter Types](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/parameters-section-structure.html#aws-specific-parameter-types)|AWS values such as Amazon VPC IDs.| _AWS::EC2::VPC::Id_ |
 |[SSM Parameter Types](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/parameters-section-structure.html#aws-ssm-parameter-types)|Parameters that correspond to existing parameters in Systems Manager Parameter Store.| _AWS::SSM::Parameter::Value\<AWS::EC2::Image::Id\>_ |
- 
+
     Parameters:
       InstanceType:
         Type: String
@@ -98,7 +98,7 @@ The only required property of the EC2 resource type is _ImageId_. Let's find the
   1. Once you have your AMI ID, copy and paste it to **ImageId** property.
 
 {{% notice info %}}
- 
+
 You can find a working solution for the **London Region** in `code/20-cloudformation-features/02-lab02-Resources-Solution.yaml` file.
 
 {{% /notice %}}
@@ -117,7 +117,7 @@ If you have deleted your default VPC, you can create a new one by following the 
 1. Click on **Choose file** button and navigate to your workshop directory.
 1. Select the file `01-lab02-Resources.yaml`.
 1. Click **Next**.
-1. Provide a **Stack name**. For example **cfn-workshop-ec2**. 
+1. Provide a **Stack name**. For example **cfn-workshop-ec2**.
     + The _Stack name_ identifies the stack. Use a name to help you distinguish the purpose of this stack.
     + For **Type of EC2 Instance** select you preferred instance size, for example **t2.micro**.
     + Click **Next**.
@@ -130,7 +130,7 @@ If you have deleted your default VPC, you can create a new one by following the 
 
 ### Challenge
 
-In this exercise, use the AWS CLI to query the AWS Systems Manager Parameter Store the get latest Amazon Linux AMI ID. 
+In this exercise, use the AWS CLI to query the AWS Systems Manager Parameter Store the get latest Amazon Linux AMI ID.
 
 {{% notice note %}}
 To complete this challenge, you have to have [AWS CLI](/20-prerequisites/200-awscli) configured.

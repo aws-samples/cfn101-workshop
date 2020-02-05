@@ -9,7 +9,7 @@ chapter: true
 
 # CloudFormation 201
 
-{{% notice warning %}} 
+{{% notice warning %}}
 Hi there, thank you for the interest in the CFN201 - Workshop. Currently the Part 02 of the workshop is under development.
 {{% /notice %}}
 

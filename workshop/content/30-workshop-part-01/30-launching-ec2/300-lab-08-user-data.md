@@ -9,10 +9,10 @@ weight: 300
 You can use AWS CloudFormation to automatically install, configure, and start applications on Amazon EC2 instances. Doing so enables you to easily replicate deployments and update existing installations without connecting directly to the instance, which can save you a lot of time and effort.
 
 ### Topics Covered
-In this lab you will deploy an Apache Web server with a simple PHP application via **[UserData](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/user-data.html)** property. 
+In this lab you will deploy an Apache Web server with a simple PHP application via **[UserData](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/user-data.html)** property.
 
-+ First, you will bootstrap EC2 instance to install web server and content. 
-+ Then you will create an EC2 **Security Group** and allow access on port 80 to the instance. 
++ First, you will bootstrap EC2 instance to install web server and content.
++ Then you will create an EC2 **Security Group** and allow access on port 80 to the instance.
 + Finally, you will view the content served by the web server.
 
 The following diagram provides a high-level overview of the architecture you will implement.
@@ -26,7 +26,7 @@ The following diagram provides a high-level overview of the architecture you wil
 1. Copy the code as you go through the topics below.
 
 #### 1. Create Security Group
-    
+
 Begin by creating a Security Group.
 
     WebServerSecurityGroup:
@@ -66,13 +66,13 @@ The EC2 instance in the CloudFormation stack will be _replaced_ as a result of m
 
 #### 2. Install Apache web server on the instance
 
-Now, let's write a bash script to install the Apache and the PHP application. 
-  
+Now, let's write a bash script to install the Apache and the PHP application.
+
 {{% notice note %}}
 User data scripts are executed as the **root** user, so there is no need to use `sudo` commands in the script.\
 **UserData** must be Base64 encoded when passed from CloudFormation to EC2 instance. Use `Fn::Base64` intrinsic function to encode the input string.
 {{% /notice %}}
-  
+
     UserData:
       Fn::Base64: |
         #!/bin/bash

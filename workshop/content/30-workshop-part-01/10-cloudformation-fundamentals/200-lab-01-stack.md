@@ -22,7 +22,7 @@ By the end of this lab, you will be able to:
        Resources:
          S3Bucket:
            Type: AWS::S3::Bucket
-            
+
 1. Open the **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** link in a new tab and log in to your AWS account.
 1. Click on **Create stack** (_With new resources (Standard)_ if you have clicked at the top right corner).
 1. In **Prepare template**, choose **Template is ready**.
@@ -30,7 +30,7 @@ By the end of this lab, you will be able to:
 1. Click on **Choose file** button and navigate to your workshop directory.
 1. Select the file `01-lab01-StackExample.yaml` referenced in step 1.
 1. Click **Next**.
-1. Provide a **Stack name**. For example **cfn-workshop-s3**. 
+1. Provide a **Stack name**. For example **cfn-workshop-s3**.
     + The _Stack name_ identifies the stack. Use a name to help you distinguish the purpose of this stack.
     + Click **Next**.
 1. You can leave **Configure stack options** default, click **Next**.
@@ -38,11 +38,11 @@ By the end of this lab, you will be able to:
 1. You can click the **refresh** button a few times until you see in the status **CREATE_COMPLETE**.
 
 ### Challenge
-In this exercise, enable versioning on the S3 bucket. Enabled versioning will prevent objects from being deleted or overwritten by mistake or to archive objects so that you can retrieve previous versions of them. 
+In this exercise, enable versioning on the S3 bucket. Enabled versioning will prevent objects from being deleted or overwritten by mistake or to archive objects so that you can retrieve previous versions of them.
 
 1. Create a property `VersioningConfiguration` in the `Properties` section of the S3 resource.
 1. Set the `Status` to `Enabled`.
-1. Update the stack to reflect the changes made in the template. 
+1. Update the stack to reflect the changes made in the template.
 
 {{%expand "Need a hint?" %}}
 Check out the AWS Documentation for [AWS::S3::Bucket](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-s3-bucket.html) resource.
@@ -57,11 +57,11 @@ Check out the AWS Documentation for [AWS::S3::Bucket](https://docs.aws.amazon.co
            Properties:
              VersioningConfiguration:
                Status: Enabled
-   
+
 1. Update the stack as per demo bellow:
 
     ![stack-update](../stack-update.gif)
-    
+
 {{% /expand %}}
 
 ### Clean up

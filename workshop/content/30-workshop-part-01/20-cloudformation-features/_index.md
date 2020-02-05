@@ -9,8 +9,8 @@ chapter: true
 
 ![](template-1.png)
 
-In this section you will write a simple CloudFormation template, 
-create a CloudFormation stack based on your template, 
+In this section you will write a simple CloudFormation template,
+create a CloudFormation stack based on your template,
 and learn how to update the stack as you make changes.
 
 {{% children showhidden="false" %}}
