@@ -19,14 +19,14 @@ Session Manager has several benefits over using SSH:
 
 1. The administrator authenticates against IAM.
 1. IAM authorizes to start a session on an EC2 instance by evaluating applicable IAM policies.
-1. The administrator uses the AWS Management Console or the terminal (AWS CLI and additional plugin required) to 
+1. The administrator uses the AWS Management Console or the terminal (AWS CLI and additional plugin required) to
    start a session via Systems Manager.
 1. The Systems Manager agent running on the EC2 instance connects to the AWS Systems Manager service
    and executes the commands on the instance.
 1. The Session Manager sends audit logs to CloudWatch Logs or S3.
 
 {{% notice note %}}
-The EC2 instance needs access to the internet or a VPC Endpoint for Session Manager to work. 
+The EC2 instance needs access to the internet or a VPC Endpoint for Session Manager to work.
 {{% /notice %}}
 
 ![ssm](../ssm-sm-1.png)
@@ -50,7 +50,7 @@ You can proceed to the next step as SSM Agent is pre-installed on Amazon Linux A
 
 #### 2. Create an IAM role for the EC2 instance
 The AWS managed policy, `AmazonSSMManagedInstanceCore`, allows an instance to use AWS Systems Manager service core functionality. This will allow you to connect to the EC2 instance using Systems Manager Session Manager.
-  
+
     SSMIAMRole:
       Type: AWS::IAM::Role
       Properties:
@@ -68,7 +68,7 @@ The AWS managed policy, `AmazonSSMManagedInstanceCore`, allows an instance to us
 #### 3. Create an IAM Instance Profile
 
 Create Instance profile resource.
-  
+
     WebServerInstanceProfile:
       Type: AWS::IAM::InstanceProfile
       Properties:
@@ -95,7 +95,7 @@ You can attach the instance profile to the new Amazon EC2 instances at launch ti
 {{% /notice %}}
 
 #### 5. Update the Stack
-  
+
 Go to the AWS console and update your stack with a new template.
 
 1. Open the **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** link in a new tab and log in to your AWS account.
@@ -106,18 +106,18 @@ Go to the AWS console and update your stack with a new template.
 1. Click on **Choose file** button and navigate to your workshop directory.
 1. Select the file `04-lab07-SSM-SM.yaml` and click **Next**.
 1. For **Amazon Machine Image ID** leave the default value in.
-1. For **EnvironmentType** select the different environment than is listed. For example if you have **Dev** selected, choose **Test** and click **Next**.    
+1. For **EnvironmentType** select the different environment than is listed. For example if you have **Dev** selected, choose **Test** and click **Next**.
 {{%notice note %}}
-For System Manager to work, the instance need to meet following conditions:     
+For System Manager to work, the instance need to meet following conditions:
   \- **Access to the internet or a VPC Endpoint.** \
   \- **Role attached with correct permission.** \
 By changing the environment, instance will be stopped and started again. This will help to start `ssm-agent` which may have timed-out as the role wasn't attached in previous lab.
 {{% /notice %}}
-    
+
 1. You can leave **Configure stack options** default, click **Next**.
 1. On the **Review <stack_name>** page, scroll down to the bottom and tick **I acknowledge that AWS CloudFormation might create IAM resources** check box, then click on **Update stack**.
 1. You can click the **refresh** button a few times until you see in the status **UPDATE_COMPLETE**.
-  
+
 ### Challenge
 
 Log in to instance using SSM Session Manager and retrieve the AMI ID from instance metadata using `curl`

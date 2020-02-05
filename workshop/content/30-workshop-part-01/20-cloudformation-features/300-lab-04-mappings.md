@@ -14,16 +14,16 @@ Here is a simplified example of a Mappings section. It contains one Map, `AnExam
 `AnExampleMapping` contains three top level keys, `Key01`, `Key02` and `Key03`. \
 Each top level key contains one or more `Key: Value` pairs.
 
-    Mappings: 
-      AnExampleMap: 
-        TopLevelKey01: 
+    Mappings:
+      AnExampleMap:
+        TopLevelKey01:
           Key01: Value01
           Key02: Value02
-    
-        TopLevelKey02: 
+
+        TopLevelKey02:
           AnotherKey: AnExampleValue
-    
-        TopLevelKey03: 
+
+        TopLevelKey03:
           AFinalKey: ADifferentValue
 
 
@@ -35,7 +35,7 @@ In this Lab, you will:
 
 ### Start Lab
 
-You will now add a `Mappings` section to your own template. 
+You will now add a `Mappings` section to your own template.
 
 {{% notice info %}}
 The templates for this lab can be found in `code/20-cloudformation-features`\
@@ -46,7 +46,7 @@ The final template is `06-lab04-Mapping-Solution.yaml`
 #### 1. Let's start with creating _EnvironmentType_ parameter
 
 This section will define two possible environments, `Test` and `Prod`. It will use a new parameter, `EnvironmentType`.
- 
+
 In the _Parameters_ section of the template. Replace the `InstanceType` parameter with the code below (you will not need the `InstanceType `parameter anymore. You will use the mapping instead).
 
     Parameters:
@@ -63,7 +63,7 @@ In the _Parameters_ section of the template. Replace the `InstanceType` paramete
 Dont forget to remove `InstanceType` from the _ParameterGroups_ and _ParameterLabels_ sections of the template.
 {{% /notice %}}
 
-#### 2. Next, create _EnvironmentToInstanceType_ in the mapping section 
+#### 2. Next, create _EnvironmentToInstanceType_ in the mapping section
 
 The map contains two top level keys, one for each environment. Each top level key contains a single `InstanceType` second level key.
 
@@ -76,12 +76,12 @@ The map contains two top level keys, one for each environment. Each top level ke
 
 #### 3. Next, modify the _InstanceType_ property
 
-Using the intrinsic function `Fn::FindInMap`, CloudFormation will lookup the value in the `EnvironmentToInstanceType` map and will return the value back to `InstanceType` property. 
+Using the intrinsic function `Fn::FindInMap`, CloudFormation will lookup the value in the `EnvironmentToInstanceType` map and will return the value back to `InstanceType` property.
 
     Resources:
       WebServerInstance:
         Type: AWS::EC2::Instance
-        Properties: 
+        Properties:
           ImageId: !Ref AmiID
           InstanceType: !FindInMap
             - EnvironmentToInstanceType # Map Name
@@ -95,7 +95,7 @@ As you have deleted the `InstanceType` parameter, you will need to update the ta
     Tags:
       - Key: Name
         Value: !Join [ '-', [ !Ref EnvironmentType, webserver ] ]
-        
+
 #### 5. Finally, Deploy the solution
 
 Now that you have added a Mappings section to your template, go to the AWS console and update your CloudFormation Stack.
@@ -115,14 +115,14 @@ Now that you have added a Mappings section to your template, go to the AWS conso
 
 ### Challenge
 
-Add another Environment, `Dev`, to your template. It will need to contain `Dev` key name, and name-value pair `InstanceType: t2.nano`. 
+Add another Environment, `Dev`, to your template. It will need to contain `Dev` key name, and name-value pair `InstanceType: t2.nano`.
 
 Don't forget to add `Dev` to the list of allowed values for the `EnvironmentType` parameter.
 
 {{%expand "Need a hint?" %}}
   1. In a _Parameters_ section
     * Add `Dev` to the `EnvironmentType` AllowedValues list.
-  1. In a `Mappings` section. 
+  1. In a `Mappings` section.
     * Add a top level key of `Dev`.
     * Add a name-value pair `InstanceType: t2.nano`.
 {{% /expand%}}
@@ -139,7 +139,7 @@ Don't forget to add `Dev` to the list of allowed values for the `EnvironmentType
           - Test
           - Prod
         ConstraintDescription: 'Specify either Dev, Test or Prod.'
-    
+
     Mappings:
       EnvironmentToInstanceType: # Map Name
         Dev:
@@ -162,4 +162,4 @@ Changing the instance type will cause some downtime as EC2 instance has to be st
 ---
 ### Conclusion
 
-Great work! You have now successfully learned how to use mappings to create more flexible CloudFormation templates. 
+Great work! You have now successfully learned how to use mappings to create more flexible CloudFormation templates.

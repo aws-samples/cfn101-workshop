@@ -4,13 +4,13 @@ date: 2019-11-25T14:55:21Z
 weight: 100
 ---
 
-{{% notice warning %}} 
+{{% notice warning %}}
 Hi there, thank you for the interest in the CFN201 - Workshop. Currently the Part 02 of the workshop is under development.
 {{% /notice %}}
 
 ## Overview
 
-So far, you have used the console to deploy CloudFormation templates. 
+So far, you have used the console to deploy CloudFormation templates.
 As you have probably noticed, uploading files to S3 manually so you can deploy nested stacks throught the console is tedious.
 
 It is also possible to deploy CloudFormation templates using the AWS CLI and AWS SDKs. In this section, you will learn how to use the AWS CLI to work with CloudFormation templates.
@@ -42,7 +42,7 @@ Using `aws cloudformation package` you can easily prepare your nested stack for 
 ## Validating a template
 
 Sometimes a CloudFormation template deployment will fail due to syntax errors in the template.
-[`aws cloudformation validate-template`](https://docs.aws.amazon.com/cli/latest/reference/cloudformation/validate-template.html) checks a CloudFormation template to ensure it is valid JSON or YAML. This is useful to speed up development time. 
+[`aws cloudformation validate-template`](https://docs.aws.amazon.com/cli/latest/reference/cloudformation/validate-template.html) checks a CloudFormation template to ensure it is valid JSON or YAML. This is useful to speed up development time.
 
 Let's validate a template.
 
@@ -51,7 +51,7 @@ aws cloudformation validate-template \
     --template-body file://code/70-cloudformation-package-and-deploy/02-lab11-bad-template.yaml
 ```
 
-Notice what happens!  
+Notice what happens!
 
 Try to fix the errors, then validate the template again.
 
@@ -82,5 +82,3 @@ When using the CLI, you are also required to acknowledge this stack might create
 ## Conclusion
 
 Using the CLI is a powerful way to deploy CloudFormation templates. The `package` command simplifies deployment of templates that use features such as nested stacks, or refer to other local assets. The `validate` command can speed up development of templates by catching errors more quickly. The `package` command allows you to deploy CloudFormation templates.
-
-

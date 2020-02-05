@@ -4,17 +4,17 @@ date: 2019-11-13T16:52:42Z
 weight: 100
 ---
 
-{{% notice warning %}} 
+{{% notice warning %}}
 Hi there, thank you for the interest in the CFN201 - Workshop. Currently the Part 02 of the workshop is under development.
 {{% /notice %}}
 
 ## Introduction
 
-Your CloudFormation template has grown considerably over the course of this workshop. As your infrastructure grows, common 
-patterns can emerge in which you declare the same components in each of your templates. 
+Your CloudFormation template has grown considerably over the course of this workshop. As your infrastructure grows, common
+patterns can emerge in which you declare the same components in each of your templates.
 
-For example, you may wish to enable Systems Manager Session Manager access to every EC2 Instance. Instead of copying and 
-pasting the same IAM role configuration, you can create a dedicated template containing the IAM role for the instance. You 
+For example, you may wish to enable Systems Manager Session Manager access to every EC2 Instance. Instead of copying and
+pasting the same IAM role configuration, you can create a dedicated template containing the IAM role for the instance. You
 can then use this template like a resource via `AWS::CloudFormation::Stack`
 
 ## Lab Overview
@@ -23,7 +23,7 @@ In this lab, you will build:
 
 1. **The _root_ stack** (which is also a parent stack for the first level stacks). This root stack will contain all the other stacks.
 1. **The VPC stack**. This contains a simple VPC template which the EC2 instance will be placed into.
-1. **The IAM instance role stack**. This contains the IAM instance role template decoupled form your EC2 template. 
+1. **The IAM instance role stack**. This contains the IAM instance role template decoupled form your EC2 template.
 1. **The EC2 stack**. This contains the EC2 instance you have defined in your previous CloudFormation template.
 
 Top level and first level hierarchy of nested stacks.
@@ -50,8 +50,8 @@ It looks like this:
 Resources:
     NestedStackExample
         Type: AWS::CloudFormation::Stack
-        Properties: 
-            Parameters: 
+        Properties:
+            Parameters:
                 ExampleKey: ExampleValue
             TemplateURL: "Path/To/Template"
 ```
@@ -78,7 +78,7 @@ The VPC template has been created for you. It is titled `vpc.yaml`. This templat
 
 #### 1. Create VPC parameters in main template
 
-{{% notice note %}} 
+{{% notice note %}}
 All of the files referenced in this lab can be found within `code/60-setting-up-nested-stack/01-working`
 {{% /notice %}}
 
@@ -266,10 +266,10 @@ Add the `EnvironmentType` parameter to the EC2 stack in the `main.yaml template`
 
 #### 4. Pass variable from another nested stack
 
-Before you update your CloudFormation nested stack, there are a couple more things to do. 
+Before you update your CloudFormation nested stack, there are a couple more things to do.
 
 + You need to specify which VPC to create the EC2 security group in. Without specifying the VPC parameter, the security group will be created in the _Default_ VPC.
-    
+
 + You need to specify which subnet to create the EC2 instance in.
 
 ##### 1. Prepare the security group resource
@@ -296,11 +296,11 @@ Before you update your CloudFormation nested stack, there are a couple more thin
   VpcId:
     Type: AWS::EC2::VPC::Id
     Description: 'The VPC ID'
-    
+
   SubnetId:
     Type: AWS::EC2::Subnet::Id
     Description: 'The Subnet ID'
-``` 
+```
 
 ##### 2. Prep VPC template
 
@@ -352,7 +352,7 @@ Outputs:
   WebServerInstanceProfile:
     Type: String
     Description: 'Instance profile resource ID'
-``` 
+```
 
 ##### 6. Add WebServerInstanceProfile to _EC2Stack_ stack
 

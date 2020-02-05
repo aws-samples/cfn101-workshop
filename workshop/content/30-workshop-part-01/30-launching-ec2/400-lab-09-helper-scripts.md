@@ -18,7 +18,7 @@ In this lab you will learn:
 + How to retrieve and interpret resource metadata, install packages, create files, and start services with [cfn-init](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/cfn-init.html)
 
 + How to check for updates to metadata and execute custom hooks when changes are detected with [cfn-hup](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/cfn-hup.html)
-  
+
 + How to send a signal to CloudFormation when the resource or application is ready with [cfn-signal](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/cfn-signal.html)
 
 
@@ -50,7 +50,7 @@ It is important to preserve indentation as shown in the code samples below. You 
 
 ##### 1. Install HTTPD and PHP packages
 
-Your instance is running Amazon Linux 2, so you will use `yum` package manager to install the packages. 
+Your instance is running Amazon Linux 2, so you will use `yum` package manager to install the packages.
 
 Add the code from `packages` key to your template.
 
@@ -150,7 +150,7 @@ Installing the `cfn-hup` helper script enables existing EC2 instances to apply t
 
     + /etc/cfn/cfn-hup.conf
     + /etc/cfn/hooks.d/cfn-auto-reloader.conf
-    
+
 1. Copy the code from both files to your template.
 
     ```bash
@@ -215,7 +215,7 @@ Installing the `cfn-hup` helper script enables existing EC2 instances to apply t
                         - /etc/cfn/hooks.d/cfn-auto-reloader.conf
 
 #### 4. Configure cfn-signal and CreationPolicy attribute
-Finally, you need a way to instruct AWS CloudFormation to complete stack creation only after all the services (such as Apache and cfn-hup) are running and not after all the stack resources are created. 
+Finally, you need a way to instruct AWS CloudFormation to complete stack creation only after all the services (such as Apache and cfn-hup) are running and not after all the stack resources are created.
 
 In other words, AWS CloudFormation sets the status of the stack as _CREATE\_COMPLETE_ after it successfully creates all the resources. However, if one or more services failed to start, AWS CloudFormation still sets the stack status as _CREATE\_COMPLETE_.
 
@@ -238,7 +238,7 @@ To prevent this you can add a [CreationPolicy](https://docs.aws.amazon.com/AWSCl
              yum install -y aws-cfn-bootstrap
              # Call cfn-init script to install files and packages
              /opt/aws/bin/cfn-init -v --stack ${AWS::StackName} --resource WebServerInstance --region ${AWS::Region}
-             # Call cfn-signal script to send a signal with exit code 
+             # Call cfn-signal script to send a signal with exit code
              /opt/aws/bin/cfn-signal --exit-code $? --stack ${AWS::StackName} --resource WebServerInstance --region ${AWS::Region}
 
 #### 5. Update the stack
@@ -262,7 +262,7 @@ In the example below, you will use `AvailabilityZone` property and parameter to 
               AvailabilityZone: !Ref AvailabilityZone
 
 1. Check the availability zone of the deployed Web Server instance.
- 
+
     + Go to the **[Instances](https://console.aws.amazon.com/ec2#instances)** in the EC2 console
     + Select the `<enviroment-webserver` instance and make a note of the **Availability zone** value. For example `eu-west-2a`.
 
@@ -280,11 +280,11 @@ In the example below, you will use `AvailabilityZone` property and parameter to 
 1. For **EnvironmentType** leave the selected environment in.
 1. You can leave **Configure stack options** default, click **Next**.
 1. On the **Review <stack_name>** page, scroll down to the bottom and tick **I acknowledge that AWS CloudFormation might create IAM resources** check box, then click on **Update stack**.
-    
+
     {{% notice note %}}
 Notice that in **Change set preview**, the _Replacement_ condition of EC2 resource is **True**. Hence the current EC2 instance will be terminated and replaced with a new one.
     {{% /notice %}}
-    
+
 1. You can click the **refresh** button a few times until you see in the status **UPDATE_COMPLETE**.
 
 In a web browser, enter the `WebsiteURL` (you can get the WebsiteURL from the _Outputs_ tab of the CloudFormation console).
@@ -294,7 +294,7 @@ In a web browser, enter the `WebsiteURL` (you can get the WebsiteURL from the _O
 This exercise will demonstrate how `cfn-hup` updates the application when you update the stack. You will update index.php file
  to show AMI ID on the page.
 
-##### 1. Modify index.php file 
+##### 1. Modify index.php file
 
 Locate the `/var/www/html/index.php` in the _files_ section of the EC2 metadata
 
@@ -303,14 +303,14 @@ Add the code below to the `<\?php {...} ?>` block:
     # Get the instance AMI ID and store it in the $ami_id variable
     $url = "http://169.254.169.254/latest/meta-data/ami-id";
     $ami_id = file_get_contents($url);
-                    
+
 Add the code below to html `<h2>` tags:
 
     <h2>AMI ID: <?php echo $ami_id ?></h2>
 
 ##### 2. Update the stack with a new template:
 
-`cfn-hup` will detect changes in metadata section, and will automatically deploy the new version. 
+`cfn-hup` will detect changes in metadata section, and will automatically deploy the new version.
 
 1. Open the **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** link in a new tab and log in to your AWS account.
 1. Click on the stack name, for example **cfn-workshop-ec2**.
@@ -346,4 +346,4 @@ Follow these steps to clean up created resources:
 
 ### Conclusion
 
-Congratulations, you have successfully bootstrapped an EC2 instance using CloudFormation Helper Scripts. 
+Congratulations, you have successfully bootstrapped an EC2 instance using CloudFormation Helper Scripts.

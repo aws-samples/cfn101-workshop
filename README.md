@@ -12,7 +12,7 @@ To install hugo, use your operating system's package manager (e.g. `brew install
 
 You'll find the content of the workshop in the [workshop](./workshop) directory.
 
-Lab resources can be found in the [code](code/) directory. 
+Lab resources can be found in the [code](code/) directory.
 
 You will need to bring in the project's requirements using git submodules:
 

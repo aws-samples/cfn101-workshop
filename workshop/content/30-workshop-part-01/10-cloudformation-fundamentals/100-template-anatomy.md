@@ -7,8 +7,8 @@ weight: 100
 ### Template
 
 **An AWS CloudFormation template** is a declaration of the AWS resources that make up a **stack**. The template is stored as a text file in either JavaScript Object Notation (JSON) or YAML format. Because they are just text files, you can create and edit them in any text editor and manage them in your source control system with the rest of your source code.
-  
-{{% notice note %}} 
+
+{{% notice note %}}
 Throughout this workshop, code samples will use the YAML format. If you prefer to use JSON, please be aware of [the differences](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/template-formats.html).
 {{% /notice %}}
 
@@ -17,19 +17,19 @@ The following example shows an AWS CloudFormation YAML template structure and it
     AWSTemplateFormatVersion: 'version date' (optional) # version of the CloudFormation template. Only accepted value is '2010-09-09'
 
     Description: 'String' (optional) # a text description of the Cloudformation template
-  
-    Metadata: 'template metadata' (optional) # objects that provide additional information about the template
-  
-    Parameters: 'set of parameters' (optional) # a set of inputs used to customize the template
-    
-    Mappings: 'set of mappings' (optional) # a mapping of keys and associated values 
 
-    Conditions: 'set of conditions' (optional) # conditions that control whether certain resources are created  
-  
+    Metadata: 'template metadata' (optional) # objects that provide additional information about the template
+
+    Parameters: 'set of parameters' (optional) # a set of inputs used to customize the template
+
+    Mappings: 'set of mappings' (optional) # a mapping of keys and associated values
+
+    Conditions: 'set of conditions' (optional) # conditions that control whether certain resources are created
+
     Transform: 'set of transforms' (optional) # for serverless applications
-  
-    Resources: 'set of resources' (required) # a components of your infrastructure   
-  
+
+    Resources: 'set of resources' (required) # a components of your infrastructure
+
     Outputs: 'set of outputs' (optional) # values that are returned whenever you view your stack's properties
 
 The only required top-level object is the **Resources** object, which must declare at least one resource. The definition of each of these objects can be found in the online [Template Anatomy](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/template-anatomy.html) documentation.

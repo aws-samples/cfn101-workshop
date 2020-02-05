@@ -52,7 +52,7 @@ Deploy the template in different AWS Region to the one you have been using.
 {{% /expand %}}
 
 {{% notice note %}}
-Notice, that you did not have to update AMI ID parameter. By using CloudFormation's integration with Systems 
+Notice, that you did not have to update AMI ID parameter. By using CloudFormation's integration with Systems
 Manager Parameter Store, your templates are now more generic and reusable.
 {{% /notice %}}
 
