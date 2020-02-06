@@ -7,6 +7,8 @@ A default VPC is suitable for getting started quickly, and for launching public 
 
 [Part 01](/30-workshop-part-01/) of this workshop requires that a default VPC is available in the region you will be deploying CloudFormation templates to.
 
+You will have a default VPC unless you have removed it. If you are unsure, follow the instructions below to check.
+
 If you have deleted your default VPC, you can create a new one by following one of the options below.
 
 ### 1. Create a default VPC using the Amazon VPC console
@@ -18,13 +20,15 @@ If you have deleted your default VPC, you can create a new one by following one 
 
 ### 2. Create a default VPC using the command line
 
-Let's use the AWS CLI to list all existing VPCs in the region to find out if a default VPC is present or not.
+First we will check if a default VPC is present or not. We will use the AWS CLI to list all existing VPCs in the region
 
 1. Copy the code below to your terminal. Make sure to change the `--region` flag to use a region that you are going to be deploying your CloudFormation to.
 
        aws ec2 describe-vpcs --filters Name=isDefault,Values=true --query "Vpcs[].VpcId" --region eu-west-2
 
-    If the response is not empty, check that `IsDefault` key is `true` and [move to the next step](/30-workshop-part-01/). If the response is empty `[]` or the VPC is not **default** proceed to the next step.
+If the default VPC exists, it will be included here. Assert that `IsDefault` key is `true` and [move to the next step](/30-workshop-part-01/). You can skip the remainder of this section.
+
+If the response is empty `[]` or the VPC is not **default** proceed to the next step. A default VPC does not exist in this region.
 
 1. Copy the code below to your terminal. Make sure to change the --region flag to use a region that you are going to be deploying your CloudFormation to.
 
