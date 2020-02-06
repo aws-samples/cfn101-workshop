@@ -12,7 +12,7 @@ Currently the Part 02 of the workshop is under development.
 ## Overview
 
 So far, you have used the console to deploy CloudFormation templates.
-As you have probably noticed, uploading files to S3 manually so you can deploy nested stacks throught the console is tedious.
+As you have probably noticed, uploading files to S3 manually so you can deploy nested stacks through the console is tedious.
 
 It is also possible to deploy CloudFormation templates using the AWS CLI and AWS SDKs. 
 In this section, you will learn how to use the AWS CLI to work with CloudFormation templates.
