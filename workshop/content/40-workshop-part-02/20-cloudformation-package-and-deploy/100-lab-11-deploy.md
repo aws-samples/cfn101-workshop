@@ -111,6 +111,7 @@ Using the CLI, deploy the same template. Set the parameter `EnvType` to `Dev`
 
 ## Conclusion
 
-Using the CLI is a powerful way to deploy CloudFormation templates. The `package` command simplifies deployment of templates that use features such as nested stacks, or refer to other local assets. 
+Using the CLI is a powerful way to deploy CloudFormation templates. 
+The `package` command simplifies deployment of templates that use features such as nested stacks, or refer to other local assets. 
 The `validate` command can speed up development of templates by catching errors more quickly. 
 The `package` command allows you to deploy CloudFormation templates.
