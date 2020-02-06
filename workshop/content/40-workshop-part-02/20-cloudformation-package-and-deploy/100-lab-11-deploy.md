@@ -107,6 +107,7 @@ Read more about the possible capabilities in the [`aws cloudformation deploy` do
 
 ## Challenge
 
+Using the CLI, deploy the same template. Set the parameter `EnvType` to `Dev`
 
 ## Conclusion
 
