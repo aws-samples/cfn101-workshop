@@ -18,11 +18,18 @@ This section will cover three key commands, used to package, validate and deploy
 
 ## Packaging a template
 
-Cloudformation components often reference external files in S3. An example of this the `AWS::CloudFormation::Stack` resource. The Component requires the target template  to be in S3. What if the external files are on your local machine? In the previous section you uploaded these templates manually to S3 before deploying.
+## Topics Covered
 
-[`aws cloudformation package`](https://docs.aws.amazon.com/cli/latest/reference/cloudformation/package.html) is a useful command that solves this problem. When given a template that references local resources, it will upload the resources to a specified S3 bucket. An updated template is output. The local file references in the template are updated to reference the uploaded assets in S3.
+By the end of this lab, you will be able to:
+* Identify when packaging a template is required
+* Package a template using `aws cloudformation package`
+* Validate a CloudFormation template using `aws cloudformation validate-template`
+* Describe a nested stack
+* Deploy a nested stack
 
-This is a required step if you wish to deploy Nested Stacks. These are CloudFormation templates that reference other CloudFormation templates. You will learn this in a future section.
+## Start Lab
+
+### Packaging a template
 
 When you package a template, you are required to specify an S3 Bucket to package the contents to.
 
@@ -39,7 +46,7 @@ By default, the updated template is written to the standard output. Use the opti
 
 Using `aws cloudformation package` you can easily prepare your nested stack for deployment.
 
-## Validating a template
+### Validating a template
 
 Sometimes a CloudFormation template deployment will fail due to syntax errors in the template.
 [`aws cloudformation validate-template`](https://docs.aws.amazon.com/cli/latest/reference/cloudformation/validate-template.html) checks a CloudFormation template to ensure it is valid JSON or YAML. This is useful to speed up development time.
@@ -55,7 +62,7 @@ Notice what happens!
 
 Try to fix the errors, then validate the template again.
 
-## Deploying a template using the CLI
+### Deploying a template using the CLI
 
 The [`aws cloudformation deploy`](https://docs.aws.amazon.com/cli/latest/reference/cloudformation/deploy/index.html) command is used to deploy CloudFormation templates using the CLI.
 When used, it requires a template to be passed to it. This can be either a file in S3, or on the local machine.
@@ -72,11 +79,11 @@ aws cloudformation deploy \
     --capabilities CAPABILITY_IAM
 ```
 
-### Capabilities
+#### Capabilities
 
 You may recall when using the console, you are required you to acknowledge that deploying this template may create  resource that can affect permissions in your account. This is to ensure you don't accidentally change the permissions unintentionally.
 
-When using the CLI, you are also required to acknowledge this stack might create resources that can affect IAM permissions. This is done using the `--capabilities` flag, as demonstrated in the previous example. Read more about the possible capabilities in the [`aws cloudformation deploy` documentation](https://docs.aws.amazon.com/cli/latest/reference/cloudformation/deploy/index.html)
+## Challenge
 
 
 ## Conclusion
