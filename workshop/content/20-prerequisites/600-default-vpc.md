@@ -18,11 +18,13 @@ If you have deleted your default VPC, you can create a new one by following one 
 
 ### 2. Create a default VPC using the command line
 
+Let's use the AWS CLI to list all existing VPCs in the region to find out if a default VPC is present or not.
+
 1. Copy the code below to your terminal. Make sure to change the `--region` flag to use a region that you are going to be deploying your CloudFormation to.
 
        aws ec2 describe-vpcs --filters Name=isDefault,Values=true --query "Vpcs[].VpcId" --region eu-west-2
 
-    If the response is not empty, check that `IsDefault` key is `true` and [move to the next step](/30-workshop-part-01/). If the response shows as `[]` or the VPC is not **default** proceed to the next step.
+    If the response is not empty, check that `IsDefault` key is `true` and [move to the next step](/30-workshop-part-01/). If the response shows is empty `[]` or the VPC is not **default** proceed to the next step.
 
 1. Copy the code below to your terminal. Make sure to change the --region flag to use a region that you are going to be deploying your CloudFormation to.
 
