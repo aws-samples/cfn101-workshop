@@ -25,8 +25,7 @@ By the end of this lab, you will be able to:
 * Identify when packaging a template is required
 * Package a template using `aws cloudformation package`
 * Validate a CloudFormation template using `aws cloudformation validate-template`
-* Describe a nested stack
-* Deploy a nested stack
+* Deploy a template using the CLI
 
 ## Start Lab
 
