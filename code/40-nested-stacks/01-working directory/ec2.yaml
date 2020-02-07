@@ -34,9 +34,9 @@ Parameters:
     Description: 'The ID of the AMI.'
     Default: /aws/service/ami-amazon-linux-latest/amzn2-ami-hvm-x86_64-gp2
 
-  # Add VpcId parameter here
+  # 1. Add VpcId and SubnetId parameter from "1. Prepare the security group resource" here
 
-  # Add WebServerInstanceProfile parameter here
+  # 2. Add WebServerInstanceProfile parameter from "5. Prepare the EC2 template" here
 
 Mappings:
   EnvironmentToInstanceType:
@@ -155,7 +155,7 @@ Resources:
           FromPort: 80
           ToPort: 80
           CidrIp: 0.0.0.0/0
-      # Add 'VpcId' property here
+      # 2. Add 'VpcId' property from "1. Prepare the security group resource" here
 
   WebServerEIP:
     Type: AWS::EC2::EIP
