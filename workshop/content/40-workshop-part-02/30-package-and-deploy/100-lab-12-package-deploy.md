@@ -6,7 +6,7 @@ weight: 100
 
 ### Overview
 
-In a [Part 01]() of this workshop, you have deployed single YAML templates via CloudFormation console. That was pretty easy to do so. However in some cases, CloudFormation templates refer to other files, or artifacts.
+In the [Part 01](/30-workshop-part-01/) of this workshop, you have deployed single YAML templates via CloudFormation console. That was pretty easy to do so. However in some cases, CloudFormation templates refer to other files, or artifacts.
 
 For example Lambda source code or ZIP file, or nested CloudFormation Template files may be such “artifacts”. As you learn in [Nested Stacks Lab](/10-nested-stacks/100-lab-10-nested-stacks), these files have to be available in S3 before you can deploy the main CloudFormation template.
 
