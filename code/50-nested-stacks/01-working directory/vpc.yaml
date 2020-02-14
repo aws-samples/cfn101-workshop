@@ -133,4 +133,4 @@ Resources:
       InternetGatewayId:
         Ref: VPCIGW
 
-# Add VpcId here
+# Add the code from "2. Prepare the VPC template"here

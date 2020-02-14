@@ -15,10 +15,6 @@ Metadata:
         default: 'Amazon Machine Image ID'
 
 Parameters:
-  SubnetId:
-    Type: AWS::EC2::Subnet::Id
-    Description: 'The Subnet ID'
-
   EnvironmentType:
     Description: 'Specify the Environment type of the stack.'
     Type: String
@@ -34,9 +30,17 @@ Parameters:
     Description: 'The ID of the AMI.'
     Default: /aws/service/ami-amazon-linux-latest/amzn2-ami-hvm-x86_64-gp2
 
-  # Add VpcId parameter here
+  VpcId:
+    Type: AWS::EC2::VPC::Id
+    Description: 'The VPC ID'
 
-  # Add WebServerInstanceProfile parameter here
+  SubnetId:
+    Type: AWS::EC2::Subnet::Id
+    Description: 'The Subnet ID'
+
+  WebServerInstanceProfile:
+    Type: String
+    Description: 'Instance profile resource ID'
 
 Mappings:
   EnvironmentToInstanceType:
@@ -104,7 +108,7 @@ Resources:
                 [cfn-auto-reloader-hook]
                 triggers=post.update
                 path=Resources.WebServerInstance.Metadata.AWS::CloudFormation::Init
-                action=/opt/aws/bin/cfn-init --stack ${AWS::StackName} --resource WebServerInstance --region ${AWS::Region}
+                action=/opt/aws/bin/cfn-init --stack ${AWS::StackName} -resource WebServerInstance --region ${AWS::Region}
                 runas=root
 
           services:
@@ -155,7 +159,8 @@ Resources:
           FromPort: 80
           ToPort: 80
           CidrIp: 0.0.0.0/0
-      # Add 'VpcId' property here
+      VpcId: !Ref VpcId
+
 
   WebServerEIP:
     Type: AWS::EC2::EIP
