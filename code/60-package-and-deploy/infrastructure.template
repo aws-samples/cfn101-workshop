@@ -1,0 +1,35 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: CFN 201 Workshop - Lab 12 Helper Scripts. (uksb-1qf5n2qdg)
+
+Resources:
+  LambdaBasicExecutionRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: lambda.amazonaws.com
+            Action: sts:AssumeRole
+            Condition: {}
+      Path: /
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+        - arn:aws:iam::aws:policy/AWSXrayFullAccess
+
+  PythonFunction:
+    Type: AWS::Lambda::Function
+    Properties:
+      FunctionName: cfn-workshop-python-function
+      Description: Python Function to return specific TimeZone time
+      Runtime: python3.8
+      Role: !GetAtt LambdaBasicExecutionRole.Arn
+      Handler: lambda_function.handler
+      Code: lambda/
+      TracingConfig:
+        Mode: Active
+
+Outputs:
+  LambdaFunction:
+    Description: AWS Lambda Python Function
+    Value: !Ref PythonFunction
