@@ -15,10 +15,6 @@ Metadata:
         default: 'Amazon Machine Image ID'
 
 Parameters:
-  SubnetId:
-    Type: AWS::EC2::Subnet::Id
-    Description: 'The Subnet ID'
-
   EnvironmentType:
     Description: 'Specify the Environment type of the stack.'
     Type: String
@@ -37,6 +33,10 @@ Parameters:
   VpcId:
     Type: AWS::EC2::VPC::Id
     Description: 'The VPC ID'
+
+  SubnetId:
+    Type: AWS::EC2::Subnet::Id
+    Description: 'The Subnet ID'
 
   WebServerInstanceProfile:
     Type: String
