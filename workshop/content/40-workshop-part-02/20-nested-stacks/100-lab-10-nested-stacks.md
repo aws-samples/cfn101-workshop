@@ -405,7 +405,7 @@ You should see the AMI ID added to the page, similar to the picture below.
 
 Verify that you can log in to the instance via SessionManager.
 
-If you not sure how to do that, follow the instructions from the [Lab 07: SSM - Session Manager](http://localhost:1313/30-workshop-part-01/30-launching-ec2/200-lab-07-session-manager/#challenge)
+If you not sure how to do that, follow the instructions from the [Lab 07: SSM - Session Manager](/30-workshop-part-01/30-launching-ec2/200-lab-07-session-manager/#challenge)
 
 ### Clean up
 
