@@ -1,5 +1,5 @@
 ---
-title: 'Lab 10: Nested Stacks'
+title: 'Lab 11: Nested Stacks'
 date: 2019-11-13T16:52:42Z
 weight: 100
 ---
@@ -412,7 +412,7 @@ If you not sure how to do that, follow the instructions from the [Lab 07: SSM - 
 Follow these steps to clean up created resources:
 
 1. In in the **[CloudFormation console](https://console.aws.amazon.com/cloudformation)**, select the the **root** stack you have created in this lab. For example `cfn-workshop-nested-stack`.
-1. The **root* stack will handle the deletion of all the **children** stacks for you.
+1. The **root** stack will handle the deletion of all the **children** stacks for you.
 1. In the top right corner, click on **Delete**.
 1. In the pop up window click on **Delete stack**.
 1. You can click the **refresh** button a few times until you see in the status **DELETE_COMPLETE**.
