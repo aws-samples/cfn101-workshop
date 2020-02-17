@@ -28,10 +28,10 @@ This diagram represents the high-level overview of the infrastructure that will 
 
 ### Start Lab
 
-You will find the working files in `code/50-layered-stack`. In the rest of this lab, you should add your code to the templates here. The solution can be found in the same folder with a `-Solution` suffix to the matching file name. You can reference these against your code.
+You will find the working files in `code/50-layered-stack/01-working-directory`. In the rest of this lab, you should add your code to the templates here. The solution can be found in the `code/50-layered-stack/02-solution` folder. You can reference these against your code.
 
 #### Create VPC Stack
-The VPC template has been created for you. It is titled `01-lab11-vpc.yaml`. This template will create VPC stack with 2 Public Subnets, an Internet Gateway, and Route tables.
+The VPC template has been created for you. It is titled `vpc.yaml`. This template will create VPC stack with 2 Public Subnets, an Internet Gateway, and Route tables.
 
 ##### 1. Prepare the VPC template
 
@@ -39,7 +39,7 @@ The VPC template has been created for you. It is titled `01-lab11-vpc.yaml`. Thi
 All of the files referenced in this lab can be found within `code/50-layered-stack`
 {{% /notice %}}
 
-If you look in the file `01-lab11-vpc.yaml` file, you will notice that there are some outputs in the **Outputs** section of the template. You will now add exports to each of these so that we can consume them from other CloudFormation stacks.
+If you look in the file `vpc.yaml` file, you will notice that there are some outputs in the **Outputs** section of the template. You will now add exports to each of these so that we can consume them from other CloudFormation stacks.
 
 Add the highlighted lines shown below to your template file.
 
@@ -66,8 +66,8 @@ Outputs:
 1. Navigate to CloudFormation in the console and click **Create stack With new resources (standard)**.
 1. In **Prepare template** select **Template is ready**.
 1. In **Template source** select **Upload a template file**.
-1. Choose a file `01-lab11-vpc.yaml`.
-1. Enter a **stack name**. For example, cfn-workshop-vpc
+1. Choose a file `vpc.yaml`.
+1. Enter a **stack name**. For example, `cfn-workshop-vpc`.
 1. For the **AvailabilityZones** parameter, select **2 AZs**.
 1. You can leave the rest of the parameters **default**.
 1. Navigate through the wizard leaving everything default.
@@ -77,14 +77,15 @@ Outputs:
 
 ##### 1. Prepare the IAM role template
 
-1. Open `code/50-layered-stack/02-lab11-iam.yaml`.
-1. Copy the code below to the **Outputs** section of the template.
-
-       Outputs:
-         WebServerInstanceProfile:
-           Value: !Ref WebServerInstanceProfile
-           Export:
-             Name: cfn-workshop-WebServerInstanceProfile
+1. Open `iam.yaml` file.
+1. Copy the highlighted lines below to the **Outputs** section of the template.
+    ```yaml {hl_lines=[4,5]}
+    Outputs:
+      WebServerInstanceProfile:
+        Value: !Ref WebServerInstanceProfile
+        Export:
+          Name: cfn-workshop-WebServerInstanceProfile
+    ```
 
 ##### 2. Deploy the IAM Stack
 
@@ -92,15 +93,15 @@ Outputs:
 1. In **Prepare template** select **Template is ready**.
 1. In **Template source** select **Upload a template file**.
 1. Choose a file `02-lab11-iam.yaml`.
-1. Enter a **stack name**. For example, cfn-workshop-iam
-1. You can leave the rest of the parameters **default**.
+1. Enter a **stack name**. For example, `cfn-workshop-iam`.
+1. Click **Next**.
 1. Navigate through the wizard leaving everything default.
-1. **Acknowledge IAM capabilities** and click on Create stack.
+1. **Acknowledge IAM capabilities** and click on **Create stack**.
 
 #### Create EC2 Layered Stack
 
 ##### 1. Prepare the EC2 template
-The concept of the **Layered Stack** is to use intrinsic functions to import previously exported values instead of using **Parameters**. Therefore, the first change to make to the `03-lab11-ec2.yaml` is to remove the parameters that will no longer be used; `SubnetId`, `VpcId`, and `WebServerInstanceProfile`.
+The concept of the **Layered Stack** is to use intrinsic functions to import previously exported values instead of using **Parameters**. Therefore, the first change to make to the `ec2.yaml` is to remove the parameters that will no longer be used; `SubnetId`, `VpcId`, and `WebServerInstanceProfile`.
 
 ##### 2. Update the Parameters section
 
@@ -126,7 +127,7 @@ Update the Parameters section to look as follows:
 
 Next, we need to update the `Fn::Ref` in the template to import the exported values from the vpc and iam stacks created earlier. We perform this import by using the [Fn::ImportValue](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference-importvalue.html) intrinsic function.
 
-Update WebServerInstance resource in the Resources section of the 03-lab11-ec2.yaml template:
+Update WebServerInstance resource in the Resources section of the `ec2.yaml` template:
 
     WebServerInstance:
       Type: AWS::EC2::Instance
@@ -139,7 +140,7 @@ Update WebServerInstance resource in the Resources section of the 03-lab11-ec2.y
       {...}
 
 ##### 4. Update the security group
-Finally, update the security group resource in a similar way. Update `WebServerSecurityGroup` resource in the **Resources** section of the `03-lab11-ec2.yaml` template.
+Finally, update the security group resource in a similar way. Update `WebServerSecurityGroup` resource in the **Resources** section of the `ec2.yaml` template.
 
 ```yaml {hl_lines=[10]}
 WebServerSecurityGroup:
@@ -159,14 +160,42 @@ WebServerSecurityGroup:
 1. Navigate to CloudFormation in the console and click **Create stack With new resources (standard)**.
 1. In **Prepare template** select **Template is ready**.
 1. In **Template source** select **Upload a template file**.
-1. Choose a file `03-lab11-ec2.yaml`.
-1. Enter a **stack name**. For example, cfn-workshop-ec2
+1. Choose a file `ec2.yaml`.
+1. Enter a **stack name**. For example, `cfn-workshop-ec2`.
 1. You can leave the rest of the parameters **default**.
 1. Navigate through the wizard leaving everything default.
 1. On the **Review page**, scroll down to the bottom and click on **Create stack**.
 
+#### 7. Test the deployment
+
+##### 1. Verify that application was been deployed successfully
+
+Open a new browser window in private mode and enter the `WebsiteURL` (you can get the WebsiteURL from the **Outputs** tab of the EC2 stack in the CloudFormation console).
+You should see some instance metadata, similar to the picture below.
+
+![ami-id](../ami-id-1.png)
+
+##### 2. Log in to the instance using SSM Session Manager
+
+Verify that you can log in to the instance via Session Manager.
+
+If you not sure how to do that, follow the instructions from the [Lab 07: SSM - Session Manager](/30-workshop-part-01/30-launching-ec2/200-lab-07-session-manager/#challenge).
+
 ### Clean up
-TODO
+
+{{% notice info %}}
+After the stack imports an output value, you can't delete the stack that is exporting the output value or modify the exported output value. All of the imports must be removed before you can delete the exporting stack or modify the output value. \
+{{% /notice %}}
+
+For example, you can not delete the **VPC stack** before you delete **EC2 stack**. You get following error message:
+
+![delete-export-before-import.png](../delete-export-before-import.png)
+
+1. In the **[CloudFormation console](https://console.aws.amazon.com/cloudformation)**, select the the **EC2 stack**, for example `cfn-workshop-ec2`.
+1. In the top right corner, click on **Delete**.
+1. In the pop up window click on **Delete stack**.
+1. Hit the **refresh** button a few times until you see in the status **DELETE_COMPLETE**.
+1. Now you can delete **IAM** and **VPC** stack in any other as there are no more dependencies.
 
 ---
 ### Conclusion
