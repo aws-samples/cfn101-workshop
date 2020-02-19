@@ -148,10 +148,11 @@ Please double check **Parameters** and **Resources** sections are correctly form
 1. Choose a file `main.yaml`.
 1. Enter a **Stack name**. For example, cfn-workshop-nested-stack
 1. For the **AvailabilityZones** parameter, select 2 AZs.
-1. Fo the **S3BucketName** provide the name of the bucket you have wrote down in [Prepare S3 bucket](#2-prepare-s3-bucket) section.
+1. For the **S3BucketName** provide the name of the bucket you have wrote down in [Prepare S3 bucket](#2-prepare-s3-bucket) section.
 1. You can leave rest of the parameters default.
 1. You can leave **Configure stack options** default, click **Next**.
 1. On the **Review <stack_name>** page, scroll down to the bottom and tick both **IAM Capabilities** check boxes.
+    ![iam-capabilities.png](../iam-capabilities.png)
 1. Click on **Create stack**. You can view the progress of Nested stacks being created in CloudFormation console.
 1. In a few minutes, stacks will be created. Hit the refresh button a few times until you see in the status CREATE_COMPLETE.
 
@@ -227,7 +228,7 @@ Similarly to the VPC template, if you look into **Parameters** section of the `e
 * `EnvironmentType` - this property has a default value and is likely to change often, so let's add this one.
 * `AmiID` - this property has default value, it can be left out from the main template.
 
-Add the code below to the **Parameters** section of the main template:
+Add the code below to the **Parameters** section of the `main.yaml` template:
 
     EnvironmentType:
       Description: 'Specify the Environment type of the stack.'
@@ -394,10 +395,15 @@ Update the previously created nested stack with a new template.
 
 #### 7. Test the deployment
 
-##### 1. Verify that application was been deployed successfully
+##### 1. Verify that application has been deployed successfully
 
-Open a new browser window in private mode and enter the `WebsiteURL` (you can get the WebsiteURL from the _Outputs_ tab of the EC2 stack in CloudFormation  console).
-You should see the AMI ID added to the page, similar to the picture below.
+Open a new browser window in private mode and enter the `WebsiteURL`.
+
+You can get the `WebsiteURL` from the **Outputs** tab of the main stack in CloudFormation console.
+
+![website-url-output.png](../website-url-output.png)
+
+In the browser window, you should see some instance metadata, similar to the picture below.
 
 ![ami-id](../ami-id-1.png)
 

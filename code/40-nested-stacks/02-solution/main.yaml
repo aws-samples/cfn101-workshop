@@ -80,3 +80,7 @@ Resources:
         VpcId: !GetAtt VpcStack.Outputs.VpcId
         SubnetId: !GetAtt VpcStack.Outputs.PublicSubnet1
         WebServerInstanceProfile: !GetAtt IamStack.Outputs.WebServerInstanceProfile
+
+Outputs:
+  WebsiteURL:
+    Value: !GetAtt EC2Stack.Outputs.WebsiteURL

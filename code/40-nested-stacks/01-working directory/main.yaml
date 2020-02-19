@@ -24,3 +24,7 @@ Resources:
   # 7. Add code from "3. Add VpcId and SubnetId to **EC2Stack** stack" section
 
   # 8. Add code from "6. Add WebServerInstanceProfile to **EC2Stack** stack" section
+
+Outputs:
+  WebsiteURL:
+    Value: !GetAtt EC2Stack.Outputs.WebsiteURL
