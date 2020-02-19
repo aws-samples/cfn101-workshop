@@ -398,7 +398,7 @@ Update the previously created nested stack with a new template.
 ##### 1. Verify that application has been deployed successfully
 
 Open a new browser window in private mode and enter the `WebsiteURL`.
- 
+
 You can get the `WebsiteURL` from the **Outputs** tab of the main stack in CloudFormation console.
 
 ![website-url-output.png](../website-url-output.png)
