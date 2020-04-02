@@ -1,5 +1,7 @@
 ## AWS CloudFormation 101 - Workshop
 
+[![Website cfn101.solution.builders](https://img.shields.io/website-up-down-green-red/http/cfn101.solution.builders.svg)](https://cfn101.solution.builders/)
+
 ## Workshop site
 
 Go to [https://cfn101.solution.builders](https://cfn101.solution.builders/) to start a workshop.
