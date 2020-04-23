@@ -370,7 +370,16 @@ Add the `WebServerInstanceProfile` parameter to the EC2 stack in the `main.yaml`
         WebServerInstanceProfile: !GetAtt IamStack.Outputs.WebServerInstanceProfile
 ```
 
-##### 5. Upload the EC2 stack to S3
+##### 7. Output the `WebsiteURL` in the main template
+
+Add the `WebsiteURL` to the `Outputs` section of the `main.yaml` template.
+
+    Outputs:
+      WebsiteURL:
+      Value: !GetAtt EC2Stack.Outputs.WebsiteURL
+
+
+##### 8. Upload the EC2 stack to S3
 Before you can deploy the updated nested stack, you must update the templates in your S3 bucket that are referenced by the parent template, `main.yaml`.
 
 Similar to the [uploading the VPC stack](#3-upload-the-vpc-stack-to-s3) in a previous step, upload the `vpc.yaml`, `ec2.yaml` and `iam.yaml` templates to your S3 bucket.
@@ -380,7 +389,7 @@ Similar to the [uploading the VPC stack](#3-upload-the-vpc-stack-to-s3) in a pre
 1. Locate the `vpc.yaml`, `iam.yaml` and `ec2.yaml` files and select them.
 1. Click **Upload** button to upload the file.
 
-##### 6. Deploy EC2 Nested Stack
+##### 9. Deploy EC2 Nested Stack
 
 Update the previously created nested stack with a new template.
 
@@ -417,7 +426,7 @@ If you not sure how to do that, follow the instructions from the [Lab 07: SSM - 
 
 Follow these steps to clean up created resources:
 
-1. In in the **[CloudFormation console](https://console.aws.amazon.com/cloudformation)**, select the the **root** stack you have created in this lab. For example `cfn-workshop-nested-stack`.
+1. In the **[CloudFormation console](https://console.aws.amazon.com/cloudformation)**, select the **root** stack you have created in this lab. For example `cfn-workshop-nested-stack`.
 1. The **root** stack will handle the deletion of all the **children** stacks for you.
 1. In the top right corner, click on **Delete**.
 1. In the pop up window click on **Delete stack**.

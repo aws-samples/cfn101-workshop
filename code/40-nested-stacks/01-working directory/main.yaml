@@ -25,6 +25,4 @@ Resources:
 
   # 8. Add code from "6. Add WebServerInstanceProfile to **EC2Stack** stack" section
 
-Outputs:
-  WebsiteURL:
-    Value: !GetAtt EC2Stack.Outputs.WebsiteURL
+# 9. Add code from "Output the `WebsiteURL` in the main template" section
