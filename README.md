@@ -1,10 +1,10 @@
 ## AWS CloudFormation 101 - Workshop
 
-[![Website cfn101.solution.builders](https://img.shields.io/website-up-down-green-red/http/cfn101.solution.builders.svg)](https://cfn101.solution.builders/)
+[![Website cfn101.sa.engineering](https://img.shields.io/website-up-down-green-red/http/cfn101.sa.engineering.svg)](https://cfn101.sa.engineering/)
 
 ## Workshop site
 
-Go to [https://cfn101.solution.builders](https://cfn101.solution.builders/) to start a workshop.
+Go to [https://cfn101.sa.engineering](https://cfn101.sa.engineering/) to start a workshop.
 
 ## Developer Guide
 
@@ -34,7 +34,7 @@ Once the server is running, you can open <http://localhost:1313> in your browser
 
 ## Website Infrastructure
 
-The workshop is available at https://cfn101.solution.builders. It's a static website
+The workshop is available at https://cfn101.sa.engineering. It's a static website
 hosted via [AWS Amplify](https://aws.amazon.com/amplify/).
 
 The infrastructure is deployed using [AWS CloudFormation](https://aws.amazon.com/cloudformation/). The CloudFormation template is in the [infrastructure](./infrastructure) directory.
