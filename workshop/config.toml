@@ -9,7 +9,7 @@ metaDataFormat = "yaml"
 defaultContentLanguageInSubdir= true
 
 uglyurls = false
-googleAnalytics = "UA-151248716-1"
+#googleAnalytics = "UA-151248716-1"
 sectionPagesMenu = "main"
 pygmentsCodeFences = true
 pygmentsStyle = "monokai"
