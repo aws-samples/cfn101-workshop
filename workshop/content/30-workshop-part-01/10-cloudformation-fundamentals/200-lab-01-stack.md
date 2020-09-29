@@ -49,7 +49,7 @@ Check out the AWS Documentation for [AWS::S3::Bucket](https://docs.aws.amazon.co
 {{% /expand %}}
 
 {{%expand "Want to see the solution?" %}}
-1. Replace the code in your template with the code bellow:
+1. Replace the code in your template with the code below:
 
        Resources:
          S3Bucket:
@@ -58,7 +58,7 @@ Check out the AWS Documentation for [AWS::S3::Bucket](https://docs.aws.amazon.co
              VersioningConfiguration:
                Status: Enabled
 
-1. Update the stack as per demo bellow:
+1. Update the stack as per demo below:
 
     ![stack-update](../stack-update.gif)
 
