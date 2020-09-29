@@ -40,13 +40,15 @@ To reference a CloudFormation stack in your template, use the `AWS::CloudFormati
 
 It looks like this:
 
-    Resources:
-      NestedStackExample
-        Type: AWS::CloudFormation::Stack
-          Properties:
-            TemplateURL: 'Path/To/Template'
-            Parameters:
-              ExampleKey: ExampleValue
+```yaml
+Resources:
+  NestedStackExample:
+    Type: AWS::CloudFormation::Stack
+      Properties:
+        TemplateURL: 'Path/To/Template'
+        Parameters:
+          ExampleKey: ExampleValue
+```
 
 The `TemplateURL` property is used to reference the CloudFormation template that you wish to nest.
 
@@ -76,55 +78,59 @@ These parameters needs to be added to the main template so that they can be pass
 
 Copy the code below to the **Parameters** section of the `main.yaml` template.
 
-    AvailabilityZones:
-      Type: List<AWS::EC2::AvailabilityZone::Name>
-      Description: The list of Availability Zones to use for the subnets in the VPC. Select 2 AZs.
+```yaml
+  AvailabilityZones:
+    Type: List<AWS::EC2::AvailabilityZone::Name>
+    Description: The list of Availability Zones to use for the subnets in the VPC. Select 2 AZs.
 
-    VPCName:
-      Type: String
-      Description: The name of the VPC.
-      Default: cfn-workshop-vpc
+  VPCName:
+    Type: String
+    Description: The name of the VPC.
+    Default: cfn-workshop-vpc
 
-    VPCCidr:
-      Type: String
-      Description: The CIDR block for the VPC.
-      AllowedPattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/([0-9]|[1-2][0-9]|3[0-2]))$
-      ConstraintDescription: CIDR block parameter must be in the form x.x.x.x/16-28
-      Default: 10.0.0.0/16
+  VPCCidr:
+    Type: String
+    Description: The CIDR block for the VPC.
+    AllowedPattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/([0-9]|[1-2][0-9]|3[0-2]))$
+    ConstraintDescription: CIDR block parameter must be in the form x.x.x.x/16-28
+    Default: 10.0.0.0/16
 
-    PublicSubnet1Cidr:
-      Type: String
-      Description: The CIDR block for the public subnet located in Availability Zone 1.
-      AllowedPattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/([0-9]|[1-2][0-9]|3[0-2]))$
-      ConstraintDescription: CIDR block parameter must be in the form x.x.x.x/16-28
-      Default: 10.0.0.0/24
+  PublicSubnet1Cidr:
+    Type: String
+    Description: The CIDR block for the public subnet located in Availability Zone 1.
+    AllowedPattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/([0-9]|[1-2][0-9]|3[0-2]))$
+    ConstraintDescription: CIDR block parameter must be in the form x.x.x.x/16-28
+    Default: 10.0.0.0/24
 
-    PublicSubnet2Cidr:
-      Type: String
-      Description: The CIDR block for the public subnet located in Availability Zone 2.
-      AllowedPattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/([0-9]|[1-2][0-9]|3[0-2]))$
-      ConstraintDescription: CIDR block parameter must be in the form x.x.x.x/16-28
-      Default: 10.0.1.0/24
+  PublicSubnet2Cidr:
+    Type: String
+    Description: The CIDR block for the public subnet located in Availability Zone 2.
+    AllowedPattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/([0-9]|[1-2][0-9]|3[0-2]))$
+    ConstraintDescription: CIDR block parameter must be in the form x.x.x.x/16-28
+    Default: 10.0.1.0/24
+```
 
 ##### 2. Create VPC resource in the main template
 In the code below, note that passing parameter values to resources works the same as if using a single standalone template. Make sure that parameter name in the main template matches parameter name in the VPC template.
 
 Add this code in the **Resources** section of the main template (`main.yaml`)
 
-    VpcStack:
-      Type: AWS::CloudFormation::Stack
-      Properties:
-        TemplateURL: !Sub https://${S3BucketName}.s3.amazonaws.com/vpc.yaml
-        TimeoutInMinutes: 20
-        Parameters:
-          AvailabilityZones:
-            Fn::Join:
-              - ','
-              - !Ref AvailabilityZones
-          VPCCidr: !Ref VPCCidr
-          VPCName: !Ref VPCName
-          PublicSubnet1Cidr: !Ref PublicSubnet1Cidr
-          PublicSubnet2Cidr: !Ref PublicSubnet2Cidr
+```yaml
+  VpcStack:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL: !Sub https://${S3BucketName}.s3.amazonaws.com/vpc.yaml
+      TimeoutInMinutes: 20
+      Parameters:
+        AvailabilityZones:
+          Fn::Join:
+            - ','
+            - !Ref AvailabilityZones
+        VPCCidr: !Ref VPCCidr
+        VPCName: !Ref VPCName
+        PublicSubnet1Cidr: !Ref PublicSubnet1Cidr
+        PublicSubnet2Cidr: !Ref PublicSubnet2Cidr
+```
 
 ##### 3. Upload the VPC stack to S3
 
@@ -165,36 +171,40 @@ The **IAM role** template has been created for you. It is titled `iam.yaml`. Thi
 1. Open the `iam.yaml` file.
 1. Copy the code below to the **Resources** section of the template.
 
-       SSMIAMRole:
-         Type: AWS::IAM::Role
-         Properties:
-           AssumeRolePolicyDocument:
-             Statement:
-               - Effect: Allow
-                 Principal:
-                   Service:
-                     - ec2.amazonaws.com
-                 Action:
-                   - sts:AssumeRole
-           ManagedPolicyArns:
-             - arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore
+```yaml
+  SSMIAMRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - ec2.amazonaws.com
+            Action:
+              - sts:AssumeRole
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore
 
-       WebServerInstanceProfile:
-         Type: AWS::IAM::InstanceProfile
-         Properties:
-           Path: /
-           Roles:
-             - !Ref SSMIAMRole
-
+  WebServerInstanceProfile:
+    Type: AWS::IAM::InstanceProfile
+    Properties:
+      Path: /
+      Roles:
+        - !Ref SSMIAMRole
+```
 
 ##### 2. Create IAM resource in the main template
 Copy the code below to the **Resources** section of the `main.yaml` template.
 
-    IamStack:
-      Type: AWS::CloudFormation::Stack
-      Properties:
-        TemplateURL: !Sub https://${S3BucketName}.s3.amazonaws.com/iam.yaml
-        TimeoutInMinutes: 10
+```yaml
+  IamStack:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL: !Sub https://${S3BucketName}.s3.amazonaws.com/iam.yaml
+      TimeoutInMinutes: 10
+```
+
 
 ##### 3. Upload the IAM stack to S3
 
@@ -230,25 +240,29 @@ Similarly to the VPC template, if you look into **Parameters** section of the `e
 
 Add the code below to the **Parameters** section of the `main.yaml` template:
 
-    EnvironmentType:
-      Description: 'Specify the Environment type of the stack.'
-      Type: String
-      Default: Test
-      AllowedValues:
-        - Dev
-        - Test
-        - Prod
-      ConstraintDescription: 'Specify either Dev, Test or Prod.'
+```yaml
+  EnvironmentType:
+    Description: 'Specify the Environment type of the stack.'
+    Type: String
+    Default: Test
+    AllowedValues:
+      - Dev
+      - Test
+      - Prod
+    ConstraintDescription: 'Specify either Dev, Test or Prod.'
+```
 
 ##### 2. Create EC2 resource in the main template
 
 Copy the code below to the **Resources** section of the `main.yaml` template.
 
-    EC2Stack:
-      Type: AWS::CloudFormation::Stack
-      Properties:
-        TemplateURL: !Sub https://${S3BucketName}.s3.amazonaws.com/ec2.yaml
-        TimeoutInMinutes: 20
+```yaml
+  EC2Stack:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL: !Sub https://${S3BucketName}.s3.amazonaws.com/ec2.yaml
+      TimeoutInMinutes: 20
+```
 
 ##### 3. Add EnvironmentType to the EC2 stack
 
@@ -277,6 +291,7 @@ Before you update your CloudFormation nested stack, there are a couple more thin
 
 1. Open up `ec2.yaml` file and create two parameters, `VpcId` and `SubnetId` in **Parameters** section of the template.
 
+    ```yaml
        VpcId:
          Type: AWS::EC2::VPC::Id
          Description: 'The VPC ID'
@@ -284,6 +299,7 @@ Before you update your CloudFormation nested stack, there are a couple more thin
        SubnetId:
          Type: AWS::EC2::Subnet::Id
          Description: 'The Subnet ID'
+   ```
 
 1. Next, locate the `WebServerSecurityGroup` resource.
 1. Add `VpcId` property and reference `VpcId` parameter in the `WebServerSecurityGroup` resource. Your security group resource should look like the code below.
@@ -309,16 +325,17 @@ Using the intrinsic function `!GetAtt`, CloudFormation can access the value from
 
 Add the code below to the `vpc.yaml` template.
 
-    Outputs:
-      VpcId:
-        Value: !Ref VPC
+```yaml
+Outputs:
+  VpcId:
+    Value: !Ref VPC
 
-      PublicSubnet1:
-        Value: !Ref VPCPublicSubnet1
+  PublicSubnet1:
+    Value: !Ref VPCPublicSubnet1
 
-      PublicSubnet2:
-        Value: !Ref VPCPublicSubnet2
-
+  PublicSubnet2:
+    Value: !Ref VPCPublicSubnet2
+```
 
 ##### 3. Add VpcId and SubnetId to **EC2Stack** stack
 
@@ -341,18 +358,22 @@ Add `VpcId` and `SubnetId` parameters to the EC2 stack in the `main.yaml` templa
 
 Open up `iam.yaml` and add the code below.
 
-    Outputs:
-      WebServerInstanceProfile:
-        Value: !Ref WebServerInstanceProfile
+```yaml
+Outputs:
+  WebServerInstanceProfile:
+    Value: !Ref WebServerInstanceProfile
+```
 
 ##### 5. Prepare the EC2 template
 
 1. Open up `ec2.yaml`
 1. Create the parameter `WebServerInstanceProfile` in the **Parameters** section of the template.
 
-       WebServerInstanceProfile:
-         Type: String
-         Description: 'Instance profile resource ID'
+```yaml
+   WebServerInstanceProfile:
+     Type: String
+     Description: 'Instance profile resource ID'
+```
 
 ##### 6. Add WebServerInstanceProfile to **EC2Stack** stack
 
@@ -374,10 +395,11 @@ Add the `WebServerInstanceProfile` parameter to the EC2 stack in the `main.yaml`
 
 Add the `WebsiteURL` to the `Outputs` section of the `main.yaml` template.
 
-    Outputs:
-      WebsiteURL:
-      Value: !GetAtt EC2Stack.Outputs.WebsiteURL
-
+```yaml
+Outputs:
+  WebsiteURL:
+  Value: !GetAtt EC2Stack.Outputs.WebsiteURL
+```
 
 ##### 8. Upload the EC2 stack to S3
 Before you can deploy the updated nested stack, you must update the templates in your S3 bucket that are referenced by the parent template, `main.yaml`.

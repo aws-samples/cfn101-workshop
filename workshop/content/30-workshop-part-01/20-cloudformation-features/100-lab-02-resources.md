@@ -38,17 +38,19 @@ The _Description_ section enables you to include comments about your template.
 #### Metadata
 You can use the [_Metadata_ section](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/metadata-section-structure.html) to include arbitrary JSON or YAML objects. This section is useful for providing information to other tools that interact with your CloudFormation template. For example, when deploying CloudFormation templates via the AWS console, you can improve the experience of users deploying your templates by specify how to order, label and group parameters. This can be done with the [_AWS::CloudFormation::Interface_](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-cloudformation-interface.html) key.
 
-    Metadata:
-      AWS::CloudFormation::Interface:
-        ParameterGroups:
-          - Label:
-              default: 'Amazon EC2 Configuration'
-            Parameters:
-              - InstanceType
+```yaml
+Metadata:
+  AWS::CloudFormation::Interface:
+    ParameterGroups:
+      - Label:
+          default: 'Amazon EC2 Configuration'
+        Parameters:
+          - InstanceType
 
-        ParameterLabels:
-          InstanceType:
-            default: 'Type of EC2 Instance'
+    ParameterLabels:
+      InstanceType:
+        default: 'Type of EC2 Instance'
+```
 
 #### Parameters
 _Parameters_ enable you to input custom values to your template each time you create or update a stack.
@@ -64,25 +66,29 @@ AWS CloudFormation supports the following parameter types:
 |[AWS-Specific Parameter Types](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/parameters-section-structure.html#aws-specific-parameter-types)|AWS values such as Amazon VPC IDs.| _AWS::EC2::VPC::Id_ |
 |[SSM Parameter Types](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/parameters-section-structure.html#aws-ssm-parameter-types)|Parameters that correspond to existing parameters in Systems Manager Parameter Store.| _AWS::SSM::Parameter::Value\<AWS::EC2::Image::Id\>_ |
 
-    Parameters:
-      InstanceType:
-        Type: String
-        Default: t2.micro
-        AllowedValues:
-          - t2.micro
-          - t2.small
-        Description: 'Enter t2.micro or t2.small. Default is t2.micro.'
+```yaml
+Parameters:
+  InstanceType:
+    Type: String
+    Default: t2.micro
+    AllowedValues:
+      - t2.micro
+      - t2.small
+    Description: 'Enter t2.micro or t2.small. Default is t2.micro.'
+```
 
 #### Resources
 
 The required _Resources_ section declares the AWS resources that you want to include in the stack. Let's add the EC2 resource to your stack.
 
-    Resources:
-      WebServerInstance:
-        Type: 'AWS::EC2::Instance'
-        Properties:
-          InstanceType: !Ref InstanceType
-          ImageId: <replace with AMI ID ami-xxxxx>
+```yaml
+Resources:
+  WebServerInstance:
+    Type: 'AWS::EC2::Instance'
+    Properties:
+      InstanceType: !Ref InstanceType
+      ImageId: <replace with AMI ID ami-xxxxx>
+```
 
 The only required property of the EC2 resource type is _ImageId_. Let's find the AMI ID via AWS console:
 
@@ -143,11 +149,13 @@ Check out the [AWS Compute Blog](https://aws.amazon.com/blogs/compute/query-for-
 {{%expand "Want to see the solution?" %}}
 Copy the code below to your terminal. Make sure to change the `--region` flag to use a region that you are deploying your CloudFormation to.
 
-    aws ssm get-parameters \
-    --names /aws/service/ami-amazon-linux-latest/amzn2-ami-hvm-x86_64-gp2 \
-    --query "Parameters[].Value" \
-    --region eu-west-2 \
-    --output text
+```shell script
+aws ssm get-parameters \
+  --names /aws/service/ami-amazon-linux-latest/amzn2-ami-hvm-x86_64-gp2 \
+  --query "Parameters[].Value" \
+  --region eu-west-2 \
+  --output text
+```
 
 ![ami-id-gif](../ami-id.gif)
 {{% /expand %}}

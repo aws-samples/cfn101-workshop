@@ -51,44 +51,50 @@ You can proceed to the next step as SSM Agent is pre-installed on Amazon Linux A
 #### 2. Create an IAM role for the EC2 instance
 The AWS managed policy, `AmazonSSMManagedInstanceCore`, allows an instance to use AWS Systems Manager service core functionality. This will allow you to connect to the EC2 instance using Systems Manager Session Manager.
 
-    SSMIAMRole:
-      Type: AWS::IAM::Role
-      Properties:
-        AssumeRolePolicyDocument:
-          Statement:
-            - Effect: Allow
-              Principal:
-                Service:
-                  - ec2.amazonaws.com
-              Action:
-                - sts:AssumeRole
-        ManagedPolicyArns:
-          - arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore
+```yaml
+  SSMIAMRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - ec2.amazonaws.com
+            Action:
+              - sts:AssumeRole
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore
+```
 
 #### 3. Create an IAM Instance Profile
 
 Create Instance profile resource.
 
-    WebServerInstanceProfile:
-      Type: AWS::IAM::InstanceProfile
-      Properties:
-        Path: /
-        Roles:
-          - !Ref SSMIAMRole
+```yaml
+  WebServerInstanceProfile:
+    Type: AWS::IAM::InstanceProfile
+    Properties:
+      Path: /
+      Roles:
+        - !Ref SSMIAMRole
+```
 
 #### 4. Attach the IAM Instance Profile to an Amazon EC2 Instance
 
 Attach the role to the instance with `IamInstanceProfile` property.
 
-    WebServerInstance:
-      Type: AWS::EC2::Instance
-      Properties:
-        IamInstanceProfile: !Ref WebServerInstanceProfile
-        ImageId: !Ref AmiID
-        InstanceType: !FindInMap [EnvironmentToInstanceType, !Ref EnvironmentType, InstanceType]
-        Tags:
-          - Key: Name
-            Value: !Join [ '-', [ !Ref EnvironmentType, Web Server ] ]
+```yaml
+  WebServerInstance:
+    Type: AWS::EC2::Instance
+    Properties:
+      IamInstanceProfile: !Ref WebServerInstanceProfile
+      ImageId: !Ref AmiID
+      InstanceType: !FindInMap [EnvironmentToInstanceType, !Ref EnvironmentType, InstanceType]
+      Tags:
+        - Key: Name
+          Value: !Join [ '-', [ !Ref EnvironmentType, Web Server ] ]
+```
 
 {{% notice note %}}
 You can attach the instance profile to the new Amazon EC2 instances at launch time, or to existing Amazon EC2 instances.
@@ -129,7 +135,9 @@ Review the AWS documentation for [Instance Metadata and User Data](https://docs.
 {{%expand "Want to see the solution?" %}}
 Pate the following command inside the instance terminal:
 
-    curl http://169.254.169.254/latest/meta-data/ami-id
+```
+curl http://169.254.169.254/latest/meta-data/ami-id
+```
 
 ![ssm-sm](../ssm-sm-1.gif)
 {{% /expand %}}

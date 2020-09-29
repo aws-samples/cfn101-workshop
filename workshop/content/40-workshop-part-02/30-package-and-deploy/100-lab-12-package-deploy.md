@@ -33,12 +33,13 @@ The project consists of:
 * One Lambda function.
 * Requirements file to install your function dependencies.
 
-      cfn101-workshop/code/60-package-and-deploy$ tree -F .
-      ├── infrastructure.template
-      └── lambda/
-          ├── lambda_function.py
-          └── requirements.txt
-
+```
+cfn101-workshop/code/60-package-and-deploy$ tree -F .
+├── infrastructure.template
+└── lambda/
+    ├── lambda_function.py
+    └── requirements.txt
+```
 
 
 #### Reference local files in CloudFormation template
@@ -79,7 +80,9 @@ Decide on the AWS region where you will be deploying your Cloudformation templat
 Make sure to replace the name of the bucket after `s3://` with a unique name!
 {{% /notice %}}
 
-    aws s3 mb s3://example-bucket-name --region eu-west-1
+```
+aws s3 mb s3://example-bucket-name --region eu-west-1
+```
 
 ##### 2. Install function dependencies
 
@@ -87,7 +90,9 @@ Our function depends on an external library [pytz](https://pypi.org/project/pytz
 
 From within a `code/60-package-and-deploy` directory run:
 
-    pip install pytz --target lambda
+```
+pip install pytz --target lambda
+```
 
 You should see the `pytz` package inside the `lambda/` folder.
 
@@ -137,7 +142,9 @@ You can notice that the `Code` property has been updated with two new attributes
 
 For completeness let’s also look what’s in the uploaded files. From the listing above we know the bucket and object name to download.
 
-    aws s3 cp s3://example-bucket-name/lambda-function/ce6c47b6c84d94bd207cea18e7d93458 .
+```
+aws s3 cp s3://example-bucket-name/lambda-function/ce6c47b6c84d94bd207cea18e7d93458 .
+```
 
 We know that `package` will ZIP files, so even there is no `.zip` extension you can still `unzip` it.
 

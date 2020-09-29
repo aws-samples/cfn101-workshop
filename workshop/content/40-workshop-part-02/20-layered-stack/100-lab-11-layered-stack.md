@@ -107,21 +107,23 @@ The concept of the **Layered Stack** is to use intrinsic functions to import pre
 
 Update the Parameters section to look as follows:
 
-    Parameters:
-      EnvironmentType:
-        Description: 'Specify the Environment type of the stack.'
-        Type: String
-        Default: Test
-        AllowedValues:
-          - Dev
-          - Test
-          - Prod
-        ConstraintDescription: 'Specify either Dev, Test or Prod.'
+```yaml
+Parameters:
+  EnvironmentType:
+    Description: 'Specify the Environment type of the stack.'
+    Type: String
+    Default: Test
+    AllowedValues:
+      - Dev
+      - Test
+      - Prod
+    ConstraintDescription: 'Specify either Dev, Test or Prod.'
 
-      AmiID:
-        Type: AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>
-        Description: 'The ID of the AMI.'
-        Default: /aws/service/ami-amazon-linux-latest/amzn2-ami-hvm-x86_64-gp2
+  AmiID:
+    Type: AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>
+    Description: 'The ID of the AMI.'
+    Default: /aws/service/ami-amazon-linux-latest/amzn2-ami-hvm-x86_64-gp2
+```
 
 ##### 3. Update WebServerInstance resource
 
@@ -129,15 +131,17 @@ Next, we need to update the `Fn::Ref` in the template to import the exported val
 
 Update WebServerInstance resource in the Resources section of the `ec2.yaml` template:
 
-    WebServerInstance:
-      Type: AWS::EC2::Instance
-      {...}
-      Properties:
-        SubnetId: !ImportValue cfn-workshop-PublicSubnet1
-        IamInstanceProfile: !ImportValue cfn-workshop-WebServerInstanceProfile
-        ImageId: !Ref AmiID
-        InstanceType: !FindInMap [EnvironmentToInstanceType, !Ref EnvironmentType, InstanceType]
-      {...}
+```yaml
+  WebServerInstance:
+    Type: AWS::EC2::Instance
+    {...}
+    Properties:
+      SubnetId: !ImportValue cfn-workshop-PublicSubnet1
+      IamInstanceProfile: !ImportValue cfn-workshop-WebServerInstanceProfile
+      ImageId: !Ref AmiID
+      InstanceType: !FindInMap [EnvironmentToInstanceType, !Ref EnvironmentType, InstanceType]
+    {...}
+```
 
 ##### 4. Update the security group
 Finally, update the security group resource in a similar way. Update `WebServerSecurityGroup` resource in the **Resources** section of the `ec2.yaml` template.
