@@ -65,7 +65,7 @@ PythonFunction:
 
 #### Package and Upload the artifacts
 
-The `aws cloudforamtion package` does following actions:
+The `aws cloudformation package` does following actions:
 
 1. ZIPs up the local files.
 1. Uploads them to a designated S3 bucket.
