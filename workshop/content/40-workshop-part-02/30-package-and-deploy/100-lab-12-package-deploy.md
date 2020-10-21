@@ -228,7 +228,7 @@ From your terminal run:
 aws lambda invoke \
 --function-name cfn-workshop-python-function \
 --payload '{"time_zone": "Europe/London"}' \
---cli-binary-format raw-in-base64-out
+--cli-binary-format raw-in-base64-out \
 response.json
 ```
 
