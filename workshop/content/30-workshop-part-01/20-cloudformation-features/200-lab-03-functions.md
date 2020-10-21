@@ -35,19 +35,23 @@ In the last lab you have "hard coded" an AMI ID directly into the EC2 Resource p
 
 1. First, create new parameter called `AmiID` and put it in the `Parameters` section of your template.
 
-         AmiID:
-           Type: AWS::EC2::Image::Id
-           Description: 'The ID of the AMI.'
+    ```yaml
+      AmiID:
+        Type: AWS::EC2::Image::Id
+        Description: 'The ID of the AMI.'
+   ```
 
 1. Use the intrinsic function `Ref` to pass the `AmiID` parameter input to the EC2 resource property.
 
-       Resources:
-         WebServerInstance:
-           Type: AWS::EC2::Instance
-           Properties:
-             # Use !Ref function in ImageId property
-             ImageId: !Ref AmiID
-             InstanceType: !Ref InstanceType
+    ```yaml
+    Resources:
+      WebServerInstance:
+        Type: AWS::EC2::Instance
+        Properties:
+          # Use !Ref function in ImageId property
+          ImageId: !Ref AmiID
+          InstanceType: !Ref InstanceType
+   ```
 
 #### Fn::Join
 
@@ -56,15 +60,17 @@ To help you manage your AWS resources, you can optionally assign your own metada
 1. Add property `Tags` to the `Properties` section.
 1. Reference `InstanceType` parameter and add a word _webserver_, delimited with dash `-` to the tags property.
 
-       Resources:
-         WebServerInstance:
-           Type: AWS::EC2::Instance
-           Properties:
-             ImageId: !Ref AmiID
-             InstanceType: !Ref InstanceType
-             Tags:
-               - Key: Name
-                 Value: !Join [ '-', [ !Ref InstanceType, webserver ] ]
+    ```yaml
+    Resources:
+      WebServerInstance:
+        Type: AWS::EC2::Instance
+        Properties:
+          ImageId: !Ref AmiID
+          InstanceType: !Ref InstanceType
+          Tags:
+            - Key: Name
+              Value: !Join [ '-', [ !Ref InstanceType, webserver ] ]
+   ```
 
 #### Update EC2 stack
 
@@ -109,17 +115,19 @@ Check out the AWS Documentation for **[Fn::Sub](https://docs.aws.amazon.com/AWSC
 
 1. Add the `InstanceType` tag to your template.
 
-       Resources:
-         WebServerInstance:
-           Type: AWS::EC2::Instance
-           Properties:
-             ImageId: !Ref AmiID
-             InstanceType: !Ref InstanceType
-             Tags:
-               - Key: Name
-                 Value: !Join [ '-', [ !Ref InstanceType, webserver ] ]
-               - Key: InstanceType
-                 Value: !Sub ${InstanceType}
+    ```yaml
+    Resources:
+      WebServerInstance:
+        Type: AWS::EC2::Instance
+        Properties:
+          ImageId: !Ref AmiID
+          InstanceType: !Ref InstanceType
+          Tags:
+            - Key: Name
+              Value: !Join [ '-', [ !Ref InstanceType, webserver ] ]
+            - Key: InstanceType
+              Value: !Sub ${InstanceType}
+    ```
 
 1. Go to the AWS console and update your CloudFormation Stack.
 1. In the EC2 console, verify that `InstanceType` tag has been created.

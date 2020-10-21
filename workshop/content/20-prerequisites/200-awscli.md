@@ -19,12 +19,16 @@ the **access key ID** and **secret key** you create in [the previous step](../10
 use `us-east-1`, `eu-west-1`, `us-west-2` for example). Preferably use a region
 that doesn't have any resources already deployed into it.
 
-    aws configure
+```shell script
+aws configure
+```
 
 
 And fill in the information from the console:
 
-    AWS Access Key ID [None]: <type key ID here>
-    AWS Secret Access Key [None]: <type access key>
-    Default region name [None]: <choose region (e.g. "us-east-1", "eu-west-1")>
-    Default output format [None]: <leave blank>
+```text
+AWS Access Key ID [None]: <type key ID here>
+AWS Secret Access Key [None]: <type access key>
+Default region name [None]: <choose region (e.g. "us-east-1", "eu-west-1")>
+Default output format [None]: <leave blank>
+```

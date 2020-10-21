@@ -32,10 +32,12 @@ In this lab you will learn:
 
 You need to use the `AWS::CloudFormation::Init` type to include metadata for an Amazon EC2 instance. When your template calls the `cfn-init` script, the script will look for resources in metadata section. Let's add the metadata to your template:
 
+```yaml
     WebServerInstance:
       Type: AWS::EC2::Instance
       Metadata:
         AWS::CloudFormation::Init:
+```
 
 #### 2. Configure cfn-init
 The configuration of `cfn-init` is separated into sections. The configuration sections are processed in the following order: packages, groups, users, sources, files, commands, and then services.
@@ -54,6 +56,7 @@ Your instance is running Amazon Linux 2, so you will use `yum` package manager t
 
 Add the code from `packages` key to your template.
 
+```yaml
     WebServerInstance:
       Type: AWS::EC2::Instance
       Metadata:
@@ -63,42 +66,45 @@ Add the code from `packages` key to your template.
               yum:
                 httpd: []
                 php: []
+```
 
 ##### 2. Create index.php file
 Use the _files_ key to create files on the EC2 instance. The content can either be specified inline in the template, or as a URL that is retrieved by the instance.
 
 Add the code from `files` key to your template.
 
-    WebServerInstance:
-      Type: AWS::EC2::Instance
-      Metadata:
-        AWS::CloudFormation::Init:
-          config:
-            packages: \
-              {...}
-            files:
-              /var/www/html/index.php:
-                content: |
-                  <!DOCTYPE html>
-                  <html>
-                  <body>
-                    <center>
-                      <?php
-                      # Get the instance ID from meta-data and store it in the $instance_id variable
-                      $url = "http://169.254.169.254/latest/meta-data/instance-id";
-                      $instance_id = file_get_contents($url);
-                      # Get the instance's availability zone from metadata and store it in the $zone variable
-                      $url = "http://169.254.169.254/latest/meta-data/placement/availability-zone";
-                      $zone = file_get_contents($url);
-                      ?>
-                      <h2>EC2 Instance ID: <?php echo $instance_id ?></h2>
-                      <h2>Availability Zone: <?php echo $zone ?></h2>
-                    </center>
-                  </body>
-                  </html>
-                mode: 000644
-                owner: apache
-                group: apache
+```yaml
+  WebServerInstance:
+    Type: AWS::EC2::Instance
+    Metadata:
+      AWS::CloudFormation::Init:
+        config:
+          packages: \
+            {...}
+          files:
+            /var/www/html/index.php:
+              content: |
+                <!DOCTYPE html>
+                <html>
+                <body>
+                  <center>
+                    <?php
+                    # Get the instance ID from meta-data and store it in the $instance_id variable
+                    $url = "http://169.254.169.254/latest/meta-data/instance-id";
+                    $instance_id = file_get_contents($url);
+                    # Get the instance's availability zone from metadata and store it in the $zone variable
+                    $url = "http://169.254.169.254/latest/meta-data/placement/availability-zone";
+                    $zone = file_get_contents($url);
+                    ?>
+                    <h2>EC2 Instance ID: <?php echo $instance_id ?></h2>
+                    <h2>Availability Zone: <?php echo $zone ?></h2>
+                  </center>
+                </body>
+                </html>
+              mode: 000644
+              owner: apache
+              group: apache
+```
 
 ##### 3. Enable and start Apache web server
 
@@ -106,20 +112,22 @@ You can use the `services` key to define which services should be enabled or dis
 
 Add the code from `services` key to your template.
 
-    WebServerInstance:
-      Type: AWS::EC2::Instance
-      Metadata:
-        AWS::CloudFormation::Init:
-          config:
-            packages:
-              {...}
-            files:
-              {...}
-            services:
-              sysvinit:
-                httpd:
-                  enabled: true
-                  ensureRunning: true
+```yaml
+  WebServerInstance:
+    Type: AWS::EC2::Instance
+    Metadata:
+      AWS::CloudFormation::Init:
+        config:
+          packages:
+            {...}
+          files:
+            {...}
+          services:
+            sysvinit:
+              httpd:
+                enabled: true
+                ensureRunning: true
+```
 
 ##### 4. Call `cfn-init` script
 
@@ -129,6 +137,7 @@ In the code below, CloudFormation will first update the `aws-cfn-bootstrap` pack
 
 Add the code from `UserData` property to your template.
 
+```yaml
     UserData:
       Fn::Base64:
         !Sub |
@@ -137,6 +146,7 @@ Add the code from `UserData` property to your template.
           yum install -y aws-cfn-bootstrap
           # Call cfn-init script to install files and packages
           /opt/aws/bin/cfn-init -v --stack ${AWS::StackName} --resource WebServerInstance --region ${AWS::Region}
+```
 
 {{% notice note %}}
 The intrinsic function `!Sub` will dynamically replace values in `${AWS::StackName}` and `${AWS::Region}` variables.
@@ -153,7 +163,7 @@ Installing the `cfn-hup` helper script enables existing EC2 instances to apply t
 
 1. Copy the code from both files to your template.
 
-    ```bash
+    ```yaml
    WebServerInstance:
      Type: AWS::EC2::Instance
      Metadata:
@@ -188,6 +198,7 @@ Installing the `cfn-hup` helper script enables existing EC2 instances to apply t
 
     Add the code from `services` key to your template.
 
+    ```yaml
         WebServerInstance:
           Type: AWS::EC2::Instance
           Metadata:
@@ -213,6 +224,7 @@ Installing the `cfn-hup` helper script enables existing EC2 instances to apply t
                       files:
                         - /etc/cfn/cfn-hup.conf
                         - /etc/cfn/hooks.d/cfn-auto-reloader.conf
+   ```
 
 #### 4. Configure cfn-signal and CreationPolicy attribute
 Finally, you need a way to instruct AWS CloudFormation to complete stack creation only after all the services (such as Apache and cfn-hup) are running and not after all the stack resources are created.
@@ -223,13 +235,16 @@ To prevent this you can add a [CreationPolicy](https://docs.aws.amazon.com/AWSCl
 
 1. Add Creation policy to `WebServerInstance` resource property.
 
+    ```yaml
         CreationPolicy:
           ResourceSignal:
             Count: 1
             Timeout: PT10M
+   ```
 
 1. Add the `cfn-signal` to the UserData parameter.
 
+    ```yaml
        UserData:
          Fn::Base64:
            !Sub |
@@ -240,6 +255,7 @@ To prevent this you can add a [CreationPolicy](https://docs.aws.amazon.com/AWSCl
              /opt/aws/bin/cfn-init -v --stack ${AWS::StackName} --resource WebServerInstance --region ${AWS::Region}
              # Call cfn-signal script to send a signal with exit code
              /opt/aws/bin/cfn-signal --exit-code $? --stack ${AWS::StackName} --resource WebServerInstance --region ${AWS::Region}
+   ```
 
 #### 5. Update the stack
 To update the stack and apply the changes you have made in the `UserData` property, the EC2 instance needs to be replaced. You can find the properties which will replace an EC2 instances [here](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-instance.html?shortFooter=true#aws-properties-ec2-instance-properties).
@@ -248,18 +264,22 @@ In the example below, you will use `AvailabilityZone` property and parameter to 
 
 1. Create an `AvailabilityZone` parameter in the template.
 
-        Parameters:
-          AvailabilityZone:
-            Type: AWS::EC2::AvailabilityZone::Name
+    ```yaml
+    Parameters:
+      AvailabilityZone:
+        Type: AWS::EC2::AvailabilityZone::Name
+   ```
 
 1. Create `AvailabilityZone`  in **Properties** section of the EC2 resource and reference the parameter created above.
 
-        WebServerInstance:
-            Type: AWS::EC2::Instance
-            Metadata:
-              {..}
-            Properties:
-              AvailabilityZone: !Ref AvailabilityZone
+    ```yaml
+      WebServerInstance:
+        Type: AWS::EC2::Instance
+        Metadata:
+          {..}
+        Properties:
+          AvailabilityZone: !Ref AvailabilityZone
+   ```
 
 1. Check the availability zone of the deployed Web Server instance.
 
@@ -300,13 +320,17 @@ Locate the `/var/www/html/index.php` in the _files_ section of the EC2 metadata
 
 Add the code below to the `<\?php {...} ?>` block:
 
-    # Get the instance AMI ID and store it in the $ami_id variable
-    $url = "http://169.254.169.254/latest/meta-data/ami-id";
-    $ami_id = file_get_contents($url);
+```php
+# Get the instance AMI ID and store it in the $ami_id variable
+$url = "http://169.254.169.254/latest/meta-data/ami-id";
+$ami_id = file_get_contents($url);
+```
 
 Add the code below to html `<h2>` tags:
 
-    <h2>AMI ID: <?php echo $ami_id ?></h2>
+```html
+<h2>AMI ID: <?php echo $ami_id ?></h2>
+```
 
 ##### 2. Update the stack with a new template:
 
