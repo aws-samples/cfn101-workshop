@@ -23,6 +23,8 @@ Metadata: 'template metadata' (optional) # objects that provide additional infor
 
 Parameters: 'set of parameters' (optional) # a set of inputs used to customize the template
 
+Rules: 'set of rules' (optional) # a set of rules to validate the parameters provided at deployment/update
+
 Mappings: 'set of mappings' (optional) # a mapping of keys and associated values
 
 Conditions: 'set of conditions' (optional) # conditions that control whether certain resources are created
@@ -30,6 +32,8 @@ Conditions: 'set of conditions' (optional) # conditions that control whether cer
 Transform: 'set of transforms' (optional) # for serverless applications
 
 Resources: 'set of resources' (required) # a components of your infrastructure
+
+Hooks: 'set of hooks' (optional) # Used for ECS Blue/Green Deployments
 
 Outputs: 'set of outputs' (optional) # values that are returned whenever you view your stack's properties
 ```
