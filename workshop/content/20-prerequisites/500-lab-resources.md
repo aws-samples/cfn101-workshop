@@ -14,8 +14,8 @@ The CloudFormation templates can be found in `code/` directory of the `cfn101-wo
 
     Or Download the ZIP file from [the Github repository page](https://github.com/aws-samples/cfn101-workshop):
 
-    ![git-download-png](../git-download.png)
+    ![git-download-png](git-download.png)
 
 1. Open the downloaded files in your code editor, as installed in [a previous step](../300-edit):
 
-    ![vscode-png](../vscode.png)
+    ![vscode-png](vscode.png)
