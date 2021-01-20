@@ -6,19 +6,19 @@ weight: 100
 
 ### Overview
 
-In this Lab, you will learn little bit more about CloudFormation top-level sections, including Format Version, Description, Metadata, Parameters and Resources.
+In this Lab, you will learn little more about CloudFormation top-level sections, including Format Version, Description, Metadata, Parameters and Resources.
 
 ### Topics Covered
 By the end of this lab, you will be able to:
 
 + Understand CloudFormation template structure and some of its sections.
 + Deploy an EC2 instance via CloudFormation.
-+ Query SSM parameter store to get latest Amazon Linux AMI ID.
++ Query SSM parameter store to get the latest Amazon Linux AMI ID.
 
 ### Start Lab
 
 {{% notice note %}}
-As you read through each sections, there are code samples at the end. Copy these into your own template file.
+As you read through each section, there are code samples at the end. Copy these into your own template file.
 {{% /notice %}}
 
 1. Go to `code/20-cloudformation-features/` directory.
@@ -28,12 +28,16 @@ As you read through each sections, there are code samples at the end. Copy these
 #### Format Version
 The _AWSTemplateFormatVersion_ section identifies the capabilities of the template. The latest template format version is _2010-09-09_ and is currently the only valid value.
 
-    AWSTemplateFormatVersion: '2010-09-09'
+```yaml
+AWSTemplateFormatVersion: '2010-09-09'
+```
 
 #### Description
 The _Description_ section enables you to include comments about your template.
 
-    Description : CFN 101 Workshop - Lab 02 Resources.
+```yaml
+Description : CFN 101 Workshop - Lab 02 Resources.
+```
 
 #### Metadata
 You can use the [_Metadata_ section](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/metadata-section-structure.html) to include arbitrary JSON or YAML objects. This section is useful for providing information to other tools that interact with your CloudFormation template. For example, when deploying CloudFormation templates via the AWS console, you can improve the experience of users deploying your templates by specify how to order, label and group parameters. This can be done with the [_AWS::CloudFormation::Interface_](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-cloudformation-interface.html) key.
@@ -99,7 +103,7 @@ The only required property of the EC2 resource type is _ImageId_. Let's find the
   Make sure to use **(x86)** AMI ID, if the region supports both x86 and ARM architectures.
   {{% /notice %}}
   {{% expand "Expand to see the solution" %}}
-  ![ami-gif](../ami-1.gif)
+  ![ami-gif](ami-1.gif)
   {{% /expand %}}
   1. Once you have your AMI ID, copy and paste it to **ImageId** property.
 
@@ -109,7 +113,7 @@ You can find a working solution for the **London Region** in `code/20-cloudforma
 
 {{% /notice %}}
 
-Now your EC2 template is ready to be deployed. Go back to AWS console and deploy the stack same way as you did in [Lab 01: Template and Stack](/30-cloudformation-fundamentals/200-lab-01-stack).
+Now your EC2 template is ready to be deployed. Go back to AWS console and deploy the stack same way as you did in [Lab 01: Template and Stack](../../10-cloudformation-fundamentals/200-lab-01-stack).
 
 {{% notice warning %}}
 To complete this and future labs you will need **Default VPC** in the region you will be deploying CloudFormation templates to. \
@@ -117,7 +121,7 @@ If you have deleted your default VPC, you can create a new one by following the 
 {{% /notice %}}
 
 1. Open the **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** link in a new tab and log in to your AWS account.
-1. Click on **Create stack** (_With new resources (Standard)_ if you have clicked at the top right corner).
+1. Click on **Create stack** (_With new resources (Standard)_ if you have clicked in the top right corner).
 1. In **Prepare template**, choose **Template is ready**.
 1. In **Template source**, choose **Upload a template file**.
 1. Click on **Choose file** button and navigate to your workshop directory.
@@ -136,10 +140,10 @@ If you have deleted your default VPC, you can create a new one by following the 
 
 ### Challenge
 
-In this exercise, use the AWS CLI to query the AWS Systems Manager Parameter Store the get latest Amazon Linux AMI ID.
+In this exercise, use the AWS CLI to query the AWS Systems Manager Parameter Store the get the latest Amazon Linux AMI ID.
 
 {{% notice note %}}
-To complete this challenge, you have to have [AWS CLI](/20-prerequisites/200-awscli) configured.
+To complete this challenge, you have to have [AWS CLI](../../../20-prerequisites/200-awscli) configured.
 {{% /notice %}}
 
 {{%expand "Need a hint?" %}}
@@ -157,7 +161,7 @@ aws ssm get-parameters \
   --output text
 ```
 
-![ami-id-gif](../ami-id.gif)
+![ami-id-gif](ami-id.gif)
 {{% /expand %}}
 
 ---

@@ -19,7 +19,7 @@ By the end of this lab, you will be able to:
 1. Open the `01-lab01-StackExample.yaml` file in your code editor.
 1. Here is a sample CloudFormation template that defines an S3 Bucket. It has a single resource that contains the S3 bucket. Copy the code below and save to the `01-lab01-StackExample.yaml` file.
 
-    ```yaml
+   ```yaml
    Resources:
      S3Bucket:
        Type: AWS::S3::Bucket

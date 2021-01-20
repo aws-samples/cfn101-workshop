@@ -8,7 +8,7 @@ weight: 200
 
 This lab shows how to use **[Intrinsic Functions](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference.html)** in your template.
 
-Intrinsic functions are built-in functions that help you manage your stacks. Without them, you will be limited to very basic templates, similar to the S3 template you have seen in a **[Lab01](/30-workshop-part-01/10-cloudformation-fundamentals/200-lab-01-stack)**.
+Intrinsic functions are built-in functions that help you manage your stacks. Without them, you will be limited to very basic templates, similar to the S3 template you have seen in a **[Lab01](../../../30-workshop-part-01/10-cloudformation-fundamentals/200-lab-01-stack)**.
 
 ### Topics Covered
 
@@ -33,7 +33,7 @@ Intrinsic functions can only be used in certain parts of a template. You can use
 
 In the last lab you have "hard coded" an AMI ID directly into the EC2 Resource property. You will now amend this to make your template more flexible. Let's convert `AmiID` to variable and pass it to resource property at the runtime.
 
-1. First, create new parameter called `AmiID` and put it in the `Parameters` section of your template.
+1. First, create a new parameter called `AmiID` and put it in the `Parameters` section of your template.
 
     ```yaml
       AmiID:
@@ -51,14 +51,14 @@ In the last lab you have "hard coded" an AMI ID directly into the EC2 Resource p
           # Use !Ref function in ImageId property
           ImageId: !Ref AmiID
           InstanceType: !Ref InstanceType
-   ```
+    ```
 
 #### Fn::Join
 
-To help you manage your AWS resources, you can optionally assign your own metadata to each resource in the form of **tags**. Each tag is a simple label consisting of a customer-defined key and an optional value that can help you to categorize resources by purpose, owner, environment, or other criteria. Let's use the intrinsic function **Fn::Join** to name your instance.
+To help you manage your AWS resources, you can optionally assign your own metadata to each resource in the form of **tags**. Each tag is a simple label consisting of a customer-defined key, and an optional value that can help you to categorize resources by purpose, owner, environment, or other criteria. Let's use the intrinsic function **Fn::Join** to name your instance.
 
 1. Add property `Tags` to the `Properties` section.
-1. Reference `InstanceType` parameter and add a word _webserver_, delimited with dash `-` to the tags property.
+1. Reference `InstanceType` parameter and add a word _webserver_, delimited with dash `-` to the tags' property.
 
     ```yaml
     Resources:
@@ -70,7 +70,7 @@ To help you manage your AWS resources, you can optionally assign your own metada
           Tags:
             - Key: Name
               Value: !Join [ '-', [ !Ref InstanceType, webserver ] ]
-   ```
+    ```
 
 #### Update EC2 stack
 
@@ -90,17 +90,17 @@ Now it is time to update your stack. Go to the AWS console and update your Cloud
 1. You can click the **refresh** button a few times until you see in the status **UPDATE_COMPLETE**.
 
 {{%expand "Want to see how to update the stack?" %}}
-![update-gif](../update-1.gif)
+![update-gif](update-1.gif)
 {{% /expand %}}
 
 **To see the result of the stack update:**
 
 1. Open **[AWS EC2 console](https://console.aws.amazon.com/ec2)** link in a new tab of your browser.
-1. In the left hand pane, click on **Instances**.
+1. In the left-hand pane, click on **Instances**.
 1. Select the instance with a name **t2.micro-webserver**
 1. Go to the **Tags** tab, you should see there a key `Name` with a value `t2.micro-webserver`.
 
-    ![tags-png](../tags.png)
+    ![tags-png](tags.png)
 
 ### Challenge
 Crete another tag named `InstanceType` and use intrinsic function **Fn::Sub** to return type of the instance.
