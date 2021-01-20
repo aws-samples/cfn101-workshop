@@ -14,19 +14,16 @@ See the [AWS Command Line Interface installation](https://docs.aws.amazon.com/cl
 
 ## Configure your credentials
 
-Open a terminal window and run `aws configure` to set up your environment. Type
-the **access key ID** and **secret key** you create in [the previous step](../100-account) and choose a default region (you can
-use `us-east-1`, `eu-west-1`, `us-west-2` for example). Preferably use a region
-that doesn't have any resources already deployed into it.
+Open a terminal window and run `aws configure` to set up your environment. 
 
-```shell script
-aws configure
+```shell
+$ aws configure
 ```
 
+Type the **access key ID** and **secret key** you created in [the previous step](../100-account) and choose a default region (for example you can
+use `us-east-1`). Preferably use a region that doesn't have any resources already deployed into it.
 
-And fill in the information from the console:
-
-```text
+```shell
 AWS Access Key ID [None]: <type key ID here>
 AWS Secret Access Key [None]: <type access key>
 Default region name [None]: <choose region (e.g. "us-east-1", "eu-west-1")>

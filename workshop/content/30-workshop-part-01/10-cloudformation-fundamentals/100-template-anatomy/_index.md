@@ -49,4 +49,4 @@ AWS CloudFormation will create, update or delete a stack in its entirety:
   * If a stack cannot be created or updated in its entirety, AWS CloudFormation will roll it back, and automatically delete any resources that were created.
   * If a resource cannot be deleted, any remaining resources are retained until the stack can be successfully deleted.
 
-![cfn-stack](../cfn-stack.png)
+![cfn-stack](cfn-stack.png)

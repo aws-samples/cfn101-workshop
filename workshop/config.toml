@@ -1,41 +1,49 @@
-relativeURLs=true
-CanonifyURLs=true
+relativeURLs = true
+CanonifyURLs = true
 languageCode = "en-US"
 defaultContentLanguage = "en"
-
 title = "CFN 101 Workshop"
 theme = "learn"
 metaDataFormat = "yaml"
-defaultContentLanguageInSubdir= true
-
+defaultContentLanguageInSubdir = true
 uglyurls = false
 sectionPagesMenu = "main"
 pygmentsCodeFences = true
 pygmentsStyle = "monokai"
 
 [params]
-  editURL = "https://github.com/aws-samples/cfn101-workshop/edit/master/workshop/content/"
-  description = "CFN 101 Workshop"
-  author = "EMEA Solution Builders"
-  disableBreadcrumb = false
-  disableNextPrev = false
-  themeVariant = "aws"
-  disableSearch = false
-  disableAssetsBusting = true
-  disableLanguageSwitchingButton = false
-  disableShortcutsTitle = true
-  disableInlineCopyToClipBoard = true
-  showVisitedLinks = false
+editURL = "https://github.com/aws-samples/cfn101-workshop/edit/master/workshop/content/"
+description = "CFN 101 Workshop"
+author = "EMEA Solution Builders"
+disableBreadcrumb = false
+disableNextPrev = false
+themeVariant = "aws"
+disableSearch = false
+disableAssetsBusting = true
+disableLanguageSwitchingButton = false
+disableShortcutsTitle = true
+disableInlineCopyToClipBoard = true
+showVisitedLinks = false
 
 [outputs]
-home = [ "HTML", "RSS", "JSON"]
+home = [ "HTML", "RSS", "JSON",]
 
 [blackfriday]
 plainIDAnchors = true
 hrefTargetBlank = true
 
+[menu]
 [[menu.shortcuts]]
 name = "<i class='fab fa-github'></i> Github repo"
 identifier = "ds"
 url = "https://github.com/aws-samples/cfn101-workshop"
 weight = 10
+
+[privacy.youtube]
+disable = "false"
+privacyEnhanced = "true"
+
+[privacy.twitter]
+disable = "false"
+enableDNT = "true"
+simple = "true"

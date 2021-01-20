@@ -16,5 +16,5 @@ If you are using Visual Studio Code, you should install the [cfn-lint](https://m
 
 {{% notice tip %}}
 Note that `cfn-lint` is not installed automatically with the Visual Studio Code  `cfn-lint` extension.
-Install it seperately following the [installation instructions](https://github.com/aws-cloudformation/cfn-python-lint#install)
+Install it separately following the [installation instructions](https://github.com/aws-cloudformation/cfn-python-lint#install)
 {{% /notice %}}

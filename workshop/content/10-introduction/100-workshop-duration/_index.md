@@ -4,23 +4,23 @@ date: 2020-01-10T18:21:37Z
 weight: 100
 ---
 
-## Duration
+### Workshop Duration
 
-> Depending on the level of your experience with CloudFormation and development, the duration of the workshop is:
+Depending on the level of your experience with CloudFormation and development, the duration of the workshop is:
 
 #### Prerequisites
 
-+ About 30 minutes to 1 hour.
+About 30 minutes to 1 hour.
 
 #### CFN 101 - Part 01
 
-+ First part will take somewhere between 2 to 3 hours.
+First part will take somewhere between 2 and 3 hours.
 
 #### CFN 201 - Part 02
 
-+ Second part will take approximately 3 hours.
+Second part will take approximately 3 hours.
 
-## Cost
+### Cost
 
 The AWS CloudFormation templates in this workshop include configuration parameters that you can customize. Some of these settings, such as **instance type**, will affect the cost of deployment. For cost estimates, see the pricing pages for each AWS service you will be using. Prices are subject to change.
 
