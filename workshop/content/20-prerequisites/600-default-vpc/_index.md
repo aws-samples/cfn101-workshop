@@ -5,7 +5,7 @@ weight: 600
 ---
 A default VPC is suitable for getting started quickly, and for launching public instances such as a blog or simple website.
 
-[Part 01](/30-workshop-part-01/) of this workshop requires that a default VPC is available in the region you will be deploying CloudFormation templates to.
+**[Workshop Part 01](../../30-workshop-part-01)** requires that a default VPC is available in the region you will be deploying CloudFormation templates to.
 
 You will have a default VPC unless you have removed it. If you are unsure, follow the instructions below to check.
 
@@ -24,21 +24,21 @@ First we will check if a default VPC is present or not. We will use the AWS CLI 
 
 1. Copy the code below to your terminal. Make sure to change the `--region` flag to use a region that you are going to be deploying your CloudFormation to.
 
-    ```shell script
-    aws ec2 describe-vpcs --filters Name=isDefault,Values=true --query "Vpcs[].VpcId" --region eu-west-2
+    ```shell
+    $ aws ec2 describe-vpcs --filters Name=isDefault,Values=true --query "Vpcs[].VpcId" --region eu-west-2
     ```
 
-If the default VPC exists, it will be included here. Assert that `IsDefault` key is `true` and [move to the next step](/30-workshop-part-01/). You can skip the remainder of this section.
+If the default VPC exists, it will be included here. Assert that `IsDefault` key is `true` and [move to the next step](../../30-workshop-part-01). You can skip the remainder of this section.
 
 If the response is empty `[]` or the VPC is not **default** proceed to the next step. A default VPC does not exist in this region.
 
 1. Copy the code below to your terminal. Make sure to change the --region flag to use a region that you are going to be deploying your CloudFormation to.
 
-    ```shell script
-    aws ec2 create-default-vpc --region eu-west-2
+    ```shell
+    $ aws ec2 create-default-vpc --region eu-west-2
     ```
 
-    The result will be a new default VPC being created and the response in the terminal will look like the sample below.
+    The result will be a new default VPC created, and the response in the terminal will look like the sample below.
 
     ```json
     {

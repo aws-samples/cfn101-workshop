@@ -2,10 +2,7 @@
 title: 'Prerequisites'
 date: 2019-10-16T17:18:51+01:00
 weight: 20
-chapter: true
 ---
-
-# Prerequisites
 
 To complete this workshop, you will need to perform the following:
 
