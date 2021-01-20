@@ -53,12 +53,12 @@ In this Lab, you will:
 
 1. Go to the AWS console and update your stack with a new template.
 {{%expand "How do I update a Stack?" %}}
-![](../update-1.gif)
+![update-gif](update-1.gif)
 {{% /expand %}}
 
 1. View the output value on the [AWS CloudFormation console](https://console.aws.amazon.com/cloudformation), in the _Outputs_ tab.
 {{%expand "How to view Outputs?" %}}
-![](../outputs-1.gif)
+![outputs-gif](outputs-1.gif)
 {{% /expand %}}
 
 ### Challenge

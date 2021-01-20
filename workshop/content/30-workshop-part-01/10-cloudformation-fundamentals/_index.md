@@ -2,10 +2,7 @@
 title: 'CloudFormation Fundamentals'
 date: 2019-10-16T17:18:51+01:00
 weight: 10
-chapter: true
 ---
-
-# CloudFormation Fundamentals
 
 ![cfn-png](cfn-1.png)
 
