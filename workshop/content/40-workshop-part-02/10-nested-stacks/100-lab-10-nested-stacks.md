@@ -398,7 +398,7 @@ Add the `WebsiteURL` to the `Outputs` section of the `main.yaml` template.
 ```yaml
 Outputs:
   WebsiteURL:
-  Value: !GetAtt EC2Stack.Outputs.WebsiteURL
+    Value: !GetAtt EC2Stack.Outputs.WebsiteURL
 ```
 
 ##### 8. Upload the EC2 stack to S3
