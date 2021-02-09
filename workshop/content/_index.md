@@ -7,7 +7,13 @@ chapter: false
 
 # Welcome, Builders!
 
-![](./aws-cloudformation.png)
+![aws-cloudformation](./aws-cloudformation.png)
+
+{{% notice info %}}
+We are currently experiencing an [issue](https://github.com/aws-samples/cfn101-workshop/issues/102) with images and links not being rendered properly on official https://cfn101.workshop.aws site.
+While we're fixing this issue, please switch to **https://cfn101.sa.engineering** for better experience. Thanks.
+{{% /notice %}}
+
 
 Welcome to the AWS CloudFormation Workshop!
 
