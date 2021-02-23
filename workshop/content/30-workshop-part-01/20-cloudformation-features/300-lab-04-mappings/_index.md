@@ -11,7 +11,7 @@ This lab will introduce **[Mappings](https://docs.aws.amazon.com/AWSCloudFormati
 ![A diagram of the structure of a mappings section](mapping.png)
 
 Here is a simplified example of a Mappings section. It contains one Map, `AnExampleMapping`. \
-`AnExampleMapping` contains three top level keys, `Key01`, `Key02` and `Key03`. \
+`AnExampleMapping` contains three top level keys, `TopLevelKey01`, `TopLevelKey02` and `TopLevelKey03`. \
 Each top level key contains one or more `Key: Value` pairs.
 
 ```yaml
