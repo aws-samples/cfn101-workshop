@@ -20,6 +20,7 @@ Mappings:
     TopLevelKey01:
       Key01: Value01
       Key02: Value02
+      Key03: Value03
 
     TopLevelKey02:
       AnotherKey: AnExampleValue
