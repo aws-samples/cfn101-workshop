@@ -93,7 +93,7 @@ Attach the role to the instance with `IamInstanceProfile` property.
       InstanceType: !FindInMap [EnvironmentToInstanceType, !Ref EnvironmentType, InstanceType]
       Tags:
         - Key: Name
-          Value: !Join [ '-', [ !Ref EnvironmentType, Web Server ] ]
+          Value: !Join [ '-', [ !Ref EnvironmentType, webserver ] ]
 ```
 
 {{% notice note %}}
