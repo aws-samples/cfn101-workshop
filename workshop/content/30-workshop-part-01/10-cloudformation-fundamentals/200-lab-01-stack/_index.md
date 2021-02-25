@@ -64,7 +64,7 @@ Check out the AWS Documentation for [AWS::S3::Bucket](https://docs.aws.amazon.co
 
 1. Update the stack as per demo below:
 
-    ![stack-update](stack-update.gif)
+    ![stack-update](200-lab-01-stack/stack-update.gif)
 
 {{% /expand %}}
 
