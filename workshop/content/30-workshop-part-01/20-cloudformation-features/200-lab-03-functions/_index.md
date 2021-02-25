@@ -8,7 +8,7 @@ weight: 200
 
 This lab shows how to use **[Intrinsic Functions](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference.html)** in your template.
 
-Intrinsic functions are built-in functions that help you manage your stacks. Without them, you will be limited to very basic templates, similar to the S3 template you have seen in a **[Lab01](../../../30-workshop-part-01/10-cloudformation-fundamentals/200-lab-01-stack)**.
+Intrinsic functions are built-in functions that help you manage your stacks. Without them, you will be limited to very basic templates, similar to the S3 template you have seen in a **[Lab01](../../../30-workshop-part-01/10-cloudformation-fundamentals/200-lab-01-stack.html)**.
 
 ### Topics Covered
 
@@ -90,7 +90,7 @@ Now it is time to update your stack. Go to the AWS console and update your Cloud
 1. You can click the **refresh** button a few times until you see in the status **UPDATE_COMPLETE**.
 
 {{%expand "Want to see how to update the stack?" %}}
-![update-gif](update-1.gif)
+![update-gif](200-lab-03-functions/update-1.gif)
 {{% /expand %}}
 
 **To see the result of the stack update:**
@@ -100,7 +100,7 @@ Now it is time to update your stack. Go to the AWS console and update your Cloud
 1. Select the instance with a name **t2.micro-webserver**
 1. Go to the **Tags** tab, you should see there a key `Name` with a value `t2.micro-webserver`.
 
-    ![tags-png](tags.png)
+    ![tags-png](200-lab-03-functions/tags.png)
 
 ### Challenge
 Crete another tag named `InstanceType` and use intrinsic function **Fn::Sub** to return type of the instance.
