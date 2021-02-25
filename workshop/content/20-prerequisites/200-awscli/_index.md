@@ -20,7 +20,7 @@ Open a terminal window and run `aws configure` to set up your environment.
 $ aws configure
 ```
 
-Type the **access key ID** and **secret key** you created in [the previous step](../100-account) and choose a default region (for example you can
+Type the **access key ID** and **secret key** you created in [the previous step](/20-prerequisites/100-account.html) and choose a default region (for example you can
 use `us-east-1`). Preferably use a region that doesn't have any resources already deployed into it.
 
 ```shell

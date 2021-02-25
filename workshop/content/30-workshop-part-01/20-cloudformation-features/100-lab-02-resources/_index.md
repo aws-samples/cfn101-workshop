@@ -103,7 +103,7 @@ The only required property of the EC2 resource type is _ImageId_. Let's find the
   Make sure to use **(x86)** AMI ID, if the region supports both x86 and ARM architectures.
   {{% /notice %}}
   {{% expand "Expand to see the solution" %}}
-  ![ami-gif](ami-1.gif)
+  ![ami-gif](100-lab-02-resources/ami-1.gif)
   {{% /expand %}}
   1. Once you have your AMI ID, copy and paste it to **ImageId** property.
 
@@ -113,7 +113,7 @@ You can find a working solution for the **London Region** in `code/20-cloudforma
 
 {{% /notice %}}
 
-Now your EC2 template is ready to be deployed. Go back to AWS console and deploy the stack same way as you did in [Lab 01: Template and Stack](../../10-cloudformation-fundamentals/200-lab-01-stack).
+Now your EC2 template is ready to be deployed. Go back to AWS console and deploy the stack same way as you did in [Lab 01: Template and Stack](../10-cloudformation-fundamentals/200-lab-01-stack.html).
 
 {{% notice warning %}}
 To complete this and future labs you will need **Default VPC** in the region you will be deploying CloudFormation templates to. \
@@ -143,7 +143,7 @@ If you have deleted your default VPC, you can create a new one by following the 
 In this exercise, use the AWS CLI to query the AWS Systems Manager Parameter Store the get the latest Amazon Linux AMI ID.
 
 {{% notice note %}}
-To complete this challenge, you have to have [AWS CLI](../../../20-prerequisites/200-awscli) configured.
+To complete this challenge, you have to have [AWS CLI](../../../20-prerequisites/200-awscli.html) configured.
 {{% /notice %}}
 
 {{%expand "Need a hint?" %}}
@@ -161,7 +161,7 @@ aws ssm get-parameters \
   --output text
 ```
 
-![ami-id-gif](ami-id.gif)
+![ami-id-gif](100-lab-02-resources/ami-id.gif)
 {{% /expand %}}
 
 ---
