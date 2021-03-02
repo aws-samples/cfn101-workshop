@@ -5,9 +5,9 @@ weight: 100
 ---
 
 ### Overview
-In the previous lab, we saw how we use the `Outputs` section and the `Fn::GetAtt` function to pass values from a child stack to parent stack. This enabled us to have dedicated templates for a VPC and an IAM role. As we mentioned previously this gives us the ability to create templates that can be re-used. However what about if we want to re-use **stacks**?
+In the previous lab, we saw how we use the `Outputs` section and the `Fn::GetAtt` function to pass values from a child stack to parent stack. This enabled us to have dedicated templates for a VPC and an IAM role. As we mentioned previously, this gives us the ability to create templates that can be re-used. However, what about if we want to re-use **stacks**?
 
-For example, you may have plans for many different workloads deployed with many different templates but every EC2 instance is expected to enable Systems Manager Session Manager access to every EC2 Instance. Similarly, you may wish to deploy a VPC via one stack and then use it with multiple future stacks and workloads. Achieving this one-many relationship is not possible in a Nested Stack scenario. This is where Layered Stacks come in.
+For example, you may have plans for many workloads deployed with many templates but every EC2 instance is expected to enable Systems Manager Session Manager access to every EC2 Instance. Similarly, you may wish to deploy a VPC via one stack and then use it with multiple future stacks and workloads. Achieving this one-many relationship is not possible in a Nested Stack scenario. This is where Layered Stacks come in.
 
 We use **[Exports](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-stack-exports.html)** to create global variables that can be **[Imported](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference-importvalue.html)** into any CloudFormation stack.
 
@@ -20,11 +20,11 @@ In this lab, you will build:
 
 Here is a diagram showing the hierarchy of layered stacks.
 
-![layered-stack-hierarchy.png](../layered-stack-hierarchy.png)
+![layered-stack-hierarchy.png](100-lab-11-layered-stack/layered-stack-hierarchy.png)
 
 This diagram represents the high-level overview of the infrastructure that will be deployed:
 
-![layered-stack-hierarchy.png](../ls-architecture.png)
+![layered-stack-hierarchy.png](100-lab-11-layered-stack/ls-architecture.png)
 
 ### Start Lab
 
@@ -36,7 +36,7 @@ The VPC template has been created for you. It is titled `vpc.yaml`. This templat
 ##### 1. Prepare the VPC template
 
 {{% notice note %}}
-All of the files referenced in this lab can be found within `code/50-layered-stack`
+All the files referenced in this lab can be found within `code/50-layered-stack`
 {{% /notice %}}
 
 If you look in the file `vpc.yaml` file, you will notice that there are some outputs in the **Outputs** section of the template. You will now add exports to each of these so that we can consume them from other CloudFormation stacks.
@@ -144,7 +144,7 @@ Update WebServerInstance resource in the Resources section of the `ec2.yaml` tem
 ```
 
 ##### 4. Update the security group
-Finally, update the security group resource in a similar way. Update `WebServerSecurityGroup` resource in the **Resources** section of the `ec2.yaml` template.
+Finally, update the security group resource similarly. Update `WebServerSecurityGroup` resource in the **Resources** section of the `ec2.yaml` template.
 
 ```yaml {hl_lines=[10]}
 WebServerSecurityGroup:
@@ -172,30 +172,30 @@ WebServerSecurityGroup:
 
 #### 7. Test the deployment
 
-##### 1. Verify that application was been deployed successfully
+##### 1. Verify that application was deployed successfully
 
 Open a new browser window in private mode and enter the `WebsiteURL` (you can get the WebsiteURL from the **Outputs** tab of the EC2 stack in the CloudFormation console).
 You should see some instance metadata, similar to the picture below.
 
-![ami-id](../ami-id-1.png)
+![ami-id](100-lab-11-layered-stack/ami-id-1.png)
 
 ##### 2. Log in to the instance using SSM Session Manager
 
 Verify that you can log in to the instance via Session Manager.
 
-If you not sure how to do that, follow the instructions from the [Lab 07: SSM - Session Manager](/30-workshop-part-01/30-launching-ec2/200-lab-07-session-manager/#challenge).
+If you not sure how to do that, follow the instructions from the [Lab 07: SSM - Session Manager](/30-workshop-part-01/30-launching-ec2/200-lab-07-session-manager.html#challenge)
 
 ### Clean up
 
 {{% notice info %}}
-After the stack imports an output value, you can't delete the stack that is exporting the output value or modify the exported output value. All of the imports must be removed before you can delete the exporting stack or modify the output value. \
+After the stack imports an output value, you can't delete the stack that is exporting the output value or modify the exported output value. All the imports must be removed before you can delete the exporting stack or modify the output value.
 {{% /notice %}}
 
 For example, you can not delete the **VPC stack** before you delete **EC2 stack**. You get following error message:
 
-![delete-export-before-import.png](../delete-export-before-import.png)
+![delete-export-before-import.png](100-lab-11-layered-stack/delete-export-before-import.png)
 
-1. In the **[CloudFormation console](https://console.aws.amazon.com/cloudformation)**, select the the **EC2 stack**, for example `cfn-workshop-ec2`.
+1. In the **[CloudFormation console](https://console.aws.amazon.com/cloudformation)**, select the **EC2 stack**, for example `cfn-workshop-ec2`.
 1. In the top right corner, click on **Delete**.
 1. In the pop up window click on **Delete stack**.
 1. Hit the **refresh** button a few times until you see in the status **DELETE_COMPLETE**.
