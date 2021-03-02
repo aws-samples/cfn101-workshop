@@ -6,7 +6,7 @@ weight: 100
 
 ### Overview
 
-In the [Part 01](/30-workshop-part-01/) of this workshop, you have deployed single YAML templates via CloudFormation console. That was pretty easy to do so. However in some cases, CloudFormation templates refer to other files, or artifacts.
+In the [Part 01](/30-workshop-part-01.html) of this workshop, you have deployed single YAML templates via CloudFormation console. That was pretty easy to do so. However, in some cases, CloudFormation templates refer to other files, or artifacts.
 
 For example Lambda source code or ZIP file, or nested CloudFormation Template files may be such “artifacts”. As you learn in [Nested Stacks Lab](/10-nested-stacks/100-lab-10-nested-stacks), these files have to be available in S3 before you can deploy the main CloudFormation template.
 
@@ -46,7 +46,7 @@ cfn101-workshop/code/60-package-and-deploy$ tree -F .
 
 Traditionally you would have to zip up and upload all the lambda sources to S3 first and then in the template refer to these S3 locations. This can be quite cumbersome.
 
-However with [aws cloudformation package](https://docs.aws.amazon.com/cli/latest/reference/cloudformation/package.html) you can refer to the local files directly. That’s much more convenient!
+However, with [aws cloudformation package](https://docs.aws.amazon.com/cli/latest/reference/cloudformation/package.html) you can refer to the local files directly. That’s much more convenient!
 
 If you look at `infrastructure.template` snippet, you can see the reference in the `Code` property to the local directory.
 
@@ -66,7 +66,7 @@ PythonFunction:
 
 #### Package and Upload the artifacts
 
-The `aws cloudformation package` does following actions:
+The `aws cloudformation package` does follow actions:
 
 1. ZIPs up the local files.
 1. Uploads them to a designated S3 bucket.
@@ -232,7 +232,7 @@ aws lambda invoke \
 response.json
 ```
 
-Lambda will be triggered, and the response form Lambda will be saved in `response.json file`.
+Lambda will be triggered, and the response form Lambda will be saved in `response.json` file.
 
 You can check the result of the file by running command below:
 
