@@ -2,10 +2,7 @@
 title: AWS CFN 101 Workshop
 date: 2019-10-14T12:20:58+01:00
 weight: 1
-chapter: false
 ---
-
-# Welcome, Builders!
 
 ![aws-cloudformation](./aws-cloudformation.png)
 
