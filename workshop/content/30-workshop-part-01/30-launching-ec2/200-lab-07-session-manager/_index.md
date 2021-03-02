@@ -26,10 +26,10 @@ Session Manager has several benefits over using SSH:
 1. The Session Manager sends audit logs to CloudWatch Logs or S3.
 
 {{% notice note %}}
-The EC2 instance needs access to the internet or a VPC Endpoint for Session Manager to work.
+The EC2 instance needs access to the internet, or a VPC Endpoint for Session Manager to work.
 {{% /notice %}}
 
-![ssm](../ssm-sm-1.png)
+![ssm](200-lab-07-session-manager/ssm-sm-1.png)
 
 ### Topics Covered
 In this Lab, you will learn:
@@ -115,9 +115,9 @@ Go to the AWS console and update your stack with a new template.
 1. For **EnvironmentType** select the different environment than is listed. For example if you have **Dev** selected, choose **Test** and click **Next**.
 {{%notice note %}}
 For System Manager to work, the instance need to meet following conditions:
-  \- **Access to the internet or a VPC Endpoint.** \
+  \- **Access to the internet, or a VPC Endpoint.** \
   \- **Role attached with correct permission.** \
-By changing the environment, instance will be stopped and started again. This will help to start `ssm-agent` which may have timed-out as the role wasn't attached in previous lab.
+By changing the environment, instance will be stopped and started again. This will help to start `ssm-agent` which may have timed-out as the role wasn't attached in a previous lab.
 {{% /notice %}}
 
 1. You can leave **Configure stack options** default, click **Next**.
@@ -133,17 +133,17 @@ Review the AWS documentation for [Instance Metadata and User Data](https://docs.
 {{% /expand %}}
 
 {{%expand "Want to see the solution?" %}}
-Pate the following command inside the instance terminal:
+Paste the following command inside the instance terminal:
 
 ```
 curl http://169.254.169.254/latest/meta-data/ami-id
 ```
 
-![ssm-sm](../ssm-sm-1.gif)
+![ssm-sm](200-lab-07-session-manager/ssm-sm-1.gif)
 {{% /expand %}}
 
 {{% notice warning %}}
-Outside of this workshop you should take additional steps to configure and secure access to SSM Session Manager. See recommendations and documentation link below for further details.
+Outside this workshop you should take additional steps to configure and secure access to SSM Session Manager. See recommendations and documentation link below for further details.
 {{% /notice %}}
 
 ##### Recommendations:

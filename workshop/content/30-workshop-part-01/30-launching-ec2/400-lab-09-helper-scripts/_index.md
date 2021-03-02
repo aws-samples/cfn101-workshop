@@ -5,7 +5,7 @@ weight: 400
 ---
 
 ### Overview
-In this lab we will look into CloudFormation [Helper Scripts](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/cfn-helper-scripts-reference.html). What you have learned in previous lab is a great starting point. However as you may noticed from your `UserData` example, procedural scripting is not ideal. You have deployed a simple PHP application, but imagine trying to write much more complicated app in userdata. That would be very tricky.
+In this lab we will look into CloudFormation [Helper Scripts](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/cfn-helper-scripts-reference.html). What you have learned in a previous lab is a great starting point. However, as you may notice from your `UserData` example, procedural scripting is not ideal. You have deployed a simple PHP application, but imagine trying to write much more complicated app in userdata. That would be very tricky.
 
 To solve this problem, CloudFormation provides helper scripts. These helper scripts make CloudFormation a lot more powerful and enable you to fine tune templates to better fit your use case. For example, you can update application configuration without recreating an instance.
 
@@ -47,7 +47,7 @@ If you require a different order, separate your sections into different config k
 {{% /notice %}}
 
 {{% notice info %}}
-It is important to preserve indentation as shown in the code samples below. You can cross reference your template against the solution code `code/30-launching-ec2/08-lab09-HelperScripts-Solution.yaml` file.
+It is important to preserve indentation as shown in the code samples below. You can cross-reference your template against the solution code `code/30-launching-ec2/08-lab09-HelperScripts-Solution.yaml` file.
 {{% /notice %}}
 
 ##### 1. Install HTTPD and PHP packages
@@ -68,8 +68,8 @@ Add the code from `packages` key to your template.
                 php: []
 ```
 
-##### 2. Create index.php file
-Use the _files_ key to create files on the EC2 instance. The content can either be specified inline in the template, or as a URL that is retrieved by the instance.
+##### 2. Create `index.php` file
+Use the _files_ key to create files on the EC2 instance. The content can either be a specified inline in the template, or as a URL that is retrieved by the instance.
 
 Add the code from `files` key to your template.
 
@@ -296,13 +296,13 @@ In the example below, you will use `AvailabilityZone` property and parameter to 
 1. Select the file `07-lab09-HelperScripts.yaml` and click **Next**.
 1. For **Amazon Machine Image ID** leave the default value in.
 1. For **AvailabilityZone** parameter, select the different availability zone than the one you made a note in a step 3, for example **eu-west-2b**.
-        ![az-update](../az-update-1.png)
+        ![az-update](400-lab-09-helper-scripts/az-update-1.png)
 1. For **EnvironmentType** leave the selected environment in.
 1. You can leave **Configure stack options** default, click **Next**.
 1. On the **Review <stack_name>** page, scroll down to the bottom and tick **I acknowledge that AWS CloudFormation might create IAM resources** check box, then click on **Update stack**.
 
     {{% notice note %}}
-Notice that in **Change set preview**, the _Replacement_ condition of EC2 resource is **True**. Hence the current EC2 instance will be terminated and replaced with a new one.
+Notice that in **Change set preview**, the _Replacement_ condition of EC2 resource is **True**. Hence, the current EC2 instance will be terminated and replaced with a new one.
     {{% /notice %}}
 
 1. You can click the **refresh** button a few times until you see in the status **UPDATE_COMPLETE**.
@@ -314,7 +314,7 @@ In a web browser, enter the `WebsiteURL` (you can get the WebsiteURL from the _O
 This exercise will demonstrate how `cfn-hup` updates the application when you update the stack. You will update index.php file
  to show AMI ID on the page.
 
-##### 1. Modify index.php file
+##### 1. Modify `index.php` file
 
 Locate the `/var/www/html/index.php` in the _files_ section of the EC2 metadata
 
@@ -355,13 +355,13 @@ Add the code below to html `<h2>` tags:
 Open a new browser window in private mode and enter the `WebsiteURL` (you can get the WebsiteURL from the _Outputs_ tab of the CloudFormation console).
 You should see the AMI ID added to the page, similar to the picture below.
 
-![ami-id](../ami-id-1.png)
+![ami-id](400-lab-09-helper-scripts/ami-id-1.png)
 
 ### Clean up
 
 Follow these steps to clean up created resources:
 
-1. In in the **[CloudFormation console](https://console.aws.amazon.com/cloudformation)**, select the the stack you have created in this lab. For example `cfn-workshop-ec2`.
+1. In the **[CloudFormation console](https://console.aws.amazon.com/cloudformation)**, select the stack you have created in this lab. For example `cfn-workshop-ec2`.
 1. In the top right corner, click on **Delete**.
 1. In the pop up window click on **Delete stack**.
 1. You can click the **refresh** button a few times until you see in the status **DELETE_COMPLETE**.
