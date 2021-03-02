@@ -2,10 +2,7 @@
 title: 'Nested Stacks'
 date: 2019-10-22T12:21:25+01:00
 weight: 10
-chapter: true
 ---
-
-# Nested Stacks
 
 If you create many CloudFormation templates, you will discover common components you might wish to repeat easily. But how do you copy a component from one stack to another?
 

@@ -23,11 +23,11 @@ In this lab, you will build:
 
 > Top level and first level hierarchy of nested stacks.
 
-![nested-stack-hierarchy](../nested-stack-hierarchy.png)
+![nested-stack-hierarchy](100-lab-10-nested-stacks/nested-stack-hierarchy.png)
 
 > The following diagram represents high level overview of the infrastructure:
 
-![nested-stack-architecture](../ns-architecture.png)
+![nested-stack-architecture](100-lab-10-nested-stacks/ns-architecture.png)
 
 ### Start Lab
 
@@ -64,7 +64,7 @@ For example:
 
 Bucket name: `cfn-workshop-s3-s3bucket-2cozhsniu50t`
 
-If you dont have S3 bucket, please go back to [Lab01](/30-workshop-part-01/10-cloudformation-fundamentals/200-lab-01-stack) and create one.
+If you don't have S3 bucket, please go back to [Lab01](/30-workshop-part-01/10-cloudformation-fundamentals/200-lab-01-stack.html) and create one.
 
 #### 3. Create VPC Nested Stack
 
@@ -74,7 +74,7 @@ The VPC template has been created for you. It is titled `vpc.yaml`. This templat
 
 If you look in the `vpc.yaml` file, you will notice that there are some parameters in the **Parameters** section of the template.
 
-These parameters needs to be added to the main template so that they can be passed to the nested stack.
+These parameters need to be added to the main template so that they can be passed to the nested stack.
 
 Copy the code below to the **Parameters** section of the `main.yaml` template.
 
@@ -154,11 +154,11 @@ Please double check **Parameters** and **Resources** sections are correctly form
 1. Choose a file `main.yaml`.
 1. Enter a **Stack name**. For example, cfn-workshop-nested-stack
 1. For the **AvailabilityZones** parameter, select 2 AZs.
-1. For the **S3BucketName** provide the name of the bucket you have wrote down in [Prepare S3 bucket](#2-prepare-s3-bucket) section.
+1. For the **S3BucketName** provide the name of the bucket you have written down in [Prepare S3 bucket](#2-prepare-s3-bucket) section.
 1. You can leave rest of the parameters default.
 1. You can leave **Configure stack options** default, click **Next**.
 1. On the **Review <stack_name>** page, scroll down to the bottom and tick both **IAM Capabilities** check boxes.
-    ![iam-capabilities.png](../iam-capabilities.png)
+    ![iam-capabilities.png](100-lab-10-nested-stacks/iam-capabilities.png)
 1. Click on **Create stack**. You can view the progress of Nested stacks being created in CloudFormation console.
 1. In a few minutes, stacks will be created. Hit the refresh button a few times until you see in the status CREATE_COMPLETE.
 
@@ -235,7 +235,7 @@ Update the previously created nested stack with a new template.
 Similarly to the VPC template, if you look into **Parameters** section of the `ec2.yaml` template there are three parameters:
 
 * `SubnetId` - this property will be passed from VPC stack once the VPC stack is created.
-* `EnvironmentType` - this property has a default value and is likely to change often, so let's add this one.
+* `EnvironmentType` - this property has a default value and is likely to often change, so let's add this one.
 * `AmiID` - this property has default value, it can be left out from the main template.
 
 Add the code below to the **Parameters** section of the `main.yaml` template:
@@ -432,11 +432,11 @@ Open a new browser window in private mode and enter the `WebsiteURL`.
 
 You can get the `WebsiteURL` from the **Outputs** tab of the main stack in CloudFormation console.
 
-![website-url-output.png](../website-url-output.png)
+![website-url-output.png](100-lab-10-nested-stacks/website-url-output.png)
 
 In the browser window, you should see some instance metadata, similar to the picture below.
 
-![ami-id](../ami-id-1.png)
+![ami-id](100-lab-10-nested-stacks/ami-id-1.png)
 
 ##### 2. Log in to instance using SSM Session Manager
 

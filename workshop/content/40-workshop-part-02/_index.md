@@ -2,12 +2,7 @@
 title: 'Workshop Part 02'
 date: 2019-12-05T17:37:48Z
 weight: 40
-chapter: true
 ---
-
-### Part 02
-
-# CloudFormation 201
 
 Welcome to the second part of the workshop. This part introduces more advanced CloudFormation concepts.
 
@@ -19,7 +14,7 @@ Welcome to the second part of the workshop. This part introduces more advanced C
 
 ## Workshop topics covered:
 
-+ [Nested Stacks](/40-workshop-part-02/10-nested-stacks)
-+ [Layered Stacks](/40-workshop-part-02/20-layered-stacks)
-+ [Package and Deploy](/40-workshop-part-02/30-package-and-deploy)
-+ [Custom Resources](/40-workshop-part-02/40-custom-resources)
++ [Nested Stacks](/40-workshop-part-02/10-nested-stacks.html)
++ [Layered Stacks](/40-workshop-part-02/20-layered-stacks.html)
++ [Package and Deploy](/40-workshop-part-02/30-package-and-deploy.html)
++ [Custom Resources](/40-workshop-part-02/40-custom-resources.html)
