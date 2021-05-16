@@ -26,9 +26,9 @@ Parameters:
     ConstraintDescription: 'Specify either Dev, Test or Prod.'
 
   AmiID:
-    Type: AWS::EC2::Image::Id # Replace this with SSM parameter type
+    Type: AWS::SSM::Parameter::Value<AWS::EC2::Image::Id> # Replace this with SSM parameter type
     Description: 'The ID of the AMI.'
-    Default: '' # Provide an Amazon Linux AMI alias
+    Default: '/aws/service/ami-amazon-linux-latest/amzn2-ami-hvm-x86_64-gp2' # Provide an Amazon Linux AMI alias
 
 Mappings:
   EnvironmentToInstanceType:

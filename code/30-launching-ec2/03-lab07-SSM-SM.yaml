@@ -41,13 +41,33 @@ Mappings:
 
 Resources:
   # Add the code from '2. Create an IAM role for the EC2 instance' step here.
+  SSMIAMRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - ec2.amazonaws.com
+            Action:
+              - sts:AssumeRole
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore
 
   # Add the code from '3. Create an IAM Instance Profile' step here.
+  WebServerInstanceProfile:
+    Type: AWS::IAM::InstanceProfile
+    Properties:
+      Path: /
+      Roles:
+        - !Ref SSMIAMRole
 
   WebServerInstance:
     Type: AWS::EC2::Instance
     Properties:
       # Add the code from '4. Attach the IAM Instance Profile to an Amazon EC2 Instance' step here.
+      IamInstanceProfile: !Ref WebServerInstanceProfile
       ImageId: !Ref AmiID
       InstanceType: !FindInMap [EnvironmentToInstanceType, !Ref EnvironmentType, InstanceType]
       Tags:
