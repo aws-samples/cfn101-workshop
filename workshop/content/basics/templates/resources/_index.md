@@ -1,7 +1,7 @@
 ---
-title: 'Lab 02: Resources'
+title: 'Resources'
 date: 2019-10-28T14:35:59Z
-weight: 100
+weight: 300
 ---
 
 ### Overview
@@ -26,7 +26,8 @@ As you read through each section, there are code samples at the end. Copy these 
 1. Copy the code as you go through the topics below.
 
 #### Format Version
-The _AWSTemplateFormatVersion_ section identifies the capabilities of the template. The latest template format version is _2010-09-09_ and is currently the only valid value.
+The _AWSTemplateFormatVersion_ section identifies the capabilities of the template. The latest template format version 
+is _2010-09-09_ and is currently the only valid value.
 
 ```yaml
 AWSTemplateFormatVersion: '2010-09-09'
@@ -40,7 +41,11 @@ Description : CFN 101 Workshop - Lab 02 Resources.
 ```
 
 #### Metadata
-You can use the [_Metadata_ section](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/metadata-section-structure.html) to include arbitrary JSON or YAML objects. This section is useful for providing information to other tools that interact with your CloudFormation template. For example, when deploying CloudFormation templates via the AWS console, you can improve the experience of users deploying your templates by specify how to order, label and group parameters. This can be done with the [_AWS::CloudFormation::Interface_](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-cloudformation-interface.html) key.
+You can use the [_Metadata_ section](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/metadata-section-structure.html) 
+to include arbitrary JSON or YAML objects. This section is useful for providing information to other tools that interact
+with your CloudFormation template. For example, when deploying CloudFormation templates via the AWS console, you can 
+improve the experience of users deploying your templates by specify how to order, label and group parameters. 
+This can be done with the [_AWS::CloudFormation::Interface_](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-cloudformation-interface.html) key.
 
 ```yaml
 Metadata:
@@ -103,7 +108,7 @@ The only required property of the EC2 resource type is _ImageId_. Let's find the
   Make sure to use **(x86)** AMI ID, if the region supports both x86 and ARM architectures.
   {{% /notice %}}
   {{% expand "Expand to see the solution" %}}
-  ![ami-gif](100-lab-02-resources/ami-1.gif)
+  ![ami-gif](resources/ami-1.gif)
   {{% /expand %}}
   1. Once you have your AMI ID, copy and paste it to **ImageId** property.
 
@@ -143,7 +148,7 @@ If you have deleted your default VPC, you can create a new one by following the 
 In this exercise, use the AWS CLI to query the AWS Systems Manager Parameter Store the get the latest Amazon Linux AMI ID.
 
 {{% notice note %}}
-To complete this challenge, you have to have [AWS CLI](../../../20-prerequisites/200-awscli.html) configured.
+To complete this challenge, you have to have [AWS CLI](../../../prerequisites/awscli.html) configured.
 {{% /notice %}}
 
 {{%expand "Need a hint?" %}}
@@ -161,7 +166,7 @@ aws ssm get-parameters \
   --output text
 ```
 
-![ami-id-gif](100-lab-02-resources/ami-id.gif)
+![ami-id-gif](resources/ami-id.gif)
 {{% /expand %}}
 
 ---
