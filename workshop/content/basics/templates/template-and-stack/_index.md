@@ -1,5 +1,5 @@
 ---
-title: 'Lab 01: Template and Stack'
+title: 'Template and stack'
 date: 2019-10-25T17:41:16+01:00
 weight: 200
 ---
@@ -16,31 +16,33 @@ By the end of this lab, you will be able to:
 ### Start Lab
 
 1. Go to the `code/10-cloudformation-fundamentals/` directory.
-1. Open the `01-lab01-StackExample.yaml` file in your code editor.
-1. Here is a sample CloudFormation template that defines an S3 Bucket. It has a single resource that contains the S3 bucket. Copy the code below and save to the `01-lab01-StackExample.yaml` file.
+2. Open the `01-lab01-StackExample.yaml` file in your code editor.
+3. Here is a sample CloudFormation template that defines an S3 Bucket. It has a single resource that contains the S3 bucket. 
+   Copy the code below and save to the `01-lab01-StackExample.yaml` file.
 
-   ```yaml
-   Resources:
-     S3Bucket:
-       Type: AWS::S3::Bucket
-   ```
+      ```yaml
+      Resources:
+        S3Bucket:
+          Type: AWS::S3::Bucket
+      ```
 
-1. Open the **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** link in a new tab and log in to your AWS account.
-1. Click on **Create stack** (_With new resources (Standard)_ if you have clicked in the top right corner).
-1. In **Prepare template**, choose **Template is ready**.
-1. In **Template source**, choose **Upload a template file**.
-1. Click on **Choose file** button and navigate to your workshop directory.
-1. Select the file `01-lab01-StackExample.yaml` referenced in step 1.
-1. Click **Next**.
-1. Provide a **Stack name**. For example **cfn-workshop-s3**.
-    + The _Stack name_ identifies the stack. Use a name to help you distinguish the purpose of this stack.
-    + Click **Next**.
-1. You can leave **Configure stack options** default, click **Next**.
-1. On the **Review <stack_name>** page, scroll down to the bottom and click on **Create stack**.
-1. You can click the **refresh** button a few times until you see in the status **CREATE_COMPLETE**.
+4. Open the **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** link in a new tab and log in to your AWS account.
+5. Click on **Create stack** (_With new resources (Standard)_ if you have clicked in the top right corner).
+6. In **Prepare template**, choose **Template is ready**.
+7. In **Template source**, choose **Upload a template file**.
+8. Click on **Choose file** button and navigate to your workshop directory.
+9. Select the file `01-lab01-StackExample.yaml` referenced in step 1.
+10. Click **Next**.
+11. Provide a **Stack name**. For example **cfn-workshop-s3**.
+     + The _Stack name_ identifies the stack. Use a name to help you distinguish the purpose of this stack.
+     + Click **Next**.
+12. You can leave **Configure stack options** default, click **Next**.
+13. On the **Review <stack_name>** page, scroll down to the bottom and click on **Create stack**.
+14. You can click the **refresh** button a few times until you see in the status **CREATE_COMPLETE**.
 
 ### Challenge
-In this exercise, enable versioning on the S3 bucket. Enabled versioning will prevent objects from being deleted or overwritten by mistake or to archive objects so that you can retrieve previous versions of them.
+In this exercise, enable versioning on the S3 bucket. Enabled versioning will prevent objects from being deleted or 
+overwritten by mistake or to archive objects so that you can retrieve previous versions of them.
 
 1. Create a property `VersioningConfiguration` in the `Properties` section of the S3 resource.
 1. Set the `Status` to `Enabled`.
@@ -64,7 +66,7 @@ Check out the AWS Documentation for [AWS::S3::Bucket](https://docs.aws.amazon.co
 
 1. Update the stack as per demo below:
 
-    ![stack-update](200-lab-01-stack/stack-update.gif)
+    ![stack-update](template-and-stack/stack-update.gif)
 
 {{% /expand %}}
 
@@ -74,7 +76,7 @@ Follow these steps to clean up created resources:
 
 1. In the **[CloudFormation console](https://console.aws.amazon.com/cloudformation)**, select the stack you have created in this lab. For example `cfn-workshop-s3`.
 1. In the top right corner, click on **Delete**.
-1. In the pop up window click on **Delete stack**.
+1. In the pop-up window click on **Delete stack**.
 1. You can click the **refresh** button a few times until you see in the status **DELETE_COMPLETE**.
 
 ---
