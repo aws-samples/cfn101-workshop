@@ -1,12 +1,14 @@
 ---
-title: 'Lab 08: User Data'
+title: 'User data'
 date: 2019-11-13T16:52:42Z
 weight: 300
 ---
 
 ### Overview
 
-You can use AWS CloudFormation to automatically install, configure, and start applications on Amazon EC2 instances. Doing so enables you to easily replicate deployments and update existing installations without connecting directly to the instance, which can save you a lot of time and effort.
+You can use AWS CloudFormation to automatically install, configure, and start applications on Amazon EC2 instances. Doing
+so enables you to easily replicate deployments and update existing installations without connecting directly to the 
+instance, which can save you a lot of time and effort.
 
 ### Topics Covered
 In this lab you will deploy an Apache Web server with a simple PHP application via **[UserData](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/user-data.html)** property.
@@ -17,7 +19,7 @@ In this lab you will deploy an Apache Web server with a simple PHP application v
 
 The following diagram provides a high-level overview of the architecture you will implement.
 
-![user-data-png](300-lab-08-user-data/userdata.png)
+![user-data-png](user-data/userdata.png)
 
 ### Start Lab
 
@@ -35,7 +37,8 @@ Begin by creating a Security Group.
     Properties:
       GroupDescription: 'Enable HTTP access via port 80'
 ```
-As the Apache web server will serve content on port 80, you will need to create an ingress rule `SecurityGroupIngress` in the security group to allow access from the Internet.
+As the Apache web server will serve content on port 80, you will need to create an ingress rule `SecurityGroupIngress` 
+in the security group to allow access from the Internet.
 
 ```yaml
   WebServerSecurityGroup:
@@ -66,7 +69,9 @@ Finally, associate the security group with the EC2 instance.
 ```
 
 {{% notice note %}}
-The EC2 instance in the CloudFormation stack will be _replaced_ as a result of modifying the _Security Group_ property. You can find the properties where updates require [Replacement](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-updating-stacks-update-behaviors.html#update-replacement) of EC2 instances [here](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-instance.html?shortFooter=true#aws-properties-ec2-instance-properties).
+The EC2 instance in the CloudFormation stack will be _replaced_ as a result of modifying the _Security Group_ property. 
+You can find the properties where updates require [Replacement](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-updating-stacks-update-behaviors.html#update-replacement) 
+of EC2 instances [here](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-instance.html?shortFooter=true#aws-properties-ec2-instance-properties).
 {{% /notice %}}
 
 #### 2. Install Apache web server on the instance
@@ -129,7 +134,8 @@ Copy and paste the code below to the _Outputs_ section of the CloudFormation tem
 
 #### 4. Update the Stack
 
-Similar to previous labs, update the stack with the updated template. Once CloudFormation completes updating the stack, you can then check to see that your script has set up a web server on the EC2 instance.
+Similar to previous labs, update the stack with the updated template. Once CloudFormation completes updating the stack, 
+you can then check to see that your script has set up a web server on the EC2 instance.
 
 1. Open the **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** link in a new tab and log in to your AWS account.
 1. Click on the stack name, for example **cfn-workshop-ec2**.
@@ -146,11 +152,11 @@ Similar to previous labs, update the stack with the updated template. Once Cloud
 
 In a web browser, enter the `WebsiteURL` (you can get the WebsiteURL from the _Outputs_ tab of the CloudFormation console).
 
-![outputs](300-lab-08-user-data/outputs-1.png)
+![outputs](user-data/outputs-1.png)
 
 You should see a page similar to the picture below:
 
-![php-page](300-lab-08-user-data/php.png)
+![php-page](user-data/php.png)
 
 ---
 
