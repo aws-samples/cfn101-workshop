@@ -1,14 +1,16 @@
 ---
-title: 'Lab 04: Mapping'
+title: 'Mappings'
 date: 2019-11-01T13:36:34Z
-weight: 300
+weight: 600
 ---
 
 ### Overview
 
-This lab will introduce **[Mappings](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/mappings-section-structure.html)**. A _Mappings_ section is a top level section of a CloudFormation template. It is used to define maps, their keys and values which can be then referenced in your template.
+This lab will introduce **[Mappings](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/mappings-section-structure.html)**. 
+A _Mappings_ section is a top level section of a CloudFormation template. It is used to define maps, their keys and 
+values which can be then referenced in your template.
 
-![A diagram of the structure of a mappings section](300-lab-04-mappings/mapping.png)
+![A diagram of the structure of a mappings section](mappings/mapping.png)
 
 Here is a simplified example of a Mappings section. It contains one Map, `AnExampleMapping`. \
 `AnExampleMapping` contains three top level keys, `TopLevelKey01`, `TopLevelKey02` and `TopLevelKey03`. \
@@ -81,7 +83,8 @@ Mappings:
 
 #### 3. Next, modify the _InstanceType_ property
 
-Using the intrinsic function `Fn::FindInMap`, CloudFormation will lookup the value in the `EnvironmentToInstanceType` map and will return the value back to `InstanceType` property.
+Using the intrinsic function `Fn::FindInMap`, CloudFormation will look up the value in the `EnvironmentToInstanceType` 
+map and will return the value back to `InstanceType` property.
 
 ```yaml
 Resources:
@@ -164,7 +167,8 @@ See `code/20-cloudformation-features/06-lab04-Mapping-Solution.yaml` for the ful
 
 {{% /expand%}}
 
-To test that your solution works, update the stack as you did in step [5. Finally, Deploy the solution](#5-finally-deploy-the-solution) and change the `EnvironmentType` to **Dev**.
+To test that your solution works, update the stack as you did in step [5. Finally, Deploy the solution](#5-finally-deploy-the-solution) 
+and change the `EnvironmentType` to **Dev**.
 
 {{% notice note %}}
 Changing the instance type will cause some downtime as EC2 instance has to be stopped before changing the type.
