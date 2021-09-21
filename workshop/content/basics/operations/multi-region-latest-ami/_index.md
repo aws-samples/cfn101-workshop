@@ -1,13 +1,16 @@
 ---
-title: 'Lab 06: Multi Region Latest AMI'
+title: 'Multi region latest AMI'
 date: 2019-11-07T13:46:21Z
 weight: 100
 ---
 
 ### Overview
-Consider the use case of deploying your current template in different regions. You would need to manually change `AmiID` property in your template to match the AMI ID for each AWS Region. Similarly, if there is an update to the Amazon Machine Image, and you would like to use the latest image, the same manual process would apply.
+Consider the use case of deploying your current template in different regions. You would need to manually change `AmiID`
+property in your template to match the AMI ID for each AWS Region. Similarly, if there is an update to the Amazon Machine
+Image, and you would like to use the latest image, the same manual process would apply.
 
-To fix this, you can use the existing _Parameters_ section of your CloudFormation template and define Systems Manager parameter type. A Systems Manager parameter type allows you to reference parameters held in the System Manager Parameter Store.
+To fix this, you can use the existing _Parameters_ section of your CloudFormation template and define Systems Manager parameter
+type. A Systems Manager parameter type allows you to reference parameters held in the System Manager Parameter Store.
 
 ### Topics Covered
 In this Lab, you will learn:
@@ -43,14 +46,14 @@ Go to the AWS console and update your stack with a new template.
 1. You can click the **refresh** button a few times until you see in the status **UPDATE_COMPLETE**.
 
 {{%expand "How do I update a Stack?" %}}
-![update-2](100-lab-06-ami/update-2.gif)
+![update-2](multi-region-latest-ami/update-2.gif)
 {{% /expand %}}
 
 ### Challenge
 Deploy the template in different AWS Region to the one you have been using.
 
 {{%expand "Solution" %}}
-![new-region-](100-lab-06-ami/new-region-1.gif)
+![new-region-](multi-region-latest-ami/new-region-1.gif)
 {{% /expand %}}
 
 {{% notice note %}}
@@ -61,4 +64,5 @@ Manager Parameter Store, your templates are now more generic and reusable.
 ---
 ### Conclusion
 
-Congratulations! You have now successfully updated your template to use the latest Amazon Linux AMI. Furthermore, your template can now be deployed in any region, without appending AMI ID parameter.
+Congratulations! You have now successfully updated your template to use the latest Amazon Linux AMI. Furthermore, your 
+template can now be deployed in any region, without appending AMI ID parameter.
