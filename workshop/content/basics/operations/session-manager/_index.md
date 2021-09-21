@@ -1,12 +1,13 @@
 ---
-title: 'Lab 07: SSM - Session Manager'
+title: 'Session manager'
 date: 2019-11-08T11:23:07Z
 weight: 200
 ---
 
 ### Overview
 
-[Session Manager](https://docs.aws.amazon.com/systems-manager/latest/userguide/session-manager.html) is a fully managed AWS Systems Manager capability that lets you manage your Amazon EC2 instances through an interactive one-click browser-based terminal or via the AWS CLI.
+[Session Manager](https://docs.aws.amazon.com/systems-manager/latest/userguide/session-manager.html) is a fully managed 
+AWS Systems Manager capability that lets you manage your Amazon EC2 instances through an interactive one-click browser-based terminal or via the AWS CLI.
 
 Session Manager has several benefits over using SSH:
 
@@ -29,7 +30,7 @@ Session Manager has several benefits over using SSH:
 The EC2 instance needs access to the internet, or a VPC Endpoint for Session Manager to work.
 {{% /notice %}}
 
-![ssm](200-lab-07-session-manager/ssm-sm-1.png)
+![ssm](session-manager/ssm-sm-1.png)
 
 ### Topics Covered
 In this Lab, you will learn:
@@ -46,10 +47,12 @@ In this Lab, you will learn:
 
 #### 1. Install the AWS Systems Manager agent on EC2 instance
 
-You can proceed to the next step as SSM Agent is pre-installed on Amazon Linux AMIs. For other operating systems, please refer to the AWS documentation for [Working with SSM Agent](https://docs.aws.amazon.com/systems-manager/latest/userguide/ssm-agent.html)
+You can proceed to the next step as SSM Agent is pre-installed on Amazon Linux AMIs. For other operating systems, please
+refer to the AWS documentation for [Working with SSM Agent](https://docs.aws.amazon.com/systems-manager/latest/userguide/ssm-agent.html)
 
 #### 2. Create an IAM role for the EC2 instance
-The AWS managed policy, `AmazonSSMManagedInstanceCore`, allows an instance to use AWS Systems Manager service core functionality. This will allow you to connect to the EC2 instance using Systems Manager Session Manager.
+The AWS managed policy, `AmazonSSMManagedInstanceCore`, allows an instance to use AWS Systems Manager service core 
+functionality. This will allow you to connect to the EC2 instance using Systems Manager Session Manager.
 
 ```yaml
   SSMIAMRole:
@@ -139,11 +142,12 @@ Paste the following command inside the instance terminal:
 curl http://169.254.169.254/latest/meta-data/ami-id
 ```
 
-![ssm-sm](200-lab-07-session-manager/ssm-sm-1.gif)
+![ssm-sm](session-manager/ssm-sm-1.gif)
 {{% /expand %}}
 
 {{% notice warning %}}
-Outside this workshop you should take additional steps to configure and secure access to SSM Session Manager. See recommendations and documentation link below for further details.
+Outside this workshop you should take additional steps to configure and secure access to SSM Session Manager. See 
+recommendations and documentation link below for further details.
 {{% /notice %}}
 
 ##### Recommendations:
