@@ -1,12 +1,13 @@
 ---
-title: 'Lab 05: Outputs'
+title: 'Outputs'
 date: 2019-11-05T09:25:05Z
-weight: 400
+weight: 700
 ---
 
 ### Overview
 
-In this lab you will learn about **[Outputs](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/outputs-section-structure.html)**. _Outputs_ enable you to get access to information about resources within a stack. For example, you can output an EC2
+In this lab you will learn about **[Outputs](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/outputs-section-structure.html)**. 
+_Outputs_ enable you to get access to information about resources within a stack. For example, you can output an EC2
 instance's Public DNS name once it is created.
 
 Furthermore, output values can be imported into other stacks. These are known as cross-stack references.
@@ -37,10 +38,11 @@ In this Lab, you will:
 ### Start Lab
 
 1. Go to the `code/20-cloudformation-features/` directory.
-1. Open the `07-lab05-Outputs.yaml` file.
-1. Copy the code as you go through the topics below.
+2. Open the `07-lab05-Outputs.yaml` file.
+3. Copy the code as you go through the topics below.
 
-    To get the _PublicDnsName_ of the instance, you will need to use `Fn::GetAtt` intrinsic function. Let's first check the [AWS Documentation](https://docs.aws.amazon.com/en_pv/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-instance.html#aws-properties-ec2-instance-return-values) for available attributes. You can see that _PublicDnsName_ is valid return value for `Fn::GetAtt` function.
+    To get the _PublicDnsName_ of the instance, you will need to use `Fn::GetAtt` intrinsic function. Let's first check 
+4. the [AWS Documentation](https://docs.aws.amazon.com/en_pv/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-instance.html#aws-properties-ec2-instance-return-values) for available attributes. You can see that _PublicDnsName_ is valid return value for `Fn::GetAtt` function.
 
     Add the section below to your template:
     
@@ -51,19 +53,20 @@ In this Lab, you will:
         Value: !GetAtt WebServerInstance.PublicDnsName
    ```
 
-1. Go to the AWS console and update your stack with a new template.
+5. Go to the AWS console and update your stack with a new template.
 {{%expand "How do I update a Stack?" %}}
-![update-gif](400-lab-05-outputs/update-1.gif)
+![update-gif](outputs/update-1.gif)
 {{% /expand %}}
 
-1. View the output value on the [AWS CloudFormation console](https://console.aws.amazon.com/cloudformation), in the _Outputs_ tab.
+6. View the output value on the [AWS CloudFormation console](https://console.aws.amazon.com/cloudformation), in the _Outputs_ tab.
 {{%expand "How to view Outputs?" %}}
-![outputs-gif](400-lab-05-outputs/outputs-1.gif)
+![outputs-gif](outputs/outputs-1.gif)
 {{% /expand %}}
 
 ### Challenge
 
-In this exercise, you should assign an Elastic IP to your EC2 instance. Then, add an output of the Elastic IP to the _Outputs_ section of the template. You should continue using the `07-lab05-Outputs.yaml` template.
+In this exercise, you should assign an Elastic IP to your EC2 instance. Then, add an output of the Elastic IP to the 
+_Outputs_ section of the template. You should continue using the `07-lab05-Outputs.yaml` template.
 
 1. Create an `AWS::EC2::EIP` resource and attach it to your existing EC2 instance.
 1. Create a logical ID called `ElasticIP` and add it to the Outputs section of the template.
