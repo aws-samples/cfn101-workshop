@@ -17,4 +17,8 @@ In this chapter you will improve the existing template with the following featur
 + Bootstrap the instance using a _UserData_ script.
 + Use `cfn-init` to assist bootstrapping an EC2 instance.
 
+---
+
+### Workshop topics covered:
+
 {{% children showhidden="false" %}}

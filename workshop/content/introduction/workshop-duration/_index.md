@@ -14,23 +14,15 @@ About 30 minutes to 1 hour.
 
 #### Basic/Templates
 
-This part will take approximately {insert_value}.
+This part will take approximately 1 hour.
 
 #### Basics/Operations
 
-This part will take approximately {insert_value}.
+This part will take approximately 1 hour 30 minutes.
 
 #### Intermediate/Templates
 
 This part will take approximately 3 hours.
-
-#### Intermediate/Operations
-
-This part will take approximately {insert_value}.
-
-#### Advanced/Templates
-
-This part will take approximately {insert_value}.
 
 ### Cost
 

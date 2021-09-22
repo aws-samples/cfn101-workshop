@@ -18,4 +18,6 @@ In this section, you will be introduced to the basic concepts of AWS CloudFormat
 
 ---
 
+### Workshop topics covered:
+
 {{% children showhidden="false" %}}
