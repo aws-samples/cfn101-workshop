@@ -1,16 +1,22 @@
 ---
-title: 'Lab 10: Nested Stacks'
+title: 'Nested stacks'
 date: 2019-11-13T16:52:42Z
-weight: 100
+weight: 400
 ---
 
 ### Overview
 
-Your CloudFormation template has grown considerably over the course of this workshop. As your infrastructure grows, common patterns can emerge in which you declare the same components in each of your templates.
+Your CloudFormation template has grown considerably over the course of this workshop. As your infrastructure grows, common
+patterns can emerge in which you declare the same components in each of your templates.
 
-You can separate out these common components and create dedicated templates for them. That way, you can mix and match different templates but use **[nested stacks](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-nested-stacks.html)** to create a single, unified stack.
+You can separate out these common components and create dedicated templates for them. That way, you can mix and match 
+different templates but use **[nested stacks](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-nested-stacks.html)** 
+to create a single, unified stack.
 
-For example, you may wish to enable Systems Manager Session Manager access to every EC2 Instance. Instead of copying and pasting the same IAM role configuration, you can create a dedicated template containing the IAM role for the instance. Then, you just use the **[AWS::CloudFormation::Stack](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-stack.html)** resource to reference that template from within other templates.
+For example, you may wish to enable Systems Manager Session Manager access to every EC2 Instance. Instead of copying and
+pasting the same IAM role configuration, you can create a dedicated template containing the IAM role for the instance. 
+Then, you just use the **[AWS::CloudFormation::Stack](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-stack.html)** 
+resource to reference that template from within other templates.
 
 ### Topics Covered
 
@@ -23,11 +29,11 @@ In this lab, you will build:
 
 > Top level and first level hierarchy of nested stacks.
 
-![nested-stack-hierarchy](100-lab-10-nested-stacks/nested-stack-hierarchy.png)
+![nested-stack-hierarchy](nested-stacks/nested-stack-hierarchy.png)
 
 > The following diagram represents high level overview of the infrastructure:
 
-![nested-stack-architecture](100-lab-10-nested-stacks/ns-architecture.png)
+![nested-stack-architecture](nested-stacks/ns-architecture.png)
 
 ### Start Lab
 
@@ -64,7 +70,7 @@ For example:
 
 Bucket name: `cfn-workshop-s3-s3bucket-2cozhsniu50t`
 
-If you don't have S3 bucket, please go back to [Lab01](/30-workshop-part-01/10-cloudformation-fundamentals/200-lab-01-stack.html) and create one.
+If you don't have S3 bucket, please go back to [Template and stack](/basics/templates/template-and-stack.html) lab and create one.
 
 #### 3. Create VPC Nested Stack
 
@@ -111,7 +117,8 @@ Copy the code below to the **Parameters** section of the `main.yaml` template.
 ```
 
 ##### 2. Create VPC resource in the main template
-In the code below, note that passing parameter values to resources works the same as if using a single standalone template. Make sure that parameter name in the main template matches parameter name in the VPC template.
+In the code below, note that passing parameter values to resources works the same as if using a single standalone template.
+Make sure that parameter name in the main template matches parameter name in the VPC template.
 
 Add this code in the **Resources** section of the main template (`main.yaml`)
 
@@ -142,11 +149,10 @@ Add this code in the **Resources** section of the main template (`main.yaml`)
 ##### 4. Deploy VPC Nested Stack
 
 {{% notice info %}}
-
-Please note **YAML** is indention sensitive mark down language. If `cfn-lint` or CloudFormation console reports errors, such as `Template format error: [/Resources/VpcStack] resource definition is malformed` \
-Please double check **Parameters** and **Resources** sections are correctly formatted.
+Please note **YAML** is indention sensitive mark down language. If `cfn-lint` or CloudFormation console reports errors, 
+such as `Template format error: [/Resources/VpcStack] resource definition is malformed` \
+Please double-check **Parameters** and **Resources** sections are correctly formatted.
 {{% /notice %}}
-
 
 1. Navigate to CloudFormation in the console and click **Create stack With new resources (standard)**.
 1. In **Prepare template** select **Template is ready**.
@@ -158,7 +164,7 @@ Please double check **Parameters** and **Resources** sections are correctly form
 1. You can leave rest of the parameters default.
 1. You can leave **Configure stack options** default, click **Next**.
 1. On the **Review <stack_name>** page, scroll down to the bottom and tick both **IAM Capabilities** check boxes.
-    ![iam-capabilities.png](100-lab-10-nested-stacks/iam-capabilities.png)
+    ![iam-capabilities.png](nested-stacks/iam-capabilities.png)
 1. Click on **Create stack**. You can view the progress of Nested stacks being created in CloudFormation console.
 1. In a few minutes, stacks will be created. Hit the refresh button a few times until you see in the status CREATE_COMPLETE.
 
@@ -166,7 +172,9 @@ Please double check **Parameters** and **Resources** sections are correctly form
 
 ##### 1. Prepare IAM role template
 
-The **IAM role** template has been created for you. It is titled `iam.yaml`. This template will create IAM role with `AmazonSSMManagedInstanceCore` policy which will allow [Session Manager](https://docs.aws.amazon.com/systems-manager/latest/userguide/session-manager.html) to access EC2 instance.
+The **IAM role** template has been created for you. It is titled `iam.yaml`. This template will create IAM role with
+`AmazonSSMManagedInstanceCore` policy which will allow [Session Manager](https://docs.aws.amazon.com/systems-manager/latest/userguide/session-manager.html) 
+to access EC2 instance.
 
 1. Open the `iam.yaml` file.
 1. Copy the code below to the **Resources** section of the template.
@@ -404,7 +412,8 @@ Outputs:
 ##### 8. Upload the EC2 stack to S3
 Before you can deploy the updated nested stack, you must update the templates in your S3 bucket that are referenced by the parent template, `main.yaml`.
 
-Similar to the [uploading the VPC stack](#3-upload-the-vpc-stack-to-s3) in a previous step, upload the `vpc.yaml`, `ec2.yaml` and `iam.yaml` templates to your S3 bucket.
+Similar to the [uploading the VPC stack](#3-upload-the-vpc-stack-to-s3) in a previous step, upload the `vpc.yaml`, `ec2.yaml` 
+and `iam.yaml` templates to your S3 bucket.
 
 1. Navigate to your S3 bucket in the console and select it.
 1. Click on **Upload** button -> **Add files**.
@@ -432,17 +441,17 @@ Open a new browser window in private mode and enter the `WebsiteURL`.
 
 You can get the `WebsiteURL` from the **Outputs** tab of the main stack in CloudFormation console.
 
-![website-url-output.png](100-lab-10-nested-stacks/website-url-output.png)
+![website-url-output.png](nested-stacks/website-url-output.png)
 
 In the browser window, you should see some instance metadata, similar to the picture below.
 
-![ami-id](100-lab-10-nested-stacks/ami-id-1.png)
+![ami-id](nested-stacks/ami-id-1.png)
 
 ##### 2. Log in to instance using SSM Session Manager
 
 Verify that you can log in to the instance via SessionManager.
 
-If you not sure how to do that, follow the instructions from the [Lab 07: SSM - Session Manager](/30-workshop-part-01/30-launching-ec2/200-lab-07-session-manager/#challenge)
+If you not sure how to do that, follow the instructions from the [Session Manager](/basics/operations/session-manager.html#challenge) lab.
 
 ### Clean up
 
@@ -451,10 +460,12 @@ Follow these steps to clean up created resources:
 1. In the **[CloudFormation console](https://console.aws.amazon.com/cloudformation)**, select the **root** stack you have created in this lab. For example `cfn-workshop-nested-stack`.
 1. The **root** stack will handle the deletion of all the **children** stacks for you.
 1. In the top right corner, click on **Delete**.
-1. In the pop up window click on **Delete stack**.
+1. In the pop-up window click on **Delete stack**.
 1. You can click the **refresh** button a few times until you see in the status **DELETE_COMPLETE**.
 
 ---
 ### Conclusion
 
-Nested stacks allow you to compose CloudFormation templates. This allows you to decompose large templates into smaller reusable components. It also assists in avoiding resource limits of a single template. Nested Stack components are defined in a template like any other CloudFormation resource.
+Nested stacks allow you to compose CloudFormation templates. This allows you to decompose large templates into smaller 
+reusable components. It also assists in avoiding resource limits of a single template. Nested Stack components are defined
+in a template like any other CloudFormation resource.
