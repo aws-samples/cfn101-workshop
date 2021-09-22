@@ -1,15 +1,22 @@
 ---
-title: 'Lab 11: Layered Stack'
+title: 'Layered stacks'
 date: 2020-02-16T14:46:43Z
-weight: 100
+weight: 500
 ---
 
 ### Overview
-In the previous lab, we saw how we use the `Outputs` section and the `Fn::GetAtt` function to pass values from a child stack to parent stack. This enabled us to have dedicated templates for a VPC and an IAM role. As we mentioned previously, this gives us the ability to create templates that can be re-used. However, what about if we want to re-use **stacks**?
+In the previous lab, we saw how we use the `Outputs` section and the `Fn::GetAtt` function to pass values from a child 
+stack to parent stack. This enabled us to have dedicated templates for a VPC and an IAM role. As we mentioned previously, 
+this gives us the ability to create templates that can be re-used. However, what about if we want to re-use **stacks**?
 
-For example, you may have plans for many workloads deployed with many templates but every EC2 instance is expected to enable Systems Manager Session Manager access to every EC2 Instance. Similarly, you may wish to deploy a VPC via one stack and then use it with multiple future stacks and workloads. Achieving this one-many relationship is not possible in a Nested Stack scenario. This is where Layered Stacks come in.
+For example, you may have plans for many workloads deployed with many templates but every EC2 instance is expected to 
+enable Systems Manager Session Manager access to every EC2 Instance. Similarly, you may wish to deploy a VPC via one 
+stack and then use it with multiple future stacks and workloads. Achieving this one-many relationship is not possible 
+in a Nested Stack scenario. This is where Layered Stacks come in.
 
-We use **[Exports](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-stack-exports.html)** to create global variables that can be **[Imported](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference-importvalue.html)** into any CloudFormation stack.
+We use **[Exports](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-stack-exports.html)** to create
+global variables that can be **[Imported](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference-importvalue.html)** 
+into any CloudFormation stack.
 
 ### Topics Covered
 In this lab, you will build:
@@ -20,11 +27,11 @@ In this lab, you will build:
 
 Here is a diagram showing the hierarchy of layered stacks.
 
-![layered-stack-hierarchy.png](100-lab-11-layered-stack/layered-stack-hierarchy.png)
+![layered-stack-hierarchy.png](layered-stacks/layered-stack-hierarchy.png)
 
 This diagram represents the high-level overview of the infrastructure that will be deployed:
 
-![layered-stack-hierarchy.png](100-lab-11-layered-stack/ls-architecture.png)
+![layered-stack-hierarchy.png](layered-stacks/ls-architecture.png)
 
 ### Start Lab
 
@@ -101,7 +108,9 @@ Outputs:
 #### Create EC2 Layered Stack
 
 ##### 1. Prepare the EC2 template
-The concept of the **Layered Stack** is to use intrinsic functions to import previously exported values instead of using **Parameters**. Therefore, the first change to make to the `ec2.yaml` is to remove the parameters that will no longer be used; `SubnetId`, `VpcId`, and `WebServerInstanceProfile`.
+The concept of the **Layered Stack** is to use intrinsic functions to import previously exported values instead of using
+**Parameters**. Therefore, the first change to make to the `ec2.yaml` is to remove the parameters that will no longer be used;
+`SubnetId`, `VpcId`, and `WebServerInstanceProfile`.
 
 ##### 2. Update the Parameters section
 
@@ -127,7 +136,8 @@ Parameters:
 
 ##### 3. Update WebServerInstance resource
 
-Next, we need to update the `Fn::Ref` in the template to import the exported values from the vpc and iam stacks created earlier. We perform this import by using the [Fn::ImportValue](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference-importvalue.html) intrinsic function.
+Next, we need to update the `Ref` in the template to import the exported values from the vpc and iam stacks created earlier.
+We perform this import by using the [Fn::ImportValue](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference-importvalue.html) intrinsic function.
 
 Update WebServerInstance resource in the Resources section of the `ec2.yaml` template:
 
@@ -177,13 +187,13 @@ WebServerSecurityGroup:
 Open a new browser window in private mode and enter the `WebsiteURL` (you can get the WebsiteURL from the **Outputs** tab of the EC2 stack in the CloudFormation console).
 You should see some instance metadata, similar to the picture below.
 
-![ami-id](100-lab-11-layered-stack/ami-id-1.png)
+![ami-id](layered-stacks/ami-id-1.png)
 
 ##### 2. Log in to the instance using SSM Session Manager
 
 Verify that you can log in to the instance via Session Manager.
 
-If you not sure how to do that, follow the instructions from the [Lab 07: SSM - Session Manager](/30-workshop-part-01/30-launching-ec2/200-lab-07-session-manager.html#challenge)
+If you not sure how to do that, follow the instructions from the [Session Manager](/basics/operations/session-manager.html#challenge) lab.
 
 ### Clean up
 
@@ -193,7 +203,7 @@ After the stack imports an output value, you can't delete the stack that is expo
 
 For example, you can not delete the **VPC stack** before you delete **EC2 stack**. You get following error message:
 
-![delete-export-before-import.png](100-lab-11-layered-stack/delete-export-before-import.png)
+![delete-export-before-import.png](layered-stacks/delete-export-before-import.png)
 
 1. In the **[CloudFormation console](https://console.aws.amazon.com/cloudformation)**, select the **EC2 stack**, for example `cfn-workshop-ec2`.
 1. In the top right corner, click on **Delete**.
@@ -203,4 +213,7 @@ For example, you can not delete the **VPC stack** before you delete **EC2 stack*
 
 ---
 ### Conclusion
-**Layered stacks** allow you to create resources that can be used again and again in multiple stacks. All the stack needs to know is the **Export** name used. They allow the separation of roles and responsibilities. For example, a network team could create and supply an approved VPC design as a template. You deploy it as a stack and then just reference the Exports as needed. Similarly, a security team could do the same for IAM roles or EC2 security groups.
+**Layered stacks** allow you to create resources that can be used again and again in multiple stacks. All the stack needs
+to know is the **Export** name used. They allow the separation of roles and responsibilities. For example, a network team 
+could create and supply an approved VPC design as a template. You deploy it as a stack and then just reference the Exports 
+as needed. Similarly, a security team could do the same for IAM roles or EC2 security groups.
