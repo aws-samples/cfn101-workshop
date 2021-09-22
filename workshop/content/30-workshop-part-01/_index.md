@@ -12,6 +12,6 @@ Along the way, you will be introduced to how a template is structured, how to us
 
 ## Workshop topics covered:
 
-+ [CloudFormation Fundamentals](../30-workshop-part-01/10-cloudformation-fundamentals)
-+ [CloudFormation Features](../30-workshop-part-01/20-cloudformation-features)
-+ [Launching an EC2 Instance](../30-workshop-part-01/30-launching-ec2)
++ [CloudFormation Fundamentals](../30-workshop-part-01/10-cloudformation-fundamentals.html)
++ [CloudFormation Features](../30-workshop-part-01/20-cloudformation-features.html)
++ [Launching an EC2 Instance](../30-workshop-part-01/30-launching-ec2.html)
