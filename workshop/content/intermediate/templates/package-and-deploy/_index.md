@@ -1,16 +1,20 @@
 ---
-title: "Lab 12: Package and Deploy"
+title: "Package and deploy"
 date: 2019-11-25T14:55:21Z
-weight: 100
+weight: 600
 ---
 
 ### Overview
 
-In the [Part 01](/30-workshop-part-01.html) of this workshop, you have deployed single YAML templates via CloudFormation console. That was pretty easy to do so. However, in some cases, CloudFormation templates refer to other files, or artifacts.
+In the [Basics](/basics.html) part of this workshop, you have deployed single YAML templates via CloudFormation console. 
+That was pretty easy to do so. However, in some cases, CloudFormation templates refer to other files, or artifacts.
 
-For example Lambda source code or ZIP file, or nested CloudFormation Template files may be such “artifacts”. As you learn in [Nested Stacks Lab](/10-nested-stacks/100-lab-10-nested-stacks), these files have to be available in S3 before you can deploy the main CloudFormation template.
+For example Lambda source code or ZIP file, or nested CloudFormation Template files may be such “artifacts”. As you 
+learn in [Nested Stacks Lab](/intermediate/templates/nested-stacks.html), these files have to be available in S3 before 
+you can deploy the main CloudFormation template.
 
-Deploying more complex stacks is a multi-stage process, but fortunately AWS-CLI provides a method for deploying CloudFormation templates that refer to other files.
+Deploying more complex stacks is a multi-stage process, but fortunately AWS-CLI provides a method for deploying 
+CloudFormation templates that refer to other files.
 
 This section will cover three key commands, used to package, validate and deploy CloudFormation templates with the AWS CLI.
 
@@ -86,7 +90,8 @@ aws s3 mb s3://example-bucket-name --region eu-west-1
 
 ##### 2. Install function dependencies
 
-Our function depends on an external library [pytz](https://pypi.org/project/pytz/). You need to install it to a local directory with [pip](https://pypi.org/project/pip/), so it can be packaged with your function code.
+Our function depends on an external library [pytz](https://pypi.org/project/pytz/). You need to install it to a local 
+directory with [pip](https://pypi.org/project/pip/), so it can be packaged with your function code.
 
 From within a `code/60-package-and-deploy` directory run:
 
@@ -164,7 +169,8 @@ Archive:  ce6c47b6c84d94bd207cea18e7d93458
 
 Sometimes a CloudFormation template deployment will fail due to syntax errors in the template.
 
-[`aws cloudformation validate-template`](https://docs.aws.amazon.com/cli/latest/reference/cloudformation/validate-template.html) checks a CloudFormation template to ensure it is valid JSON or YAML. This is useful to speed up development time.
+[`aws cloudformation validate-template`](https://docs.aws.amazon.com/cli/latest/reference/cloudformation/validate-template.html) 
+checks a CloudFormation template to ensure it is valid JSON or YAML. This is useful to speed up development time.
 
 Let's validate our packaged template. From within a `code/60-package-and-deploy` directory run:
 
@@ -188,7 +194,8 @@ If successful, CloudFormation will send you a response with a list of parameters
 
 ### Deploying the "packaged" template
 
-The [`aws cloudformation deploy`](https://docs.aws.amazon.com/cli/latest/reference/cloudformation/deploy/index.html) command is used to deploy CloudFormation templates using the CLI.
+The [`aws cloudformation deploy`](https://docs.aws.amazon.com/cli/latest/reference/cloudformation/deploy/index.html) 
+command is used to deploy CloudFormation templates using the CLI.
 
 Let's deploy packaged template.
 
@@ -211,10 +218,12 @@ This can be string containing `'key=value'` pairs or a via a [supplied json file
 
 ##### Capabilities
 
-You may recall when using the console, you are required to acknowledge that deploying this template may create resource that can affect permissions in your account. This is to ensure you don't accidentally change the permissions unintentionally.
+You may recall when using the console, you are required to acknowledge that deploying this template may create resource 
+that can affect permissions in your account. This is to ensure you don't accidentally change the permissions unintentionally.
 
-When using the CLI, you are also required to acknowledge this stack might create resources that can affect IAM permissions. This is done using the `--capabilities` flag, as demonstrated in the previous example.
-Read more about the possible capabilities in the [`aws cloudformation deploy` documentation](https://docs.aws.amazon.com/cli/latest/reference/cloudformation/deploy/index.html)
+When using the CLI, you are also required to acknowledge this stack might create resources that can affect IAM permissions. 
+This is done using the `--capabilities` flag, as demonstrated in the previous example. Read more about the possible capabilities
+in the [`aws cloudformation deploy` documentation](https://docs.aws.amazon.com/cli/latest/reference/cloudformation/deploy/index.html)
 
 #### Test the Lambda
 

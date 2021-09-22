@@ -4,7 +4,7 @@ date: 2019-10-16T17:18:51+01:00
 weight: 10
 ---
 
-![cfn-png](templates/cfn-1.png)
+![template-png](templates/template-1.png)
 
 In this section, you will be introduced to the basic concepts of AWS CloudFormation.
 
