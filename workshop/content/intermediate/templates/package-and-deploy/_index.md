@@ -261,4 +261,4 @@ Congratulations, you have successfully packaged and deployed CloudFormation temp
 
 * The `package` command simplifies deployment of templates that use features such as nested stacks, or refer to other local assets.
 * The `validate` command can speed up development of templates by catching errors more quickly.
-* The `package` command allows you to deploy CloudFormation templates.
+* The `deploy` command allows you to deploy CloudFormation templates.
