@@ -38,6 +38,6 @@ jobs:
 
     # Run Tests
     - name: CloudFormation lint test
-      run: make test-cfn-lint
+      run: cfn-lint code/solutions/*.yaml
     - name: CloudFormation nag test
-      run: make test-cfn-nag
+      run: cfn_nag_scan --input-path code/solutions
