@@ -1,0 +1,43 @@
+name: Unit Tests
+on:
+  push:
+    branches:
+    - main
+  pull_request:
+    types:
+    - opened
+    - edited
+    - synchronize
+jobs:
+  unit_tests:
+    name: Unit tests
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+
+    # Cache
+    - uses: actions/cache@v1
+      with:
+        path: ~/.cache/pip
+        key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+        restore-keys: |
+
+    # Setup
+    - name: Set up Python 3.7
+      uses: actions/setup-python@v1
+      with:
+        python-version: 3.7
+    - name: Install python packages
+      run: pip install -Ur requirements.txt
+    - name: Set up ruby 2.6
+      uses: actions/setup-ruby@v1
+      with:
+        ruby-version: '2.6'
+    - name: Install Ruby gems
+      run: gem install cfn-nag
+
+    # Run Tests
+    - name: CloudFormation lint test
+      run: make test-cfn-lint
+    - name: CloudFormation nag test
+      run: make test-cfn-nag
