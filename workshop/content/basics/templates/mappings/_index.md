@@ -6,8 +6,8 @@ weight: 600
 
 ### Overview
 
-This lab will introduce **[Mappings](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/mappings-section-structure.html)**. 
-A _Mappings_ section is a top level section of a CloudFormation template. It is used to define maps, their keys and 
+This lab will introduce **[Mappings](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/mappings-section-structure.html)**.
+A _Mappings_ section is a top level section of a CloudFormation template. It is used to define maps, their keys and
 values which can be then referenced in your template.
 
 ![A diagram of the structure of a mappings section](mappings/mapping.png)
@@ -83,7 +83,7 @@ Mappings:
 
 #### 3. Next, modify the _InstanceType_ property
 
-Using the intrinsic function `Fn::FindInMap`, CloudFormation will look up the value in the `EnvironmentToInstanceType` 
+Using the intrinsic function `Fn::FindInMap`, CloudFormation will look up the value in the `EnvironmentToInstanceType`
 map and will return the value back to `InstanceType` property.
 
 ```yaml
@@ -167,7 +167,7 @@ See `code/20-cloudformation-features/06-lab04-Mapping-Solution.yaml` for the ful
 
 {{% /expand%}}
 
-To test that your solution works, update the stack as you did in step [5. Finally, Deploy the solution](#5-finally-deploy-the-solution) 
+To test that your solution works, update the stack as you did in step [5. Finally, Deploy the solution](#5-finally-deploy-the-solution)
 and change the `EnvironmentType` to **Dev**.
 
 {{% notice note %}}

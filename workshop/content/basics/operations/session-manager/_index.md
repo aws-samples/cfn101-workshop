@@ -6,7 +6,7 @@ weight: 200
 
 ### Overview
 
-[Session Manager](https://docs.aws.amazon.com/systems-manager/latest/userguide/session-manager.html) is a fully managed 
+[Session Manager](https://docs.aws.amazon.com/systems-manager/latest/userguide/session-manager.html) is a fully managed
 AWS Systems Manager capability that lets you manage your Amazon EC2 instances through an interactive one-click browser-based terminal or via the AWS CLI.
 
 Session Manager has several benefits over using SSH:
@@ -51,7 +51,7 @@ You can proceed to the next step as SSM Agent is pre-installed on Amazon Linux A
 refer to the AWS documentation for [Working with SSM Agent](https://docs.aws.amazon.com/systems-manager/latest/userguide/ssm-agent.html)
 
 #### 2. Create an IAM role for the EC2 instance
-The AWS managed policy, `AmazonSSMManagedInstanceCore`, allows an instance to use AWS Systems Manager service core 
+The AWS managed policy, `AmazonSSMManagedInstanceCore`, allows an instance to use AWS Systems Manager service core
 functionality. This will allow you to connect to the EC2 instance using Systems Manager Session Manager.
 
 ```yaml
@@ -146,7 +146,7 @@ curl http://169.254.169.254/latest/meta-data/ami-id
 {{% /expand %}}
 
 {{% notice warning %}}
-Outside this workshop you should take additional steps to configure and secure access to SSM Session Manager. See 
+Outside this workshop you should take additional steps to configure and secure access to SSM Session Manager. See
 recommendations and documentation link below for further details.
 {{% /notice %}}
 

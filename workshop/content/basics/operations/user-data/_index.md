@@ -7,7 +7,7 @@ weight: 300
 ### Overview
 
 You can use AWS CloudFormation to automatically install, configure, and start applications on Amazon EC2 instances. Doing
-so enables you to easily replicate deployments and update existing installations without connecting directly to the 
+so enables you to easily replicate deployments and update existing installations without connecting directly to the
 instance, which can save you a lot of time and effort.
 
 ### Topics Covered
@@ -37,7 +37,7 @@ Begin by creating a Security Group.
     Properties:
       GroupDescription: 'Enable HTTP access via port 80'
 ```
-As the Apache web server will serve content on port 80, you will need to create an ingress rule `SecurityGroupIngress` 
+As the Apache web server will serve content on port 80, you will need to create an ingress rule `SecurityGroupIngress`
 in the security group to allow access from the Internet.
 
 ```yaml
@@ -69,8 +69,8 @@ Finally, associate the security group with the EC2 instance.
 ```
 
 {{% notice note %}}
-The EC2 instance in the CloudFormation stack will be _replaced_ as a result of modifying the _Security Group_ property. 
-You can find the properties where updates require [Replacement](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-updating-stacks-update-behaviors.html#update-replacement) 
+The EC2 instance in the CloudFormation stack will be _replaced_ as a result of modifying the _Security Group_ property.
+You can find the properties where updates require [Replacement](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-updating-stacks-update-behaviors.html#update-replacement)
 of EC2 instances [here](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-instance.html?shortFooter=true#aws-properties-ec2-instance-properties).
 {{% /notice %}}
 
@@ -134,7 +134,7 @@ Copy and paste the code below to the _Outputs_ section of the CloudFormation tem
 
 #### 4. Update the Stack
 
-Similar to previous labs, update the stack with the updated template. Once CloudFormation completes updating the stack, 
+Similar to previous labs, update the stack with the updated template. Once CloudFormation completes updating the stack,
 you can then check to see that your script has set up a web server on the EC2 instance.
 
 1. Open the **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** link in a new tab and log in to your AWS account.

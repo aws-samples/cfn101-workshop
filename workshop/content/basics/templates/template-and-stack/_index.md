@@ -17,7 +17,7 @@ By the end of this lab, you will be able to:
 
 1. Go to the `code/workspace/` directory.
 2. Open the `template-and-stack.yaml` file in your code editor.
-3. Here is a sample CloudFormation template that defines an S3 Bucket. It has a single resource that contains the S3 bucket. 
+3. Here is a sample CloudFormation template that defines an S3 Bucket. It has a single resource that contains the S3 bucket.
    Copy the code below and save to the `template-and-stack.yaml` file.
    ```yaml
    Resources:
@@ -44,7 +44,7 @@ By the end of this lab, you will be able to:
 14. You can click the **refresh** button a few times until you see in the status **CREATE_COMPLETE**.
 
 ### Challenge
-In this exercise, enable versioning on the S3 bucket. Enabled versioning will prevent objects from being deleted or 
+In this exercise, enable versioning on the S3 bucket. Enabled versioning will prevent objects from being deleted or
 overwritten by mistake or to archive objects so that you can retrieve previous versions of them.
 
 1. Create a property `VersioningConfiguration` in the `Properties` section of the S3 resource.

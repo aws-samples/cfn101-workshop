@@ -8,7 +8,7 @@ weight: 400
 
 This lab shows how to use **[Intrinsic Functions](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference.html)** in your template.
 
-Intrinsic functions are built-in functions that help you manage your stacks. Without them, you will be limited to very 
+Intrinsic functions are built-in functions that help you manage your stacks. Without them, you will be limited to very
 basic templates, similar to the S3 template you have seen in a **[Lab01](../../template-and-stack.html)**.
 
 ### Topics Covered
@@ -57,8 +57,8 @@ your template more flexible. Let's convert `AmiID` to variable and pass it to re
 
 #### Fn::Join
 
-To help you manage your AWS resources, you can optionally assign your own metadata to each resource in the form 
-of **tags**. Each tag is a simple label consisting of a customer-defined key, and an optional value that can help you 
+To help you manage your AWS resources, you can optionally assign your own metadata to each resource in the form
+of **tags**. Each tag is a simple label consisting of a customer-defined key, and an optional value that can help you
 to categorize resources by purpose, owner, environment, or other criteria. Let's use the intrinsic function **Fn::Join** to name your instance.
 
 1. Add property `Tags` to the `Properties` section.

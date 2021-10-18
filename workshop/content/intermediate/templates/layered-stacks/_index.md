@@ -5,17 +5,17 @@ weight: 500
 ---
 
 ### Overview
-In the previous lab, we saw how we use the `Outputs` section and the `Fn::GetAtt` function to pass values from a child 
-stack to parent stack. This enabled us to have dedicated templates for a VPC and an IAM role. As we mentioned previously, 
+In the previous lab, we saw how we use the `Outputs` section and the `Fn::GetAtt` function to pass values from a child
+stack to parent stack. This enabled us to have dedicated templates for a VPC and an IAM role. As we mentioned previously,
 this gives us the ability to create templates that can be re-used. However, what about if we want to re-use **stacks**?
 
-For example, you may have plans for many workloads deployed with many templates but every EC2 instance is expected to 
-enable Systems Manager Session Manager access to every EC2 Instance. Similarly, you may wish to deploy a VPC via one 
-stack and then use it with multiple future stacks and workloads. Achieving this one-many relationship is not possible 
+For example, you may have plans for many workloads deployed with many templates but every EC2 instance is expected to
+enable Systems Manager Session Manager access to every EC2 Instance. Similarly, you may wish to deploy a VPC via one
+stack and then use it with multiple future stacks and workloads. Achieving this one-many relationship is not possible
 in a Nested Stack scenario. This is where Layered Stacks come in.
 
 We use **[Exports](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-stack-exports.html)** to create
-global variables that can be **[Imported](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference-importvalue.html)** 
+global variables that can be **[Imported](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference-importvalue.html)**
 into any CloudFormation stack.
 
 ### Topics Covered
@@ -214,6 +214,6 @@ For example, you can not delete the **VPC stack** before you delete **EC2 stack*
 ---
 ### Conclusion
 **Layered stacks** allow you to create resources that can be used again and again in multiple stacks. All the stack needs
-to know is the **Export** name used. They allow the separation of roles and responsibilities. For example, a network team 
-could create and supply an approved VPC design as a template. You deploy it as a stack and then just reference the Exports 
+to know is the **Export** name used. They allow the separation of roles and responsibilities. For example, a network team
+could create and supply an approved VPC design as a template. You deploy it as a stack and then just reference the Exports
 as needed. Similarly, a security team could do the same for IAM roles or EC2 security groups.

@@ -1,32 +1,32 @@
-AWSTemplateFormatVersion: 2010-09-09
+AWSTemplateFormatVersion: "2010-09-09"
 
 Parameters:
   AmplifyAppName:
     Type: String
 
   Repository:
-    Type: String
     Description: GitHub Repository URL
+    Type: String
 
   OAuthToken:
-    Type: String
     Description: GitHub Repository URL
+    Type: String
     NoEcho: true
 
   Domain:
-    Type: String
     Description: Domain parameter to connect a custom domain to your app.
+    Type: String
 
   SubDomain:
-    Type: String
     Description: The SubDomain parameter to connect a subdomain (e.g. foo.yourdomain.com)
+    Type: String
 
 Resources:
   AmplifyRole:
     Type: AWS::IAM::Role
     Properties:
       AssumeRolePolicyDocument:
-        Version: 2012-10-17
+        Version: "2012-10-17"
         Statement:
           - Effect: Allow
             Principal:
@@ -37,14 +37,14 @@ Resources:
       Policies:
         - PolicyName: Amplify
           PolicyDocument:
-            Version: 2012-10-17
+            Version: "2012-10-17"
             Statement:
               - Effect: Allow
-                Action: "amplify:*"
-                Resource: "*"
+                Action: amplify:*
+                Resource: '*'
 
   AmplifyApp:
-    Type: "AWS::Amplify::App"
+    Type: AWS::Amplify::App
     Properties:
       Name: !Ref AmplifyAppName
       Repository: !Ref Repository
@@ -108,4 +108,4 @@ Outputs:
     Value: !GetAtt AmplifyApp.DefaultDomain
 
   CustomDomainUrl:
-    Value: !Join [ ".", [!Ref SubDomain, !Ref Domain ]]
+    Value: !Join [., [!Ref SubDomain, !Ref Domain]]

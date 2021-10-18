@@ -64,5 +64,5 @@ Manager Parameter Store, your templates are now more generic and reusable.
 ---
 ### Conclusion
 
-Congratulations! You have now successfully updated your template to use the latest Amazon Linux AMI. Furthermore, your 
+Congratulations! You have now successfully updated your template to use the latest Amazon Linux AMI. Furthermore, your
 template can now be deployed in any region, without appending AMI ID parameter.
