@@ -34,11 +34,11 @@ repos:
   hooks:
   - id: cfn-python-lint
     name: AWS CloudFormation Linter
-    files: \.(template)$
+    files: solutions/.*\.(yaml)$
     args: [--ignore-checks=W3002]
 
 - repo: https://github.com/aws-cloudformation/rain
   rev: v1.2.0
   hooks:
   - id: cfn-format
-    files: \.template$
+    files: solutions/.*\.(yaml)$
