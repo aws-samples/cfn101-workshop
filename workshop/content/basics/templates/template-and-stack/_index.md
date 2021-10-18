@@ -15,23 +15,26 @@ By the end of this lab, you will be able to:
 
 ### Start Lab
 
-1. Go to the `code/10-cloudformation-fundamentals/` directory.
-2. Open the `01-lab01-StackExample.yaml` file in your code editor.
+1. Go to the `code/workspace/` directory.
+2. Open the `template-and-stack.yaml` file in your code editor.
 3. Here is a sample CloudFormation template that defines an S3 Bucket. It has a single resource that contains the S3 bucket. 
-   Copy the code below and save to the `01-lab01-StackExample.yaml` file.
-
-      ```yaml
-      Resources:
-        S3Bucket:
-          Type: AWS::S3::Bucket
-      ```
-
+   Copy the code below and save to the `template-and-stack.yaml` file.
+   ```yaml
+   Resources:
+     S3Bucket:
+       Type: AWS::S3::Bucket
+       Properties:
+         BucketEncryption:
+           ServerSideEncryptionConfiguration:
+             - ServerSideEncryptionByDefault:
+                 SSEAlgorithm: AES256
+   ```
 4. Open the **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** link in a new tab and log in to your AWS account.
 5. Click on **Create stack** (_With new resources (Standard)_ if you have clicked in the top right corner).
 6. In **Prepare template**, choose **Template is ready**.
 7. In **Template source**, choose **Upload a template file**.
 8. Click on **Choose file** button and navigate to your workshop directory.
-9. Select the file `01-lab01-StackExample.yaml` referenced in step 1.
+9. Select the file `template-and-stack.yaml` referenced in step 1.
 10. Click **Next**.
 11. Provide a **Stack name**. For example **cfn-workshop-s3**.
      + The _Stack name_ identifies the stack. Use a name to help you distinguish the purpose of this stack.
@@ -45,8 +48,8 @@ In this exercise, enable versioning on the S3 bucket. Enabled versioning will pr
 overwritten by mistake or to archive objects so that you can retrieve previous versions of them.
 
 1. Create a property `VersioningConfiguration` in the `Properties` section of the S3 resource.
-1. Set the `Status` to `Enabled`.
-1. Update the stack to reflect the changes made in the template.
+2. Set the `Status` to `Enabled`.
+3. Update the stack to reflect the changes made in the template.
 
 {{%expand "Need a hint?" %}}
 Check out the AWS Documentation for [AWS::S3::Bucket](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-s3-bucket.html) resource.
@@ -54,19 +57,18 @@ Check out the AWS Documentation for [AWS::S3::Bucket](https://docs.aws.amazon.co
 
 {{%expand "Want to see the solution?" %}}
 1. Replace the code in your template with the code below:
-
    ```yaml
    Resources:
      S3Bucket:
        Type: AWS::S3::Bucket
        Properties:
-         VersioningConfiguration:
-           Status: Enabled
+         BucketEncryption:
+           ServerSideEncryptionConfiguration:
+             - ServerSideEncryptionByDefault:
+                 SSEAlgorithm: AES256
    ```
-
 1. Update the stack as per demo below:
-
-    ![stack-update](template-and-stack/stack-update.gif)
+   ![stack-update](template-and-stack/stack-update.gif)
 
 {{% /expand %}}
 
