@@ -2,7 +2,7 @@ relativeURLs = true
 CanonifyURLs = true
 languageCode = "en-US"
 defaultContentLanguage = "en"
-title = "CFN 101 Workshop"
+title = "AWS CloudFormation Workshop"
 theme = "learn"
 metaDataFormat = "yaml"
 defaultContentLanguageInSubdir = true
@@ -13,8 +13,8 @@ pygmentsStyle = "monokai"
 
 [params]
 editURL = "https://github.com/aws-samples/cfn101-workshop/edit/master/workshop/content/"
-description = "CFN 101 Workshop"
-author = "EMEA Solution Builders"
+description = "AWS CloudFormation Workshop"
+author = "Solution Engineering Services"
 disableBreadcrumb = false
 disableNextPrev = false
 themeVariant = "aws"
