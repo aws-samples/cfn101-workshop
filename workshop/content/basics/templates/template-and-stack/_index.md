@@ -62,6 +62,8 @@ Check out the AWS Documentation for [AWS::S3::Bucket](https://docs.aws.amazon.co
      S3Bucket:
        Type: AWS::S3::Bucket
        Properties:
+         VersioningConfiguration:
+           Status: Enabled
          BucketEncryption:
            ServerSideEncryptionConfiguration:
              - ServerSideEncryptionByDefault:
