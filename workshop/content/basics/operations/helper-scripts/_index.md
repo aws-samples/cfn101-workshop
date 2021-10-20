@@ -5,13 +5,13 @@ weight: 400
 ---
 
 ### Overview
-In this lab we will look into CloudFormation [Helper Scripts](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/cfn-helper-scripts-reference.html). 
-What you have learned in a previous lab is a great starting point. However, as you may notice from your `UserData` 
+In this lab we will look into CloudFormation [Helper Scripts](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/cfn-helper-scripts-reference.html).
+What you have learned in a previous lab is a great starting point. However, as you may notice from your `UserData`
 example, procedural scripting is not ideal. You have deployed a simple PHP application, but imagine trying to write much
 more complicated app in userdata. That would be very tricky.
 
-To solve this problem, CloudFormation provides helper scripts. These helper scripts make CloudFormation a lot more 
-powerful and enable you to fine tune templates to better fit your use case. For example, you can update application 
+To solve this problem, CloudFormation provides helper scripts. These helper scripts make CloudFormation a lot more
+powerful and enable you to fine tune templates to better fit your use case. For example, you can update application
 configuration without recreating an instance.
 
 The helper scripts come pre-installed on Amazon Linux and can be updated periodically by using `yum install -y aws-cfn-bootstrap`
@@ -35,7 +35,7 @@ In this lab you will learn:
 
 #### 1. Configure _Metadata_ section
 
-You need to use the `AWS::CloudFormation::Init` type to include metadata for an Amazon EC2 instance. When your template 
+You need to use the `AWS::CloudFormation::Init` type to include metadata for an Amazon EC2 instance. When your template
 calls the `cfn-init` script, the script will look for resources in metadata section. Let's add the metadata to your template:
 
 ```yaml
@@ -46,17 +46,17 @@ calls the `cfn-init` script, the script will look for resources in metadata sect
 ```
 
 #### 2. Configure cfn-init
-The configuration of `cfn-init` is separated into sections. The configuration sections are processed in the following 
+The configuration of `cfn-init` is separated into sections. The configuration sections are processed in the following
 order: packages, groups, users, sources, files, commands, and then services.
 
 {{% notice note %}}
-If you require a different order, separate your sections into different config keys, and then use a 
-[configset](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-init.html?shortFooter=true#aws-resource-init-configsets) 
+If you require a different order, separate your sections into different config keys, and then use a
+[configset](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-init.html?shortFooter=true#aws-resource-init-configsets)
 that specifies the order in which the config keys should be processed.
 {{% /notice %}}
 
 {{% notice info %}}
-It is important to preserve indentation as shown in the code samples below. You can cross-reference your template 
+It is important to preserve indentation as shown in the code samples below. You can cross-reference your template
 against the solution code `code/30-launching-ec2/08-lab09-HelperScripts-Solution.yaml` file.
 {{% /notice %}}
 
@@ -79,7 +79,7 @@ Add the code from `packages` key to your template.
 ```
 
 ##### 2. Create `index.php` file
-Use the _files_ key to create files on the EC2 instance. The content can either be a specified inline in the template, 
+Use the _files_ key to create files on the EC2 instance. The content can either be a specified inline in the template,
 or as a URL that is retrieved by the instance.
 
 Add the code from `files` key to your template.
@@ -119,7 +119,7 @@ Add the code from `files` key to your template.
 
 ##### 3. Enable and start Apache web server
 
-You can use the `services` key to define which services should be enabled or disabled when the instance is launched. On 
+You can use the `services` key to define which services should be enabled or disabled when the instance is launched. On
 Linux systems, this key is supported by using the `sysvinit` key.
 
 Add the code from `services` key to your template.
@@ -145,7 +145,7 @@ Add the code from `services` key to your template.
 
 The metadata scripts are not executed by default, you need to call `cfn-init` helper script in UserData section to execute it.
 
-In the code below, CloudFormation will first update the `aws-cfn-bootstrap` package to retrieve the latest version of the 
+In the code below, CloudFormation will first update the `aws-cfn-bootstrap` package to retrieve the latest version of the
 helper scripts. Then, it will install the files and packages from metadata.
 
 Add the code from `UserData` property to your template.
@@ -167,9 +167,9 @@ The intrinsic function `!Sub` will dynamically replace values in `${AWS::StackNa
 
 #### 3. Configure cfn-hup
 
-Installing the `cfn-hup` helper script enables existing EC2 instances to apply template updates of _UserData_. 
-For example, you could change the sample PHP application in the template and deploy this by updating the existing stack. 
-Without using `cfn-hup`, you would need to either replace the EC2 instance or manually apply the update outside of 
+Installing the `cfn-hup` helper script enables existing EC2 instances to apply template updates of _UserData_.
+For example, you could change the sample PHP application in the template and deploy this by updating the existing stack.
+Without using `cfn-hup`, you would need to either replace the EC2 instance or manually apply the update outside of
 CloudFormation. (To see this in action, please refer to the exercise section of this lab.)
 
 1. Add two files to the `files` section of the  `AWS::CloudFormation::Init`:
@@ -243,14 +243,14 @@ CloudFormation. (To see this in action, please refer to the exercise section of 
    ```
 
 #### 4. Configure cfn-signal and CreationPolicy attribute
-Finally, you need a way to instruct AWS CloudFormation to complete stack creation only after all the services 
+Finally, you need a way to instruct AWS CloudFormation to complete stack creation only after all the services
 (such as Apache and cfn-hup) are running and not after all the stack resources are created.
 
-In other words, AWS CloudFormation sets the status of the stack as _CREATE\_COMPLETE_ after it successfully creates all 
+In other words, AWS CloudFormation sets the status of the stack as _CREATE\_COMPLETE_ after it successfully creates all
 the resources. However, if one or more services failed to start, AWS CloudFormation still sets the stack status as _CREATE\_COMPLETE_.
 
-To prevent this you can add a [CreationPolicy](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-attribute-creationpolicy.html) 
-attribute to the instance. In conjunction with the creation policy, you need to run the `cfn-signal` helper script to 
+To prevent this you can add a [CreationPolicy](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-attribute-creationpolicy.html)
+attribute to the instance. In conjunction with the creation policy, you need to run the `cfn-signal` helper script to
 notify AWS CloudFormation when all the applications are installed and configured.
 
 1. Add Creation policy to `WebServerInstance` resource property.
@@ -278,7 +278,7 @@ notify AWS CloudFormation when all the applications are installed and configured
    ```
 
 #### 5. Update the stack
-To update the stack and apply the changes you have made in the `UserData` property, the EC2 instance needs to be replaced. 
+To update the stack and apply the changes you have made in the `UserData` property, the EC2 instance needs to be replaced.
 You can find the properties which will replace an EC2 instances [here](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-instance.html?shortFooter=true#aws-properties-ec2-instance-properties).
 
 In the example below, you will use `AvailabilityZone` property and parameter to trigger the replacement.

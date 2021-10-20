@@ -6,13 +6,13 @@ weight: 100
 
 ### Template
 
-**An AWS CloudFormation template** is a declaration of the AWS resources that make up a **stack**. 
-The template is stored as a text file in either JavaScript Object Notation (JSON) or YAML format. 
+**An AWS CloudFormation template** is a declaration of the AWS resources that make up a **stack**.
+The template is stored as a text file in either JavaScript Object Notation (JSON) or YAML format.
 Because they are just text files, you can create and edit them in any text editor and manage them in your source control
 system with the rest of your source code.
 
 {{% notice note %}}
-Throughout this workshop, code samples will use the YAML format. If you prefer to use JSON, please be aware 
+Throughout this workshop, code samples will use the YAML format. If you prefer to use JSON, please be aware
 of [the differences](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/template-formats.html).
 {{% /notice %}}
 
@@ -42,13 +42,13 @@ Hooks: 'set of hooks' (optional) # Used for ECS Blue/Green Deployments
 Outputs: 'set of outputs' (optional) # values that are returned whenever you view your stack's properties
 ```
 
-The only required top-level object is the **Resources** object, which must declare at least one resource. 
+The only required top-level object is the **Resources** object, which must declare at least one resource.
 The definition of each of these objects can be found in the online [Template Anatomy](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/template-anatomy.html) documentation.
 
 ### Stack
 
-A stack is a deployment of a CloudFormation template. You can create multiple stacks from a single CloudFormation 
-template. A stack contains a collection of AWS resources that you can manage as a single unit. All the resources in 
+A stack is a deployment of a CloudFormation template. You can create multiple stacks from a single CloudFormation
+template. A stack contains a collection of AWS resources that you can manage as a single unit. All the resources in
 a stack are defined by the stack's AWS CloudFormation template.
 
 AWS CloudFormation will create, update or delete a stack in its entirety:

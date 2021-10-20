@@ -64,7 +64,7 @@ If the response is empty `[]` or the VPC is not **default** proceed to the next 
         }
     }
     ```
-   
+
    {{% notice note %}}
    If you wish to delete the default VPC again at the end of this workshop you should make a note of the **VpcId** above so that you can be sure to know which one to delete later.
    {{% /notice %}}

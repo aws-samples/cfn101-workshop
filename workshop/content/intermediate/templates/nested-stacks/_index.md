@@ -9,13 +9,13 @@ weight: 400
 Your CloudFormation template has grown considerably over the course of this workshop. As your infrastructure grows, common
 patterns can emerge in which you declare the same components in each of your templates.
 
-You can separate out these common components and create dedicated templates for them. That way, you can mix and match 
-different templates but use **[nested stacks](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-nested-stacks.html)** 
+You can separate out these common components and create dedicated templates for them. That way, you can mix and match
+different templates but use **[nested stacks](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-nested-stacks.html)**
 to create a single, unified stack.
 
 For example, you may wish to enable Systems Manager Session Manager access to every EC2 Instance. Instead of copying and
-pasting the same IAM role configuration, you can create a dedicated template containing the IAM role for the instance. 
-Then, you just use the **[AWS::CloudFormation::Stack](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-stack.html)** 
+pasting the same IAM role configuration, you can create a dedicated template containing the IAM role for the instance.
+Then, you just use the **[AWS::CloudFormation::Stack](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-stack.html)**
 resource to reference that template from within other templates.
 
 ### Topics Covered
@@ -149,7 +149,7 @@ Add this code in the **Resources** section of the main template (`main.yaml`)
 ##### 4. Deploy VPC Nested Stack
 
 {{% notice info %}}
-Please note **YAML** is indention sensitive mark down language. If `cfn-lint` or CloudFormation console reports errors, 
+Please note **YAML** is indention sensitive mark down language. If `cfn-lint` or CloudFormation console reports errors,
 such as `Template format error: [/Resources/VpcStack] resource definition is malformed` \
 Please double-check **Parameters** and **Resources** sections are correctly formatted.
 {{% /notice %}}
@@ -173,7 +173,7 @@ Please double-check **Parameters** and **Resources** sections are correctly form
 ##### 1. Prepare IAM role template
 
 The **IAM role** template has been created for you. It is titled `iam.yaml`. This template will create IAM role with
-`AmazonSSMManagedInstanceCore` policy which will allow [Session Manager](https://docs.aws.amazon.com/systems-manager/latest/userguide/session-manager.html) 
+`AmazonSSMManagedInstanceCore` policy which will allow [Session Manager](https://docs.aws.amazon.com/systems-manager/latest/userguide/session-manager.html)
 to access EC2 instance.
 
 1. Open the `iam.yaml` file.
@@ -412,7 +412,7 @@ Outputs:
 ##### 8. Upload the EC2 stack to S3
 Before you can deploy the updated nested stack, you must update the templates in your S3 bucket that are referenced by the parent template, `main.yaml`.
 
-Similar to the [uploading the VPC stack](#3-upload-the-vpc-stack-to-s3) in a previous step, upload the `vpc.yaml`, `ec2.yaml` 
+Similar to the [uploading the VPC stack](#3-upload-the-vpc-stack-to-s3) in a previous step, upload the `vpc.yaml`, `ec2.yaml`
 and `iam.yaml` templates to your S3 bucket.
 
 1. Navigate to your S3 bucket in the console and select it.
@@ -466,6 +466,6 @@ Follow these steps to clean up created resources:
 ---
 ### Conclusion
 
-Nested stacks allow you to compose CloudFormation templates. This allows you to decompose large templates into smaller 
+Nested stacks allow you to compose CloudFormation templates. This allows you to decompose large templates into smaller
 reusable components. It also assists in avoiding resource limits of a single template. Nested Stack components are defined
 in a template like any other CloudFormation resource.

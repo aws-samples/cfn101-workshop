@@ -1,0 +1,44 @@
+# See https://pre-commit.com for more information
+# See https://pre-commit.com/hooks.html for more hooks
+
+repos:
+
+# General
+- repo: https://github.com/pre-commit/pre-commit-hooks
+  rev: v4.0.1
+  hooks:
+  - id: check-case-conflict
+  - id: detect-private-key
+  - id: trailing-whitespace
+  - id: end-of-file-fixer
+  - id: mixed-line-ending
+    args:
+    - --fix=lf
+    exclude: /package-lock\.json$
+  - id: check-added-large-files
+    args:
+    - --maxkb=1000
+  - id: check-merge-conflict
+
+# Secrets
+- repo: https://github.com/awslabs/git-secrets
+  rev: 80230afa8c8bdeac766a0fece36f95ffaa0be778
+  hooks:
+  - id: git-secrets
+    entry: git-secrets --scan
+    files: .
+
+# CloudFormation
+- repo: https://github.com/aws-cloudformation/cfn-python-lint
+  rev: v0.54.2
+  hooks:
+  - id: cfn-python-lint
+    name: AWS CloudFormation Linter
+    files: solutions/.*\.(yaml)$
+    args: [--ignore-checks=W3002]
+
+- repo: https://github.com/aws-cloudformation/rain
+  rev: v1.2.0
+  hooks:
+  - id: cfn-format
+    files: solutions/.*\.(yaml)$
