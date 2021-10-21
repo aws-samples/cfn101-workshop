@@ -1,6 +1,6 @@
-AWSTemplateFormatVersion: '2010-09-09'
+AWSTemplateFormatVersion: "2010-09-09"
 
-Description: CFN 101 Workshop - Lab 06 Multi Region Latest AMI. (uksb-1qbkgojk1)
+Description: CloudFormation workshop - multi region latest ami (uksb-1q9p31idr).
 
 Metadata:
   AWS::CloudFormation::Interface:
@@ -9,7 +9,6 @@ Metadata:
           default: 'Amazon EC2 Configuration'
         Parameters:
           - AmiID
-
     ParameterLabels:
       AmiID:
         default: 'Amazon Machine Image ID'
