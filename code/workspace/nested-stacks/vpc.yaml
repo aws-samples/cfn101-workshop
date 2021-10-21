@@ -1,5 +1,6 @@
 AWSTemplateFormatVersion: "2010-09-09"
-Description: CFN 201 Workshop - Amazon VPC template.
+
+Description: CloudFormation workshop - nested stacks - VPC template.
 
 Parameters:
   AvailabilityZones:

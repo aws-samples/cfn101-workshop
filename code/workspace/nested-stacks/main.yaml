@@ -1,5 +1,6 @@
 AWSTemplateFormatVersion: "2010-09-09"
-Description: CFN 201 Workshop - The root stack for Nested Stacks. (uksb-1qbkgojmn)
+
+Description: CloudFormation workshop - nested stacks (uksb-1q9p31idr).
 
 Parameters:
   S3BucketName:

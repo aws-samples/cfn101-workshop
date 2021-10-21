@@ -1,6 +1,6 @@
-AWSTemplateFormatVersion: '2010-09-09'
+AWSTemplateFormatVersion: "2010-09-09"
 
-Description: CFN 201 Workshop - Amazon EC2 template.
+Description: CloudFormation workshop - nested stacks - EC2 template.
 
 Metadata:
   AWS::CloudFormation::Interface:
@@ -30,17 +30,9 @@ Parameters:
     Description: 'The ID of the AMI.'
     Default: /aws/service/ami-amazon-linux-latest/amzn2-ami-hvm-x86_64-gp2
 
-  VpcId:
-    Type: AWS::EC2::VPC::Id
-    Description: 'The VPC ID'
+  # 1. Add VpcId and SubnetId parameter from "1. Prepare the security group resource" here
 
-  SubnetId:
-    Type: AWS::EC2::Subnet::Id
-    Description: 'The Subnet ID'
-
-  WebServerInstanceProfile:
-    Type: String
-    Description: 'Instance profile resource ID'
+  # 2. Add WebServerInstanceProfile parameter from "5. Prepare the EC2 template" here
 
 Mappings:
   EnvironmentToInstanceType:
@@ -108,7 +100,7 @@ Resources:
                 [cfn-auto-reloader-hook]
                 triggers=post.update
                 path=Resources.WebServerInstance.Metadata.AWS::CloudFormation::Init
-                action=/opt/aws/bin/cfn-init --stack ${AWS::StackName} -resource WebServerInstance --region ${AWS::Region}
+                action=/opt/aws/bin/cfn-init --stack ${AWS::StackName} --resource WebServerInstance --region ${AWS::Region}
                 runas=root
 
           services:
@@ -159,8 +151,7 @@ Resources:
           FromPort: 80
           ToPort: 80
           CidrIp: 0.0.0.0/0
-      VpcId: !Ref VpcId
-
+      # 2. Add 'VpcId' property from "1. Prepare the security group resource" here
 
   WebServerEIP:
     Type: AWS::EC2::EIP
