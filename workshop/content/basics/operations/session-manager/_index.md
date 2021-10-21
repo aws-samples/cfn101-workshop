@@ -41,8 +41,8 @@ In this Lab, you will learn:
 
 ### Start Lab
 
-1. Go to the `code/30-launching-ec2/` directory.
-1. Open the `03-lab07-SSM-SM.yaml` file.
+1. Go to the `code/workspace` directory.
+1. Open the `session-manager.yaml` file.
 1. Copy the code as you go through the topics below.
 
 #### 1. Install the AWS Systems Manager agent on EC2 instance
@@ -113,7 +113,7 @@ Go to the AWS console and update your stack with a new template.
 1. In **Prepare template**, choose **Replace current template**.
 1. In **Template source**, choose **Upload a template file**.
 1. Click on **Choose file** button and navigate to your workshop directory.
-1. Select the file `04-lab07-SSM-SM.yaml` and click **Next**.
+1. Select the file `session-manager.yaml` and click **Next**.
 1. For **Amazon Machine Image ID** leave the default value in.
 1. For **EnvironmentType** select the different environment than is listed. For example if you have **Dev** selected, choose **Test** and click **Next**.
 {{%notice note %}}
