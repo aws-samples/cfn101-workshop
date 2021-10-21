@@ -43,7 +43,7 @@ The VPC template has been created for you. It is titled `vpc.yaml`. This templat
 ##### 1. Prepare the VPC template
 
 {{% notice note %}}
-All the files referenced in this lab can be found within `code/50-layered-stack`
+All the files referenced in this lab can be found within `code/workspace/layered-stacks`
 {{% /notice %}}
 
 If you look in the file `vpc.yaml` file, you will notice that there are some outputs in the **Outputs** section of the template. You will now add exports to each of these so that we can consume them from other CloudFormation stacks.
@@ -99,7 +99,7 @@ Outputs:
 1. Navigate to CloudFormation in the console and click **Create stack With new resources (standard)**.
 1. In **Prepare template** select **Template is ready**.
 1. In **Template source** select **Upload a template file**.
-1. Choose a file `02-lab11-iam.yaml`.
+1. Choose a file `iam.yaml`.
 1. Enter a **stack name**. For example, `cfn-workshop-iam`.
 1. Click **Next**.
 1. Navigate through the wizard leaving everything default.
@@ -207,7 +207,7 @@ For example, you can not delete the **VPC stack** before you delete **EC2 stack*
 
 1. In the **[CloudFormation console](https://console.aws.amazon.com/cloudformation)**, select the **EC2 stack**, for example `cfn-workshop-ec2`.
 1. In the top right corner, click on **Delete**.
-1. In the pop up window click on **Delete stack**.
+1. In the pop-up window click on **Delete stack**.
 1. Hit the **refresh** button a few times until you see in the status **DELETE_COMPLETE**.
 1. Now you can delete **IAM** and **VPC** stack in any other as there are no more dependencies.
 

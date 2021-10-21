@@ -1,5 +1,6 @@
 AWSTemplateFormatVersion: "2010-09-09"
-Description: CFN 201 Workshop - Amazon VPC template. (uksb-1qfk6uban)
+
+Description: CloudFormation workshop - layered stacks - VPC template (uksb-1q9p31idr).
 
 Parameters:
   AvailabilityZones:
@@ -140,15 +141,12 @@ Resources:
 Outputs:
   VpcId:
     Value: !Ref VPC
-    Export:
-      Name: cfn-workshop-VpcId
+    # 1. Add the code from "1. Prepare the VPC template" here
 
   PublicSubnet1:
     Value: !Ref VPCPublicSubnet1
-    Export:
-      Name: cfn-workshop-PublicSubnet1
+    # 2. Add the code from "1. Prepare the VPC template" here
 
   PublicSubnet2:
     Value: !Ref VPCPublicSubnet2
-    Export:
-      Name: cfn-workshop-PublicSubnet2
+    # 3. Add the code from "1. Prepare the VPC template" here
