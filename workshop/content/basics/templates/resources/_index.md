@@ -21,8 +21,8 @@ By the end of this lab, you will be able to:
 As you read through each section, there are code samples at the end. Copy these into your own template file.
 {{% /notice %}}
 
-1. Go to `code/20-cloudformation-features/` directory.
-1. Open the `01-lab02-Resources.yaml` file.
+1. Go to `code/workspace/` directory.
+1. Open the `resources.yaml` file.
 1. Copy the code as you go through the topics below.
 
 #### Format Version
@@ -30,14 +30,14 @@ The _AWSTemplateFormatVersion_ section identifies the capabilities of the templa
 is _2010-09-09_ and is currently the only valid value.
 
 ```yaml
-AWSTemplateFormatVersion: '2010-09-09'
+AWSTemplateFormatVersion: "2010-09-09"
 ```
 
 #### Description
 The _Description_ section enables you to include comments about your template.
 
 ```yaml
-Description : CFN 101 Workshop - Lab 02 Resources.
+Description: CloudFormation workshop - resources (uksb-1q9p31idr).
 ```
 
 #### Metadata
@@ -55,7 +55,6 @@ Metadata:
           default: 'Amazon EC2 Configuration'
         Parameters:
           - InstanceType
-
     ParameterLabels:
       InstanceType:
         default: 'Type of EC2 Instance'
@@ -114,11 +113,11 @@ The only required property of the EC2 resource type is _ImageId_. Let's find the
 
 {{% notice info %}}
 
-You can find a working solution for the **London Region** in `code/20-cloudformation-features/02-lab02-Resources-Solution.yaml` file.
+You can find a working solution for the **London Region** in `code/solutions/resources.yaml` file.
 
 {{% /notice %}}
 
-Now your EC2 template is ready to be deployed. Go back to AWS console and deploy the stack same way as you did in [Lab 01: Template and Stack](../10-cloudformation-fundamentals/200-lab-01-stack.html).
+Now your EC2 template is ready to be deployed. Go back to AWS console and deploy the stack same way as you did in [Template and Stack](../templates/template-and-stack.html).
 
 {{% notice warning %}}
 To complete this and future labs you will need **Default VPC** in the region you will be deploying CloudFormation templates to. \
@@ -130,7 +129,7 @@ If you have deleted your default VPC, you can create a new one by following the 
 1. In **Prepare template**, choose **Template is ready**.
 1. In **Template source**, choose **Upload a template file**.
 1. Click on **Choose file** button and navigate to your workshop directory.
-1. Select the file `01-lab02-Resources.yaml`.
+1. Select the file `resources.yaml`.
 1. Click **Next**.
 1. Provide a **Stack name**. For example **cfn-workshop-ec2**.
     + The _Stack name_ identifies the stack. Use a name to help you distinguish the purpose of this stack.
