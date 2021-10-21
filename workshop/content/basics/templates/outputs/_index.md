@@ -37,8 +37,8 @@ In this Lab, you will:
 
 ### Start Lab
 
-1. Go to the `code/20-cloudformation-features/` directory.
-2. Open the `07-lab05-Outputs.yaml` file.
+1. Go to the `code/workspace` directory.
+2. Open the `outputs.yaml` file.
 3. Copy the code as you go through the topics below.
 
     To get the _PublicDnsName_ of the instance, you will need to use `Fn::GetAtt` intrinsic function. Let's first check
@@ -66,7 +66,7 @@ In this Lab, you will:
 ### Challenge
 
 In this exercise, you should assign an Elastic IP to your EC2 instance. Then, add an output of the Elastic IP to the
-_Outputs_ section of the template. You should continue using the `07-lab05-Outputs.yaml` template.
+_Outputs_ section of the template. You should continue using the `outputs.yaml` template.
 
 1. Create an `AWS::EC2::EIP` resource and attach it to your existing EC2 instance.
 1. Create a logical ID called `ElasticIP` and add it to the Outputs section of the template.

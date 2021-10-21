@@ -1,33 +1,32 @@
-AWSTemplateFormatVersion: '2010-09-09'
+AWSTemplateFormatVersion: "2010-09-09"
 
-Description: CFN 101 Workshop - Lab 05 Outputs.
+Description: CloudFormation workshop - outputs (uksb-1q9p31idr).
 
 Metadata:
   AWS::CloudFormation::Interface:
     ParameterGroups:
       - Label:
-          default: 'Amazon EC2 Configuration'
+          default: Amazon EC2 Configuration
         Parameters:
           - AmiID
-
     ParameterLabels:
       AmiID:
-        default: 'Amazon Machine Image ID'
+        default: Amazon Machine Image ID
 
 Parameters:
   EnvironmentType:
-    Description: 'Specify the Environment type of the stack.'
+    Description: Specify the Environment type of the stack.
     Type: String
-    Default: Test
     AllowedValues:
       - Dev
       - Test
       - Prod
-    ConstraintDescription: 'Specify either Dev, Test or Prod.'
+    Default: Test
+    ConstraintDescription: Specify either Dev, Test or Prod.
 
   AmiID:
+    Description: The ID of the AMI.
     Type: AWS::EC2::Image::Id
-    Description: 'The ID of the AMI.'
 
 Mappings:
   EnvironmentToInstanceType:
@@ -46,19 +45,19 @@ Resources:
       InstanceType: !FindInMap [EnvironmentToInstanceType, !Ref EnvironmentType, InstanceType]
       Tags:
         - Key: Name
-          Value: !Join [ '-', [ !Ref EnvironmentType, webserver ] ]
+          Value: !Join ['-', [!Ref EnvironmentType, webserver]]
 
   WebServerEIP:
-    Type: 'AWS::EC2::EIP'
+    Type: AWS::EC2::EIP
     Properties:
       Domain: vpc
       InstanceId: !Ref WebServerInstance
 
 Outputs:
   WebServerPublicDNS:
-    Description: 'Public DNS of EC2 instance'
+    Description: Public DNS of EC2 instance
     Value: !GetAtt WebServerInstance.PublicDnsName
 
   WebServerElasticIP:
-    Description: 'Elastic IP assigned to EC2'
+    Description: Elastic IP assigned to EC2
     Value: !Ref WebServerEIP
