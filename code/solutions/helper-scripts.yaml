@@ -1,36 +1,35 @@
-AWSTemplateFormatVersion: '2010-09-09'
+AWSTemplateFormatVersion: "2010-09-09"
 
-Description: CFN 101 Workshop - Lab 09 Helper Scripts. (uksb-1qbkgojmc)
+Description: CloudFormation workshop - helper scripts (uksb-1q9p31idr).
 
 Metadata:
   AWS::CloudFormation::Interface:
     ParameterGroups:
       - Label:
-          default: 'Amazon EC2 Configuration'
+          default: Amazon EC2 Configuration
         Parameters:
           - AmiID
-
     ParameterLabels:
       AmiID:
-        default: 'Amazon Machine Image ID'
+        default: Amazon Machine Image ID
 
 Parameters:
   AvailabilityZone:
     Type: AWS::EC2::AvailabilityZone::Name
 
   EnvironmentType:
-    Description: 'Specify the Environment type of the stack.'
+    Description: Specify the Environment type of the stack.
     Type: String
-    Default: Test
     AllowedValues:
       - Dev
       - Test
       - Prod
-    ConstraintDescription: 'Specify either Dev, Test or Prod.'
+    Default: Test
+    ConstraintDescription: Specify either Dev, Test or Prod.
 
   AmiID:
+    Description: The ID of the AMI.
     Type: AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>
-    Description: 'The ID of the AMI.'
     Default: /aws/service/ami-amazon-linux-latest/amzn2-ami-hvm-x86_64-gp2
 
 Mappings:
@@ -65,6 +64,10 @@ Resources:
         - !Ref SSMIAMRole
 
   WebServerInstance:
+    CreationPolicy:
+      ResourceSignal:
+        Count: 1
+        Timeout: PT10M
     Type: AWS::EC2::Instance
     Metadata:
       AWS::CloudFormation::Init:
@@ -73,7 +76,6 @@ Resources:
             yum:
               httpd: []
               php: []
-
           files:
             /var/www/html/index.php:
               content: |
@@ -81,7 +83,6 @@ Resources:
                 <html>
                 <body>
                   <center>
-
                     <?php
                     # Get the instance ID from meta-data and store it in the $instance_id variable
                     $url = "http://169.254.169.254/latest/meta-data/instance-id";
@@ -93,18 +94,15 @@ Resources:
                     $url = "http://169.254.169.254/latest/meta-data/ami-id";
                     $ami_id = file_get_contents($url);
                     ?>
-
                     <h2>EC2 Instance ID: <?php echo $instance_id ?></h2>
                     <h2>Availability Zone: <?php echo $zone ?></h2>
                     <h2>AMI ID: <?php echo $ami_id ?></h2>
-
                   </center>
                 </body>
                 </html>
               mode: 000644
               owner: apache
               group: apache
-
             /etc/cfn/cfn-hup.conf:
               content: !Sub |
                 [main]
@@ -114,7 +112,6 @@ Resources:
               mode: 000400
               owner: root
               group: root
-
             /etc/cfn/hooks.d/cfn-auto-reloader.conf:
               content: !Sub |
                 [cfn-auto-reloader-hook]
@@ -122,20 +119,17 @@ Resources:
                 path=Resources.WebServerInstance.Metadata.AWS::CloudFormation::Init
                 action=/opt/aws/bin/cfn-init --stack ${AWS::StackName} --resource WebServerInstance --region ${AWS::Region}
                 runas=root
-
           services:
             sysvinit:
               httpd:
                 enabled: true
                 ensureRunning: true
-
               cfn-hup:
                 enabled: true
                 ensureRunning: true
                 files:
                   - /etc/cfn/cfn-hup.conf
                   - /etc/cfn/hooks.d/cfn-auto-reloader.conf
-
     Properties:
       AvailabilityZone: !Ref AvailabilityZone
       IamInstanceProfile: !Ref WebServerInstanceProfile
@@ -145,10 +139,9 @@ Resources:
         - !Ref WebServerSecurityGroup
       Tags:
         - Key: Name
-          Value: !Join [ '-', [ !Ref EnvironmentType, webserver ] ]
-      UserData:
-        Fn::Base64:
-          !Sub |
+          Value: !Join ['-', [!Ref EnvironmentType, webserver]]
+      UserData: !Base64
+        Fn::Sub: |
           #!/bin/bash -xe
           # Update aws-cfn-bootstrap to the latest
           yum install -y aws-cfn-bootstrap
@@ -157,15 +150,10 @@ Resources:
           # Call cfn-signal script to send a signal with exit code
           /opt/aws/bin/cfn-signal --exit-code $? --stack ${AWS::StackName} --resource WebServerInstance --region ${AWS::Region}
 
-    CreationPolicy:
-      ResourceSignal:
-        Count: 1
-        Timeout: PT10M
-
   WebServerSecurityGroup:
     Type: AWS::EC2::SecurityGroup
     Properties:
-      GroupDescription: 'Enable HTTP access via port 80'
+      GroupDescription: Enable HTTP access via port 80
       SecurityGroupIngress:
         - IpProtocol: tcp
           FromPort: 80
@@ -180,13 +168,13 @@ Resources:
 
 Outputs:
   WebServerPublicDNS:
-    Description: 'Public DNS of EC2 instance'
+    Description: Public DNS of EC2 instance
     Value: !GetAtt WebServerInstance.PublicDnsName
 
   WebServerElasticIP:
-    Description: 'Elastic IP assigned to EC2'
+    Description: Elastic IP assigned to EC2
     Value: !Ref WebServerEIP
 
   WebsiteURL:
-    Value: !Sub http://${WebServerEIP}
     Description: Application URL
+    Value: !Sub http://${WebServerEIP}

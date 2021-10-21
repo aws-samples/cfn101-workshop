@@ -1,6 +1,6 @@
-AWSTemplateFormatVersion: '2010-09-09'
+AWSTemplateFormatVersion: "2010-09-09"
 
-Description: CFN 101 Workshop - Lab 09 Helper Scripts. (uksb-1qbkgojmc)
+Description: CloudFormation workshop - helper scripts (uksb-1q9p31idr).
 
 Metadata:
   AWS::CloudFormation::Interface:
@@ -9,7 +9,6 @@ Metadata:
           default: 'Amazon EC2 Configuration'
         Parameters:
           - AmiID
-
     ParameterLabels:
       AmiID:
         default: 'Amazon Machine Image ID'
