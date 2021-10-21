@@ -1,6 +1,6 @@
-AWSTemplateFormatVersion: '2010-09-09'
+AWSTemplateFormatVersion: "2010-09-09"
 
-Description: CFN 101 Workshop - Lab 08 User Data. (uksb-1qbkgojm4)
+Description: CloudFormation workshop - user data (uksb-1q9p31idr).
 
 Metadata:
   AWS::CloudFormation::Interface:
@@ -9,7 +9,6 @@ Metadata:
           default: 'Amazon EC2 Configuration'
         Parameters:
           - AmiID
-
     ParameterLabels:
       AmiID:
         default: 'Amazon Machine Image ID'
@@ -67,57 +66,14 @@ Resources:
       IamInstanceProfile: !Ref WebServerInstanceProfile
       ImageId: !Ref AmiID
       InstanceType: !FindInMap [EnvironmentToInstanceType, !Ref EnvironmentType, InstanceType]
-      SecurityGroupIds:
-        - !Ref WebServerSecurityGroup
+      # Associate the security group with EC2 instance with 'SecurityGroupIds' property.
       Tags:
         - Key: Name
           Value: !Join [ '-', [ !Ref EnvironmentType, webserver ] ]
-      UserData:
-        Fn::Base64: |
-          #!/bin/bash
-          yum update -y
-          yum install -y httpd php
-          systemctl start httpd
-          systemctl enable httpd
-          usermod -a -G apache ec2-user
-          chown -R ec2-user:apache /var/www
-          chmod 2775 /var/www
-          find /var/www -type d -exec chmod 2775 {} \;
-          find /var/www -type f -exec chmod 0664 {} \;
+      # Add the code from '2. Install Apache web server on the instance' step here.
 
-          # PHP script to display Instance ID and Availability Zone
-          cat << 'EOF' > /var/www/html/index.php
-            <!DOCTYPE html>
-            <html>
-            <body>
-              <center>
-
-                <?php
-                # Get the instance ID from meta-data and store it in the $instance_id variable
-                $url = "http://169.254.169.254/latest/meta-data/instance-id";
-                $instance_id = file_get_contents($url);
-                # Get the instance's availability zone from metadata and store it in the $zone variable
-                $url = "http://169.254.169.254/latest/meta-data/placement/availability-zone";
-                $zone = file_get_contents($url);
-                ?>
-
-                <h2>EC2 Instance ID: <?php echo $instance_id ?></h2>
-                <h2>Availability Zone: <?php echo $zone ?></h2>
-
-              </center>
-            </body>
-            </html>
-          EOF
-
-  WebServerSecurityGroup:
-    Type: AWS::EC2::SecurityGroup
-    Properties:
-      GroupDescription: 'Enable HTTP access via port 80'
-      SecurityGroupIngress:
-        - IpProtocol: tcp
-          FromPort: 80
-          ToPort: 80
-          CidrIp: 0.0.0.0/0
+  # Add the code from '1. Create Security Group' step here.
+      # Add 'SecurityGroupIngress' property inside the 'WebServerSecurityGroup' resource here.
 
   WebServerEIP:
     Type: AWS::EC2::EIP
@@ -134,6 +90,4 @@ Outputs:
     Description: 'Elastic IP assigned to EC2'
     Value: !Ref WebServerEIP
 
-  WebsiteURL:
-    Value: !Sub http://${WebServerEIP}
-    Description: Application URL
+  # Add the code from '3. Add the **WebsiteURL** to CloudFormation _Outputs_' step here.
