@@ -29,7 +29,7 @@ By the end of this lab, you will be able to:
 
 ### Start Lab
 
-Have a look at the sample project at `code/60-package-and-deploy/` directory.
+Have a look at the sample project at `code/workspace/package-and-deploy` directory.
 
 The project consists of:
 
@@ -172,7 +172,7 @@ Sometimes a CloudFormation template deployment will fail due to syntax errors in
 [`aws cloudformation validate-template`](https://docs.aws.amazon.com/cli/latest/reference/cloudformation/validate-template.html)
 checks a CloudFormation template to ensure it is valid JSON or YAML. This is useful to speed up development time.
 
-Let's validate our packaged template. From within a `code/60-package-and-deploy` directory run:
+Let's validate our packaged template. From within a `code/workspace/package-and-deploy` directory run:
 
 ```bash
 aws cloudformation validate-template \

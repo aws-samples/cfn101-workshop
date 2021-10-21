@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# From code/60-package-and-deploy directory run ./scripts/invoke-lambda-function.sh
+# From code/package-and-deploy directory run ./scripts/invoke-lambda-function.sh
 
 LAMBDA_FUNCTION_NAME="cfn-workshop-python-function"
 
