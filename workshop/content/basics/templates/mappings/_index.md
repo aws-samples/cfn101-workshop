@@ -41,9 +41,9 @@ In this Lab, you will:
 You will now add a `Mappings` section to your own template.
 
 {{% notice info %}}
-The templates for this lab can be found in `code/20-cloudformation-features`\
-The starting template is `05-lab04-Mapping.yaml` \
-The final template is `06-lab04-Mapping-Solution.yaml`
+The templates for this lab can be found in `code/workspace`\
+The starting template is `/workspace/mappings.yaml` \
+The final template is `/solutions/mappings.yaml`
 {{% /notice %}}
 
 #### 1. Let's start with creating _EnvironmentType_ parameter
@@ -118,7 +118,7 @@ Now that you have added a Mappings section to your template, go to the AWS conso
 1. In **Prepare template**, choose **Replace current template**.
 1. In **Template source**, choose **Upload a template file**.
 1. Click on **Choose file** button and navigate to your workshop directory.
-1. Select the file `05-lab04-Mapping.yaml` and click **Next**.
+1. Select the file `mappings.yaml` and click **Next**.
 1. For **Amazon Machine Image ID** leave the default value in.
 1. For **EnvironmentType** select the environment from drop down list, for example **Test** and click **Next**.
 1. You can leave **Configure stack options** default, click **Next**.
@@ -163,7 +163,7 @@ Mappings:
       InstanceType: t2.small
 ```
 
-See `code/20-cloudformation-features/06-lab04-Mapping-Solution.yaml` for the full solution.
+See `code/solutions/mappings.yaml` for the full solution.
 
 {{% /expand%}}
 
