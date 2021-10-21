@@ -156,12 +156,17 @@ Update WebServerInstance resource in the Resources section of the `ec2.yaml` tem
 ##### 4. Update the security group
 Finally, update the security group resource similarly. Update `WebServerSecurityGroup` resource in the **Resources** section of the `ec2.yaml` template.
 
-```yaml {hl_lines=[10]}
+```yaml {hl_lines=[15]}
 WebServerSecurityGroup:
   Type: AWS::EC2::SecurityGroup
   Properties:
     GroupDescription: 'Enable HTTP access via port 80'
     SecurityGroupIngress:
+      - IpProtocol: tcp
+        FromPort: 80
+        ToPort: 80
+        CidrIp: 0.0.0.0/0
+    SecurityGroupEgress:
       - IpProtocol: tcp
         FromPort: 80
         ToPort: 80

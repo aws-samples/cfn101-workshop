@@ -105,6 +105,11 @@ Resources:
 
   WebServerSecurityGroup:
     Type: AWS::EC2::SecurityGroup
+    Metadata:
+      cfn_nag:
+        rules_to_suppress:
+          - id: F1000
+            reason: This is using default VPC where we dont know VpcId to support egress. Missing egress rule means all traffic is allowed outbound.
     Properties:
       GroupDescription: Enable HTTP access via port 80
       SecurityGroupIngress:

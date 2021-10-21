@@ -64,7 +64,6 @@ Resources:
             yum:
               httpd: []
               php: []
-
           files:
             /var/www/html/index.php:
               content: |
@@ -92,7 +91,6 @@ Resources:
               mode: 000644
               owner: apache
               group: apache
-
             /etc/cfn/cfn-hup.conf:
               content: !Sub |
                 [main]
@@ -102,7 +100,6 @@ Resources:
               mode: 000400
               owner: root
               group: root
-
             /etc/cfn/hooks.d/cfn-auto-reloader.conf:
               content: !Sub |
                 [cfn-auto-reloader-hook]
@@ -110,13 +107,11 @@ Resources:
                 path=Resources.WebServerInstance.Metadata.AWS::CloudFormation::Init
                 action=/opt/aws/bin/cfn-init --stack ${AWS::StackName} -resource WebServerInstance --region ${AWS::Region}
                 runas=root
-
           services:
             sysvinit:
               httpd:
                 enabled: true
                 ensureRunning: true
-
               cfn-hup:
                 enabled: true
                 ensureRunning: true
@@ -143,7 +138,6 @@ Resources:
           /opt/aws/bin/cfn-init -v --stack ${AWS::StackName} --resource WebServerInstance --region ${AWS::Region}
           # Call cfn-signal script to send a signal with exit code
           /opt/aws/bin/cfn-signal --exit-code $? --stack ${AWS::StackName} --resource WebServerInstance --region ${AWS::Region}
-
     CreationPolicy:
       ResourceSignal:
         Count: 1
@@ -158,8 +152,12 @@ Resources:
           FromPort: 80
           ToPort: 80
           CidrIp: 0.0.0.0/0
-      VpcId: !Ref VpcId # <<< import the exported value from the vpc stack
-
+      SecurityGroupEgress:
+        - IpProtocol: tcp
+          FromPort: 80
+          ToPort: 80
+          CidrIp: 0.0.0.0/0
+      VpcId: !ImportValue cfn-workshop-VpcId  # <<< import the exported value from the vpc stack
 
   WebServerEIP:
     Type: AWS::EC2::EIP
