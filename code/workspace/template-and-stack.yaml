@@ -1,1 +1,5 @@
+AWSTemplateFormatVersion: "2010-09-09"
+
+Description: CloudFormation workshop - template and stack (uksb-1q9p31idr).
+
 # Add your code here!
