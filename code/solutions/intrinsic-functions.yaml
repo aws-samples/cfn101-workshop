@@ -1,31 +1,30 @@
-AWSTemplateFormatVersion: '2010-09-09'
+AWSTemplateFormatVersion: "2010-09-09"
 
-Description: CFN 101 Workshop - Lab 03 Intrinsic Functions.
+Description: CloudFormation workshop - intrinsic functions (uksb-1q9p31idr).
 
 Metadata:
   AWS::CloudFormation::Interface:
     ParameterGroups:
       - Label:
-          default: 'Amazon EC2 Configuration'
+          default: Amazon EC2 Configuration
         Parameters:
           - InstanceType
-
     ParameterLabels:
       InstanceType:
-        default: 'Type of EC2 Instance'
+        default: Type of EC2 Instance
 
 Parameters:
   InstanceType:
+    Description: Enter t2.micro or t2.small. Default is t2.micro.
     Type: String
-    Default: t2.micro
     AllowedValues:
       - t2.micro
       - t2.small
-    Description: 'Enter t2.micro or t2.small. Default is t2.micro.'
+    Default: t2.micro
 
   AmiID:
+    Description: The ID of the AMI.
     Type: AWS::EC2::Image::Id
-    Description: 'The ID of the AMI.'
 
 Resources:
   WebServerInstance:
@@ -35,6 +34,6 @@ Resources:
       InstanceType: !Ref InstanceType
       Tags:
         - Key: Name
-          Value: !Join [ '-', [ !Ref InstanceType, webserver ] ]
+          Value: !Join ['-', [!Ref InstanceType, webserver]]
         - Key: InstanceType
           Value: !Sub ${InstanceType}
