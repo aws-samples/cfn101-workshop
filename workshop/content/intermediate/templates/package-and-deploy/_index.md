@@ -38,7 +38,7 @@ The project consists of:
 * Requirements file to install your function dependencies.
 
 ```
-cfn101-workshop/code/60-package-and-deploy$ tree -F .
+cfn101-workshop/code/workspace/package-and-deploy$ tree -F .
 ├── infrastructure.template
 └── lambda/
     ├── lambda_function.py
@@ -93,7 +93,7 @@ aws s3 mb s3://example-bucket-name --region eu-west-1
 Our function depends on an external library [pytz](https://pypi.org/project/pytz/). You need to install it to a local
 directory with [pip](https://pypi.org/project/pip/), so it can be packaged with your function code.
 
-From within a `code/60-package-and-deploy` directory run:
+From within a `code/workspace/package-and-deploy` directory run:
 
 ```
 pip install pytz --target lambda
@@ -103,7 +103,7 @@ You should see the `pytz` package inside the `lambda/` folder.
 
 ##### 3. Run the `package` command
 
-From within a `code/60-package-and-deploy` directory run:
+From within a `code/workspace/package-and-deploy` directory run:
 
 ```shell script
 aws cloudformation package \
@@ -199,7 +199,7 @@ command is used to deploy CloudFormation templates using the CLI.
 
 Let's deploy packaged template.
 
-From within a `code/60-package-and-deploy` directory run:
+From within a `code/workspace/package-and-deploy` directory run:
 
 ```bash
 aws cloudformation deploy \

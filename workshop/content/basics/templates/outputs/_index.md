@@ -25,7 +25,7 @@ Outputs:
 ```
 
 {{% notice note %}}
-You can declare a maximum of 60 outputs in a template.
+For the maximum number of outputs you can declare in your template, see Outputs in [AWS CloudFormation quotas](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/cloudformation-limits.html).
 {{% /notice %}}
 
 ### Topics Covered

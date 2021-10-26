@@ -1,6 +1,6 @@
 AWSTemplateFormatVersion: "2010-09-09"
 
-Description: CloudFormation workshop - nested stacks - EC2 template.
+Description: AWS CloudFormation workshop - Nested stacks - EC2 template.
 
 Metadata:
   AWS::CloudFormation::Interface:
@@ -166,7 +166,7 @@ Outputs:
     Value: !GetAtt WebServerInstance.PublicDnsName
 
   WebServerElasticIP:
-    Description: 'Elastic IP assigned to EC2'
+    Description: Elastic IP associated with the web server EC2 instance
     Value: !Ref WebServerEIP
 
   WebsiteURL:

@@ -1,6 +1,6 @@
 AWSTemplateFormatVersion: "2010-09-09"
 
-Description: CloudFormation workshop - package and deploy (uksb-1q9p31idr).
+Description: AWS CloudFormation workshop - Package and deploy (uksb-1q9p31idr).
 
 Resources:
   LambdaBasicExecutionRole:

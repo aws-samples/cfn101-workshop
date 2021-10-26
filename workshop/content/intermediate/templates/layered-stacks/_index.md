@@ -35,7 +35,7 @@ This diagram represents the high-level overview of the infrastructure that will 
 
 ### Start Lab
 
-You will find the working files in `code/50-layered-stack/01-working-directory`. In the rest of this lab, you should add your code to the templates here. The solution can be found in the `code/50-layered-stack/02-solution` folder. You can reference these against your code.
+You will find the working files in `code/workspace/layered-stacks`. In the rest of this lab, you should add your code to the templates here. The solution can be found in the `code/solutions/layered-stacks` folder. You can reference these against your code.
 
 #### Create VPC Stack
 The VPC template has been created for you. It is titled `vpc.yaml`. This template will create VPC stack with 2 Public Subnets, an Internet Gateway, and Route tables.

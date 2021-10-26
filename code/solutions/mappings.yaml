@@ -1,6 +1,6 @@
 AWSTemplateFormatVersion: "2010-09-09"
 
-Description: CloudFormation workshop - mappings (uksb-1q9p31idr).
+Description: AWS CloudFormation workshop - Mappings (uksb-1q9p31idr).
 
 Metadata:
   AWS::CloudFormation::Interface:

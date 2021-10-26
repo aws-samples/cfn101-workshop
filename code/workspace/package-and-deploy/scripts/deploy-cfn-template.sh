@@ -2,7 +2,7 @@
 
 # From code/package-and-deploy directory run ./scripts/deploy-cfn-template.sh
 
-BUCKET_NAME="cfn-workshop-s3-s3bucket-1wo3wjmf93viq" # sue your own uniquely named S3 bucket
+BUCKET_NAME="cfn-workshop-s3-s3bucket-1wo3wjmf93viq" # use your own uniquely named S3 bucket
 PREFIX_NAME="lambda-function"
 STACK_NAME="cfn-workshop-lambda"
 AWS_REGION="eu-west-1" # use the same region as your S3 bucket

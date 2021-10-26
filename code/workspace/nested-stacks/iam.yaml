@@ -1,6 +1,6 @@
 AWSTemplateFormatVersion: "2010-09-09"
 
-Description: CloudFormation workshop - nested stacks - IAM template.
+Description: AWS CloudFormation workshop - Nested stacks - IAM template.
 
 Resources:
   # Copy the code from "1. Prepare IAM role template" section here

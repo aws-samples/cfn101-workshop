@@ -1,6 +1,6 @@
 AWSTemplateFormatVersion: "2010-09-09"
 
-Description: CloudFormation workshop - nested stacks - VPC template.
+Description: AWS CloudFormation workshop - Nested stacks - VPC template.
 
 Parameters:
   AvailabilityZones:

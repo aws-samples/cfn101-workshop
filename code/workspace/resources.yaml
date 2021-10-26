@@ -1,6 +1,6 @@
 AWSTemplateFormatVersion: "2010-09-09"
 
-Description: CloudFormation workshop - resources (uksb-1q9p31idr).
+Description: AWS CloudFormation workshop - Resources (uksb-1q9p31idr).
 
 # Add Format Version section here.
 

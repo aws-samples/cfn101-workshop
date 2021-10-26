@@ -30,7 +30,7 @@ Intrinsic functions can only be used in certain parts of a template. You can use
 **resource properties, outputs, metadata attributes, and update policy attributes**.
 {{% /notice %}}
 
-#### Fn::Ref
+#### Ref
 
 In the last lab you have "hard coded" an AMI ID directly into the EC2 Resource property. You will now amend this to make
 your template more flexible. Let's convert `AmiID` to variable and pass it to resource property at the runtime.
