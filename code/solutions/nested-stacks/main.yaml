@@ -1,0 +1,86 @@
+AWSTemplateFormatVersion: "2010-09-09"
+
+Description: AWS CloudFormation workshop - Nested stacks - Root template (uksb-1q9p31idr).
+
+Parameters:
+  S3BucketName:
+    Description: S3 bucket name for the Nested Stacks. S3 bucket name can include numbers, lowercase letters, uppercase letters, and hyphens (-). It cannot start or end with a hyphen (-).
+    Type: String
+    AllowedPattern: ^[0-9a-zA-Z]+([0-9a-zA-Z-.]*[0-9a-zA-Z])*$
+    ConstraintDescription: Bucket name can include numbers, lowercase letters, uppercase letters, periods (.), and hyphens (-). It cannot start or end with a hyphen (-).
+
+  AvailabilityZones:
+    Description: The list of Availability Zones to use for the subnets in the VPC.
+    Type: List<AWS::EC2::AvailabilityZone::Name>
+
+  VPCName:
+    Description: The name of the VPC.
+    Type: String
+    Default: cfn-workshop-vpc
+
+  VPCCidr:
+    Description: The CIDR block for the VPC.
+    Type: String
+    Default: 10.0.0.0/16
+    AllowedPattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/([0-9]|[1-2][0-9]|3[0-2]))$
+    ConstraintDescription: CIDR block parameter must be in the form x.x.x.x/16-28
+
+  PublicSubnet1Cidr:
+    Description: The CIDR block for the public subnet located in Availability Zone 1.
+    Type: String
+    Default: 10.0.0.0/24
+    AllowedPattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/([0-9]|[1-2][0-9]|3[0-2]))$
+    ConstraintDescription: CIDR block parameter must be in the form x.x.x.x/16-28
+
+  PublicSubnet2Cidr:
+    Description: The CIDR block for the public subnet located in Availability Zone 2.
+    Type: String
+    Default: 10.0.1.0/24
+    AllowedPattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/([0-9]|[1-2][0-9]|3[0-2]))$
+    ConstraintDescription: CIDR block parameter must be in the form x.x.x.x/16-28
+
+  EnvironmentType:
+    Description: Specify the Environment type of the stack.
+    Type: String
+    AllowedValues:
+      - Dev
+      - Test
+      - Prod
+    Default: Test
+    ConstraintDescription: Specify either Dev, Test or Prod.
+
+Resources:
+  VpcStack:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL: !Sub https://${S3BucketName}.s3.amazonaws.com/vpc.yaml
+      TimeoutInMinutes: 20
+      Parameters:
+        AvailabilityZones: !Join
+          - ','
+          - !Ref AvailabilityZones
+        VPCCidr: !Ref VPCCidr
+        VPCName: !Ref VPCName
+        PublicSubnet1Cidr: !Ref PublicSubnet1Cidr
+        PublicSubnet2Cidr: !Ref PublicSubnet2Cidr
+
+  IamStack:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL: !Sub https://${S3BucketName}.s3.amazonaws.com/iam.yaml
+      TimeoutInMinutes: 10
+
+  EC2Stack:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL: !Sub https://${S3BucketName}.s3.amazonaws.com/ec2.yaml
+      TimeoutInMinutes: 20
+      Parameters:
+        EnvironmentType: !Ref EnvironmentType
+        VpcId: !GetAtt VpcStack.Outputs.VpcId
+        SubnetId: !GetAtt VpcStack.Outputs.PublicSubnet1
+        WebServerInstanceProfile: !GetAtt IamStack.Outputs.WebServerInstanceProfile
+
+Outputs:
+  WebsiteURL:
+    Value: !GetAtt EC2Stack.Outputs.WebsiteURL

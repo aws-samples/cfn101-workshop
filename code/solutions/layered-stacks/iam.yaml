@@ -1,0 +1,31 @@
+AWSTemplateFormatVersion: "2010-09-09"
+
+Description: AWS CloudFormation workshop - Layered stacks - IAM template (uksb-1q9p31idr).
+
+Resources:
+  SSMIAMRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - ec2.amazonaws.com
+            Action:
+              - sts:AssumeRole
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore
+
+  WebServerInstanceProfile:
+    Type: AWS::IAM::InstanceProfile
+    Properties:
+      Path: /
+      Roles:
+        - !Ref SSMIAMRole
+
+Outputs:
+  WebServerInstanceProfile:
+    Value: !Ref WebServerInstanceProfile
+    Export:
+      Name: cfn-workshop-WebServerInstanceProfile

@@ -19,8 +19,8 @@ In this Lab, you will learn:
 
 ### Start Lab
 
-1. Go to the `code/30-launching-ec2` directory.
-1. Open the `01-lab06-SSM.yaml` file.
+1. Go to the `code/workspace` directory.
+1. Open the `multi-region-latest-ami.yaml` file.
 1. Update the `AmiID` parameter to:
 
     ```yaml
@@ -38,7 +38,7 @@ Go to the AWS console and update your stack with a new template.
 1. In **Prepare template**, choose **Replace current template**.
 1. In **Template source**, choose **Upload a template file**.
 1. Click on **Choose file** button and navigate to your workshop directory.
-1. Select the file `01-lab06-SSM.yaml` and click **Next**.
+1. Select the file `multi-region-latest-ami.yaml` and click **Next**.
 1. For **Amazon Machine Image ID** copy and paste in `/aws/service/ami-amazon-linux-latest/amzn2-ami-hvm-x86_64-gp2`
 1. For **EnvironmentType** select the different environment than is listed. For example if you have **Dev** selected, choose **Test** and click **Next**.
 1. You can leave **Configure stack options** default, click **Next**.

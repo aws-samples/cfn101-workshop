@@ -29,8 +29,8 @@ In this lab you will learn:
 
 ### Start Lab
 
-1. Go to the `code/30-launching-ec2/` directory.
-1. Open the `07-lab09-HelperScripts.yaml` file.
+1. Go to the `code/workspace` directory.
+1. Open the `helper-scripts.yaml` file.
 1. Copy the code as you go through the topics below.
 
 #### 1. Configure _Metadata_ section
@@ -57,7 +57,7 @@ that specifies the order in which the config keys should be processed.
 
 {{% notice info %}}
 It is important to preserve indentation as shown in the code samples below. You can cross-reference your template
-against the solution code `code/30-launching-ec2/08-lab09-HelperScripts-Solution.yaml` file.
+against the solution code `code/solutions/helper-scripts.yaml` file.
 {{% /notice %}}
 
 ##### 1. Install HTTPD and PHP packages
@@ -314,7 +314,7 @@ In the example below, you will use `AvailabilityZone` property and parameter to 
 1. In **Prepare template**, choose **Replace current template**.
 1. In **Template source**, choose **Upload a template file**.
 1. Click on **Choose file** button and navigate to your workshop directory.
-1. Select the file `07-lab09-HelperScripts.yaml` and click **Next**.
+1. Select the file `helper-scripts.yaml` and click **Next**.
 1. For **Amazon Machine Image ID** leave the default value in.
 1. For **AvailabilityZone** parameter, select the different availability zone than the one you made a note in a step 3, for example **eu-west-2b**.
         ![az-update](helper-scripts/az-update-1.png)
@@ -363,7 +363,7 @@ Add the code below to html `<h2>` tags:
 1. In **Prepare template**, choose **Replace current template**.
 1. In **Template source**, choose **Upload a template file**.
 1. Click on **Choose file** button and navigate to your workshop directory.
-1. Select the file `07-lab09-HelperScripts.yaml` and click **Next**.
+1. Select the file `helper-scripts.yaml` and click **Next**.
 1. For **Amazon Machine Image ID** leave the default value in.
 1. For **AvailabilityZone** parameter, leave the selected AZ in.
 1. For **EnvironmentType** leave the selected environment in.

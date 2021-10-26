@@ -1,0 +1,93 @@
+AWSTemplateFormatVersion: "2010-09-09"
+
+Description: AWS CloudFormation workshop - User data (uksb-1q9p31idr).
+
+Metadata:
+  AWS::CloudFormation::Interface:
+    ParameterGroups:
+      - Label:
+          default: 'Amazon EC2 Configuration'
+        Parameters:
+          - AmiID
+    ParameterLabels:
+      AmiID:
+        default: 'Amazon Machine Image ID'
+
+Parameters:
+  EnvironmentType:
+    Description: 'Specify the Environment type of the stack.'
+    Type: String
+    Default: Test
+    AllowedValues:
+      - Dev
+      - Test
+      - Prod
+    ConstraintDescription: 'Specify either Dev, Test or Prod.'
+
+  AmiID:
+    Type: AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>
+    Description: 'The ID of the AMI.'
+    Default: /aws/service/ami-amazon-linux-latest/amzn2-ami-hvm-x86_64-gp2
+
+Mappings:
+  EnvironmentToInstanceType:
+    Dev:
+      InstanceType: t2.nano
+    Test:
+      InstanceType: t2.micro
+    Prod:
+      InstanceType: t2.small
+
+Resources:
+  SSMIAMRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - ec2.amazonaws.com
+            Action:
+              - sts:AssumeRole
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore
+
+  WebServerInstanceProfile:
+    Type: AWS::IAM::InstanceProfile
+    Properties:
+      Path: /
+      Roles:
+        - !Ref SSMIAMRole
+
+  WebServerInstance:
+    Type: AWS::EC2::Instance
+    Properties:
+      IamInstanceProfile: !Ref WebServerInstanceProfile
+      ImageId: !Ref AmiID
+      InstanceType: !FindInMap [EnvironmentToInstanceType, !Ref EnvironmentType, InstanceType]
+      # Associate the security group with EC2 instance with 'SecurityGroupIds' property.
+      Tags:
+        - Key: Name
+          Value: !Join [ '-', [ !Ref EnvironmentType, webserver ] ]
+      # Add the code from '2. Install Apache web server on the instance' step here.
+
+  # Add the code from '1. Create Security Group' step here.
+      # Add 'SecurityGroupIngress' property inside the 'WebServerSecurityGroup' resource here.
+
+  WebServerEIP:
+    Type: AWS::EC2::EIP
+    Properties:
+      Domain: vpc
+      InstanceId: !Ref WebServerInstance
+
+Outputs:
+  WebServerPublicDNS:
+    Description: 'Public DNS of EC2 instance'
+    Value: !GetAtt WebServerInstance.PublicDnsName
+
+  WebServerElasticIP:
+    Description: 'Elastic IP assigned to EC2'
+    Value: !Ref WebServerEIP
+
+  # Add the code from '3. Add the **WebsiteURL** to CloudFormation _Outputs_' step here.

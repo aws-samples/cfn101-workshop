@@ -1,0 +1,50 @@
+AWSTemplateFormatVersion: "2010-09-09"
+
+Description: AWS CloudFormation workshop - Outputs (uksb-1q9p31idr).
+
+Metadata:
+  AWS::CloudFormation::Interface:
+    ParameterGroups:
+      - Label:
+          default: Amazon EC2 Configuration
+        Parameters:
+          - AmiID
+    ParameterLabels:
+      AmiID:
+        default: Amazon Machine Image ID
+
+Parameters:
+  EnvironmentType:
+    Description: Specify the Environment type of the stack.
+    Type: String
+    Default: Test
+    AllowedValues:
+      - Dev
+      - Test
+      - Prod
+    ConstraintDescription: Specify either Dev, Test or Prod.
+
+  AmiID:
+    Type: AWS::EC2::Image::Id
+    Description: The ID of the AMI.
+
+Mappings:
+  EnvironmentToInstanceType:
+    Dev:
+      InstanceType: t2.nano
+    Test:
+      InstanceType: t2.micro
+    Prod:
+      InstanceType: t2.small
+
+Resources:
+  WebServerInstance:
+    Type: AWS::EC2::Instance
+    Properties:
+      ImageId: !Ref AmiID
+      InstanceType: !FindInMap [EnvironmentToInstanceType, !Ref EnvironmentType, InstanceType]
+      Tags:
+        - Key: Name
+          Value: !Join [ '-', [ !Ref EnvironmentType, webserver ] ]
+
+  # Add your code here!

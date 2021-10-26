@@ -35,7 +35,7 @@ This diagram represents the high-level overview of the infrastructure that will 
 
 ### Start Lab
 
-You will find the working files in `code/50-layered-stack/01-working-directory`. In the rest of this lab, you should add your code to the templates here. The solution can be found in the `code/50-layered-stack/02-solution` folder. You can reference these against your code.
+You will find the working files in `code/workspace/layered-stacks`. In the rest of this lab, you should add your code to the templates here. The solution can be found in the `code/solutions/layered-stacks` folder. You can reference these against your code.
 
 #### Create VPC Stack
 The VPC template has been created for you. It is titled `vpc.yaml`. This template will create VPC stack with 2 Public Subnets, an Internet Gateway, and Route tables.
@@ -43,7 +43,7 @@ The VPC template has been created for you. It is titled `vpc.yaml`. This templat
 ##### 1. Prepare the VPC template
 
 {{% notice note %}}
-All the files referenced in this lab can be found within `code/50-layered-stack`
+All the files referenced in this lab can be found within `code/workspace/layered-stacks`
 {{% /notice %}}
 
 If you look in the file `vpc.yaml` file, you will notice that there are some outputs in the **Outputs** section of the template. You will now add exports to each of these so that we can consume them from other CloudFormation stacks.
@@ -99,7 +99,7 @@ Outputs:
 1. Navigate to CloudFormation in the console and click **Create stack With new resources (standard)**.
 1. In **Prepare template** select **Template is ready**.
 1. In **Template source** select **Upload a template file**.
-1. Choose a file `02-lab11-iam.yaml`.
+1. Choose a file `iam.yaml`.
 1. Enter a **stack name**. For example, `cfn-workshop-iam`.
 1. Click **Next**.
 1. Navigate through the wizard leaving everything default.
@@ -156,12 +156,17 @@ Update WebServerInstance resource in the Resources section of the `ec2.yaml` tem
 ##### 4. Update the security group
 Finally, update the security group resource similarly. Update `WebServerSecurityGroup` resource in the **Resources** section of the `ec2.yaml` template.
 
-```yaml {hl_lines=[10]}
+```yaml {hl_lines=[15]}
 WebServerSecurityGroup:
   Type: AWS::EC2::SecurityGroup
   Properties:
     GroupDescription: 'Enable HTTP access via port 80'
     SecurityGroupIngress:
+      - IpProtocol: tcp
+        FromPort: 80
+        ToPort: 80
+        CidrIp: 0.0.0.0/0
+    SecurityGroupEgress:
       - IpProtocol: tcp
         FromPort: 80
         ToPort: 80
@@ -207,7 +212,7 @@ For example, you can not delete the **VPC stack** before you delete **EC2 stack*
 
 1. In the **[CloudFormation console](https://console.aws.amazon.com/cloudformation)**, select the **EC2 stack**, for example `cfn-workshop-ec2`.
 1. In the top right corner, click on **Delete**.
-1. In the pop up window click on **Delete stack**.
+1. In the pop-up window click on **Delete stack**.
 1. Hit the **refresh** button a few times until you see in the status **DELETE_COMPLETE**.
 1. Now you can delete **IAM** and **VPC** stack in any other as there are no more dependencies.
 

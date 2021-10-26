@@ -21,8 +21,8 @@ In this Lab, you will:
 
 ### Start Lab
 
-1. Go to the `code/20-cloudformation-features/` directory.
-1. Open the `03-lab03-IntrinsicFunctions.yaml` file.
+1. Go to the `code/workspace` directory.
+1. Open the `intrinsic-functions.yaml` file.
 1. Copy the code as you go through the topics below.
 
 {{% notice note %}}
@@ -30,7 +30,7 @@ Intrinsic functions can only be used in certain parts of a template. You can use
 **resource properties, outputs, metadata attributes, and update policy attributes**.
 {{% /notice %}}
 
-#### Fn::Ref
+#### Ref
 
 In the last lab you have "hard coded" an AMI ID directly into the EC2 Resource property. You will now amend this to make
 your template more flexible. Let's convert `AmiID` to variable and pass it to resource property at the runtime.
@@ -41,7 +41,7 @@ your template more flexible. Let's convert `AmiID` to variable and pass it to re
       AmiID:
         Type: AWS::EC2::Image::Id
         Description: 'The ID of the AMI.'
-   ```
+    ```
 
 1. Use the intrinsic function `Ref` to pass the `AmiID` parameter input to the EC2 resource property.
 
@@ -86,9 +86,9 @@ Now it is time to update your stack. Go to the AWS console and update your Cloud
 1. In **Prepare template**, choose **Replace current template**.
 1. In **Template source**, choose **Upload a template file**.
 1. Click on **Choose file** button and navigate to your workshop directory.
-1. Select the file `03-lab03-IntrinsicFunctions.yaml` and click **Next**.
+1. Select the file `intrinsic-functions.yaml` and click **Next**.
 1. For **Type of EC2 Instance** leave the default value in.
-1. For **Amazon Machine Image ID** copy and paste AMI ID you have hardcoded in `01-lab02-Resources.yaml` file and click **Next**.
+1. For **Amazon Machine Image ID** copy and paste AMI ID you have hardcoded in `resources.yaml` file and click **Next**.
 1. You can leave **Configure stack options** default, click **Next**.
 1. On the **Review <stack_name>** page, scroll down to the bottom and click on **Update stack**.
 1. You can click the **refresh** button a few times until you see in the status **UPDATE_COMPLETE**.

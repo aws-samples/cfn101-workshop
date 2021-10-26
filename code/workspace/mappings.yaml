@@ -1,0 +1,46 @@
+AWSTemplateFormatVersion: "2010-09-09"
+
+Description: AWS CloudFormation workshop - Mappings (uksb-1q9p31idr).
+
+Metadata:
+  AWS::CloudFormation::Interface:
+    ParameterGroups:
+      - Label:
+          default: 'Amazon EC2 Configuration'
+        Parameters:
+          # Remove InstanceType group.
+          - InstanceType
+          - AmiID
+    ParameterLabels:
+      # Remove the InstanceType parameter label.
+      InstanceType:
+        default: 'Type of EC2 Instance'
+      AmiID:
+        default: 'Amazon Machine Image ID'
+
+Parameters:
+  # Replace the InstanceType parameter with EnvironmentType parameter.
+  InstanceType:
+    Type: String
+    Default: t2.micro
+    AllowedValues:
+      - t2.micro
+      - t2.small
+    Description: 'Enter t2.micro or t2.small. Default is t2.micro.'
+
+  AmiID:
+    Type: AWS::EC2::Image::Id
+    Description: 'The ID of the AMI.'
+
+# Add a Mappings section here!
+
+Resources:
+  WebServerInstance:
+    Type: AWS::EC2::Instance
+    Properties:
+      ImageId: !Ref AmiID
+      # Update the 'InstanceType' property with !FindInMap function
+      InstanceType: !Ref InstanceType
+      Tags:
+        - Key: Name
+          Value: !Join [ '-', [ !Ref InstanceType, webserver ] ] # replace the 'InstanceType' with 'EnvironmentType'

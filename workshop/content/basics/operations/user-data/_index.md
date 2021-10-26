@@ -23,8 +23,8 @@ The following diagram provides a high-level overview of the architecture you wil
 
 ### Start Lab
 
-1. Go to the `code/30-launching-ec2/` directory.
-1. Open the `05-lab08-UserData.yaml` file.
+1. Go to the `code/workspace` directory.
+1. Open the `user-data.yaml` file.
 1. Copy the code as you go through the topics below.
 
 #### 1. Create Security Group
@@ -96,14 +96,12 @@ User data scripts are executed as the **root** user, so there is no need to use 
           chmod 2775 /var/www
           find /var/www -type d -exec chmod 2775 {} \;
           find /var/www -type f -exec chmod 0664 {} \;
-
           # PHP script to display Instance ID and Availability Zone
           cat << 'EOF' > /var/www/html/index.php
             <!DOCTYPE html>
             <html>
             <body>
               <center>
-
                 <?php
                 # Get the instance ID from meta-data and store it in the $instance_id variable
                 $url = "http://169.254.169.254/latest/meta-data/instance-id";
@@ -112,10 +110,8 @@ User data scripts are executed as the **root** user, so there is no need to use 
                 $url = "http://169.254.169.254/latest/meta-data/placement/availability-zone";
                 $zone = file_get_contents($url);
                 ?>
-
                 <h2>EC2 Instance ID: <?php echo $instance_id ?></h2>
                 <h2>Availability Zone: <?php echo $zone ?></h2>
-
               </center>
             </body>
             </html>
@@ -143,7 +139,7 @@ you can then check to see that your script has set up a web server on the EC2 in
 1. In **Prepare template**, choose **Replace current template**.
 1. In **Template source**, choose **Upload a template file**.
 1. Click on **Choose file** button and navigate to your workshop directory.
-1. Select the file `05-lab08-UserData.yaml` and click **Next**.
+1. Select the file `user-data.yaml` and click **Next**.
 1. For **Amazon Machine Image ID** leave the default value in.
 1. For **EnvironmentType** leave the selected environment in.
 1. You can leave **Configure stack options** default, click **Next**.

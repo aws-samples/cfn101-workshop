@@ -1,0 +1,69 @@
+AWSTemplateFormatVersion: "2010-09-09"
+
+Description: AWS CloudFormation workshop - Session manager (uksb-1q9p31idr).
+
+Metadata:
+  AWS::CloudFormation::Interface:
+    ParameterGroups:
+      - Label:
+          default: 'Amazon EC2 Configuration'
+        Parameters:
+          - AmiID
+    ParameterLabels:
+      AmiID:
+        default: 'Amazon Machine Image ID'
+
+Parameters:
+  EnvironmentType:
+    Description: 'Specify the Environment type of the stack.'
+    Type: String
+    Default: Test
+    AllowedValues:
+      - Dev
+      - Test
+      - Prod
+    ConstraintDescription: 'Specify either Dev, Test or Prod.'
+
+  AmiID:
+    Type: AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>
+    Description: 'The ID of the AMI.'
+    Default: /aws/service/ami-amazon-linux-latest/amzn2-ami-hvm-x86_64-gp2
+
+Mappings:
+  EnvironmentToInstanceType:
+    Dev:
+      InstanceType: t2.nano
+    Test:
+      InstanceType: t2.micro
+    Prod:
+      InstanceType: t2.small
+
+Resources:
+  # Add the code from '2. Create an IAM role for the EC2 instance' step here.
+
+  # Add the code from '3. Create an IAM Instance Profile' step here.
+
+  WebServerInstance:
+    Type: AWS::EC2::Instance
+    Properties:
+      # Add the code from '4. Attach the IAM Instance Profile to an Amazon EC2 Instance' step here.
+      ImageId: !Ref AmiID
+      InstanceType: !FindInMap [EnvironmentToInstanceType, !Ref EnvironmentType, InstanceType]
+      Tags:
+        - Key: Name
+          Value: !Join [ '-', [ !Ref EnvironmentType, webserver ] ]
+
+  WebServerEIP:
+    Type: AWS::EC2::EIP
+    Properties:
+      Domain: vpc
+      InstanceId: !Ref WebServerInstance
+
+Outputs:
+  WebServerPublicDNS:
+    Description: 'Public DNS of EC2 instance'
+    Value: !GetAtt WebServerInstance.PublicDnsName
+
+  WebServerElasticIP:
+    Description: 'Elastic IP assigned to EC2'
+    Value: !Ref WebServerEIP

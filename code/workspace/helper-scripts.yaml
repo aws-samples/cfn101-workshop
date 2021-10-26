@@ -1,0 +1,129 @@
+AWSTemplateFormatVersion: "2010-09-09"
+
+Description: AWS CloudFormation workshop - Helper scripts (uksb-1q9p31idr).
+
+Metadata:
+  AWS::CloudFormation::Interface:
+    ParameterGroups:
+      - Label:
+          default: 'Amazon EC2 Configuration'
+        Parameters:
+          - AmiID
+    ParameterLabels:
+      AmiID:
+        default: 'Amazon Machine Image ID'
+
+Parameters:
+  # 11. Add AvailabilityZone parameter from '5. Update the stack' section here
+
+  EnvironmentType:
+    Description: 'Specify the Environment type of the stack.'
+    Type: String
+    Default: Test
+    AllowedValues:
+      - Dev
+      - Test
+      - Prod
+    ConstraintDescription: 'Specify either Dev, Test or Prod.'
+
+  AmiID:
+    Type: AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>
+    Description: 'The ID of the AMI.'
+    Default: /aws/service/ami-amazon-linux-latest/amzn2-ami-hvm-x86_64-gp2
+
+Mappings:
+  EnvironmentToInstanceType:
+    Dev:
+      InstanceType: t2.nano
+    Test:
+      InstanceType: t2.micro
+    Prod:
+      InstanceType: t2.small
+
+Resources:
+  SSMIAMRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - ec2.amazonaws.com
+            Action:
+              - sts:AssumeRole
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore
+
+  WebServerInstanceProfile:
+    Type: AWS::IAM::InstanceProfile
+    Properties:
+      Path: /
+      Roles:
+        - !Ref SSMIAMRole
+
+  WebServerInstance:
+    Type: AWS::EC2::Instance
+    Metadata:
+      # 1. Add code from '1. Configure _Metadata_ section' here
+        config:
+          packages:
+            # 2. Add the code from '1. Install HTTPD and PHP packages' section here
+
+          files:
+            # 3. Add the /var/www/html/index.php file from '2. Create index.php file' section here
+
+            # 6. Add the /etc/cfn/cfn-hup.conf file from '3. Configure cfn-hup' section here
+
+            # 7. Add the /etc/cfn/hooks.d/cfn-auto-reloader.conf file from '3. Configure cfn-hup' section here
+
+          services:
+            # 4. Add the code from '3. Enable and start Apache web server' section here
+
+            # 8. Add the code from '3. Configure cfn-hup' section here
+
+    Properties:
+      # 12. Add AvailabilityZone property from '5. Update the stack' section here
+      IamInstanceProfile: !Ref WebServerInstanceProfile
+      ImageId: !Ref AmiID
+      InstanceType: !FindInMap [EnvironmentToInstanceType, !Ref EnvironmentType, InstanceType]
+      SecurityGroupIds:
+        - !Ref WebServerSecurityGroup
+      Tags:
+        - Key: Name
+          Value: !Join [ '-', [ !Ref EnvironmentType, webserver ] ]
+      UserData:
+        # 5. Add the code from '4. Call cfn-init script' here
+
+        # 10. Add the cfn-signal from '4. Configure cfn-signal and CreationPolicy attribute' here
+
+    # 9. Add the Creation policy parameter from '4. Configure cfn-signal and CreationPolicy attribute' here
+
+  WebServerSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: 'Enable HTTP access via port 80'
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 80
+          ToPort: 80
+          CidrIp: 0.0.0.0/0
+
+  WebServerEIP:
+    Type: AWS::EC2::EIP
+    Properties:
+      Domain: vpc
+      InstanceId: !Ref WebServerInstance
+
+Outputs:
+  WebServerPublicDNS:
+    Description: 'Public DNS of EC2 instance'
+    Value: !GetAtt WebServerInstance.PublicDnsName
+
+  WebServerElasticIP:
+    Description: 'Elastic IP assigned to EC2'
+    Value: !Ref WebServerEIP
+
+  WebsiteURL:
+    Value: !Sub http://${WebServerEIP}
+    Description: Application URL

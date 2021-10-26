@@ -1,0 +1,30 @@
+AWSTemplateFormatVersion: "2010-09-09"
+
+Description: AWS CloudFormation workshop - Resources (uksb-1q9p31idr).
+
+Metadata:
+  AWS::CloudFormation::Interface:
+    ParameterGroups:
+      - Label:
+          default: Amazon EC2 Configuration
+        Parameters:
+          - InstanceType
+    ParameterLabels:
+      InstanceType:
+        default: Type of EC2 Instance
+
+Parameters:
+  InstanceType:
+    Description: Enter t2.micro or t2.small. Default is t2.micro.
+    Type: String
+    AllowedValues:
+      - t2.micro
+      - t2.small
+    Default: t2.micro
+
+Resources:
+  WebServerInstance:
+    Type: AWS::EC2::Instance
+    Properties:
+      ImageId: ami-00a1270ce1e007c27 # This ImageId will only work in the London region
+      InstanceType: !Ref InstanceType

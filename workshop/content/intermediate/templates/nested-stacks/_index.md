@@ -37,7 +37,7 @@ In this lab, you will build:
 
 ### Start Lab
 
-1. Go to the `code/40-nested-stacks/01-working directory`
+1. Go to the `code/workspace/nested-stacks`
 1. Copy the code as you go through the topics below.
 
 #### 1. Nested Stack Resource
