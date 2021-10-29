@@ -153,6 +153,8 @@ aws s3 cp s3://example-bucket-name/lambda-function/ce6c47b6c84d94bd207cea18e7d93
 
 We know that `package` will ZIP files, so even there is no `.zip` extension you can still `unzip` it.
 
+
+##### Unix/Linux
 ```shell script
 unzip -l ce6c47b6c84d94bd207cea18e7d93458
 
@@ -163,6 +165,24 @@ Archive:  ce6c47b6c84d94bd207cea18e7d93458
       455  02-12-2020 17:18   lambda_function.py
      4745  02-13-2020 14:36   pytz/tzfile.py
 ...
+```
+
+##### Powershell
+```text
+rename-item 623dbb6f2e8414a3ad536b3f9ddb8aae packagedLambda.zip
+Expand-Archive -LiteralPath packagedLambda.zip -DestinationPath packagedLambda
+ls packagedLambda
+
+    Directory: C:\Users\ethholle\cfn101-workshop\code\workspace\package-and-deploy\tmp
+
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+d-----        10/29/2021   4:25 PM                pytz
+d-----        10/29/2021   4:25 PM                pytz-2021.3.dist-info
+-a----        10/29/2021  11:19 AM            475 lambda_function.py
+-a----        10/29/2021  11:19 AM             14 requirements.txt
+
 ```
 
 ### Validating a template
@@ -233,6 +253,7 @@ The Lambda function will determinate current UTC date and time. Then it will con
 
 From your terminal run:
 
+##### Unix/Linux
 ```shell script
 aws lambda invoke \
 --function-name cfn-workshop-python-function \
@@ -241,12 +262,37 @@ aws lambda invoke \
 response.json
 ```
 
+##### CMD
+```bat
+aws lambda invoke ^
+ --function-name cfn-workshop-python-function ^
+ --payload "{\"time_zone\": \"Europe/London\"}" ^
+ --cli-binary-format raw-in-base64-out ^
+ response.json
+```
+
+##### Powershell
+```powershell
+aws lambda invoke `
+--function-name cfn-workshop-python-function `
+--payload "{\`"time_zone\`": \`"Europe/London\`"}" `
+--cli-binary-format raw-in-base64-out `
+response.json
+```
+
 Lambda will be triggered, and the response form Lambda will be saved in `response.json` file.
 
 You can check the result of the file by running command below:
 
+
+##### Unix/Linux
 ```shell script
 echo "$(<response.json)"
+```
+
+##### CMD/Powershell
+```bat
+more response.json
 ```
 
 You should get a result similar to this:
