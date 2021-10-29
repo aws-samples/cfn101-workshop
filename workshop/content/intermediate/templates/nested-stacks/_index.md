@@ -312,17 +312,25 @@ Before you update your CloudFormation nested stack, there are a couple more thin
 1. Next, locate the `WebServerSecurityGroup` resource.
 1. Add `VpcId` property and reference `VpcId` parameter in the `WebServerSecurityGroup` resource. Your security group resource should look like the code below.
 
-   ```yaml {hl_lines=[10]}
-     WebServerSecurityGroup:
-       Type: AWS::EC2::SecurityGroup
-       Properties:
-         GroupDescription: 'Enable HTTP access via port 80'
-         SecurityGroupIngress:
-           - IpProtocol: tcp
-             FromPort: 80
-             ToPort: 80
-             CidrIp: 0.0.0.0/0
-         VpcId: !Ref VpcId
+   ```yaml {hl_lines=[18]}
+       WebServerSecurityGroup:
+         Type: AWS::EC2::SecurityGroup
+         Properties:
+           GroupDescription: Enable HTTP and HTTPS access
+             - IpProtocol: tcp
+               FromPort: 80
+               ToPort: 80
+               CidrIp: 0.0.0.0/0
+           SecurityGroupEgress:
+             - IpProtocol: tcp
+               FromPort: 80
+               ToPort: 80
+               CidrIp: 0.0.0.0/0
+             - IpProtocol: tcp
+               FromPort: 443
+               ToPort: 443
+               CidrIp: 0.0.0.0/0
+           VpcId: !Ref VpcId
    ```
 
 ##### 2. Prepare the VPC template

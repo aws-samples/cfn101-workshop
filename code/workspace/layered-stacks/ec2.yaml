@@ -35,12 +35,12 @@ Parameters:
     Type: AWS::EC2::VPC::Id
     Description: 'The VPC ID'
 
-  # 2. remove VpcId parameter.
+  # 2. remove SubnetID parameter.
   SubnetId:
     Type: AWS::EC2::Subnet::Id
     Description: 'The Subnet ID'
 
-  # 3. remove VpcId parameter.
+  # 3. remove WebServerInstanceProfile parameter.
   WebServerInstanceProfile:
     Type: String
     Description: 'Instance profile resource ID'
@@ -119,8 +119,8 @@ Resources:
                   - /etc/cfn/cfn-hup.conf
                   - /etc/cfn/hooks.d/cfn-auto-reloader.conf
     Properties:
-      SubnetId: !Ref SubnetId # <<< import the exported value from the vpc stack
-      IamInstanceProfile: !Ref WebServerInstanceProfile # <<< import the exported value from the iam stack
+      SubnetId: # <<< import the PublicSubnet1 exported value from the vpc stack
+      IamInstanceProfile: # <<< import the WebServerInstanceProfile exported value from the iam stack
       ImageId: !Ref AmiID
       InstanceType: !FindInMap [EnvironmentToInstanceType, !Ref EnvironmentType, InstanceType]
       SecurityGroupIds:
@@ -146,7 +146,7 @@ Resources:
   WebServerSecurityGroup:
     Type: AWS::EC2::SecurityGroup
     Properties:
-      GroupDescription: 'Enable HTTP access via port 80'
+      GroupDescription: Enable HTTP and HTTPS access
       SecurityGroupIngress:
         - IpProtocol: tcp
           FromPort: 80
@@ -157,7 +157,11 @@ Resources:
           FromPort: 80
           ToPort: 80
           CidrIp: 0.0.0.0/0
-      VpcId: !ImportValue cfn-workshop-VpcId  # <<< import the exported value from the vpc stack
+        - IpProtocol: tcp
+          FromPort: 443
+          ToPort: 443
+          CidrIp: 0.0.0.0/0
+      VpcId: # <<< import the VpcId exported value from the vpc stack
 
   WebServerEIP:
     Type: AWS::EC2::EIP
