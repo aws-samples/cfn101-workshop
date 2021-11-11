@@ -153,8 +153,7 @@ aws s3 cp s3://example-bucket-name/lambda-function/ce6c47b6c84d94bd207cea18e7d93
 
 We know that `package` will ZIP files, so even there is no `.zip` extension you can still `unzip` it.
 
-{{< tabs >}}
-{{% tab name="Unix/Linux" %}}
+##### Unix/Linux
 ```shell script
 unzip -l ce6c47b6c84d94bd207cea18e7d93458
 
@@ -165,8 +164,7 @@ Archive:  ce6c47b6c84d94bd207cea18e7d93458
       455  02-12-2020 17:18   lambda_function.py
      4745  02-13-2020 14:36   pytz/tzfile.py
 ```
-{{% /tab %}}
-{{% tab name="Powershell" %}}
+##### Powershell
 ```powershell
 rename-item ce6c47b6c84d94bd207cea18e7d93458 packagedLambda.zip
 
@@ -182,8 +180,6 @@ d-----        10/29/2021   4:25 PM                pytz-2021.3.dist-info
 -a----        10/29/2021  11:19 AM            475 lambda_function.py
 -a----        10/29/2021  11:19 AM             14 requirements.txt
 ```
-{{% /tab %}}
-{{< /tabs >}}
 
 ### Validating a template
 
@@ -253,8 +249,7 @@ The Lambda function will determinate current UTC date and time. Then it will con
 
 From your terminal run:
 
-{{< tabs >}}
-{{% tab name="Unix/Linux" %}}
+##### Unix/Linux
 ```shell
 aws lambda invoke \
 --function-name cfn-workshop-python-function \
@@ -262,8 +257,7 @@ aws lambda invoke \
 --cli-binary-format raw-in-base64-out \
 response.json
 ```
-{{% /tab %}}
-{{% tab name="CMD" %}}
+##### CMD
 ```shell
 aws lambda invoke ^
 --function-name cfn-workshop-python-function ^
@@ -271,8 +265,7 @@ aws lambda invoke ^
 --cli-binary-format raw-in-base64-out ^
 response.json
 ```
-{{% /tab %}}
-{{% tab name="Powershell" %}}
+##### Powershell
 ```powershell
 aws lambda invoke `
 --function-name cfn-workshop-python-function `
@@ -280,25 +273,19 @@ aws lambda invoke `
 --cli-binary-format raw-in-base64-out `
 response.json
 ```
-{{% /tab %}}
-{{< /tabs >}}
 
 Lambda will be triggered, and the response form Lambda will be saved in `response.json` file.
 
 You can check the result of the file by running command below:
 
-{{< tabs >}}
-{{% tab name="Unix/Linux" %}}
+##### Unix/Linux
 ```shell script
 echo "$(<response.json)"
 ```
-{{% /tab %}}
-{{% tab name="CMD/Powershell" %}}
+##### CMD/Powershell
 ```powershell
 more response.json
 ```
-{{% /tab %}}
-{{< /tabs >}}
 
 You should get a result similar to this:
 
