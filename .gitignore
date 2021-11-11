@@ -4,3 +4,4 @@ resources/_gen
 .idea
 infrastructure/.env
 .DS_Store
+/workshop/.hugo_build.lock
