@@ -12,7 +12,7 @@ Depending on the level of your experience with CloudFormation and development, t
 
 About 30 minutes to 1 hour.
 
-#### Basic/Templates
+#### Basics/Templates
 
 This part will take approximately 1 hour.
 
@@ -21,6 +21,10 @@ This part will take approximately 1 hour.
 This part will take approximately 1 hour 30 minutes.
 
 #### Intermediate/Templates
+
+This part will take approximately 3 hours.
+
+#### Advanced/Resource Types
 
 This part will take approximately 3 hours.
 
