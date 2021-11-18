@@ -1,7 +1,7 @@
 ---
 title: 'Example in Python'
 date: 2021-11-16T20:55:12Z
-weight: 330
+weight: 320
 ---
 
 ### Overview
@@ -46,7 +46,7 @@ Select a language for code generation:
 [3] python36
 [4] python37
 [5] typescript
-(enter an integer): 
+(enter an integer):
 >>
 ```
 
@@ -92,7 +92,7 @@ Content structure inside the `python/` directory should look familiar, as you've
 
 After you create a resource type stub with the CloudFormation CLI, your next step is define a model schema that describes properties for your resource, as well as permissions needed for CloudFormation to manage resources on your behalf.
 
-Let's start with determining which properties you need, and how to describe them in the schema. Visit the API reference page relevant to the resource type you wish to create; for the `AWSSamples::EC2::ImportKeyPair` resource type example, you want to look for the [Amazon EC2 API reference](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Welcome.html): you can find it by navigating to the [AWS documentation](https://docs.aws.amazon.com/) page, where you choose **Amazon EC2** from **Compute**, and then **API Reference** in the next page. Next, from [Actions](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_Operations.html), locate operations that give you the ability to programmatically perform actions on a key pair: you note `CreateKeyPair`, `DeleteKeyPair`, `DescribeKeyPairs`, and `ImportKeyPair`. Since the first action is relevant to the creation on a key pair and not to its import, you determine it is not needed. You determine you will need the other 3 actions instead. 
+Let's start with determining which properties you need, and how to describe them in the schema. Visit the API reference page relevant to the resource type you wish to create; for the `AWSSamples::EC2::ImportKeyPair` resource type example, you want to look for the [Amazon EC2 API reference](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Welcome.html): you can find it by navigating to the [AWS documentation](https://docs.aws.amazon.com/) page, where you choose **Amazon EC2** from **Compute**, and then **API Reference** in the next page. Next, from [Actions](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_Operations.html), locate operations that give you the ability to programmatically perform actions on a key pair: you note `CreateKeyPair`, `DeleteKeyPair`, `DescribeKeyPairs`, and `ImportKeyPair`. Since the first action is relevant to the creation on a key pair and not to its import, you determine it is not needed. You determine you will need the other 3 actions instead.
 
 Next, let's look at the documentation for [ImportKeyPair](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_ImportKeyPair.html): look into *request parameters* and *response elements* to determine which properties you want to describe in the schema. For request parameters, in this case, you want to specify:
 

@@ -1,7 +1,7 @@
 ---
 title: 'Prerequisites'
 date: 2021-11-16T20:50:53Z
-weight: 320
+weight: 310
 ---
 
 ### Resource Type Development Tools
