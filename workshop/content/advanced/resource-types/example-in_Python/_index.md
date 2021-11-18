@@ -21,51 +21,7 @@ By the end of this lab, you will be able to:
 
 ### Start Lab
 
-In this lab, you will go on a deep dive for the code of an existing, example resource type. Before that, you will learn how to create your first project with the CloudFormation CLI.
-
-
-#### Creating a new project
-
-First, open a command line shell on your machine. Create a new directory called `example-testing` outside of the directory path of an existing source code repository. Enter the directory as in the example shown next, and create a new project using `cfn init`:
-
-```
-mkdir example-testing
-cd example-testing
-cfn init
-```
-
-Choose to specify `r` to develop a new resource, and proceed by pressing Return/Enter. You will be prompted to enter the name of your resource type: specify so by following the `Organization::Service::Resource` pattern; for example, specify `MyOrganization::MyService::MyResource` and choose to continue.
-
-Next, you will be prompted to specify a language to use for code generation, as in the following example output:
-
-```
->> MyOrganization::MyService::MyResource
-Select a language for code generation:
-[1] go
-[2] java
-[3] python36
-[4] python37
-[5] typescript
-(enter an integer):
->>
-```
-
-Choose the line item relevant to Python: in the example above, you choose to specify `4` for `python37`.
-
-On the net question, choose to use Docker, and then continue.
-
-Next, you should get a message notifying you that your project has been initialized in the current directory.
-
-Congratulations! You have created your first stub for your example resource type in Python! Let's take a look at some of the generated stub content:
-
-* `README.md`: main documentation file where you'd want to add information on how to use your resource type;
-* `docs`: directory containing syntax information for properties of your resource type;
-* `example_inputs`: directory containing files with property key/value data you will specify for use with contract tests. *As such files are also added to source code control, do not add sensitive information to such files*;
-* `myorganization-myservice-myresource.json`: this file, named after your resource type name choice above, contains the schema for the resource: **this file is where you describe the model for your resource**;
-* `src`: contains a directory named after your resource type name, inside of which you should find the `models.py` file, that you manage with the CloudFormation CLI when you make schema changes, and the `handlers.py` file, that is where you will start adding your code for the CRUDL implementation logic. Open the `src/handlers.py` file with a text editor of your choice, and **familiarize with the handlers' structure** described in `create_handler`, `update_handler`, `delete_handler`, `read_handler`, `list_handler` functions;
-* `resource-role.yaml`: file created by the CloudFormation CLI, that describes an [AWS Identity and Access Management](https://aws.amazon.com/iam/) (IAM) role whose `PolicyDocument` contains permissions you indicate in the schema for your handlers in the `handlers` section.  CloudFormation assumes this role to manage resources on your behalf as part of CRUDL operations;
-* `template.yml`: [AWS Serverless Application Model](https://aws.amazon.com/serverless/sam/) (SAM) template used as part of resource type testing.
-
+In this lab, you will go on a deep dive for the code of an existing, example resource type: you will explore steps and a number of considerations to make when modeling and implementing a resource type. For information on how to get started with the CloudFormation CLI to create a new project, see [Walkthrough: Develop a resource type](https://docs.aws.amazon.com/cloudformation-cli/latest/userguide/resource-type-walkthrough.html).
 
 
 #### Example resource type walkthrough
@@ -85,14 +41,26 @@ cd aws-cloudformation-samples/resource-types/awssamples-ec2-importkeypair/
 cd python/
 ```
 
-Content structure inside the `python/` directory should look familiar, as you've seen it previously on this lab. The schema for the resource type, in this case, is located in the `awssamples-ec2-importkeypair.json` file. In the next section, you will explore aspects of the thought process of *implementing a resource type by starting from the model*, and you will compare such steps with the example code you just chose to clone or download on your machine.
+Let's take a look at a number of elements in the directory structure inside of the `python/` directory:
+
+* `README.md`: main documentation file where you'd typically want to add information on how to use a resource type you develop;
+* `docs`: directory containing auto-generated syntax information for properties of the resource type. Every time you make changes to the resource schema file, you want to refresh auto-generated code - that includes files in the `docs/` directory - with the `cfn generate` CloudFormation CLI command;
+* `inputs`: directory containing files with key/value data for resource type input properties. The resource type creator specifies this input information for use with contract tests: *do not add sensitive information to those files*. For more information, see [Specifying input data for use in contract tests](https://docs.aws.amazon.com/cloudformation-cli/latest/userguide/resource-type-test.html#resource-type-test-input-data);
+* `awssamples-ec2-importkeypair.json`: this file, named after the resource type name choice, contains the schema for the resource. When you develop a resource type, you use this file to **describe the model for the resource**;
+* `src`: contains a directory named after the resource type name, inside of which you should find:
+  - the `models.py` file, that is managed by the CloudFormation CLI on your behalf when you make schema changes, and
+  - the `handlers.py` file, that is where the resource type developer adds code for the CRUDL implementation logic. Open the `src/handlers.py` file with a text editor of your choice, and **familiarize with the handlers' structure** described in `create_handler`, `update_handler`, `delete_handler`, `read_handler`, `list_handler` functions;
+* `resource-role.yaml`: file managed by the CloudFormation CLI, that describes an [AWS Identity and Access Management](https://aws.amazon.com/iam/) (IAM) role whose `PolicyDocument` contains permissions the resource type developer indicates in the `handlers` section of the schema file.  CloudFormation assumes this role to manage resources on behalf of the user as part of CRUDL operations;
+* `template.yml`: [AWS Serverless Application Model](https://aws.amazon.com/serverless/sam/) (SAM) template used as part of resource type testing.
+
+In the next section, you will explore aspects of the thought process of *implementing a resource type by starting from the model*, and you will compare such steps with example code content you just chose to clone or download on your machine.
 
 
 #### Resource modeling
 
-After you create a resource type stub with the CloudFormation CLI, your next step is define a model schema that describes properties for your resource, as well as permissions needed for CloudFormation to manage resources on your behalf.
+The first step in creating a resource type is to define a schema that describes properties for your resource, as well as permissions needed for CloudFormation to manage the resource on your behalf.
 
-Let's start with determining which properties you need, and how to describe them in the schema. Visit the API reference page relevant to the resource type you wish to create; for the `AWSSamples::EC2::ImportKeyPair` resource type example, you want to look for the [Amazon EC2 API reference](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Welcome.html): you can find it by navigating to the [AWS documentation](https://docs.aws.amazon.com/) page, where you choose **Amazon EC2** from **Compute**, and then **API Reference** in the next page. Next, from [Actions](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_Operations.html), locate operations that give you the ability to programmatically perform actions on a key pair: you note `CreateKeyPair`, `DeleteKeyPair`, `DescribeKeyPairs`, and `ImportKeyPair`. Since the first action is relevant to the creation on a key pair and not to its import, you determine it is not needed. You determine you will need the other 3 actions instead.
+Let's start with determining which properties are needed in the example resource type you are using for this walkthrough. Visit the API reference page relevant to the resource type you wish to create; for the `AWSSamples::EC2::ImportKeyPair` resource type example, you want to look for the [Amazon EC2 API reference](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Welcome.html): you can find it by navigating to the [AWS documentation](https://docs.aws.amazon.com/) page, where you choose **Amazon EC2** from **Compute**, and then **API Reference** in the next page. Next, from [Actions](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_Operations.html), locate operations that give you the ability to programmatically perform actions on a key pair: you note `CreateKeyPair`, `DeleteKeyPair`, `DescribeKeyPairs`, and `ImportKeyPair`. Since the first action is relevant to the creation on a key pair and not to its import, it is not needed. You will need the other 3 actions instead.
 
 Next, let's look at the documentation for [ImportKeyPair](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_ImportKeyPair.html): look into *request parameters* and *response elements* to determine which properties you want to describe in the schema. For request parameters, in this case, you want to specify:
 
@@ -124,7 +92,7 @@ For more information on how to create a schema and on schema elements, see [Reso
 The `awssamples-ec2-importkeypair.json` example schema file also contains a number of [AWS Identity and Access Management](https://aws.amazon.com/iam/) (IAM) permissions that handlers will need to manage the resource type on your behalf. When you look into the `handlers` section on the example schema file, you'll find a number of self-descriptive, EC2-related permissions. For more information on permissions from which you can choose when you create your resource type, see [Actions, resources, and condition keys for AWS services](https://docs.aws.amazon.com/service-authorization/latest/reference/reference_policies_actions-resources-contextkeys.html): on that page, choose the AWS service you need - in this case, [Amazon EC2](https://docs.aws.amazon.com/service-authorization/latest/reference/list_amazonec2.html) - and then choose [Actions defined by Amazon EC2](https://docs.aws.amazon.com/service-authorization/latest/reference/list_amazonec2.html#amazonec2-actions-as-permissions).
 
 {{% notice note %}}
-After you make changes to the schema file, run `cfn generate` from the command line from inside the root directory of your resource type project, so to reflect changes into project files such as `docs/*`, `resource-role.yaml`, and `src/[RESOURCE_TYPE_NAME]/models.py`.
+When you make changes to the schema file for the resource you develop, run the `cfn generate` CloudFormation CLI command from inside the root directory of your resource type project to reflect schema changes into project files such as `docs/*`, `resource-role.yaml`, and `src/[RESOURCE_TYPE_NAME]/models.py`.
 {{% /notice %}}
 
 
@@ -142,7 +110,7 @@ In the previous section, you have followed along an example process of how to st
         * depending on the error you get from the underlying API (for the import key pair example, for a given error from [Error codes for the Amazon EC2 API](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/errors-overview.html)), you want to map it to a given error from [Handler error codes](https://docs.aws.amazon.com/cloudformation-cli/latest/userguide/resource-type-test-contract-errors.html). For example, if an EC2 API returns an `InvalidKeyPair.NotFound` client error you want to return a `HandlerErrorCode.NotFound` handler error with a `ProgressEvent`;
         * if your resource type will require time to stabilize (for example, reaching to a state where the resource is fully available), use a stabilization mechanism on *create*, *update*, and *delete* handlers: you return a `ProgressEvent` with an `OperationStatus.IN_PROGRESS` the first time a handler is called, and for subsequent calls of that handler until your desired state is reached, you drive next steps by checking on the progress status by calling the *read* handler (where, for example, you check for a specific property value to determine creation complete or in progress).
 
-You can see examples of topics described above in the `src/awssamples_ec2_importkeypair/handlers.py` sample resource type: each handler makes calls to given EC2 API(s), for which there is a relevant set of permissions set in the schema as we have seen earlier. The example resource type leverages exception handling mechanism described above, whereas a downstream API error message is captured and returned along with a handler error code mapped to a given EC2 API. Even if, for the key pair import use case, a stabilization process is not necessarily needed, the sample resource type illustrates an example of a callback mechanism used in *create*, *update*, and *delete* handlers.
+You can see examples of topics described above in the `src/awssamples_ec2_importkeypair/handlers.py` sample resource type: each handler makes calls to given EC2 API(s), for which there is a relevant set of permissions set in the schema as you have seen earlier. The example resource type leverages exception handling mechanism described above, whereas a downstream API error message is captured and returned along with a handler error code mapped to a given EC2 API. Even if, for the key pair import use case, a stabilization process is not necessarily needed, the sample resource type illustrates an example of a callback mechanism used in *create*, *update*, and *delete* handlers.
 
 
 #### Running unit tests
