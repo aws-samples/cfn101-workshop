@@ -40,4 +40,4 @@ jobs:
     - name: CloudFormation lint test
       run: cfn-lint code/solutions/*.yaml
     - name: CloudFormation nag test
-      run: cfn_nag_scan --input-path code/solutions
+      run: cfn_nag_scan --input-path code/solutions --ignore-fatal
