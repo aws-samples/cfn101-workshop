@@ -106,7 +106,7 @@ In the previous section, you have followed along an example process of how to st
     * every handler must always return a `ProgressEvent`. For more information on its structure, see [ProgressEvent object schema](https://docs.aws.amazon.com/cloudformation-cli/latest/userguide/resource-type-test-progressevent.html);
     * if there are no errors, return a `ProgressEvent` object with `status=OperationStatus.SUCCESS` from a given handler; additionally, if the handler is not *delete* or *list*, return a `ResourceModel` object (the model for the resource) with the data you gather with your handler code (from an API call) for the resource. For the *list* handler, instead of a single model, return a list of models for each of your resources of the type you're describing;
     * if the API you call returns an error, or if there is another exception being thrown, return a `ProgressEvent` object with `status=OperationStatus.FAILED`. Considerations to make when you do so include:
-        * capture the stacktrace, and the specific error message text from a given exception (`botocore.exceptions.ClientError`, other exceptions, ....). This way, you can show your stacktrace in log statements you write in your handler's code, and return the error message description with a `ProgressEvent` object, so that this information can be made available as part of CloudFormation events (e.g., in the Events pane in the CloudFormation console) to describe to the user the cause of the error;
+        * capture the stacktrace, and the specific error message text from a given exception (`botocore.exceptions.ClientError`, other exceptions, ...). This way, you can show your stacktrace in log statements you write in your handler's code, and return the error message description with a `ProgressEvent` object, so that this information can be made available as part of CloudFormation events (e.g., in the Events pane in the CloudFormation console) to describe to the user the cause of the error;
         * depending on the error you get from the underlying API (for the import key pair example, for a given error from [Error codes for the Amazon EC2 API](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/errors-overview.html)), you want to map it to a given error from [Handler error codes](https://docs.aws.amazon.com/cloudformation-cli/latest/userguide/resource-type-test-contract-errors.html). For example, if an EC2 API returns an `InvalidKeyPair.NotFound` client error you want to return a `HandlerErrorCode.NotFound` handler error with a `ProgressEvent`;
         * if your resource type will require time to stabilize (for example, reaching to a state where the resource is fully available), use a stabilization mechanism on *create*, *update*, and *delete* handlers: you return a `ProgressEvent` with an `OperationStatus.IN_PROGRESS` the first time a handler is called, and for subsequent calls of that handler until your desired state is reached, you drive next steps by checking on the progress status by calling the *read* handler (where, for example, you check for a specific property value to determine creation complete or in progress).
 
@@ -228,7 +228,7 @@ Create a `sam-tests/example-read.json` file to test the *read* handler of the `A
 {{%expand "Need a hint?" %}}
 * Use the [uuid](https://docs.python.org/3/library/uuid.html) module in Python to generate a `UUID4` value to pass to `clientRequestToken`;
 * from the [Read handlers](https://docs.aws.amazon.com/cloudformation-cli/latest/userguide/resource-type-test-contract.html#resource-type-test-contract-read) section in the Resource type handler contract documentation [page](https://docs.aws.amazon.com/cloudformation-cli/latest/userguide/resource-type-test-contract.html), read content in *Input assumptions* to determine which key and value to pass, as an input, underneath the `desiredResourceState` key in the JSON structure;
-* use an example value for the logical identifier of the resource, such as `my-example-resource`.
+* use an example value for the logical identifier of the resource, such as `MyExampleResource`.
 {{% /expand %}}
 
 
@@ -258,7 +258,7 @@ UUID('OUTPUT EDITED: THIS WILL CONTAIN A UUID4 VALUE')
     "desiredResourceState": {
       "KeyPairId": "REPLACE_WITH_THE_KEYPAIR_ID"
     },
-    "logicalResourceIdentifier": "my-example-resource"
+    "logicalResourceIdentifier": "MyExampleResource"
   },
     "callbackContext": {}
 }
