@@ -1,0 +1,23 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Transform: AWS::Serverless-2016-10-31
+Description: AWS SAM template for the CfnWorkshop::EC2::KeyPair resource type
+
+Globals:
+  Function:
+    Timeout: 180  # docker start-up times can be long for SAM CLI
+    MemorySize: 256
+
+Resources:
+  TypeFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: cfnworkshop_ec2_keypair.handlers.resource
+      Runtime: python3.7
+      CodeUri: build/
+
+  TestEntrypoint:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: cfnworkshop_ec2_keypair.handlers.test_entrypoint
+      Runtime: python3.7
+      CodeUri: build/

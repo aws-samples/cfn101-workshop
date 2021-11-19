@@ -1,0 +1,18 @@
+{
+    "artifact_type": "RESOURCE",
+    "typeName": "CfnWorkshop::EC2::KeyPair",
+    "language": "python37",
+    "runtime": "python3.7",
+    "entrypoint": "cfnworkshop_ec2_keypair.handlers.resource",
+    "testEntrypoint": "cfnworkshop_ec2_keypair.handlers.test_entrypoint",
+    "settings": {
+        "version": false,
+        "subparser_name": "init",
+        "verbose": 0,
+        "force": false,
+        "type_name": null,
+        "artifact_type": null,
+        "use_docker": true,
+        "protocolVersion": "2.0.0"
+    }
+}

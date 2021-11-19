@@ -1,0 +1,68 @@
+{
+    "typeName": "CfnWorkshop::EC2::KeyPair",
+    "description": "Provides an EC2 key pair resource. A key pair is used to control login access to EC2 instances. This resource requires an existing user-supplied key pair.",
+    "sourceUrl": "https://github.com/aws-samples/cfn101-workshop",
+    "properties": {
+        "KeyName": {
+            "description": "The name for the key pair.",
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9_-]+$",
+            "minLength": 1,
+            "maxLength": 255
+        },
+        "PublicKey": {
+            "description": "The public key material.",
+            "type": "string"
+        },
+        "Fingerprint": {
+            "description": "The MD5 public key fingerprint as specified in section 4 of RFC 4716.",
+            "type": "string"
+        }
+    },
+    "required": [
+        "KeyName",
+        "PublicKey"
+    ],
+    "additionalIdentifiers": [
+        [
+            "/properties/Fingerprint"
+        ]
+    ],
+    "readOnlyProperties": [
+        "/properties/Fingerprint"
+    ],
+    "writeOnlyProperties": [
+        "/properties/PublicKey"
+    ],
+    "createOnlyProperties": [
+        "/properties/PublicKey",
+        "/properties/KeyName"
+    ],
+    "primaryIdentifier": [
+        "/properties/KeyName"
+    ],
+    "additionalProperties": false,
+    "handlers": {
+        "create": {
+            "permissions": [
+                "ec2:ImportKeyPair"
+            ]
+        },
+        "read": {
+            "permissions": [
+                "ec2:DescribeKeyPairs"
+            ]
+        },
+        "delete": {
+            "permissions": [
+                "ec2:DeleteKeyPair",
+                "ec2:DescribeKeyPairs"
+            ]
+        },
+        "list": {
+            "permissions": [
+                "ec2:DescribeKeyPairs"
+            ]
+        }
+    }
+}
