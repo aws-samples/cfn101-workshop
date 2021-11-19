@@ -26,6 +26,7 @@ cd code/workspace
 mkdir resource-types
 cd resource-types
 
+
 # initialize new resource types project
 cfn init
 ```
@@ -208,8 +209,8 @@ As part of software development best practices, you want to write *unit tests* t
 
 Let's run unit tests! Make sure you are in the directory that is at the root level of the `AWSSamples::EC2::ImportKeyPair` example resource type (i.e., inside the `python` directory), and that you have followed prerequisites in the previous topic. Next, choose to run unit tests as follows:
 
-```
-pytest --cov src --cov-report term-missing
+```shell
+$ pytest --cov src --cov-report term-missing
 ```
 
 You should get an output indicating unit tests results, along with a total coverage percentage value. Unit tests in the example resource type leverage a `.coveragerc` file at the root of the project that contains [configuration](https://coverage.readthedocs.io/en/latest/config.html) choices that include a required test coverage value.
@@ -233,8 +234,8 @@ Contract tests will make real API calls. Make sure your configuration is set up 
 
 First, let's generate an SSH key pair you will use for testing. Open a new terminal console in your machine, and choose an existing or new directory outside the `AWSSamples::EC2::ImportKeyPair` project directory path. When ready, change directory in to the one you chose or created, and create the SSH key pair with the `ssh-keygen` command:
 
-```
-ssh-keygen -t rsa -C "Example key pair for testing" -f example-key-pair-for-testing
+```shell
+$ ssh-keygen -t rsa -C "Example key pair for testing" -f example-key-pair-for-testing
 ```
 
 Follow prompts and complete the creation of the key pair. You should now have, in the directory you chose, 2 files: `example-key-pair-for-testing` and `example-key-pair-for-testing.pub`. The former is the private key; the latter the public key portion, which is the one you will use in following steps where, when needed, you will need to provide its content by opening the public key file, copying its content in the clipboard and pasting it in the command line.
@@ -243,8 +244,8 @@ Next, create a CloudFormation stack that will create, for reference, an [AWS Sys
 
 When ready, switch back to the terminal where you cloned or downloaded the example resource type, and make sure you are in the `aws-cloudformation-samples/resource-types/awssamples-ec2-importkeypair/python/` directory. With the next command, you will choose to create a new stack using the `examples/example-template-contract-tests-input.yaml` example template file: the template requires you to specify the `KeyPairPublicKey` input parameter, for which you will need to specify the content as mentioned earlier. The template also requires `OrganizationName` and `OrganizationBusinessUnitName`, that are set with example default values, `ExampleOrganization` and `ExampleBusinessUnit` respectively, and that will be used if you do not choose to provide values for them. Choose to create the stack as shown next, with a placeholder for the public key file content, where you will need to copy and paste the content of the public key file (the example uses `us-east-1` for the AWS region, change this value as needed):
 
-```
-aws cloudformation create-stack \
+```shell
+$ aws cloudformation create-stack \
   --region us-east-1 \
   --stack-name example-for-key-pair-contract-tests \
   --template-body file://examples/example-template-contract-tests-input.yaml \
@@ -253,8 +254,8 @@ aws cloudformation create-stack \
 
 Wait until the `example-for-key-pair-contract-tests` stack is created, by using the CloudFormation console or the [stack-create-complete](https://docs.aws.amazon.com/cli/latest/reference/cloudformation/wait/stack-create-complete.html) wait command of the AWS CLI (the example uses `us-east-1` for the AWS region):
 
-```
-aws cloudformation wait stack-create-complete \
+```shell
+$ aws cloudformation wait stack-create-complete \
   --region us-east-1 \
   --stack-name example-for-key-pair-contract-tests
 ```
@@ -273,16 +274,16 @@ At the end of this process, you should see output indicating contract tests resu
 
 Let's use the CloudFormation CLI to submit the resource to the registry in your CloudFormation account (the example uses `us-east-1` for the AWS region):
 
-```
-cfn generate && cfn submit --set-default --region us-east-1
+```shell
+$ cfn generate && cfn submit --set-default --region us-east-1
 ```
 
 Wait until the registration finishes, after which you should have the `AWSSamples::EC2::ImportKeyPair` example resource type registered as a private extension in your account. To verify, choose *Activated extensions* in the CloudFormation console, and then choose *Privately registered*.
 
 Now, let's test the example resource type with an example template, that is already available as `examples/example-template-import-keypair.yaml` in the repository you cloned or downloaded: if you open the file with a text editor of your choice, you will see how the example resource type is referenced in the `Resources` section. For `KeyPairPublicKey`, choose to specify the same public key content you used for contract tests. The template also uses default values for `KeyPairName`, `OrganizationName`, and `OrganizationBusinessUnitName`, that will be used unless you specify your own. Choose to create the stack (the example uses `us-east-1` for the AWS region):
 
-```
-aws cloudformation create-stack \
+```shell
+$ aws cloudformation create-stack \
   --region us-east-1 \
   --stack-name example-key-pair-stack \
   --template-body file://examples/example-template-import-keypair.yaml \
@@ -291,8 +292,8 @@ aws cloudformation create-stack \
 
 Wait until the stack creation finishes, after which you should have imported successfully the example key pair using CloudFormation and the sample `AWSSamples::EC2::ImportKeyPair` resource type (the example uses `us-east-1` for the AWS region):
 
-```
-aws cloudformation wait stack-create-complete \
+```shell
+$ aws cloudformation wait stack-create-complete \
   --region us-east-1 \
   --stack-name example-key-pair-stack
 ```
@@ -359,24 +360,24 @@ UUID('OUTPUT EDITED: THIS WILL CONTAIN A UUID4 VALUE')
 
 Steps to clean up resources you created follow next (assuming `us-east-1` as the AWS region you chose):
 
-```
-aws cloudformation delete-stack \
+```shell
+$ aws cloudformation delete-stack \
   --region us-east-1 \
   --stack-name example-key-pair-stack
 
-aws cloudformation wait stack-delete-complete \
+$ aws cloudformation wait stack-delete-complete \
   --region us-east-1 \
   --stack-name example-key-pair-stack
 
-aws cloudformation delete-stack \
+$ aws cloudformation delete-stack \
   --region us-east-1 \
   --stack-name example-for-key-pair-contract-tests
 
-aws cloudformation wait stack-delete-complete \
+$ aws cloudformation wait stack-delete-complete \
   --region us-east-1 \
   --stack-name example-for-key-pair-contract-tests
 
-aws cloudformation deregister-type \
+$ aws cloudformation deregister-type \
   --region us-east-1 \
   --type-name AWSSamples::EC2::ImportKeyPair \
   --type RESOURCE
