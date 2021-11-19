@@ -17,7 +17,7 @@ Before proceeding to the next section, choose to install the following prerequis
 
   Use `pip` to install the CloudFormation CLI and Python plugin:
   ```shell
-  $ pip install cloudformation-cli cloudformation-cli-python-plugin
+  $ pip install cloudformation-cli cloudformation-cli-java-plugin cloudformation-cli-go-plugin cloudformation-cli-python-plugin cloudformation-cli-typescript-plugin
   ```
 
 {{% notice note %}}
