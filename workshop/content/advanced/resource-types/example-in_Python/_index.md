@@ -6,7 +6,7 @@ weight: 320
 
 ### Overview
 
-In this module, you will follow steps to register an existing, example private extension written in Python with the AWS CloudFormation registry in your AWS account. You will also navigate through the example source code implementation for the resource type to understand key concepts of the resource type development workflow.
+In this module, you will follow steps to register a sample private extension, written in Python, with the AWS CloudFormation registry in your AWS account. You will also navigate through the example source code implementation for the resource type to understand key concepts of the resource type development workflow.
 
 
 ### Topics Covered
@@ -21,20 +21,20 @@ By the end of this lab, you will be able to:
 
 ### Start Lab
 
-In this lab, you will go on a deep dive for the code of an existing, example resource type: you will explore steps and a number of considerations to make when modeling and implementing a resource type. For information on how to get started with the CloudFormation CLI to create a new project, see [Walkthrough: Develop a resource type](https://docs.aws.amazon.com/cloudformation-cli/latest/userguide/resource-type-walkthrough.html).
+In this lab, you will go on a deep dive for the code of a sample resource type: you will explore steps and a number of considerations to make when modeling and implementing a resource type. For information on how to get started with the CloudFormation CLI to create a new project, see [Walkthrough: Develop a resource type](https://docs.aws.amazon.com/cloudformation-cli/latest/userguide/resource-type-walkthrough.html).
 
 
-#### Example resource type walkthrough
+#### Sample resource type walkthrough
 
-Let's dive deeper into key considerations you should make when you design the model schema of your resource type. As an example, you will use an existing, sample resource type called [AWSSamples::EC2::ImportKeyPair](https://github.com/aws-cloudformation/aws-cloudformation-samples/tree/main/resource-types/awssamples-ec2-importkeypair/python), that illustrates an example of importing and managing an imported [Amazon EC2](https://aws.amazon.com/ec2/) key pair with CloudFormation.
+Let's dive deeper into key considerations you should make when you design the model schema of your resource type. As an example, you will use a sample resource type called [AWSSamples::EC2::ImportKeyPair](https://github.com/aws-cloudformation/aws-cloudformation-samples/tree/main/resource-types/awssamples-ec2-importkeypair/python), that illustrates an example of importing and managing an imported [Amazon EC2](https://aws.amazon.com/ec2/) key pair with CloudFormation.
 
-Let's get started! Choose an existing or new directory on your machine, that is outside of the directory path of an existing source code repository. Change directory into the directory you chose, and choose to clone the [repository](https://github.com/aws-cloudformation/aws-cloudformation-samples) where the example resource type is located. Alternatively, you can choose to [download a ZIP archive](https://github.com/aws-cloudformation/aws-cloudformation-samples/archive/refs/heads/main.zip) instead. To clone the repository, use the following command:
+Let's get started! Create a new directory and clone this [repository](https://github.com/aws-cloudformation/aws-cloudformation-samples) into it. Alternatively, you can choose to [download a ZIP archive](https://github.com/aws-cloudformation/aws-cloudformation-samples/archive/refs/heads/main.zip) instead. To clone the repository, use the following command:
 
 ```shell
 $ git clone https://github.com/aws-cloudformation/aws-cloudformation-samples.git
 ```
 
-The repository contains a number of other examples. Change directory into the following one that contains the example resource type, and then choose to enter the directory containing the example implementation in Python:
+The repository contains a number of samples. Change directory into the following one that contains the sample resource type mentioned earlier, and then choose to enter the directory containing the example implementation in Python:
 
 ```shell
 $ cd aws-cloudformation-samples/resource-types/awssamples-ec2-importkeypair/
@@ -50,7 +50,7 @@ Let's take a look at a number of elements in the directory structure inside of t
 * `src`: contains a directory named after the resource type name, inside of which you should find:
   - the `models.py` file, that is managed by the CloudFormation CLI on your behalf when you make schema changes, and
   - the `handlers.py` file, that is where the resource type developer adds code for the CRUDL implementation logic. Open the `src/handlers.py` file with a text editor of your choice, and **familiarize with the handlers' structure** described in `create_handler`, `update_handler`, `delete_handler`, `read_handler`, `list_handler` functions;
-* `resource-role.yaml`: file managed by the CloudFormation CLI, that describes an [AWS Identity and Access Management](https://aws.amazon.com/iam/) (IAM) role whose `PolicyDocument` contains permissions the resource type developer indicates in the `handlers` section of the schema file.  CloudFormation assumes this role to manage resources on behalf of the user as part of CRUDL operations;
+* `resource-role.yaml`: file managed by the CloudFormation CLI, that describes an [AWS Identity and Access Management](https://aws.amazon.com/iam/) (IAM) role whose `PolicyDocument` contains permissions the resource type developer indicates in the `handlers` section of the schema file.  CloudFormation assumes this role to manage resources for this resource type on behalf of the user as part of CRUDL operations;
 * `template.yml`: [AWS Serverless Application Model](https://aws.amazon.com/serverless/sam/) (SAM) template used as part of resource type testing.
 
 In the next section, you will explore aspects of the thought process of *implementing a resource type by starting from the model*, and you will compare such steps with example code content you just chose to clone or download on your machine.
@@ -60,7 +60,7 @@ In the next section, you will explore aspects of the thought process of *impleme
 
 The first step in creating a resource type is to define a schema that describes properties for your resource, as well as permissions needed for CloudFormation to manage the resource on your behalf.
 
-Let's start with determining which properties are needed in the example resource type you are using for this walkthrough. Visit the API reference page relevant to the resource type you wish to create; for the `AWSSamples::EC2::ImportKeyPair` resource type example, you want to look for the [Amazon EC2 API reference](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Welcome.html): you can find it by navigating to the [AWS documentation](https://docs.aws.amazon.com/) page, where you choose **Amazon EC2** from **Compute**, and then **API Reference** in the next page. Next, from [Actions](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_Operations.html), locate operations that give you the ability to programmatically perform actions on a key pair: you note `CreateKeyPair`, `DeleteKeyPair`, `DescribeKeyPairs`, and `ImportKeyPair`. Since the first action is relevant to the creation on a key pair and not to its import, it is not needed. You will need the other 3 actions instead.
+Let's start with determining which properties are needed in the sample resource type you are using for this walkthrough. Visit the API reference page relevant to the resource type you wish to create; for the `AWSSamples::EC2::ImportKeyPair` resource type example, you want to look for the [Amazon EC2 API reference](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Welcome.html): you can find it by navigating to the [AWS documentation](https://docs.aws.amazon.com/) page, where you choose **Amazon EC2** from **Compute**, and then **API Reference** in the next page. Next, from [Actions](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_Operations.html), locate operations that give you the ability to programmatically perform actions on a key pair: you note `CreateKeyPair`, `DeleteKeyPair`, `DescribeKeyPairs`, and `ImportKeyPair`. Since the first action is relevant to the creation on a key pair and not to its import, it is not needed. You will need the other 3 actions instead.
 
 Next, let's look at the documentation for [ImportKeyPair](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_ImportKeyPair.html): look into *request parameters* and *response elements* to determine which properties you want to describe in the schema. For request parameters, in this case, you want to specify:
 
@@ -110,33 +110,33 @@ In the previous section, you have followed along an example process of how to st
         * depending on the error you get from the underlying API (for the import key pair example, for a given error from [Error codes for the Amazon EC2 API](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/errors-overview.html)), you want to map it to a given error from [Handler error codes](https://docs.aws.amazon.com/cloudformation-cli/latest/userguide/resource-type-test-contract-errors.html). For example, if an EC2 API returns an `InvalidKeyPair.NotFound` client error you want to return a `HandlerErrorCode.NotFound` handler error with a `ProgressEvent`;
         * if your resource type will require time to stabilize (for example, reaching to a state where the resource is fully available), use a stabilization mechanism on *create*, *update*, and *delete* handlers: you return a `ProgressEvent` with an `OperationStatus.IN_PROGRESS` the first time a handler is called, and for subsequent calls of that handler until your desired state is reached, you drive next steps by checking on the progress status by calling the *read* handler (where, for example, you check for a specific property value to determine creation complete or in progress).
 
-You can see examples of topics described above in the `src/awssamples_ec2_importkeypair/handlers.py` sample resource type: each handler makes calls to given EC2 API(s), for which there is a relevant set of permissions set in the schema as you have seen earlier. The example resource type leverages exception handling mechanism described above, whereas a downstream API error message is captured and returned along with a handler error code mapped to a given EC2 API. Even if, for the key pair import use case, a stabilization process is not necessarily needed, the sample resource type illustrates an example of a callback mechanism used in *create*, *update*, and *delete* handlers.
+You can see examples of topics described above in the `src/awssamples_ec2_importkeypair/handlers.py` sample resource type: each handler makes calls to given EC2 API(s), for which there is a relevant set of permissions set in the schema as you have seen earlier. The sample resource type leverages exception handling mechanism described above, whereas a downstream API error message is captured and returned along with a handler error code mapped to a given EC2 API. Even if, for the key pair import use case, a stabilization process is not necessarily needed, the sample resource type illustrates an example of a callback mechanism used in *create*, *update*, and *delete* handlers.
 
 
 #### Running unit tests
 
-As part of software development best practices, you want to write *unit tests* to increase your level of confidence that your code works the way you expect. As mentioned in these [notes](https://github.com/aws-cloudformation/aws-cloudformation-samples/tree/main/resource-types/awssamples-ec2-importkeypair/python#unit-tests), the `AWSSamples::EC2::ImportKeyPair` example resource type includes unit tests in the `src/awssamples_ec2_importkeypair/tests` directory. If you look at the `test_handlers.py` file in that directory (that should be on your machine as part of the repository clone/download choice you made earlier), you will see test utility functions described at the beginning and, about at half-way through the file, unit tests that consume such utility functions to perform tests including validating return values and exceptions being thrown. Objects, that include function calls such as EC2 API calls, are replaced/patched in tests with mock objects calls by leveraging the [unittest.mock](https://docs.python.org/3/library/unittest.mock.html) mock object library.
+As part of software development best practices, you want to write *unit tests* to increase your level of confidence that your code works the way you expect. As mentioned in these [notes](https://github.com/aws-cloudformation/aws-cloudformation-samples/tree/main/resource-types/awssamples-ec2-importkeypair/python#unit-tests), the `AWSSamples::EC2::ImportKeyPair` sample resource type includes unit tests in the `src/awssamples_ec2_importkeypair/tests` directory. If you look at the `test_handlers.py` file in that directory (that should be on your machine as part of the repository clone/download choice you made earlier), you will see test utility functions described at the beginning and, about at half-way through the file, unit tests that consume such utility functions to perform tests including validating return values and exceptions being thrown. Objects, that include function calls such as EC2 API calls, are replaced/patched in tests with mock objects calls by leveraging the [unittest.mock](https://docs.python.org/3/library/unittest.mock.html) mock object library.
 
-Let's run unit tests! Make sure you are in the directory that is at the root level of the `AWSSamples::EC2::ImportKeyPair` example resource type (i.e., inside the `python` directory), and that you have followed prerequisites in the previous topic. Next, choose to run unit tests as follows:
+Let's run unit tests! Make sure you are in the directory that is at the root level of the `AWSSamples::EC2::ImportKeyPair` sample resource type (i.e., inside the `python` directory), and that you have followed prerequisites in the previous topic. Next, choose to run unit tests as follows:
 
 ```shell
 $ pytest --cov src --cov-report term-missing
 ```
 
-You should get an output indicating unit tests results, along with a total coverage percentage value. Unit tests in the example resource type leverage a `.coveragerc` file at the root of the project that contains [configuration](https://coverage.readthedocs.io/en/latest/config.html) choices that include a required test coverage value.
+You should get an output indicating unit tests results, along with a total coverage percentage value. Unit tests in the sample resource type leverage a `.coveragerc` file at the root of the project that contains [configuration](https://coverage.readthedocs.io/en/latest/config.html) choices that include a required test coverage value.
 
 
 #### Running contract tests
 
-In subsequent steps on this lab, you will locally test and then submit, to the CloudFormation Registry in your account, the `AWSSamples::EC2::ImportKeyPair` example resource type as a private extension.
+In subsequent steps on this lab, you will locally test and then submit, to the CloudFormation Registry in your account, the `AWSSamples::EC2::ImportKeyPair` sample resource type as a private extension.
 
 As you build your resource type, and very early in the development process, you want to make sure to leverage the [Resource type handler contract](https://docs.aws.amazon.com/cloudformation-cli/latest/userguide/resource-type-test-contract.html), that describes requirements for you to adhere to when you implement the business logic of your handlers. Enforcement of the handler contract is done when you submit a public resource type to the Registry, whereas in that case you are required to pass contract tests: this is important to make sure a high quality bar is maintained on behalf of external customers consuming your resource type.
 
 {{% notice note %}}
-When you submit a private resource type, unless you use an `aws`, `amzn`, `alexa`, `amazon`, `awsquickstart` namespace, contract tests do not run. As part of best practices though, you should try to adhere to contract tests specifications very early in your development process anyway.
+Contract tests must pass in order to publish a public resource type, and do not run when you submit a private resource type. As part of best practices though, you should try to adhere to contract tests specifications very early in your development process.
 {{% /notice %}}
 
-Let's run contract tests for the example resource type! First, let's set up test support infrastructure as described on these [notes](https://github.com/aws-cloudformation/aws-cloudformation-samples/tree/main/resource-types/awssamples-ec2-importkeypair/python#contract-tests) for the example resource type. Contract tests for the example resource type will create, update, and delete test-only key pair resources in your account. Key pair information, such as name and tags, will be provided in files in the `inputs` directory in the project, and the public key material will be consumed from an exported value of a CloudFormation stack you create. For more information on how to pass test data to contract tests, see [Specifying input data for use in contract tests](https://docs.aws.amazon.com/cloudformation-cli/latest/userguide/resource-type-test.html#resource-type-test-input-data).
+Let's run contract tests for the sample resource type! First, let's set up test support infrastructure as described on these [notes](https://github.com/aws-cloudformation/aws-cloudformation-samples/tree/main/resource-types/awssamples-ec2-importkeypair/python#contract-tests) for the sample resource type. Contract tests for the sample resource type will create, update, and delete test-only key pair resources in your account. Key pair information, such as name and tags, will be provided in files in the `inputs` directory in the project, and the public key material will be consumed from an exported value of a CloudFormation stack you create. For more information on how to pass test data to contract tests, see [Specifying input data for use in contract tests](https://docs.aws.amazon.com/cloudformation-cli/latest/userguide/resource-type-test.html#resource-type-test-input-data).
 
 {{% notice note %}}
 Contract tests will make real API calls. Make sure your configuration is set up to point to your test AWS account, so to use either relevant environment credentials or relevant credentials from the Boto3 credential chain.
@@ -150,9 +150,9 @@ $ ssh-keygen -t rsa -C "Example key pair for testing" -f example-key-pair-for-te
 
 Follow prompts and complete the creation of the key pair. You should now have, in the directory you chose, 2 files: `example-key-pair-for-testing` and `example-key-pair-for-testing.pub`. The former is the private key; the latter the public key portion, which is the one you will use in following steps where, when needed, you will need to provide its content by opening the public key file, copying its content in the clipboard and pasting it in the command line.
 
-Next, create a CloudFormation stack that will create, for reference, an [AWS Systems Manager Parameter Store](https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-parameter-store.html) resource containing the public key material you will provide an input: contract tests will consume the `KeyPairPublicKeyForContractTests` [exported stack output value](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-stack-exports.html) of this stack. Input files in the `inputs` directory of the example resource type, in turn, contain `{{KeyPairPublicKeyForContractTests}}` references to the value exported from the stack.
+Next, create a CloudFormation stack that will create, for reference, an [AWS Systems Manager Parameter Store](https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-parameter-store.html) resource containing the public key material you will provide an input: contract tests will consume the `KeyPairPublicKeyForContractTests` [exported stack output value](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-stack-exports.html) of this stack. Input files in the `inputs` directory of the sample resource type, in turn, contain `{{KeyPairPublicKeyForContractTests}}` references to the value exported from the stack.
 
-When ready, switch back to the terminal where you cloned or downloaded the example resource type, and make sure you are in the `aws-cloudformation-samples/resource-types/awssamples-ec2-importkeypair/python/` directory. With the next command, you will choose to create a new stack using the `examples/example-template-contract-tests-input.yaml` example template file: the template requires you to specify the `KeyPairPublicKey` input parameter, for which you will need to specify the content as mentioned earlier. The template also requires `OrganizationName` and `OrganizationBusinessUnitName`, that are set with example default values, `ExampleOrganization` and `ExampleBusinessUnit` respectively, and that will be used if you do not choose to provide values for them. Choose to create the stack as shown next, with a placeholder for the public key file content, where you will need to copy and paste the content of the public key file (the example uses `us-east-1` for the AWS region, change this value as needed):
+When ready, switch back to the terminal where you cloned or downloaded the sample resource type, and make sure you are in the `aws-cloudformation-samples/resource-types/awssamples-ec2-importkeypair/python/` directory. With the next command, you will choose to create a new stack using the `examples/example-template-contract-tests-input.yaml` example template file: the template requires you to specify the `KeyPairPublicKey` input parameter, for which you will need to specify the content as mentioned earlier. The template also requires `OrganizationName` and `OrganizationBusinessUnitName`, that are set with example default values, `ExampleOrganization` and `ExampleBusinessUnit` respectively, and that will be used if you do not choose to provide values for them. Choose to create the stack as shown next, with a placeholder for the public key file content, where you will need to copy and paste the content of the public key file (the example uses `us-east-1` for the AWS region, change this value as needed):
 
 ```shell
 $ aws cloudformation create-stack \
@@ -170,7 +170,7 @@ $ aws cloudformation wait stack-create-complete \
   --stack-name example-for-key-pair-contract-tests
 ```
 
- Next, you will need two terminal consoles opened on your machine; for each one, make sure you are at the root level of the `AWSSamples::EC2::ImportKeyPair` example resource type project:
+Next, you will need two terminal consoles opened on your machine; for each one, make sure you are at the root level of the `AWSSamples::EC2::ImportKeyPair` sample resource type project:
 
 * on the first terminal console, make sure Docker is running on your machine, and run `sam local start-lambda`
 * on the second terminal console, run contract tests: `cfn generate && cfn submit --dry-run && cfn test`
@@ -188,9 +188,9 @@ Let's use the CloudFormation CLI to submit the resource to the registry in your 
 $ cfn generate && cfn submit --set-default --region us-east-1
 ```
 
-Wait until the registration finishes, after which you should have the `AWSSamples::EC2::ImportKeyPair` example resource type registered as a private extension in your account. To verify, choose *Activated extensions* in the CloudFormation console, and then choose *Privately registered*.
+Wait until the registration finishes, after which you should have the `AWSSamples::EC2::ImportKeyPair` sample resource type registered as a private extension in your account. To verify, choose *Activated extensions* in the CloudFormation console, and then choose *Privately registered*.
 
-Now, let's test the example resource type with an example template, that is already available as `examples/example-template-import-keypair.yaml` in the repository you cloned or downloaded: if you open the file with a text editor of your choice, you will see how the example resource type is referenced in the `Resources` section. For `KeyPairPublicKey`, choose to specify the same public key content you used for contract tests. The template also uses default values for `KeyPairName`, `OrganizationName`, and `OrganizationBusinessUnitName`, that will be used unless you specify your own. Choose to create the stack (the example uses `us-east-1` for the AWS region):
+Now, let's test the sample resource type with an example template, that is already available as `examples/example-template-import-keypair.yaml` in the repository you cloned or downloaded: if you open the file with a text editor of your choice, you will see how the sample resource type is referenced in the `Resources` section. For `KeyPairPublicKey`, choose to specify the same public key content you used for contract tests. The template also uses default values for `KeyPairName`, `OrganizationName`, and `OrganizationBusinessUnitName`, that will be used unless you specify your own. Choose to create the stack (the example uses `us-east-1` for the AWS region):
 
 ```shell
 $ aws cloudformation create-stack \
@@ -215,15 +215,15 @@ $ aws cloudformation wait stack-create-complete \
 ##### Context
 As part of contract testing, you also have the option of [Testing resource types manually](https://docs.aws.amazon.com/cloudformation-cli/latest/userguide/resource-type-test.html#manual-testing), by using the [`sam local invoke`](https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/sam-cli-command-reference-sam-local-invoke.html) command to issue handler invocations. To manually run tests:
 
-* in one terminal, run `sam local start-lambda` like you did earlier on this lab (from inside the `python` directory of the example resource type);
+* in one terminal, run `sam local start-lambda` like you did earlier on this lab (from inside the `python` directory of the sample resource type);
 * in another terminal, invoke the handler with e.g., `sam local invoke TestEntrypoint --event sam-tests/YOUR_INPUT_FILE`, where `YOUR_INPUT_FILE` is a JSON-formatted file whose structure is documented [here](https://docs.aws.amazon.com/cloudformation-cli/latest/userguide/resource-type-test.html#manual-testing), and that you locally store in a `sam-tests` directory at the project's root level.
 
 {{% notice note %}}
-Files you create and edit in the `sam-tests` directory may contain credentials. The `sam-tests/` location should be added to a `.gitignore` file (like the one at the project's root level for the example resource type you used in this lab) to avoid adding it to a source code repository. Depending on your setup, you might or might not need to add credentials to the files in the `sam-tests` directory.
+Files you create and edit in the `sam-tests` directory may contain credentials. The `sam-tests/` location should be added to a `.gitignore` file (like the one at the project's root level for the sample resource type you used in this lab) to avoid adding it to a source code repository. Depending on your setup, you might or might not need to add credentials to the files in the `sam-tests` directory.
 {{% /notice %}}
 
 ##### Challenge
-Create a `sam-tests/example-read.json` file to test the *read* handler of the `AWSSamples::EC2::ImportKeyPair` example resource type. As an example input, choose the key pair you created in the `example-key-pair-stack` stack earlier. The expected output is a data structure containing properties from the model that the *read* handler for the example resource type first fetches on your behalf, and that then returns.
+Create a `sam-tests/example-read.json` file to test the *read* handler of the `AWSSamples::EC2::ImportKeyPair` sample resource type. As an example input, choose the key pair you created in the `example-key-pair-stack` stack earlier. The expected output is a data structure containing properties from the model that the *read* handler for the sample resource type first fetches on your behalf, and that then returns.
 
 {{%expand "Need a hint?" %}}
 * Use the [uuid](https://docs.python.org/3/library/uuid.html) module in Python to generate a `UUID4` value to pass to `clientRequestToken`;
@@ -299,4 +299,4 @@ $ aws cloudformation deregister-type \
 
 ### Conclusion
 
-Congratulations! You have walked through an example resource type implementation in Python, and learned key concepts, expectations and objectives to keep in mind when writing your resource types.
+Congratulations! You have walked through a sample resource type implementation in Python, and learned key concepts, expectations and objectives for you to keep in mind when writing your resource types.

@@ -8,14 +8,14 @@ weight: 300
 
 This part of the workshop focuses on how you can extend creation, provisioning, and management capabilities of [AWS CloudFormation](https://aws.amazon.com/cloudformation/) with resource types you develop.
 
-A resource type you create is treated as a first-class citizen within CloudFormation: you can manage your resource as you would manage any AWS resource.
+You leverage the [AWS CloudFormation registry](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/registry.html) to manage extensions that you can choose to use in your account. Extensions can be public or private, and include [modules](https://docs.aws.amazon.com/cloudformation-cli/latest/userguide/modules.html), that give you the ability to encapsulate configurations and best-practice building blocks that users can describe and consume in CloudFormation templates, and [resource types](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/registry.html).
 
-The Software Development Life Cycle (SDLC) process of a resource type can be summarized as follows:
+A resource type you create is treated as a first-class citizen within CloudFormation: you can manage your resource as you would manage any AWS resource.  The Software Development Life Cycle (SDLC) process of a resource type can be summarized as follows:
 
-* first, you install prerequisite tools you will use for development and testing of your resource type;
-* you then start to develop and run tests for your resource type;
-* when ready, you submit the resource type to the [AWS CloudFormation registry](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/registry.html);
-* manage your resource type with CloudFormation: you describe the resource type and its properties in your CloudFormation template(s), like you would do with any AWS resource type.
+1. you install prerequisite tools you will use for development and testing of your resource type;
+2. you start to develop and run tests for your resource type;
+3. when ready, you submit the resource type to the [AWS CloudFormation registry](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/registry.html);
+4. manage your resource type with CloudFormation: you describe the resource type and its properties in your CloudFormation template(s), like you would do with any AWS resource type.
 
 {{% notice note %}}
 You have the choice to register your resource type as a private or as a public extension in the CloudFormation registry: this lab covers private extension examples.
