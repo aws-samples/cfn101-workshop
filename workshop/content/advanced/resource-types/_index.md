@@ -27,6 +27,10 @@ You can choose to deploy your resource type in other [AWS regions using AWS Clou
 
 For more information on private extensions, see [Using private extensions in CloudFormation](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/registry-register.html). For more information on public extensions, see [Publishing extensions to make them available for public use](https://docs.aws.amazon.com/cloudformation-cli/latest/userguide/publish-extension.html).
 
+{{% notice note %}}
+Please refer to [AWS CloudFormation pricing](https://aws.amazon.com/cloudformation/pricing/) for information on charges to your account when you use private extensions or activated public extensions from third-party publishers. These charges are in addition to any charges incurred for resources that you create.
+{{% /notice %}}
+
 
 ### Key concepts
 
