@@ -28,20 +28,20 @@ repos:
     entry: git-secrets --scan
     files: .
 
-# # CloudFormation
-# - repo: https://github.com/aws-cloudformation/cfn-python-lint
-#   rev: v0.54.3
-#   hooks:
-#   - id: cfn-python-lint
-#     name: AWS CloudFormation Linter
-#     files: solutions/.*\.(yaml)$
-#     args: [--ignore-checks=W3002]
+# CloudFormation
+- repo: https://github.com/aws-cloudformation/cfn-python-lint
+  rev: v0.54.3
+  hooks:
+  - id: cfn-python-lint
+    name: AWS CloudFormation Linter
+    files: solutions/.*\.(yaml)$
+    args: [--ignore-checks=W3002]
 
-# - repo: https://github.com/aws-cloudformation/rain
-#   rev: v1.2.0
-#   hooks:
-#   - id: cfn-format
-#     files: solutions/.*\.(yaml)$
+- repo: https://github.com/aws-cloudformation/rain
+  rev: v1.2.0
+  hooks:
+  - id: cfn-format
+    files: solutions/.*\.(yaml)$
 
 # Python
 - repo: https://github.com/pycqa/pylint
