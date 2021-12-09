@@ -1,10 +1,10 @@
----
-AWSTemplateFormatVersion: '2010-09-09'
+AWSTemplateFormatVersion: "2010-09-09"
+
 Description: Sample template that describes an Amazon S3 bucket (uksb-1q9p31idr)
+
 Resources:
   SampleBucket:
     Type: AWS::S3::Bucket
-    # Add a Properties section with properties you need
     Properties:
       BucketEncryption:
         ServerSideEncryptionConfiguration:
