@@ -57,8 +57,8 @@ In this section, you will write example Guard rule clauses to validate that a sa
 Let's get started! Choose to follow steps shown next:
 
 1. Change directory to the `code/workspace/policy-as-code-with-guard` directory.
-2. Open the `example-bucket.yaml` CloudFormation template in your favorite text editor.
-3. The template describes an `AWS::S3::Bucket` resource type; update the template by appending a `Properties` section with [server-side encryption](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-s3-bucket-bucketencryption.html) configuration using the AES256 algorithm, and [versioning](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-s3-bucket-versioningconfiguration.html) enabled. Choose to copy content shown next, and paste it in the `example-bucket.yaml` file by appending it to the existing file content:
+2. Open the `example_bucket.yaml` CloudFormation template in your favorite text editor.
+3. The template describes an `AWS::S3::Bucket` resource type; update the template by appending a `Properties` section with [server-side encryption](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-s3-bucket-bucketencryption.html) configuration using the AES256 algorithm, and [versioning](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-s3-bucket-versioningconfiguration.html) enabled. Choose to copy content shown next, and paste it in the `example_bucket.yaml` file by appending it to the existing file content:
 
 ```
     Properties:
@@ -70,7 +70,7 @@ Let's get started! Choose to follow steps shown next:
         Status: Enabled
 ```
 
-4. Create example Guard rule clauses to validate both properties are described as you expect. Open the `example-bucket.guard` file in the same directory mentioned earlier, and create a **type block** to validate your configuration for resource(s) of type `AWS::S3::Bucket` you describe in your template. Copy content shown next, and paste it in the `example-bucket.guard` file by appending it to the existing content:
+4. Create example Guard rule clauses to validate both properties are described as you expect. Open the `example_bucket.guard` file in the same directory mentioned earlier, and create a **type block** to validate your configuration for resource(s) of type `AWS::S3::Bucket` you describe in your template. Copy content shown next, and paste it in the `example_bucket.guard` file by appending it to the existing content:
 
 ```
 AWS::S3::Bucket {
@@ -109,24 +109,24 @@ When you write your Guard rules, use **filters** as the default mode for selecti
 6. Now that you have taken a closer look at example rule clauses, run the `validate` Guard subcommand by specifying your template with the `-d` (or `--data`) flag, and your rules with `-r` (or `--rules`) as shown next:
 
 ```shell
-$ cfn-guard validate -d example-bucket.yaml -r example-bucket.guard
+$ cfn-guard validate -d example_bucket.yaml -r example_bucket.guard
 ```
 
 7. You should then get an output similar to the following, that indicates your template passed validation against your rule clauses:
 
 ```
-example-bucket.yaml Status = PASS
+example_bucket.yaml Status = PASS
 PASS rules
-example-bucket.guard/default    PASS
+example_bucket.guard/default    PASS
 ---
-Evaluation of rules example-bucket.guard against data example-bucket.yaml
+Evaluation of rules example_bucket.guard against data example_bucket.yaml
 --
-Rule [example-bucket.guard/default] is compliant for template [example-bucket.yaml]
+Rule [example_bucket.guard/default] is compliant for template [example_bucket.yaml]
 --
 ```
 
 {{% notice note %}}
-The `default` suffix shown in the preceding `example-bucket.guard/default` output portion indicates that your rule clauses belong to a rule named `default`. Later on in this lab, you will write rules with a given name (**named rules**), and you will use such rules instead of the default rule. This will give you opportunities to create modular and reusable rules.
+The `default` suffix shown in the preceding `example_bucket.guard/default` output portion indicates that your rule clauses belong to a rule named `default`. Later on in this lab, you will write rules with a given name (**named rules**), and you will use such rules instead of the default rule. This will give you opportunities to create modular and reusable rules.
 {{% /notice %}}
 
 Congratulations! You created your first Guard rule, and you used it to validate an example template that described an example S3 bucket configuration!
@@ -159,16 +159,16 @@ let my_buckets = Resources.*[ Type == 'AWS::S3::Bucket' ]
 }
 ```
 
-Replace existing rule clauses in `example-bucket.guard` with the new content just shown, and run the validation again:
+Replace existing rule clauses in `example_bucket.guard` with the new content just shown, and run the validation again:
 
 ```shell
-$ cfn-guard validate -d example-bucket.yaml -r example-bucket.guard
+$ cfn-guard validate -d example_bucket.yaml -r example_bucket.guard
 ```
 
 Validation against your rule clauses that now use filters should pass.
 
 {{% notice note %}}
-Guard supports variable scopes at the *file*, *rule* and *block* level. The specific placement of a variable in a given scope determines its visibility in a file containing your Guard rules. The scope of the `my_buckets` variable shown earlier is a file-level scope: thus, `my_buckets` should be visible to rules/rule clauses you describe in the `example-bucket.guard` rules file. For more information, see [Assigning and referencing variables in AWS CloudFormation Guard rules](https://docs.aws.amazon.com/cfn-guard/latest/ug/variables.html).
+Guard supports variable scopes at the *file*, *rule* and *block* level. The specific placement of a variable in a given scope determines its visibility in a file containing your Guard rules. The scope of the `my_buckets` variable shown earlier is a file-level scope: thus, `my_buckets` should be visible to rules/rule clauses you describe in the `example_bucket.guard` rules file. For more information, see [Assigning and referencing variables in AWS CloudFormation Guard rules](https://docs.aws.amazon.com/cfn-guard/latest/ug/variables.html).
 {{% /notice %}}
 
 Congratulations! You have created a filter that matches resources of a given type in your template, and you have also reused a variable you scoped at the file level.
@@ -204,24 +204,24 @@ rule validate_bucket_versioning_example when %my_buckets !empty {
 }
 ```
 
-Copy and paste the two named rules by replacing existing rule clauses in `example-bucket.guard`. When done, run the validation again:
+Copy and paste the two named rules by replacing existing rule clauses in `example_bucket.guard`. When done, run the validation again:
 
 ```shell
-$ cfn-guard validate -d example-bucket.yaml -r example-bucket.guard
+$ cfn-guard validate -d example_bucket.yaml -r example_bucket.guard
 ```
 
-You should then get an output similar to the following, where instead of `default` rule occurrences as you have seen earlier, you should see names you assigned to `rule validate_bucket_sse_example` and `validate_bucket_versioning_example` rules you have now decoupled:
+You should then get an output similar to the following, where instead of `default` rule occurrences you have seen earlier, you should now see names you assigned to `rule validate_bucket_sse_example` and `validate_bucket_versioning_example` rules you decoupled:
 
 ```
-example-bucket.yaml Status = PASS
+example_bucket.yaml Status = PASS
 PASS rules
-example-bucket.guard/validate_bucket_sse_example           PASS
-example-bucket.guard/validate_bucket_versioning_example    PASS
+example_bucket.guard/validate_bucket_sse_example           PASS
+example_bucket.guard/validate_bucket_versioning_example    PASS
 ---
-Evaluation of rules example-bucket.guard against data example-bucket.yaml
+Evaluation of rules example_bucket.guard against data example_bucket.yaml
 --
-Rule [example-bucket.guard/validate_bucket_sse_example] is compliant for template [example-bucket.yaml]
-Rule [example-bucket.guard/validate_bucket_versioning_example] is compliant for template [example-bucket.yaml]
+Rule [example_bucket.guard/validate_bucket_sse_example] is compliant for template [example_bucket.yaml]
+Rule [example_bucket.guard/validate_bucket_versioning_example] is compliant for template [example_bucket.yaml]
 --
 ```
 
@@ -234,7 +234,7 @@ Congratulations! You have decoupled initial rule clauses into two separate named
 
 #### Rule correlation
 
-Depending on your use cases or business logic implementation needs, you have the option to reference a named rule from within another rule. Let's recall the previous example: append, to the `example-bucket.guard` file, the following content:
+Depending on your use cases or business logic implementation needs, you have the option to reference a named rule from within another rule. Let's recall the previous example: append, to the `example_bucket.guard` file, the following content:
 
 ```
 rule correlation_example when %my_buckets !empty {
@@ -246,17 +246,17 @@ rule correlation_example when %my_buckets !empty {
 The `correlation_example` example rule references the two other named rules you described in the same file earlier: both named rules must be satisfied for `correlation_example` to pass. Run validation again:
 
 ```shell
-$ cfn-guard validate -d example-bucket.yaml -r example-bucket.guard
+$ cfn-guard validate -d example_bucket.yaml -r example_bucket.guard
 ```
 
 You should get an output similar to the following excerpt:
 
 ```
-example-bucket.yaml Status = PASS
+example_bucket.yaml Status = PASS
 PASS rules
-example-bucket.guard/validate_bucket_sse_example           PASS
-example-bucket.guard/validate_bucket_versioning_example    PASS
-example-bucket.guard/correlation_example                   PASS
+example_bucket.guard/validate_bucket_sse_example           PASS
+example_bucket.guard/validate_bucket_versioning_example    PASS
+example_bucket.guard/correlation_example                   PASS
 [...]
 ```
 
@@ -269,7 +269,7 @@ Congratulations! You have learned how to correlate and reference named rules!
 
 Guard gives you the ability to write tests for your rules, to validate that your rules work as you expect. This aspect also opens up the opportunity to leverage the [test-driven development](https://en.wikipedia.org/wiki/Test-driven_development) (TDD) practice in your workflow, where you start with writing tests for your rules first, and you write and run test for your rules next.
 
-Let's get started! Open the `test-example-bucket.guard.yaml` file with your favorite text editor, and append the following content that contains tests for named rules you used earlier:
+Let's get started! Open the `example_bucket_tests.yaml` file with your favorite text editor, and append the following content that contains tests for named rules you used earlier:
 
 ```
 - input:
@@ -301,10 +301,10 @@ When you look at the example test content just shown, you note that tests contai
 * with the first test case, you test that the server-side encryption validation logic of your `validate_bucket_sse_example` rule validation will pass when provided with expected test input, that in your example uses `AES256` for the `SSEAlgorithm` property underneath `BucketEncryption`;
 * with the second test case, you expect the `validate_bucket_versioning_example` rule validation will fail when providing `Suspended` (instead of `Enabled`) for the `VersioningConfiguration` `Status`.
 
-Let's run tests! Choose to use the `test` Guard subcommand, followed by `-t` (or `--test-data`) to specify your test file, and `-r` (or `--ruleset-file`) to specify the file containing your rules to put under test:
+Let's run tests! Choose to use the `test` Guard subcommand, followed by `-t` (or `--test-data`) to specify your test file, and `-r` (or `--rules-file`) to specify the file containing your rules to put under test:
 
 ```shell
-$ cfn-guard test -t test-example-bucket.guard.yaml -r example-bucket.guard
+$ cfn-guard test -t example_bucket_tests.yaml -r example_bucket.guard
 ```
 
 You should get an output similar to the one following next, depicting both example test cases and the outcome you expect:
@@ -331,11 +331,11 @@ Congratulations! You have written and ran your first tests for your Guard rules!
 In this example, you want to configure your [Amazon S3 bucket](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-s3-bucket.html) with all [properties](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-s3-bucket.html#aws-resource-s3-bucket-properties) underneath `PublicAccessBlockConfiguration` set to `true` (Boolean).
 
 Your tasks are:
-1. Append, to the `test-example-bucket.guard.yaml` unit test file content, a new `input` section to validate that a new rule you will create, called `validate_bucket_public_access_block_example`, is expected to pass when you provide test input data containing all `PublicAccessBlockConfiguration` properties set to `true`.
-2. Implement the `validate_bucket_public_access_block_example` rule in the `example-bucket.guard` file. Add a custom message after each clause you will write, in the rule, for each one of the `PublicAccessBlockConfiguration` properties;
+1. Append, to the `example_bucket_tests.yaml` unit test file content, a new `input` section to validate that a new rule you will create, called `validate_bucket_public_access_block_example`, is expected to pass when you provide test input data containing all `PublicAccessBlockConfiguration` properties set to `true`.
+2. Implement the `validate_bucket_public_access_block_example` rule in the `example_bucket.guard` file. Add a custom message after each clause you will write, in the rule, for each one of the `PublicAccessBlockConfiguration` properties;
 3. Run Guard with the `test` subcommand to run your tests. You should see a Test Case #3 section in the unit tests output, with a line such as: `validate_bucket_public_access_block_example: Expected = PASS, Evaluated = PASS` to indicate unit tests for the new rule succeeded.
-3. Update the `example-bucket.yaml` template, and add the relevant `PublicAccessBlockConfiguration` configuration.
-4. Run Guard with the `validate` subcommand to validate the `example-bucket.yaml` file content against rules you wrote in the `example-bucket.guard` file. You should see a line such as `example-bucket.guard/validate_bucket_public_access_block_example    PASS` in the resulting output to indicate validation against your new rule succeeded.
+3. Update the `example_bucket.yaml` template, and add the relevant `PublicAccessBlockConfiguration` configuration.
+4. Run Guard with the `validate` subcommand to validate the `example_bucket.yaml` file content against rules you wrote in the `example_bucket.guard` file. You should see a line such as `example_bucket.guard/validate_bucket_public_access_block_example    PASS` in the resulting output to indicate validation against your new rule succeeded.
 
 
 {{%expand "Need a hint?" %}}
@@ -345,7 +345,9 @@ Your tasks are:
 
 
 {{%expand "Want to see the solution?" %}}
-* Append this content to the `test-example-bucket.guard.yaml` unit test file:
+Note: content shown next is also available in relevant files located in the `code/solutions/policy-as-code-with-guard` directory.
+
+* Append this content to the `example_bucket_tests.yaml` unit test file:
 
 ```
 - input:
@@ -364,7 +366,7 @@ Your tasks are:
 ```
 
 
-* Append this content to the `example-bucket.guard` file:
+* Append this content to the `example_bucket.guard` file:
 
 ```
 rule validate_bucket_public_access_block_example when %my_buckets !empty {
@@ -388,11 +390,11 @@ rule validate_bucket_public_access_block_example when %my_buckets !empty {
 * Run unit tests, and make sure they pass:
 
 ```shell
-$ cfn-guard test -t test-example-bucket.guard.yaml -r example-bucket.guard
+$ cfn-guard test -t example_bucket_tests.yaml -r example_bucket.guard
 ```
 
 
-* Append this content to the `example-bucket.yaml` template:
+* Append this content to the `example_bucket.yaml` template:
 
 ```
       PublicAccessBlockConfiguration:
@@ -406,7 +408,7 @@ $ cfn-guard test -t test-example-bucket.guard.yaml -r example-bucket.guard
 * Validate your template data against your rules, and make sure all rules pass the validation:
 
 ```shell
-$ cfn-guard validate -d example-bucket.yaml -r example-bucket.guard
+$ cfn-guard validate -d example_bucket.yaml -r example_bucket.guard
 ```
 
 {{% /expand %}}
