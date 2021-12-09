@@ -1,4 +1,3 @@
-# This file contains example Guard rules you write
 let my_buckets = Resources.*[ Type == 'AWS::S3::Bucket' ]
 
 
