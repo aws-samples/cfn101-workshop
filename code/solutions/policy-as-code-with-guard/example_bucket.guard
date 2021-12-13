@@ -1,0 +1,42 @@
+let my_buckets = Resources.*[ Type == 'AWS::S3::Bucket' ]
+
+
+rule validate_bucket_sse_example when %my_buckets !empty {
+    %my_buckets.Properties {
+        BucketEncryption.ServerSideEncryptionConfiguration[*] {
+            ServerSideEncryptionByDefault.SSEAlgorithm == 'AES256'
+            <<BucketEncryption not configured with the AES256 algorithm>>
+        }
+    }
+}
+
+
+rule validate_bucket_versioning_example when %my_buckets !empty {
+    %my_buckets.Properties {
+        VersioningConfiguration.Status == 'Enabled'
+        <<BucketEncryption not configured versioning enabled>>
+    }
+}
+
+
+rule correlation_example when %my_buckets !empty {
+    validate_bucket_sse_example
+    validate_bucket_versioning_example
+}
+
+
+rule validate_bucket_public_access_block_example when %my_buckets !empty {
+    %my_buckets.Properties {
+        PublicAccessBlockConfiguration.BlockPublicAcls == true
+        <<BlockPublicAcls not set to true in PublicAccessBlockConfiguration>>
+
+        PublicAccessBlockConfiguration.BlockPublicPolicy == true
+        <<BlockPublicPolicy not set to true in PublicAccessBlockConfiguration>>
+
+        PublicAccessBlockConfiguration.IgnorePublicAcls == true
+        <<IgnorePublicAcls not set to true in PublicAccessBlockConfiguration>>
+
+        PublicAccessBlockConfiguration.RestrictPublicBuckets == true
+        <<RestrictPublicBuckets not set to true in PublicAccessBlockConfiguration>>
+    }
+}

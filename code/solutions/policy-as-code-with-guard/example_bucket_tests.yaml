@@ -1,0 +1,38 @@
+---
+- input:
+    Resources:
+      MyExampleBucket:
+        Type: AWS::S3::Bucket
+        Properties:
+          BucketEncryption:
+            ServerSideEncryptionConfiguration:
+              - ServerSideEncryptionByDefault:
+                  SSEAlgorithm: AES256
+  expectations:
+    rules:
+      validate_bucket_sse_example: PASS
+
+- input:
+    Resources:
+      MyExampleBucket:
+        Type: AWS::S3::Bucket
+        Properties:
+          VersioningConfiguration:
+            Status: Suspended
+  expectations:
+    rules:
+      validate_bucket_versioning_example: FAIL
+
+- input:
+    Resources:
+      MyExampleBucket:
+        Type: AWS::S3::Bucket
+        Properties:
+          PublicAccessBlockConfiguration:
+            BlockPublicAcls: true
+            BlockPublicPolicy: true
+            IgnorePublicAcls: true
+            RestrictPublicBuckets: true
+  expectations:
+    rules:
+      validate_bucket_public_access_block_example: PASS
