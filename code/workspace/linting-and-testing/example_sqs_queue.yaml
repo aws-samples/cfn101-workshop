@@ -1,0 +1,25 @@
+AWSTemplateFormatVersion: "2010-09-09"
+
+Description: AWS CloudFormation workshop - linting and testing - example SQS queue (uksb-1q9p31idr)
+
+Resources:
+  MyQueue:
+    Type: AWS::SQS::Queue
+    Properties:
+      # Use `cfn-lint` to find issues on this example template, and
+      # then fix issues you found
+      DelaySeconds: 1000
+      Tag:
+        - Key: example_key_1
+          Value: example_value_1
+        - Key: example_key_2
+          Value: example_value_2
+
+Outputs:
+  QueueURL:
+    Description: The URL of your Amazon SQS Queue
+    Value: !Ref 'MyQueue'
+
+  QueueName:
+    Description: The name of your Amazon SQS Queue
+    Value: !GetAtt MyQueue.Name
