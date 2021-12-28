@@ -1,0 +1,68 @@
+AWSTemplateFormatVersion : "2010-09-09"
+Description: >
+  This template will create a SSM Parameter and reference its ARN on an IAM policy
+  leveraging CloudFormation pseudo parameters
+
+Parameters:
+  S3BucketNamePrefix:
+    AllowedPattern: ^[0-9a-zA-Z]+([0-9a-zA-Z-]*[0-9a-zA-Z])*$
+    ConstraintDescription: Quick Start bucket name can include numbers, lowercase
+      letters, uppercase letters, and hyphens (-). It cannot start or end with a hyphen
+      (-).
+    Description: The prefix to use for your S3 bucket
+    Type: String
+    MinLength: 3
+    Default: my-demo-bucket
+
+
+Resources:
+  DemoBucket:
+    Type: 'AWS::S3::Bucket'
+    Properties:
+      BucketName: !Sub '${S3BucketNamePrefix}-${AWS::Region}-${AWS::AccountId}'
+
+  BasicParameter:
+    Type: AWS::SSM::Parameter
+    Properties:
+      Name: dbUsername
+      Type: String
+      Value: alice
+      Description: SSM Parameter for mysql database username.
+
+  DemoRole:
+    Type: 'AWS::IAM::Role'
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - lambda.amazonaws.com
+            Action:
+              - 'sts:AssumeRole'
+      Path: /
+      Policies:
+        - PolicyName: ssm-least-privilege
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action: 'ssm:GetParameter'
+                Resource: !Sub 'arn:${AWS::Partition}:ssm:${AWS::Region}:${AWS::AccountId}:parameter/${BasicParameter}'
+  DemoLambdaFunction:
+    Type: AWS::Lambda::Function
+    Properties:
+      Handler: index.lambda_handler
+      Role: !GetAtt DemoRole.Arn
+      Runtime: python3.8
+      Code:
+        ZipFile: |
+          import boto3
+
+          client = boto3.client('ssm')
+
+
+          def lambda_handler(event, context):
+              response = client.get_parameter(Name='dbUsername')
+              print(f'SSM dbUsername parameter value: {response["Parameter"]["Value"]}')
