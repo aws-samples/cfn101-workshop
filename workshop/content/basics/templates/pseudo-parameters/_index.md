@@ -292,7 +292,7 @@ Make sure you test your solution and verify everything works as intended. You ca
 
 Follow these steps to clean up created resources:
 
-  * In the CloudFormation console, select the stack you have created in this lab.
+  * In the CloudFormation console, choose the stack you have created in this lab.
   * Choose **Delete** to delete the stack you created in this lab.
     In the pop-up window click on Delete stack.
 
