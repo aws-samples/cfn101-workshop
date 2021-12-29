@@ -239,7 +239,7 @@ On the Resources tab, you’ll also find the Lambda function that you described 
 To verify the Lambda function has permissions to access the SSM parameter you defined in the template, you'll need to [Deploy and test/invoke the Lambda function](https://docs.aws.amazon.com/lambda/latest/dg/getting-started-create-function.html#get-started-invoke-manually). Choose to follow the link to the Physical ID of the Lambda function under the resource tab of CloudFormation stack. To invoke a Lambda function for testing, you'll first need to create a Test event. On the `Test` tab of your Lambda function, give a name to a new Test event in the new event template provided by default. Click on `Save changes` button to save the Test event. Then choose to click on `Test` button to invoke the Lambda function.
 
 ![lambda-test](pseudo-parameters/lambda-test.png)
-After you invoke the Lambda function, under Function Logs (or Log output) section you will see some output text like the example below:
+After you invoke the Lambda function, under the **Function Logs** section you should see output similar to the example shown next:
 
 ![lambda-png](pseudo-parameters/lambda.png)
 
