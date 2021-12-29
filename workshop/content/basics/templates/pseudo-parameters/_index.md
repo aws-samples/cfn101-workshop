@@ -72,7 +72,7 @@ In this example, you want to construct the resource ARN like one below using pse
 ```
 Let’s see how the CloudFormation template looks like.
 
-First, let’s start by defining the SSM parameter in the template. You will be constructing an ARN for this resource using pseudo parameters. This is a simple example of an SSM parameter where there’s a Name (dbUsername) and Value (alice). Choose to copy content shown next, and paste it in the `pseudo-parameters.yaml` file by appending it to the existing file content:
+First, let’s start by defining your SSM parameter in the template: you will use a simple example of an SSM parameter where you define a parameter `Name` called `dbUsername`, and a `Value` you set to `alice`. Choose to copy content shown next, and paste it in the `pseudo-parameters.yaml` file, by appending it to the existing file content:
 
 ```YAML
 Resources:
