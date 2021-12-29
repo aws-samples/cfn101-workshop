@@ -229,7 +229,7 @@ Choose to follow the link to the Physical ID of the `DemoRole`. Expand the inlin
 
 ![role-png](pseudo-parameters/role.png)
 
-You’ll then see the IAM policy you described with the CloudFormation template. Verify that the SSM parameter ARN is constructed as you expected.
+You should see the IAM policy you described with your CloudFormation template. Verify that the ARN for your parameter is constructed as you expected.
 
 ![policy-png](pseudo-parameters/policy.png)
 
