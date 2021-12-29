@@ -225,7 +225,7 @@ Save the template you have updated with content above. Next, navigate to the AWS
 
 Verify IAM permissions you described work as you expect. Under the _Resources_ tab for the view for your CloudFormation stack, as shown in the picture above, find the `DemoRole` you described with the `pseudo-parameters.yaml` template.
 
-Choose to follow the link to the Physical ID of the `DemoRole`. Expand the inline policy `ssm-least-privilege` under Policy name section.
+Choose to follow the link to the Physical ID of the `DemoRole`. Expand the inline policy `ssm-least-privilege` under the section for the policy name.
 
 ![role-png](pseudo-parameters/role.png)
 
