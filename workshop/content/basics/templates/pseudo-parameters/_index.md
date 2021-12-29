@@ -217,7 +217,7 @@ Save the template you have updated with content above. Next, navigate to the AWS
 * Choose the `pseudo-parameters.yaml` template.
 * Enter a *Stack name*. For example, cfn-workshop-pseudo-parameters
 * Choose to accept the *Configure stack options* default value, choose *Next*.
-* On the *Review <stack_name>* page, scroll down to the bottom and choose the check box under the *Capabilities* section that says `I acknowledge that AWS CloudFormation might create IAM resources.`
+* On the _Review_ page, scroll down to the bottom, and choose to check the box under the following *Capabilities* section: **I acknowledge that AWS CloudFormation might create IAM resources.**
 * Choose *Create stack*. You can view the progress of the stack being created in the CloudFormation console.
 * Wait until the stack creation is complete. Refresh the view in the console until you see in the status CREATE_COMPLETE.
 
