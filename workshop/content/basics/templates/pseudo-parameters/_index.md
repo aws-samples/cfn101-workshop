@@ -223,7 +223,7 @@ Save the template you have updated with content above. Next, navigate to the AWS
 
 ![resources-png](pseudo-parameters/resources.png)
 
-Let’s verify the IAM permission works as intended. Under the Resources tab of CloudFormation stack like in the picture above, you’ll find the `DemoRole` you described with the `pseudo-parameters.yaml` template.
+Verify IAM permissions you described work as you expect. Under the _Resources_ tab for the view for your CloudFormation stack, as shown in the picture above, find the `DemoRole` you described with the `pseudo-parameters.yaml` template.
 
 Choose to follow the link to the Physical ID of the `DemoRole`. Expand the inline policy `ssm-least-privilege` under Policy name section.
 
