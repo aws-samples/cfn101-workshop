@@ -208,7 +208,7 @@ Resources:
 ```
 
 
-Save this template file to the machine you’re working on. Then navigate to the CloudFormation console and create a stack using this template.
+Save the template you have updated with content above. Next, navigate to the AWS CloudFormation [console](https://console.aws.amazon.com/cloudformation), and choose to create a stack using this template:
 
 
 * In the CloudFormation console, choose *Create stack With new resources (standard)*.
