@@ -243,7 +243,7 @@ After you invoke the Lambda function, under the **Function Logs** section you sh
 
 ![lambda-png](pseudo-parameters/lambda.png)
 
-'alice' is the value of the 'dbUsername' SSM parameter and the Lambda function has logic to print the value of `dbUsername` parameter when invoked. If you see a test output that prints `SSM dbUsername parameter value: alice` like in the picture above, you have verified the SSM parameter policy that you constructed using pseudo parameters is working as you expected.
+You should see a line, similar to the one above, showing `alice` as the value for your `dbUsername` parameter: with this, you have verified that the logic you added for your Lambda function can access your parameter, and retrieve and print its value as you expected.
 
 
 ### Challenge
