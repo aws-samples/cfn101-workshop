@@ -253,7 +253,7 @@ You’ve learned how to use pseudo parameters in your CloudFormation templates. 
 
 {{%expand "Need a hint?" %}}
 
-- See the documentation for [CloudFormation parameters](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/parameters-section-structure.html) and define the parameter for s3 bucket prefix in a similar way.
+- See the documentation for [CloudFormation parameters](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/parameters-section-structure.html), and define a parameter for your S3 bucket name prefix in your template.
 - CloudFormation parameters are referenced in a similar way to how we referenced pseudo parameters inside of the `!Sub` function above. For example, if your parameter name is `S3BucketNamePrefix` you can reference this inside of `!Sub` function as follows `!Sub '${S3BucketNamePrefix}'`
 
 
