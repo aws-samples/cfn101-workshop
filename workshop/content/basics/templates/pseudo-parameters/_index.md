@@ -264,7 +264,7 @@ You’ve learned how to use pseudo parameters in your CloudFormation templates. 
 
 {{%expand "Want to see the solution?" %}}
 ```YAML
-# add a parameter that will let users input a prefix to be used with s3 buckets
+# Add a template parameter that will let users input a bucket name prefix
 Parameters:
   S3BucketNamePrefix:
     AllowedPattern: ^[0-9a-zA-Z]+([0-9a-zA-Z-]*[0-9a-zA-Z])*$
