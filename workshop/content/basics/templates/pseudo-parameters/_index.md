@@ -213,7 +213,7 @@ Save the template you have updated with content above. Next, navigate to the AWS
 
 * In the CloudFormation console, choose *Create stack With new resources (standard)*.
 * In *Prepare template*, choose *Template is ready*.
-* In *Template source* select *Upload a template file*.
+* In *Template source*, choose *Upload a template file*.
 * Choose the `pseudo-parameters.yaml` template.
 * Enter a *Stack name*. For example, cfn-workshop-pseudo-parameters
 * Choose to accept the *Configure stack options* default value, choose *Next*.
