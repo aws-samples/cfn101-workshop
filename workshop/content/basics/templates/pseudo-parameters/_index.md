@@ -299,4 +299,4 @@ Follow these steps to clean up created resources:
 
 ---
 ### Conclusion
-Great job! Now you know how to use pseudo parameters to make your CloudFormation templates more reusable. For more information, see pseudo parameters [documentation page](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/pseudo-parameter-reference.html).
+Great job! You have learned how to use pseudo parameters to write reusable CloudFormation templates. For more information, see pseudo parameters [documentation page](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/pseudo-parameter-reference.html).
