@@ -286,7 +286,7 @@ See `code/solutions/pseudo-parameters.yaml` for the full solution.
 
 {{% /expand %}}
 
-Make sure you test your solution and verify everything works as intended. You can verify by first [updating the stack](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-updating-stacks-direct.html) you created earlier using the updated template. If the stack update succeeds, check if the S3 bucket with the name ${yourprefix}-${AWS::AccountId}-${AWS::Region} is created. If so, this proves that pseudo parameters were used to construct the S3 bucket name and shows you’ve completed the challenge successfully.
+Test your solution, to verify it worked as you expected. First, [update the stack](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-updating-stacks-direct.html) you created earlier: choose to use the template whose content you updated. Wait until the stack update operation succeeds, and verify your S3 bucket uses the `YOUR_BUCKET_NAME_PREFIX-AWS_REGION_YOUR_ACCOUNT_ID` format.
 
 ### Clean up
 
