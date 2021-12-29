@@ -117,7 +117,7 @@ In the example snippet above, you have described an [execution role](https://doc
 
 Instead of using `Resource: '*'` for the `Resource` definition above, you choose to specify the ARN of your parameter that you construct with `AWS::Partition`, `AWS::Region`, and `AWS::AccountId` pseudo parameters. The [Fn::Sub](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference-sub.html) intrinsic function lets you substitute variables in an input string with values that you specify: you will use this intrinsic function (shown next in its `!Sub` YAML short form) to substitute values of pseudo parameters mentioned earlier. In the ARN you compose, you also specify the name of your Parameter Store resource, by referencing it with `BasicParameter`, that is the [logical ID](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/resources-section-structure.html) of the Parameter Store resource you described in your template:
 
-For the `DemoRole`, under the Policies property, change the `Resource: '*'` portion to the following:
+For the `DemoRole`, under the Policies property, replace the `Resource: '*'` line with the following:
 
 ```yaml
 Resource: !Sub 'arn:${AWS::Partition}:ssm:${AWS::Region}:${AWS::AccountId}:parameter/${BasicParameter}'
