@@ -247,7 +247,7 @@ You should see a line, similar to the one above, showing `alice` as the value fo
 
 
 ### Challenge
-You’ve now learned how to leverage pseudo parameters in CloudFormation templates. Now let’s say you want to add an S3 bucket to the CloudFormation template. Let’s say you choose the name of the S3 bucket to be as in the following format:  YourPrefix-RegionName-AWSAccount ID. Example `my-demo-bucket-us-east-1-111122223333`
+You’ve learned how to use pseudo parameters in your CloudFormation templates. Now let’s say you want to add an [Amazon S3 bucket](https://aws.amazon.com/s3/) to your CloudFormation template: for example, you choose the name of the S3 bucket to be as in the following format: `YOUR_BUCKET_NAME_PREFIX-AWS_REGION_YOUR_ACCOUNT_ID`, such as: `my-demo-bucket-us-east-1-111122223333`.
 
 **Task:** Describe an S3 bucket resource in your template, and use a combination of CloudFormation parameters and pseudo parameters to construct the bucket name like in the example above. You want to add a prefix for the bucket name, passed in as a CloudFormation parameter, so that your bucket name will be composed as follows: `${yourprefix}-${AWS::AccountId}-${AWS::Region}`
 
