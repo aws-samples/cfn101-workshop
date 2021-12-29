@@ -111,7 +111,7 @@ Next, let’s define the IAM role and policy from where you want to reference th
                 Resource: '*'
   ```
 
-  The IAM role above is a service role for a Lambda function that you plan to deploy, and as it stands, this role will allow a Lambda function to perform `GetParameter` operation on all SSM parameters. To follow the best practice of least privilege, let’s scope down the IAM policy so that the role lets our Lambda function to only retrieve the SSM parameter you defined above.
+In the example snippet above, you have described an [execution role](https://docs.aws.amazon.com/lambda/latest/dg/lambda-intro-execution-role.html) you will associate to a Lambda function you plan to deploy. The role  allows your Lambda function to perform the `GetParameter` operation on your SSM parameters. To follow the best practice of least privilege, you scope down actions you allow in your IAM policy, so that you choose to only allow access, from your Lambda function, to your SSM parameter you defined above.
 
 
 
