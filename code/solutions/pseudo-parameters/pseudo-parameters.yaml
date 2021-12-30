@@ -24,7 +24,7 @@ Resources:
       Name: dbUsername
       Type: String
       Value: alice
-      Description: SSM Parameter for mysql database username.
+      Description: SSM Parameter for database username.
 
   DemoRole:
     Type: AWS::IAM::Role
