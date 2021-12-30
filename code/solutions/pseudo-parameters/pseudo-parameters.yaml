@@ -1,5 +1,5 @@
 AWSTemplateFormatVersion : "2010-09-09"
-Description: AWS CloudFormation workshop - pseudo parameters ().
+Description: AWS CloudFormation workshop - pseudo parameters (uksb-1q9p31idr).
 Parameters:
   S3BucketNamePrefix:
     AllowedPattern: ^[0-9a-zA-Z]+([0-9a-zA-Z-]*[0-9a-zA-Z])*$
