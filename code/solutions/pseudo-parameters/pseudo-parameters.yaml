@@ -1,12 +1,9 @@
 AWSTemplateFormatVersion : "2010-09-09"
-Description: >
-  This template will create a SSM Parameter and reference its ARN on an IAM policy
-  leveraging CloudFormation pseudo parameters
-
+Description: AWS CloudFormation workshop - pseudo parameters ().
 Parameters:
   S3BucketNamePrefix:
     AllowedPattern: ^[0-9a-zA-Z]+([0-9a-zA-Z-]*[0-9a-zA-Z])*$
-    ConstraintDescription: Quick Start bucket name can include numbers, lowercase
+    ConstraintDescription: Bucket name prefix can include numbers, lowercase
       letters, uppercase letters, and hyphens (-). It cannot start or end with a hyphen
       (-).
     Description: The prefix to use for your S3 bucket
@@ -27,7 +24,7 @@ Resources:
       Name: dbUsername
       Type: String
       Value: alice
-      Description: SSM Parameter for database username.
+      Description: SSM Parameter for mysql database username.
 
   DemoRole:
     Type: 'AWS::IAM::Role'
