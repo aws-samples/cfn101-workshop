@@ -14,7 +14,7 @@ Parameters:
 
 Resources:
   DemoBucket:
-    Type: 'AWS::S3::Bucket'
+    Type: AWS::S3::Bucket
     Properties:
       BucketName: !Sub '${S3BucketNamePrefix}-${AWS::Region}-${AWS::AccountId}'
 
@@ -27,7 +27,7 @@ Resources:
       Description: SSM Parameter for mysql database username.
 
   DemoRole:
-    Type: 'AWS::IAM::Role'
+    Type: AWS::IAM::Role
     Properties:
       AssumeRolePolicyDocument:
         Version: "2012-10-17"

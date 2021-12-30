@@ -89,7 +89,7 @@ Next, let’s define the IAM role and policy from where you want to reference th
 
 ```yaml
   DemoRole:
-    Type: 'AWS::IAM::Role'
+    Type: AWS::IAM::Role
     Properties:
       AssumeRolePolicyDocument:
         Version: "2012-10-17"
@@ -215,7 +215,7 @@ Parameters:
 
 Resources:
   DemoBucket:
-      Type: 'AWS::S3::Bucket'
+      Type: AWS::S3::Bucket
       Properties:
         BucketName: !Sub '${S3BucketNamePrefix}-${AWS::Region}-${AWS::AccountId}'
 ```
