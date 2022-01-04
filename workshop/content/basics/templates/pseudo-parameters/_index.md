@@ -127,22 +127,22 @@ Locate the `Policies` section for `DemoRole`; replace the whole line containing 
 Finally, add this section below to the Resources section of the `pseudo-parameters.yaml` template file. This section defines a Lambda function that uses the IAM Role you defined above with permissions to read the SSM parameter, which you also defined above. You will invoke this Lambda function to test if the Lambda function can access the SSM parameter named `dbUsername`.
 
 ```yaml
-DemoLambdaFunction:
-  Type: AWS::Lambda::Function
-  Properties:
-    Handler: index.lambda_handler
-    Role: !GetAtt DemoRole.Arn
-    Runtime: python3.8
-    Code:
-      ZipFile: |
-        import boto3
+  DemoLambdaFunction:
+    Type: AWS::Lambda::Function
+    Properties:
+      Handler: index.lambda_handler
+      Role: !GetAtt DemoRole.Arn
+      Runtime: python3.8
+      Code:
+        ZipFile: |
+          import boto3
 
-        client = boto3.client('ssm')
+          client = boto3.client('ssm')
 
 
-        def lambda_handler(event, context):
-            response = client.get_parameter(Name='dbUsername')
-            print(f'SSM dbUsername parameter value: {response["Parameter"]["Value"]}')
+          def lambda_handler(event, context):
+              response = client.get_parameter(Name='dbUsername')
+              print(f'SSM dbUsername parameter value: {response["Parameter"]["Value"]}')
 
 ```
 
@@ -162,9 +162,7 @@ Save the template you have updated with content above. Next, navigate to the AWS
 
 ![resources-png](pseudo-parameters/resources.png)
 
-Verify IAM permissions you described work as you expect. Under the _Resources_ tab for your CloudFormation stack, as shown in the picture above, find the `DemoRole` you described with the `pseudo-parameters.yaml` template.
-
-Choose to follow the link to the Physical ID of the `DemoRole`. Expand the inline policy `ssm-least-privilege` under the section for the policy name.
+Verify IAM permissions you described work as you expect. Under the _Resources_ tab for your CloudFormation stack, as shown in the picture above, find the `DemoRole` you described with the `pseudo-parameters.yaml` template. Choose to follow the link to the Physical ID of the `DemoRole`. Expand the inline policy `ssm-least-privilege` under the section for the policy name.
 
 ![role-png](pseudo-parameters/role.png)
 
@@ -200,6 +198,9 @@ You’ve learned how to use pseudo parameters in your CloudFormation templates. 
 
 
 {{%expand "Want to see the solution?" %}}
+
+First, add a template parameter to be used as the S3 bucket prefix you'll be creating.
+
 ```YAML
 # Add a template parameter that will let users input a bucket name prefix
 Parameters:
@@ -212,8 +213,12 @@ Parameters:
     Type: String
     MinLength: 3
     Default: my-demo-bucket
+```
 
-Resources:
+Then, add a `DemoBucket` resource under the _Resources_ section of the template.
+
+
+```yaml
   DemoBucket:
     Type: AWS::S3::Bucket
     Properties:
