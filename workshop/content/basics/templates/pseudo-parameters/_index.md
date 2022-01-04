@@ -217,7 +217,7 @@ Resources:
   DemoBucket:
       Type: AWS::S3::Bucket
       Properties:
-        BucketName: !Sub '${S3BucketNamePrefix}-${AWS::Region}-${AWS::AccountId}'
+      BucketName: !Sub '${S3BucketNamePrefix}-${AWS::Region}-${AWS::AccountId}'
 ```
 See `code/solutions/pseudo-parameters/pseudo-parameters.yaml` for the full solution.
 
