@@ -21,7 +21,7 @@ By the end of this lab, you will be able to:
 
 When working with CloudFormation templates, one of the things you should aim for is to write modular and reusable templates to facilitate reuse of templates across AWS Accounts and Regions. In addition to [CloudFormation parameters](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/parameters-section-structure.html), you can choose to engineer your template to use [pseudo parameters](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/pseudo-parameter-reference.html). Pseudo parameters are parameters predefined by CloudFormation.
 
-You use a pseudo parameter the same way you use a parameter, as an argument for the [Ref intrinsic function](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference-ref.html).
+You use a pseudo parameter the same way you use a parameter; for example, as an argument for the [Ref intrinsic function](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference-ref.html).
 
 In this module, you will use the three pseudo parameters below:
 
