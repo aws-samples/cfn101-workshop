@@ -215,7 +215,7 @@ Parameters:
 
 Resources:
   DemoBucket:
-      Type: AWS::S3::Bucket
+    Type: AWS::S3::Bucket
     Properties:
       BucketName: !Sub '${S3BucketNamePrefix}-${AWS::Region}-${AWS::AccountId}'
 ```
