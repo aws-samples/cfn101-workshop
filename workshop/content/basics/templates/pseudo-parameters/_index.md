@@ -120,7 +120,7 @@ Instead of using `Resource: '*'` for the `Resource` definition above, you choose
 Locate the `Policies` section for `DemoRole`; replace the whole line containing `Resource: '*'` with the following:
 
 ```yaml
-Resource: !Sub 'arn:${AWS::Partition}:ssm:${AWS::Region}:${AWS::AccountId}:parameter/${BasicParameter}'
+                Resource: !Sub 'arn:${AWS::Partition}:ssm:${AWS::Region}:${AWS::AccountId}:parameter/${BasicParameter}'
 ```
 
 
