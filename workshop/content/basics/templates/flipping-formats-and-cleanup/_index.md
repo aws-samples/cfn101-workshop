@@ -7,7 +7,7 @@ weight: 1000
 ### Overview
 You can write AWS CloudFormation [templates](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/template-formats.html) in JSON or YAML formats: you choose either one or the other depending on your preference. For more information, see [AWS CloudFormation template formats](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/template-formats.html).
 
-In this module, you will look into an example of switching from a JSON-formatted template into a YAML format: you will use the [cfn-flip](https://github.com/awslabs/aws-cfn-template-flip) tool as an option to easily perform this task. You will also use `cfn-flip` to perform opinionated cleanup actions for an example, input template.
+In this module, you will look into an example of switching from a JSON-formatted template into a YAML format: you will use the [cfn-flip](https://github.com/awslabs/aws-cfn-template-flip) tool as an option to easily perform this task. You will also use `cfn-flip` to perform opinionated cleanup actions for an example template.
 
 ### Topics Covered
 By the end of this lab, you will be able to use `cfn-flip` as an option to:
