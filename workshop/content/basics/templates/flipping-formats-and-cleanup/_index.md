@@ -78,7 +78,7 @@ Example template excerpts, that focus on points you just learned, are summarized
 [...]
 ```
 
-Next, use `cfn-flip` to convert your template from the JSON format into YAML. Choose to run the following command from the directory where the `example_parameter.json` JSON-formatted template is located:
+Next, use `cfn-flip` to convert your template from the JSON format into YAML. Run the following command from the directory where the `example_parameter.json` JSON-formatted template is located:
 
 ```shell
 $ cfn-flip example_parameter.json example_parameter.yaml
