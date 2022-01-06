@@ -4,41 +4,31 @@ date: 2021-12-22T16:27:38Z
 weight: 1000
 ---
 
-
-
 ### Overview
-
 You can write AWS CloudFormation [templates](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/template-formats.html) in JSON or YAML formats: you choose either one or the other depending on your preference. For more information, see [AWS CloudFormation template formats](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/template-formats.html).
 
 In this module, you will look into an example of switching from a JSON-formatted template into a YAML format: you will use the [cfn-flip](https://github.com/awslabs/aws-cfn-template-flip) tool as an option to easily perform this task. You will also use `cfn-flip` to perform opinionated cleanup actions for an example, input template.
 
-
-
 ### Topics Covered
-
 By the end of this lab, you will be able to use `cfn-flip` as an option to:
 
 * Flip from JSON to YAML formats, and vice versa.
 * Perform opinionated cleanup actions on an example template.
 
-
-
 ### Start Lab
-
-Choose to [install](https://github.com/awslabs/aws-cfn-template-flip#installation) `cfn-flip` with `pip`:
+[Install](https://github.com/awslabs/aws-cfn-template-flip#installation) `cfn-flip` with `pip`:
 
 ```shell
 $ pip install cfn-flip
 ```
 
-Next, verify you can run `cfn-flip`; choose to run the following command:
+Next, verify you can run `cfn-flip` by running the following command:
 
 ```shell
 $ cfn-flip --version
 ```
 
 Let's now convert an example JSON-formatted template into YAML. Follow steps below to locate the template you will use, in this lab, for the task:
-
 1. Change directory to the `code/workspace/flipping-formats-and-cleanup` directory.
 2. Open the `example_parameter.json` CloudFormation template in your favorite text editor.
 3. Read the content of the `example_parameter.json` file: this template describes an `AWS::SSM::Parameter` resource type for an [AWS Systems Manager Parameter Store](https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-parameter-store.html) parameter. With this example template, you:
@@ -52,7 +42,7 @@ You can also join strings with the `Fn::Sub` [intrinsic function](https://docs.a
 
 Example template excerpts, that focus on points you just learned, are summarized next:
 
-```
+```json
 [...]
     "Parameters": {
         "ParameterName": {
@@ -88,7 +78,7 @@ Example template excerpts, that focus on points you just learned, are summarized
 [...]
 ```
 
-Next, you choose to use `cfn-flip` to convert your template from the JSON format into YAML. Choose to run the following command from the directory where the `example_parameter.json` JSON-formatted template is located:
+Next, use `cfn-flip` to convert your template from the JSON format into YAML. Choose to run the following command from the directory where the `example_parameter.json` JSON-formatted template is located:
 
 ```shell
 $ cfn-flip example_parameter.json example_parameter.yaml
@@ -102,7 +92,7 @@ As a result, you should now have a new template, in the same directory, called `
 
 Excerpts from the `example_parameter.yaml` template are shown next. You will note that the `Fn::Join` intrinsic function, that you saw in the JSON-formatted template, is now represented with its YAML short form, `!Join`; this is because `cfn-flip` [makes use of short form function declarations](https://github.com/awslabs/aws-cfn-template-flip#about) where possible:
 
-```
+```yaml
 [...]
 Parameters:
   ParameterName:
@@ -137,21 +127,16 @@ When you write your templates in YAML format, you can choose to specify YAML com
 
 Congratulations! You have converted your CloudFormation template from the JSON format to YAML, and learned how to discover other `cfn-flip` features!
 
-
-
 ### Challenge
-
 The `cfn-flip` tool gives you also the ability to perform opinionated cleanup actions on your template, including converting from the [Fn::Join](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference-join.html) intrinsic function into using [Fn::Sub](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference-sub.html). In this lab section, you choose to use this functionality in the `example_parameter.yaml` template you converted earlier from the JSON format.
 
 Your task is to perform opinionated cleanup actions on the `example_parameter.yaml` template, and store the cleaned up template output in a new file in your workspace, called `example_parameter_updated.yaml`. Please note that you want to maintain the same YAML format for the output template, instead of converting it to JSON.
 
 Start with finding which options you need to pass to `cfn-flip` first, then run `cfn-flip` against the input template, and verify the output template uses the short form for the `Fn::Sub` intrinsic function instead of the short form for the `Fn::Join` intrinsic function.
 
-
 {{%expand "Need a hint?" %}}
 Print the `cfn-flip` usage with: `cfn-flip --help` to find which two options you want to use for the task. Which are these two options?
 {{% /expand %}}
-
 
 {{%expand "Want to see the solution?" %}}
 Choose to use the two following options: `-n -c` (or `--no-flip --clean`) for `cfn-flip` to maintain the same format (in this case, YAML), and to perform opinionated cleanup actions. Choose to run the following command, in your workspace:
@@ -168,7 +153,7 @@ Open the resulting `example_parameter_updated.yaml` template with your favorite 
 ```
 {{% /expand %}}
 
-
+---
 ### Conclusion
 
 Great work! You have learned how to use `cfn-flip` to convert JSON-formatted CloudFormation templates into YAML (and vice versa), and to perform opinionated cleanup actions on a given template.
