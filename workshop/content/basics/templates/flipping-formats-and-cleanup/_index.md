@@ -22,7 +22,13 @@ By the end of this lab, you will be able to use `cfn-flip` as an option to:
 $ pip install cfn-flip
 ```
 
-Next, verify you can run `cfn-flip` by running the following command:
+Alternatively, if you are using [Homebrew](https://brew.sh/) on macOS:
+
+```shell
+$ brew install cfn-flip
+```
+
+When you are done with the install, verify you can run `cfn-flip` by running the following command:
 
 ```shell
 $ cfn-flip --version
