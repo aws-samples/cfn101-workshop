@@ -85,7 +85,7 @@ $ cfn-flip example_parameter.json example_parameter.yaml
 ```
 
 {{% notice note %}}
-The `cfn-flip` tool automatically detects the format of your input template (in your case, JSON), and will convert it into the opposite output format accordingly (in this example, into YAML). To explicitly tell `cfn-flip` to convert into YAML or into JSON (and to have `cfn-flip` assume the input template uses the opposite format), choose the `-y` (or `--yaml`) option or the `-j` (or `--json`) option, respectively. For more information, choose to run ` cfn-flip --help` from the command line.
+The `cfn-flip` tool automatically detects the format of your input template (in your case, JSON), and will convert it into the opposite output format accordingly (in this example, into YAML). To explicitly tell `cfn-flip` to convert into YAML or into JSON (and to have `cfn-flip` assume the input template uses the opposite format), choose the `-y` (or `--yaml`) option or the `-j` (or `--json`) option, respectively. For more information, run ` cfn-flip --help` from the command line.
 {{% /notice %}}
 
 As a result, you should now have a new template, in the same directory, called `example_parameter.yaml`. Open the template in your favorite text editor: can you recognize elements that you converted into YAML with `cfn-flip`?
