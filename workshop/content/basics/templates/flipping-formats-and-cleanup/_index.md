@@ -90,7 +90,7 @@ The `cfn-flip` tool automatically detects the format of your input template (in 
 
 As a result, you should now have a new template, in the same directory, called `example_parameter.yaml`. Open the template in your favorite text editor: can you recognize elements that you converted into YAML with `cfn-flip`?
 
-Excerpts from the `example_parameter.yaml` template are shown next. You will note that the `Fn::Join` intrinsic function, that you saw in the JSON-formatted template, is now represented with its YAML short form, `!Join`; this is because `cfn-flip` [makes use of short form function declarations](https://github.com/awslabs/aws-cfn-template-flip#about) where possible:
+Excerpts from the `example_parameter.yaml` template are shown next. You will note that the `Fn::Join` intrinsic function, which you saw in the JSON-formatted template, is now represented in its YAML short form, `!Join`; this is because `cfn-flip` [makes use of short form function declarations](https://github.com/awslabs/aws-cfn-template-flip#about) where possible:
 
 ```yaml
 [...]
