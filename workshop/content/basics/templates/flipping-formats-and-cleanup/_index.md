@@ -115,7 +115,7 @@ Resources:
           - example parameter
 ```
 
-With `cfn-flip` you can also convert from YAML to JSON. For more information, and to discover other `cfn-flip` features, choose to run the following command:
+With `cfn-flip` you can also convert from YAML to JSON. For more information, and to discover other `cfn-flip` features, run the following command:
 
 ```shell
 $ cfn-flip --help
