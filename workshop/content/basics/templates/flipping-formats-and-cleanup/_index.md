@@ -122,7 +122,7 @@ $ cfn-flip --help
 ```
 
 {{% notice note %}}
-When you write your templates in YAML format, you can choose to specify YAML comments in your template content by using the `#` character at the beginning of a line. When you use `cfn-flip` to convert from YAML into JSON, your YAML comments are not added to your output template in JSON format.
+When you write your templates in YAML format, you can choose to specify YAML comments in your template content by using the `#` character at the beginning of a line. When you use `cfn-flip` to convert from YAML into JSON, your YAML comments are not added to your output template in JSON format. This is because JSON does not support comments (see <https://json.org> for more information).
 {{% /notice %}}
 
 Congratulations! You have converted your CloudFormation template from the JSON format to YAML, and learned how to discover other `cfn-flip` features!
