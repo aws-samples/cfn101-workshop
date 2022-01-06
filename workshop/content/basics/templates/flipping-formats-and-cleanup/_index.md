@@ -139,7 +139,7 @@ Print the `cfn-flip` usage with: `cfn-flip --help` to find which two options you
 {{% /expand %}}
 
 {{%expand "Want to see the solution?" %}}
-Choose to use the two following options: `-n -c` (or `--no-flip --clean`) for `cfn-flip` to maintain the same format (in this case, YAML), and to perform opinionated cleanup actions. Choose to run the following command, in your workspace:
+Use the two following options: `-n -c` (or `--no-flip --clean`) for `cfn-flip` to maintain the same format (in this case, YAML), and to perform opinionated cleanup actions. Run the following command in your workspace:
 
 ```shell
 $ cfn-flip -n -c example_parameter.yaml example_parameter_updated.yaml
