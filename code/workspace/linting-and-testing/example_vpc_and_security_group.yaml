@@ -26,7 +26,7 @@ Resources:
           FromPort: 443
           ToPort: 443
           IpProtocol: tcp
-          SourceSecurityGroupId: !Ref 'MySecurityGroup'
+          SourceSecurityGroupId: !Ref MySecurityGroup
       SecurityGroupEgress:
         - Description: Example rule limiting egress traffic to 127.0.0.1/32
           CidrIp: 127.0.0.1/32
