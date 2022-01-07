@@ -57,7 +57,7 @@ $ taskcat --version
 In this section, you will run `cfn-lint` against an example CloudFormation template to validate your configuration. Your goal is to validate, very early in the development life cycle, your template content against the [AWS CloudFormation Resource Specification](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/cfn-resource-specification.html) to check for valid values you can specify, and to also have an opportunity to validate the template against a number of best-practice checks:
 
 1. Change directory to the `code/workspace/linting-and-testing` directory.
-2. Open the `example_vpc_and_security_group.yaml` CloudFormation template in your favorite text editor. The sample template describes an example VPC and an example VPC Security Group that references the VPC. Note that to keep a simple scope in this lab, that focuses on example linting use cases, the example template does not describe other VPC-related resources such as subnets, Internet Gateway, route table, and route resources.
+2. Open the `example_vpc_and_security_group.yaml` CloudFormation template in your favorite text editor. The sample template describes an example VPC and an example VPC Security Group that references the VPC. _Note that to keep a simple scope in this lab, that focuses on example linting use cases, the example template does not describe other VPC-related resources such as subnets, Internet Gateway, route table, and route resources._
 3. Run `cfn-lint` against the template:
 
 ```shell
@@ -66,49 +66,49 @@ $ cfn-lint example_vpc_and_security_group.yaml
 
 In the output, you note an error:
 ```shell
-E3004 Circular Dependencies for resource MySecurityGroup. Circular dependency with [MySecurityGroup]
+E3004 Circular Dependencies for resource SecurityGroup. Circular dependency with [SecurityGroup]
 [...]
 ```
 
-The example template contains a circular dependency error: you get this type of error when you, in a resource property _value_, reference the [logical ID](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/resources-section-structure.html) of the resource itself. When you look at the sample template, you see it has a circular dependency for the `MySecurityGroup` resource of the `AWS::EC2::SecurityGroup` [type](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-security-group.html), because the `SourceSecurityGroupId` property references the `MySecurityGroup` resource itself, as shown in the following template excerpt:
+The example template contains a circular dependency error: you get this type of error when you, in a resource property _value_, reference the [logical ID](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/resources-section-structure.html) of the resource itself. When you look at the sample template, you see it has a circular dependency for the `SecurityGroup` resource of the `AWS::EC2::SecurityGroup` [type](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-security-group.html), because the `SourceSecurityGroupId` property references the `SecurityGroup` resource itself, as shown in the following template excerpt:
 
 ```yaml
 [...]
-  MySecurityGroup:
+  SecurityGroup:
     Type: AWS::EC2::SecurityGroup
     Properties:
       GroupDescription: Example Security Group
       SecurityGroupIngress:
-        - Description: Example rule to allow tcp/443 traffic from MySecurityGroup
+        - Description: Example rule to allow tcp/443 traffic from SecurityGroup
           FromPort: 443
           ToPort: 443
           IpProtocol: tcp
-          SourceSecurityGroupId: !Ref MySecurityGroup
+          SourceSecurityGroupId: !Ref SecurityGroup
 [...]
 ```
 
-To fix the circular dependency, move the `SecurityGroupIngress` related configuration of your Security Group into a new resource of the `AWS::EC2::SecurityGroupIngress` [type](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-security-group-ingress.html): for the `SourceSecurityGroupId` property value of this resource you will add to your template, you will reference the `MySecurityGroup` resource. With the `example_vpc_and_security_group.yaml` template opened in your favorite text editor, replace the whole `MySecurityGroup` resource declaration block with content below:
+To fix the circular dependency, move the `SecurityGroupIngress` related configuration of your Security Group into a new resource of the `AWS::EC2::SecurityGroupIngress` [type](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-security-group-ingress.html): for the `SourceSecurityGroupId` property value of this resource you will add to your template, you will reference the `SecurityGroup` resource. With the `example_vpc_and_security_group.yaml` template opened in your favorite text editor, replace the whole `SecurityGroup` resource declaration block with content below:
 
 ```yaml
-  MySecurityGroup:
+  SecurityGroup:
     Type: AWS::EC2::SecurityGroup
     Properties:
       GroupDescription: Example Security Group
       SecurityGroupEgress:
         - Description: Example rule limiting egress traffic to 127.0.0.1/32
           CidrIp: 127.0.0.1/32
-          IpProtocol: '-1'
-      VpcId: !Ref 'MyVpc'
+          IpProtocol: "-1"
+      VpcId: !Ref Vpc
 
-  MySecurityGroupIngress:
+  SecurityGroupIngress:
     Type: AWS::EC2::SecurityGroupIngress
     Properties:
-      Description: Example rule to allow tcp/443 traffic from MySecurityGroup
+      Description: Example rule to allow tcp/443 traffic from SecurityGroup
       FromPort: 443
       ToPort: 443
-      GroupId: !Ref 'MySecurityGroup'
+      GroupId: !Ref SecurityGroup
       IpProtocol: tcp
-      SourceSecurityGroupId: !Ref 'MySecurityGroup'
+      SourceSecurityGroupId: !Ref SecurityGroup
 ```
 
 When done, save the file and validate the template again with `cfn-lint` to verify you fixed the error:
@@ -151,14 +151,14 @@ For information on how to reference sensitive values from your CloudFormation te
 Values you pass to a given configuration setting you describe at a more specific scope (for example, in `tests`) will take [precedence](https://aws-ia.github.io/taskcat/docs/usage/GENERAL_USAGE.html#precedence) over less specific scopes (such as `project` and `general`), __with the exception of the `parameters` setting that works the opposite way__ (that is, a `parameters` setting you describe in the `general` scope will have precedence over more specific scopes). You will see how `parameters` is described in a `general` section next.
 {{% /notice %}}
 
-**Create a new** `~/.taskcat.yml` file in your home directory. In this file, you will specify the name of your S3 bucket into which `taskcat` will upload your template to be tested, and an example value of `172.16.0.0/16` for the `MyVpcIpv4Cidr` example template parameter.
+**Create a new** `~/.taskcat.yml` file in your home directory. In this file, you will specify the name of your S3 bucket into which `taskcat` will upload your template to be tested, and an example value of `172.16.0.0/16` for the `VpcIpv4Cidr` example template parameter.
 
 Add following content to the file you just created and, when you do so, make sure you replace the `YOUR_ACCOUNT_ID` example placeholder with your [AWS account ID](https://docs.aws.amazon.com/IAM/latest/UserGuide/console_account-alias.html#FindingYourAWSId):
 ```yaml
 general:
   s3_bucket: tcat-linting-and-testing-workshop-YOUR_ACCOUNT_ID
   parameters:
-    MyVpcIpv4Cidr: 172.16.0.0/16
+    VpcIpv4Cidr: 172.16.0.0/16
 ```
 
 Next, use the AWS CLI to create your bucket whose name you just specified in the file (replace `YOUR_ACCOUNT_ID` with your value here as well):
@@ -177,6 +177,8 @@ $ taskcat test run
 
 Once `taskcat` has finished running tests, you should find successful test results in reports available in the `code/workspace/linting-and-testing/taskcat_outputs/index.html` file.
 
+You can find following workspace files (with updates, as needed): `example_vpc_and_security_group.yaml`, `.taskcat.yml`, and `.gitignore` in the `code/solutions/linting-and-testing` path.
+
 > Congratulations! You have run tests for your CloudFormation template in one (or more regions) with `taskcat`!
 
 
@@ -186,6 +188,12 @@ You can use the [AWS CLI](https://docs.aws.amazon.com/cli/latest/reference/) to 
 
 ```shell
 $ aws s3api delete-object --bucket tcat-linting-and-testing-workshop-YOUR_ACCOUNT_ID --key linting-and-testing-workshop/example_vpc_and_security_group.yaml
+```
+
+In the same project workspace directory where you found the `example_vpc_and_security_group.yaml` example, there is another template (`example_sqs_queue.yaml`) that you will troubleshoot in the _Challenge_ section of this lab. As part of the test run you did earlier, `taskcat` has uploaded this file for you as well in your bucket: remove it from your bucket, as shown in the following example (replace `YOUR_ACCOUNT_ID` with your value):
+
+```shell
+$ aws s3api delete-object --bucket tcat-linting-and-testing-workshop-YOUR_ACCOUNT_ID --key linting-and-testing-workshop/example_sqs_queue.yaml
 ```
 
 Next, **delete your bucket** you created for this lab. At this point, your bucket should not contain other objects. Run the following command, and make sure to replace `YOUR_ACCOUNT_ID` with your value:

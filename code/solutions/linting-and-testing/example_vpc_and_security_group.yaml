@@ -15,20 +15,21 @@ Resources:
       CidrBlock: !Ref VpcIpv4Cidr
 
   SecurityGroup:
-    # This example SecurityGroup resource contains a circular
-    # dependency error: SourceSecurityGroupId references the same
-    # SecurityGroup resource you are describing
     Type: AWS::EC2::SecurityGroup
     Properties:
       GroupDescription: Example Security Group
-      SecurityGroupIngress:
-        - Description: Example rule to allow tcp/443 traffic from SecurityGroup
-          FromPort: 443
-          ToPort: 443
-          IpProtocol: tcp
-          SourceSecurityGroupId: !Ref SecurityGroup
       SecurityGroupEgress:
         - Description: Example rule limiting egress traffic to 127.0.0.1/32
           CidrIp: 127.0.0.1/32
           IpProtocol: "-1"
       VpcId: !Ref Vpc
+
+  SecurityGroupIngress:
+    Type: AWS::EC2::SecurityGroupIngress
+    Properties:
+      Description: Example rule to allow tcp/443 traffic from SecurityGroup
+      FromPort: 443
+      ToPort: 443
+      GroupId: !Ref SecurityGroup
+      IpProtocol: tcp
+      SourceSecurityGroupId: !Ref SecurityGroup
