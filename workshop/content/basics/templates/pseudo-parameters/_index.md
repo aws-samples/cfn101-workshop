@@ -5,15 +5,9 @@ weight: 500
 ---
 
 ### Overview
-
 In this lab, you will learn how to use [pseudo parameters](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/pseudo-parameter-reference.html) to write reusable templates.
 
-
-
 ### Topics Covered
-
-
-
 By the end of this lab, you will be able to:
 
 + Leverage pseudo parameters for template portability best practices
@@ -34,26 +28,16 @@ In this module, you will use the three pseudo parameters below:
 
 For more information on available pseudo parameters, see the [pseudo parameters reference](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/pseudo-parameter-reference.html) in the documentation.
 
-
 Let’s walk through an example of how to leverage pseudo parameters.
 
-
-
-
 ### Start Lab
-
-
 * Change directory to: `code/workspace/pseudo-parameters`.
 * Open the `pseudo-parameters.yaml` file.
 * Update the content of the template as you follow along steps on this lab.
 
-
-In the following example, you choose to use [AWS Systems Manager Parameter Store](https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-parameter-store.html#what-is-a-parameter) to centrally store a configuration information, such as the username for your database. For this, you choose to describe an `AWS::SSM::Parameter` resource in your CloudFormation template where you will store the username value. You then choose to write an IAM policy to describe action(s) you wish to grant to an [AWS Lambda function](https://aws.amazon.com/lambda/) you will create and use to consume your parameter store value. You choose to start with describing your IAM policy, where you reference the SSM parameter you create: this will require you to know the [Amazon Resource Name](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) (ARN) of the SSM parameter. First, you check the return values section for the resource (the SSM parameter in this case): in the relevant [documentation page](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ssm-parameter.html#aws-resource-ssm-parameter-return-values), you see that `Ref` returns the parameter name, and `Fn::GetAtt` returns the type and the value. Since the ARN is not available as an output value for that resource type today, you can choose to leverage pseudo parameters to construct the ARN.
-
-
+In the following example, you choose to use [AWS Systems Manager Parameter Store](https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-parameter-store.html#what-is-a-parameter) to centrally store a configuration information, such as the username for your database. For this, you choose to describe an `AWS::SSM::Parameter` resource in your CloudFormation template where you will store the username value. You then choose to write an IAM policy to describe action(s) you wish to grant to an [AWS Lambda function](https://aws.amazon.com/lambda/) you will create and use to consume your parameter store value. You choose to start with describing your IAM policy, where you reference the SSM parameter you create: this will require you to know the [Amazon Resource Name](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) (ARN) of the SSM parameter. First, check the return values section for the resource (the SSM parameter in this case): in the relevant [documentation page](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ssm-parameter.html#aws-resource-ssm-parameter-return-values), you see that `Ref` returns the parameter name, and `Fn::GetAtt` returns the type and the value. Since the ARN is not available as an output value for that resource type today, you can choose to leverage pseudo parameters to construct the ARN.
 
 You want to construct the resource ARN using pseudo parameters like the one in the following example. Let's say, for example, you have a sample parameter called `dbUsername` that you create in the `us-east-1` region, and in the AWS account `111122223333`; an example parameter ARN is constructed as in this example policy snippet:
-
 
 ```json
 {
@@ -123,9 +107,7 @@ Next, let’s define the IAM role and policy from where you want to reference th
                 Resource: '*'
   ```
 
-In the example snippet above, you have described an [execution role](https://docs.aws.amazon.com/lambda/latest/dg/lambda-intro-execution-role.html) you will associate to a Lambda function you plan to deploy. The role  allows your Lambda function to perform the `GetParameter` operation on your SSM parameters. To follow the best practice of least privilege, you scope down actions you allow in your IAM policy, so that you choose to only allow access, from your Lambda function, to your SSM parameter you defined above.
-
-
+In the example snippet above, you have described an [execution role](https://docs.aws.amazon.com/lambda/latest/dg/lambda-intro-execution-role.html) you will associate to a Lambda function you plan to deploy. The role  allows your Lambda function to perform the `GetParameter` operation on your SSM parameters. To follow the best practice of the least privilege, you scope down actions you allow in your IAM policy, so that you choose to only allow access, from your Lambda function, to your SSM parameter you defined above.
 
 Instead of using `Resource: '*'` for the `Resource` definition above, you choose to specify the ARN of your parameter that you construct with `AWS::Partition`, `AWS::Region`, and `AWS::AccountId` pseudo parameters. The [Fn::Sub](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference-sub.html) intrinsic function lets you substitute variables in an input string with values that you specify: you will use this intrinsic function (shown next in its `!Sub` YAML short form) to substitute values of pseudo parameters mentioned earlier. In the ARN you compose, you also specify the name of your Parameter Store resource, by referencing it with `BasicParameter`, that is the [logical ID](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/resources-section-structure.html) of the Parameter Store resource you described in your template.
 
@@ -134,7 +116,6 @@ Locate the `Policies` section for `DemoRole`; replace the whole line containing 
 ```yaml
                 Resource: !Sub 'arn:${AWS::Partition}:ssm:${AWS::Region}:${AWS::AccountId}:parameter/${BasicParameter}'
 ```
-
 
 Finally, add this section below to the Resources section of the `pseudo-parameters.yaml` template file. This section defines a Lambda function that uses the IAM Role you defined above with permissions to read the SSM parameter, which you also defined above. You will invoke this Lambda function to test if the Lambda function can access the SSM parameter named `dbUsername`.
 
@@ -158,10 +139,7 @@ Finally, add this section below to the Resources section of the `pseudo-paramete
 
 ```
 
-
 Save the template you have updated with content above. Next, navigate to the AWS CloudFormation [console](https://console.aws.amazon.com/cloudformation), and choose to create a stack using this template:
-
-
 * In the CloudFormation console, choose *Create stack With new resources (standard)*.
 * In *Prepare template*, choose *Template is ready*.
 * In *Template source*, choose *Upload a template file*.
@@ -182,7 +160,6 @@ You should see the IAM policy you described with your CloudFormation template. V
 
 ![policy-png](pseudo-parameters/policy.png)
 
-
 In the _Resources_ tab, you should also find the Lambda function you described with your template.
 
 To verify the Lambda function has permissions to access your SSM parameter you defined in the template, you choose to manually [invoke](https://docs.aws.amazon.com/lambda/latest/dg/getting-started-create-function.html#get-started-invoke-manually) your Lambda function. Choose to follow the link to the _Physical ID_ of your Lambda function under the _Resources_ tab of CloudFormation stack. To invoke your Lambda function for testing, you'll first need to create a Test event. On the `Test` tab, give a name to a new Test event in the new event template provided by default. Choose **Save changes** to save your Test event, and then choose **Test** to invoke your Lambda function.
@@ -194,20 +171,15 @@ After you invoke the Lambda function, under the **Function Logs** section you sh
 
 You should see a line, similar to the one above, showing `alice` as the value for your `dbUsername` parameter: with this, you have verified that the logic you added for your Lambda function can access your parameter, and retrieve and print its value as you expected.
 
-
 ### Challenge
 You’ve learned how to use pseudo parameters in your CloudFormation templates. Now let’s say you want to add an [Amazon S3 bucket](https://aws.amazon.com/s3/) to your CloudFormation template: for example, you choose the name of the S3 bucket to be as in the following format: `YOUR_BUCKET_NAME_PREFIX-AWS_REGION-YOUR_ACCOUNT_ID`, such as: `my-demo-bucket-us-east-1-111122223333`.
 
 **Task:** Describe an S3 bucket resource in your template. Add a prefix for your bucket name, and pass this prefix in as a CloudFormation template parameter. Use your template parameter and pseudo parameters to compose the bucket name as in the format mentioned earlier.
 
 {{%expand "Need a hint?" %}}
-
 - See the documentation for [CloudFormation parameters](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/parameters-section-structure.html), and define a parameter for your S3 bucket name prefix in your template.
 - When composing the bucket name, reference your CloudFormation parameter like you referenced pseudo parameters with the `!Sub` intrinsic function earlier. For example, if your template parameter is `S3BucketNamePrefix`, choose to reference it with the `!Sub` intrinsic function as follows: `!Sub '${S3BucketNamePrefix}'`
-
 {{% /expand %}}
-
-
 
 {{%expand "Want to see the solution?" %}}
 
@@ -228,7 +200,6 @@ First, under the _Parameters_ section, add a template parameter `S3BucketNamePre
 
 Then, add a `DemoBucket` resource under the _Resources_ section of the template.
 
-
 ```yaml
   DemoBucket:
     Type: AWS::S3::Bucket
@@ -242,12 +213,10 @@ See `code/solutions/pseudo-parameters/pseudo-parameters.yaml` for the full solut
 Test your solution, to verify it worked as you expected. First, [update the stack](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-updating-stacks-direct.html) you created earlier: choose to use the template whose content you updated. Wait until the stack update operation succeeds, and verify your S3 bucket uses the `YOUR_BUCKET_NAME_PREFIX-AWS_REGION-YOUR_ACCOUNT_ID` format.
 
 ### Clean up
-
 Follow these steps to clean up created resources:
 
   * In the CloudFormation console, choose the stack you have created in this lab. For example, choose to specify `cfn-workshop-pseudo-parameters`.
-  * Choose **Delete** to delete the stack you created in this lab.
-
+  * Choose **Delete** to delete the stack you created in this lab, and then choose **Delete stack** to confirm.
 
 ---
 ### Conclusion
