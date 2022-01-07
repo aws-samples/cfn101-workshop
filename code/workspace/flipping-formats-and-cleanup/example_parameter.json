@@ -1,0 +1,44 @@
+{
+    "AWSTemplateFormatVersion": "2010-09-09",
+    "Description": "AWS CloudFormation workshop - flipping formats and cleaning up - example parameter (uksb-1q9p31idr)",
+    "Parameters": {
+        "ParameterName": {
+            "Description": "Name you wish to specify for your SSM Parameter.",
+            "Type": "String",
+            "MinLength": 1,
+            "MaxLength": 2048
+        },
+        "ParameterValue": {
+            "Description": "Value you wish to specify for your SSM Parameter.",
+            "Type": "String",
+            "MinLength": 1,
+            "MaxLength": 4096
+        }
+    },
+    "Resources": {
+        "MyParameter": {
+            "Type": "AWS::SSM::Parameter",
+            "Properties": {
+                "Name": {
+                    "Ref": "ParameterName"
+                },
+                "Type": "String",
+                "Value": {
+                    "Ref": "ParameterValue"
+                },
+                "Description": {
+                    "Fn::Join": [
+                        " ",
+                        [
+                            "My",
+                            {
+                                "Ref": "ParameterName"
+                            },
+                            "example parameter"
+                        ]
+                    ]
+                }
+            }
+        }
+    }
+}
