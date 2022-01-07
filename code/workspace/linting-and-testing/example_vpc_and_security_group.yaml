@@ -31,4 +31,4 @@ Resources:
         - Description: Example rule limiting egress traffic to 127.0.0.1/32
           CidrIp: 127.0.0.1/32
           IpProtocol: '-1'
-      VpcId: !Ref 'MyVpc'
+      VpcId: !Ref MyVpc
