@@ -16,7 +16,7 @@ Resources:
 Outputs:
   SqsQueueURL:
     Description: The URL of your Amazon SQS Queue
-    Value: !Ref 'MyQueue'
+    Value: !Ref MyQueue
 
   SqsQueueName:
     Description: The name of your Amazon SQS Queue
