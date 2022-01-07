@@ -20,6 +20,6 @@ Outputs:
     Description: The URL of your Amazon SQS Queue
     Value: !Ref 'MyQueue'
 
-  QueueName:
+  SqsQueueName:
     Description: The name of your Amazon SQS Queue
     Value: !GetAtt MyQueue.Name
