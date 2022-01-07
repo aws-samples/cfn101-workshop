@@ -12,7 +12,7 @@ Resources:
   MyVpc:
     Type: AWS::EC2::VPC
     Properties:
-      CidrBlock: !Ref 'MyVpcIpv4Cidr'
+      CidrBlock: !Ref MyVpcIpv4Cidr
 
   MySecurityGroup:
     # This example MySecurityGroup resource contains a circular
