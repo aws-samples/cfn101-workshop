@@ -72,7 +72,19 @@ You want to construct the resource ARN using pseudo parameters like the one in t
 ```
 Let's describe resources you need in your CloudFormation template.
 
-First, let’s start by defining your SSM parameter in the template: you will use a simple example of an SSM parameter where you define a parameter `Name` called `dbUsername`, and a `Value` you set to `alice`. Choose to copy content shown next, and paste it in the `pseudo-parameters.yaml` file, by appending it to the existing file content:
+Let’s start by defining a [template parameter](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/parameters-section-structure.html) to be used as the the value of your SSM parameter you'll be defining in the template. You'll start by defining a template parameter called `DatabaseUsername` under the _Parameters_ section. You can then choose to reference this template parameter in the _Resources_ section by using a Ref intrinsic function. Choose to copy content shown next, and paste it in the `pseudo-parameters.yaml` file, by appending it to the existing file content:
+
+
+```YAML
+Parameters:
+  DatabaseUsername:
+    AllowedPattern: ^[a-z0-9]{5,12}$
+    Type: String
+    Default: alice
+    Description: Value to be used with the dbUsername SSM parameter. The default value is set to 'alice', which you can override when creating a CloudFormation stack.
+```
+
+Next, you will use a simple example of an SSM parameter where you define a parameter `Name` called `dbUsername`, and a `Value` you pass in by referencing template parameter `DatabaseUsername` using Ref intrinsic function. Choose to append the following content to the existing file content:
 
 ```YAML
 Resources:
@@ -81,7 +93,7 @@ Resources:
     Properties:
       Name: dbUsername
       Type: String
-      Value: alice
+      Value: !Ref DatabaseUsername
       Description: SSM Parameter for database username.
 ```
 
@@ -199,11 +211,10 @@ You’ve learned how to use pseudo parameters in your CloudFormation templates. 
 
 {{%expand "Want to see the solution?" %}}
 
-First, add a template parameter to be used as the S3 bucket prefix you'll be creating.
+First, under the _Parameters_ section, add a template parameter `S3BucketNamePrefix` to be used as the S3 bucket prefix you'll be creating.
 
 ```YAML
 # Add a template parameter that will let users input a bucket name prefix
-Parameters:
   S3BucketNamePrefix:
     AllowedPattern: ^[0-9a-zA-Z]+([0-9a-zA-Z-]*[0-9a-zA-Z])*$
     ConstraintDescription: Bucket name prefix can include numbers, lowercase

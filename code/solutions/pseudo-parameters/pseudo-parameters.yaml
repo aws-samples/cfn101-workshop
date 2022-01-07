@@ -1,6 +1,13 @@
 AWSTemplateFormatVersion : "2010-09-09"
 Description: AWS CloudFormation workshop - pseudo parameters (uksb-1q9p31idr).
 Parameters:
+
+  DatabaseUsername:
+    AllowedPattern: ^[a-z0-9]{5,12}$
+    Type: String
+    Default: alice
+    Description: Value to be used with the dbUsername SSM parameter. The default value is set to alice, which users can override when creating a CloudFormation stack.
+
   S3BucketNamePrefix:
     AllowedPattern: ^[0-9a-zA-Z]+([0-9a-zA-Z-]*[0-9a-zA-Z])*$
     ConstraintDescription: Bucket name prefix can include numbers, lowercase
@@ -23,7 +30,7 @@ Resources:
     Properties:
       Name: dbUsername
       Type: String
-      Value: alice
+      Value: !Ref DatabaseUsername
       Description: SSM Parameter for database username.
 
   DemoRole:
