@@ -204,7 +204,7 @@ Test your solution, to verify it worked as you expected. First, [update the stac
 Follow these steps to clean up created resources:
 
   * In the CloudFormation console, choose the stack you have created in this lab. For example, choose to specify `cfn-workshop-pseudo-parameters`.
-  * Choose **Delete** to delete the stack you created in this lab.
+  * Choose **Delete** to delete the stack you created in this lab, and then choose **Delete stack** to confirm.
 
 ---
 ### Conclusion
