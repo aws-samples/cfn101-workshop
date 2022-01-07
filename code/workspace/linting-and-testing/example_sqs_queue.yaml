@@ -16,7 +16,7 @@ Resources:
           Value: example_value_2
 
 Outputs:
-  QueueURL:
+  SqsQueueURL:
     Description: The URL of your Amazon SQS Queue
     Value: !Ref 'MyQueue'
 
