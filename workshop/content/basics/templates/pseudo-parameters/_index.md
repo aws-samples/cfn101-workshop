@@ -117,7 +117,7 @@ Locate the `Policies` section for `DemoRole`; replace the whole line containing 
                 Resource: !Sub 'arn:${AWS::Partition}:ssm:${AWS::Region}:${AWS::AccountId}:parameter/${BasicParameter}'
 ```
 
-Finally, add this section below to the Resources section of the `pseudo-parameters.yaml` template file. This section defines a Lambda function that uses the IAM Role you defined above with permissions to read the SSM parameter, which you also defined above. You will invoke this Lambda function to test if the Lambda function can access the SSM parameter named `dbUsername`.
+Finally, choose to add the example snippet below to the `Resources` section of the `pseudo-parameters.yaml` template file. The snippet defines a Lambda function that uses the IAM Role you defined above with permissions to read the SSM parameter, which you also defined above. You will invoke this Lambda function to test if the Lambda function can access the SSM parameter named `dbUsername`.
 
 ```yaml
   DemoLambdaFunction:
