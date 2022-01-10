@@ -1,10 +1,9 @@
 project:
   name: linting-and-testing-workshop
   package_lambda: false
-  # Update this section with regions you wish to use
   regions:
   - us-east-1
   - us-east-2
 tests:
   default:
-    template: ./example_vpc_and_security_group.yaml
+    template: ./vpc-and-security-group.yaml

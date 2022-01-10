@@ -57,11 +57,11 @@ $ taskcat --version
 In this section, you will run `cfn-lint` against an example CloudFormation template to validate your configuration. Your goal is to validate, very early in the development life cycle, your template content against the [AWS CloudFormation Resource Specification](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/cfn-resource-specification.html) to check for valid values you can specify, and to also have an opportunity to validate the template against a number of best-practice checks:
 
 1. Change directory to the `code/workspace/linting-and-testing` directory.
-2. Open the `example_vpc_and_security_group.yaml` CloudFormation template in your favorite text editor. The sample template describes an example VPC and an example VPC Security Group that references the VPC. _Note that to keep a simple scope in this lab, that focuses on example linting use cases, the example template does not describe other VPC-related resources such as subnets, Internet Gateway, route table, and route resources._
+2. Open the `vpc-and-security-group.yaml` CloudFormation template in your favorite text editor. The sample template describes an example VPC and an example VPC Security Group that references the VPC. _Note that to keep a simple scope in this lab, that focuses on example linting use cases, the example template does not describe other VPC-related resources such as subnets, Internet Gateway, route table, and route resources._
 3. Run `cfn-lint` against the template:
 
 ```shell
-$ cfn-lint example_vpc_and_security_group.yaml
+$ cfn-lint vpc-and-security-group.yaml
 ```
 
 In the output, you note an error:
@@ -87,7 +87,7 @@ The example template contains a circular dependency error: you get this type of 
 [...]
 ```
 
-To fix the circular dependency, move the `SecurityGroupIngress` related configuration of your Security Group into a new resource of the `AWS::EC2::SecurityGroupIngress` [type](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-security-group-ingress.html): for the `SourceSecurityGroupId` property value of this resource you will add to your template, you will reference the `SecurityGroup` resource. With the `example_vpc_and_security_group.yaml` template opened in your favorite text editor, replace the whole `SecurityGroup` resource declaration block with content below:
+To fix the circular dependency, move the `SecurityGroupIngress` related configuration of your Security Group into a new resource of the `AWS::EC2::SecurityGroupIngress` [type](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-security-group-ingress.html): for the `SourceSecurityGroupId` property value of this resource you will add to your template, you will reference the `SecurityGroup` resource. With the `vpc-and-security-group.yaml` template opened in your favorite text editor, replace the whole `SecurityGroup` resource declaration block with content below:
 
 ```yaml
   SecurityGroup:
@@ -114,7 +114,7 @@ To fix the circular dependency, move the `SecurityGroupIngress` related configur
 When done, save the file and validate the template again with `cfn-lint` to verify you fixed the error:
 
 ```shell
-$ cfn-lint example_vpc_and_security_group.yaml
+$ cfn-lint vpc-and-security-group.yaml
 ```
 
 > Congratulations! You have run the `cfn-lint` tool against your template, and you found and fixed an error detected by the tool!
@@ -125,7 +125,7 @@ You will now use `taskcat` to test your template by creating stacks off of it, i
 * **[general](https://aws-ia.github.io/taskcat/docs/schema/taskcat_schema.html#general) scope:** a global scope for all of your projects. For this use case, you create a `~/.taskcat.yml` file in your home directory;
 * **[project](https://aws-ia.github.io/taskcat/docs/schema/taskcat_schema.html#project)-specific scope:** you create a `.taskcat.yml` configuration file in your project's root directory. You can also use [tests](https://aws-ia.github.io/taskcat/docs/schema/taskcat_schema.html#tests) configuration directives at the project-level scope.
 
-Start with configuring _project_ and _tests_ scopes in the `.taskcat.yml` file located in the `code/workspace/linting-and-testing` directory. Open this file with your favorite test editor, and specify name(s) of AWS [regions](https://aws-ia.github.io/taskcat/docs/schema/taskcat_schema.html#project_regions) where you want to test your `example_vpc_and_security_group.yaml` template, as shown in the file excerpt below:
+Start with configuring _project_ and _tests_ scopes in the `.taskcat.yml` file located in the `code/workspace/linting-and-testing` directory. Open this file with your favorite test editor, and specify name(s) of AWS [regions](https://aws-ia.github.io/taskcat/docs/schema/taskcat_schema.html#project_regions) where you want to test your `vpc-and-security-group.yaml` template, as shown in the file excerpt below:
 
 ```yaml
 [...]
@@ -177,7 +177,7 @@ $ taskcat test run
 
 Once `taskcat` has finished running tests, you should find successful test results in reports available in the `code/workspace/linting-and-testing/taskcat_outputs/index.html` file.
 
-You can find following workspace files (with updates, as needed): `example_vpc_and_security_group.yaml`, `.taskcat.yml`, and `.gitignore` in the `code/solutions/linting-and-testing` path.
+You can find following workspace files (with updates, as needed): `vpc-and-security-group.yaml`, `.taskcat.yml`, and `.gitignore` in the `code/solutions/linting-and-testing` path.
 
 > Congratulations! You have run tests for your CloudFormation template in one (or more regions) with `taskcat`!
 
@@ -187,13 +187,13 @@ You can find following workspace files (with updates, as needed): `example_vpc_a
 You can use the [AWS CLI](https://docs.aws.amazon.com/cli/latest/reference/) to remove resources you created in this lab for testing. First, **delete the template file object** that `taskcat` has uploaded for you into your S3 bucket, as in the following example (please note: replace `YOUR_ACCOUNT_ID` with your value):
 
 ```shell
-$ aws s3api delete-object --bucket tcat-linting-and-testing-workshop-YOUR_ACCOUNT_ID --key linting-and-testing-workshop/example_vpc_and_security_group.yaml
+$ aws s3api delete-object --bucket tcat-linting-and-testing-workshop-YOUR_ACCOUNT_ID --key linting-and-testing-workshop/vpc-and-security-group.yaml
 ```
 
-In the same project workspace directory where you found the `example_vpc_and_security_group.yaml` example, there is another template (`example_sqs_queue.yaml`) that you will troubleshoot in the _Challenge_ section of this lab. As part of the test run you did earlier, `taskcat` has uploaded this file for you as well in your bucket: remove it from your bucket, as shown in the following example (replace `YOUR_ACCOUNT_ID` with your value):
+In the same project workspace directory where you found the `vpc-and-security-group.yaml` example, there is another template (`sqs-queue.yaml`) that you will troubleshoot in the _Challenge_ section of this lab. As part of the test run you did earlier, `taskcat` has uploaded this file for you as well in your bucket: remove it from your bucket, as shown in the following example (replace `YOUR_ACCOUNT_ID` with your value):
 
 ```shell
-$ aws s3api delete-object --bucket tcat-linting-and-testing-workshop-YOUR_ACCOUNT_ID --key linting-and-testing-workshop/example_sqs_queue.yaml
+$ aws s3api delete-object --bucket tcat-linting-and-testing-workshop-YOUR_ACCOUNT_ID --key linting-and-testing-workshop/sqs-queue.yaml
 ```
 
 Next, **delete your bucket** you created for this lab. At this point, your bucket should not contain other objects. Run the following command, and make sure to replace `YOUR_ACCOUNT_ID` with your value:
@@ -208,12 +208,12 @@ If needed, delete the `~/.taskcat.yml` file you created in your home directory a
 
 Find and fix errors in an example template that describes an `AWS::SQS::Queue` [resource type](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-sqs-queues.html):
 
-* locate the template file available at this path: `code/workspace/linting-and-testing/example_sqs_queue.yaml`;
+* locate the template file available at this path: `code/workspace/linting-and-testing/sqs-queue.yaml`;
 * use `cfn-lint` to find errors in the template;
 * fix issues, and verify with `cfn-lint` that you have fixed issues you found.
 
 {{%expand "Need a hint?" %}}
-* From the `code/workspace/linting-and-testing` directory, run `cfn-lint example_sqs_queue.yaml` to find errors in the example template;
+* From the `code/workspace/linting-and-testing` directory, run `cfn-lint sqs-queue.yaml` to find errors in the example template;
 * refer to the `cfn-lint` command output, and to the SQS resource’s documentation [page](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-sqs-queues.html#aws-sqs-queue-delayseconds) for values you can specify for the `DelaySeconds` property;
 * see names for available SQS queue [properties](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-sqs-queues.html#aws-properties-sqs-queues-properties);
 * see names of available _attributes_ for SQS queue [return values](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-sqs-queues.html#aws-properties-sqs-queues-return-values).
@@ -223,9 +223,9 @@ Find and fix errors in an example template that describes an `AWS::SQS::Queue` [
 * Specify a value between `0` (default) and `900` for `DelaySeconds`;
 * replace `Tag` with `Tags` in the SQS resource property section of the template;
 * replace `Name` with `QueueName` as the attribute you specify for `Fn::GetAtt` to return the name of the queue;
-* from the `code/workspace/linting-and-testing` directory, run `cfn-lint example_sqs_queue.yaml` to verify there are no more errors.
+* from the `code/workspace/linting-and-testing` directory, run `cfn-lint sqs-queue.yaml` to verify there are no more errors.
 
-You can find the full solution in the `code/solutions/linting-and-testing/example_sqs_queue.yaml` example template.
+You can find the full solution in the `code/solutions/linting-and-testing/sqs-queue.yaml` example template.
 {{% /expand %}}
 
 ---

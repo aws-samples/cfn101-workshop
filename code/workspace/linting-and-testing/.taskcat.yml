@@ -7,4 +7,4 @@ project:
   - us-east-2
 tests:
   default:
-    template: ./example_vpc_and_security_group.yaml
+    template: ./vpc-and-security-group.yaml
