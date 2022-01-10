@@ -65,7 +65,8 @@ Parameters:
     AllowedPattern: ^[a-z0-9]{5,12}$
     Type: String
     Default: alice
-    Description: Value to be used with the dbUsername SSM parameter. The default value is set to 'alice', which you can override when creating a CloudFormation stack.
+    Description: Value to be used with the dbUsername SSM parameter. The default value is set to 'alice', which users can override when creating a CloudFormation stack.
+
 ```
 
 Next, describe an SSM parameter: choose to set its `Name` property to `dbUsername`, and use `Ref` to reference the `DatabaseUsername` template parameter in the `Value` property. Choose to append the following content to the existing file content:
@@ -79,6 +80,7 @@ Resources:
       Type: String
       Value: !Ref DatabaseUsername
       Description: SSM Parameter for database username.
+
 ```
 
 Next, let’s define the IAM role and policy from where you want to reference the SSM parameter you defined above. Choose to copy content shown next, and paste it in the `Resources` section of the `pseudo-parameters.yaml` file by appending it to the existing file content:
@@ -95,7 +97,7 @@ Next, let’s define the IAM role and policy from where you want to reference th
               Service:
                 - lambda.amazonaws.com
             Action:
-              - 'sts:AssumeRole'
+              - sts:AssumeRole
       Path: /
       Policies:
         - PolicyName: ssm-least-privilege
@@ -103,8 +105,9 @@ Next, let’s define the IAM role and policy from where you want to reference th
             Version: "2012-10-17"
             Statement:
               - Effect: Allow
-                Action: 'ssm:GetParameter'
+                Action: ssm:GetParameter
                 Resource: '*'
+
   ```
 
 In the example snippet above, you have described an [execution role](https://docs.aws.amazon.com/lambda/latest/dg/lambda-intro-execution-role.html) you will associate to a Lambda function you plan to deploy. The role  allows your Lambda function to perform the `GetParameter` operation on your SSM parameters. To follow the best practice of the least privilege, you scope down actions you allow in your IAM policy, so that you choose to only allow access, from your Lambda function, to your SSM parameter you defined above.
@@ -186,16 +189,14 @@ You’ve learned how to use pseudo parameters in your CloudFormation templates. 
 First, under the _Parameters_ section, add a template parameter `S3BucketNamePrefix` to be used as the S3 bucket prefix you'll be creating.
 
 ```YAML
-# Add a template parameter that will let users input a bucket name prefix
   S3BucketNamePrefix:
-    AllowedPattern: ^[0-9a-zA-Z]+([0-9a-zA-Z-]*[0-9a-zA-Z])*$
-    ConstraintDescription: Bucket name prefix can include numbers, lowercase
-      letters, uppercase letters, and hyphens (-). It cannot start or end with a hyphen
-      (-).
     Description: The prefix to use for your S3 bucket
     Type: String
-    MinLength: 3
     Default: my-demo-bucket
+    AllowedPattern: ^[0-9a-zA-Z]+([0-9a-zA-Z-]*[0-9a-zA-Z])*$
+    ConstraintDescription: Bucket name prefix can include numbers, lowercase letters, uppercase letters, and hyphens (-). It cannot start or end with a hyphen (-).
+    MinLength: 3
+
 ```
 
 Then, add a `DemoBucket` resource under the _Resources_ section of the template.
@@ -220,4 +221,4 @@ Follow these steps to clean up created resources:
 
 ---
 ### Conclusion
-Great job! You have learned how to use pseudo parameters to write reusable CloudFormation templates. For more information, see pseudo parameters [documentation page](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/pseudo-parameter-reference.html).
+Great job! You have learned how to use pseudo parameters to write more reusable CloudFormation templates. For more information, see [pseudo parameters](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/pseudo-parameter-reference.html).
