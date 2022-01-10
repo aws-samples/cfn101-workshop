@@ -152,6 +152,9 @@ Values you pass to a given configuration setting you describe at a more specific
 {{% /notice %}}
 
 **Create a new** `~/.taskcat.yml` file in your home directory. In this file, you will specify the name of your S3 bucket into which `taskcat` will upload your template to be tested, and an example value of `172.16.0.0/16` for the `VpcIpv4Cidr` example template parameter.
+```shell
+$ touch ~/.taskcat.yml
+```
 
 Add following content to the file you just created and, when you do so, make sure you replace the `YOUR_ACCOUNT_ID` example placeholder with your [AWS account ID](https://docs.aws.amazon.com/IAM/latest/UserGuide/console_account-alias.html#FindingYourAWSId):
 ```yaml
@@ -203,6 +206,9 @@ $ aws s3api delete-bucket --bucket tcat-linting-and-testing-workshop-YOUR_ACCOUN
 ```
 
 If needed, delete the `~/.taskcat.yml` file you created in your home directory as well.
+```shell
+$ rm ~/.taskcat.yml
+```
 
 ### Challenge
 
