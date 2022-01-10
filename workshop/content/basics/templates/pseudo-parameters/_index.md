@@ -68,7 +68,7 @@ Parameters:
     Description: Value to be used with the dbUsername SSM parameter. The default value is set to 'alice', which you can override when creating a CloudFormation stack.
 ```
 
-Next, you will use a simple example of an SSM parameter where you define a parameter `Name` called `dbUsername`, and a `Value` you pass in by referencing template parameter `DatabaseUsername` using Ref intrinsic function. Choose to append the following content to the existing file content:
+Next, describe an SSM parameter: choose to set its `Name` property to `dbUsername`, and use `Ref` to reference the `DatabaseUsername` template parameter in the `Value` property. Choose to append the following content to the existing file content:
 
 ```YAML
 Resources:
