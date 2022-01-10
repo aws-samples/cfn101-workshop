@@ -56,7 +56,7 @@ You want to construct the resource ARN using pseudo parameters like the one in t
 ```
 Let's describe resources you need in your CloudFormation template.
 
-Let’s start by defining a [template parameter](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/parameters-section-structure.html) to be used as the the value of your SSM parameter you'll be defining in the template. You'll start by defining a template parameter called `DatabaseUsername` under the _Parameters_ section. You can then choose to reference this template parameter in the _Resources_ section by using a Ref intrinsic function. Choose to copy content shown next, and paste it in the `pseudo-parameters.yaml` file, by appending it to the existing file content:
+Let’s start by defining a [template parameter](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/parameters-section-structure.html) you will use as the value of the SSM parameter that you'll define in the template. Start by defining a template parameter called `DatabaseUsername` under the `Parameters` section; next, choose to reference this template parameter in the `Resources` section by using the `Ref` intrinsic function. Choose to copy content shown next, and paste it in the `pseudo-parameters.yaml` file, by appending it to the existing file content:
 
 
 ```YAML
