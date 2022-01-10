@@ -81,7 +81,7 @@ Resources:
       Description: SSM Parameter for database username.
 ```
 
-Next, let’s define the IAM role and policy from where you want to reference the SSM parameter you defined above. Again, choose to copy content shown next, and paste it in the Resources section of the `pseudo-parameters.yaml` file by appending it to the existing file content:
+Next, let’s define the IAM role and policy from where you want to reference the SSM parameter you defined above. Choose to copy content shown next, and paste it in the `Resources` section of the `pseudo-parameters.yaml` file by appending it to the existing file content:
 
 ```yaml
   DemoRole:
