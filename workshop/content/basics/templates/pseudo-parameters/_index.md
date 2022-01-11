@@ -105,7 +105,6 @@ Next, let’s define the IAM role and policy from where you want to reference th
               - Effect: Allow
                 Action: ssm:GetParameter
                 Resource: '*'
-  ```
 
 In the example snippet above, you have described an [execution role](https://docs.aws.amazon.com/lambda/latest/dg/lambda-intro-execution-role.html) you will associate to a Lambda function you plan to deploy. The role  allows your Lambda function to perform the `GetParameter` operation on your SSM parameters. To follow the best practice of the least privilege, you scope down actions you allow in your IAM policy, so that you choose to only allow access, from your Lambda function, to your SSM parameter you defined above.
 
