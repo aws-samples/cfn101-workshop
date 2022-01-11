@@ -137,7 +137,6 @@ Finally, choose to add the example snippet below to the `Resources` section of t
           def lambda_handler(event, context):
               response = client.get_parameter(Name='dbUsername')
               print(f'SSM dbUsername parameter value: {response["Parameter"]["Value"]}')
-
 ```
 
 Save the template you have updated with content above. Next, navigate to the AWS CloudFormation [console](https://console.aws.amazon.com/cloudformation), and choose to create a stack using this template:
