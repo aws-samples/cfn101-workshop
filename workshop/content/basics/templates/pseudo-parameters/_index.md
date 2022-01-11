@@ -70,7 +70,7 @@ Parameters:
 
 Next, describe an SSM parameter: choose to set its `Name` property to `dbUsername`, and use `Ref` to reference the `DatabaseUsername` template parameter in the `Value` property. Choose to append the following content to the existing file content:
 
-```YAML
+```yaml
 Resources:
   BasicParameter:
     Type: AWS::SSM::Parameter
