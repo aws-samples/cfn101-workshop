@@ -193,7 +193,6 @@ First, under the _Parameters_ section, add a template parameter `S3BucketNamePre
     AllowedPattern: ^[0-9a-zA-Z]+([0-9a-zA-Z-]*[0-9a-zA-Z])*$
     ConstraintDescription: Bucket name prefix can include numbers, lowercase letters, uppercase letters, and hyphens (-). It cannot start or end with a hyphen (-).
     MinLength: 3
-
 ```
 
 Then, add a `DemoBucket` resource under the _Resources_ section of the template.
