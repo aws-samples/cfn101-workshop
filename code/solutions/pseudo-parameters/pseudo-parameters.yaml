@@ -1,14 +1,13 @@
 AWSTemplateFormatVersion: "2010-09-09"
 
-Description: AWS CloudFormation workshop - Pseudo parameters (uksb-1q9p31idr).
+Description: AWS CloudFormation workshop - pseudo parameters (uksb-1q9p31idr).
 
 Parameters:
-
   DatabaseUsername:
     AllowedPattern: ^[a-z0-9]{5,12}$
     Type: String
     Default: alice
-    Description: Value to be used with the dbUsername SSM parameter. The default value is set to alice, which users can override when creating a CloudFormation stack.
+    Description: Value to be used with the dbUsername SSM parameter. The default value is set to 'alice', which users can override when creating a CloudFormation stack.
 
   S3BucketNamePrefix:
     Description: The prefix to use for your S3 bucket
@@ -19,11 +18,6 @@ Parameters:
     MinLength: 3
 
 Resources:
-  DemoBucket:
-    Type: AWS::S3::Bucket
-    Properties:
-      BucketName: !Sub '${S3BucketNamePrefix}-${AWS::Region}-${AWS::AccountId}'
-
   BasicParameter:
     Type: AWS::SSM::Parameter
     Properties:
@@ -63,7 +57,15 @@ Resources:
       Code:
         ZipFile: |
           import boto3
+
           client = boto3.client('ssm')
+
+
           def lambda_handler(event, context):
               response = client.get_parameter(Name='dbUsername')
               print(f'SSM dbUsername parameter value: {response["Parameter"]["Value"]}')
+
+  DemoBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: !Sub '${S3BucketNamePrefix}-${AWS::Region}-${AWS::AccountId}'
