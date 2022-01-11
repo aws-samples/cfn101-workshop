@@ -59,7 +59,7 @@ Let's describe resources you need in your CloudFormation template.
 Let’s start by defining a [template parameter](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/parameters-section-structure.html) you will use as the value of the SSM parameter that you'll define in the template. Start by defining a template parameter called `DatabaseUsername` under the `Parameters` section; next, choose to reference this template parameter in the `Resources` section by using the `Ref` intrinsic function. Choose to copy content shown next, and paste it in the `pseudo-parameters.yaml` file, by appending it to the existing file content:
 
 
-```YAML
+```yaml
 Parameters:
   DatabaseUsername:
     AllowedPattern: ^[a-z0-9]{5,12}$
