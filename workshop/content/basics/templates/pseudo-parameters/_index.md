@@ -66,7 +66,6 @@ Parameters:
     Type: String
     Default: alice
     Description: Value to be used with the dbUsername SSM parameter. The default value is set to 'alice', which users can override when creating a CloudFormation stack.
-
 ```
 
 Next, describe an SSM parameter: choose to set its `Name` property to `dbUsername`, and use `Ref` to reference the `DatabaseUsername` template parameter in the `Value` property. Choose to append the following content to the existing file content:
