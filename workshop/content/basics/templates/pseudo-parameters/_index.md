@@ -185,7 +185,7 @@ You’ve learned how to use pseudo parameters in your CloudFormation templates. 
 
 First, under the _Parameters_ section, add a template parameter `S3BucketNamePrefix` to be used as the S3 bucket prefix you'll be creating.
 
-```YAML
+```yaml
   S3BucketNamePrefix:
     Description: The prefix to use for your S3 bucket
     Type: String
