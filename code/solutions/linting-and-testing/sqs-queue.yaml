@@ -1,0 +1,23 @@
+AWSTemplateFormatVersion: "2010-09-09"
+
+Description: AWS CloudFormation workshop - Linting and testing - SQS queue template (uksb-1q9p31idr)
+
+Resources:
+  SqsQueue:
+    Type: AWS::SQS::Queue
+    Properties:
+      DelaySeconds: 900
+      Tags:
+        - Key: Name
+          Value: workshop-sqs-queue
+        - Key: ProjectName
+          Value: Example
+
+Outputs:
+  SqsQueueURL:
+    Description: The URL of your Amazon SQS Queue
+    Value: !Ref SqsQueue
+
+  SqsQueueName:
+    Description: The name of your Amazon SQS Queue
+    Value: !GetAtt SqsQueue.QueueName
