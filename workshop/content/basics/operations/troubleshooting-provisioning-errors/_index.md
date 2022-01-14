@@ -48,7 +48,7 @@ In the same stack view page, you will also see options from which you can choose
 
 Your goal is to troubleshoot and fix the error in the template, and resume provisioning, to create the `ExampleSourceQueue` resource. As part of this process, preserve the state of your `ExampleDeadLetterQueue` that has been created successfully earlier.  Next steps:
 
-1. with the `example_sqs_queues.yaml` template opened in your editor, change `FifoQueue: false` into `FifoQueue: true` for `ExampleSourceQueue`. When done, save your changes.
+1. with the `example_sqs_queues.yaml` template opened in your editor, find `ExampleSourceQueue` resource, and change `FifoQueue: false` into `FifoQueue: true`. When done, save your changes.
 2. In the **Stack rollback paused** view shown in the picture earlier, choose **Update**.
 3. In **Prepare template**, choose **Replace current template**, and choose to upload the template you just updated.
 4. Choose **Next** in the **Parameters** page.
