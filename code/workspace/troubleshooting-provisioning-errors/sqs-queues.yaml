@@ -5,16 +5,16 @@ Description: AWS CloudFormation workshop - Troubleshooting provisioning errors -
 Parameters:
   QueueNamePrefix:
     Type: String
-    Default: my-example-queue
+    Default: workshop-sqs-queue
 
 Resources:
-  ExampleDeadLetterQueue:
+  DeadLetterQueue:
     Type: AWS::SQS::Queue
     Properties:
       FifoQueue: true
       QueueName: !Sub '${QueueNamePrefix}-dead-letter.fifo'
 
-  ExampleSourceQueue:
+  SourceQueue:
     Type: AWS::SQS::Queue
     Properties:
       # This example source queue is configured as a standard queue,
@@ -22,6 +22,6 @@ Resources:
       # `FifoQueue` property instead; this will result in an error.
       FifoQueue: false
       RedrivePolicy:
-        deadLetterTargetArn: !GetAtt ExampleDeadLetterQueue.Arn
+        deadLetterTargetArn: !GetAtt DeadLetterQueue.Arn
         maxReceiveCount: 5
       QueueName: !Sub '${QueueNamePrefix}-source.fifo'

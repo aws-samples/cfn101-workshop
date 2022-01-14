@@ -5,38 +5,38 @@ Description: AWS CloudFormation workshop - Troubleshooting provisioning errors -
 Parameters:
   QueueNamePrefix:
     Type: String
-    Default: my-example-queue
+    Default: workshop-sqs-queue
 
 Resources:
-  ExampleDeadLetterQueue:
+  DeadLetterQueue:
     Type: AWS::SQS::Queue
     Properties:
       FifoQueue: true
       QueueName: !Sub '${QueueNamePrefix}-dead-letter.fifo'
 
-  ExampleSourceQueue:
+  SourceQueue:
     Type: AWS::SQS::Queue
     Properties:
       FifoQueue: true
       RedrivePolicy:
-        deadLetterTargetArn: !GetAtt ExampleDeadLetterQueue.Arn
+        deadLetterTargetArn: !GetAtt DeadLetterQueue.Arn
         maxReceiveCount: 5
       QueueName: !Sub '${QueueNamePrefix}-source.fifo'
 
-  ExampleDeadLetterQueueParameter:
+  DeadLetterQueueParameter:
     Type: AWS::SSM::Parameter
     Properties:
       AllowedPattern: ^arn:aws([-a-z0-9-]*[a-z0-9])*:sqs:[a-z0-9-]+:[0-9]{12}:[a-zA-Z0-9_-]{1,80}(\.fifo){0,1}$
-      Description: Parameter for the ExampleDeadLetterQueue ARN value
+      Description: Parameter for the DeadLetterQueue ARN value
       Name: workshop-example-dead-letter-queue
       Type: String
-      Value: !GetAtt ExampleDeadLetterQueue.Arn
+      Value: !GetAtt DeadLetterQueue.Arn
 
-  ExampleSourceQueueParameter:
+  SourceQueueParameter:
     Type: AWS::SSM::Parameter
     Properties:
       AllowedPattern: ^arn:aws([-a-z0-9-]*[a-z0-9])*:sqs:[a-z0-9-]+:[0-9]{12}:[a-zA-Z0-9_-]{1,80}(\.fifo){0,1}$
-      Description: Parameter for the ExampleSourceQueue ARN value
+      Description: Parameter for the SourceQueue ARN value
       Name: workshop-example-source-queue
       Type: String
-      Value: !GetAtt ExampleSourceQueue.Arn
+      Value: !GetAtt SourceQueue.Arn
