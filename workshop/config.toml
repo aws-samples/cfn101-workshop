@@ -12,7 +12,7 @@ pygmentsCodeFences = true
 pygmentsStyle = "monokai"
 
 [params]
-editURL = "https://github.com/aws-samples/cfn101-workshop/edit/master/workshop/content/"
+editURL = "https://github.com/aws-samples/cfn101-workshop/edit/main/workshop/content/"
 description = "AWS CloudFormation Workshop"
 author = "Solution Engineering Services"
 disableBreadcrumb = false
