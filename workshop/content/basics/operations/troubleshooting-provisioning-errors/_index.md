@@ -15,7 +15,7 @@ To speed up development cycles, you can choose to [preserve](https://docs.aws.am
 By the end of this lab, you will be able to:
 
 * Understand how to troubleshoot provisioning errors, whilst preserving the state resources successfully deployed
-* Navigate the [AWS resource and property types reference](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-template-resource-type-ref.html) to discover resource properties, and return values for a given resource, from which you can choose as you develop your template
+* Navigate to the [AWS resource and property types reference](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-template-resource-type-ref.html) to discover resource properties, and return values for a given resource
 
 ### Start Lab
 You will use an example CloudFormation template, that contains an incorrect resource configuration, to create a new stack. You will choose to *preserve successfully provisioned resources* as part of *stack failure options* to preserve the state of an example `ExampleDeadLetterQueue` [Amazon SQS](https://aws.amazon.com/sqs/) queue resource, that will be successfully provisioned as part of the stack creation operation.
