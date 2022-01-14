@@ -35,7 +35,7 @@ You will use the `example_sqs_queues.yaml` template, that contains the error men
 2. From **Create stack**, choose **With new resources (standard)**.
 3. From **Prepare template**, choose **Template is ready**.
 4. From **Template source**, choose **Upload a template file**. Choose the `example_sqs_queues.yaml` template mentioned earlier, and then choose **Next**.
-5. Specify a stack name; for example, choose `troubleshoot-provisioning-errors-workshop`. On the same page, choose to accept the default value for the `QueueNamePrefix` parameter, and choose **Next**.
+5. Specify a stack name; for example `troubleshoot-provisioning-errors-workshop`. On the same page, accept the default value for the `QueueNamePrefix` parameter, and choose **Next**.
 6. In **Stack failure options**, select **Preserve successfully provisioned resources**. Choose **Next**.
 7. Choose **Create stack** in the next page.
 8. Refresh the stack creation page until you see your stack in the `CREATE_FAILED` status.
