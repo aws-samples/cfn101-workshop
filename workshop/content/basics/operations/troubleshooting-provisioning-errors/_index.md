@@ -20,7 +20,7 @@ By the end of this lab, you will be able to:
 ### Start Lab
 The example of CloudFormation template contains an incorrect resource configuration. To correct this, you will choose to *preserve successfully provisioned resources* as part of *stack failure options* to preserve the state of an example `ExampleDeadLetterQueue` [Amazon SQS](https://aws.amazon.com/sqs/) queue resource, to be successfully provisioned.
 
-The creation operation for your stack will fail because another SQS queue described in your template, `ExampleSourceQueue`, has a configuration error. You will troubleshoot and fix the error in the template, and then you will choose to resume the stack creation operation with the template you updated.
+The creation operation for the stack will fail because another SQS queue is described in the template, and has a configuration error. Once you troubleshoot and fix the error in the template, you can resume the stack creation operation with the updated template.
 
 To get started, follow steps shown next:
 1. Change directory to the `code/workspace/troubleshooting-provisioning-errors` directory.
