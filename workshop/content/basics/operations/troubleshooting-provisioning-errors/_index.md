@@ -14,7 +14,7 @@ To speed up development cycles, you can choose to [preserve](https://docs.aws.am
 ### Topics Covered
 By the end of this lab, you will be able to:
 
-* Understand how to troubleshoot provisioning errors, whilst preserving the state resources you successfully deployed
+* Understand how to troubleshoot provisioning errors, whilst preserving the state resources successfully deployed
 * Navigate the [AWS resource and property types reference](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-template-resource-type-ref.html) to discover resource properties, and return values for a given resource, from which you can choose as you develop your template
 
 ### Start Lab
