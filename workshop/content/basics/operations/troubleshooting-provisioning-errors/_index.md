@@ -40,7 +40,7 @@ You will use the `example_sqs_queues.yaml` template, that contains the error men
 7. Choose **Create stack** in the next page.
 8. Refresh the stack creation page until you see your stack in the `CREATE_FAILED` status.
 
-The stack creation has failed, because of the error mentioned earlier. Choose the name of your stack from the list (for example, `troubleshoot-provisioning-errors-workshop`): in the **Resources** tab, note your `ExampleDeadLetterQueue` resource in the `CREATE_COMPLETE` status, and your `ExampleSourceQueue` resource in `CREATE_FAILED` status, along with a relevant error in the **Status reason** column.
+The stack creation has failed, because of the error mentioned earlier. Select the name of your stack from the list (for example, `troubleshoot-provisioning-errors-workshop`): in the **Resources** tab, note that `ExampleDeadLetterQueue` resource is in the `CREATE_COMPLETE` status, and the `ExampleSourceQueue` resource is in `CREATE_FAILED` status, along with a relevant error in the **Status reason** column.
 
 In the same stack view page, you will also see options from which you can choose next steps to take, as shown in the following picture:
 
