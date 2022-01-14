@@ -46,7 +46,7 @@ In the same stack view page, you will also see options from which you can choose
 
 ![stack-rollback-paused.png](troubleshooting-provisioning-errors/stack-rollback-paused.png)
 
-Your goal is to troubleshoot and fix the error in the template, and to choose to resume provisioning, so you can then create the `ExampleSourceQueue` resource. As part of this process, you preserve the state of your `ExampleDeadLetterQueue` that has been created successfully earlier.  Next steps:
+Your goal is to troubleshoot and fix the error in the template, and resume provisioning, to create the `ExampleSourceQueue` resource. As part of this process, preserve the state of your `ExampleDeadLetterQueue` that has been created successfully earlier.  Next steps:
 
 1. with the `example_sqs_queues.yaml` template opened in your editor, change `FifoQueue: false` into `FifoQueue: true` for `ExampleSourceQueue`. When done, save your changes.
 2. In the **Stack rollback paused** view shown in the picture earlier, choose **Update**.
