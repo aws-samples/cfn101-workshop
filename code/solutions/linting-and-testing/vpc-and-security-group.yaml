@@ -1,0 +1,35 @@
+AWSTemplateFormatVersion: "2010-09-09"
+
+Description: AWS CloudFormation workshop - Linting and testing - VPC and Security Group template (uksb-1q9p31idr)
+
+Parameters:
+  VpcIpv4Cidr:
+    Description: The IPv4 CIDR block you wish to assign to your VPC.
+    Type: String
+    Default: 10.0.0.0/16
+
+Resources:
+  Vpc:
+    Type: AWS::EC2::VPC
+    Properties:
+      CidrBlock: !Ref VpcIpv4Cidr
+
+  SecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Example Security Group
+      SecurityGroupEgress:
+        - Description: Example rule limiting egress traffic to 127.0.0.1/32
+          CidrIp: 127.0.0.1/32
+          IpProtocol: "-1"
+      VpcId: !Ref Vpc
+
+  SecurityGroupIngress:
+    Type: AWS::EC2::SecurityGroupIngress
+    Properties:
+      Description: Example rule to allow tcp/443 traffic from SecurityGroup
+      FromPort: 443
+      ToPort: 443
+      GroupId: !Ref SecurityGroup
+      IpProtocol: tcp
+      SourceSecurityGroupId: !Ref SecurityGroup
