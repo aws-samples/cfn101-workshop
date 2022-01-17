@@ -1,0 +1,42 @@
+AWSTemplateFormatVersion: "2010-09-09"
+
+Description: AWS CloudFormation workshop - Troubleshooting provisioning errors - SQS Queue (uksb-1q9p31idr)
+
+Parameters:
+  QueueNamePrefix:
+    Type: String
+    Default: workshop-sqs-queue
+
+Resources:
+  DeadLetterQueue:
+    Type: AWS::SQS::Queue
+    Properties:
+      FifoQueue: true
+      QueueName: !Sub '${QueueNamePrefix}-dead-letter.fifo'
+
+  SourceQueue:
+    Type: AWS::SQS::Queue
+    Properties:
+      FifoQueue: true
+      RedrivePolicy:
+        deadLetterTargetArn: !GetAtt DeadLetterQueue.Arn
+        maxReceiveCount: 5
+      QueueName: !Sub '${QueueNamePrefix}-source.fifo'
+
+  DeadLetterQueueParameter:
+    Type: AWS::SSM::Parameter
+    Properties:
+      AllowedPattern: ^arn:aws([-a-z0-9-]*[a-z0-9])*:sqs:[a-z0-9-]+:[0-9]{12}:[a-zA-Z0-9_-]{1,80}(\.fifo){0,1}$
+      Description: Parameter for the DeadLetterQueue ARN value
+      Name: workshop-example-dead-letter-queue
+      Type: String
+      Value: !GetAtt DeadLetterQueue.Arn
+
+  SourceQueueParameter:
+    Type: AWS::SSM::Parameter
+    Properties:
+      AllowedPattern: ^arn:aws([-a-z0-9-]*[a-z0-9])*:sqs:[a-z0-9-]+:[0-9]{12}:[a-zA-Z0-9_-]{1,80}(\.fifo){0,1}$
+      Description: Parameter for the SourceQueue ARN value
+      Name: workshop-example-source-queue
+      Type: String
+      Value: !GetAtt SourceQueue.Arn

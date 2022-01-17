@@ -1,0 +1,27 @@
+AWSTemplateFormatVersion: "2010-09-09"
+
+Description: AWS CloudFormation workshop - Troubleshooting provisioning errors - SQS Queue (uksb-1q9p31idr)
+
+Parameters:
+  QueueNamePrefix:
+    Type: String
+    Default: workshop-sqs-queue
+
+Resources:
+  DeadLetterQueue:
+    Type: AWS::SQS::Queue
+    Properties:
+      FifoQueue: true
+      QueueName: !Sub '${QueueNamePrefix}-dead-letter.fifo'
+
+  SourceQueue:
+    Type: AWS::SQS::Queue
+    Properties:
+      # This example source queue is configured as a standard queue,
+      # whilst the dead-letter queue resource uses `true` for the
+      # `FifoQueue` property instead; this will result in an error.
+      FifoQueue: false
+      RedrivePolicy:
+        deadLetterTargetArn: !GetAtt DeadLetterQueue.Arn
+        maxReceiveCount: 5
+      QueueName: !Sub '${QueueNamePrefix}-source.fifo'
