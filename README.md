@@ -1,56 +1,30 @@
-## AWS CloudFormation 101 - Workshop
+<h1>
+AWS CloudFormation - Workshop
+<br>
+    <img src="https://img.shields.io/website-up-down-green-red/http/cfn101.workshop.aws.svg" alt="https://cfn101.workshop.aws">
+    <img src="https://github.com/aws-samples/cfn101-workshop/workflows/Unit%20Tests/badge.svg" alt="https://github.com/aws-samples/cfn101-workshop/actions">
+</h1>
 
-[![Website cfn101.workshop.aws](https://img.shields.io/website-up-down-green-red/http/cfn101.workshop.aws.svg)](https://cfn101.workshop.aws/)
+This repository provides all the resources referenced in the [CloudFormation](https://cfn101.workshop.aws/) workshop as
+well as the code used to build it.
 
-## Workshop site
+## Usage
+1. Clone the repository to your working directory or Download the ZIP file from GitHub.
+2. Open the downloaded files in your code editor or IDE of your choice.
 
-Go to [https://cfn101.workshop.aws](https://cfn101.workshop.aws/) to start a workshop.
+The working directory is located in CloudFormation templates can be found in [code/workspace](code/workspace) where you can follow along
+and write your code to.
 
-## Developer Guide
+In the [code/solutions](code/solutions), you can find final template for each lab, and can be used as a reference, in case you get stuck
+and things don't work the way they should.
 
-This workshop is built with markdown as a static HTML site using [hugo](http://gohugo.io).
+## Local development
+To set up local development environment, please follow the instructions in
+[local development](docs/LOCAL_DEVELOPMENT.md) file.
 
-To install hugo, use your operating system's package manager (e.g. `brew install hugo`) or follow [the instructions on the hugo website](https://gohugo.io/getting-started/installing).
-
-You'll find the content of the workshop in the [workshop](./workshop) directory.
-
-Lab resources can be found in the [code](code) directory.
-
-You will need to bring in the project's requirements using git submodules:
-
-```bash
-git submodule init
-git submodule update
-```
-
-You can start up a local development server by running:
-
-```bash
-cd workshop
-hugo serve
-```
-
-Once the server is running, you can open <http://localhost:1313> in your browser.
-
-## Website Infrastructure
-
-The workshop is available at https://cfn101.workshop.aws. It's a static website
-hosted via [AWS Amplify](https://aws.amazon.com/amplify/).
-
-The infrastructure is deployed using [AWS CloudFormation](https://aws.amazon.com/cloudformation/). The CloudFormation template is in the [infrastructure](./infrastructure) directory.
-
-To deploy the workshop into your own account, you need to create an environment file and run the script:
-
-```bash
-cd infrastructure/
-
-# Create an `.env` file and populate it with your own values
-cp .env.example .env
-
-# run the deployment script
-./deploy.sh
-```
+## Contributing
+Contributions are more than welcome. Please read the [code of conduct](CODE_OF_CONDUCT.md) and the
+[contributing guidelines](CONTRIBUTING.md).
 
 ## License
-
-This library is licensed under the MIT-0 License. See the LICENSE file.
+This library is licensed under the MIT-0 License. See the [license](LICENSE) file.
