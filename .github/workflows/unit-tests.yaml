@@ -26,13 +26,13 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@v1
       with:
-        python-version: 3.10
+        python-version: 3.9
     - name: Install python packages
       run: pip install -Ur requirements.txt
     - name: Set up Ruby
       uses: actions/setup-ruby@v1
       with:
-        ruby-version: 3.1
+        ruby-version: 3.0
     - name: Install Ruby gems
       run: gem install cfn-nag
 
