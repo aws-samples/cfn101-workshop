@@ -1,0 +1,42 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: AWS CloudFormation workshop - Dynamic References (uksb-1q9p31idr)
+Parameters:
+  DBUsername:
+    NoEcho: 'true'
+    Description: Username for Database Access
+    Type: String
+    MinLength: '1'
+    MaxLength: '16'
+    AllowedPattern: '[a-zA-Z][a-zA-Z0-9]*'
+    ConstraintDescription: must begin with a letter and contain only alphanumeric characters.
+  DBPassword:
+    NoEcho: 'true'
+    Description: Password MySQL database access
+    Type: String
+    MinLength: '8'
+    MaxLength: '41'
+    AllowedPattern: '[a-zA-Z0-9]*'
+    ConstraintDescription: must contain only alphanumeric characters.
+Resources:
+  Database:
+    Type: 'AWS::RDS::DBInstance'
+    Properties:
+      DBInstanceClass: db.t3.micro
+      AllocatedStorage: "20"
+      Engine: mysql
+      EngineVersion: 8.0.26
+      MasterUsername: !Ref DBUsername
+      MasterUserPassword: !Ref DBPassword
+  DatabaseConnParams:
+    Type: 'AWS::SecretsManager::Secret'
+    Properties:
+      Description: "Database Connection Parameters."
+      Name: "DatabaseConnParams"
+      SecretString:
+        Fn::Sub: |
+          {
+            "RDS_HOSTNAME": "${Database.Endpoint.Address}",
+            "RDS_PORT": "${Database.Endpoint.Port}",
+            "RDS_USERNAME": "${DBUsername}",
+            "RDS_PASSWORD": "${DBPassword}"
+          }
