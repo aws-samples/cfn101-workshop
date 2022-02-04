@@ -5,7 +5,7 @@ repos:
 
 # General
 - repo: https://github.com/pre-commit/pre-commit-hooks
-  rev: v4.0.1
+  rev: v4.1.0
   hooks:
   - id: check-case-conflict
   - id: detect-private-key
@@ -13,11 +13,11 @@ repos:
   - id: end-of-file-fixer
   - id: mixed-line-ending
     args:
-    - --fix=lf
+      - --fix=lf
     exclude: /package-lock\.json$
   - id: check-added-large-files
     args:
-    - --maxkb=1000
+      - --maxkb=1000
   - id: check-merge-conflict
 
 # Secrets
@@ -30,12 +30,13 @@ repos:
 
 # CloudFormation
 - repo: https://github.com/aws-cloudformation/cfn-python-lint
-  rev: v0.54.3
+  rev: v0.58.0
   hooks:
   - id: cfn-python-lint
     name: AWS CloudFormation Linter
     files: solutions/.*\.(yaml)$
-    exclude: code/solutions/policy-as-code-with-guard/example_bucket_tests.yaml
+    args:
+      - --ignore-templates=code/solutions/policy-as-code-with-guard/example_bucket_tests.yaml
 
 - repo: https://github.com/aws-cloudformation/rain
   rev: v1.2.0
@@ -46,7 +47,7 @@ repos:
 
 # Python
 - repo: https://github.com/pycqa/pylint
-  rev: v2.11.1
+  rev: v2.12.2
   hooks:
     - id: pylint
       args:
@@ -54,11 +55,11 @@ repos:
         - --disable=E0401
 
 - repo: https://github.com/PyCQA/isort
-  rev: 5.9.3
+  rev: 5.10.1
   hooks:
     - id: isort
 
 - repo: https://github.com/psf/black
-  rev: 21.9b0
+  rev: 22.1.0
   hooks:
     - id: black
