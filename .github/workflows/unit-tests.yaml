@@ -38,6 +38,6 @@ jobs:
 
     # Run Tests
     - name: CloudFormation lint test
-      run: cfn-lint code/solutions/*.yaml
+      run: cfn-lint code/solutions/**/*.yaml --ignore-templates code/solutions/policy-as-code-with-guard/example_bucket_tests.yaml
     - name: CloudFormation nag test
       run: cfn_nag_scan --input-path code/solutions --ignore-fatal

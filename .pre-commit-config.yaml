@@ -35,7 +35,9 @@ repos:
   - id: cfn-python-lint
     name: AWS CloudFormation Linter
     files: solutions/.*\.(yaml)$
-    exclude: code/solutions/policy-as-code-with-guard/example_bucket_tests.yaml
+    args: [
+      --ignore-templates=code/solutions/policy-as-code-with-guard/example_bucket_tests.yaml
+    ]
 
 - repo: https://github.com/aws-cloudformation/rain
   rev: v1.2.0
