@@ -1,8 +1,8 @@
 <h1>
 AWS CloudFormation - Workshop
 <br>
-    <img src="https://img.shields.io/website-up-down-green-red/http/cfn101.workshop.aws.svg" alt="https://cfn101.workshop.aws">
-    <img src="https://github.com/aws-samples/cfn101-workshop/workflows/Unit%20Tests/badge.svg" alt="https://github.com/aws-samples/cfn101-workshop/actions">
+    <a href="https://cfn101.workshop.aws"><img src="https://img.shields.io/website-up-down-green-red/http/cfn101.workshop.aws.svg" alt="WebSite status"></a>
+    <a href="https://github.com/aws-samples/cfn101-workshop/actions"><img src="https://github.com/aws-samples/cfn101-workshop/workflows/Unit%20Tests/badge.svg" alt="Tests status"></a>
 </h1>
 
 This repository provides all the resources referenced in the [CloudFormation](https://cfn101.workshop.aws/) workshop as
@@ -12,11 +12,11 @@ well as the code used to build it.
 1. Clone the repository to your working directory or Download the ZIP file from GitHub.
 2. Open the downloaded files in your code editor or IDE of your choice.
 
-The working directory is located in CloudFormation templates can be found in [code/workspace](code/workspace) where you can follow along
-and write your code to.
+The working directory is located in CloudFormation templates and can be found in [code/workspace](code/workspace)
+where you can follow along and write your code to.
 
-In the [code/solutions](code/solutions), you can find final template for each lab, and can be used as a reference, in case you get stuck
-and things don't work the way they should.
+In the [code/solutions](code/solutions), you can find final template for each lab, and can be used as a reference,
+in case you get stuck and things don't work the way they should.
 
 ## Local development
 To set up local development environment, please follow the instructions in
