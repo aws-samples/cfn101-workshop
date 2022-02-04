@@ -12,12 +12,14 @@ repos:
   - id: trailing-whitespace
   - id: end-of-file-fixer
   - id: mixed-line-ending
-    args:
-    - --fix=lf
+    args: [
+      --fix=lf
+    ]
     exclude: /package-lock\.json$
   - id: check-added-large-files
-    args:
-    - --maxkb=1000
+    args: [
+      --maxkb=1000
+    ]
   - id: check-merge-conflict
 
 # Secrets
@@ -51,9 +53,10 @@ repos:
   rev: v2.11.1
   hooks:
     - id: pylint
-      args:
-        - --errors-only
-        - --disable=E0401
+      args: [
+        --errors-only
+        --disable=E0401
+      ]
 
 - repo: https://github.com/PyCQA/isort
   rev: 5.9.3
