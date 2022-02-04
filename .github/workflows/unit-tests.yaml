@@ -23,16 +23,16 @@ jobs:
         restore-keys: |
 
     # Setup
-    - name: Set up Python 3.7
+    - name: Set up Python
       uses: actions/setup-python@v1
       with:
-        python-version: 3.7
+        python-version: 3.10
     - name: Install python packages
       run: pip install -Ur requirements.txt
-    - name: Set up ruby 2.6
+    - name: Set up Ruby
       uses: actions/setup-ruby@v1
       with:
-        ruby-version: '2.6'
+        ruby-version: 3.1
     - name: Install Ruby gems
       run: gem install cfn-nag
 
