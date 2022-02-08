@@ -35,7 +35,7 @@ In this lab, you will create a Parameter Store parameter to persist an AMI ID: i
 
 Let’s get started! Choose to follow steps shown next:
 
-1. Navigate to the the Amazon EC2 [Console](https://console.aws.amazon.com/ec2/v2/home?region=us-east-1#LaunchInstanceWizard:), and [choose the Region](https://docs.aws.amazon.com/awsconsolehelpdocs/latest/gsg/select-region.html) you wish to use. Next, locate the latest *Amazon Linux 2 AMI, 64-bit (x86)*, and note the AMI ID (e.g., `ami-abcd1234`). You will use this value in the next step.
+1. Navigate to the the Amazon EC2 [Console](https://console.aws.amazon.com/ec2/v2/home?region=us-east-1#LaunchInstanceWizard:), and [choose the Region](https://docs.aws.amazon.com/awsconsolehelpdocs/latest/gsg/select-region.html) you wish to use. Next, locate the latest *Amazon Linux 2 AMI, (64-bit x86)*, and note the AMI ID (e.g., `ami-abcd1234`). You will use this value in the next step.
 
 ![ec2](dynamic-references/ec2-console-ami-picker.png)
 
@@ -181,7 +181,7 @@ Congratulations! You learned how to use dynamic references with AWS Secrets Mana
 
 In this exercise, you will reinforce your understanding of *dynamic references.*
 
-AWS Lambda supports specifying memory configuration for a function with the `MemorySize` property. Your task is to create a Parameter Store parameter with the AWS CLI, where you set the memory size to use for a Lambda function that you will describe in the `lambda_memory_size.yaml` template. You will then create a dynamic reference to version `1` of the parameter you created, and verify what you built works by creating a stack with your template: call the stack `cfn-workshop-lambda-memory-size`. Make sure you create your Parameter Store parameter in the same AWS region you choose to create your stack.
+AWS Lambda supports specifying memory configuration for a [function](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-lambda-function.html) with the `MemorySize` [property](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-lambda-function.html#cfn-lambda-function-memorysize). Your task is to create a Parameter Store parameter with the AWS CLI, where you set the memory size to use for a Lambda function that you will describe in the `lambda_memory_size.yaml` template. You will then create a dynamic reference to version `1` of the parameter you created, and verify what you built works by creating a stack with your template: call the stack `cfn-workshop-lambda-memory-size`. Make sure you create your Parameter Store parameter in the same AWS region you choose to create your stack.
 
 {{%expand "Need a hint?" %}}
 
@@ -227,7 +227,7 @@ You can find the full solution in the `code/solutions/dynamic-references/lambda_
 
 ### Cleanup
 
-1. Delete the CloudWatch log groups associated with the Lambda functions you created as a part of the `cfn-workshop-lambda-stack`, and the stack you created as part of the challenge section: `cfn-workshop-lambda-memory-size`. To do this, for each of the stack, locate the Lambda function name by navigating to the **Resources** tab in the CloudFormation Console look for the Physical ID of your Lambda function, and note its value. Then, use the following AWS CLI command for each of the you lambda functions have created (replace `YOUR_FUNCTION_NAME` with your Lambda function name and `YOUR_REGION` with the value you need):
+1. Delete CloudWatch Log Groups associated with Lambda functions you created with the `cfn-workshop-lambda-stack`, and with the `cfn-workshop-lambda-memory-size` (if you invoked the Lambda function for the challenge section, you should have a relevant Log Group present). For each of the stacks, locate the Lambda function name by navigating to the **Resources** tab in the CloudFormation Console; look for the Physical ID of your Lambda function, and note its value. Then, use the following command for each of the Lambda functions you have created (replace `YOUR_FUNCTION_NAME` with your Lambda function name, and `YOUR_REGION` with the value you need):
 
 ```shell
 $ aws logs delete-log-group --log-group-name /aws/lambda/YOUR_FUNCTION_NAME \
@@ -240,9 +240,9 @@ $ aws ssm delete-parameters --names "/golden-images/amazon-linux-2" "/lambda/mem
                             --region YOUR_REGION
 ```
 
-3. Next, In the CloudFormation console, select the stack you have created in this lab. For example: `cfn-workshop-ec2-stack`.
+3. Next, in the CloudFormation console, select the stack you created last, for example: `cfn-workshop-lambda-memory-size`.
 4. Choose **Delete** to delete the stack, and then choose **Delete stack** to confirm.
-5. Repeat steps above for stacks you created with this lab, for example: `cfn-workshop-database-stack`, `cfn-workshop-lambda-stack`, and the stack you created as part of the challenge section: `cfn-workshop-lambda-memory-size`.
+5. Repeat steps above for other stacks you created with this lab, for example: `cfn-workshop-lambda-stack`, then `cfn-workshop-database-stack`, and `cfn-workshop-ec2-stack`.
 
 ### Conclusion
 
