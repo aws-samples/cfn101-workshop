@@ -8,7 +8,7 @@ weight: 300
 
 In this module, you will learn how to use [dynamic references](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/dynamic-references.html) in your CloudFormation template to reference external values stored in AWS services that include [AWS Systems Manager](https://docs.aws.amazon.com/systems-manager/latest/userguide/what-is-systems-manager.html) (formerly known as SSM) [Parameter Store](https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-parameter-store.html), and [AWS Secrets Manager](https://docs.aws.amazon.com/secretsmanager/latest/userguide/intro.html).
 
-When you organize your AWS resources based on lifecycle and ownership, you might want to build a stack that references configuration values that are central to multiple stacks. The AWS Systems Manager Parameter Store provides secure, hierarchical storage for configuration data management.
+As you describe, in your CloudFormation templates, AWS resources by taking into account [lifecycle and ownership](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/best-practices.html) criteria and best practices, you might also want to reference configuration values stored in a centralized place. Parameter Store provides secure, hierarchical storage for configuration data management.
 
 In other cases, you might be required to reference sensitive information in your AWS CloudFormation templates. [AWS Secrets Manager](https://docs.aws.amazon.com/secretsmanager/latest/userguide/intro.html) helps you to securely encrypt, store, and retrieve credentials for your databases and other services programmatically.
 
