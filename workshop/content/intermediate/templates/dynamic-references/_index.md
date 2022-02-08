@@ -31,7 +31,7 @@ Consider a scenario where you are required to provide life cycle environments fo
 
 After you (or a team in your organization) builds a custom AMI, you can choose to use Parameter Store to store the identifier of the AMI. This makes it easier for you to programmatically point to an AMI you wish to use when you launch EC2 instances, thus reducing the likelihood of configuration mistakes.
 
-In this lab, you will create a Parameter Store parameter to persist an AMI ID of your choice. You will then reference your parameter in the `ImageId` property of an EC2 instance that you describe in a template.
+In this lab, you will create a Parameter Store parameter to persist an AMI ID: instead of a custom AMI, you will use the latest _Amazon Linux 2 AMI, 64-bit x86_ available in a region of your choice. You will then reference your parameter in the `ImageId` [property](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-instance.html#cfn-ec2-instance-imageid) of an EC2 instance that you describe in a template.
 
 Let’s get started! Choose to follow steps shown next:
 
