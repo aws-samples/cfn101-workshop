@@ -84,24 +84,24 @@ CloudFormation does not support [public parameters](https://docs.aws.amazon.com/
 You can also use dynamic references to an SSM parameter to point a specific parameter version. For example, to have CloudFormation resolve version `1` of your parameter, you use: `ImageId: '{{resolve:ssm:/golden-images/amazon-linux-2:1}}'`. When you lock a dynamic reference to a specific version, this helps preventing unintentional updates to your resource when you update your stack.
 {{% /notice %}}
 
-5. Verify that the ID of the image you used for your EC2 instance matches the image ID you stored in the SSM parameter. First, locate the EC2 Instance ID by navigating to the **Resources** tab in the CloudFormation Console: look for the Physical ID of your EC2 Instance, and note its value. Next, run the following command (replace the `INSTANCE_ID` placeholder before you run the command):
+5. Verify that the ID of the image you used for your EC2 instance matches the image ID you stored in your Parameter Store parameter. First, locate the EC2 Instance ID by navigating to the **Resources** tab in the CloudFormation Console: look for the Physical ID of your EC2 Instance, and note its value. Next, run the following command (replace the `INSTANCE_ID` placeholder before you run the command):
 
 Verify that the Lambda Function created uses the Role specified in the AWS Systems Manager parameter using the following command:
 
 
 
 ```shell
-aws ec2 describe-instances --instance-ids INSTANCE_ID \
+$ aws ec2 describe-instances --instance-ids INSTANCE_ID \
                            --query 'Reservations[0].Instances[0].ImageId'
 ```
 
-Congratulations! You learned how to use dynamic references with Parameter Store.
+Congratulations! You learned how to use dynamic references with an example using Parameter Store.
 
 #### Dynamic References for AWS Secrets Manager
 
-[AWS Secrets Manager](https://aws.amazon.com/secrets-manager) helps you secure your credentials, such as database credentials for example, so that you can consume them later programmatically without hard-coding secrets in your code. For example, you create an [AWS Lambda](https://aws.amazon.com/lambda/) function to consume your database credentials and, from the Lambda function, you connect to a database such as an [Amazon Relational Database Service (RDS)](https://aws.amazon.com/rds/) database instance.
+[AWS Secrets Manager](https://aws.amazon.com/secrets-manager) helps you secure your credentials, such as database credentials for example, so that you can consume them later programmatically without hard-coding secrets in your code. For example, you create an [AWS Lambda](https://aws.amazon.com/lambda/) function to consume your database credentials and, from the Lambda function, you connect to a database - such as, an [Amazon Relational Database Service (RDS)](https://aws.amazon.com/rds/) database instance.
 
-In this lab, you will use AWS Secrets Manager to store database connection information such as *hostname*, *port*, *username*, and *password*. Next, you will use dynamic references to consume connection information from an `AWS::Lambda::Function` resource you describe in a template.
+In this lab, you will use Secrets Manager to store database connection information such as *hostname*, *port*, *username*, and *password*. Next, you will use dynamic references to consume connection information from an `AWS::Lambda::Function` resource, that you describe in a template.
 
 Let’s get started! Choose to follow steps shown next:
 
@@ -109,8 +109,8 @@ Let’s get started! Choose to follow steps shown next:
     1. Make sure you are in the `code/workspace/dynamic-references` directory.
     2. Open the `database.yaml` CloudFormation template in your favorite text editor.
     3. Note the following resources in the template:
-        1. the resource of type `AWS::RDS::DBInstance`, with which you describe your Amazon RDS instance
-        2. the resource of type `AWS::SecretsManager::Secret`, where you store database connection parameters as JSON key-value pairs in a secret named `DatabaseConnParams`:
+        1. the resource of type `AWS::RDS::DBInstance`, with which you describe your Amazon RDS instance;
+        2. the resource of type `AWS::SecretsManager::Secret`, where you will store database connection parameters, as JSON key-value pairs, in a secret named `DatabaseConnParams`:
 
 ```json
 {
@@ -121,12 +121,12 @@ Let’s get started! Choose to follow steps shown next:
 }
 ```
 
-2. To Deploy the Database stack, follow the steps below:
+2. To deploy the Database stack, follow the steps below:
     1. Navigate to the [AWS CloudFormation Console](https://console.aws.amazon.com/cloudformation/), and choose **Create stack With new resources (standard)**.
     2. In **Prepare template**, select **Template is ready**.
     3. In **Template source**, select **Upload a template file**.
     4. Choose the file `database.yaml`.
-    5. Enter a Stack name. For example, *cfn-workshop-database-stack.*
+    5. Enter a Stack name. For example, `cfn-workshop-database-stack`.
     6. For `DBUsername`, specify the primary user name for the DB instance.
     7. For `DBPassword`, specify the password for the primary user.
     8. Choose to use default values for **Configure stack options**, and choose **Next**.
@@ -134,7 +134,7 @@ Let’s get started! Choose to follow steps shown next:
     10. You can view the progress of stack being created in the CloudFormation Console, by refreshing the stack creation page.
     11. Refresh the page until you see the `CREATE_COMPLETE` status for your stack.
 
-3. Next, you will create an AWS Lambda Function, and pass database connection parameters as [Environment Variables](https://docs.aws.amazon.com/lambda/latest/dg/configuration-envvars.html) to a Lambda function, by using dynamic references to the AWS Secrets Manager secret created earlier.
+3. Next, you will create an AWS Lambda Function, and read a number of database connection parameters as [Environment Variables](https://docs.aws.amazon.com/lambda/latest/dg/configuration-envvars.html) to your Lambda function, by using dynamic references to the Secrets Manager secret you created earlier.
     1. Make sure you are in the `code/workspace/dynamic-references` directory.
     2. Open the `lambda_function.yaml` CloudFormation template in your favorite text editor.
     3. The template describes an `AWS::Lambda::Function` resource type; update the template by appending the `Properties` section with the `Environment` property, with variables using dynamic references to the AWS Secret Manager secret you created earlier:
@@ -153,7 +153,7 @@ Let’s get started! Choose to follow steps shown next:
     2. In **Prepare template**, select **Template is ready**.
     3. In **Template source**, select **Upload a template file**.
     4. Choose the file `lambda_function.yaml`.
-    5. Enter a Stack name. For example, *cfn-workshop-lambda-stack*, and choose **Next**.
+    5. Enter a Stack name. For example, `cfn-workshop-lambda-stack`, and choose **Next**.
     6. Choose to use default values for **Configure stack options**, and choose **Next**.
     7. On the **Review** page for your stack, scroll down to the bottom, and select the IAM Capabilities check box as shown in the following example:
 ![Acknowledge IAM Capability](dynamic-references/iam-capability.png)
@@ -179,21 +179,21 @@ Congratulations! You learned how to use dynamic references with AWS Secrets Mana
 
 In this exercise, you will reinforce your understanding of *dynamic references.*
 
-AWS Lambda supports specifying memory configuration for a function with the `MemorySize` property. Your task is to create a Parameter Store parameter with the AWS CLI, where you set the memory size to use for a Lambda function that you will describe in the `lambda_memory_size.yaml` template. You will then create a dynamic reference to version `1` of the parameter you created.
+AWS Lambda supports specifying memory configuration for a function with the `MemorySize` property. Your task is to create a Parameter Store parameter with the AWS CLI, where you set the memory size to use for a Lambda function that you will describe in the `lambda_memory_size.yaml` template. You will then create a dynamic reference to version `1` of the parameter you created, and verify what you built works by creating a stack with your template: call the stack `cfn-workshop-lambda-memory-size`. Make sure you create your Parameter Store parameter in the same AWS region you choose to create your stack.
 
 {{%expand "Need a hint?" %}}
 
 * Review the CloudFormation [User Guide](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-lambda-function.html#cfn-lambda-function-memorysize) to understand how to specify the `MemorySize` configuration for a Lambda Function.
-* Review the CloudFormation [User Guide](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/dynamic-references.html#dynamic-references-ssm-pattern) for help with constructing a dynamic reference string to a specific version of  an SSM parameter.
+* Review the CloudFormation [User Guide](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/dynamic-references.html#dynamic-references-ssm-pattern) for help with constructing a dynamic reference string to a specific version of a Parameter Store parameter.
 
 {{% /expand %}}
 
 {{%expand "Want to see the solution?" %}}
 
-* Create an SSM parameter specifying the required Memory Configuration using the following command:
+* Create a Parameter Store parameter specifying your required memory configuration using the following command (the example uses the `us-east-1` region - update this value accordingly):
 
 ```shell
-aws ssm put-parameter --name "/lambda/memory-size" \
+$ aws ssm put-parameter --name "/lambda/memory-size" \
                       --value "256" \
                       --type "String" \
                       --region "us-east-1"
@@ -217,7 +217,9 @@ aws ssm put-parameter --name "/lambda/memory-size" \
               return "Hello World!"
 ```
 
-You can find the full solution at `code/solutions/dynamic-references/lambda_memory_size.yaml` example template.
+Create a CloudFormation stack to provision resources you described and updated in the template.
+
+You can find the full solution in the `code/solutions/dynamic-references/lambda_memory_size.yaml` example template.
 
 {{% /expand %}}
 
@@ -225,8 +227,8 @@ You can find the full solution at `code/solutions/dynamic-references/lambda_memo
 
 1. In the CloudFormation console, select the stack you have created in this lab. For example: `cfn-workshop-ec2-stack`.
 2. Choose **Delete** to delete the stack, and then choose **Delete stack** to confirm.
-3. Repeat steps above for stacks you created with this lab, for example: `cfn-workshop-database-stack`, `cfn-workshop-lambda-stack`.
-4. Delete the SSM parameters you created to store the AMI ID and `MemorySize` configuration using the following command:
+3. Repeat steps above for stacks you created with this lab, for example: `cfn-workshop-database-stack`, `cfn-workshop-lambda-stack`, and the stack you created as part of the challenge section: `cfn-workshop-lambda-memory-size`.
+4. Delete the two Parameter Store parameters you created to store the AMI ID and `MemorySize` configuration using the following command:
 
 ```yaml
 aws ssm delete-parameters --names "/golden-images/amazon-linux-2" \

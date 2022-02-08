@@ -11,7 +11,7 @@ Parameters:
     ConstraintDescription: must begin with a letter and contain only alphanumeric characters.
   DBPassword:
     NoEcho: 'true'
-    Description: Password MySQL database access
+    Description: Password for MySQL database access
     Type: String
     MinLength: '8'
     MaxLength: '41'
