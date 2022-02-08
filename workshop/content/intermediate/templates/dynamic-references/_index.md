@@ -74,7 +74,7 @@ CloudFormation does not support [public parameters](https://docs.aws.amazon.com/
     2. In **Prepare template**, select **Template is ready**.
     3. In **Template source**, select **Upload a template file**.
     4. Choose the file `ec2_instance.yaml`.
-    5. Enter a Stack name. For example, cfn-workshop-ec2-stack.
+    5. Enter a Stack name. For example, `cfn-workshop-ec2-stack`.
     6. Choose to use default values for **Configure stack options**, and choose **Next**.
     7. On the **Review** page for your stack, scroll down to the bottom, and choose **Create stack**.
     8. You can view the progress of stack being created in the CloudFormation Console, by refreshing the stack creation page.
