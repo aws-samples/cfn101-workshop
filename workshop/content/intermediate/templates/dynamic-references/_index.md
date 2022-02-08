@@ -90,7 +90,7 @@ Verify that the Lambda Function created uses the Role specified in the AWS Syste
 
 
 
-```
+```shell
 aws ec2 describe-instances --instance-ids INSTANCE_ID \
                            --query 'Reservations[0].Instances[0].ImageId'
 ```
