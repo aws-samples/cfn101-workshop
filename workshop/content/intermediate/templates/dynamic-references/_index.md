@@ -29,7 +29,7 @@ By the end of this lab, you will be able to:
 
 Consider a scenario where you are required to provide life cycle environments for your development teams. This practice often involves practices that include building and distributing custom [Amazon Machine Images](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/AMIs.html) (AMIs) with latest operating system updates, hardening requirements, and third-party software agents you require.
 
-After a custom AMI has been built by your team, you can choose to use AWS Systems Manager Parameter Store to store the identifier of the AMI you built. This makes it easier for you to programmatically point to the AMI you wish to use when you launch EC2 instance, thus reducing the likelihood of misconfiguration.
+After you (or a team in your organization) builds a custom AMI, you can choose to use Parameter Store to store the identifier of the AMI. This makes it easier for you to programmatically point to an AMI you wish to use when you launch EC2 instances, thus reducing the likelihood of configuration mistakes.
 
 In this lab, you will create a Parameter Store parameter to persist an AMI ID of your choice. You will then reference your parameter in the `ImageId` property of an EC2 instance that you describe in a template.
 
