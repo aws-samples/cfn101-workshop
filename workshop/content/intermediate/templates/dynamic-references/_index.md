@@ -84,15 +84,12 @@ CloudFormation does not support [public parameters](https://docs.aws.amazon.com/
 You can also use dynamic references to an SSM parameter to point a specific parameter version. For example, to have CloudFormation resolve version `1` of your parameter, you use: `ImageId: '{{resolve:ssm:/golden-images/amazon-linux-2:1}}'`. When you lock a dynamic reference to a specific version, this helps preventing unintentional updates to your resource when you update your stack.
 {{% /notice %}}
 
-5. Verify that the ID of the image you used for your EC2 instance matches the image ID you stored in your Parameter Store parameter. First, locate the EC2 Instance ID by navigating to the **Resources** tab in the CloudFormation Console: look for the Physical ID of your EC2 Instance, and note its value. Next, run the following command (replace the `INSTANCE_ID` placeholder before you run the command):
-
-Verify that the Lambda Function created uses the Role specified in the AWS Systems Manager parameter using the following command:
-
-
+5. Verify that the ID of the image you used for your EC2 instance matches the image ID you stored in your Parameter Store parameter. First, locate the EC2 Instance ID by navigating to the **Resources** tab in the CloudFormation Console: look for the Physical ID of your EC2 Instance, and note its value. Next, run the following command (replace the `YOUR_INSTANCE_ID` and `YOUR_REGION` placeholder before you run the command):
 
 ```shell
-$ aws ec2 describe-instances --instance-ids INSTANCE_ID \
-                           --query 'Reservations[0].Instances[0].ImageId'
+$ aws ec2 describe-instances --instance-ids YOUR_INSTANCE_ID \
+                             --region YOUR_REGION \
+                             --query 'Reservations[0].Instances[0].ImageId'
 ```
 
 Congratulations! You learned how to use dynamic references with an example using Parameter Store.
@@ -142,10 +139,8 @@ Let’s get started! Choose to follow steps shown next:
 ```yaml
       Environment:
         Variables:
-          RDS_HOSTNAME: !Sub '{{resolve:secretsmanager:DatabaseConnParams:SecretString:RDS_HOSTNAME}}'
-          RDS_PORT: !Sub '{{resolve:secretsmanager:DatabaseConnParams:SecretString:RDS_PORT}}'
-          RDS_USERNAME: !Sub '{{resolve:secretsmanager:DatabaseConnParams:SecretString:RDS_USERNAME}}'
-          RDS_PASSWORD: !Sub '{{resolve:secretsmanager:DatabaseConnParams:SecretString:RDS_PASSWORD}}'
+          RDS_HOSTNAME: '{{resolve:secretsmanager:DatabaseConnParams:SecretString:RDS_HOSTNAME}}'
+          RDS_PORT: '{{resolve:secretsmanager:DatabaseConnParams:SecretString:RDS_PORT}}'
 ```
 
 4. To Deploy the Lambda stack, follow the steps below:
@@ -165,11 +160,18 @@ In the template you just used, database connection parameters are retrieved duri
 A secret in AWS Secrets Manager has [*versions*](https://docs.aws.amazon.com/secretsmanager/latest/userguide/getting-started.html#term_version) holding copies of the encrypted secret value. When you change the secret value, Secrets Manager creates a new version. A secret always has a version with the staging label `AWSCURRENT`, which is the current secret value. If required, you can modify this string specify a *version-stage* or *version-id* as such: `'{{resolve:secretsmanager:prod-DatabaseConnParams:SecretString:RDS_HOSTNAME:<version-stage>:<version-id>}}'`. When you do not specify a version, CloudFormation defaults to resolving the secret associated with the stage `AWSCURRENT`.
 {{% /notice %}}
 
-5. When you invoke the example Lambda function you created, the function fetches `RDS_HOSTNAME` and `RDS_PORT` environment variables, and prints out their values. First, locate the Lambda function name by navigating to the **Resources** tab in the CloudFormation Console: look for the Physical ID of your Lambda function, and note its value. Next, verify you are passing database connection parameters to your Lambda function by invoking it with the following command (replace `FUNCTION_NAME` with your Lambda function name):
+5. When you invoke the example Lambda function you created, the function fetches `RDS_HOSTNAME` and `RDS_PORT` environment variables, and prints out their values. First, locate the Lambda function name by navigating to the **Resources** tab in the CloudFormation Console: look for the Physical ID of your Lambda function, and note its value. Next, verify you are passing database connection parameters to your Lambda function by invoking it with the following command (replace `YOUR_FUNCTION_NAME` with your Lambda function name and `YOUR_REGION` with the value you need):
 
 ```shell
-aws lambda invoke --function-name FUNCTION_NAME /dev/stdout
+aws lambda invoke --function-name YOUR_FUNCTION_NAME \
+                  --region YOUR_REGION \
+                  output.json
+```
 
+Print the output for the above command using the following command:
+
+```shell
+cat output.json
 "Attempting to connect to database db.us-east-1.rds.amazonaws.com:3306"
 ```
 
@@ -225,15 +227,21 @@ You can find the full solution in the `code/solutions/dynamic-references/lambda_
 
 ### Cleanup
 
-1. In the CloudFormation console, select the stack you have created in this lab. For example: `cfn-workshop-ec2-stack`.
-2. Choose **Delete** to delete the stack, and then choose **Delete stack** to confirm.
-3. Repeat steps above for stacks you created with this lab, for example: `cfn-workshop-database-stack`, `cfn-workshop-lambda-stack`, and the stack you created as part of the challenge section: `cfn-workshop-lambda-memory-size`.
-4. Delete the two Parameter Store parameters you created to store the AMI ID and `MemorySize` configuration using the following command:
+1. Delete the CloudWatch log groups associated with the Lambda functions you created as a part of the `cfn-workshop-lambda-stack`, and the stack you created as part of the challenge section: `cfn-workshop-lambda-memory-size`. To do this, for each of the stack, locate the Lambda function name by navigating to the **Resources** tab in the CloudFormation Console look for the Physical ID of your Lambda function, and note its value. Then, use the following AWS CLI command for each of the you lambda functions have created (replace `FUNCTION_NAME` with your Lambda function name):
 
-```yaml
+```shell
+aws logs delete-log-group --log-group-name /aws/lambda/FUNCTION_NAME
+```
+2. Delete the two Parameter Store parameters you created to store the AMI ID and `MemorySize` configuration using the following command:
+
+```shell
 aws ssm delete-parameters --names "/golden-images/amazon-linux-2" \
                                   "/lambda/memory-size"
 ```
+
+3. Next, In the CloudFormation console, select the stack you have created in this lab. For example: `cfn-workshop-ec2-stack`.
+4. Choose **Delete** to delete the stack, and then choose **Delete stack** to confirm.
+5. Repeat steps above for stacks you created with this lab, for example: `cfn-workshop-database-stack`, `cfn-workshop-lambda-stack`, and the stack you created as part of the challenge section: `cfn-workshop-lambda-memory-size`.
 
 ### Conclusion
 
