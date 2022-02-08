@@ -25,7 +25,7 @@ By the end of this lab, you will be able to:
 
 ### Start Lab
 
-#### Dynamic References for AWS Systems Manager Parameter Store
+#### Dynamic References for Parameter Store
 
 Consider a scenario where you are required to provide the appropriate AWS environment for multiple development teams. This practice often involves building and distributing approved [AMIs (Amazon Machine Images)](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/AMIs.html) that include latest operating system updates, hardening requirements, and required third-party software agents.
 
