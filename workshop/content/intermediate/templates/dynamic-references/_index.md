@@ -19,7 +19,7 @@ When you use a dynamic reference, CloudFormation retrieves the value of the spec
 By the end of this lab, you will be able to:
 
 * Compose a *dynamic reference string* to access an external value in your CloudFormation template.
-* Retrieve a specific version, or the *latest* version of a AWS Systems Manager parameter.
+* Retrieve a specific version, or the *latest* version of a Parameter Store parameter.
 * Retrieve a specific version of a AWS Secrets Manager secret.
     * Extract a value for a specific key, from a secret that uses a JSON data format.
 
