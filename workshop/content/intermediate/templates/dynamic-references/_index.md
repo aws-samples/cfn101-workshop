@@ -227,16 +227,17 @@ You can find the full solution in the `code/solutions/dynamic-references/lambda_
 
 ### Cleanup
 
-1. Delete the CloudWatch log groups associated with the Lambda functions you created as a part of the `cfn-workshop-lambda-stack`, and the stack you created as part of the challenge section: `cfn-workshop-lambda-memory-size`. To do this, for each of the stack, locate the Lambda function name by navigating to the **Resources** tab in the CloudFormation Console look for the Physical ID of your Lambda function, and note its value. Then, use the following AWS CLI command for each of the you lambda functions have created (replace `FUNCTION_NAME` with your Lambda function name):
+1. Delete the CloudWatch log groups associated with the Lambda functions you created as a part of the `cfn-workshop-lambda-stack`, and the stack you created as part of the challenge section: `cfn-workshop-lambda-memory-size`. To do this, for each of the stack, locate the Lambda function name by navigating to the **Resources** tab in the CloudFormation Console look for the Physical ID of your Lambda function, and note its value. Then, use the following AWS CLI command for each of the you lambda functions have created (replace `YOUR_FUNCTION_NAME` with your Lambda function name and `YOUR_REGION` with the value you need):
 
 ```shell
-aws logs delete-log-group --log-group-name /aws/lambda/FUNCTION_NAME
+aws logs delete-log-group --log-group-name /aws/lambda/YOUR_FUNCTION_NAME \
+                          --region YOUR_REGION
 ```
-2. Delete the two Parameter Store parameters you created to store the AMI ID and `MemorySize` configuration using the following command:
+2. Delete the two Parameter Store parameters you created to store the AMI ID and `MemorySize` configuration using the following command (replace `YOUR_REGION` with the value you need):
 
 ```shell
-aws ssm delete-parameters --names "/golden-images/amazon-linux-2" \
-                                  "/lambda/memory-size"
+aws ssm delete-parameters --names "/golden-images/amazon-linux-2" "/lambda/memory-size" \
+                          --region YOUR_REGION
 ```
 
 3. Next, In the CloudFormation console, select the stack you have created in this lab. For example: `cfn-workshop-ec2-stack`.
