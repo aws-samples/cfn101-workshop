@@ -55,7 +55,7 @@ You can choose to create Parameter Store parameters of the type `String` or `Str
 
     1. change directory to `code/workspace/dynamic-references`.
     2. Open the `ec2_instance.yaml` CloudFormation template in your favorite text editor.
-    3. Locate the `AWS::EC2::Instance` resource type block in the template; update the template by appending the `Properties` section with the `ImageId` property and a dynamic reference to the parameter:
+    3. Locate the `AWS::EC2::Instance` resource type block in the template; update the template by appending, to properties in the `Properties` section, the `ImageId` property and a dynamic reference to your parameter:
 
 ```yaml
       ImageId: '{{resolve:ssm:/golden-images/amazon-linux-2}}'
