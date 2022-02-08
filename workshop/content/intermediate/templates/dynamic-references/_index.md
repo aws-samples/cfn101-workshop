@@ -163,7 +163,7 @@ A secret in AWS Secrets Manager has [*versions*](https://docs.aws.amazon.com/sec
 5. When you invoke the example Lambda function you created, the function fetches `RDS_HOSTNAME` and `RDS_PORT` environment variables, and prints out their values. First, locate the Lambda function name by navigating to the **Resources** tab in the CloudFormation Console: look for the Physical ID of your Lambda function, and note its value. Next, verify you are passing database connection parameters to your Lambda function by invoking it with the following command (replace `YOUR_FUNCTION_NAME` with your Lambda function name and `YOUR_REGION` with the value you need):
 
 ```shell
-aws lambda invoke --function-name YOUR_FUNCTION_NAME \
+$ aws lambda invoke --function-name YOUR_FUNCTION_NAME \
                   --region YOUR_REGION \
                   output.json
 ```
@@ -171,7 +171,7 @@ aws lambda invoke --function-name YOUR_FUNCTION_NAME \
 Print the output for the above command using the following command:
 
 ```shell
-cat output.json
+$ cat output.json
 "Attempting to connect to database db.us-east-1.rds.amazonaws.com:3306"
 ```
 
@@ -230,13 +230,13 @@ You can find the full solution in the `code/solutions/dynamic-references/lambda_
 1. Delete the CloudWatch log groups associated with the Lambda functions you created as a part of the `cfn-workshop-lambda-stack`, and the stack you created as part of the challenge section: `cfn-workshop-lambda-memory-size`. To do this, for each of the stack, locate the Lambda function name by navigating to the **Resources** tab in the CloudFormation Console look for the Physical ID of your Lambda function, and note its value. Then, use the following AWS CLI command for each of the you lambda functions have created (replace `YOUR_FUNCTION_NAME` with your Lambda function name and `YOUR_REGION` with the value you need):
 
 ```shell
-aws logs delete-log-group --log-group-name /aws/lambda/YOUR_FUNCTION_NAME \
+$ aws logs delete-log-group --log-group-name /aws/lambda/YOUR_FUNCTION_NAME \
                           --region YOUR_REGION
 ```
 2. Delete the two Parameter Store parameters you created to store the AMI ID and `MemorySize` configuration using the following command (replace `YOUR_REGION` with the value you need):
 
 ```shell
-aws ssm delete-parameters --names "/golden-images/amazon-linux-2" "/lambda/memory-size" \
+$ aws ssm delete-parameters --names "/golden-images/amazon-linux-2" "/lambda/memory-size" \
                           --region YOUR_REGION
 ```
 
