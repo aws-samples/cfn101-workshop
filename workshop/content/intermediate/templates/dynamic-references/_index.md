@@ -27,7 +27,7 @@ By the end of this lab, you will be able to:
 
 #### Dynamic References for Parameter Store
 
-Consider a scenario where you are required to provide the appropriate AWS environment for multiple development teams. This practice often involves building and distributing approved [AMIs (Amazon Machine Images)](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/AMIs.html) that include latest operating system updates, hardening requirements, and required third-party software agents.
+Consider a scenario where you are required to provide life cycle environments for your development teams. This practice often involves practices that include building and distributing custom [Amazon Machine Images](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/AMIs.html) (AMIs) with latest operating system updates, hardening requirements, and third-party software agents you require.
 
 After a custom AMI has been built by your team, you can choose to use AWS Systems Manager Parameter Store to store the identifier of the AMI you built. This makes it easier for you to programmatically point to the AMI you wish to use when you launch EC2 instance, thus reducing the likelihood of misconfiguration.
 
