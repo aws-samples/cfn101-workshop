@@ -43,9 +43,9 @@ Let’s get started! Choose to follow steps shown next:
 
 ```shell
 $ aws ssm put-parameter --name "/golden-images/amazon-linux-2" \
-                      --value "YOUR_AMI_ID" \
-                      --type "String" \
-                      --region "YOUR_REGION"
+                        --value "YOUR_AMI_ID" \
+                        --type "String" \
+                        --region "YOUR_REGION"
 ```
 {{% notice note %}}
 You can choose to create Parameter Store parameters of the type `String` or `StringList` using CloudFormation. For more details, check the documentation for [AWS::SSM::Parameter](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ssm-parameter.html).
@@ -164,8 +164,8 @@ A secret in AWS Secrets Manager has [*versions*](https://docs.aws.amazon.com/sec
 
 ```shell
 $ aws lambda invoke --function-name YOUR_FUNCTION_NAME \
-                  --region YOUR_REGION \
-                  output.json
+                    --region YOUR_REGION \
+                    output.json
 ```
 
 Print the output for the above command using the following command:
@@ -196,9 +196,9 @@ AWS Lambda supports specifying memory configuration for a function with the `Mem
 
 ```shell
 $ aws ssm put-parameter --name "/lambda/memory-size" \
-                      --value "256" \
-                      --type "String" \
-                      --region "us-east-1"
+                        --value "256" \
+                        --type "String" \
+                        --region "us-east-1"
 ```
 
 * Navigate to the `code/workspace/dynamic-references` directory. Update the template by appending the `Properties` section with the `MemorySize` property using a dynamic reference to the parameter as such:
@@ -231,13 +231,13 @@ You can find the full solution in the `code/solutions/dynamic-references/lambda_
 
 ```shell
 $ aws logs delete-log-group --log-group-name /aws/lambda/YOUR_FUNCTION_NAME \
-                          --region YOUR_REGION
+                            --region YOUR_REGION
 ```
 2. Delete the two Parameter Store parameters you created to store the AMI ID and `MemorySize` configuration using the following command (replace `YOUR_REGION` with the value you need):
 
 ```shell
 $ aws ssm delete-parameters --names "/golden-images/amazon-linux-2" "/lambda/memory-size" \
-                          --region YOUR_REGION
+                            --region YOUR_REGION
 ```
 
 3. Next, In the CloudFormation console, select the stack you have created in this lab. For example: `cfn-workshop-ec2-stack`.
