@@ -48,7 +48,7 @@ $ aws ssm put-parameter --name "/golden-images/amazon-linux-2" \
                       --region "YOUR_REGION"
 ```
 {{% notice note %}}
-You can choose to create SSM Parameters of the type `String` (or) `StringList` using CloudFormation. For more details, check the documentation for [AWS::SSM::Parameter](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ssm-parameter.html).
+You can choose to create Parameter Store parameters of the type `String` or `StringList` using CloudFormation. For more details, check the documentation for [AWS::SSM::Parameter](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ssm-parameter.html).
 {{% /notice %}}
 
 3. Now, create a dynamic reference to the parameter in an EC2 instance you describe in a template:
