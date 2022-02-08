@@ -21,7 +21,7 @@ Resources:
   Database:
     Type: 'AWS::RDS::DBInstance'
     Properties:
-      DBInstanceClass: db.t3.micro
+      DBInstanceClass: db.t2.micro
       AllocatedStorage: "20"
       Engine: mysql
       EngineVersion: 8.0.26
