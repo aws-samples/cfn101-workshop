@@ -65,7 +65,7 @@ With the dynamic reference above, you describe the intent of resolving the `LATE
 
 
 {{% notice note %}}
-It’s not possible to retrieve values for a SSM [public parameter](https://docs.aws.amazon.com/systems-manager/latest/userguide/parameter-store-finding-public-parameters.html) when using dynamic references. However, you can choose to make use of [SSM Parameter Types](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/parameters-section-structure.html#aws-ssm-parameter-types) to retrieve the value for a public parameter from SSM.
+CloudFormation does not support [public parameters](https://docs.aws.amazon.com/systems-manager/latest/userguide/parameter-store-finding-public-parameters.html) [in dynamic references](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/dynamic-references.html#dynamic-references-ssm). You can choose to use [SSM Parameter Types](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/parameters-section-structure.html#aws-ssm-parameter-types) to retrieve the value for a public parameter.
 {{% /notice %}}
 
 4. It’s now time to create your stack! Follow steps below:
