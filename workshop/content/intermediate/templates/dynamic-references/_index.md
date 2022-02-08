@@ -96,9 +96,9 @@ Congratulations! You learned how to use dynamic references with an example using
 
 #### Dynamic References for AWS Secrets Manager
 
-[AWS Secrets Manager](https://aws.amazon.com/secrets-manager) helps you secure your credentials, such as database credentials for example, so that you can consume them later programmatically without hard-coding secrets in your code. For example, you create an [AWS Lambda](https://aws.amazon.com/lambda/) function to consume your database credentials and, from the Lambda function, you connect to a database - such as, an [Amazon Relational Database Service (RDS)](https://aws.amazon.com/rds/) database instance.
+[AWS Secrets Manager](https://aws.amazon.com/secrets-manager) helps you secure your credentials, such as database credentials for example, so that you can consume them later programmatically without hard-coding secrets in your code. For example, you create an [AWS Lambda](https://aws.amazon.com/lambda/) function to consume your database connection information, such as hostname and port, for your [Amazon Relational Database Service (RDS)](https://aws.amazon.com/rds/) database instance.
 
-In this lab, you will use Secrets Manager to store database connection information such as *hostname*, *port*, *username*, and *password*. Next, you will use dynamic references to consume connection information from an `AWS::Lambda::Function` resource, that you describe in a template.
+In this lab, you will use Secrets Manager to store database *hostname*, *port*, *username*, and *password*. Next, you will use dynamic references to read *hostname* and *port* information from an `AWS::Lambda::Function` resource you will describe in a template.
 
 Let’s get started! Choose to follow steps shown next:
 
@@ -172,7 +172,7 @@ Print the output for the above command using the following command:
 
 ```shell
 $ cat output.json
-"Attempting to connect to database db.us-east-1.rds.amazonaws.com:3306"
+"Database: db.us-east-1.rds.amazonaws.com:3306"
 ```
 
 Congratulations! You learned how to use dynamic references with AWS Secrets Manager.
@@ -201,7 +201,7 @@ $ aws ssm put-parameter --name "/lambda/memory-size" \
                         --region "us-east-1"
 ```
 
-* Navigate to the `code/workspace/dynamic-references` directory. Update the template by appending the `Properties` section with the `MemorySize` property using a dynamic reference to the parameter as such:
+* Open the `code/workspace/dynamic-references/lambda_memory_size.yaml` template in your favorite text editor. Update the template by appending, to the `Resources` section, the example below that include the `MemorySize` property using a dynamic reference to the parameter:
 
 ```yaml
   HelloWorldFunction:
@@ -219,7 +219,7 @@ $ aws ssm put-parameter --name "/lambda/memory-size" \
               return "Hello World!"
 ```
 
-Create a CloudFormation stack to provision resources you described and updated in the template.
+Create a `cfn-workshop-lambda-memory-size` CloudFormation stack to provision resources you described and updated in the template.
 
 You can find the full solution in the `code/solutions/dynamic-references/lambda_memory_size.yaml` example template.
 

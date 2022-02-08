@@ -30,4 +30,4 @@ Resources:
             def handler(event, context):
                 RDS_HOSTNAME=os.getenv('RDS_HOSTNAME')
                 RDS_PORT=os.getenv('RDS_PORT')
-                return "Attempting to connect to database {}:{}".format(RDS_HOSTNAME,RDS_PORT)
+                return "Database: {}:{}".format(RDS_HOSTNAME,RDS_PORT)
