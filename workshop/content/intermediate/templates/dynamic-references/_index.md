@@ -42,7 +42,7 @@ Let’s get started! Choose to follow steps shown next:
 2. Create your parameter using the [AWS Command Line Interface](https://aws.amazon.com/cli/) (CLI). When you run the command shown next, please make sure to replace `YOUR_AMI_ID` and `YOUR_REGION` placeholders with values you need. For values you can specify for the AWS region, see **Code** in the [Regional endpoints](https://docs.aws.amazon.com/general/latest/gr/rande.html#regional-endpoints) table; make sure to use the same region you chose when you selected the AMI to use in the previous step:
 
 ```shell
-aws ssm put-parameter --name "/golden-images/amazon-linux-2" \
+$ aws ssm put-parameter --name "/golden-images/amazon-linux-2" \
                       --value "YOUR_AMI_ID" \
                       --type "String" \
                       --region "YOUR_REGION"
