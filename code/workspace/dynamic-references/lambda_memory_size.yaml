@@ -14,6 +14,6 @@ Resources:
               - lambda.amazonaws.com
         Version: 2012-10-17
       ManagedPolicyArns:
-        - arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+        - !Sub 'arn:${AWS::Partition}:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole'
       Path: /
   ## Lambda Resource Goes Here
