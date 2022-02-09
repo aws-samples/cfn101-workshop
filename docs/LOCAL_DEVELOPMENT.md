@@ -1,17 +1,16 @@
 ## Local Development
 
 ### Pre-Requisites
+The following dependencies must be installed. Please refer to your operating system, how to install them.
 
-The following dependencies must be installed:
 - Python >=3.8 and pip
-- pre-commit
-- hugo
+- VirtualEnv
+- Hugo
 - Go
 - Ruby >=2.6 and gem
 - [cfn-nag](https://github.com/stelligent/cfn_nag)
 
-Here is a code to install pre-requisites on macOS using [Homebrew](https://brew.sh/). For other operating systems,
-please refer to the OS documentation.
+Here is an example how to install pre-requisites on macOS/Linux using [Homebrew](https://brew.sh/).
 ```shell
 # install python3
 brew install python
@@ -31,27 +30,36 @@ brew gem install cfn-nag
 ```
 
 ### Build local development environment
-
 Once you have installed pre-requisites, run commands below:
 
+#### Step 1 - Clone the repository (required)
+In the first step, you will clone the repository and initialize submodules.
 
-1. Clone the repository.
+1. Clone the repository:
    ```shell
-   git clone <git-repository-clone-address>
+   $ git clone https://github.com/aws-samples/cfn101-workshop.git
    ```
-1. Initialize the `pre-commit`.
+2. Initialize submodules:
    ```shell
-   pre-commit install
+   $ cd cfn101-workshop/
+
+   $ git submodule init
+
+   $ git submodule update
    ```
-1. Run `pre-commit` tests. (These will also be run automatically on each commit)
+
+#### Step 2 - `make init` (Required)
+In the second step, you will use `make` to create a virtual environment.
+
+1. Initialize the local environment
    ```shell
-   pre-commit run --all-files
+   make init
    ```
-1. Run `cfn-lint` tests. (This test will also run by GitHub actions on PR merge to mainline)
+1. Activate `VirtualEnv` environment.
    ```shell
-   cfn-lint code/solutions/*.yaml
+   source venv/bin/activate
    ```
-1. Run `cfn-nag` tests. (This test will also run by GitHub actions on PR merge to mainline)
+1. Run pre-commit tests for the first time to check the installation.
    ```shell
-   cfn_nag_scan --input-path code/solutions
+   make test
    ```

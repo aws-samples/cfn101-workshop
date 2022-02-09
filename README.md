@@ -1,8 +1,8 @@
-<h1>
+<h1 align="center">
 AWS CloudFormation - Workshop
 <br>
-    <a href="https://cfn101.workshop.aws"><img src="https://img.shields.io/website-up-down-green-red/http/cfn101.workshop.aws.svg" alt="WebSite status"></a>
-    <a href="https://github.com/aws-samples/cfn101-workshop/actions"><img src="https://github.com/aws-samples/cfn101-workshop/workflows/Unit%20Tests/badge.svg" alt="Tests status"></a>
+    <a href="https://cfn101.workshop.aws"><img alt="Website" src="https://img.shields.io/website?down_color=red&down_message=down&up_color=green&up_message=up&url=https%3A%2F%2Fcfn101.workshop.aws"></a>
+    <a href="https://github.com/aws-samples/cfn101-workshop/actions"><img alt="GitHub Workflow Status" src="https://github.com/aws-samples/cfn101-workshop/workflows/Unit%20Tests/badge.svg"></a>
 </h1>
 
 This repository provides all the resources referenced in the [CloudFormation](https://cfn101.workshop.aws/) workshop as
