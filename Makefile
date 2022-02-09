@@ -50,8 +50,8 @@ test-cfn-nag:
 	cfn_nag_scan --input-path code/solutions --ignore-fatal
 
 version:
-	@bumpversion $(part) --allow-dirty
+	@bumpversion $(part)
 
 release: version
-	@TAG_VERSION=$(shell bumpversion --dry-run --list .bumpversion.cfg --allow-dirty | grep current_version | sed s/'^.*='//); \
+	@TAG_VERSION=$(shell bumpversion --dry-run --list .bumpversion.cfg | grep current_version | sed s/'^.*='//); \
 		git push origin "v$${TAG_VERSION}"
