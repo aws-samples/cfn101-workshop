@@ -1,0 +1,264 @@
+---
+title: "Conditions"
+date: 2022-01-25T00:16:05Z
+weight: 100
+---
+
+### Overview
+
+When you describe your infrastructure with CloudFormation, you declare resources in your template with relevant resource properties you need. When you do so, you might have use cases where you want to create resources, or specify resource property values, based on conditions.
+
+For example, you describe resources for your application, and you want to reuse the same template (or templates) across your life cycle environments, such as `test` and `production`. Let’s say you choose to run resources at a reduced capacity in your `test` environment, to save money: for example, you choose a `t2.small` [Amazon EC2 instance type](https://aws.amazon.com/ec2/instance-types/) for your `production` environment, and a `t2.micro` instance type for your `test` environment. As part of this example, let’s say you choose to create a 10 GiB [Amazon EBS Volume](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-volumes.html) to use with your `production` instance, and a 1 GiB volume to use with your `test` instance.
+
+To conditionally create resources, you add the optional [Conditions](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/conditions-section-structure.html) section to your template. Once you define conditions and relevant criteria, you use your conditions in [Resources](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/resources-section-structure.html) and [Outputs](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/outputs-section-structure.html) template sections. For example, you associate a condition to a resource, or to an output you describe in your template, so you can conditionally create the given resource or the given output if your condition is true. To conditionally specify resource property values - such as, for example, the instance type of your EC2 instance - you use [Condition Functions](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference-conditions.html).
+
+To use conditions in your template, you include statements in following template sections:
+* **Parameters section**: specify template input parameter(s) you want your conditions to evaluate
+* **Conditions section**: define your conditions by using [intrinsic condition functions](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference-conditions.html)
+* **Resource and Outputs**:
+    * associate conditions with resources, or outputs, that you want to conditionally create
+    * use the `Fn::If` [intrinsic function](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference-conditions.html#intrinsic-function-reference-conditions-if) to conditionally specify resource property values based on a condition you define
+
+
+CloudFormation evaluates all conditions in your template before creating any resources at stack creation or stack update. Resources that are associated with a true condition are only created during stack creation or stack update.
+
+### Topics Covered
+
+By the end of this lab, you will be able to:
+
+* Identify sample use cases for leveraging Condition functions.
+* Provision resources based on Condition evaluation.
+* Conditionally specifying resource property values using Condition functions.
+
+Let’s walk through an example of how to Conditions function in your template.
+
+### Start Lab
+
+#### **Defining Conditions at the resource level**
+
+* Change directory to: `code/workspace/conditions`.
+* Open the `condition-resource.yaml` template.
+* Update the content of the template as you follow along steps on this lab.
+
+Let’s get started!
+
+Let’s start with specifying input parameters you want to use to make your template more reusable. You will add a `Parameters` section in your template, with an input parameter for your life cycle environment; you will call the parameter `EnvType`, and you will describe two example environment names, `test` and `prod`, as input values you allow. Define also an input parameter for the [Amazon Machine Image](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/AMIs.html) (AMI) you will use: in this example, you use the example `LatestAmiId` parameter to refer, in its value, to the latest available Amazon Linux AMI.
+
+{{% notice note %}}
+For more information about fetching latest AMI, see [Query for the latest Amazon Linux AMI IDs using AWS Systems Manager Parameter Store](https://aws.amazon.com/blogs/compute/query-for-the-latest-amazon-linux-ami-ids-using-aws-systems-manager-parameter-store/).
+{{% /notice %}}
+
+Copy the content shown below, and paste it in the `condition-resource.yaml` file, by appending it to the existing file content:
+
+```yaml
+Parameters:
+  LatestAmiId:
+    Type: AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>
+    Default: /aws/service/ami-amazon-linux-latest/amzn2-ami-hvm-x86_64-gp2
+  EnvType:
+    Description: Specify the Environment type of the stack.
+    Type: String
+    Default: test
+    AllowedValues:
+      - test
+      - prod
+    ConstraintDescription: Specify either test or prod.
+```
+Next, describe `IsProduction`, an example condition in the `Conditions` section of your [template.](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/template-anatomy.html) In this condition, you evaluate if the `EnvType` parameter value equals to `prod`.
+
+Append the following content to the existing file content:
+
+```yaml
+Conditions:
+  IsProduction: !Equals
+   - !Ref EnvType
+   - prod
+```
+Next, associate conditions to resources you want to conditionally provision based on the `IsProduction` condition. In the following code, you associate the `Volume` and `MountPoint` resources with `IsProduction`. Therefore, these resources are created only when the `IsProduction` condition is true: that is, if the `EnvType` parameter value is equal to `prod`. Otherwise, only the EC2 instance resource will be provisioned.
+
+Copy the content below, and paste it in the `condition-resource.yaml` file by appending it to the existing file content:
+
+```yaml
+Resources:
+  EC2Instance:
+    Type: AWS::EC2::Instance
+    Properties:
+      ImageId: !Ref LatestAmiId
+      InstanceType: t2.micro
+  MountPoint:
+    Type: AWS::EC2::VolumeAttachment
+    Condition: IsProduction
+    Properties:
+      InstanceId: !Ref EC2Instance
+      VolumeId: !Ref Volume
+      Device: /dev/sdh
+  Volume:
+    Type: AWS::EC2::Volume
+    Condition: IsProduction
+    Properties:
+      Size: 100
+      AvailabilityZone: !GetAtt EC2Instance.AvailabilityZone
+```
+
+Let’s deploy the solution!
+
+When you create the stack, you will pass `test` as the value for `EnvType`, and you will observe only an EC2 instance resource will be provisioned by CloudFormation. Save the template you have updated with content above; next, navigate to the AWS CloudFormation [console](https://console.aws.amazon.com/cloudformation), and choose to create a stack using this template:
+
+* In the CloudFormation console, select **Create stack With new resources (standard)**.
+* In **Prepare template**, select **Template is ready**.
+* In **Template source**, select **Upload a template file**.
+* Choose the `condition-resource.yaml` template.
+* Enter a **Stack name**. For example, choose to specify `cfn-workshop-condition-test`.
+* Pass `test` as the value for the `EnvType` parameter. Choose **Next**.
+* You can leave other Configure stack options default. Choose **Next**.
+* Choose **Create stack**. You can view the progress of the stack being created in the CloudFormation console.
+* Wait until the stack creation is complete. Refresh the view in the console until you see your stack to be in the `CREATE_COMPLETE` status.
+
+Once the stack is in the `CREATE_COMPLETE` status, navigate to the **Resources** tab for your stack: verify the only resource provisioned is your EC2 instance, based on the logic you created driven by the `test` value you passed to the `EnvType` parameter, and to the condition you added and associated to the other two resources in the template:
+
+![condition-test](conditions/condition-test.png)
+
+In the next step, you will create a new stack with the same template, and pass `prod` as the new value for the `EnvType` parameter, and verify that you will provision, with CloudFormation, your `Volume` and `MountPoint` resources. Navigate to the AWS CloudFormation [console](https://console.aws.amazon.com/cloudformation), and choose to create a stack using this template:
+
+* In the CloudFormation console, select **Create stack With new resources (standard)**.
+* In **Prepare template**, select **Template is ready**.
+* In **Template source**, select **Upload a template file**.
+* Choose the `condition-resource.yaml` template.
+* Enter a **Stack name**. For example, choose to specify `cfn-workshop-condition-prod`.
+* Pass `prod` as the value for the `EnvType` parameter. Choose **Next**.
+* You can leave other Configure stack options default, Choose **Next**.
+* Choose **Create stack**. You can view the progress of the stack being created in the CloudFormation console.
+* Wait until the stack creation is complete. Refresh the view in the console until you see your stack to be in the `CREATE_COMPLETE` status.
+
+This time,  the `IsProduction` condition is true. Navigate to the **Resources** tab for your stack, and verify that along with your EC2 instance resource, your other `Volume` and `MountPoint` resources are also provisioned:
+
+![condition-prod](conditions/condition-prod.png)
+
+Congratulations! You learned how to conditionally create resources!
+
+
+#### **Defining Conditions at the property level**
+
+Let’s evaluate an example use case where you conditionally define resource properties. For example, you want to create an EC2 instance of the `t2.micro` type for your `test` environment, and an EC2 instance of type `t2.small` for your `production` environment. For this, you choose to define a condition that you associate at the resource property level for the `InstanceType` [property](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-instance.html#cfn-ec2-instance-instancetype).
+
+First, you design your condition such as, for example, if you specify `prod` as the input parameter for the `EnvType` parameter, your condition is true. Next, you associate the condition to your EC2 instance, and describe your desired behavior as such: if your condition is true, your instance will use `t2.small` as the instance type, or `t2.micro` otherwise. Let’s take a look at how this works in the example following next.
+
+1. Make sure you are in the following directory: `code/workspace/conditions`.
+2. Open the `condition-resource-property.yaml` file.
+3. Update the content of the template as you follow along steps on this lab.
+
+Let’s get started! In this example, that is similar to the previous one, you define the `EnvType` parameter and the `IsProduction` condition to create resource based on parameter value you passed. Copy the content shown below, and paste it in the `condition-resource-property.yaml` file, by appending it to the existing file content:
+
+```yaml
+Parameters:
+  LatestAmiId:
+    Type: AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>
+    Default: /aws/service/ami-amazon-linux-latest/amzn2-ami-hvm-x86_64-gp2
+  EnvType:
+    Description: Specify the Environment type of the stack.
+    Type: String
+    Default: test
+    AllowedValues:
+      - test
+      - prod
+    ConstraintDescription: Specify either test or prod.
+
+Conditions:
+  IsProduction: !Equals
+   - !Ref EnvType
+   - prod
+```
+
+Next, let’s wire up the `IsProduction` condition to conditionally specify a property type. In this example, you use the `Fn::if` [intrinsic function](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference-conditions.html#intrinsic-function-reference-conditions-if), in its YAML short form, to evaluate if the `IsProduction` condition is true: if that is the case, the `t2.small` property value will be used for `InstanceType`; otherwise, `t2.micro` will be used if the condition is false. Copy and paste the following code in the template:
+
+```yaml
+Resources:
+  EC2Instance:
+    Type: AWS::EC2::Instance
+    Properties:
+      ImageId: !Ref LatestAmiId
+      InstanceType: !If [IsProduction,t2.small,t2.micro]
+```
+
+Time to deploy your resources!
+
+In this section, you will pass `test` as the value for the `EnvType` parameter, and verify the type of your EC2 instance will be `t2.micro`. Navigate to the AWS CloudFormation [console](https://console.aws.amazon.com/cloudformation), and choose to create a stack using this template:
+
+* In the CloudFormation console, select **Create stack With new resources (standard)**.
+* In **Prepare template**, select **Template is ready**.
+* In **Template source**, select **Upload a template file**.
+* Choose the `condition-resource-property.yaml` template.
+* Enter a **Stack name**. For example, choose to specify `cfn-workshop-condition-property-test`.
+* Pass `test` as the value for the `EnvType` parameter. Choose **Next**.
+* You can leave other Configure stack options default, Choose **Next**.
+* Choose **Create stack**. You can view the progress of the stack being created in the CloudFormation console.
+* Wait until the stack creation is complete. Refresh the view in the console until you see your stack to be in the `CREATE_COMPLETE` status.
+
+Once the Stack is in the `CREATE_COMPLETE` status, navigate to the **Resources** tab for your stack, and verify your EC2 instance is in the `CREATE_COMPLETE` status.
+
+Next, verify the instance type is the one you expect: follow the link for the Physical ID of your instance, that will bring you to the Amazon EC2 Console:
+![condition-test-property](conditions/condition-test-property.png)
+
+You should see a view, as in the example shown next, showing that your instance type is `t2.micro`:
+![ec2-instance](conditions/ec2-instance.png)
+
+Similarly, you can run the same solution by passing the value of `EnvType` parameter as `prod`, and you will observe the instance type for provisioned EC2 instance will be `t2.small`.
+
+Congratulations! You have learned how to conditionally specify resource property types!
+
+### **Challenge**
+
+So far, you’ve learned how to use conditions with resources in your CloudFormation templates . Now let’s say you want to conditionally add an output in the [Outputs](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/outputs-section-structure.html) section of your `condition-resource.yaml` CloudFormation template.
+
+**Task:** Describe an [Outputs](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/outputs-section-structure.html) section in your template. Specify a Logical ID as `VolumeID`, and use the `Ref` [intrinsic function](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-instance.html#aws-properties-ec2-instance-return-values) to return the ID of your Volume. Now, update your existing CloudFormation Stack `cfn-workshop-condition-prod` with modified template to create an output based on `IsProduction` condition evaluation.
+
+{{%expand "Need a hint?" %}}
+
+* See the documentation for [Stack Output](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/outputs-section-structure.html#outputs-section-structure-examples), and define a `VolumeId` output in your template.
+* How do you conditionally create an output?
+{{% /expand %}}
+
+{{%expand "Want to see the solution?" %}}
+
+Append the following content to the `condition-resource.yaml` file:
+
+```yaml
+Outputs:
+   VolumeID:
+      Value: !Ref Volume
+      Condition: IsProduction
+```
+
+Next lets update your stack  `cfn-workshop-condition-prod`, navigate to the AWS CloudFormation [console](https://console.aws.amazon.com/cloudformation), and choose to  `cfn-workshop-condition-prod` stack:
+
+* In the CloudFormation console, select **Update stack**.
+* In **Prepare template**, select Replace current template **option**.
+* In **Template source**, select **Upload a template file**.
+* Choose the `condition-resource.yaml` template.
+* You can leave the value of `EnvType` parameter as `prod`. Choose **Next**.
+* You can leave other Configure stack options default, Choose **Next**.
+* Choose **Update stack**. You can view the progress of the stack being created in the CloudFormation console.
+* Wait until the stack creation is complete. Refresh the view in the console until you see your stack to be in the `UPDATE_COMPLETE` status.
+
+
+Browse to the `Outputs` section of the stack, and validate `VolumeID` appears as an output:
+![condition-prod-update](conditions/condition-prod-update.png)
+
+{{% /expand %}}
+
+Note: content shown above is also available in relevant files located in the `code/solutions/conditions/condition-output.yaml` directory.
+
+### Cleanup
+
+Follow these steps to clean up created resources:
+
+* In the CloudFormation console, select the stack you have created in this lab. For example: `cfn-workshop-condition-test` .
+* Choose **Delete** to delete the stack you created in this lab, and then **Delete stack** to confirm.
+
+
+Perform same steps as above for your other stacks as well: `cfn-workshop-condition-prod`, `cfn-workshop-condition-property-test`.
+
+---
+### Conclusion
+
+Congratulations! You have learned how to conditionally create resources, and how to conditionally specify resource property types. For more information, see [Conditions](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/conditions-section-structure.html) and [Condition functions](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference-conditions.html).
