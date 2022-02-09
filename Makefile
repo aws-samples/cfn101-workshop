@@ -18,6 +18,7 @@ help:
 	@echo "lint	GitHub actions cfn-lint test"
 	@echo "nag	GitHub actions cfn-nag test"
 	@echo "version	[part=major||minor||patch] bump version and tag release (make version part=patch)"
+	@echo "release	push new tag to release branch"
 	@echo "clean	delete VirtualEnv and installed libraries"
 
 # Install VirtualEnv and dependencies
@@ -52,6 +53,6 @@ test-cfn-nag:
 version:
 	@bumpversion $(part)
 
-release: version
+release:
 	@TAG_VERSION=$(shell bumpversion --dry-run --list .bumpversion.cfg | grep current_version | sed s/'^.*='//); \
 		git push origin "v$${TAG_VERSION}"
