@@ -309,7 +309,7 @@ Parameters:
 5. After this stack update, add the two removed code blocks from Step 3 back to the `resource-import-challenge.yaml` template, and save it.
 6. Select the stack named `resource-import-challenge` and from **Stack actions**, choose **Import resources into stack.**
 7. Read the **Import Overview** and choose **Next.**
-8. From **Specify template**, choose **Upload a template file**. Upload the `resource-import-challenge.yaml` template saved for this lab part and choose **Next.**
+8. From **Specify template**, choose **Upload a template file**. Upload your updated `resource-import-challenge.yaml` template, and choose **Next**.
 9. For [**Identifier Value**](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/resource-import.html#resource-import-overview), use the **InstanceId** which you noted from EC2 console in the first part of this challenge.
 10. For parameters, select **t2.micro** for the instance type. Here you are matching the actual configuration on the instance which is **t2.micro instance type**.
 11. Choose **Import Resources** in the next page.
