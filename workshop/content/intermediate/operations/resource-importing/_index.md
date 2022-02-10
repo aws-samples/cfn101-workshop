@@ -259,7 +259,7 @@ Let’s now reproduce the human error. Choose to [change the Instance type using
 2. Locate the **Instances** section, select the instance with the name `InstanceImport` , and choose **Instance state**, **Stop instance**.
 3. For the same instance, once you see the instance has reached the **Stopped** state, choose **Actions**, **Instance settings**, **Change instance type.**
 4. Choose `t2.micro`, and then choose **Apply**.
-5. Select the instance whose name tag is `InstanceImport`, and choose **Instance state**, **Start instance**.
+5. Select again the `InstanceImport` instance, and choose **Instance state**, **Start instance**.
 
 
 After completing the steps above, you now have an EC2 instance which was created using CloudFormation, but you changed the instance type out of band (not using CloudFormation). Updating the [instance type](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-instance.html#cfn-ec2-instance-instancetype) property causes [some interruptions](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-updating-stacks-update-behaviors.html#update-some-interrupt), such as the instance will stop and start again. For more information on resizing instances, see [Change the instance type](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instance-resize.html).
