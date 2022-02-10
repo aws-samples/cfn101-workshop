@@ -110,3 +110,17 @@ Finally, create new release on [cfn101-workshop](https://github.com/aws-samples/
 * Choose a tag version
 * Select **Auto-generate release notes**
 * **Publish release**
+
+## Troubleshooting
+If you get an error installing rain
+```shell
+[INFO] Installing environment for https://github.com/aws-cloudformation/rain.
+[INFO] Once installed this environment will be reused.
+[INFO] This may take a few minutes...
+An unexpected error has occurred: CalledProcessError: command:...
+```
+
+The default **proxy.golang.org** is blocked on your network. To fix it, run:
+```shell
+export GOPROXY=direct
+```
