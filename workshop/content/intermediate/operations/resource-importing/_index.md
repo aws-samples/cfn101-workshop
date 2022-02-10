@@ -199,7 +199,7 @@ $ aws ec2 describe-instances --instance-ids i-1234567890abcdef0
 ```
 
 {{% notice note %}}
-Verify that resources and their properties defined in the template match the actual configuration on the resource to avoid unexpected changes.
+Make sure you verify that resource properties you define in a template match the actual configuration of the resource, to avoid unexpected changes.
 {{% /notice %}}
 
 2. While defining the resource for import in the template, make sure that you specify all the required properties for that resource. For example, [AssumeRolePolicyDocument](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-role.html#cfn-iam-role-assumerolepolicydocument) is a required property for the resource [AWS::IAM::Role](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-role.html).
