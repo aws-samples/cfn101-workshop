@@ -96,7 +96,7 @@ In this lab, you will learn how to import a resource into an existing stack. To 
     Description: Name of the second SNS topic you created manually using the SNS console.
 ```
 
-4. Copy the code below to the **Resources** section of the `resource-importing.yaml` template used for the previous lab, and save the template code.
+4. Next, copy the example below, and **append it to the `Resources` section** of the `resource-importing.yaml` template. Save the template file when done.
 
 ```yaml
   SNSTopic2:
