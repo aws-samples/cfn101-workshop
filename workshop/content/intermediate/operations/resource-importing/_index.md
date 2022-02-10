@@ -157,7 +157,7 @@ Choose to import the `SNSTopic1` resource into a new stack::
 
 1. Make sure you are in the `code/workspace/resource-importing` directory.
 2. Open the `moving-resources.yaml` template file with your favorite text editor.
-3. Add the code below to the `moving-resources.yaml` template and save it.
+3. Append the example below to the `moving-resources.yaml` template, and save it.
 
 ```yaml
 Parameters:
