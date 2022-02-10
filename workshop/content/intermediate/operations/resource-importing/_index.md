@@ -40,7 +40,7 @@ To get started, follow steps shown next:
 2. Choose `Standard` for the topic **Type**.
 3. Specify a **Name** for your topic, such as `Topic1`.
 4. When ready, choose **Create topic**.
-5. When topic is successfully created, take a note of the [**Amazon Resource Name (ARN)**](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) under **Details** section of this `Topic1` which will be used later in this lab. For reference, an example ARN pattern for an SNS topic is `arn:aws:sns:us-east-1:123456789012:MyTopic`.
+5. When your topic is successfully created, take a note of its [**Amazon Resource Name (ARN)**](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) under the **Details** section for `Topic1`: you will use this ARN value later in this lab. For reference, an example ARN pattern for an SNS topic is `arn:aws:sns:us-east-1:123456789012:MyTopic`.
 
 Let’s now use the resource import functionality to import your newly created existing topic in to a new stack you will create. For this, you will use a CloudFormation template where you describe your existing topic with a relevant `AWS::SNS::Topic` [resource](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-sns-topic.html) as follows:
 
