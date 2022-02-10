@@ -332,7 +332,7 @@ Great work! You have now learned how to match the CloudFormation stack configura
 Choose to follow cleanup steps shown next to cleanup resources you created with this lab:
 
 
-1. Choose the stack - `resource-importing`  you have created in the lab.
+1. Choose the `resource-importing` stack you have created in the lab.
 2. Choose **Delete** to delete the stack, and then choose **Delete stack** to confirm.
 3. Repeat steps above for stacks: `moving-resources`, and `resource-import-challenge`.
 
