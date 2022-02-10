@@ -247,7 +247,7 @@ Resources:
 
 4. Navigate to the [AWS CloudFormation Console](https://console.aws.amazon.com/cloudformation/).
 5. From **Create stack**, choose **With new resources (standard)**.
-6. From **Specify template**, choose **Upload a template file**. Upload the `resource-import-challenge.yaml` template and choose **Next.**
+6. From **Specify template**, choose **Upload a template file**. Upload the `resource-import-challenge.yaml` template and choose **Next**.
 7. Enter a **Stack name**. For example, choose `resource-import-challenge` . For **InstanceType**, choose `t2.nano`. Choose **Next.**
 8. For **Configure Stack Options**, choose **Next.**
 9. Choose **Create Stack** in the next page.
