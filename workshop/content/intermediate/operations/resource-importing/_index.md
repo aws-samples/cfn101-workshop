@@ -312,7 +312,7 @@ Parameters:
 8. From **Specify template**, choose **Upload a template file**. Upload your updated `resource-import-challenge.yaml` template, and choose **Next**.
 9. For the [**Identifier Value**](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/resource-import.html#resource-import-overview), specify the instance's **Physical ID**, that you noted earlier as part of this challenge.
 10. Select `t2.micro` for the instance type parameter: here you are matching the actual instance type configuration setting, that is `t2.micro`.
-11. Choose **Import Resources** in the next page.
+11. In the next page, choose **Import resources**.
 
 {{% /expand %}}
 
