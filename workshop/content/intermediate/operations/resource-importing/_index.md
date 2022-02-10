@@ -83,7 +83,7 @@ Congratulations! You imported a resource, that you created earlier with the SNS 
 
 ### Lab Part 2
 
-In this lab, you will learn to import a resource into an existing stack. To get started, follow steps below:
+In this lab, you will learn how to import a resource into an existing stack. To get started, follow steps below:
 
 1. Navigate to [SNS console](https://console.aws.amazon.com/sns/) to create a second SNS Topic. Follow steps you used on lab part 1 earlier, and specify **Topic2** for the name of your new topic.
 2. When your topic is successfully created, take a note of the [**Amazon Resource Name (ARN)**](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) under the **Details** section for `Topic2`; you will use this information later on in this lab. An example ARN pattern is `arn:aws:sns:us-east-1:123456789012:MyTopic`.
