@@ -213,7 +213,7 @@ In this exercise, you will need to use the knowledge gained from lab parts 1, 2,
 
 Let’s start with a template that describes an EC2 instance and a S3 bucket resource.
 
-To begin the challenge,  follow the steps below:
+To begin, follow the steps below:
 
 1. Change directory to `code/workspace/resource-importing`.
 2. Open the `resource-import-challenge.yaml` file.
