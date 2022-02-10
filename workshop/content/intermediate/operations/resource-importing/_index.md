@@ -257,7 +257,7 @@ Let’s now reproduce the human error. Choose to [change the Instance type using
 
 1. Navigate to the [EC2 console](https://console.aws.amazon.com/ec2/).
 2. Locate the **Instances** section, select the instance with the name `InstanceImport` , and choose **Instance state**, **Stop instance**.
-3. For the same instance, once you see the instance reach **Stopped** state, choose **Actions**, **Instance settings**, **Change instance type.**
+3. For the same instance, once you see the instance has reached the **Stopped** state, choose **Actions**, **Instance settings**, **Change instance type.**
 4. Select the Instance type as `t2.micro` and choose **Apply**.
 5. Select the instance whose name tag is `InstanceImport`, and choose **Instance state**, **Start instance**.
 
