@@ -269,7 +269,7 @@ When you change the instance type, this causes [some interruptions](https://docs
 Your task is to match the instance type for the instance in your stack with the actual configuration on the instance (`t2.micro`), without having some interruptions.
 
 {{%expand "Need a hint?" %}}
-* Think about a way to use Lab part 3 in this scenario.
+* Think about a way to use concepts you learned in Lab part 3.
 {{% /expand %}}
 
 {{%expand "Want to see the solution?" %}}
