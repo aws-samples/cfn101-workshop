@@ -39,7 +39,7 @@ In the template excerpt shown next, note the two resources an [Amazon S3 bucket]
 
 Paste the contents of the below template snippet in the `resource-dependencies-without-dependson.yaml` file. Next, you will create a stack and review the stack events to see in which order resources will be created.
 
-```
+```yaml
 Parameters:
   BucketName:
     Description: Enter a unique name for S3 bucket.
@@ -87,7 +87,7 @@ Now let’s think of a scenario where you, for example, want the S3 bucket to be
 
 Copy and paste the template snippet shown next in the `resource-dependencies-with-dependson.yaml` file; in the next step, you will create a stack and review stack events:
 
-```
+```yaml
 Parameters:
   BucketName:
     Description: Enter a unique name for S3 bucket.
@@ -135,7 +135,7 @@ Let’s create a stack, and see the resource creation order in action!
 
 Paste the contents of the template snippet shown next in `resource-dependencies-with-intrinsic-functions.yaml` file:
 
-```
+```yaml
 Parameters:
   SNSTopicName:
     Description: Enter a name for SNS topic.
@@ -206,7 +206,9 @@ Let’s review stack events for your `resource-dependencies-lab-ref-getatt` stac
 
 When you delete your stack, CloudFormation follows creation order in reverse: in this case, for example, `SNSTopicSubscription` and `SecurityGroupIngress` resources will be deleted first, followed by `SecurityGroup` and `SNSTopic`.
 
-**Note:** As part of the stack creation, you should have received an email for the email address you provided for the SNS subscription, to confirm the topic subscription. Please choose the **Confirm subscription** option in the email you received, to successfully subscribe to the SNS topic: doing this is important because when you delete the stack, CloudFormation will not be able to delete subscriptions that are in pending state.
+{{% notice note %}}
+As part of the stack creation, you should have received an email for the email address you provided for the SNS subscription, to confirm the topic subscription. Please choose the **Confirm subscription** option in the email you received, to successfully subscribe to the SNS topic: doing this is important because when you delete the stack, CloudFormation will not be able to delete subscriptions that are in pending state.
+{{% /notice %}}
 
 Kudos! You have now learned how CloudFormation automatically handles resource creation order when you define resource dependencies with `Ref` or `Fn::GetAtt`.
 
