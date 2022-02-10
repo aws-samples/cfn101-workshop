@@ -276,7 +276,7 @@ Your task is to match the instance type for the instance in your stack with the 
 1. Update the `resource-import-challenge.yaml` template: add a `DeletionPolicy` attribute, with a value of `Retain`, to the `Instance` resource. Save the file.
 
 2. Update the stack by using the updated `resource-import-challenge.yaml` template without changing parameter values.
-3. Once the stack is updated with the `DeletionPolicy` set on the Instance, remove the instance resource definition and relevant parameters in the `Parameters` section from the template, including the `Parameters` section itself as you do not have any more parameters to describe in this example. To do so, remove the two following code blocks from the `resource-import-challenge.yaml` template:
+3. Once you updated the stack, and the `DeletionPolicy` attribute is set to `Retain` for your instance, remove the instance resource definition and relevant parameters in the `Parameters` section from the template: in this example, remove the `Parameters` section itself, as you do not have any more parameters to describe. To do so, remove the two following code blocks from the `resource-import-challenge.yaml` template:
 
 ```yaml
 Parameters:
