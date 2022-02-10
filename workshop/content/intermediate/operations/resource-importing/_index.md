@@ -338,4 +338,4 @@ Choose to follow cleanup steps shown next to cleanup resources you created with 
 
 ### Conclusion
 
-Great job! You have now learned how to import resources, use cases and considerations while importing resources.
+Great job! You have now learned how to import resources, as well as use cases and considerations to make when you import resources.
