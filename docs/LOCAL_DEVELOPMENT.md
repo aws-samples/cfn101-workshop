@@ -2,8 +2,9 @@
 
 ### Pre-Requisites
 The following dependencies must be installed. Please refer to your operating system, how to install them.
+
 > **Note:** For Windows 10, we recommend enabling Windows Subsystem for Linux (WSL) and installing Linux distribution of your choice,
-> for example here are the instructions on how to install [Ubuntu](https://ubuntu.com/tutorials/ubuntu-on-windows)
+> for example, here are the instructions on how to install [Ubuntu](https://ubuntu.com/tutorials/ubuntu-on-windows).
 
 - Python >=3.8 and pip
 - VirtualEnv
