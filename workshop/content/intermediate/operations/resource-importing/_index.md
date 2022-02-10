@@ -155,7 +155,7 @@ In this part of the lab, you will learn how to [move resources between stacks](h
 
 Choose to import the `SNSTopic1` resource into a new stack::
 
-1. Change directory to `code/workspace/resource-importing`.
+1. Make sure you are in the `code/workspace/resource-importing` directory.
 2. Open the `moving-resources.yaml` file.
 3. Add the code below to the `moving-resources.yaml` template and save it.
 
