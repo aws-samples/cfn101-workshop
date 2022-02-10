@@ -74,7 +74,7 @@ In this next step, you will use the AWS CloudFormation Console to [create a stac
 3. Read the **Import overview**, and choose **Next**.
 4. From **Specify template**, choose **Upload a template file**. Upload the `resource-importing.yaml` template, and choose **Next**.
 5. For the [**Identifier Value**](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/resource-import.html#resource-import-overview), specify the value for the topic ARN you noted after you created `Topic1`.
-6. Enter a **Stack name**. For example, choose `resource-importing` . Make sure the parameter value for `Topic1Name` is set to **Topic1**.
+6. Enter a **Stack name**. For example, specify `resource-importing`. Make sure you specify `Topic1` for the `Topic1Name` parameter value.
 7. Choose **Import Resources** in the next page.
 
 The stack events will show `IMPORT_COMPLETE` once the SNS topic is successfully imported in the stack.
