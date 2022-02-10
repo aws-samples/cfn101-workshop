@@ -147,7 +147,7 @@ In this part of the lab, you will learn how to [move resources between stacks](h
 3. Navigate to the [AWS CloudFormation Console](https://console.aws.amazon.com/cloudformation/).
 4. Select the stack named `resource-importing` and choose **Update**.
 5. Choose **Replace current template** and upload the `resource-importing.yaml` template. Choose **Next**.
-6. For parameters section, leave the parameter value for `Topic2Name` as **Topic2**. Choose **Next**.
+6. In the parameters section, choose to accept the parameter value for `Topic2Name` as `Topic2`. Choose **Next**.
 7. Accept the `Configure stack options` default value, and choose **Next.**
 8. Choose **Update stack** in the next page.
 9. To confirm the removal of `SNSTopic1` resource from the stack, select the `resource-importing` stack and choose **Resources**. You should see only one resource: `SNSTopic2`.
