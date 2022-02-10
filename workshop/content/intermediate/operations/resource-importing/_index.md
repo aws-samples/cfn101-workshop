@@ -250,7 +250,7 @@ Resources:
 6. From **Specify template**, choose **Upload a template file**. Upload the `resource-import-challenge.yaml` template and choose **Next**.
 7. Enter a **Stack name**. For example, specify `resource-import-challenge`. Specify `t2.nano` for `InstanceType`. Choose **Next.**
 8. In **Configure Stack Options**, choose **Next**.
-9. Choose **Create Stack** in the next page.
+9. In the next page, choose **Create Stack**.
 10. After the stack is created, select the `resource-import-challenge`  stack, and choose **Resources**. Take a note of the **Physical ID** of the `Instance`, which should be of the format: `i-12345abcd6789`.
 
 Let’s now reproduce the human error. Choose to [change the Instance type using EC2 console](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instance-resize.html#change-instance-type-of-ebs-backed-instance) by following the steps below:
