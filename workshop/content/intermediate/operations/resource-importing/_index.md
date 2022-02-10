@@ -117,7 +117,7 @@ In this lab, you will learn how to import a resource into an existing stack. To 
 
 Your stack status will show `IMPORT_COMPLETE` once your SNS topic is successfully imported into your stack.
 
-Congratulations! You have learned how to import a resources into an existing stack. In this lab, you have used the AWS CloudFormation Console to learn this functionality: for information on how to use it in the [AWS Command Line Interface](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-welcome.html), see [Import an existing resource into a stack](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/resource-import-existing-stack.html#resource-import-existing-stack-cli) in the documentation.
+Congratulations! You have learned how to import a resource into an existing stack! For more information, see also [Import an existing resource into a stack using the AWS CLI](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/resource-import-existing-stack.html#resource-import-existing-stack-cli) in the documentation.
 
 
 ### Lab Part 3
