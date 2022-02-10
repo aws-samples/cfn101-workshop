@@ -20,7 +20,7 @@ For more information on supported resources for import operations, see [Resource
 By the end of this lab, you will be able to:
 
 * Learn how to import a resource into your stack.
-* Learn and practice important considerations for number of resource import use cases.
+* Learn and practice important considerations for a number of resource import use cases.
 
 
 
