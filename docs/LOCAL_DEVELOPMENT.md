@@ -2,6 +2,8 @@
 
 ### Pre-Requisites
 The following dependencies must be installed. Please refer to your operating system, how to install them.
+> **Note:** For Windows 10, we recommend enabling Windows Subsystem for Linux (WSL) and installing Linux distribution of your choice,
+> for example here are the instructions on how to install [Ubuntu](https://ubuntu.com/tutorials/ubuntu-on-windows)
 
 - Python >=3.8 and pip
 - VirtualEnv
@@ -9,9 +11,6 @@ The following dependencies must be installed. Please refer to your operating sys
 - Go
 - Ruby >=2.6 and gem
 - [cfn-nag](https://github.com/stelligent/cfn_nag)
-
-> **Note:** For Windows 10, we recommend enabling Windows Subsystem for Linux (WSL) and installing Linux distribution of your choice,
-> for example here are the instructions on how to install [Ubuntu](https://ubuntu.com/tutorials/ubuntu-on-windows)
 
 Here is an example how to install pre-requisites on macOS/Linux using [Homebrew](https://brew.sh/).
 ```shell
