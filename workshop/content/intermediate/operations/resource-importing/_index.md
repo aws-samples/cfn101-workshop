@@ -215,7 +215,7 @@ Let’s start with a template that describes an EC2 instance and a S3 bucket res
 
 To begin, follow the steps below:
 
-1. Change directory to `code/workspace/resource-importing`.
+1. Make sure you are in the directory: `code/workspace/resource-importing`.
 2. Open the `resource-import-challenge.yaml` file.
 3. Add the code below to the `resource-import-challenge.yaml` template, and save the file.
 
