@@ -262,7 +262,9 @@ Let’s now reproduce the human error. Choose to [change the Instance type using
 5. Select again the `InstanceImport` instance, and choose **Instance state**, **Start instance**.
 
 
-After completing the steps above, you now have an EC2 instance which was created using CloudFormation, but you changed the instance type out of band (not using CloudFormation). Updating the [instance type](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-instance.html#cfn-ec2-instance-instancetype) property causes [some interruptions](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-updating-stacks-update-behaviors.html#update-some-interrupt), such as the instance will stop and start again. For more information on resizing instances, see [Change the instance type](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instance-resize.html).
+You should now have an EC2 instance you created using CloudFormation: to reproduce the human error, you updated the instance out of band (not using CloudFormation): in this example, you changed the instance type out of band, instead of using the [instance type](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-instance.html#cfn-ec2-instance-instancetype) property in your template.
+
+When you change the instance type, this causes [some interruptions](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-updating-stacks-update-behaviors.html#update-some-interrupt), such as the instance will stop and start again. For more information on resizing instances, see [Change the instance type](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instance-resize.html).
 
 Your task is to match the instance type for the instance in your stack with the actual configuration on the instance (`t2.micro`), without having some interruptions.
 
