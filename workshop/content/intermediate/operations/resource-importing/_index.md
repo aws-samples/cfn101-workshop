@@ -192,7 +192,7 @@ To revert an import operation for a resource, set the `DeletionPolicy` to `Retai
 
 ### **Best Practices while importing a resource**
 
-1. To fetch the properties of an existing resource, use respective AWS service console or use a Describe API call to describe the resource, and fetch the properties to be included in the resource definition. For example, when importing an EC2 instance into a stack, you can use the [**aws ec2 describe-instances**](https://docs.aws.amazon.com/cli/latest/reference/ec2/describe-instances.html) CLI command to describe the instance you want to import using the instance ID as shown below:
+1. To fetch the properties of an existing resource, use respective AWS service console pages, or use a _Describe_ API call to describe the resource, and fetch properties you want to include in the resource definition. For example, to import an [Amazon Elastic Compute Cloud](https://aws.amazon.com/ec2/) (Amazon EC2) instance into a stack, you can choose to use the [aws ec2 describe-instances](https://docs.aws.amazon.com/cli/latest/reference/ec2/describe-instances.html) CLI command to describe the instance you want to import, using the instance ID as shown in the following example:
 
 ```shell
 $ aws ec2 describe-instances --instance-ids i-1234567890abcdef0
