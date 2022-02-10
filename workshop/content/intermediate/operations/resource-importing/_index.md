@@ -203,7 +203,7 @@ Make sure you verify that resource properties you define in a template match the
 {{% /notice %}}
 
 2. When you describe in your template a resource you wish to import, make sure you specify all required properties for your resource. For example, [AssumeRolePolicyDocument](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-role.html#cfn-iam-role-assumerolepolicydocument) is a required property for the [AWS::IAM::Role](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-role.html) resource type.
-3. Once the import for the resource is successful, run [Drift Detection](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-stack-drift.html) to verify if the properties for the resource in the template match the actual configuration on the resource itself.
+3. Once a resource import is successful, run [Drift Detection](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-stack-drift.html) to verify resource properties in the template match the actual configuration of the resource.
 
 For additional considerations during import operation, see [Considerations during an import operation](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/resource-import.html#resource-import-considerations).
 
