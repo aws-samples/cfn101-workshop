@@ -187,7 +187,7 @@ Congratulations! You have learned how to move resources between stacks.
 
 
 {{% notice note %}}
-To revert an import operation for a resource, set the `DeletionPolicy` to `Retain` for the resource and simply remove the resource from the template, and update the stack; the resource will again become a standalone resource. A standalone resource in terms of CloudFormation means any resource that is not managed using a CloudFormation stack and is managed by its respective console or AWS CLI.
+To revert an import operation for a resource, set the `DeletionPolicy` to `Retain` for the resource, remove the resource from the template, and then update the stack: in doing so, you remove the resource from your stack, but you retain the resource.
 {{% /notice %}}
 
 ### **Best Practices while importing a resource**
