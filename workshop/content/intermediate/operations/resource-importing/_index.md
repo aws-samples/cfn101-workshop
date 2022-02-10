@@ -211,7 +211,7 @@ For more information, see [Considerations during an import operation](https://do
 
 In this exercise, you will need to use the knowledge gained from lab parts 1, 2, and 3 to complete the provided task. You are tasked with solving the following issue: one of the resources in a CloudFormation template, an EC2 instance, has a property value that was modified outside of CloudFormation as a result of a human error. You will troubleshoot and solve this issue, so that you can continue maintaining your desired resource configuration with CloudFormation.
 
-Let’s start with a template that has an EC2 instance and a S3 bucket resource.
+Let’s start with a template that describes an EC2 instance and a S3 bucket resource.
 
 To begin the challenge,  follow the steps below:
 
