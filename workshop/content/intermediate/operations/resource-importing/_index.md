@@ -175,7 +175,7 @@ Resources:
 
 4. Navigate to the [AWS CloudFormation Console](https://console.aws.amazon.com/cloudformation/).
 5. From **Create stack**, choose **With existing resources (import resources)**.
-6. Read the **Import Overview** and choose **Next.**
+6. Read the **Import Overview** and choose **Next**.
 7. From **Specify template**, choose **Upload a template file**. Upload the `moving-resources.yaml` template and choose **Next.**
 8. For [**Identifier Value**](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/resource-import.html#resource-import-overview), use the `Topic ARN` which you noted after creating **Topic1** .
 9. Enter a **Stack name**. For example, choose `moving-resources` . Make sure the parameter value for `Topic1Name` is set to **Topic1**.
