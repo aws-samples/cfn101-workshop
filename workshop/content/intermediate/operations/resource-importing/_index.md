@@ -256,7 +256,7 @@ Resources:
 Let’s now reproduce the human error. Choose to [change the Instance type using EC2 console](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instance-resize.html#change-instance-type-of-ebs-backed-instance) by following the steps below:
 
 1. Navigate to the [EC2 console](https://console.aws.amazon.com/ec2/).
-2. Locate the **Instances** section, and select the instance with the name `InstanceImport` , and choose **Instance state**, **Stop instance**.
+2. Locate the **Instances** section, select the instance with the name `InstanceImport` , and choose **Instance state**, **Stop instance**.
 3. For the same instance, once you see the instance reach **Stopped** state, choose **Actions**, **Instance settings**, **Change instance type.**
 4. Select the Instance type as `t2.micro` and choose **Apply**.
 5. Select the instance whose name tag is `InstanceImport`, and choose **Instance state**, **Start instance**.
