@@ -322,7 +322,7 @@ You can find the template for the solution in the `code/solutions/resource-impor
 
 Great work! You have now learned how to match the CloudFormation stack configuration with the actual configuration on the resource when there is an out of band change.
 
-**Use Cases:**
+**Use Cases**
 
 1. You previously created an AWS resource (for example, an S3 bucket) manually, and you would like to manage it using CloudFormation.
 2. You want to reorganize resources by life cycle and ownership into single stacks for easier management (for example, IAM Role resources, Security Group resources, et cetera).
