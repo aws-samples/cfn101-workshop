@@ -32,7 +32,7 @@ brew gem install cfn-nag
 ### Build local development environment
 Once you have installed pre-requisites, run commands below:
 
-#### Step 1 - Clone the repository (required)
+#### Step 1 - Clone the repository (Required)
 In the first step, you will clone the repository and initialize submodules.
 
 1. Clone the repository:
@@ -63,3 +63,47 @@ In the second step, you will use `make` to create a virtual environment.
    ```shell
    make test
    ```
+
+### Testing(Automated and Manual)
+The repository has a GitHub actions set up which will run `cfn-lint` and `cfn-nag` tests on pull requests.
+
+Furthermore, pre-commit configuration file is provided to format the code and content. See below various tests you can
+run locally when developing the labs.
+
+* `make test` - will run pre-commit tests. Useful to run before committing changes.
+* `make lint` - will run cfn-lint test against CloudFormation templates in `/code/solutions directory`.
+* `make nag` - will run cfn-nag test against CloudFormation templates in `/code/solutions directory`.
+
+### Versioning and releasing (Repo admin only)
+This repository follows Semantic Versioning [2.0.0](https://semver.org/). Given a version number MAJOR.MINOR.PATCH, increment the:
+
+1. MAJOR version when you make incompatible API changes,
+2. MINOR version when you add functionality in a backwards compatible manner, and
+3. PATCH version when you make backwards compatible bug fixes.
+
+The `bump2version` tool is used to take care of versioning including committing and tagging new versions.
+
+When ready to publish new release follow the steps below:
+```shell
+# checkout release branch
+git checkout release
+
+# merge main branch to release branch
+git merge main
+
+# bump the version following semantic guide above part=patch|minor|major
+make version part=patch
+
+# push the new version tag
+make release
+
+# push the changes to origin
+git push
+```
+
+Finally, create new release on [cfn101-workshop](https://github.com/aws-samples/cfn101-workshop/releases) release page
+
+* Select **Releases** and choose **Draft a new release**
+* Choose a tag version
+* Select **Auto-generate release notes**
+* **Publish release**

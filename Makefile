@@ -35,24 +35,25 @@ $(VENV_NAME)/bin/activate: requirements.txt
 pre-commit:
 	. $(VENV_NAME)/bin/activate && $(VENV_NAME)/bin/pre-commit install
 
-# Cleanup VirtualEnv
-clean:
-	rm -rf $(VENV_NAME)
-	find . -iname "*.pyc" -delete
-
 # Tests
 test:
 	$(VENV_NAME)/bin/pre-commit run --all-files
 
-test-cfn-lint:
+lint:
 	cfn-lint cfn-lint code/solutions/**/*.yaml --ignore-templates code/solutions/policy-as-code-with-guard/example_bucket_tests.yaml
 
-test-cfn-nag:
+nag:
 	cfn_nag_scan --input-path code/solutions --ignore-fatal
 
+# Versioning and releases
 version:
 	@bumpversion $(part)
 
 release:
 	@TAG_VERSION=$(shell bumpversion --dry-run --list .bumpversion.cfg | grep current_version | sed s/'^.*='//); \
 		git push origin "v$${TAG_VERSION}"
+
+# Cleanup VirtualEnv
+clean:
+	rm -rf $(VENV_NAME)
+	find . -iname "*.pyc" -delete
