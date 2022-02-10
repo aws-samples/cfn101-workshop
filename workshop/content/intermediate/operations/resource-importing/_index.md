@@ -323,7 +323,7 @@ Great work! You have now learned how to match the CloudFormation stack configura
 **Use Cases:**
 
 1. You previously created an AWS resource (for example, an S3 bucket) manually, and you would like to manage it using CloudFormation.
-2. You want to bring certain types of resources into a single stack for easier management (for example, IAM Role resources).
+2. You want to reorganize resources by life cycle and ownership into single stacks for easier management (for example, IAM Role resources, Security Group resources, et cetera).
 3. You have two separate stacks, and you want to bring them into a single stack by nesting stacks. Refer to this [document](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/resource-import-nested-stacks.html) for nesting an existing stack.
 4. You want to match the CloudFormation configuration for a resource which was updated out of band.
 
