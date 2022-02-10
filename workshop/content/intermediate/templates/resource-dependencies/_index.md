@@ -4,24 +4,24 @@ date: 2022-02-03T22:04:02Z
 weight: 200
 ---
 
-## Overview
+### Overview
 
-You use AWS CloudFormation to provision resources programmatically by describing resources in your templates. When you do so, there are cases where one resource depends on another. For example, an Amazon EC2 instance depends on a Security Group that you wish to use for your EC2 instance, you describe both resources in a way that you reference the Security Group in the EC2 instance, so that your CloudFormation stack creates the Security Group first, and your EC2 instance next.
+You use [AWS CloudFormation](https://aws.amazon.com/cloudformation/) to provision resources programmatically by describing resources in your templates. When you do so, there are cases where one resource depends on another. For example, an [Amazon EC2](https://aws.amazon.com/ec2/) instance depends on a Security Group that you wish to use for your EC2 instance, you describe both resources in a way that you reference the Security Group in the EC2 instance, so that your CloudFormation stack creates the Security Group first, and your EC2 instance next.
 
 If there are no dependencies between resources you define in a template, CloudFormation initiates the creation of all resources in parallel. There are cases where you either want to, or are [required](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-attribute-dependson.html#gatewayattachment) to define the order in which resources will be created: in these cases, CloudFormation creates some resources before other ones.
 
 In this lab, you will learn how to use the `DependsOn` [attribute](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-attribute-dependson.html) to explicitly define resource creation order, and also `Ref` and `Fn::GetAtt` [intrinsic functions](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference.html) to have CloudFormation handle the creation order when there are dependencies established.
 
-## Topics Covered
+### Topics Covered
 
 By the end of this lab, you will be able to to:
 
 * Understand the usage of the `DependsOn` [resource attribute](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-attribute-dependson.html) to explicitly define resource creation order.
 * Learn how to use `Ref` and `Fn::GetAtt` [intrinsic functions](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference.html) to automatically create dependencies between resources you describe in a template.
 
-## Start Lab
+### Start Lab
 
-### Lab 1
+#### Lab 1
 
 * Change directory to `code/workspace/resource-dependencies`.
 * Open the `resource-dependencies-without-dependson.yaml` file.
@@ -35,7 +35,7 @@ In this part of the lab, you will:
 
 Let’s now see how CloudFormation handles resource creation order when there are no dependencies between resources.
 
-In the template excerpt shown next, note the two resources an [Amazon S3 bucket](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-s3-bucket.html) and [SNS topic](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-sns-topic.html): both resources have no dependencies defined between each other:
+In the template excerpt shown next, note the two resources an [Amazon Simple Storage Service](https://aws.amazon.com/s3/) (S3 [Bucket](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-s3-bucket.html)) and an [Amazon Simple Notification Service](https://aws.amazon.com/sns/)(SNS [Topic](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-sns-topic.html)): both resources have no dependencies defined between each other:
 
 Paste the contents of the below template snippet in the `resource-dependencies-without-dependson.yaml` file. Next, you will create a stack and review the stack events to see in which order resources will be created.
 
@@ -66,7 +66,7 @@ Use the AWS CloudFormation Console to [create a stack](https://docs.aws.amazon.c
 
 1. Navigate to the [AWS CloudFormation Console](https://console.aws.amazon.com/cloudformation/).
 2. From **Create stack**, choose **With new resources (standard)**.
-3. Choose the **Template is ready** option. From **Specify template**, choose **Upload a template file**. Upload the `resource-dependencies-without-dependson.yaml` template, and choose **Next.**
+3. Choose the **Template is ready** option. From **Specify template**, choose **Upload a template file**. Upload the `resource-dependencies-without-dependson.yaml` template, and choose **Next**.
 4. Enter a stack name. For example, `resource-dependencies-lab`.
 5. In the **Parameters** section, provide unique values for `BucketName` and `SNSTopicName` parameters. When ready, choose **Next**.
 6. Choose to accept default values on the **Configure stack options** page; scroll to the bottom of the page, and choose **Next**.
@@ -123,7 +123,7 @@ Now, let’s review the stack events for your new stack. You added the `DependsO
 Congratulations! You have now learned how to explicitly define resource creation order using the `DependsOn` attribute.
 
 
-### Lab 2
+#### Lab 2
 
 In this lab, you will learn how CloudFormation automatically handles resource dependencies when a resource property references the return value of another resource. You reference resource return values with intrinsic functions such as `Ref` or `Fn::GetAtt`, depending on your use case. As an example, see which available output values are available for an SNS [topic](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-sns-topic.html#aws-properties-sns-topic-return-values) and for an S3 [bucket](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-s3-bucket.html#aws-resource-s3-bucket-return-values).
 
@@ -191,7 +191,7 @@ Let’s create a stack, and verify this is the behavior you expect. Use the AWS 
 
 1. Navigate to the [AWS CloudFormation Console](https://console.aws.amazon.com/cloudformation/).
 2. From **Create stack**, choose **With new resources (standard)**.
-3. Choose the **Template is ready** option. From **Specify template**, choose **Upload a template file**. Upload the `resource-dependencies-with-intrinsic-functions.yaml` template, and choose **Next.**
+3. Choose the **Template is ready** option. From **Specify template**, choose **Upload a template file**. Upload the `resource-dependencies-with-intrinsic-functions.yaml` template, and choose **Next**.
 4. Enter a stack name. For example, `resource-dependencies-lab-ref-getatt`.
 5. In the **Parameters** section, provide a unique name for the SNS topic, an email address for SNS Topic subscription, and a name for security group; when ready, choose **Next**.
 6. Choose to accept default values on the **Configure stack options** page; scroll to the bottom of the page, and choose **Next**.
@@ -234,7 +234,7 @@ To get started, refer to the `resource-dependencies-challenge.yaml` template in 
 * Reference the security group resource LogicalID in EC2 instance resource properties as a list under `SecurityGroups` using the `Ref` intrinsic function. Doing this CloudFormation automatically waits for the security group to be created first, and then initiates the EC2 instance creation.
 * Modify the EC2 instance resource definition as shown next:
 
-```
+```yaml
   Ec2Instance:
     Type: AWS::EC2::Instance
     Properties:
@@ -247,7 +247,7 @@ To get started, refer to the `resource-dependencies-challenge.yaml` template in 
 * Since there is no dependency between the EC2 instance and S3 bucket, use the `DependsOn` attribute, and provide the EC2 instance logical ID as a value for the `DependsOn` attribute.
 * Add the `DependsOn` attribute for the S3 bucket resource as shown next:
 
-```
+```yaml
   S3Bucket:
     Type: AWS::S3::Bucket
     DependsOn: Ec2Instance
@@ -260,11 +260,11 @@ The full solution for this challenge is available in the `code/solutions/resourc
 
 ### Cleanup
 
-Follow the below steps to [clean up the stacks](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/cfn-console-delete-stack.html) you created as a part of this lab
+Follow the steps below to [delete the stacks](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/cfn-console-delete-stack.html) you created as a part of this lab:
 
 1. Navigate to the [AWS CloudFormation Console](https://console.aws.amazon.com/cloudformation/).
-2. Choose the `resource-dependencies-lab` stack.
-3. Choose **Delete** to delete the stack, and then choose **Delete stack** to confirm.
+2. On the **Stacks** page in the CloudFormation console, select the `resource-dependencies-lab` stack.
+3. In the stack details pane, choose **Delete** to delete the stack, and then choose **Delete stack** to confirm.
 4. Repeat steps above to delete the other two stacks you created: `resource-dependencies-lab-dependson` and `resource-dependencies-lab-ref-getatt`.
 5. Make sure to delete the stack created as part of the challenge lab.
 
