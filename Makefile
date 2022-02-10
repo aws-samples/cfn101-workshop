@@ -5,7 +5,6 @@ SHELL := /bin/bash
 
 VENV_NAME ?= venv
 PYTHON ?= $(VENV_NAME)/bin/python
-AWS_CLI = $(VENV_NAME)/bin/aws
 
 ifneq ("$(wildcard $(CONFIG_FILE))","")
 	include $(CONFIG_FILE)
