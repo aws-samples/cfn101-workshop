@@ -109,7 +109,7 @@ In this lab, you will learn how to import a resource into an existing stack. To 
 5. The `resource-importing.yaml` template you just updated will now include 2 parameters (`Topic1Name` and `Topic2Name`), and 2 resources (`SNSTopic1` and `SNSTopic2`). Let’s import the new topic into the existing stack!
 6. Navigate to the [AWS CloudFormation Console](https://console.aws.amazon.com/cloudformation/).
 7. Select the stack named `resource-importing` and, from **Stack actions**, choose **Import resources into stack**.
-8. Read the **Import Overview** and choose **Next.**
+8. Read the **Import Overview** and choose **Next**.
 9. From **Specify template**, choose **Upload a template file**. Upload the `resource-importing.yaml` template saved for this lab part and choose **Next.**
 10. For[**Identifier Value**](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/resource-import.html#resource-import-overview), use the `Topic ARN` which you noted after creating **Topic2.**
 11. For parameters, make sure the parameter value for `Topic1Name` is set to **Topic1** and `Topic2Name` is set to **Topic2**. Choose **Next.**
