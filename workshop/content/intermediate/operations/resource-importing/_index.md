@@ -73,7 +73,7 @@ In this next step, you will use the AWS CloudFormation Console to [create a stac
 2. From **Create stack**, choose **With existing resources (import resources)**.
 3. Read the **Import overview**, and choose **Next**.
 4. From **Specify template**, choose **Upload a template file**. Upload the `resource-importing.yaml` template, and choose **Next**.
-5. For[**Identifier Value**](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/resource-import.html#resource-import-overview), use the `Topic ARN` you noted after creating **Topic1** .
+5. For the [**Identifier Value**](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/resource-import.html#resource-import-overview), specify the value for the topic ARN you noted after you created `Topic1`.
 6. Enter a **Stack name**. For example, choose `resource-importing` . Make sure the parameter value for `Topic1Name` is set to **Topic1**.
 7. Choose **Import Resources** in the next page.
 
