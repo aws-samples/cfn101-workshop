@@ -305,7 +305,7 @@ Parameters:
           Value: InstanceImport
 ```
 
-4. Save the template file. Update the stack again with the updated `resource-import-challenge.yaml` template, which has no parameters section and the instance resource definition. This will remove the instance from the stack but will not delete it because of `DeletionPolicy` set to `Retain`.
+4. Save the template file. Update the stack again with the updated `resource-import-challenge.yaml` template, which now has no parameters section, and no instance resource definition. This action will remove the instance from the stack, but will not delete it because you previously described and applied the `DeletionPolicy` attribute set to `Retain`.
 5. After this stack update, add the two removed code blocks from Step 3 back to the `resource-import-challenge.yaml` template, and save it.
 6. Select the stack named `resource-import-challenge` and from **Stack actions**, choose **Import resources into stack.**
 7. Read the **Import Overview** and choose **Next.**
