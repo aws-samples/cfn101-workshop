@@ -15,6 +15,9 @@ Here is an example how to install pre-requisites on macOS/Linux using [Homebrew]
 # install python3
 brew install python
 
+# install VirtualEnv
+pip3 install virtualenv
+
 # install pre-commit
 brew install pre-commit
 
@@ -24,7 +27,7 @@ brew install hugo
 # install go
 brew install go
 
-# install cfn-nag
+# install ruby, gem and cfn-nag
 brew install ruby brew-gem
 brew gem install cfn-nag
 ```
