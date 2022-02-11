@@ -6,10 +6,6 @@ SHELL := /bin/bash
 VENV_NAME ?= venv
 PYTHON ?= $(VENV_NAME)/bin/python
 
-ifneq ("$(wildcard $(CONFIG_FILE))","")
-	include $(CONFIG_FILE)
-endif
-
 help:
 	@echo "help	get the full command list"
 	@echo "init	create VirtualEnv and install libraries"
