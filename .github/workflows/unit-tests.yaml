@@ -23,21 +23,21 @@ jobs:
         restore-keys: |
 
     # Setup
-    - name: Set up Python 3.7
-      uses: actions/setup-python@v1
+    - name: Set up Python
+      uses: actions/setup-python@v2
       with:
-        python-version: 3.7
+        python-version: '3.10' # have to use quotes due to 0 being removed
     - name: Install python packages
       run: pip install -Ur requirements.txt
-    - name: Set up ruby 2.6
-      uses: actions/setup-ruby@v1
+    - name: Set up Ruby
+      uses: ruby/setup-ruby@v1
       with:
-        ruby-version: '2.6'
+        ruby-version: 3.1
     - name: Install Ruby gems
       run: gem install cfn-nag
 
     # Run Tests
     - name: CloudFormation lint test
-      run: cfn-lint code/solutions/*.yaml
+      run: cfn-lint code/solutions/**/*.yaml --ignore-templates code/solutions/policy-as-code-with-guard/example_bucket_tests.yaml
     - name: CloudFormation nag test
       run: cfn_nag_scan --input-path code/solutions --ignore-fatal
