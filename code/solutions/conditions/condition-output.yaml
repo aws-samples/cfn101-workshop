@@ -39,7 +39,7 @@ Resources:
   Volume:
     Type: AWS::EC2::Volume
     Properties:
-      Size: 100
+      Size: 2
       AvailabilityZone: !GetAtt EC2Instance.AvailabilityZone
     Condition: IsProduction
 
