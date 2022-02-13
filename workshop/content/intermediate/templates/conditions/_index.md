@@ -208,7 +208,7 @@ Congratulations! You have learned how to conditionally specify resource property
 
 ### **Challenge**
 
-So far, you’ve learned how to use conditions with resources in your CloudFormation templates . Now let’s say you want to conditionally add an output in the [Outputs](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/outputs-section-structure.html) section of your `condition-resource.yaml` CloudFormation template.
+So far, you’ve learned how to use conditions with resources and property values in your CloudFormation templates. In this challenge, you will conditionally create an output in the [Outputs](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/outputs-section-structure.html) section of your `condition-resource.yaml` CloudFormation template.
 
 **Task:** Describe an [Outputs](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/outputs-section-structure.html) section in your template. Specify a Logical ID as `VolumeID`, and use the `Ref` [intrinsic function](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-instance.html#aws-properties-ec2-instance-return-values) to return the ID of your Volume. Now, update your existing CloudFormation Stack `cfn-workshop-condition-prod` with modified template to create an output based on `IsProduction` condition evaluation.
 
