@@ -44,6 +44,6 @@ Resources:
     Condition: IsProduction
 
 Outputs:
-  VolumeID:
+  VolumeId:
     Value: !Ref Volume
     Condition: IsProduction
