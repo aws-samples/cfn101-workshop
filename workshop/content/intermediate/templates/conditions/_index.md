@@ -190,7 +190,7 @@ In this section, you will pass `test` as the value for the `EnvType` parameter, 
 * Choose the `condition-resource-property.yaml` template.
 * Enter a **Stack name**. For example, choose to specify `cfn-workshop-condition-property-test`.
 * Pass `test` as the value for the `EnvType` parameter. Choose **Next**.
-* You can leave other Configure stack options default, Choose **Next**.
+* Choose to accept default values in the **Configure stack options** page. Choose **Next**.
 * Choose **Create stack**. You can view the progress of the stack being created in the CloudFormation console.
 * Wait until the stack creation is complete. Refresh the view in the console until you see your stack to be in the `CREATE_COMPLETE` status.
 
