@@ -13,7 +13,7 @@ As part of best practices, you want to maximize reuse of templates you write for
 To conditionally create resources, you add the optional [Conditions](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/conditions-section-structure.html) section to your template. Once you define conditions and relevant criteria, you use your conditions in [Resources](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/resources-section-structure.html) and [Outputs](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/outputs-section-structure.html) template sections. For example, you associate a condition to a resource, or to an output you describe in your template, so you can conditionally create the given resource or the given output if your condition is true. To conditionally specify resource property values - such as, for example, the instance type of your EC2 instance - you use [Condition Functions](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference-conditions.html).
 
 To use conditions in your template, you include statements in following template sections:
-* **Parameters section**: specify template input parameter(s) you want your conditions to evaluate
+* **Parameters**: specify template input parameter(s) you want your conditions to evaluate.
 * **Conditions section**: define your conditions by using [intrinsic condition functions](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference-conditions.html)
 * **Resource and Outputs**:
     * associate conditions with resources, or outputs, that you want to conditionally create
