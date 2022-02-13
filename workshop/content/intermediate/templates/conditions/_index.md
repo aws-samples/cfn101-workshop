@@ -139,7 +139,7 @@ Congratulations! You learned how to conditionally create resources!
 
 #### **Defining Conditions at the property level**
 
-Let’s evaluate an example use case where you conditionally define resource properties. For example, you want to create an EC2 instance of the `t2.micro` type for your `test` environment, and an EC2 instance of type `t2.small` for your `production` environment. For this, you choose to define a condition that you associate at the resource property level for the `InstanceType` [property](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-instance.html#cfn-ec2-instance-instancetype).
+Let’s evaluate an example use case where you conditionally define resource property values. For example, let's say you want to create an EC2 instance of the `t2.micro` type for your `test` environment, and an EC2 instance of type `t2.small` for your `production` environment. You choose to define a condition that you associate at the resource property level for the `InstanceType` [property](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-instance.html#cfn-ec2-instance-instancetype).
 
 First, you design your condition such as, for example, if you specify `prod` as the input parameter for the `EnvType` parameter, your condition is true. Next, you associate the condition to your EC2 instance, and describe your desired behavior as such: if your condition is true, your instance will use `t2.small` as the instance type, or `t2.micro` otherwise. Let’s take a look at how this works in the example following next.
 
