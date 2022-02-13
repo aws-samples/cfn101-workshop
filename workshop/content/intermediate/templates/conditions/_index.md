@@ -256,7 +256,7 @@ Follow these steps to clean up created resources:
 * Choose **Delete** to delete the stack you created in this lab, and then **Delete stack** to confirm.
 
 
-Perform same steps as above for your other stacks as well: `cfn-workshop-condition-prod`, `cfn-workshop-condition-property-test`.
+Perform the same cleanup steps above for your other stacks you created in this lab: `cfn-workshop-condition-prod`, and `cfn-workshop-condition-property-test`.
 
 ---
 ### Conclusion
