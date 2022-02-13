@@ -45,7 +45,7 @@ Let’s get started!
 Let’s start with specifying input parameters you want to use to make your template more reusable. You will add a `Parameters` section in your template, with an input parameter for your life cycle environment; you will call the parameter `EnvType`, and you will describe two example environment names, `test` and `prod`, as input values you allow. Define also an input parameter for the [Amazon Machine Image](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/AMIs.html) (AMI) you will use: in this example, you use the example `LatestAmiId` parameter to refer, in its value, to the latest available Amazon Linux AMI.
 
 {{% notice note %}}
-For more information about fetching latest AMI, see [Query for the latest Amazon Linux AMI IDs using AWS Systems Manager Parameter Store](https://aws.amazon.com/blogs/compute/query-for-the-latest-amazon-linux-ami-ids-using-aws-systems-manager-parameter-store/).
+For more information, see [Query for the latest Amazon Linux AMI IDs using AWS Systems Manager Parameter Store](https://aws.amazon.com/blogs/compute/query-for-the-latest-amazon-linux-ami-ids-using-aws-systems-manager-parameter-store/).
 {{% /notice %}}
 
 Copy the content shown below, and paste it in the `condition-resource.yaml` file, by appending it to the existing file content:
