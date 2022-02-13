@@ -169,7 +169,7 @@ Conditions:
    - prod
 ```
 
-Next, let’s wire up the `IsProduction` condition to conditionally specify a property type. In this example, you use the `Fn::if` [intrinsic function](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference-conditions.html#intrinsic-function-reference-conditions-if), in its YAML short form, to evaluate if the `IsProduction` condition is true: if that is the case, the `t2.small` property value will be used for `InstanceType`; otherwise, `t2.micro` will be used if the condition is false. Copy and paste the following code in the template:
+Next, let’s wire up the `IsProduction` condition to conditionally specify a property values. In this example, you use the `Fn::if` [intrinsic function](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference-conditions.html#intrinsic-function-reference-conditions-if), in its YAML short form, to evaluate if the `IsProduction` condition is true: if that is the case, the `t2.small` property value will be used for `InstanceType`; otherwise, `t2.micro` will be used if the condition is false. Copy and append the following code to the template:
 
 ```yaml
 Resources:
