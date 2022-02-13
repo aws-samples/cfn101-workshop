@@ -261,4 +261,4 @@ Perform the same cleanup steps above for your other stacks you created in this l
 ---
 ### Conclusion
 
-Congratulations! You have learned how to conditionally create resources, and how to conditionally specify resource property types. For more information, see [Conditions](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/conditions-section-structure.html) and [Condition functions](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference-conditions.html).
+Congratulations! You have learned how to conditionally create resources, and how to conditionally specify resource property values. For more information, see [Conditions](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/conditions-section-structure.html) and [Condition functions](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference-conditions.html).
