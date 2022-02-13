@@ -74,7 +74,7 @@ Conditions:
    - !Ref EnvType
    - prod
 ```
-Next, associate conditions to resources you want to conditionally provision based on the `IsProduction` condition. In the following code, you associate the `Volume` and `MountPoint` resources with `IsProduction`. Therefore, these resources are created only when the `IsProduction` condition is true: that is, if the `EnvType` parameter value is equal to `prod`. Otherwise, only the EC2 instance resource will be provisioned.
+Next, associate conditions to resources you want to conditionally provision based on the `IsProduction` condition. In the following example, you associate the `Volume` and `MountPoint` resources with `IsProduction`. Therefore, these resources are created only when the `IsProduction` condition is true: that is, if the `EnvType` parameter value is equal to `prod`. Otherwise, only the EC2 instance resource will be provisioned.
 
 Copy the content below, and paste it in the `condition-resource.yaml` file by appending it to the existing file content:
 
