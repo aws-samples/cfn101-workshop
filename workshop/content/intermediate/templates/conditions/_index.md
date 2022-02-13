@@ -202,7 +202,7 @@ Next, verify the instance type is the one you expect: follow the link for the Ph
 You should see a view, as in the example shown next, showing that your instance type is `t2.micro`:
 ![ec2-instance](conditions/ec2-instance.png)
 
-Similarly, you can run the same solution by passing the value of `EnvType` parameter as `prod`, and you will observe the instance type for provisioned EC2 instance will be `t2.small`.
+If you create a new stack with the same template, and specify `prod` as the value for `EnvType`, the type of your instance will be `t2.small` instead.
 
 Congratulations! You have learned how to conditionally specify resource property types!
 
