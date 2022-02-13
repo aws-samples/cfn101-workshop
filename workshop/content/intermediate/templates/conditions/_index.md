@@ -204,7 +204,7 @@ You should see a view, as in the example shown next, showing that your instance 
 
 If you create a new stack with the same template, and specify `prod` as the value for `EnvType`, the type of your instance will be `t2.small` instead.
 
-Congratulations! You have learned how to conditionally specify resource property types!
+Congratulations! You have learned how to conditionally specify resource property values!
 
 ### **Challenge**
 
