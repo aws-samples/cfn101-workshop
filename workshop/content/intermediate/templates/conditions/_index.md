@@ -6,7 +6,7 @@ weight: 100
 
 ### Overview
 
-When you describe your infrastructure with CloudFormation, you declare resources in your template with relevant resource properties you need. When you do so, you might have use cases where you want to create resources, or specify resource property values, based on conditions.
+When you describe your infrastructure with [AWS CloudFormation](https://aws.amazon.com/cloudformation/), you declare resources and resource properties in your CloudFormation templates. You might have use cases where you want to create resources, or specify resource property values, based on conditions.
 
 For example, you describe resources for your application, and you want to reuse the same template (or templates) across your life cycle environments, such as `test` and `production`. Let’s say you choose to run resources at a reduced capacity in your `test` environment, to save money: for example, you choose a `t2.small` [Amazon EC2 instance type](https://aws.amazon.com/ec2/instance-types/) for your `production` environment, and a `t2.micro` instance type for your `test` environment. As part of this example, let’s say you choose to create a 10 GiB [Amazon EBS Volume](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-volumes.html) to use with your `production` instance, and a 1 GiB volume to use with your `test` instance.
 
