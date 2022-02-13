@@ -28,7 +28,7 @@ By the end of this lab, you will be able to:
 
 * Identify sample use cases for leveraging Condition functions.
 * Provision resources based on Condition evaluation.
-* Conditionally specifying resource property values using Condition functions.
+* Specify resource property values using Condition functions.
 
 Let’s walk through an example of how to Conditions function in your template.
 
