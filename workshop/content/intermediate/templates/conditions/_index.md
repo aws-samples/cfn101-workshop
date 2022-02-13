@@ -177,7 +177,7 @@ Resources:
     Type: AWS::EC2::Instance
     Properties:
       ImageId: !Ref LatestAmiId
-      InstanceType: !If [IsProduction,t2.small,t2.micro]
+      InstanceType: !If [IsProduction, t2.small, t2.micro]
 ```
 
 Time to deploy your resources!
