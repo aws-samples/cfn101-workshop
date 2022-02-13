@@ -184,7 +184,7 @@ Time to deploy your resources!
 
 In this section, you will pass `test` as the value for the `EnvType` parameter, and verify the type of your EC2 instance will be `t2.micro`. Navigate to the AWS CloudFormation [console](https://console.aws.amazon.com/cloudformation), and choose to create a stack using this template:
 
-* In the CloudFormation console, select **Create stack With new resources (standard)**.
+* In the CloudFormation console, select **Create stack**, **With new resources (standard)**.
 * In **Prepare template**, select **Template is ready**.
 * In **Template source**, select **Upload a template file**.
 * Choose the `condition-resource-property.yaml` template.
