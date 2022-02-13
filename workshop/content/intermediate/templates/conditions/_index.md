@@ -194,7 +194,7 @@ In this section, you will pass `test` as the value for the `EnvType` parameter, 
 * Choose **Create stack**. You can view the progress of the stack being created in the CloudFormation console.
 * Wait until the stack creation is complete. Refresh the view in the console until you see your stack to be in the `CREATE_COMPLETE` status.
 
-Once the Stack is in the `CREATE_COMPLETE` status, navigate to the **Resources** tab for your stack, and verify your EC2 instance is in the `CREATE_COMPLETE` status.
+Once the Stack is in the `CREATE_COMPLETE` status, navigate to the **Resources** tab for your stack, and locate the EC2 instance you created with your stack.
 
 Next, verify the instance type is the one you expect: follow the link for the Physical ID of your instance, that will bring you to the Amazon EC2 Console:
 ![condition-test-property](conditions/condition-test-property.png)
