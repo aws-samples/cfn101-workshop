@@ -130,7 +130,7 @@ In the next step, you will create a new stack with the same template, and pass `
 * Choose **Create stack**. You can view the progress of the stack being created in the CloudFormation console.
 * Wait until the stack creation is complete. Refresh the view in the console until you see your stack to be in the `CREATE_COMPLETE` status.
 
-This time,  the `IsProduction` condition is true. Navigate to the **Resources** tab for your stack, and verify that along with your EC2 instance resource, your other `Volume` and `MountPoint` resources are also provisioned:
+This time, the `IsProduction` condition is true. Navigate to the **Resources** tab for your stack, and verify that along with your EC2 instance resource, your other `Volume` and `MountPoint` resources are also provisioned:
 
 ![condition-prod](conditions/condition-prod.png)
 
