@@ -104,7 +104,7 @@ Let’s deploy the solution!
 
 When you create the stack, you will pass `test` as the value for `EnvType`, and you will observe only an EC2 instance resource will be provisioned by CloudFormation. Save the template you have updated with content above; next, navigate to the AWS CloudFormation [console](https://console.aws.amazon.com/cloudformation), and choose to create a stack using this template:
 
-* In the CloudFormation console, select **Create stack With new resources (standard)**.
+* In the CloudFormation console, select **Create stack**, **With new resources (standard)**.
 * In **Prepare template**, select **Template is ready**.
 * In **Template source**, select **Upload a template file**.
 * Choose the `condition-resource.yaml` template.
