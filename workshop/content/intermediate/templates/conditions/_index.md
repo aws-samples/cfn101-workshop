@@ -30,7 +30,7 @@ By the end of this lab, you will be able to:
 * Provision resources based on Condition evaluation.
 * Specify resource property values using Condition functions.
 
-Let’s walk through an example of how to Conditions function in your template.
+Let’s walk through examples of how to use Condition functions!
 
 ### Start Lab
 
