@@ -42,7 +42,7 @@ Let’s walk through examples of how to use Condition functions!
 
 Let’s get started!
 
-Let’s start with specifying input parameters you want to use to make your template more reusable. You will add a `Parameters` section in your template, with an input parameter for your life cycle environment; you will call the parameter `EnvType`, and you will describe two example environment names, `test` and `prod`, as input values you allow. Define also an input parameter for the [Amazon Machine Image](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/AMIs.html) (AMI) you will use: in this example, you use the example `LatestAmiId` parameter to refer, in its value, to the latest available Amazon Linux AMI.
+Let’s first focus on making your template more reusable. Choose to add a `Parameters` section in your template, with an input parameter for your life cycle environments; call the parameter `EnvType`, and describe two example environment names, `test` and `prod`, as input values you allow. Define an input parameter for the [Amazon Machine Image](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/AMIs.html) (AMI) you will use: in this example, you use an example parameter called `LatestAmiId` to refer, in its value, to the latest available Amazon Linux AMI by using [AWS Systems Manager](https://aws.amazon.com/systems-manager/) [Parameter Store](https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-parameter-store.html).
 
 {{% notice note %}}
 For more information, see [Query for the latest Amazon Linux AMI IDs using AWS Systems Manager Parameter Store](https://aws.amazon.com/blogs/compute/query-for-the-latest-amazon-linux-ami-ids-using-aws-systems-manager-parameter-store/).
