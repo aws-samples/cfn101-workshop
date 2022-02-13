@@ -16,7 +16,7 @@ To use conditions in your template, you include statements in following template
 * **Parameters**: specify template input parameter(s) you want your conditions to evaluate.
 * **Conditions**: define your conditions by using [intrinsic condition functions](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference-conditions.html).
 * **Resource and Outputs**:
-    * associate conditions with resources, or outputs, that you want to conditionally create
+    * associate conditions with resources, or outputs, that you want to conditionally create.
     * use the `Fn::If` [intrinsic function](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference-conditions.html#intrinsic-function-reference-conditions-if) to conditionally specify resource property values based on a condition you define
 
 
