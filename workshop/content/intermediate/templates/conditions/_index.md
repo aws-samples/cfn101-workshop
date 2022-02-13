@@ -118,7 +118,7 @@ Once the stack is in the `CREATE_COMPLETE` status, navigate to the **Resources**
 
 ![condition-test](conditions/condition-test.png)
 
-In the next step, you will create a new stack with the same template, and pass `prod` as the new value for the `EnvType` parameter, and verify that you will provision, with CloudFormation, your `Volume` and `MountPoint` resources. Navigate to the AWS CloudFormation [console](https://console.aws.amazon.com/cloudformation), and choose to create a stack using this template:
+In the next step, you will create a new stack with the same template. This time, you will pass `prod` as the value for the `EnvType` parameter, and verify that you will provision, with CloudFormation, your `Volume` and `MountPoint` resources as well. Navigate to the AWS CloudFormation [console](https://console.aws.amazon.com/cloudformation), and choose to create a stack using your existing template:
 
 * In the CloudFormation console, select **Create stack With new resources (standard)**.
 * In **Prepare template**, select **Template is ready**.
