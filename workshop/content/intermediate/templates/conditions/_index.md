@@ -126,7 +126,7 @@ In the next step, you will create a new stack with the same template. This time,
 * Choose the `condition-resource.yaml` template.
 * Enter a **Stack name**. For example, choose to specify `cfn-workshop-condition-prod`.
 * Pass `prod` as the value for the `EnvType` parameter. Choose **Next**.
-* You can leave other Configure stack options default, Choose **Next**.
+* Choose to accept default values in the **Configure stack options** page. Choose **Next**.
 * Choose **Create stack**. You can view the progress of the stack being created in the CloudFormation console.
 * Wait until the stack creation is complete. Refresh the view in the console until you see your stack to be in the `CREATE_COMPLETE` status.
 
