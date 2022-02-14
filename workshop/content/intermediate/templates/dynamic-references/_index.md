@@ -54,7 +54,7 @@ You can choose to create Parameter Store parameters of the type `String` or `Str
 3. Follow steps shown next to create a dynamic reference to your parameter in an EC2 instance you describe in a template:
 
     1. change directory to `code/workspace/dynamic-references`.
-    2. Open the `ec2_instance.yaml` CloudFormation template in your favorite text editor.
+    2. Open the `ec2-instance.yaml` CloudFormation template in your favorite text editor.
     3. Locate the `AWS::EC2::Instance` resource type block in the template; update the template by appending, to properties in the `Properties` section, the `ImageId` property and a dynamic reference to your parameter:
 
 ```yaml
@@ -62,7 +62,6 @@ You can choose to create Parameter Store parameters of the type `String` or `Str
 ```
 
 With the dynamic reference above, you describe the intent of resolving the `LATEST` version of your `/golden-images/amazon-linux-2` parameter during stack runtime.
-
 
 {{% notice note %}}
 CloudFormation does not support [public parameters](https://docs.aws.amazon.com/systems-manager/latest/userguide/parameter-store-finding-public-parameters.html) [in dynamic references](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/dynamic-references.html#dynamic-references-ssm). You can choose to use [SSM Parameter Types](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/parameters-section-structure.html#aws-ssm-parameter-types) to retrieve the value for a public parameter.
@@ -133,7 +132,7 @@ Let’s get started! Choose to follow steps shown next:
 
 3. Next, you will create an AWS Lambda Function, and read a number of database connection parameters as [Environment Variables](https://docs.aws.amazon.com/lambda/latest/dg/configuration-envvars.html) to your Lambda function, by using dynamic references to the Secrets Manager secret you created earlier.
     1. Make sure you are in the `code/workspace/dynamic-references` directory.
-    2. Open the `lambda_function.yaml` CloudFormation template in your favorite text editor.
+    2. Open the `lambda-function.yaml` CloudFormation template in your favorite text editor.
     3. The template describes an `AWS::Lambda::Function` resource type; update the template by appending the `Properties` section with the `Environment` property, with variables using dynamic references to the AWS Secret Manager secret you created earlier:
 
 ```yaml
@@ -201,7 +200,7 @@ $ aws ssm put-parameter \
       --type "String" \
       --region ${AWS_REGION}
 
-* Open the `code/workspace/dynamic-references/lambda_memory_size.yaml` template in your favorite text editor. Update the template by appending, to the `Resources` section, the example below that include the `MemorySize` property using a dynamic reference to the parameter:
+* Open the `code/workspace/dynamic-references/lambda-memory-size.yaml` template in your favorite text editor. Update the template by appending, to the `Resources` section, the example below that include the `MemorySize` property using a dynamic reference to the parameter:
 
 ```yaml
   HelloWorldFunction:
@@ -212,7 +211,7 @@ $ aws ssm put-parameter \
       Runtime: python3.7
       MemorySize: '{{resolve:ssm:/lambda/memory-size:1}}'
       Code:
-        ZipFile: |
+        ZipFile: >
           import os
 
           def handler(event, context):
@@ -221,7 +220,7 @@ $ aws ssm put-parameter \
 
 Create a `cfn-workshop-lambda-memory-size-stack` CloudFormation stack to provision resources you described and updated in the template.
 
-You can find the full solution in the `code/solutions/dynamic-references/lambda_memory_size.yaml` example template.
+You can find the full solution in the `code/solutions/dynamic-references/lambda-memory-size.yaml` example template.
 
 {{% /expand %}}
 
