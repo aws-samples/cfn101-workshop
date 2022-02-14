@@ -24,7 +24,7 @@ Resources:
       ## Environment Configuration Goes Here
       Runtime: python3.7
       Code:
-        ZipFile: >
+        ZipFile: |
           import os
 
           def handler(event, context):
