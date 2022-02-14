@@ -232,7 +232,7 @@ Outputs:
 Next, navigate to the AWS CloudFormation [console](https://console.aws.amazon.com/cloudformation), and choose to  update your `cfn-workshop-condition-prod` stack:
 
 * In the CloudFormation console, select **Update stack**.
-* In **Prepare template**, select Replace current template **option**.
+* In **Prepare template**, select **Replace current template**.
 * In **Template source**, select **Upload a template file**.
 * Choose the `condition-resource.yaml` template.
 * You can leave the value of `EnvType` parameter as `prod`. Choose **Next**.
