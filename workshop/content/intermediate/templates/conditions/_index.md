@@ -98,6 +98,7 @@ Resources:
     Properties:
       Size: 2
       AvailabilityZone: !GetAtt EC2Instance.AvailabilityZone
+      Encrypted: true
 ```
 
 Let’s deploy the solution!
