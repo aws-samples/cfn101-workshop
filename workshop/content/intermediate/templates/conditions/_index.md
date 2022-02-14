@@ -241,7 +241,7 @@ Next lets update your stack  `cfn-workshop-condition-prod`, navigate to the AWS 
 * Wait until the stack creation is complete. Refresh the view in the console until you see your stack to be in the `UPDATE_COMPLETE` status.
 
 
-Browse to the `Outputs` section of the stack, and validate `VolumeID` appears as an output:
+Navigate to the `Outputs` section of your stack, and validate the `VolumeId` output is present.
 ![condition-prod-update](conditions/condition-prod-update.png)
 
 {{% /expand %}}
