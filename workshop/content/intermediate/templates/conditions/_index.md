@@ -246,7 +246,7 @@ Navigate to the `Outputs` section of your stack, and validate the `VolumeId` out
 
 {{% /expand %}}
 
-Note: content shown above is also available in relevant files located in the `code/solutions/conditions/condition-output.yaml` directory.
+The full solution is also available in the `code/solutions/conditions/condition-output.yaml` template file.
 
 ### Cleanup
 
