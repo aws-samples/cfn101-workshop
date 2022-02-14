@@ -229,7 +229,7 @@ Outputs:
       Condition: IsProduction
 ```
 
-Next lets update your stack  `cfn-workshop-condition-prod`, navigate to the AWS CloudFormation [console](https://console.aws.amazon.com/cloudformation), and choose to  `cfn-workshop-condition-prod` stack:
+Next, navigate to the AWS CloudFormation [console](https://console.aws.amazon.com/cloudformation), and choose to  update your `cfn-workshop-condition-prod` stack:
 
 * In the CloudFormation console, select **Update stack**.
 * In **Prepare template**, select Replace current template **option**.
