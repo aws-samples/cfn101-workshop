@@ -42,11 +42,11 @@ Let’s get started! Choose to follow steps shown next:
 2. Create your parameter using the [AWS Command Line Interface](https://aws.amazon.com/cli/) (CLI). When you run the command shown next, please make sure to replace `YOUR_AMI_ID` and `YOUR_REGION` placeholders with values you need. For values you can specify for the AWS region, see **Code** in the [Regional endpoints](https://docs.aws.amazon.com/general/latest/gr/rande.html#regional-endpoints) table; make sure to use the same region you chose when you selected the AMI to use in the previous step:
 
 ```shell
-$ aws ssm put-parameter --name "/golden-images/amazon-linux-2" \
-                        --value "YOUR_AMI_ID" \
-                        --type "String" \
-                        --region "YOUR_REGION"
-```
+$ aws ssm put-parameter \
+      --name "/golden-images/amazon-linux-2" \
+      --value ${AMI_ID} \
+      --type "String" \
+      --region ${AWS_REGION}
 {{% notice note %}}
 You can choose to create Parameter Store parameters of the type `String` or `StringList` using CloudFormation. For more details, check the documentation for [AWS::SSM::Parameter](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ssm-parameter.html).
 {{% /notice %}}
@@ -87,10 +87,10 @@ You can also use dynamic references to an SSM parameter to point a specific para
 5. Verify that the ID of the image you used for your EC2 instance matches the image ID you stored in your Parameter Store parameter. First, locate the EC2 Instance ID by navigating to the **Resources** tab in the CloudFormation Console: look for the Physical ID of your EC2 Instance, and note its value. Next, run the following command (replace the `YOUR_INSTANCE_ID` and `YOUR_REGION` placeholder before you run the command):
 
 ```shell
-$ aws ec2 describe-instances --instance-ids YOUR_INSTANCE_ID \
-                             --region YOUR_REGION \
-                             --query 'Reservations[0].Instances[0].ImageId'
-```
+$ aws ec2 describe-instances \
+      --instance-ids YOUR_INSTANCE_ID \
+      --region ${AWS_REGION} \
+      --query 'Reservations[0].Instances[0].ImageId'
 
 Congratulations! You learned how to use dynamic references with an example using Parameter Store.
 
@@ -163,10 +163,10 @@ A secret in AWS Secrets Manager has [*versions*](https://docs.aws.amazon.com/sec
 5. When you invoke the example Lambda function you created, the function fetches `RDS_HOSTNAME` and `RDS_PORT` environment variables, and prints out their values. First, locate the Lambda function name by navigating to the **Resources** tab in the CloudFormation Console: look for the Physical ID of your Lambda function, and note its value. Next, verify you are passing database connection parameters to your Lambda function by invoking it with the following command (replace `YOUR_FUNCTION_NAME` with your Lambda function name and `YOUR_REGION` with the value you need):
 
 ```shell
-$ aws lambda invoke --function-name YOUR_FUNCTION_NAME \
-                    --region YOUR_REGION \
-                    output.json
-```
+$ aws lambda invoke \
+      --function-name YOUR_FUNCTION_NAME \
+      --region ${AWS_REGION} \
+      output.json
 
 Print the output for the above command using the following command:
 
@@ -195,11 +195,11 @@ AWS Lambda supports specifying memory configuration for a [function](https://doc
 * Create a Parameter Store parameter specifying your required memory configuration using the following command (the example uses the `us-east-1` region - update this value accordingly):
 
 ```shell
-$ aws ssm put-parameter --name "/lambda/memory-size" \
-                        --value "256" \
-                        --type "String" \
-                        --region "us-east-1"
-```
+$ aws ssm put-parameter \
+      --name "/lambda/memory-size" \
+      --value "256" \
+      --type "String" \
+      --region ${AWS_REGION}
 
 * Open the `code/workspace/dynamic-references/lambda_memory_size.yaml` template in your favorite text editor. Update the template by appending, to the `Resources` section, the example below that include the `MemorySize` property using a dynamic reference to the parameter:
 
@@ -230,15 +230,14 @@ You can find the full solution in the `code/solutions/dynamic-references/lambda_
 1. Delete CloudWatch Log Groups associated with Lambda functions you created with `cfn-workshop-lambda-stack`, and with `cfn-workshop-lambda-memory-size-stack` (if you invoked the Lambda function for the challenge section, you should have a relevant Log Group present). For each of the stacks, locate the Lambda function name by navigating to the **Resources** tab in the CloudFormation Console; look for the Physical ID of your Lambda function, and note its value. Then, use the following command for each of the Lambda functions you have created (replace `YOUR_FUNCTION_NAME` with your Lambda function name, and `YOUR_REGION` with the value you need):
 
 ```shell
-$ aws logs delete-log-group --log-group-name /aws/lambda/YOUR_FUNCTION_NAME \
-                            --region YOUR_REGION
-```
+$ aws logs delete-log-group \
+      --log-group-name /aws/lambda/YOUR_FUNCTION_NAME \
+      --region ${AWS_REGION}
 2. Delete the two Parameter Store parameters you created to store the AMI ID and `MemorySize` configuration using the following command (replace `YOUR_REGION` with the value you need):
 
 ```shell
 $ aws ssm delete-parameters --names "/golden-images/amazon-linux-2" "/lambda/memory-size" \
                             --region YOUR_REGION
-```
 
 3. Next, in the CloudFormation console, select the stack you created last, for example: `cfn-workshop-lambda-memory-size-stack`.
 4. Choose **Delete** to delete the stack, and then choose **Delete stack** to confirm.
