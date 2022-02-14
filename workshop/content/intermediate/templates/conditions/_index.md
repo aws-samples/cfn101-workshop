@@ -224,7 +224,7 @@ Append the following content to the `condition-resource.yaml` file:
 
 ```yaml
 Outputs:
-   VolumeID:
+   VolumeId:
       Value: !Ref Volume
       Condition: IsProduction
 ```
