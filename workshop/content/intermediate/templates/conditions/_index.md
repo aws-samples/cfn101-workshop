@@ -215,7 +215,7 @@ So far, you’ve learned how to use conditions with resources and property value
 {{%expand "Need a hint?" %}}
 
 * See the documentation for [Stack Output](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/outputs-section-structure.html#outputs-section-structure-examples), and define a `VolumeId` output in your template.
-* How do you conditionally create an output?
+* Review the documentation on [Conditions](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/conditions-section-structure.html) and [Associating a condition](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference-conditions.html#associating-a-condition). How do you conditionally create an output?
 {{% /expand %}}
 
 {{%expand "Want to see the solution?" %}}
