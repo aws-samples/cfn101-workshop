@@ -1,0 +1,32 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: AWS CloudFormation workshop - Dynamic references - Lambda function (uksb-1q9p31idr)
+Resources:
+  FunctionExecutionRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+          - Action:
+            - sts:AssumeRole
+            Effect: Allow
+            Principal:
+              Service:
+              - lambda.amazonaws.com
+        Version: 2012-10-17
+      ManagedPolicyArns:
+        - !Sub 'arn:${AWS::Partition}:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole'
+      Path: /
+  HelloWorldFunction:
+    Type: AWS::Lambda::Function
+    Properties:
+      Role: !GetAtt FunctionExecutionRole.Arn
+      Handler: index.handler
+      ## Environment Configuration Goes Here
+      Runtime: python3.7
+      Code:
+        ZipFile: |
+          import os
+          def handler(event, context):
+              RDS_HOSTNAME=os.getenv('RDS_HOSTNAME')
+              RDS_PORT=os.getenv('RDS_PORT')
+              return "Database: {}:{}".format(RDS_HOSTNAME,RDS_PORT)
