@@ -235,7 +235,7 @@ Next, navigate to the AWS CloudFormation [console](https://console.aws.amazon.co
 * In **Prepare template**, select **Replace current template**.
 * In **Template source**, select **Upload a template file**.
 * Choose the `condition-resource.yaml` template.
-* You can leave the value of `EnvType` parameter as `prod`. Choose **Next**.
+* `EnvType` should already be set to `prod`. Choose **Next**.
 * Choose to accept default values in the **Configure stack options** page. Choose **Next**.
 * Choose **Update stack**. You can view the progress of the stack being created in the CloudFormation console.
 * Wait until the stack creation is complete. Refresh the view in the console until you see your stack to be in the `UPDATE_COMPLETE` status.
