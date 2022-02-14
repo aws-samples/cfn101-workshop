@@ -250,7 +250,7 @@ The full solution is also available in the `code/solutions/conditions/condition-
 
 ### Cleanup
 
-Follow these steps to clean up created resources:
+Follow steps shown next to clean up resources you created in this lab:
 
 * In the CloudFormation console, select the stack you have created in this lab. For example: `cfn-workshop-condition-test` .
 * Choose **Delete** to delete the stack you created in this lab, and then choose **Delete stack** to confirm.
