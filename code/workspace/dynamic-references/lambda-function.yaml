@@ -1,5 +1,5 @@
 AWSTemplateFormatVersion: "2010-09-09"
-Description: AWS CloudFormation workshop - Dynamic References (uksb-1q9p31idr)
+Description: AWS CloudFormation workshop - Dynamic references - Lambda function (uksb-1q9p31idr)
 Resources:
   FunctionExecutionRole:
     Type: AWS::IAM::Role
