@@ -2,6 +2,11 @@ AWSTemplateFormatVersion: "2010-09-09"
 
 Description: AWS CloudFormation workshop - Dynamic references - Database template (uksb-1q9p31idr)
 
+Metadata:
+  cfn_nag:
+    rules_to_suppress:
+      - id: F80
+
 Parameters:
   DBUsername:
     Description: Username for Database Access
@@ -31,6 +36,8 @@ Resources:
       EngineVersion: 8.0.26
       MasterUsername: !Ref DBUsername
       MasterUserPassword: !Ref DBPassword
+      PubliclyAccessible: false
+      StorageEncrypted: true
 
   DatabaseConnParams:
     Type: AWS::SecretsManager::Secret
