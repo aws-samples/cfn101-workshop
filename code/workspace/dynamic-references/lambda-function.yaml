@@ -26,7 +26,6 @@ Resources:
       Code:
         ZipFile: |
           import os
-
           def handler(event, context):
               RDS_HOSTNAME=os.getenv('RDS_HOSTNAME')
               RDS_PORT=os.getenv('RDS_PORT')

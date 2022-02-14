@@ -211,9 +211,8 @@ $ aws ssm put-parameter \
       Runtime: python3.7
       MemorySize: '{{resolve:ssm:/lambda/memory-size:1}}'
       Code:
-        ZipFile: >
+        ZipFile: |
           import os
-
           def handler(event, context):
               return "Hello World!"
 ```
