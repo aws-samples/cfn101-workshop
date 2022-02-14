@@ -2,11 +2,6 @@ AWSTemplateFormatVersion: "2010-09-09"
 
 Description: AWS CloudFormation workshop - Dynamic references - Database template (uksb-1q9p31idr)
 
-Metadata:
-  cfn_nag:
-    rules_to_suppress:
-      - id: F80
-
 Parameters:
   DBUsername:
     Description: Username for Database Access
@@ -28,6 +23,10 @@ Parameters:
 
 Resources:
   Database:
+    Metadata:
+      cfn_nag:
+        rules_to_suppress:
+          - id: F80
     Type: AWS::RDS::DBInstance
     Properties:
       DBInstanceClass: db.t2.micro
