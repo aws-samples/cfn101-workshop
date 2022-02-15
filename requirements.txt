@@ -1,1 +1,5 @@
+awscli
+boto3
+bump2version
 cfn_lint
+pre-commit
