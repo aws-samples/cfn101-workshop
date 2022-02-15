@@ -21,9 +21,6 @@ brew install python
 # install VirtualEnv
 pip3 install virtualenv
 
-# install pre-commit
-brew install pre-commit
-
 # install hugo
 brew install hugo
 
