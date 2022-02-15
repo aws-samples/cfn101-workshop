@@ -27,7 +27,7 @@ $(VENV_NAME)/bin/activate: requirements.txt
 	$(PYTHON) -m pip install -Ur requirements.txt
 	touch $(VENV_NAME)/bin/activate
 
-pre-commit:
+pre-commit: $(VENV_NAME)
 	$(VENV_NAME)/bin/pre-commit install
 
 # Tests
