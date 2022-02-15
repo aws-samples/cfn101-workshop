@@ -18,7 +18,7 @@ In the [code/solutions](code/solutions), you can find the completed solution for
 reference, in case you get stuck or things don't work as intended.
 
 ## Local development
-To set up local development environment, please follow the instructions in
+To set-up a local development environment for changing the workshop, please follow the instructions in
 [local development](docs/LOCAL_DEVELOPMENT.md) file.
 
 ## Contributing

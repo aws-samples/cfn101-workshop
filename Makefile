@@ -27,11 +27,11 @@ $(VENV_NAME)/bin/activate: requirements.txt
 	$(PYTHON) -m pip install -Ur requirements.txt
 	touch $(VENV_NAME)/bin/activate
 
-pre-commit:
-	. $(VENV_NAME)/bin/activate && $(VENV_NAME)/bin/pre-commit install
+pre-commit: $(VENV_NAME)
+	$(VENV_NAME)/bin/pre-commit install
 
 # Tests
-test:
+test: $(VENV_NAME)
 	$(VENV_NAME)/bin/pre-commit run --all-files
 
 lint:
