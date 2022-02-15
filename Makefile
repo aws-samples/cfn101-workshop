@@ -41,8 +41,8 @@ nag:
 	cfn_nag_scan --input-path code/solutions --ignore-fatal
 
 # Versioning and releases
-version:
-	@bumpversion $(part)
+version: $(VENV_NAME)
+	@$(VENV_NAME)/bin/bumpversion $(part)
 
 release:
 	@TAG_VERSION=$(shell bumpversion --dry-run --list .bumpversion.cfg | grep current_version | sed s/'^.*='//); \
