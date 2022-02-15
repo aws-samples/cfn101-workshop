@@ -50,5 +50,5 @@ release:
 
 # Cleanup VirtualEnv
 clean:
-	rm -rf $(VENV_NAME)
+	rm -rf "$(VENV_NAME)"
 	find . -iname "*.pyc" -delete
