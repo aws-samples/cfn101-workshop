@@ -31,7 +31,7 @@ pre-commit: $(VENV_NAME)
 	$(VENV_NAME)/bin/pre-commit install
 
 # Tests
-test:
+test: $(VENV_NAME)
 	$(VENV_NAME)/bin/pre-commit run --all-files
 
 lint:
