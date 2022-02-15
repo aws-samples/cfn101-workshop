@@ -14,7 +14,7 @@ well as the code used to build it.
 
 The working directory is located in [code/workspace](code/workspace) where you can follow along and write your code to.
 
-In the [code/solutions](code/solutions), you can find final template for each lab. This can be used as a reference,
+In the [code/solutions](code/solutions), you can find the finished template for each lab. This can be used as a reference,
 in case you get stuck and things don't work the way they should.
 
 ## Local development
