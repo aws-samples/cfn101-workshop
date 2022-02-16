@@ -210,7 +210,7 @@ When you will delete your stack, CloudFormation follows creation order in revers
 You should have received an email, sent to the email address you provided, for you to confirm the subscription to the SNS topic you created. Choose to follow the subscription link in the subscription confirmation email you received for the topic you created, to subscribe to your topic: otherwise, when you delete the stack, the subscription will be left in pending state and will not be deleted from your account. For more information, see [Deleting an Amazon SNS subscription and topic](https://docs.aws.amazon.com/sns/latest/dg/sns-delete-subscription-topic.html).
 {{% /notice %}}
 
-Kudos! You have now learned how CloudFormation automatically handles resource creation order when you define resource dependencies with `Ref` or `Fn::GetAtt`.
+Congratulations! You have now learned how CloudFormation handles the resource creation order when you define resource dependencies with `Ref` or `Fn::GetAtt`.
 
 
 ### Challenge
