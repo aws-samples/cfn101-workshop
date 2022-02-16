@@ -244,7 +244,7 @@ To get started, refer to the `resource-dependencies-challenge.yaml` template in 
         - !Ref InstanceSecurityGroup
 ```
 
-* Since there is no dependency between the EC2 instance and S3 bucket, use the `DependsOn` attribute, and provide the EC2 instance logical ID as a value for the `DependsOn` attribute.
+* Since there is no dependency between the EC2 instance and the S3 bucket, use the `DependsOn` attribute in the S3 bucket resource, and provide the EC2 instance's logical ID as a value for the `DependsOn` attribute.
 * Add the `DependsOn` attribute for the S3 bucket resource as shown next:
 
 ```yaml
