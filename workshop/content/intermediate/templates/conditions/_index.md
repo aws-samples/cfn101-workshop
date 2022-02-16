@@ -55,13 +55,14 @@ Parameters:
   LatestAmiId:
     Type: AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>
     Default: /aws/service/ami-amazon-linux-latest/amzn2-ami-hvm-x86_64-gp2
+
   EnvType:
     Description: Specify the Environment type of the stack.
     Type: String
-    Default: test
     AllowedValues:
       - test
       - prod
+    Default: test
     ConstraintDescription: Specify either test or prod.
 ```
 Next, describe `IsProduction`, an example condition in the `Conditions` section of your [template.](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/template-anatomy.html) In this condition, you evaluate if the `EnvType` parameter value equals to `prod`.
@@ -71,8 +72,8 @@ Append the following content to the existing file content:
 ```yaml
 Conditions:
   IsProduction: !Equals
-   - !Ref EnvType
-   - prod
+    - !Ref EnvType
+    - prod
 ```
 Next, associate conditions to resources you want to conditionally provision based on the `IsProduction` condition. In the following example, you associate the `Volume` and `MountPoint` resources with `IsProduction`. Therefore, these resources are created only when the `IsProduction` condition is true: that is, if the `EnvType` parameter value is equal to `prod`. Otherwise, only the EC2 instance resource will be provisioned.
 
@@ -85,20 +86,22 @@ Resources:
     Properties:
       ImageId: !Ref LatestAmiId
       InstanceType: t2.micro
+
   MountPoint:
     Type: AWS::EC2::VolumeAttachment
-    Condition: IsProduction
     Properties:
       InstanceId: !Ref EC2Instance
       VolumeId: !Ref Volume
       Device: /dev/sdh
+    Condition: IsProduction
+
   Volume:
     Type: AWS::EC2::Volume
-    Condition: IsProduction
     Properties:
       Size: 2
       AvailabilityZone: !GetAtt EC2Instance.AvailabilityZone
       Encrypted: true
+    Condition: IsProduction
 ```
 
 Let’s deploy the solution!
@@ -155,19 +158,20 @@ Parameters:
   LatestAmiId:
     Type: AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>
     Default: /aws/service/ami-amazon-linux-latest/amzn2-ami-hvm-x86_64-gp2
+
   EnvType:
     Description: Specify the Environment type of the stack.
     Type: String
-    Default: test
     AllowedValues:
       - test
       - prod
+    Default: test
     ConstraintDescription: Specify either test or prod.
 
 Conditions:
   IsProduction: !Equals
-   - !Ref EnvType
-   - prod
+    - !Ref EnvType
+    - prod
 ```
 
 Next, let’s wire up the `IsProduction` condition to conditionally specify a property values. In this example, you use the `Fn::if` [intrinsic function](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference-conditions.html#intrinsic-function-reference-conditions-if), in its YAML short form, to evaluate if the `IsProduction` condition is true: if that is the case, the `t2.small` property value will be used for `InstanceType`; otherwise, `t2.micro` will be used if the condition is false. Copy and append the following code to the template:
