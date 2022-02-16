@@ -14,7 +14,7 @@ In this lab, you will learn how to use the `DependsOn` [attribute](https://docs.
 
 ### Topics Covered
 
-By the end of this lab, you will be able to to:
+By the end of this lab, you will be able to:
 
 * Understand the usage of the `DependsOn` [resource attribute](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-attribute-dependson.html) to explicitly define resource creation order.
 * Learn how to use `Ref` and `Fn::GetAtt` [intrinsic functions](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference.html) to automatically create dependencies between resources you describe in a template.
