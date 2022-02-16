@@ -10,7 +10,7 @@ You use [AWS CloudFormation](https://aws.amazon.com/cloudformation/) to provisio
 
 If there are no dependencies between resources you define in a template, CloudFormation initiates the creation of all resources in parallel. There are cases where you either want to, or are [required](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-attribute-dependson.html#gatewayattachment) to define the order in which resources will be created: in these cases, CloudFormation creates some resources before other ones.
 
-In this lab, you will learn how to use the `DependsOn` [attribute](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-attribute-dependson.html) to explicitly define resource creation order, and also `Ref` and `Fn::GetAtt` [intrinsic functions](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference.html) to have CloudFormation handle the creation order when there are dependencies established.
+In this lab, you will learn how to use the `DependsOn` [attribute](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-attribute-dependson.html) to explicitly define resource creation order. You will also learn how to use `Ref` and `Fn::GetAtt` [intrinsic functions](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference.html) to have CloudFormation handle the creation order when there are dependencies established.
 
 ### Topics Covered
 
