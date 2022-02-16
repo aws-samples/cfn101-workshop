@@ -35,7 +35,7 @@ In this part of the lab, you will:
 
 Let’s now see how CloudFormation handles the resource creation order when there are no dependencies between resources.
 
-In the template excerpt shown next, note the two resources an [Amazon Simple Storage Service](https://aws.amazon.com/s3/) (S3 [Bucket](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-s3-bucket.html)) and an [Amazon Simple Notification Service](https://aws.amazon.com/sns/) (SNS [Topic](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-sns-topic.html)): both resources have no dependencies defined between each other:
+Note the two resources in the template excerpt shown next: an [Amazon Simple Storage Service](https://aws.amazon.com/s3/) (Amazon S3) [bucket](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-s3-bucket.html), and an [Amazon Simple Notification Service](https://aws.amazon.com/sns/) (Amazon SNS) [topic](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-sns-topic.html). Both resources have no dependencies defined between each other.
 
 Paste the contents of the below template snippet in the `resource-dependencies-without-dependson.yaml` file. Next, you will create a stack and review the stack events to see in which order resources will be created.
 
