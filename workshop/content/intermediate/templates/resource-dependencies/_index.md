@@ -231,7 +231,7 @@ To get started, refer to the `resource-dependencies-challenge.yaml` template in 
 
 {{%expand "Want to see the solution?" %}}
 
-* Reference the security group resource LogicalID in EC2 instance resource properties as a list under `SecurityGroups` using the `Ref` intrinsic function. Doing this CloudFormation automatically waits for the security group to be created first, and then initiates the EC2 instance creation.
+* Reference the Security Group's logical ID as a list under the `SecurityGroups` EC2 instance resource property, by using the `Ref` intrinsic function. CloudFormation should then wait for the Security Group to be created first, and then initiates the EC2 instance creation.
 * Modify the EC2 instance resource definition as shown next:
 
 ```yaml
