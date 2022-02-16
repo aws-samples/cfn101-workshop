@@ -1,0 +1,11 @@
+AWSTemplateFormatVersion: "2010-09-09"
+
+Description: AWS CloudFormation workshop - Dynamic references - EC2 template (uksb-1q9p31idr)
+
+Resources:
+  Instance:
+    Type: AWS::EC2::Instance
+    Properties:
+      AvailabilityZone: !Select ["0", !GetAZs ""]
+      InstanceType: t2.micro
+      ImageId: '{{resolve:ssm:/golden-images/amazon-linux-2}}'
