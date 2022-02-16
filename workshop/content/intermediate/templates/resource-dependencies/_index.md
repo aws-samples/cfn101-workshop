@@ -29,7 +29,7 @@ By the end of this lab, you will be able to:
 
 In this part of the lab, you will:
 
-* Learn how CloudFormation handles resource creation order when there is no dependency defined.
+* Learn how CloudFormation handles resource creation order when no dependencies are defined.
 * Learn how you can explicitly define resource creation order.
 
 
