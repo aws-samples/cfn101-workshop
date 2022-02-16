@@ -6,7 +6,7 @@ weight: 200
 
 ### Overview
 
-You use [AWS CloudFormation](https://aws.amazon.com/cloudformation/) to provision resources programmatically by describing resources in your templates. When you do so, there are cases where one resource depends on another. For example, an [Amazon EC2](https://aws.amazon.com/ec2/) instance depends on a Security Group that you wish to use for your EC2 instance, you describe both resources in a way that you reference the Security Group in the EC2 instance, so that your CloudFormation stack creates the Security Group first, and your EC2 instance next.
+You use [AWS CloudFormation](https://aws.amazon.com/cloudformation/) to programmatically provision resources you describe in your templates. There are cases where a resource depends on one or more resources; for example, an [Amazon Elastic Compute Cloud](https://aws.amazon.com/ec2/) (Amazon EC2) instance depends on a Security Group that you wish to use for your EC2 instance: you describe both resources in a way that you reference the Security Group in the EC2 instance, so that your CloudFormation stack creates the Security Group first, and your EC2 instance next.
 
 If there are no dependencies between resources you define in a template, CloudFormation initiates the creation of all resources in parallel. There are cases where you either want to, or are [required](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-attribute-dependson.html#gatewayattachment) to define the order in which resources will be created: in these cases, CloudFormation creates some resources before other ones.
 
