@@ -204,7 +204,7 @@ Once the stack is created, your stack events should look like in the following s
 
 Let’s review stack events for your `resource-dependencies-lab-ref-getatt` stack. Note the creation of `SNSTopic` and `SecurityGroup` resources started in parallel, as both resources had no dependencies between each other. Also, note the `SecurityGroupIngress` resource creation started only after the `SecurityGroup` resource was in the `CREATE_COMPLETE` status, and the `SNSTopicSubscription` creation started after the `SNSTopic` resource was successfully created.
 
-When you delete your stack, CloudFormation follows creation order in reverse: in this case, for example, `SNSTopicSubscription` and `SecurityGroupIngress` resources will be deleted first, followed by `SecurityGroup` and `SNSTopic`.
+When you will delete your stack, CloudFormation follows creation order in reverse: in this case, for example, `SNSTopicSubscription` and `SecurityGroupIngress` resources will be deleted first, followed by `SecurityGroup` and `SNSTopic`.
 
 {{% notice note %}}
 As part of the stack creation, you should have received an email for the email address you provided for the SNS subscription, to confirm the topic subscription. Please choose the **Confirm subscription** option in the email you received, to successfully subscribe to the SNS topic: doing this is important because when you delete the stack, CloudFormation will not be able to delete subscriptions that are in pending state.
