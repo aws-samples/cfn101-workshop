@@ -68,7 +68,7 @@ Use the AWS CloudFormation Console to [create a stack](https://docs.aws.amazon.c
 2. From **Create stack**, choose **With new resources (standard)**.
 3. Choose the **Template is ready** option. From **Specify template**, choose **Upload a template file**. Upload the `resource-dependencies-without-dependson.yaml` template, and choose **Next**.
 4. Enter a stack name. For example, `resource-dependencies-lab`.
-5. In the **Parameters** section, provide unique values for `BucketName` and `SNSTopicName` parameters. When ready, choose **Next**.
+5. In the **Parameters** section, provide unique values for `BucketName` and `SNSTopicName` parameters. For more information, see [Bucket naming rules](https://docs.aws.amazon.com/AmazonS3/latest/userguide/bucketnamingrules.html). When ready, choose **Next**.
 6. Choose to accept default values on the **Configure stack options** page; scroll to the bottom of the page, and choose **Next**.
 7. In the **Review** page, scroll to the bottom and choose **Create stack**.
 
