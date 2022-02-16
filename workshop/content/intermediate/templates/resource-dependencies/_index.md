@@ -207,7 +207,7 @@ Let’s review stack events for your `resource-dependencies-lab-ref-getatt` stac
 When you will delete your stack, CloudFormation follows creation order in reverse: in this case, for example, `SNSTopicSubscription` and `SecurityGroupIngress` resources will be deleted first, followed by `SecurityGroup` and `SNSTopic`.
 
 {{% notice note %}}
-As part of the stack creation, you should have received an email for the email address you provided for the SNS subscription, to confirm the topic subscription. Please choose the **Confirm subscription** option in the email you received, to successfully subscribe to the SNS topic: doing this is important because when you delete the stack, CloudFormation will not be able to delete subscriptions that are in pending state.
+You should have received an email, sent to the email address you provided, for you to confirm the subscription to the SNS topic you created. Choose to follow the subscription link in the subscription confirmation email you received for the topic you created, to subscribe to your topic: otherwise, when you delete the stack, the subscription will be left in pending state and will not be deleted from your account. For more information, see [Deleting an Amazon SNS subscription and topic](https://docs.aws.amazon.com/sns/latest/dg/sns-delete-subscription-topic.html).
 {{% /notice %}}
 
 Kudos! You have now learned how CloudFormation automatically handles resource creation order when you define resource dependencies with `Ref` or `Fn::GetAtt`.
