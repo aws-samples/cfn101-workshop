@@ -117,7 +117,7 @@ This time, your stack events should look different:
 
 ![resource-dependencies-lab-dependson.png](resource-dependencies/resource-dependencies-lab-dependson.png)
 
-Now, let’s review the stack events for your new stack. You added the `DependsOn` attribute to the SNS topic resource in the template, and specified the logical ID of the S3 bucket resource. This resulted in CloudFormation creating the `S3Bucket` resource first, and the `SNSTopic` resource next. Note that when you will delete the stack, the resource that was created first will be the last one to be deleted.
+Now, let’s review the stack events for your new stack. You added the `DependsOn` attribute to the Amazon SNS topic resource in the template, and specified the logical ID of the S3 bucket resource. This resulted in CloudFormation creating the `S3Bucket` resource first, and the `SNSTopic` resource next. Note that when you will delete the stack, the resource that was created first will be the last one to be deleted.
 
 
 Congratulations! You have now learned how to explicitly define resource creation order using the `DependsOn` attribute.
