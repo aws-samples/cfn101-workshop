@@ -219,7 +219,7 @@ In this section of the lab, you are tasked with updating an existing, example te
 
 * Security Group resource creation is initiated.
 * Once your Security Group is marked as `CREATE_COMPLETE`, the EC2 instance resource creation starts.
-* After successful completion of the EC2 instance resource creation, CloudFormation should initiate the creation of S3 bucket.
+* After successful creation of your EC2 instance, CloudFormation starts the creation of your S3 bucket.
 
 To get started, refer to the `resource-dependencies-challenge.yaml` template in the `code/workspace/resource-dependencies` directory: you will need to establish the resource dependencies as needed. Follow the above procedure to define the dependency, and verify stack events match the above series.
 
