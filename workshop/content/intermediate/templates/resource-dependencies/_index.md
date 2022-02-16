@@ -256,6 +256,8 @@ To get started, refer to the `resource-dependencies-challenge.yaml` template in 
 ```
 {{% /expand %}}
 
+Create a new stack, called `resource-dependencies-challenge`, with your updated `resource-dependencies-challenge.yaml` template, and verify stack events are shown as in the sequence mentioned earlier.
+
 The full solution for this challenge is available in the `code/solutions/resource-dependencies/resource-dependencies-challenge.yaml` template.
 
 ### Cleanup
