@@ -198,7 +198,7 @@ Let’s create a stack, and verify this is the expected behavior. Use the AWS Cl
 7. In the review page, scroll to the bottom and choose **Create stack**.
 
 
-Once the stack is created, your stack events should look like in the following screenshot:
+Once the stack is created, your stack events should look like in the following example:
 
 ![resource-dependencies-lab-ref-getatt.png](resource-dependencies/resource-dependencies-lab-ref-getatt.png)
 
