@@ -218,7 +218,7 @@ Congratulations! You have now learned how CloudFormation handles the resource cr
 In this section of the lab, you are tasked with updating an existing, example template that describes an [EC2 instance](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-instance.html), a [security group](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-security-group.html), and an [S3 bucket](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-s3-bucket.html). You will need to reference the security group's logical ID in the `SecurityGroups` property of the EC2 instance resource. Also, choose to have CloudFormation initiate the S3 bucket resource creation only after the EC2 instance resource is created successfully. If you design the template correctly, as per example requirements above, you should be able to observe stack events to be as follows:
 
 * Security Group resource creation is initiated.
-* Once the security group is marked as `CREATE_COMPLETE`, the EC2 instance resource creation starts.
+* Once your Security Group is marked as `CREATE_COMPLETE`, the EC2 instance resource creation starts.
 * After successful completion of the EC2 instance resource creation, CloudFormation should initiate the creation of S3 bucket.
 
 To get started, refer to the `resource-dependencies-challenge.yaml` template in the `code/workspace/resource-dependencies` directory: you will need to establish the resource dependencies as needed. Follow the above procedure to define the dependency, and verify stack events match the above series.
