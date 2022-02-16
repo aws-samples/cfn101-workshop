@@ -266,7 +266,7 @@ You should now have an EC2 instance you created using CloudFormation: to reprodu
 
 When you change the instance type, this causes [some interruptions](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-updating-stacks-update-behaviors.html#update-some-interrupt), such as the instance will stop and start again. For more information on resizing instances, see [Change the instance type](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instance-resize.html).
 
-Your task is to match the instance type for the instance in your stack with the actual configuration on the instance (`t2.micro`), without having some interruptions.
+Your task is to reconcile the instance type value, that in your stack is currently set to `t2.nano`, with the new, actual instance configuration setting - `t2.micro` - made out of band, without making additional changes to the `InstanceType` property when you update the stack.
 
 {{%expand "Need a hint?" %}}
 * Think about a way to use concepts you learned in Lab part 3.
