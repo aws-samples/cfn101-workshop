@@ -186,7 +186,7 @@ There are four resources in the template snippet you pasted into your template: 
 * Once the `SecurityGroup` resource is in `CREATE_COMPLETE` status, the creation of `SecurityGroupIngress` will start. Similarly, after the creation of `SNSTopic`**,** the `SNSTopicSubscription` resource creation will be initiated.
 * Note that there are no dependencies between `SNSTopic` and `SecurityGroup` resources: this means that CloudFormation initiates the creation of both these resources in parallel.
 
-Let’s create a stack, and verify this is the behavior you expect. Use the AWS CloudFormation Console to [create a stack](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/cfn-console-create-stack.html) using the `resource-dependency-with-intrinsic-functions.yaml` template:
+Let’s create a stack, and verify this is the expected behavior. Use the AWS CloudFormation Console to [create a stack](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/cfn-console-create-stack.html) using the `resource-dependency-with-intrinsic-functions.yaml` template:
 
 
 1. Navigate to the [AWS CloudFormation Console](https://console.aws.amazon.com/cloudformation/).
