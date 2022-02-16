@@ -225,7 +225,8 @@ To get started, open the `resource-dependencies-challenge.yaml` template, that y
 
 {{%expand "Need a hint?" %}}
 
-* How can you [reference](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference.html) the security group for your instance?
+* How can you [reference](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference.html) your security group in the `SecurityGroups` [property](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-instance.html#cfn-ec2-instance-securitygroups) of your EC2 instance?
+* When you reference your security group, also note that the `Type` of the `SecurityGroups` property value is a _List of String_. How do you represent this value in YAML format?
 * How can you [specify](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-attribute-dependson.html) that the creation of a resource should follow another resource?
 {{% /expand %}}
 
