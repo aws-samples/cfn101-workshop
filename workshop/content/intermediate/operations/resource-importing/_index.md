@@ -281,9 +281,9 @@ Your task is to reconcile the instance type value, that in your stack is current
 ```yaml
 Parameters:
   LatestAmiId:
+    Description: Fetching the latest AMI ID for Amazon Linux
     Type: AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>
     Default: /aws/service/ami-amazon-linux-latest/amzn2-ami-hvm-x86_64-gp2
-    Description: Fetching the latest AMI ID for Amazon Linux
   InstanceType:
     Description: Select the type of the EC2 instance.
     Type: String
