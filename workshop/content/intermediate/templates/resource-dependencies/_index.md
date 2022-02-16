@@ -33,7 +33,7 @@ In this part of the lab, you will:
 * Learn how you can explicitly define resource creation order.
 
 
-Let’s now see how CloudFormation handles resource creation order when there are no dependencies between resources.
+Let’s now see how CloudFormation handles the resource creation order when there are no dependencies between resources.
 
 In the template excerpt shown next, note the two resources an [Amazon Simple Storage Service](https://aws.amazon.com/s3/) (S3 [Bucket](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-s3-bucket.html)) and an [Amazon Simple Notification Service](https://aws.amazon.com/sns/) (SNS [Topic](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-sns-topic.html)): both resources have no dependencies defined between each other:
 
