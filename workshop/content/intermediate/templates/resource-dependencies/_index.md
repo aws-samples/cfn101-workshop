@@ -125,7 +125,7 @@ Congratulations! You have now learned how to explicitly define resource creation
 
 #### Lab 2
 
-In this lab, you will learn how CloudFormation handles resource dependencies when you describe a resource property that references the return value of another resource. You reference resource return values with intrinsic functions such as `Ref` or `Fn::GetAtt`, depending on your use case. As an example, see which available output values are available for an SNS [topic](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-sns-topic.html#aws-properties-sns-topic-return-values) and for an S3 [bucket](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-s3-bucket.html#aws-resource-s3-bucket-return-values).
+In this lab, you will learn how CloudFormation handles resource dependencies when you describe a resource property that references the return value of another resource. You reference resource return values with intrinsic functions such as `Ref` or `Fn::GetAtt`, depending on your use case. As an example, see which available output values are available for an Amazon SNS [topic](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-sns-topic.html#aws-properties-sns-topic-return-values) and for an S3 [bucket](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-s3-bucket.html#aws-resource-s3-bucket-return-values).
 
 Let’s create a stack, and see the resource creation order in action!
 
