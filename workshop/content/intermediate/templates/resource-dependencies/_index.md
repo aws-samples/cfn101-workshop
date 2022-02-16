@@ -111,7 +111,7 @@ Resources:
 ```
 
 
-Follow the same procedure as above to create a new stack using `resource-dependencies-with-dependson.yaml`  template file. Make sure to provide a different stack name this time, for example `resource-dependencies-lab-dependson`. Provide unique values for `BucketName` and `SNSTopicName` parameters, and create the stack.
+Follow the same steps as above to create a new stack using the `resource-dependencies-with-dependson.yaml` template file. Make sure to provide a different stack name, for example `resource-dependencies-lab-dependson`. Provide unique values for `BucketName` and `SNSTopicName` parameters, and create the stack.
 
 This time, your stack events should look different:
 
