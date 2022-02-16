@@ -145,7 +145,7 @@ Parameters:
     Description: Enter an email address to subscribe to SNS topic.
     Type: String
 
-  SecuirtyGroupName:
+  SecurityGroupName:
     Description: Enter a name for security group
     Type: String
 
