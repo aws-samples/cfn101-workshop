@@ -268,7 +268,6 @@ Follow the steps below to [delete the stacks](https://docs.aws.amazon.com/AWSClo
 2. On the **Stacks** page in the CloudFormation console, select the `resource-dependencies-lab` stack.
 3. In the stack details pane, choose **Delete** to delete the stack, and then choose **Delete stack** to confirm.
 4. Repeat steps above to delete the other two stacks you created: `resource-dependencies-lab-dependson` and `resource-dependencies-lab-ref-getatt`.
-5. Make sure to delete the stack created as part of the challenge lab.
 
 ### Conclusion
 
