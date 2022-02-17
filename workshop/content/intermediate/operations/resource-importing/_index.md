@@ -153,7 +153,7 @@ In this part of the lab, you will learn how to [move resources between stacks](h
 9. To confirm the removal of `SNSTopic1` resource from the stack, select the `resource-importing` stack and choose **Resources**. You should see only one resource: `SNSTopic2`.
 
 
-Choose to import the `SNSTopic1` resource into a new stack::
+Choose to import the `SNSTopic1` resource into a new stack:
 
 1. Make sure you are in the `code/workspace/resource-importing` directory.
 2. Open the `moving-resources.yaml` template file with your favorite text editor.
