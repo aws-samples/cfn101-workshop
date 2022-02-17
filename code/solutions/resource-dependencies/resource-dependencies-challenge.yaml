@@ -3,10 +3,6 @@ AWSTemplateFormatVersion: "2010-09-09"
 Description: AWS CloudFormation workshop - Resource Dependencies Challenge Lab (uksb-1q9p31idr).
 
 Parameters:
-  S3BucketName:
-    Description: Enter a unique name for S3 bucket.
-    Type: String
-
   LatestAmiId:
     Type: AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>
     Default: /aws/service/ami-amazon-linux-latest/amzn2-ami-hvm-x86_64-gp2
@@ -39,4 +35,6 @@ Resources:
     Type: AWS::S3::Bucket
     DependsOn: Ec2Instance
     Properties:
-      BucketName: !Ref S3BucketName
+      Tags:
+        - Key: Name
+          Value: Resource-dependencies-workshop

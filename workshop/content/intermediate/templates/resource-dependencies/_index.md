@@ -6,7 +6,7 @@ weight: 200
 
 ### Overview
 
-You use [AWS CloudFormation](https://aws.amazon.com/cloudformation/) to programmatically provision resources you describe in your templates. There are cases where a resource depends on one or more resources; for example, an [Amazon Elastic Compute Cloud](https://aws.amazon.com/ec2/) (Amazon EC2) instance depends on a Security Group that you wish to use for your EC2 instance: you describe both resources in a way that you reference the Security Group in the EC2 instance, so that your CloudFormation stack creates the Security Group first, and your EC2 instance next.
+You use [AWS CloudFormation](https://aws.amazon.com/cloudformation/) to programmatically provision resources you describe in your templates. There are cases where a resource depends on one or more resources; for example, an [Amazon Elastic Compute Cloud](https://aws.amazon.com/ec2/) (Amazon EC2) instance depends on a Security Group that you wish to use for your Amazon EC2 instance: you describe both resources in a way that you reference the Security Group in the EC2 instance, so that your CloudFormation stack creates the Security Group first, and your Amazon EC2 instance next.
 
 If there are no dependencies between resources you define in a template, CloudFormation initiates the creation of all resources in parallel. There are cases where you either want to, or are [required](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-attribute-dependson.html#gatewayattachment) to define the order in which resources will be created: in these cases, CloudFormation creates some resources before other ones.
 
@@ -37,28 +37,27 @@ Let’s now see how CloudFormation handles the resource creation order when ther
 
 Note the two resources in the template excerpt shown next: an [Amazon Simple Storage Service](https://aws.amazon.com/s3/) (Amazon S3) [bucket](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-s3-bucket.html), and an [Amazon Simple Notification Service](https://aws.amazon.com/sns/) (Amazon SNS) [topic](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-sns-topic.html). Both resources have no dependencies defined between each other.
 
+{{% notice note %}}
+For the two resources Amazon S3 bucket and Amazon SNS topic described in the template, there is no `BucketName` [property](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-s3-bucket.html#cfn-s3-bucket-bucketname) provided for Amazon S3 bucket resource and `TopicName` [property](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-sns-topic.html#cfn-sns-topic-topicname) is not mentioned for Amazon SNS topic, so that CloudFormation automatically creates uniques names for the resources. This is to avoid any name conflicts between already existing resources.
+{{% /notice %}}
+
 Copy and append the example content shown next to the `resource-dependencies-without-dependson.yaml` file. Next, you will create a stack, and review stack events to see in which order resources will be created.
 
 ```yaml
-Parameters:
-  BucketName:
-    Description: Enter a unique name for S3 bucket.
-    Type: String
-
-  SNSTopicName:
-    Description: Enter a name for SNS topic.
-    Type: String
-
 Resources:
   S3Bucket:
     Type: AWS::S3::Bucket
     Properties:
-      BucketName: !Ref BucketName
+      Tags:
+        - Key: Name
+          Value: Resource-dependencies-workshop
 
   SNSTopic:
     Type: AWS::SNS::Topic
     Properties:
-      TopicName: !Ref SNSTopicName
+      Tags:
+        - Key: Name
+          Value: Resource-dependencies-workshop
 ```
 
 Use the AWS CloudFormation Console to [create a stack](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/cfn-console-create-stack.html) using the `resource-dependencies-without-dependson.yaml` template:
@@ -67,10 +66,9 @@ Use the AWS CloudFormation Console to [create a stack](https://docs.aws.amazon.c
 1. Navigate to the [AWS CloudFormation Console](https://console.aws.amazon.com/cloudformation/).
 2. From **Create stack**, choose **With new resources (standard)**.
 3. Choose the **Template is ready** option. From **Specify template**, choose **Upload a template file**. Upload the `resource-dependencies-without-dependson.yaml` template, and choose **Next**.
-4. Enter a stack name. For example, `resource-dependencies-lab`.
-5. In the **Parameters** section, provide unique values for `BucketName` and `SNSTopicName` parameters. For more information, see [Bucket naming rules](https://docs.aws.amazon.com/AmazonS3/latest/userguide/bucketnamingrules.html). When ready, choose **Next**.
-6. Choose to accept default values on the **Configure stack options** page; scroll to the bottom of the page, and choose **Next**.
-7. In the **Review** page, scroll to the bottom and choose **Create stack**.
+4. Enter a stack name. For example, `resource-dependencies-lab`; When ready, choose **Next**.
+5. Choose to accept default values on the **Configure stack options** page; scroll to the bottom of the page, and choose **Next**.
+6. In the **Review** page, scroll to the bottom and choose **Create stack**.
 
 
 Refresh the page until you see the `CREATE_COMPLETE` status for your stack. Now, let’s review stack events, that should look similar to the image shown next:
@@ -79,7 +77,7 @@ Refresh the page until you see the `CREATE_COMPLETE` status for your stack. Now,
 
 Looking at stack events, you can see the creation of the `SNSTopic` and `S3Bucket` resources was initiated at the same time. Since there are no dependencies between the two resources, CloudFormation initiated the creation of both resources together.
 
-Now, think of an example scenario where you want the S3 bucket to be created first, and only after the bucket is successfully created, the creation of your Amazon SNS topic should start. This is where the use of the `DependsOn` attribute comes into play: you explicitly define the dependency on the `SNSTopic` resource, and provide the logical ID of the S3 bucket resource (i.e.,`S3Bucket` in the example above) as a value. In doing so, CloudFormation will wait for the S3 bucket creation to be completed before initiating the creation of the topic. Let’s take a look!
+Now, think of an example scenario where you want the Amazon S3 bucket to be created first, and only after the bucket is successfully created, the creation of your Amazon SNS topic should start. This is where the use of the `DependsOn` attribute comes into play: you explicitly define the dependency on the `SNSTopic` resource, and provide the logical ID of the Amazon S3 bucket resource (i.e.,`S3Bucket` in the example above) as a value. In doing so, CloudFormation will wait for the S3 bucket creation to be completed before initiating the creation of the topic. Let’s take a look!
 
 * Make sure you are in the directory: `code/workspace/resource-dependencies`.
 * Open the `resource-dependencies-with-dependson.yaml` file.
@@ -88,30 +86,25 @@ Now, think of an example scenario where you want the S3 bucket to be created fir
 Copy and paste the template snippet shown next in the `resource-dependencies-with-dependson.yaml` file; in the next step, you will create a stack and review stack events:
 
 ```yaml
-Parameters:
-  BucketName:
-    Description: Enter a unique name for S3 bucket.
-    Type: String
-
-  SNSTopicName:
-    Description: Enter a name for SNS topic.
-    Type: String
-
 Resources:
   S3Bucket:
     Type: AWS::S3::Bucket
     Properties:
-      BucketName: !Ref BucketName
+      Tags:
+        - Key: Name
+          Value: Resource-dependencies-workshop
 
   SNSTopic:
     Type: AWS::SNS::Topic
     DependsOn: S3Bucket
     Properties:
-      TopicName: !Ref SNSTopicName
+      Tags:
+        - Key: Name
+          Value: Resource-dependencies-workshop
 ```
 
 
-Follow the same steps as above to create a new stack using the `resource-dependencies-with-dependson.yaml` template file. Make sure to provide a different stack name, for example `resource-dependencies-lab-dependson`. Provide unique values for `BucketName` and `SNSTopicName` parameters, and create the stack.
+Follow the same steps as above to create a new stack using the `resource-dependencies-with-dependson.yaml` template file. Make sure to provide a different stack name, for example `resource-dependencies-lab-dependson`, and create the stack.
 
 This time, your stack events should look different:
 
@@ -125,7 +118,7 @@ Congratulations! You have now learned how to explicitly define resource creation
 
 #### Lab 2
 
-In this lab, you will learn how CloudFormation handles resource dependencies when you describe a resource property that references the return value of another resource. You reference resource return values with intrinsic functions such as `Ref` or `Fn::GetAtt`, depending on your use case. As an example, see which available output values are available for an Amazon SNS [topic](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-sns-topic.html#aws-properties-sns-topic-return-values) and for an S3 [bucket](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-s3-bucket.html#aws-resource-s3-bucket-return-values).
+In this lab, you will learn how CloudFormation handles resource dependencies when you describe a resource property that references the return value of another resource. You reference resource return values with intrinsic functions such as `Ref` or `Fn::GetAtt`, depending on your use case. As an example, see which available output values are available for an Amazon SNS [topic](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-sns-topic.html#aws-properties-sns-topic-return-values) and for an Amazon S3 [bucket](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-s3-bucket.html#aws-resource-s3-bucket-return-values).
 
 Let’s create a stack, and see the resource creation order in action!
 
@@ -137,23 +130,17 @@ Paste the contents of the template snippet shown next in `resource-dependencies-
 
 ```yaml
 Parameters:
-  SNSTopicName:
-    Description: Enter a name for SNS topic.
-    Type: String
-
   EmailAddress:
-    Description: Enter an email address to subscribe to SNS topic.
-    Type: String
-
-  SecurityGroupName:
-    Description: Enter a name for security group
+    Description: Enter an email address to subscribe to an Amazon SNS topic.
     Type: String
 
 Resources:
   SNSTopic:
     Type: AWS::SNS::Topic
     Properties:
-      TopicName: !Ref SNSTopicName
+      Tags:
+        - Key: Name
+          Value: Resource-dependencies-workshop
 
   SNSTopicSubscription:
     Type: AWS::SNS::Subscription
@@ -166,7 +153,6 @@ Resources:
     Type: AWS::EC2::SecurityGroup
     Properties:
       GroupDescription: Security group for CloudFormation lab
-      GroupName: !Ref SecurityGroupName
 
   SecurityGroupIngress:
     Type: AWS::EC2::SecurityGroupIngress
@@ -193,7 +179,7 @@ Let’s create a stack, and verify this is the expected behavior. Use the AWS Cl
 2. From **Create stack**, choose **With new resources (standard)**.
 3. Choose the **Template is ready** option. From **Specify template**, choose **Upload a template file**. Upload the `resource-dependencies-with-intrinsic-functions.yaml` template, and choose **Next**.
 4. Enter a stack name. For example, `resource-dependencies-lab-ref-getatt`.
-5. In the **Parameters** section, provide a unique name for the Amazon SNS topic, an email address for Amazon SNS topic subscription, and a name for the security group; when ready, choose **Next**.
+5. In the **Parameters** section, provide an email address for Amazon SNS topic subscription; when ready, choose **Next**.
 6. Choose to accept default values on the **Configure stack options** page; scroll to the bottom of the page, and choose **Next**.
 7. In the review page, scroll to the bottom and choose **Create stack**.
 
@@ -215,25 +201,25 @@ Congratulations! You have now learned how CloudFormation handles the resource cr
 
 ### Challenge
 
-In this section of the lab, you are tasked with updating an existing, example template that describes an [EC2 instance](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-instance.html), a [security group](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-security-group.html), and an [S3 bucket](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-s3-bucket.html). You will need to reference the security group's logical ID in the `SecurityGroups` property of the EC2 instance resource. Also, choose to have CloudFormation initiate the S3 bucket resource creation only after the EC2 instance resource is created successfully. If you design the template correctly, as per example requirements above, you should be able to observe stack events to be as follows:
+In this section of the lab, you are tasked with updating an existing, example template that describes an Amazon EC2 [instance](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-instance.html), a [security group](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-security-group.html), and an Amazon S3 [bucket](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-s3-bucket.html). You will need to reference the security group's logical ID in the `SecurityGroups` property of the Amazon EC2 instance resource. Also, choose to have CloudFormation initiate the Amazon S3 bucket resource creation only after the Amazon EC2 instance resource is created successfully. If you design the template correctly, as per example requirements above, you should be able to observe stack events to be as follows:
 
 * CloudFormation starts the creation of the Security Group resource.
-* Once your Security Group is marked as `CREATE_COMPLETE`, the EC2 instance resource creation starts.
-* After successful creation of your EC2 instance, CloudFormation starts the creation of your S3 bucket.
+* Once your Security Group is marked as `CREATE_COMPLETE`, the Amazon EC2 instance resource creation starts.
+* After successful creation of your Amazon EC2 instance, CloudFormation starts the creation of your Amazon S3 bucket.
 
 To get started, open the `resource-dependencies-challenge.yaml` template, that you can find in the `code/workspace/resource-dependencies` directory, with your favorite code editor. Follow example requirements above, and establish resource dependencies where needed. When ready, create a new stack, called `resource-dependencies-challenge`, and verify stack events match the series described above.
 
 {{%expand "Need a hint?" %}}
 
-* How can you [reference](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference.html) your security group in the `SecurityGroups` [property](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-instance.html#cfn-ec2-instance-securitygroups) of your EC2 instance?
+* How can you [reference](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference.html) your security group in the `SecurityGroups` [property](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-instance.html#cfn-ec2-instance-securitygroups) of your Amazon EC2 instance?
 * When you reference your security group, also note that the `Type` of the `SecurityGroups` property value is a _List of String_. How do you represent this value in YAML format?
 * How can you [specify](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-attribute-dependson.html) that the creation of a resource should follow another resource?
 {{% /expand %}}
 
 {{%expand "Want to see the solution?" %}}
 
-* Reference the Security Group's logical ID as a list under the `SecurityGroups` EC2 instance resource property, by using the `Ref` intrinsic function. CloudFormation should then wait for the Security Group to be created first, and then initiates the EC2 instance creation.
-* Modify the EC2 instance resource definition as shown next:
+* Reference the Security Group's logical ID as a list under the `SecurityGroups` EC2 instance resource property, by using the `Ref` intrinsic function. CloudFormation should then wait for the Security Group to be created first, and then initiates the Amazon EC2 instance creation.
+* Modify the Amazon EC2 instance resource definition as shown next:
 
 ```yaml
   Ec2Instance:
@@ -245,15 +231,17 @@ To get started, open the `resource-dependencies-challenge.yaml` template, that y
         - !Ref InstanceSecurityGroup
 ```
 
-* Since there is no dependency between the EC2 instance and the S3 bucket, use the `DependsOn` attribute in the S3 bucket resource, and provide the EC2 instance's logical ID as a value for the `DependsOn` attribute.
-* Add the `DependsOn` attribute for the S3 bucket resource as shown next:
+* Since there is no dependency between the Amazon EC2 instance and the Amazon S3 bucket resources, use the `DependsOn` attribute in the Amazon S3 bucket resource, and provide the Amazon EC2 instance's logical ID as a value for the `DependsOn` attribute.
+* Add the `DependsOn` attribute for the Amazon S3 bucket resource as shown next:
 
 ```yaml
   S3Bucket:
     Type: AWS::S3::Bucket
     DependsOn: Ec2Instance
     Properties:
-      BucketName: !Ref S3BucketName
+      Tags:
+        - Key: Name
+          Value: Resource-dependencies-workshop
 ```
 {{% /expand %}}
 
@@ -272,4 +260,4 @@ Follow the steps below to [delete the stacks](https://docs.aws.amazon.com/AWSClo
 
 ### Conclusion
 
-Great work! You learned how to use `Ref` and `Fn::GetAtt` intrinsic functions to define resource dependencies, as well as the `DependsOn` attribute to explicitly define resource dependencies.
+Great work! You learned how to use `Ref` and `Fn::GetAtt` intrinsic functions to define resource dependencies, as well as the `DependsOn` attribute to explicitly define resource dependenciesProperties:

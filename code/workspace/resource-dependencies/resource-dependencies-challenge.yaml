@@ -3,10 +3,6 @@ AWSTemplateFormatVersion: "2010-09-09"
 Description: AWS CloudFormation workshop - Resource Dependencies Challenge Lab (uksb-1q9p31idr).
 
 Parameters:
-  S3BucketName:
-    Type: String
-    Description: Enter a unique name for S3 bucket.
-
   LatestAmiId:
     Type: AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>
     Default: /aws/service/ami-amazon-linux-latest/amzn2-ami-hvm-x86_64-gp2
@@ -20,6 +16,11 @@ Resources:
 
   InstanceSecurityGroup:
     Type: AWS::EC2::SecurityGroup
+    Metadata:
+      cfn_nag:
+        rules_to_suppress:
+          - id: F1000
+            reason: This is using default VPC where we dont know VpcId to support egress. Missing egress rule means all traffic is allowed outbound.
     Properties:
       GroupDescription: Allow http to client host
       SecurityGroupIngress:
@@ -31,4 +32,6 @@ Resources:
   S3Bucket:
     Type: AWS::S3::Bucket
     Properties:
-      BucketName: !Ref S3BucketName
+      Tags:
+        - Key: Name
+          Value: Resource-dependencies-workshop
