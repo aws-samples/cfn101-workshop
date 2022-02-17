@@ -46,7 +46,7 @@ version: $(VENV_NAME)
 
 release:
 	@TAG_VERSION=$(shell bumpversion --dry-run --list .bumpversion.cfg | grep current_version | sed s/'^.*='//); \
-		git push origin "v$${TAG_VERSION}"
+		git push origin "v$${TAG_VERSION}" && git push
 
 # Cleanup VirtualEnv
 clean:
