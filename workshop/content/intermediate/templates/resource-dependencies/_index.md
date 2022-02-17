@@ -155,7 +155,7 @@ Resources:
   SecurityGroup:
     Type: AWS::EC2::SecurityGroup
     Properties:
-      GroupDescription: Security group for CloudFormation lab
+      GroupDescription: Workshop Security Group
 
   SecurityGroupIngress:
     Type: AWS::EC2::SecurityGroupIngress
