@@ -15,6 +15,9 @@ Resources:
       InstanceType: t2.micro
       SecurityGroups:
         - !Ref InstanceSecurityGroup
+      Tags:
+        - Key: Name
+          Value: Resource-dependencies-workshop
 
   InstanceSecurityGroup:
     Type: AWS::EC2::SecurityGroup
