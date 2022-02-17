@@ -238,6 +238,7 @@ To get started, open the `resource-dependencies-challenge.yaml` template, that y
       Tags:
         - Key: Name
           Value: Resource-dependencies-workshop
+```
 
 * Since there is no dependency between the Amazon EC2 instance and the Amazon S3 bucket resources, use the `DependsOn` attribute in the Amazon S3 bucket resource, and provide the Amazon EC2 instance's logical ID as a value for the `DependsOn` attribute.
 * Add the `DependsOn` attribute for the Amazon S3 bucket resource as shown next:
