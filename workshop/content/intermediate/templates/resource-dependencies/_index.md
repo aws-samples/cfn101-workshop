@@ -156,6 +156,9 @@ Resources:
     Type: AWS::EC2::SecurityGroup
     Properties:
       GroupDescription: Workshop Security Group
+      Tags:
+        - Key: Name
+          Value: Resource-dependencies-workshop
 
   SecurityGroupIngress:
     Type: AWS::EC2::SecurityGroupIngress
