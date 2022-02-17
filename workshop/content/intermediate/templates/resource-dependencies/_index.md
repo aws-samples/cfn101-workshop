@@ -129,7 +129,7 @@ Let’s create a stack, and see the resource creation order in action!
 * Open the `resource-dependencies-with-intrinsic-functions.yaml` file.
 * Update the content of the template as you follow along steps on this lab.
 
-Paste the contents of the template snippet shown next in `resource-dependencies-with-intrinsic-functions.yaml` file:
+Copy, and append the example template snippet shown next to the `resource-dependencies-with-intrinsic-functions.yaml` file:
 
 ```yaml
 Parameters:
