@@ -75,7 +75,7 @@ Refresh the page until you see the `CREATE_COMPLETE` status for your stack. Now,
 
 ![resource-dependencies-lab.png](resource-dependencies/resource-dependencies-lab.png)
 
-Looking at stack events, you can see the creation of the `SNSTopic` and `S3Bucket` resources was initiated at the same time. Since there are no dependencies between the two resources, CloudFormation initiated the creation of both resources together.
+Looking at stack events, you can see the creation of the `SNSTopic` and `S3Bucket` resources was initiated at the same time. Since there are no dependencies between the two resources, CloudFormation initiated the creation of both resources in parallel.
 
 Now, think of an example scenario where you want your Amazon S3 bucket to be created first, and only after the bucket is successfully created, the creation of your Amazon SNS topic should start. This is where the use of the `DependsOn` attribute comes into play: you use `DependsOn` to explicitly define a dependency in the `SNSTopic` resource, and provide the logical ID of your Amazon S3 bucket resource (i.e., `S3Bucket` in the example above) as a value for the `DependsOn` attribute. In doing so, CloudFormation will wait for the S3 bucket creation to be completed before initiating the creation of the topic. Let’s take a look!
 
