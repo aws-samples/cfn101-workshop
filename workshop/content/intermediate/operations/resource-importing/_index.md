@@ -115,7 +115,7 @@ In this lab, you will learn how to import a resource into an existing stack. To 
 11. For parameters, make sure you specify `Topic1` for `Topic1Name`, and `Topic2` for `Topic2Name`. Choose **Next**.
 12. In the next page, choose **Import resources**.
 
-Your stack status will show `IMPORT_COMPLETE` once your SNS topic is successfully imported into your stack.
+Your stack status will show `IMPORT_COMPLETE` once your Amazon SNS topic is successfully imported into your stack.
 
 Congratulations! You have learned how to import a resource into an existing stack! For more information, see also [Import an existing resource into a stack using the AWS CLI](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/resource-import-existing-stack.html#resource-import-existing-stack-cli) in the documentation.
 
