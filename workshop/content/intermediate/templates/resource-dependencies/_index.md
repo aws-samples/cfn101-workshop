@@ -66,7 +66,7 @@ Use the AWS CloudFormation Console to [create a stack](https://docs.aws.amazon.c
 1. Navigate to the [AWS CloudFormation Console](https://console.aws.amazon.com/cloudformation/).
 2. From **Create stack**, choose **With new resources (standard)**.
 3. Choose the **Template is ready** option. From **Specify template**, choose **Upload a template file**. Upload the `resource-dependencies-without-dependson.yaml` template, and choose **Next**.
-4. Enter a stack name. For example, `resource-dependencies-lab`; When ready, choose **Next**.
+4. Enter a stack name. For example, specify `resource-dependencies-lab`. When ready, choose **Next**.
 5. Choose to accept default values on the **Configure stack options** page; scroll to the bottom of the page, and choose **Next**.
 6. In the **Review** page, scroll to the bottom and choose **Create stack**.
 
