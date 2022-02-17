@@ -112,6 +112,9 @@ This time, your stack events should look different:
 
 Now, let’s review the stack events for your new stack. You added the `DependsOn` attribute to the Amazon SNS topic described in the template, and specified the logical ID of the Amazon S3 bucket as a value for the attribute. This resulted in CloudFormation creating the `S3Bucket` resource first, and the `SNSTopic` resource next. Note that when you will delete the stack, the resource that was created first will be the last one to be deleted.
 
+{{% notice note %}}
+You can specify a string or a list of strings to the `DependsOn` attribute. For more information, see [DependsOn attribute](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-attribute-dependson.html).
+{{% /notice %}}
 
 Congratulations! You have now learned how to explicitly define resource creation order using the `DependsOn` attribute.
 
