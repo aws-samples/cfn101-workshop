@@ -164,7 +164,7 @@ Parameters:
   Topic1Name:
     Type: String
     Default: Topic1
-    Description: Name of the first SNS topic you created manually using the SNS console.
+    Description: Name of the first Amazon SNS topic you created with the Amazon SNS console.
 Resources:
   SNSTopic1:
     DeletionPolicy: Retain
