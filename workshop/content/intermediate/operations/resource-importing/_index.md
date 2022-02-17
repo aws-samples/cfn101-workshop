@@ -93,7 +93,7 @@ In this lab, you will learn how to import a resource into an existing stack. To 
   Topic2Name:
     Type: String
     Default: Topic2
-    Description: Name of the second SNS topic you created manually using the SNS console.
+    Description: Name of the second Amazon SNS topic you created with the Amazon SNS console.
 ```
 
 4. Next, copy the example below, and **append it to the `Resources` section** of the `resource-importing.yaml` template. Save the template file when done.
