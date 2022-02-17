@@ -181,7 +181,7 @@ Resources:
 9. Enter a **Stack name**. For example, specify `moving-resources`. Make sure you specify `Topic1` for the `Topic1Name` parameter.
 10. Choose **Import Resources** in the next page.
 
-The stack status will show `IMPORT_COMPLETE` once your SNS topic is successfully imported into your stack.
+The stack status will show `IMPORT_COMPLETE` once your Amazon SNS topic is successfully imported into your stack.
 
 Congratulations! You have learned how to move resources between stacks.
 
