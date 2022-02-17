@@ -122,7 +122,7 @@ Congratulations! You have learned how to import a resource into an existing stac
 
 ### Lab Part 3
 
-In this part of the lab, you will learn how to [move resources between stacks](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/refactor-stacks.html). You will remove the `SNSTopic1` resource from the `resource-importing` stack, and you will import it into a new one; please note that since you specified `Retain` for the `DeletionPolicy` attribute of `SNSTopic1`, the `SNSTopic1` resource will not be deleted when you will update the stack:
+In this part of the lab, you will learn how to [move resources between stacks](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/refactor-stacks.html). You will remove the `SNSTopic1` resource from the `resource-importing` stack, and you will import it into a new one; note that since you specified `Retain` for the `DeletionPolicy` attribute of `SNSTopic1`, the `SNSTopic1` resource will not be deleted when you will update the stack. Let's get started:
 
 
 1. Remove the code below from the **Parameters** section of the `resource-importing.yaml` template you used for lab part 2:
