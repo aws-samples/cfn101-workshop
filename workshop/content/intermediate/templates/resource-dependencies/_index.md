@@ -134,7 +134,7 @@ Copy, and append the example template snippet shown next to the `resource-depend
 ```yaml
 Parameters:
   EmailAddress:
-    Description: Enter an email address to subscribe to an Amazon SNS topic.
+    Description: Enter an email address to subscribe to your Amazon SNS topic.
     Type: String
 
 Resources:
