@@ -187,7 +187,7 @@ Let’s create a stack, and verify the above behavior. Use the AWS CloudFormatio
 7. In the review page, scroll to the bottom and choose **Create stack**.
 
 
-Once the stack is created, your stack events should look like in the following example:
+Once the stack is created, your stack events should look like the following:
 
 ![resource-dependencies-lab-ref-getatt.png](resource-dependencies/resource-dependencies-lab-ref-getatt.png)
 
