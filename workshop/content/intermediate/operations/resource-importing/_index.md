@@ -79,7 +79,7 @@ In this next step, you will use the AWS CloudFormation Console to [create a stac
 
 Your stack status will show `IMPORT_COMPLETE` once your Amazon SNS topic is successfully imported into your stack.
 
-Congratulations! You imported a resource, that you created earlier with the SNS Console, into a new stack! In this lab, you have used the CloudFormation Console to learn this functionality: for information on how to use it with the [AWS Command Line Interface](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-welcome.html), see [Creating a stack from existing resources using AWS CLI](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/resource-import-new-stack.html#resource-import-new-stack-cli) in the documentation.
+Congratulations! You imported a resource, that you created earlier with the Amazon SNS Console, into a new stack! In this lab, you have used the CloudFormation console to learn this functionality: for information on how to use it with the [AWS Command Line Interface](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-welcome.html), see [Creating a stack from existing resources using AWS CLI](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/resource-import-new-stack.html#resource-import-new-stack-cli).
 
 ### Lab Part 2
 
