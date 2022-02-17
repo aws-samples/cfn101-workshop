@@ -131,7 +131,7 @@ In this part of the lab, you will learn how to [move resources between stacks](h
   Topic1Name:
     Type: String
     Default: Topic1
-    Description: Name of the first SNS topic you created manually using SNS console.
+    Description: Name of the first Amazon SNS topic you created with the Amazon SNS console.
 ```
 
 2. Remove the code below from the **Resources** section of the `resource-importing.yaml` template, and save the template file.
