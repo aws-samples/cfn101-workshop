@@ -269,4 +269,4 @@ Follow the steps below to [delete the stacks](https://docs.aws.amazon.com/AWSClo
 
 ### Conclusion
 
-Great work! You learned how to use `Ref` and `Fn::GetAtt` intrinsic functions to define resource dependencies, as well as the `DependsOn` attribute to explicitly define resource dependenciesProperties:
+Great work! You learned how to use `Ref` and `Fn::GetAtt` intrinsic functions to define resource dependencies, as well as the `DependsOn` attribute to explicitly define resource dependencies.
