@@ -32,7 +32,7 @@ By the end of this lab, you will be able to:
 
 ### Lab Part 1
 
-In this lab, you will first create an [Amazon Simple Notification Service (SNS) topic](https://docs.aws.amazon.com/sns/latest/dg/sns-create-topic.html) with the [SNS console](https://console.aws.amazon.com/sns/), and you will then import the topic in a new CloudFormation stack you will create. Next, you will create a second SNS topic with the SNS console, and you will import it as well into your existing stack.
+In this lab, you will first create an [Amazon Simple Notification Service](https://docs.aws.amazon.com/sns/latest/dg/sns-create-topic.html) (Amazon SNS) topic with the [Amazon SNS Console](https://console.aws.amazon.com/sns/), and you will then import the topic in a new CloudFormation stack you will create. Next, you will create a second topic with the Amazon SNS console, and you will import it as well into your existing stack.
 
 To get started, follow steps shown next:
 
