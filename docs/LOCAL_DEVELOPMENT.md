@@ -91,15 +91,14 @@ When ready to publish new release follow the steps below:
 # checkout and update main branch
 git checkout main && git pull
 
-# on the main branch bump the version following semantic guide above part=patch|minor|major
-# the command bellow will automatically commit and tag new version
-make version part=patch
-
 # checkout release branch
 git checkout release
 
 # merge main branch to release branch
 git merge main
+
+# bump the version following semantic guide above part=patch|minor|major
+make version part=patch
 
 # push the new version tag to origin
 make release
