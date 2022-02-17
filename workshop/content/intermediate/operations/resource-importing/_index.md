@@ -36,7 +36,7 @@ In this lab, you will first create an [Amazon Simple Notification Service](https
 
 To get started, follow steps shown next:
 
-1. Navigate to the [SNS console](https://console.aws.amazon.com/sns/), and choose **Topics**. Next, choose **Create Topic**.
+1. Navigate to the [Amazon SNS console](https://console.aws.amazon.com/sns/), and choose **Topics**. Next, choose **Create topic**.
 2. Choose `Standard` for the topic **Type**.
 3. Specify a **Name** for your topic, such as `Topic1`.
 4. When ready, choose **Create topic**.
