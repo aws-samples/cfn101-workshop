@@ -13,6 +13,9 @@ Resources:
     Properties:
       ImageId: !Ref LatestAmiId
       InstanceType: t2.micro
+      Tags:
+        - Key: Name
+          Value: Resource-dependencies-workshop
 
   InstanceSecurityGroup:
     Type: AWS::EC2::SecurityGroup
