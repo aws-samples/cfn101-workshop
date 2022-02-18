@@ -253,18 +253,20 @@ Resources:
 9. In the next page, choose **Create Stack**.
 10. After the stack is created, select the `resource-import-challenge` stack, and choose **Resources**. Take a note of the **Physical ID** for `Instance`, that uses this format: `i-12345abcd6789`.
 
-Let’s now reproduce the human error. Choose to [change the Instance type using EC2 console](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instance-resize.html#change-instance-type-of-ebs-backed-instance) by following the steps below:
+Let’s now reproduce the human error by changing the instance type outside of the management purview of your stack. Choose to [Change the instance type of an existing EBS-backed instance](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instance-resize.html#change-instance-type-of-ebs-backed-instance) by following the steps below:
 
-1. Navigate to the [EC2 console](https://console.aws.amazon.com/ec2/).
-2. Locate the **Instances** section, select the instance with the name `InstanceImport` , and choose **Instance state**, **Stop instance**.
+1. Navigate to the [Amazon EC2 Console](https://console.aws.amazon.com/ec2/).
+2. Locate the **Instances** section, select the instance with the name `InstanceImport`, and choose **Instance state**, **Stop instance**.
 3. For the same instance, once you see the instance has reached the **Stopped** state, choose **Actions**, **Instance settings**, **Change instance type.**
 4. Choose `t2.micro`, and then choose **Apply**.
 5. Select again the `InstanceImport` instance, and choose **Instance state**, **Start instance**.
 
 
-You should now have an EC2 instance you created using CloudFormation: to reproduce the human error, you updated the instance out of band (not using CloudFormation): in this example, you changed the instance type out of band, instead of using the [instance type](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-instance.html#cfn-ec2-instance-instancetype) property in your template.
+You initially created an Amazon EC2 instance with your stack. To reproduce the human error, you updated the instance out of band (not using CloudFormation), instead of using the [instance type](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-instance.html#cfn-ec2-instance-instancetype) property in your template, and updating your stack next.
 
+{{% notice note %}}
 When you change the instance type, this causes [some interruptions](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-updating-stacks-update-behaviors.html#update-some-interrupt), such as the instance will stop and start again. For more information on resizing instances, see [Change the instance type](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instance-resize.html).
+{{% /notice %}}
 
 Your task is to reconcile the instance type value, that in your stack is currently set to `t2.nano`, with the new, actual instance configuration setting - `t2.micro` - made out of band, without making additional changes to the `InstanceType` property when you update the stack.
 
@@ -322,28 +324,28 @@ You can find the template for the solution in the `code/solutions/resource-impor
 
 Great work! You have now learned how to match the CloudFormation stack configuration with the actual configuration on the resource when there is an out of band change.
 
-**Use Cases**
+**Resource importing use cases**
 
 1. You previously created an AWS resource (for example, an S3 bucket) manually, and you would like to manage it using CloudFormation.
 2. You want to reorganize resources by life cycle and ownership into single stacks for easier management (for example, IAM Role resources, Security Group resources, et cetera).
-3. You have two separate stacks, and you want to bring them into a single stack by nesting stacks. Refer to this [document](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/resource-import-nested-stacks.html) for nesting an existing stack.
+3. You want to nest an existing stack within an existing one. For more information, see [Nesting an existing stack](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/resource-import-nested-stacks.html).
 4. You want to match the CloudFormation configuration for a resource which was updated out of band.
 
 ### Cleanup
 
 Choose to follow cleanup steps shown next to cleanup resources you created with this lab:
 
-1. Navigate to directory code/workspace/resource-importing
-2. Update the ``resource-importing.yaml`` template file to remove **DeletionPolicy: Retain** from **SNSTopic2** resource definition and save the template. 
+1. Make sure you are in the directory: `code/workspace/resource-importing`
+2. Update the `resource-importing.yaml` template file to remove the `DeletionPolicy: Retain` line from the `SNSTopic2` resource definition, and save the template. 
 3. Navigate to the [AWS CloudFormation Console](https://console.aws.amazon.com/cloudformation/).
-4. Select the stack named ``resource-importing`` and choose **Update**.
-5. Choose **Replace current template** and upload the ``resource-importing.yaml`` template. Choose **Next**.
-6. In the parameters section, choose to accept the parameter value for **Topic2Name** as **Topic2**. Choose **Next**.
+4. Select the stack named `resource-importing` and choose **Update**.
+5. Choose **Replace current template** and upload the `resource-importing.yaml` template. Choose **Next**.
+6. In the parameters section, choose to accept the parameter value for `Topic2Name` as `Topic2`. Choose **Next**.
 7. Choose to accept default values in the **Configure stack options** page, and choose **Next**.
 8. Choose **Update stack** in the next page.
-9. After this stack update, select the ``resource-importing`` stack and choose **Delete**. 
-10. Repeat steps (2-9) above for stack: ``moving-resources`` by updating the ``moving-resources.yaml`` template to remove **DeletionPolicy: Retain** from **SNSTopic2** resource definition, updating the stack and deleting it after successful update. 
-11. Repeat steps (2-9) above for stack: ``resource-import-challenge`` by updating the ``resource-import-challenge-solution.yaml`` template to remove **DeletionPolicy: Retain** from **Instance** resource definition, updating the stack and deleting it after successful update.  
+9. After your stack update is complete, select the `resource-importing` stack and choose **Delete**. 
+10. Repeat steps 2-9 above for the stack: `moving-resources`, by updating the `moving-resources.yaml` template to remove the `DeletionPolicy: Retain` line from the `SNSTopic1` resource definition, updating the stack, and deleting it after successful update. Choose to accept the existing parameter value when you update the stack.
+11. Repeat steps (2-9) above for stack: `resource-import-challenge` by updating the `resource-import-challenge-solution.yaml` template to remove the `DeletionPolicy: Retain` line from the `Instance` resource definition, updating the stack, and deleting it after successful update.  Choose to accept existing parameter values when you update the stack.
 
 ### Conclusion
 
