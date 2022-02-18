@@ -6,9 +6,9 @@ weight: 400
 
 ### Overview
 
-You use [AWS CloudFormation](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/Welcome.html) to programmatically manage your infrastructure you describe with code. If you have created, in your AWS account, a resource with the [AWS Management Console](https://aws.amazon.com/console/) or the [AWS Command Line Interface](https://aws.amazon.com/cli/) (AWS CLI) for example, you can choose to [import](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/resource-import.html) your resource into a CloudFormation stack, so you can manage the resource’s life cycle with CloudFormation.
+You use [AWS CloudFormation](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/Welcome.html) to programmatically manage your infrastructure you describe with code. If you have created, in your AWS account, a resource with the [AWS Management Console](https://aws.amazon.com/console/) or the [AWS Command Line Interface](https://aws.amazon.com/cli/) (CLI) for example, you can choose to [import](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/resource-import.html) your resource into a CloudFormation stack, so you can manage the resource’s lifecycle with CloudFormation.
 
-You can also use the import functionality if you want to [move your resources between stacks](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/refactor-stacks.html), so you can organize your stacks and resources by [life cycle and ownership](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/best-practices.html#organizingstacks). For example, you want to reorganize your application’s Security Group resources, that you managed with separate stacks, so that you can manage such resources with a stack you dedicate to Security Group resources for your application.
+You can also use the import functionality if you want to [move your resources between stacks](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/refactor-stacks.html), so you can organize your stacks and resources by [lifecycle and ownership](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/best-practices.html#organizingstacks). For example, you choose to reorganize resources such as [Amazon Elastic Compute Cloud](https://aws.amazon.com/ec2/) (Amazon EC2) security groups into one stack - or stacks - you dedicate to your security group resources.
 
 {{% notice note %}}
 For more information on supported resources for import operations, see [Resources that support import and drift detection operations](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/resource-import-supported-resources.html).
@@ -32,19 +32,19 @@ By the end of this lab, you will be able to:
 
 ### Lab Part 1
 
-In this lab, you will first create an [Amazon Simple Notification Service](https://docs.aws.amazon.com/sns/latest/dg/sns-create-topic.html) (Amazon SNS) topic with the [Amazon SNS Console](https://console.aws.amazon.com/sns/), and you will then import the topic in a new CloudFormation stack you will create. Next, you will create a second topic with the Amazon SNS console, and you will import it as well into your existing stack.
+In this lab, you will first create an [Amazon Simple Notification Service](https://docs.aws.amazon.com/sns/latest/dg/sns-create-topic.html) (Amazon SNS) topic with the [Amazon SNS Console](https://console.aws.amazon.com/sns/), and you will then import the topic in a new CloudFormation stack you will create. Next, you will create a second topic with the Amazon SNS Console, and you will import it as well into your existing stack.
 
 To get started, follow steps shown next:
 
-1. Navigate to the [Amazon SNS console](https://console.aws.amazon.com/sns/), and choose **Topics**. Next, choose **Create topic**.
+1. Navigate to the [Amazon SNS Console](https://console.aws.amazon.com/sns/), and choose **Topics**. Next, choose **Create topic**.
 2. Choose `Standard` for the topic **Type**.
 3. Specify a **Name** for your topic, such as `Topic1`.
 4. When ready, choose **Create topic**.
 5. When your topic is successfully created, take a note of its [**Amazon Resource Name (ARN)**](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) under the **Details** section for `Topic1`: you will use this ARN value later in this lab. For reference, an example ARN pattern for an Amazon SNS topic is `arn:aws:sns:us-east-1:123456789012:MyTopic`.
 
-Let’s now use the resource import functionality to import your newly created existing topic into a new stack you will create. For this, you will use a CloudFormation template where you describe your existing topic with a relevant `AWS::SNS::Topic` [resource](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-sns-topic.html) as follows:
+Let’s now use the resource import functionality to import your newly created topic into a new stack you will create. For this, you will use a CloudFormation template where you describe your existing topic with the `AWS::SNS::Topic` [resource](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-sns-topic.html) as follows:
 
-* You will specify, for the `TopicName` [property](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-sns-topic.html#cfn-sns-topic-topicname), the name of your existing topic, that is `Topic1`. Choose to pass this value with a template [parameter](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/parameters-section-structure.html), that you will call `Topic1Name`. You will then reference the value for this parameter with the [Ref](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference-ref.html) intrinsic function.
+* You will specify, for the `TopicName` [property](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-sns-topic.html#cfn-sns-topic-topicname), the name of your existing topic, that is `Topic1`. Choose to pass this value with a template [parameter](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/parameters-section-structure.html), that you will call `Topic1Name`. You will then reference the value for this parameter with the `Ref` [intrinsic function](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference-ref.html).
 * Each resource you import must have a `DeletionPolicy` [attribute](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-attribute-deletionpolicy.html) described for it: specify this attribute for your topic, and specify `Retain` for the attribute value. When you use a `Retain` value for the `DeletionPolicy` attribute, you indicate to retain the resource when you remove it from the stack, or when you delete the stack.
 * Copy the code below, append it to the `resource-importing.yaml` file, and save the file:
 
@@ -79,13 +79,13 @@ In this next step, you will use the AWS CloudFormation Console to [create a stac
 
 Your stack status will show `IMPORT_COMPLETE` once your Amazon SNS topic is successfully imported into your stack.
 
-Congratulations! You imported a resource, that you created earlier with the Amazon SNS Console, into a new stack! In this lab, you have used the CloudFormation console to learn this functionality: for information on how to use it with the [AWS Command Line Interface](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-welcome.html), see [Creating a stack from existing resources using AWS CLI](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/resource-import-new-stack.html#resource-import-new-stack-cli).
+Congratulations! You imported a resource, that you created earlier with the Amazon SNS Console, into a new stack! For information on how to import existing resources into a new stack using the [AWS Command Line Interface](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-welcome.html), see [Creating a stack from existing resources using AWS CLI](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/resource-import-new-stack.html#resource-import-new-stack-cli).
 
 ### Lab Part 2
 
 In this lab, you will learn how to import a resource into an existing stack. To get started, follow steps below:
 
-1. Navigate to [Amazon SNS Console](https://console.aws.amazon.com/sns/) to create a second topic. Follow steps you used on lab part 1, and specify **Topic2** for the name of your new topic.
+1. Navigate to the [Amazon SNS Console](https://console.aws.amazon.com/sns/) to create a second topic. Follow steps you used on lab part 1, and specify **Topic2** for the name of your new topic.
 2. When your topic is successfully created, take a note of its [**Amazon Resource Name (ARN)**](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) under the **Details** section for `Topic2`; you will use this information later on in this lab (example ARN pattern: `arn:aws:sns:us-east-1:123456789012:MyTopic`).
 3. Copy the example below, and **append it to the `Parameters` section** of the `resource-importing.yaml` template, that you used for the previous lab:
 
@@ -187,12 +187,12 @@ Congratulations! You have learned how to move resources between stacks.
 
 
 {{% notice note %}}
-To revert an import operation for a resource, set the `DeletionPolicy` to `Retain` for the resource, remove the resource from the template, and then update the stack: in doing so, you remove the resource from your stack, but you retain the resource.
+To revert an import operation for a given resource, first set the `DeletionPolicy` to `Retain` for the resource in your template, and then update the stack to apply the change. Next, remove the resource from the template, and update the stack again: in doing so, you will remove the resource from your stack, but you retain the resource.
 {{% /notice %}}
 
 ### **Best Practices while importing a resource**
 
-1. To fetch the properties of an existing resource, use respective AWS service console pages, or use a _Describe_ API call to describe the resource, and fetch properties you want to include in the resource definition. For example, to import an [Amazon Elastic Compute Cloud](https://aws.amazon.com/ec2/) (Amazon EC2) instance into a stack, you can choose to use the [aws ec2 describe-instances](https://docs.aws.amazon.com/cli/latest/reference/ec2/describe-instances.html) CLI command to describe the instance you want to import, using the instance ID as shown in the following example:
+1. To fetch the properties of an existing resource, use the AWS Management Console page for the relevant AWS service, or use a _Describe_ API call to describe the resource and fetch properties you want to include in the resource definition. For example, use the `aws ec2 describe-instances` [CLI command (https://docs.aws.amazon.com/cli/latest/reference/ec2/describe-instances.html) to describe your Amazon EC2 instance you want to import, using the instance ID as shown in the following example:
 
 ```shell
 $ aws ec2 describe-instances --instance-ids i-1234567890abcdef0
@@ -211,7 +211,7 @@ For more information, see [Considerations during an import operation](https://do
 
 In this exercise, you will need to use the knowledge gained from lab parts 1, 2, and 3 to complete the provided task. You are tasked with solving the following issue: one of the resources in a CloudFormation template, an EC2 instance, has a property value that was modified outside of CloudFormation as a result of a human error. You will troubleshoot and solve this issue, so that you can continue maintaining your desired resource configuration with CloudFormation.
 
-Let’s start with a template that describes an EC2 instance and a S3 bucket resource.
+Let's start with an example template that describes an EC2 instance and an Amazon S3 bucket.
 
 To begin, follow the steps below:
 
@@ -326,8 +326,8 @@ Great work! You have now learned how to match the CloudFormation stack configura
 
 **Resource importing use cases**
 
-1. You previously created an AWS resource (for example, an S3 bucket) manually, and you would like to manage it using CloudFormation.
-2. You want to reorganize resources by life cycle and ownership into single stacks for easier management (for example, IAM Role resources, Security Group resources, et cetera).
+1. You previously created an AWS resource (for example, an Amazon S3 bucket) with e.g., the AWS Management Console or the AWS CLI, and you would like to manage your resource using CloudFormation.
+2. You want to reorganize resources by lifecycle and ownership into single stacks for easier management (for example, security group resources, et cetera).
 3. You want to nest an existing stack within an existing one. For more information, see [Nesting an existing stack](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/resource-import-nested-stacks.html).
 4. You want to match the CloudFormation configuration for a resource which was updated out of band.
 
@@ -340,12 +340,12 @@ Choose to follow cleanup steps shown next to cleanup resources you created with 
 3. Navigate to the [AWS CloudFormation Console](https://console.aws.amazon.com/cloudformation/).
 4. Select the stack named `resource-importing` and choose **Update**.
 5. Choose **Replace current template** and upload the `resource-importing.yaml` template. Choose **Next**.
-6. In the parameters section, choose to accept the parameter value for `Topic2Name` as `Topic2`. Choose **Next**.
+6. In the parameters section, choose to accept the existing parameter value. Choose **Next**.
 7. Choose to accept default values in the **Configure stack options** page, and choose **Next**.
 8. Choose **Update stack** in the next page.
 9. After your stack update is complete, select the `resource-importing` stack and choose **Delete**. 
 10. Repeat steps 2-9 above for the stack: `moving-resources`, by updating the `moving-resources.yaml` template to remove the `DeletionPolicy: Retain` line from the `SNSTopic1` resource definition, updating the stack, and deleting it after successful update. Choose to accept the existing parameter value when you update the stack.
-11. Repeat steps (2-9) above for stack: `resource-import-challenge` by updating the `resource-import-challenge-solution.yaml` template to remove the `DeletionPolicy: Retain` line from the `Instance` resource definition, updating the stack, and deleting it after successful update.  Choose to accept existing parameter values when you update the stack.
+11. Repeat steps (2-9) above for stack: `resource-import-challenge` by updating the `resource-import-challenge.yaml` template to remove the `DeletionPolicy: Retain` line from the `Instance` resource definition, updating the stack, and deleting it after successful update.  Choose to accept existing parameter values when you update the stack.
 
 ### Conclusion
 
