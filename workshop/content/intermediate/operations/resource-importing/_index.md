@@ -192,7 +192,7 @@ To revert an import operation for a given resource, first set the `DeletionPolic
 
 ### **Best Practices while importing a resource**
 
-1. To fetch the properties of an existing resource, use the AWS Management Console page for the relevant AWS service, or use a _Describe_ API call to describe the resource and fetch properties you want to include in the resource definition. For example, use the `aws ec2 describe-instances` [CLI command (https://docs.aws.amazon.com/cli/latest/reference/ec2/describe-instances.html) to describe your Amazon EC2 instance you want to import, using the instance ID as shown in the following example:
+1. To fetch the properties of an existing resource, use the AWS Management Console page for the relevant AWS service, or use a _Describe_ API call to describe the resource and fetch properties you want to include in the resource definition. For example, use the `aws ec2 describe-instances` [CLI command](https://docs.aws.amazon.com/cli/latest/reference/ec2/describe-instances.html) to describe your Amazon EC2 instance you want to import, using the instance ID as shown in the following example:
 
 ```shell
 $ aws ec2 describe-instances --instance-ids i-1234567890abcdef0
