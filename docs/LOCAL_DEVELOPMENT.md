@@ -88,20 +88,28 @@ The `bump2version` tool is used to take care of versioning including committing 
 
 When ready to publish new release follow the steps below:
 ```shell
-# checkout release branch
-git checkout release
+# checkout and update main branch
+git checkout main && git pull
+
+# checkout feature branch
+git checkout <feature-branch>
+
+# merge main branch to feature branch
+git merge main
+
+# bump the version following semantic guide above part=patch|minor|major
+make version part=minor
+
+# merge the feature branch to main branch on github
+
+# checkout the release branch
+git checkout release && git pull
 
 # merge main branch to release branch
 git merge main
 
-# bump the version following semantic guide above part=patch|minor|major
-make version part=patch
-
-# push the new version tag
+# push the new version tag to origin
 make release
-
-# push the changes to origin
-git push
 ```
 
 Finally, create new release on [cfn101-workshop](https://github.com/aws-samples/cfn101-workshop/releases) release page
