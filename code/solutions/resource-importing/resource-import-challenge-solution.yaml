@@ -1,0 +1,37 @@
+AWSTemplateFormatVersion: "2010-09-09"
+
+Description: AWS CloudFormation workshop - Resource importing challange (uksb-1q9p31idr).
+
+Metadata:
+  cfn-lint:
+    config:
+      ignore_checks:
+        - W3011
+
+Parameters:
+  LatestAmiId:
+    Description: Fetching the latest AMI ID for Amazon Linux
+    Type: AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>
+    Default: /aws/service/ami-amazon-linux-latest/amzn2-ami-hvm-x86_64-gp2
+
+  InstanceType:
+    Description: Select the type of the EC2 instance.
+    Type: String
+    AllowedValues:
+      - t2.nano
+      - t2.micro
+      - t2.small
+
+Resources:
+  S3Bucket:
+    Type: AWS::S3::Bucket
+
+  Instance:
+    DeletionPolicy: Retain
+    Type: AWS::EC2::Instance
+    Properties:
+      ImageId: !Ref LatestAmiId
+      InstanceType: !Ref InstanceType
+      Tags:
+        - Key: Name
+          Value: InstanceImport

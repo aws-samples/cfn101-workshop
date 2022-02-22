@@ -1,0 +1,33 @@
+AWSTemplateFormatVersion: "2010-09-09"
+
+Description: AWS CloudFormation workshop - Resource importing part 2 (uksb-1q9p31idr).
+
+Metadata:
+  cfn-lint:
+    config:
+      ignore_checks:
+        - W3011
+
+Parameters:
+  Topic1Name:
+    Description: Name of the first Amazon SNS topic you created with the Amazon SNS console.
+    Type: String
+    Default: Topic1
+
+  Topic2Name:
+    Description: Name of the second Amazon SNS topic you created with the Amazon SNS console.
+    Type: String
+    Default: Topic2
+
+Resources:
+  SNSTopic1:
+    DeletionPolicy: Retain
+    Type: AWS::SNS::Topic
+    Properties:
+      TopicName: !Ref Topic1Name
+
+  SNSTopic2:
+    DeletionPolicy: Retain
+    Type: AWS::SNS::Topic
+    Properties:
+      TopicName: !Ref Topic2Name
