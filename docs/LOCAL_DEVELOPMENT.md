@@ -91,14 +91,22 @@ When ready to publish new release follow the steps below:
 # checkout and update main branch
 git checkout main && git pull
 
-# checkout release branch
-git checkout release
+# checkout feature branch
+git checkout <feature-branch>
 
-# merge main branch to release branch
+# merge main branch to feature branch
 git merge main
 
 # bump the version following semantic guide above part=patch|minor|major
-make version part=patch
+make version part=minor
+
+# merge the feature branch to main branch on github
+
+# checkout the release branch
+git checkout release && git pull
+
+# merge main branch to release branch
+git merge main
 
 # push the new version tag to origin
 make release
