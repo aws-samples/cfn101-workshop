@@ -1,4 +1,8 @@
-# Update behaviors of stack resources
+---
+title: 'Update behaviors of stack resources'
+date: 2022-02-03T23:01:22Z
+weight: 400
+---
 
 ### Overview
 
