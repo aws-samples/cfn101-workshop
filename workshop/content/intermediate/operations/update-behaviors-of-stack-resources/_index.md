@@ -1,7 +1,7 @@
 ---
 title: 'Update behaviors of stack resources'
-date: 2022-02-03T23:01:22Z
-weight: 400
+date: 2022-02-24T16:14:57Z
+weight: 100
 ---
 
 ### Overview
@@ -28,7 +28,7 @@ By the end of this lab, you will be able to:
 Let’s get started with describing an [Amazon Elastic Compute Cloud](https://aws.amazon.com/ec2/) (Amazon EC2) instance in your template. Copy and paste the parameters section shown next to the `update-behaviors-of-stack-resources.yaml` template:
 
 
-```
+```yaml
 Parameters:
   InstanceType:
     Description: WebServer EC2 instance type
@@ -43,8 +43,8 @@ Parameters:
 
 Next, copy and append the following `Resources` section and the Amazon EC2 instance definition to your template:
 
-```
-`Resources:`
+```yaml
+Resources:
     EC2Instance:
     Type: AWS::EC2::Instance
     Properties:
@@ -122,13 +122,13 @@ You then choose to add the `Monitoring` [property](https://docs.aws.amazon.com/A
 
 Update your existing `update-behaviors-of-stack-resources.yaml` template, and specify the `Monitoring` property in the definition for `EC2Instance` as shown next:
 
-```
+```yaml
   EC2Instance:
     Type: AWS::EC2::Instance
     Properties:
       InstanceType: !Ref InstanceType
       ImageId: !Ref LatestAmiId
-      `Monitoring``:`` ``true`
+      Monitoring: true
       Tags:
         - Key: Name
           Value: cfn-workshop
@@ -166,7 +166,7 @@ Want to see the solution?
 
 Update your template, the `Value` information as shown next:
 
-```
+```yaml
   EC2Instance:
     Type: AWS::EC2::Instance
     Properties:
