@@ -196,5 +196,3 @@ Update your stack:
 ### Conclusion
 
 Congratulations! You now have now learned about the update behaviors of stack resources!
-
-
