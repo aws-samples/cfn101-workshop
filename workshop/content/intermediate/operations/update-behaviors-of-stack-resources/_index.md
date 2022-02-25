@@ -6,7 +6,7 @@ weight: 100
 
 ### Overview
 
-You use [AWS CloudFormation](https://aws.amazon.com/cloudformation/) to provision resources you describe in your CloudFormation templates. You create resources in CloudFormation stacks, that you use for infrastructure provisioning and on-going management for your environments. As your applications and environments evolve, you use CloudFormation to apply updates for resource configurations that you describe in your templates. In this lab, you will learn important aspects for you to keep in mind as you design and address updates for your infrastructure.
+You use [AWS CloudFormation](https://aws.amazon.com/cloudformation/) to provision resources you describe in your CloudFormation templates. You use [AWS CloudFormation](https://aws.amazon.com/cloudformation/) for infrastructure provisioning and on-going management for your environments. As your applications and environments evolve, you use CloudFormation to apply updates for resource configurations that you describe in your templates. In this lab, you will learn important aspects for you to keep in mind as you design and address updates for your infrastructure.
 
 CloudFormation updates resources by comparing changes between the updated template you provide, and resource configurations you described in the previous version of your template. Resource configurations that haven't changed remain unaffected during the update process; otherwise, CloudFormation uses one of the following [update behaviors](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-updating-stacks-update-behaviors.html): **Update with No Interruption**, **Updates with Some Interruption**, and **Replacement**, depending on which new property you add, or on which property value you modify, for a given [resource type](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-template-resource-type-ref.html) you describe in your template.
 
@@ -25,7 +25,7 @@ By the end of this lab, you will be able to:
 * Copy and append content to the file, as you go through the lab.
 
 
-Let’s get started with describing an [Amazon Elastic Compute Cloud](https://aws.amazon.com/ec2/) (Amazon EC2) instance in your template. Copy and paste the parameters section shown next to the `update-behaviors-of-stack-resources.yaml` template:
+Let’s get started with describing an [Amazon Elastic Compute Cloud](https://aws.amazon.com/ec2/) (Amazon EC2) instance in your template. Copy and paste the `Parameters` section shown next to the `update-behaviors-of-stack-resources.yaml` template:
 
 
 ```yaml
