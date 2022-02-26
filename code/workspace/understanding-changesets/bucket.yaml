@@ -1,0 +1,14 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: A sample S3 bucket for testing change sets.
+Parameters:
+
+    BucketName:
+        Type: 'String'
+        Description: Name of the S3 bucket CloudFormation will create
+
+Resources:
+    myS3Bucket:
+        Type: 'AWS::S3::Bucket'
+        Properties:
+            BucketName:
+                Ref: BucketName

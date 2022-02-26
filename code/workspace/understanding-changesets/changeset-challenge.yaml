@@ -1,0 +1,24 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: An S3 bucket and an SQS queue for testing change sets.
+
+Parameters:
+    MyQueueName:
+        Type: String
+        Default: "mytestqueue"
+
+    BucketName:
+        Type: 'String'
+        Description: Name of the S3 bucket CloudFormation will create
+
+Resources:
+  newS3Bucket:
+        Type: 'AWS::S3::Bucket'
+        Properties:
+            BucketName:
+                Ref: BucketName
+
+
+  mySqsQueue:
+    Type: AWS::SQS::Queue
+    Properties:
+      QueueName: !Ref MyQueueName
