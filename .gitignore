@@ -455,3 +455,6 @@ dmypy.json
 
 # Cython debug symbols
 cython_debug/
+
+### Local Development
+!code/solutions/package-and-deploy/scripts
