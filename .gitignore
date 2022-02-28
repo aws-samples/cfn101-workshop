@@ -458,3 +458,6 @@ cython_debug/
 
 ### Local Development
 !code/solutions/package-and-deploy/scripts
+/code/solutions/package-and-deploy/lambda/pytz*/
+/code/solutions/package-and-deploy/infrastructure-packaged.template
+/code/solutions/package-and-deploy/response.json
