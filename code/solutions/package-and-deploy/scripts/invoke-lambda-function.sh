@@ -12,8 +12,8 @@ LAMBDA_FUNCTION_NAME="cfn-workshop-python-function"
 PAYLOAD="{\"time_zone\":\"${TIME_ZONE}\"}"
 
 aws lambda invoke \
-  --function-name $LAMBDA_FUNCTION_NAME \
-  --payload $PAYLOAD \
+  --function-name "${LAMBDA_FUNCTION_NAME}" \
+  --payload "${PAYLOAD}" \
   response.json
 
 cat response.json
