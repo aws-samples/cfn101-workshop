@@ -1,5 +1,5 @@
 ---
-title: "Aws Quick Starts"
+title: "AWS Quick Starts"
 date: 2022-02-28T09:45:23Z
 weight: 10
 ---
