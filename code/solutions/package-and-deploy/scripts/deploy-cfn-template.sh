@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# From code/package-and-deploy directory run ./scripts/deploy-cfn-template.sh
+# From code/package-and-deploy directory run ./scripts/deploy-cfn-template.sh <BUCKET_NAME> <AWS_REGION>
 
 if [ -z "$2" ]; then
     echo "Usage: ./scripts/deploy-cfn-template.sh <BUCKET_NAME> <AWS_REGION>"
