@@ -2,9 +2,14 @@
 
 # From code/package-and-deploy directory run ./scripts/deploy-cfn-template.sh
 
-BUCKET_NAME="rezabekf-development-bucket" # cfn-workshop-s3bucket-unique-name # use your own uniquely named S3 bucket
+if [ -z "$2" ]; then
+    echo "Usage: ./scripts/deploy-cfn-template.sh <BUCKET_NAME> <AWS_REGION>"
+    exit 1
+else
+  BUCKET_NAME="$1"
+  AWS_REGION="$2"
+fi
 STACK_NAME="cfn-workshop-package-deploy"
-AWS_REGION="eu-west-1" # use the same region as your S3 bucket
 
 printf "\n--> Packaging and uploading templates to the %s S3 bucket ...\n" ${BUCKET_NAME}
 
