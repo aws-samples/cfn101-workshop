@@ -85,7 +85,7 @@ Now it’s time to update your stack! Navigate to the [AWS CloudFormation Consol
 3. Choose the stack you created earlier, for example `cfn-workshop-update-behaviors-of-stack-resources`.
 4. Choose **Update**.
 5. In **Prepare template**, choose **Use current template,** and then choose **Next**.
-6. On this page, accept the default value for `InstanceType`, and override the `LatestAmiId` parameter with `/aws/service/ami-amazon-linux-latest/amzn2-ami-hvm-arm64-gp2`, and choose **Next**.
+6. On the **Parameters** page, accept the default value for `InstanceType`, and replace the existing value for the `LatestAmiId` parameter with this new value: `/aws/service/ami-amazon-linux-latest/amzn2-ami-hvm-x86_64-ebs`. When ready, choose **Next**.
 7. Choose to accept default values in the **Configure stack options** page, and choose **Next**.
 8. On the **Review** page, scroll down to the bottom, and choose **Update stack**.
 
