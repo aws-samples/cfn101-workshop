@@ -92,7 +92,7 @@ Now it’s time to update your stack! Navigate to the [AWS CloudFormation Consol
 
 While your stack is updating, navigate to the [Amazon EC2 Console](https://console.aws.amazon.com/ec2/), and choose **Instances**. You will notice a new instance will be launched, and the instance you created earlier in this lab will be terminated. When you updated the stack with the AMI change you made above, CloudFormation created your new instance first, and deleted the previous one: this example illustrates the **Replacement** behavior.
 
-Congratulations! You have learned the **Replacement** update behavior.
+Congratulations! You have learned the **Replacement** behavior.
 
 
 **Updates with Some Interruption**
