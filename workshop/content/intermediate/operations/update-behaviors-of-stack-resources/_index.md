@@ -64,7 +64,7 @@ Save your changes to the file. Next, create your stack with the `update-behavior
 4. In **Prepare template**, choose **Template is ready**.
 5. From **Template source**, choose **Upload a template file**. Choose the `update-behaviors-of-stack-resources.yaml` template mentioned earlier, and then choose **Next**.
 6. Specify a stack name: for example, `cfn-workshop-update-behaviors-of-stack-resources`. On the same page, accept default values for `InstanceType` and `LatestAmiId` parameters, and choose **Next**.
-7. In **Stack failure options**, select **Preserve successfully provisioned resources**. Choose **Next**.
+7. Choose to accept default values in the **Configure stack options** page. Choose **Next**.
 8. On the **Review** page, scroll down to the bottom, and choose **Create stack**.
 9. Wait until the stack creation is complete. Refresh the view in the console until you see your stack to be in the `CREATE_COMPLETE` status.
 
