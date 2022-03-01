@@ -152,7 +152,7 @@ Save your changes to the file. Next, update your stack:
 2. Make sure you choose the [region](https://docs.aws.amazon.com/awsconsolehelpdocs/latest/gsg/select-region.html) where you’ve created the `cfn-workshop-update-behaviors-of-stack-resources` stack.
 3. Choose the stack you created earlier, for example `cfn-workshop-update-behaviors-of-stack-resources`.
 4. Choose **Update**.
-5. In **Prepare template**, choose **Replace** **current template**, and then choose the `update-behaviors-of-stack-resources.yaml` template mentioned earlier. When ready, choose **Next**.
+5. In **Prepare template**, choose **Replace current template**, and then choose the `update-behaviors-of-stack-resources.yaml` template file for **Upload a template file** in the **Specify template** section. When ready, choose **Next**.
 6. On the parameters page, accept the default value for `LatestAmiId`  and `InstanceType` parameters, and choose **Next**.
 7. Choose to accept default values in the **Configure stack options** page, and choose **Next**.
 8. On the **Review** page, scroll down to the bottom and choose **Update stack**.
