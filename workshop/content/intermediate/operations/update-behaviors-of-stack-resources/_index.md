@@ -165,7 +165,7 @@ Congratulations! You have learned the **Update with No Interruption** behavior.
 
 ### Challenge
 
-You are tasked with updating the `Value` of the `Name` key for your `EC2Instance` resource tags. You describe this information with code in the `Tags` [property](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-instance.html#cfn-ec2-instance-tags) for your Amazon EC2 instance. In your `update-behaviors-of-stack-resources.yaml` template, choose to specify `cfn-workshop-new-value` for the `Name` tag’s `Value`. Can you tell which of the three update behaviors will apply when you update the stack?
+You are tasked with updating the `Value` of the `Name` tag key for `EC2Instance` in the template you used in this lab. Choose to describe this information in the `Tags` [property](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-instance.html#cfn-ec2-instance-tags) for your instance. In the `update-behaviors-of-stack-resources.yaml` template, choose to specify `cfn-workshop-new-value` for the `Name` tag's `Value`. Can you tell which of the three update behaviors will apply when you update the stack?
 
 {{%expand "Need a hint?" %}}
 
