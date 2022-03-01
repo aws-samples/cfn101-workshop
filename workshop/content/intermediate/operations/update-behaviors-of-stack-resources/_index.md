@@ -160,7 +160,7 @@ Save your changes to the file. Next, you will [update your stack](https://docs.a
 
 Navigate to the [Amazon EC2 Console](https://console.aws.amazon.com/ec2/v2/home), and choose **Instances**. While the stack is updating, note that your instance will stay in the running status. This illustrates the **Update with No Interruption** behavior.
 
-Congratulations! You have learned the **Updates with no interruption** behavior.
+Congratulations! You have learned the **Update with No Interruption** behavior.
 
 
 ### Challenge
