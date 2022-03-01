@@ -175,7 +175,7 @@ You are tasked with updating the `Value` of the `Name` tag key for `EC2Instance`
 
 {{%expand "Want to see the solution?" %}}
 
-Update your template, the `Value` information as shown next:
+Update the `Value` information in your template, as shown next:
 
 ```yaml
   EC2Instance:
