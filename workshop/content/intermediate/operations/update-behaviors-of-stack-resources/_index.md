@@ -162,7 +162,7 @@ You are tasked with updating the `Value` of the `Name` key for your `EC2Instance
 * Where, in the documentation, you learn about the update behavior of a given resource property?
 
 
-Want to see the solution?
+{{%expand "Want to see the solution?" %}}
 
 Update your template, the `Value` information as shown next:
 
