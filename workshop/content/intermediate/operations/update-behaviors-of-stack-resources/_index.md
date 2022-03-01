@@ -190,7 +190,17 @@ Update your stack:
 6. On the next page, choose to accept default values for `LatestAmiId`  and `InstanceType` parameters, and choose **Next**.
 7. Choose to accept default values in the **Configure stack options** page, and choose **Next**.
 8. On the **Review** page, scroll down to the bottom and choose **Update stack**.
+{{% /expand %}}
 
+
+### Cleanup
+
+Follow steps shown next to clean up resources you created in this lab:
+
+* In the CloudFormation console, choose the `cfn-workshop-update-behaviors-of-stack-resources` stack you created in this lab.
+* Choose **Delete** to delete the stack, and then choose **Delete stack** to confirm.
+
+---
 
 
 ### Conclusion
