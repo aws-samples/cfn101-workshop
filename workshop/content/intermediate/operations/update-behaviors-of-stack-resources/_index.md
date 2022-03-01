@@ -124,7 +124,11 @@ Congratulations! You have learned the **Updates with Some Interruption** behavio
 
 Let’s continue the previous example: your instance is currently using [basic monitoring](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-cloudwatch-new.html), where instance metric data is sent to [Amazon CloudWatch](https://aws.amazon.com/cloudwatch/) in 5-minute periods. Let’s say that you require metric data to be available on 1-minute periods for your workload, and you choose to enable [detailed monitoring](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-cloudwatch-new.html) for your instance.
 
-You then choose to add the `Monitoring` [property](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-instance.html#cfn-ec2-instance-monitoring), set to `true`, for the instance you described in your `update-behaviors-of-stack-resources.yaml` template. Note: as you’re adding this new property, look at the value for [Update requires](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-instance.html#cfn-ec2-instance-monitoring) for `Monitoring`, to learn what will happen when you update the stack.
+You then choose to add the `Monitoring` [property](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-instance.html#cfn-ec2-instance-monitoring), set to `true`, for the instance you described in your `update-behaviors-of-stack-resources.yaml` template.
+
+{{% notice note %}}
+As you’re adding this new property, look at the value for [Update requires](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-instance.html#cfn-ec2-instance-monitoring) for `Monitoring`, to learn what will happen when you update the stack.
+{{% /notice %}}
 
 Update your existing `update-behaviors-of-stack-resources.yaml` template, and specify the `Monitoring` property in the definition for `EC2Instance` as shown next:
 
