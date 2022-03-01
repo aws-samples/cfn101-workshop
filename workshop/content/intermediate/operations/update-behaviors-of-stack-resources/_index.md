@@ -97,7 +97,11 @@ Congratulations! You have learned the **Replacement** update behavior.
 
 **Updates with Some Interruption**
 
-Let’s go over an example where your workload requirements change, and you determine that you need a new [Amazon EC2 instance type](https://aws.amazon.com/ec2/instance-types/) for your CPU and memory requirements. For this, you choose to change the type for the instance, that you you manage with your `cfn-workshop-update-behaviors-of-stack-resources` stack, from `t2.micro` to `t2.small`. As you’re changing the `InstanceType` property value for your instance, you first want to look at the behavior described in [Update requires](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-instance.html#cfn-ec2-instance-instancetype) for the property, to understand what will happen when you update the stack.
+Let’s go over an example where your workload requirements change, and you determine that you need a new [Amazon EC2 instance type](https://aws.amazon.com/ec2/instance-types/) for your CPU and memory requirements. For this, you choose to change the type for the instance, that you manage with your `cfn-workshop-update-behaviors-of-stack-resources` stack, from `t2.micro` to `t2.small` for example.
+
+{{% notice note %}}
+As you’re changing the `InstanceType` property value for your instance, you first want to look at the behavior described in [Update requires](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-instance.html#cfn-ec2-instance-instancetype) for the property, to understand what will happen when you update the stack.
+{{% /notice %}}
 
 Let’s go ahead and update the stack:
 
