@@ -45,7 +45,7 @@ Next, copy and append the following `Resources` section and the Amazon EC2 insta
 
 ```yaml
 Resources:
-    EC2Instance:
+  EC2Instance:
     Type: AWS::EC2::Instance
     Properties:
       InstanceType: !Ref InstanceType
