@@ -145,7 +145,7 @@ Update your existing `update-behaviors-of-stack-resources.yaml` template, and sp
 ```
 
 
-Save your changes to the file. Next, you will [update your stack](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-updating-stacks-direct.html) with the [AWS CloudFormation Console](https://console.aws.amazon.com/cloudformation/):
+Save your changes to the file. Next, update your stack:
 
 
 1. Navigate to the [AWS CloudFormation Console](https://console.aws.amazon.com/cloudformation/).
