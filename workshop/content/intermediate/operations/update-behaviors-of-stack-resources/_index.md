@@ -205,4 +205,4 @@ Follow steps shown next to clean up resources you created in this lab:
 
 ### Conclusion
 
-Congratulations! You now have now learned about the update behaviors of stack resources!
+Congratulations! You now have now learned the update behaviors of stack resources!
