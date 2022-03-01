@@ -178,7 +178,7 @@ Update your template, the `Value` information as shown next:
           Value: cfn-workshop-new-value
 ```
 
-Save your changes to the `update-behaviors-of-stack-resources.yaml` template. Before you update the stack with your updated template, see [Update requires](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-instance.html#cfn-ec2-instance-tags) for the `tags` property: *Update requires*: [No interruption](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-updating-stacks-update-behaviors.html#update-no-interrupt).
+Save your changes to the `update-behaviors-of-stack-resources.yaml` template. Before you update the stack with your updated template, see the **Update requires** [section](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-instance.html#cfn-ec2-instance-tags) for the `Tags` property; you will notice that **Update requires**, in this case, requires [No interruption](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-updating-stacks-update-behaviors.html#update-no-interrupt).
 
 Update your stack:
 
