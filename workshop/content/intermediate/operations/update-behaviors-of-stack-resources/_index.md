@@ -169,7 +169,8 @@ You are tasked with updating the `Value` of the `Name` tag key for `EC2Instance`
 
 {{%expand "Need a hint?" %}}
 
-* Where, in the documentation, you learn about the update behavior of a given resource property?
+* Where, in the CloudFormation documentation for a given resource type (in this case, for the `AWS::EC2::Instance` [resource](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-instance.html)), can you learn about the update behavior for a given resource property?
+{{% /expand %}}
 
 
 {{%expand "Want to see the solution?" %}}
