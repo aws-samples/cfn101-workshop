@@ -25,7 +25,7 @@ By the end of this lab, you will be able to:
 * Copy and append content to the file, as you go through the lab.
 
 
-Let’s get started with describing an [Amazon Elastic Compute Cloud](https://aws.amazon.com/ec2/) (Amazon EC2) instance in your template. Copy and paste the `Parameters` section shown next to the `update-behaviors-of-stack-resources.yaml` template:
+Let’s get started with describing an [Amazon Elastic Compute Cloud](https://aws.amazon.com/ec2/) (Amazon EC2) instance in your template. Copy and append the `Parameters` section shown next to the `update-behaviors-of-stack-resources.yaml` template:
 
 
 ```yaml
