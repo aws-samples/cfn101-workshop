@@ -90,7 +90,7 @@ Now it’s time to update your stack! Navigate to the [AWS CloudFormation Consol
 8. On the **Review** page, scroll down to the bottom, and choose **Update stack**.
 
 
-While your stack is updating, navigate to the [Amazon EC2 Console](https://console.aws.amazon.com/ec2/v2/home), and choose **Instances**. Notice a new instance, of the `arm64` architecture has been launched, whilst the instance with the `x86-64` architecture you created earlier with your stack is terminated. CloudFormation created your new instance first, and deleted the previous one: this example illustrates, the **update behavior for Replacement**.
+While your stack is updating, navigate to the [Amazon EC2 Console](https://console.aws.amazon.com/ec2/), and choose **Instances**. You will notice a new instance will be launched, and the instance you created earlier in this lab will be terminated. When you updated the stack with the AMI change you made above, CloudFormation created your new instance first, and deleted the previous one: this example illustrates the **Replacement** behavior.
 
 Congratulations! You have learned the **Replacement** update behavior.
 
