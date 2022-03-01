@@ -12,4 +12,5 @@ Resources:
     Type: AWS::S3::Bucket
     Properties:
       BucketName: !Ref BucketName
-      # add the code snippet here
+      VersioningConfiguration:
+        Status: Enabled

@@ -1,4 +1,8 @@
-# [Storyboard] Understanding change sets
+---
+title: 'Understanding change sets'
+date: 2022-02-26T17:43:05Z
+weight: 200
+---
 
 ### Overview
 
@@ -33,7 +37,7 @@ Let’s get started.
     5. Specify a stack name, for example `changesets-workshop`.
     6. Make sure to provide a unique value for the `BucketName` parameter. Choose **Next**.
     7. Leave all options to default values, and choose **Next**.
-    8. In the review page, choose **Create Stack.**
+    8. In the review page, choose **Create Stack**.
     9. Refresh the stack creation page until you see your stack in the `CREATE_COMPLETE` status.
 
 
@@ -45,30 +49,29 @@ In this part of the lab, you will specify a property, for a given resource type,
 Open the `bucket.yaml` CloudFormation template in your favorite text editor, and add `VersioningConfiguration` as shown below. Save the file.
 
 
-```
- myS3Bucket:
-        Type: 'AWS::S3::Bucket'
-        Properties:
-            BucketName:
-                Ref: BucketName
-            VersioningConfiguration:
-                Status: Enabled
+```yaml
+  MyS3Bucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: !Ref BucketName
+      VersioningConfiguration:
+        Status: Enabled
 ```
 
 Now let’s create your first change set.
 
-1. In the CloudFormation console, select the `changesets-workshop` stack, and from **Stack actions**, choose **Create change set for current stack.**
-2. From **Prepare template,** choose **Replace current template** and for **Template Source** choose **Upload a template file**, select the updated `bucket.yaml` template, and choose **Next**.
-3. Choose **Next** again, and then choose **Create change set.**
-4. Specify a name for the change set, for example: `bucket-versioning-update`, as well as a description, for example: `enable bucket versioning for myS3bucket`, and choose **Create change set**.
+1. In the CloudFormation console, select the `changesets-workshop` stack, and from **Stack actions**, choose **Create change set for current stack**.
+2. From **Prepare template**, choose **Replace current template** and for **Template Source** choose **Upload a template file**, select the updated `bucket.yaml` template, and choose **Next**.
+3. Choose **Next** again, and then choose **Create change set**.
+4. Specify a name for the change set, for example: `bucket-versioning-update`, as well as a description, for example: `enable bucket versioning for MyS3Bucket`, and choose **Create change set**.
 5. Refresh the page until the status of the change set is `CREATE_COMPLETE`.
 6. At the bottom of the page, you should see a summary of expected changes. Choose **JSON changes** **** for more information, which should look similar to this:
 
-```
-`[
+```json
+[
   {
     "resourceChange": {
-      "logicalResourceId": "myS3Bucket",
+      "logicalResourceId": "MyS3Bucket",
       "action": "Modify",
       "physicalResourceId": "understanding-changesets-123",
       "resourceType": "AWS::S3::Bucket",
@@ -95,8 +98,6 @@ Now let’s create your first change set.
     "type": "Resource"
   }
 ]
-
-`
 ```
 
 In the `resourceChange` structure, you can see the logical ID of the resource, the action CloudFormation will take, the Physical ID of the resource, the type of resource, and whether CloudFormation will replace the resource or not. In the `Details` structure, CloudFormation labels this change as a direct modification that will never require the bucket to be recreated (replaced) because updating the [Versioning configuration](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-s3-bucket.html#cfn-s3-bucket-versioningconfiguration) property requires no interruption.
@@ -110,18 +111,18 @@ You will now modify the value for a property (`BucketName`) that requires a [rep
 
 Let’s get started!
 
-1. In the CloudFormation console, select the `changesets-workshop` stack, and from **Stack actions**, choose **Create change set for current stack.**
-2. From **Prepare template,** choose **Use current template** and choose **Next**.
+1. In the CloudFormation console, select the `changesets-workshop` stack, and from **Stack actions**, choose **Create change set for current stack**.
+2. From **Prepare template**, choose **Use current template** and choose **Next**.
 3. Change the value for `BucketName` parameter by specifying a new unique bucket [name](https://docs.aws.amazon.com/AmazonS3/latest/userguide/bucketnamingrules.html), and follow the rest of the process as before to finish creating the change set.
 
 Here’s what the **JSON changes** for this change set should look like:
 
 
-```
-`[
+```json
+[
   {
     "resourceChange": {
-      "logicalResourceId": "myS3Bucket",
+      "logicalResourceId": "MyS3Bucket",
       "action": "Modify",
       "physicalResourceId": "understanding-changesets-123",
       "resourceType": "AWS::S3::Bucket",
@@ -157,7 +158,7 @@ Here’s what the **JSON changes** for this change set should look like:
     "hookInvocationCount": null,
     "type": "Resource"
   }
-]`
+]
 ```
 
 You can see there are two key differences from the previous example. First, the value for the property `Replacement` under `resourceChange` structure is `True` and second, you see two evaluations `Static` and `Dynamic` under `details` structure. Let's talk about these in more detail.
@@ -176,21 +177,22 @@ You should focus on the static evaluation as it gives you the most detailed info
 
 ### Challenge
 
-In the directory `code/workspace/understanding-changesets,` open the template file named `changeset-challenge.``yaml`. Note the logical ID of the S3 bucket is `newS3Bucket` instead of `myS3Bucket`, and there is a new [Amazon SQS queue resource](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-sqs-queues.html) (`mySqsQueue`).
+In the directory `code/workspace/understanding-changesets`, open the template file named `changeset-challenge.yaml`. Note the logical ID of the S3 bucket is `NewS3Bucket` instead of `MyS3Bucket`, and there is a new [Amazon SQS queue resource](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-sqs-queues.html) (`MySqsQueue`).
 
-What do you think will happen if you create a new change set for the stack changesets-workshop using the `changeset-challenge.``yaml` file? How many resources will be added? Will any resource be removed? Will you be able to get the physical ID of the SQS queue from the **JSON changes** of the change set?
+What do you think will happen if you create a new change set for the stack changesets-workshop using the `changeset-challenge.yaml` file? How many resources will be added? Will any resource be removed? Will you be able to get the physical ID of the SQS queue from the **JSON changes** of the change set?
 
 Create a change set with this file, and see if you were able to correctly determine the proposed changes.
 
 *  Need a hint?
     * When the logical ID of a resource is changed, CloudFormation tries to replace the resource.
 * Want to see the solution?
-    * In addition to adding the new SQS queue `mySqsQueue,` CloudFormation will try to delete the `myS3Bucket` and create a new bucket with logical ID `newS3Bucket`. The physical ID of new resources is not available until they are created. Here’s what the **JSON changes** should look like:
+    * In addition to adding the new SQS queue `MySqsQueue`, CloudFormation will try to delete the `MyS3Bucket` and create a new bucket with logical ID `NewS3Bucket`. The physical ID of new resources is not available until they are created. Here’s what the **JSON changes** should look like:
 
-`[
+```json
+[
   {
     "resourceChange": {
-      "logicalResourceId": "myS3Bucket",
+      "logicalResourceId": "MyS3Bucket",
       "action": "Remove",
       "physicalResourceId": "understanding-changesets-123",
       "resourceType": "AWS::S3::Bucket",
@@ -205,7 +207,7 @@ Create a change set with this file, and see if you were able to correctly determ
   },
   {
     "resourceChange": {
-      "logicalResourceId": "newS3Bucket",
+      "logicalResourceId": "NewS3Bucket",
       "action": "Add",
       "physicalResourceId": null,
       "resourceType": "AWS::S3::Bucket",
@@ -233,7 +235,8 @@ Create a change set with this file, and see if you were able to correctly determ
     "hookInvocationCount": null,
     "type": "Resource"
   }
-]`
+]
+```
 
 ### Cleanup
 
