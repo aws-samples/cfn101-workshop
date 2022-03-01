@@ -115,7 +115,7 @@ Let’s go ahead and update the stack:
 8. On the **Review** page, scroll down to the bottom and choose **Update stack**.
 
 
-While your stack is updating, navigate to the [Amazon EC2 Console](https://console.aws.amazon.com/ec2/v2/home), and choose **Instances**. Note that your instance will be first stopped - thus, it will be temporarily not available - and, once the instance type changes to `t2.small`, it will then enter the running status shortly. This example illustrates the **update behavior with some interruption**.
+While your stack is updating, navigate to the [Amazon EC2 Console](https://console.aws.amazon.com/ec2/), and choose **Instances**. Note that your instance will be first stopped - thus, it will be temporarily not available - and, once the instance type changes to `t2.small`, it will then enter the running status shortly. This example illustrates the **Updates with Some Interruption** behavior.
 
 Congratulations! You have learned the **Updates with some interruption** behavior.
 
