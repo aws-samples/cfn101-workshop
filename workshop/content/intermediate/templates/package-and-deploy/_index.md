@@ -37,7 +37,7 @@ The project consists of:
 * One Lambda function.
 * Requirements file to install your function dependencies.
 
-```
+```shell
 cfn101-workshop/code/workspace/package-and-deploy$ tree -F .
 ├── infrastructure.template
 └── lambda/
@@ -64,8 +64,6 @@ PythonFunction:
     Role: !GetAtt LambdaBasicExecutionRole.Arn
     Handler: lambda_function.handler
     Code: lambda/                                 # <<< This is a local directory
-    TracingConfig:
-      Mode: Active
 ```
 
 #### Package and Upload the artifacts
@@ -84,8 +82,8 @@ Decide on the AWS region where you will be deploying your Cloudformation templat
 Make sure to replace the name of the bucket after `s3://` with a unique name!
 {{% /notice %}}
 
-```
-aws s3 mb s3://example-bucket-name --region eu-west-1
+```shell
+$ aws s3 mb s3://example-bucket-name --region eu-west-1
 ```
 
 ##### 2. Install function dependencies
@@ -95,8 +93,8 @@ directory with [pip](https://pypi.org/project/pip/), so it can be packaged with 
 
 From within a `code/workspace/package-and-deploy` directory run:
 
-```
-pip install pytz --target lambda
+```shell
+$ pip install pytz --target lambda
 ```
 
 You should see the `pytz` package inside the `lambda/` folder.
@@ -105,12 +103,12 @@ You should see the `pytz` package inside the `lambda/` folder.
 
 From within a `code/workspace/package-and-deploy` directory run:
 
-```shell script
-aws cloudformation package \
---template-file infrastructure.template \
---s3-bucket example-bucket-name \
---s3-prefix lambda-function \
---output-template-file infrastructure-packaged.template
+```shell
+$ aws cloudformation package \
+      --template-file infrastructure.template \
+      --s3-bucket example-bucket-name \
+      --s3-prefix cfn-workshop-package-deploy \
+      --output-template-file infrastructure-packaged.template
 ```
 
 Let's have a closer look at the individual `package` options you have used in the command above.
@@ -140,22 +138,22 @@ You can notice that the `Code` property has been updated with two new attributes
       Handler: lambda_function.handler
       Code:
         S3Bucket: example-bucket-name
-        S3Key: lambda-function/7e87fc97a46c3533bbaee7b5b3e215ee
+        S3Key: cfn-workshop-package-deploy/1234567890
       TracingConfig:
         Mode: Active
 ```
 
 For completeness let’s also look what’s in the uploaded files. From the listing above we know the bucket and object name to download.
 
-```
-aws s3 cp s3://example-bucket-name/lambda-function/ce6c47b6c84d94bd207cea18e7d93458 .
+```shell
+$ aws s3 cp s3://example-bucket-name/cfn-workshop-package-deploy/1234567890 .
 ```
 
 We know that `package` will ZIP files, so even there is no `.zip` extension you can still `unzip` it.
 
 ##### Unix/Linux
-```shell script
-unzip -l ce6c47b6c84d94bd207cea18e7d93458
+```shell
+$ unzip -l ce6c47b6c84d94bd207cea18e7d93458
 
 Archive:  ce6c47b6c84d94bd207cea18e7d93458
   Length      Date    Time    Name
@@ -190,8 +188,8 @@ checks a CloudFormation template to ensure it is valid JSON or YAML. This is use
 
 Let's validate our packaged template. From within a `code/workspace/package-and-deploy` directory run:
 
-```bash
-aws cloudformation validate-template \
+```shell
+$ aws cloudformation validate-template \
   --template-body file://infrastructure-packaged.template
 ```
 
@@ -217,12 +215,12 @@ Let's deploy packaged template.
 
 From within a `code/workspace/package-and-deploy` directory run:
 
-```bash
-aws cloudformation deploy \
---template-file infrastructure-packaged.template \
---stack-name cfn-workshop-lambda \
---region eu-west-1 \
---capabilities CAPABILITY_IAM
+```shell
+$ aws cloudformation deploy \
+      --template-file infrastructure-packaged.template \
+      --stack-name cfn-workshop-lambda \
+      --region eu-west-1 \
+      --capabilities CAPABILITY_IAM
 ```
 
 {{% notice note %}}
@@ -249,12 +247,11 @@ The Lambda function will determinate current UTC date and time. Then it will con
 
 From your terminal run:
 
-##### Unix/Linux
+##### Unix/Linux (AWS CLI version 2)
 ```shell
-aws lambda invoke \
+$ aws lambda invoke \
 --function-name cfn-workshop-python-function \
---payload '{"time_zone": "Europe/London"}' \
---cli-binary-format raw-in-base64-out \
+--payload "{\"time_zone\": \"Europe/London\"}" \
 response.json
 ```
 ##### CMD
@@ -279,8 +276,8 @@ Lambda will be triggered, and the response form Lambda will be saved in `respons
 You can check the result of the file by running command below:
 
 ##### Unix/Linux
-```shell script
-echo "$(<response.json)"
+```shell
+$ cat response.json
 ```
 ##### CMD/Powershell
 ```powershell
