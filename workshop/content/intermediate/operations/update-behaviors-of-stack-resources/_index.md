@@ -5,7 +5,7 @@ weight: 100
 ---
 
 ### Overview
-In this lab, you will learn important aspects of how to design and address updates of your infrastructure. As your applications and environments evolves, you apply updates to resource configurations described in your templates.
+In this lab, you will learn important aspects of how to design and address updates of your infrastructure. As your applications and environments evolve, you apply updates to resource configurations described in your templates.
 
 CloudFormation updates resources by comparing changes between the updated template you provide, and resource configurations you described in the previous version of your template. Resource configurations that haven't changed remain unaffected during the update process; otherwise, CloudFormation uses one of the following [update behaviors](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-updating-stacks-update-behaviors.html): **Update with No Interruption**, **Updates with Some Interruption**, and **Replacement**, depending on which new property you add, or on which property value you modify, for a given [resource type](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-template-resource-type-ref.html) you describe in your template.
 
