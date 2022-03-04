@@ -14,7 +14,7 @@ You can create change sets either by modifying an input parameter value or editi
 
 ### Topics Covered
 
-In this lab, you’ll learn how:
+In this lab, you’ll learn:
 
 * to create change sets
 * to read change sets to understand what your stack will look like after the update
