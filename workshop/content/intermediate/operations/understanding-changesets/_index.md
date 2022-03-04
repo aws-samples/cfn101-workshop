@@ -102,7 +102,7 @@ Now let’s create your first change set.
 
 In the `resourceChange` structure, you can see the logical ID of the resource, the action CloudFormation will take, the Physical ID of the resource, the type of resource, and whether CloudFormation will replace the resource or not. In the `Details` structure, CloudFormation labels this change as a direct modification that will never require the bucket to be recreated (replaced) because updating the [Versioning configuration](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-s3-bucket.html#cfn-s3-bucket-versioningconfiguration) property requires no interruption.
 
-You can confidently execute this change set, knowing that CloudFormation won't replace the bucket, but let's hold off on executing the change set, and create another change set.
+If you execute this change set, CloudFormation will then not replace your bucket, based on the configuration you provided; let's hold off on executing the change set, and create another change set.
 
 
 ## Lab part 2
