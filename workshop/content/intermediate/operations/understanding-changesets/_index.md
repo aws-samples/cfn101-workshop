@@ -22,7 +22,7 @@ In this lab, you’ll learn:
 
 ### Start Lab
 
-Using a sample template, you will create a CloudFormation stack. You will then create two different change sets for this stack, one by editing the template and another by modifying a parameter value.
+Using a sample template, you will create a CloudFormation stack. You will then create two different change sets for this stack: one by editing the template, and another one by modifying a parameter value.
 
 Let’s get started.
 
