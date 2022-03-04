@@ -16,7 +16,7 @@ You can create change sets either by modifying an input parameter value or editi
 
 In this lab, you’ll learn:
 
-* to create change sets
+* how to create change sets
 * how to read change sets to understand what your stack will look like after the update
 * CloudFormation decides which resources need replacement, and how static and dynamic evaluations work
 
