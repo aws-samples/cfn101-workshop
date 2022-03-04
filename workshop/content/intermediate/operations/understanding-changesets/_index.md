@@ -245,6 +245,9 @@ To cleanup resources you created with this lab:
 1. From the CloudFormation console, select the stack named `changesets-workshop`.
 2. Choose **Delete**, and then **Delete Stack** to delete your stack and change sets you created for it.
 
+
+---
+
 ### Conclusion
 
 Nicely done!
