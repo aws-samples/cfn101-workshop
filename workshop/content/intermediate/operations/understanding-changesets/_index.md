@@ -161,7 +161,7 @@ Here’s what the **JSON changes** for this change set should look like:
 ]
 ```
 
-You can see there are two key differences from the previous example. First, the value for the property `Replacement` under `resourceChange` structure is `True` and second, you see two evaluations `Static` and `Dynamic` under `details` structure. Let's talk about these in more detail.
+You can see there are two key differences from the previous example. First, the value for the property `replacement` under `resourceChange` structure is `True` and second, you see two evaluations `Static` and `Dynamic` under the `details` structure. Let's talk about these in more detail.
 
 The value for `replacement` is `True` because you updated the `BucketName` [property](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-s3-bucket.html#cfn-s3-bucket-bucketname) that requires a replacement. CloudFormation will create a new resource (a new bucket in this case), and then delete the old one. If there are multiple changes you make on a given resource, and each change has a different value for the `requiresRecreation` field, CloudFormation updates the resource when a recreation is required. In other words, if only one of the many changes requires a replacement, CloudFormation replaces the resources, and therefore sets the `replacement` field to `True`.
 
