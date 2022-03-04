@@ -186,7 +186,7 @@ Create a change set with this file, and see if you were able to correctly determ
 *  Need a hint?
     * When you change the logical ID of a resource in your template, and you update your stack with your updated template, CloudFormation tries to replace the resource.
 {{% /expand %}}
-* Want to see the solution?
+{{%expand "Want to see the solution?" %}}
     * In addition to adding the new `MySqsQueue` queue resource, CloudFormation will try to create a new bucket with the `NewS3Bucket` logical ID, and delete `MyS3Bucket`. Physical IDs of new resources are not available until they are created. Here’s what the **JSON changes** should look like:
 
 ```json
