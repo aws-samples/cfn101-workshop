@@ -186,7 +186,7 @@ Create a change set with this file, and see if you were able to correctly determ
 *  Need a hint?
     * When the logical ID of a resource is changed, CloudFormation tries to replace the resource.
 * Want to see the solution?
-    * In addition to adding the new SQS queue `MySqsQueue`, CloudFormation will try to delete the `MyS3Bucket` and create a new bucket with logical ID `NewS3Bucket`. The physical ID of new resources is not available until they are created. Here’s what the **JSON changes** should look like:
+    * In addition to adding the new `MySqsQueue` queue resource, CloudFormation will try to create a new bucket with the `NewS3Bucket` logical ID, and delete `MyS3Bucket`. Physical IDs of new resources are not available until they are created. Here’s what the **JSON changes** should look like:
 
 ```json
 [
