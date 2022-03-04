@@ -28,7 +28,7 @@ Let’s get started.
 
 
 1. Change directory to: `code/workspace/understanding-changesets`.
-2. Open the `bucket.yaml` CloudFormation template in your favorite text editor, and familiarize yourself the code in the template.
+2. Open the `bucket.yaml` CloudFormation template in your favorite text editor, and familiarize yourself with the sample template content.
 3. Create a stack by following these steps:
     1. Navigate to the [AWS CloudFormation Console](https://console.aws.amazon.com/cloudformation/).
     2. From **Create stack**, choose **With new resources (standard)**.
