@@ -18,7 +18,7 @@ In this lab, you’ll learn:
 
 * how to create change sets
 * how to read change sets to understand what your stack will look like after the update
-* CloudFormation decides which resources need replacement, and how static and dynamic evaluations work
+* how CloudFormation decides which resources need replacement, and how static and dynamic evaluations work
 
 ### Start Lab
 
