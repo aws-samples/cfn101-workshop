@@ -237,7 +237,7 @@ Create a change set with this file, and see if you were able to correctly determ
   }
 ]
 ```
-
+{{% /expand %}}
 ### Cleanup
 
 To cleanup resources you created with this lab:
