@@ -222,7 +222,7 @@ Create a change set with this file, and see if you were able to correctly determ
   },
   {
     "resourceChange": {
-      "logicalResourceId": "sqsQueue",
+      "logicalResourceId": "MySqsQueue",
       "action": "Add",
       "physicalResourceId": null,
       "resourceType": "AWS::SQS::Queue",
