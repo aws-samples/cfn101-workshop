@@ -107,7 +107,7 @@ If you execute this change set, CloudFormation will then not replace your bucket
 
 ## Lab part 2
 
-You will now modify the value for a property (`BucketName`) that requires a [replacement](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-updating-stacks-update-behaviors.html#update-replacement) on stack updates. You will then create a change set to preview your changes, and inspect the output of the change set operation.
+You will now modify the value for a property, `BucketName`, that requires a [replacement](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-updating-stacks-update-behaviors.html#update-replacement) on stack updates. You will then create a change set to preview your changes, and inspect the output of the change set operation.
 
 Let’s get started!
 
