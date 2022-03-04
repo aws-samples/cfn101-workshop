@@ -183,7 +183,7 @@ What do you think will happen if you create a new change set for the stack chang
 
 Create a change set with this file, and see if you were able to correctly determine the proposed changes.
 
-*  Need a hint?
+{{%expand "Need a hint?" %}}
     * When you change the logical ID of a resource in your template, and you update your stack with your updated template, CloudFormation tries to replace the resource.
 {{% /expand %}}
 {{%expand "Want to see the solution?" %}}
