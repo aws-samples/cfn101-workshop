@@ -252,4 +252,4 @@ To cleanup resources you created with this lab:
 
 Nicely done!
 
-You learned how to create change sets, how to read change set output, and how CloudFormation decides which resources need to be replaced based on resource configuration changes you make.
+You learned how to create change sets, how to read a change set output, and how CloudFormation decides which resources need to be replaced based on resource configuration changes you make.
