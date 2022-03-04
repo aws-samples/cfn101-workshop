@@ -65,7 +65,7 @@ Now let’s create your first change set.
 3. Choose **Next** again, and then choose **Create change set**.
 4. Specify a name for the change set, for example: `bucket-versioning-update`, as well as a description, for example: `enable bucket versioning for MyS3Bucket`, and choose **Create change set**.
 5. Refresh the page until the status of the change set is `CREATE_COMPLETE`.
-6. At the bottom of the page, you should see a summary of expected changes. Choose **JSON changes** **** for more information, which should look similar to this:
+6. At the bottom of the page, you should see a summary of expected changes. Navigate to the **JSON changes** tab for more information, which should look similar to this:
 
 ```json
 [
