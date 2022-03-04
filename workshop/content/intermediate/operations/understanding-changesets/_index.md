@@ -173,7 +173,7 @@ A `Static` evaluation means that CloudFormation can determine the value before e
 
 In some cases, CloudFormation can determine a value only after you execute a change set. CloudFormation labels those changes as `Dynamic` evaluations. In other words, if you reference an updated resource that's conditionally replaced, CloudFormation can't determine whether the reference to the updated resource will change. For example, if your template includes a reference to a resource that is conditionally replaced, the value of the reference (the physical ID of the resource) might change, depending on if the resource is recreated. If the resource is recreated, it will have a new physical ID, so all references to that resource will also be updated.  In the above example, you are referencing an updated parameter which results in `Dynamic` evaluation.
 
-You should focus on the static evaluation as it gives you the most detailed information about the change.  In the above example, the static evaluation shows that the change is a result of a modified parameter reference value (`ParameterReference`). The exact parameter that was changed is indicated by the `causingEntity` field (`BucketName`).
+Now, let's focus on static evaluation-related data for your changes.  In the above example, the static evaluation shows that the change is a result of a modified parameter reference value, `ParameterReference`: the exact parameter that was changed is indicated by the `causingEntity` field, that is `BucketName` in this case.
 
 ### Challenge
 
