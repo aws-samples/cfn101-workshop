@@ -35,8 +35,8 @@ Let’s get started.
     3. From **Prepare template**, choose **Template is ready**.
     4. From **Template source**, choose **Upload a template file**. Choose the `bucket.yaml`, and then choose **Next**.
     5. Specify a stack name, for example `changesets-workshop`.
-    6. Make sure to provide a unique value for the `BucketName` parameter. Choose **Next**.
-    7. Leave all options to default values, and choose **Next**.
+    6. Make sure to provide a unique value for the `BucketName` parameter. For more information, see [Bucket naming rules](https://docs.aws.amazon.com/AmazonS3/latest/userguide/bucketnamingrules.html). Choose **Next**.
+    7. In the next page, choose to leave all options to default values, and choose **Next**.
     8. In the review page, choose **Create Stack**.
     9. Refresh the stack creation page until you see your stack in the `CREATE_COMPLETE` status.
 
@@ -58,10 +58,10 @@ Open the `bucket.yaml` CloudFormation template in your favorite text editor, and
         Status: Enabled
 ```
 
-Now let’s create your first change set.
+Next, create your first change set:
 
 1. In the CloudFormation console, select the `changesets-workshop` stack, and from **Stack actions**, choose **Create change set for current stack**.
-2. From **Prepare template**, choose **Replace current template** and for **Template Source** choose **Upload a template file**, select the updated `bucket.yaml` template, and choose **Next**.
+2. From **Prepare template**, choose **Replace current template**. For **Template source**, choose **Upload a template file**, then select your updated `bucket.yaml` template, and choose **Next**.
 3. Choose **Next** again, and then choose **Create change set**.
 4. Specify a name for the change set, for example: `bucket-versioning-update`, as well as a description, for example: `enable bucket versioning for MyS3Bucket`, and choose **Create change set**.
 5. Refresh the page until the status of the change set is `CREATE_COMPLETE`.
@@ -177,7 +177,7 @@ Now, let's focus on static evaluation-related data for your changes.  In the abo
 
 ### Challenge
 
-In the directory `code/workspace/understanding-changesets`, open the template file named `changeset-challenge.yaml`. Note the logical ID of the S3 bucket is `NewS3Bucket` instead of `MyS3Bucket`, and there is a new [Amazon SQS queue resource](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-sqs-queues.html) (`MySqsQueue`).
+Open, in your favorite text editor, the template file named `changeset-challenge.yaml`, that you can find in the `code/workspace/understanding-changesets` directory. This file is a modified version of the `bucket.yaml` template you used earlier: note the logical ID of the Amazon S3 bucket resource, that is `NewS3Bucket` instead of `MyS3Bucket`. Note that there is also a new resource described in the template: an [Amazon Simple Queue Service](https://aws.amazon.com/sqs/) (SQS) [queue](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-sqs-queues.html), with the `MySqsQueue` logical ID.
 
 What do you think will happen if you create a new change set for the stack changesets-workshop using the `changeset-challenge.yaml` file? How many resources will be added? Will any resource be removed? Will you be able to get the physical ID of the SQS queue from the **JSON changes** of the change set?
 
@@ -245,6 +245,9 @@ To cleanup resources you created with this lab:
 
 1. From the CloudFormation console, select the stack named `changesets-workshop`.
 2. Choose **Delete**, and then **Delete Stack** to delete your stack and change sets you created for it.
+
+
+---
 
 
 ---
