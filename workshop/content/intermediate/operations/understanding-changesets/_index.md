@@ -6,11 +6,11 @@ weight: 200
 
 ### Overview
 
-When you update an [AWS CloudFormation](https://aws.amazon.com/cloudformation/) stack, you update one or more resources in that stack to a desired new state. Due to factors that include resource dependencies, [update behaviors of stack resources](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-updating-stacks-update-behaviors.html), or user error, there could be a disparity between the desired state and the actual new state of the resources.
+When you update an [AWS CloudFormation](https://aws.amazon.com/cloudformation/) stack, you update one or more resources in that stack to a desired new state. Due to factors that include resource dependencies, [update behaviors of stack resources](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-updating-stacks-update-behaviors.html), or user error, there could be differences between the desired state and the actual, new state of a given resource.
 
 You choose to update your stacks either [directly](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-updating-stacks-direct.html), or with [change sets](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-updating-stacks-changesets.html): the latter gives you a preview of proposed changes before you apply them, and helps prevent unexpected resource configurations or replacements.
 
-You can create change sets either by modifying an input parameter value or editing the template. Moreover, you can create multiple change sets for the same stack before executing one that best suits your requirements.
+You can create change sets by either modifying template parameter values, or by providing an updated template where you described your changes. You can also choose to create multiple change sets for the same stack, before executing the change set that best suits your requirements.
 
 ### Topics Covered
 
@@ -24,7 +24,7 @@ In this lab, you’ll learn:
 
 Using a sample template, you will create a CloudFormation stack. You will then create two different change sets for this stack: one by editing the template, and another one by modifying a parameter value.
 
-Let’s get started.
+Let’s get started!
 
 
 1. Change directory to: `code/workspace/understanding-changesets`.
@@ -33,7 +33,7 @@ Let’s get started.
     1. Navigate to the [AWS CloudFormation Console](https://console.aws.amazon.com/cloudformation/).
     2. From **Create stack**, choose **With new resources (standard)**.
     3. From **Prepare template**, choose **Template is ready**.
-    4. From **Template source**, choose **Upload a template file**. Choose the `bucket.yaml`, and then choose **Next**.
+    4. From **Template source**, choose **Upload a template file**. Choose the `bucket.yaml` template file, and then choose **Next**.
     5. Specify a stack name, for example `changesets-workshop`.
     6. Make sure to provide a unique value for the `BucketName` parameter. For more information, see [Bucket naming rules](https://docs.aws.amazon.com/AmazonS3/latest/userguide/bucketnamingrules.html). Choose **Next**.
     7. In the next page, choose to leave all options to default values, and choose **Next**.
@@ -62,8 +62,8 @@ Next, create your first change set:
 
 1. In the CloudFormation console, select the `changesets-workshop` stack, and from **Stack actions**, choose **Create change set for current stack**.
 2. From **Prepare template**, choose **Replace current template**. For **Template source**, choose **Upload a template file**, then select your updated `bucket.yaml` template, and choose **Next**.
-3. Choose **Next** again, and then choose **Create change set**.
-4. Specify a name for the change set, for example: `bucket-versioning-update`, as well as a description, for example: `enable bucket versioning for MyS3Bucket`, and choose **Create change set**.
+3. Choose **Next** again in both the **Specify stack details** and **Configure stack options** pages, and then choose **Create change set**.
+4. Specify a name for the change set, for example: `bucket-versioning-update`, as well as a description, for example: `Enable bucket versioning for MyS3Bucket.`, and choose **Create change set**.
 5. Refresh the page until the status of the change set is `CREATE_COMPLETE`.
 6. At the bottom of the page, you should see a summary of expected changes. Navigate to the **JSON changes** tab for more information, which should look similar to this:
 
@@ -161,9 +161,9 @@ Here’s what the **JSON changes** for this change set should look like:
 ]
 ```
 
-You can see there are two key differences from the previous example. First, the value for the property `replacement` under `resourceChange` structure is `True` and second, you see two evaluations `Static` and `Dynamic` under the `details` structure. Let's talk about these in more detail.
+You can see there are two key differences from the previous example. First, the value for the `replacement` property under the `resourceChange` structure is set to `True`; second, you see two evaluations, `Static` and `Dynamic`, under the `details` structure. Let's talk about these aspects in more detail.
 
-The value for `replacement` is `True` because you updated the `BucketName` [property](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-s3-bucket.html#cfn-s3-bucket-bucketname) that requires a replacement. CloudFormation will create a new resource (a new bucket in this case), and then delete the old one. If there are multiple changes you make on a given resource, and each change has a different value for the `requiresRecreation` field, CloudFormation updates the resource when a recreation is required. In other words, if only one of the many changes requires a replacement, CloudFormation replaces the resources, and therefore sets the `replacement` field to `True`.
+The value for `replacement` is `True` because you updated the `BucketName` [property](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-s3-bucket.html#cfn-s3-bucket-bucketname) that requires a replacement. CloudFormation will create a new resource (a new bucket in this case), and then delete the old one. If there are multiple changes you make on a given resource, and each change has a different value for the `requiresRecreation` field, CloudFormation replaces the resource when a recreation is required. In other words, if only one of the many changes requires a replacement, CloudFormation replaces the resources, and therefore sets the `replacement` field to `True`.
 
 The value in the `replacement` field is indicated by the `requiresRecreation` field in the `target` structure. If the `requiresRecreation` field is `Never`, the `replacement` field is `False`. If the `requiresRecreation` field is `Always` and the `evaluation` field is `Static`, `replacement` is `True`. However, if the `requiresRecreation` field is `Always` and the `evaluation` field is `Dynamic`, `replacement` is `Conditionally`.
 
@@ -179,15 +179,15 @@ Now, let's focus on static evaluation-related data for your changes.  In the abo
 
 Open, in your favorite text editor, the template file named `changeset-challenge.yaml`, that you can find in the `code/workspace/understanding-changesets` directory. This file is a modified version of the `bucket.yaml` template you used earlier: note the logical ID of the Amazon S3 bucket resource, that is `NewS3Bucket` instead of `MyS3Bucket`. Note that there is also a new resource described in the template: an [Amazon Simple Queue Service](https://aws.amazon.com/sqs/) (SQS) [queue](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-sqs-queues.html), with the `MySqsQueue` logical ID.
 
-What do you think will happen if you create a new change set for the stack changesets-workshop using the `changeset-challenge.yaml` file? How many resources will be added? Will any resource be removed? Will you be able to get the physical ID of the SQS queue from the **JSON changes** of the change set?
+What do you think will happen if you create a new change set for the `changesets-workshop` stack using the `changeset-challenge.yaml` file? How many resources will be added? Will any resource be removed? Will you be able to get the physical ID of the queue from the **JSON changes** of the change set?
 
 Create a change set with this file, and see if you were able to correctly determine the proposed changes.
 
 {{%expand "Need a hint?" %}}
-    * When you change the logical ID of a resource in your template, and you update your stack with your updated template, CloudFormation tries to replace the resource.
+* When you change the logical ID of a resource in your template, and you update your stack with your updated template, CloudFormation tries to replace the resource.
 {{% /expand %}}
 {{%expand "Want to see the solution?" %}}
-    * In addition to adding the new `MySqsQueue` queue resource, CloudFormation will try to create a new bucket with the `NewS3Bucket` logical ID, and delete `MyS3Bucket`. Physical IDs of new resources are not available until they are created. Here’s what the **JSON changes** should look like:
+* In addition to adding the new `MySqsQueue` queue resource, CloudFormation will try to create a new bucket with the `NewS3Bucket` logical ID, and delete `MyS3Bucket`. Physical IDs of new resources are not available until they are created. Here’s what the **JSON changes** should look like:
 
 ```json
 [
@@ -245,9 +245,6 @@ To cleanup resources you created with this lab:
 
 1. From the CloudFormation console, select the stack named `changesets-workshop`.
 2. Choose **Delete**, and then **Delete Stack** to delete your stack and change sets you created for it.
-
-
----
 
 
 ---
