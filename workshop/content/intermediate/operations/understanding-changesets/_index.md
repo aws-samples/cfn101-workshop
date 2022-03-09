@@ -5,7 +5,6 @@ weight: 200
 ---
 
 ### Overview
-
 When you update an [AWS CloudFormation](https://aws.amazon.com/cloudformation/) stack, you update one or more resources in that stack to a desired new state. Due to factors that include resource dependencies, [update behaviors of stack resources](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-updating-stacks-update-behaviors.html), or user error, there could be differences between the desired state and the actual, new state of a given resource.
 
 You choose to update your stacks either [directly](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-updating-stacks-direct.html), or with [change sets](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-updating-stacks-changesets.html): the latter gives you a preview of proposed changes before you apply them, and helps prevent unexpected resource configurations or replacements.
@@ -13,7 +12,6 @@ You choose to update your stacks either [directly](https://docs.aws.amazon.com/A
 You can create change sets by either modifying template parameter values, or by providing an updated template where you described your changes. You can also choose to create multiple change sets for the same stack, before executing the change set that best suits your requirements.
 
 ### Topics Covered
-
 In this lab, you’ll learn:
 
 * how to create change sets
@@ -21,11 +19,9 @@ In this lab, you’ll learn:
 * how CloudFormation decides which resources need replacement, and how static and dynamic evaluations work
 
 ### Start Lab
-
 Using a sample template, you will create a CloudFormation stack. You will then create two different change sets for this stack: one by editing the template, and another one by modifying a parameter value.
 
 Let’s get started!
-
 
 1. Change directory to: `code/workspace/understanding-changesets`.
 2. Open the `bucket.yaml` CloudFormation template in your favorite text editor, and familiarize yourself with the sample template content.
@@ -40,14 +36,10 @@ Let’s get started!
     8. In the review page, choose **Create Stack**.
     9. Refresh the stack creation page until you see your stack in the `CREATE_COMPLETE` status.
 
-
-
-## Lab part 1
-
+### Lab part 1
 In this part of the lab, you will specify a property, for a given resource type, that requires [no interruption](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-updating-stacks-update-behaviors.html#update-no-interrupt) on stack updates. You will then create a change set to preview the changes, and inspect the output of the change set operation.
 
 Open the `bucket.yaml` CloudFormation template in your favorite text editor, and add `VersioningConfiguration` as shown below. Save the file.
-
 
 ```yaml
   MyS3Bucket:
@@ -104,9 +96,7 @@ In the `resourceChange` structure, you can see the logical ID of the resource, t
 
 If you execute this change set, CloudFormation will then not replace your bucket, based on the configuration you provided; let's hold off on executing the change set, and create another change set.
 
-
-## Lab part 2
-
+### Lab part 2
 You will now modify the value for a property, `BucketName`, that requires a [replacement](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-updating-stacks-update-behaviors.html#update-replacement) on stack updates. You will then create a change set to preview your changes, and inspect the output of the change set operation.
 
 Let’s get started!
@@ -176,7 +166,6 @@ In some cases, CloudFormation can determine a value only after you execute a cha
 Now, let's focus on static evaluation-related data for your changes.  In the above example, the static evaluation shows that the change is a result of a modified parameter reference value, `ParameterReference`: the exact parameter that was changed is indicated by the `causingEntity` field, that is `BucketName` in this case.
 
 ### Challenge
-
 Open, in your favorite text editor, the template file named `changeset-challenge.yaml`, that you can find in the `code/workspace/understanding-changesets` directory. This file is a modified version of the `bucket.yaml` template you used earlier: note the logical ID of the Amazon S3 bucket resource, that is `NewS3Bucket` instead of `MyS3Bucket`. Note that there is also a new resource described in the template: an [Amazon Simple Queue Service](https://aws.amazon.com/sqs/) (SQS) [queue](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-sqs-queues.html), with the `MySqsQueue` logical ID.
 
 What do you think will happen if you create a new change set for the `changesets-workshop` stack using the `changeset-challenge.yaml` file? How many resources will be added? Will any resource be removed? Will you be able to get the physical ID of the queue from the **JSON changes** of the change set?
@@ -241,16 +230,14 @@ Create a change set with this file, and see if you were able to correctly determ
 {{% /expand %}}
 ### Cleanup
 
-To cleanup resources you created with this lab:
+To clean up resources you created with this lab:
 
 1. From the CloudFormation console, select the stack named `changesets-workshop`.
 2. Choose **Delete**, and then **Delete Stack** to delete your stack and change sets you created for it.
 
-
 ---
 
 ### Conclusion
-
 Nicely done!
 
 You learned how to create change sets, how to read a change set output, and how CloudFormation decides which resources need to be replaced based on resource configuration changes you make.
