@@ -104,7 +104,7 @@ Let’s create a stack using the `resource-return-values.yaml` template, and see
 
 Refresh the page until you see the `CREATE_COMPLETE` status for your stack. Now, let’s review the stack events and outputs. Your stack events should look similar to the image shown next:
 
-![resource-return-values.png](finding-return-values/resource-return-values.png)
+![resource-return-values.png](resource-return-values/resource-return-values.png)
 
 Looking at the stack events, you can see the bucket and the bucket policy are created successfully. Now, navigate to the **Resources** pane for your stack, note the Physical ID value for `S3Bucket`, and follow the link: this will bring you to the details page for your bucket in the [Amazon S3 Console](https://console.aws.amazon.com/s3/). Next, in the bucket view, choose **Permissions** and review the bucket policy in the **Bucket policy** section: see how the return values have been substituted in the `Resource` section of the bucket policy. Next, navigate to the **Outputs** pane of your stack in the AWS CloudFormation Console, and note the value of the IPv4 DNS name displayed for the Amazon S3 bucket you created in the stack.
 
