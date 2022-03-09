@@ -1,12 +1,14 @@
 ---
-title: 'Finding Output Values'
+title: 'Finding return values'
 date: 2022-03-02T20:17:43Z
 weight: 800
 ---
 
 ### Overview
 
-You use [AWS CloudFormation](https://aws.amazon.com/cloudformation/) to programmatically describe your resources in your templates. When you do so, you reference return value(s), for a given resource, from another resource or resources that you also describe in the same template, and that depend on the given resource. You can also choose to display a given resource’s return value(s) in the ` Outputs` [section](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/outputs-section-structure.html) of your template: when you do so, you also have the choice to make a given output value available to other stacks in the same region by [exporting](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-stack-exports.html) the output.
+You use [AWS CloudFormation](https://aws.amazon.com/cloudformation/) to programmatically describe your resources in your templates. When you do so, you might also need to reference return values, for a given resource, from another resource or resources that you also describe in the same template, and that depend on the given resource.
+
+You can also choose to display a given resource’s return value(s) in the `Outputs` [section](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/outputs-section-structure.html) of your template: when you do so, you also have the choice to make a given output value available to other stacks in the same region by [exporting](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-stack-exports.html) the output.
 
 ### Topics Covered
 
@@ -15,12 +17,16 @@ By the end of this lab, you will be able to:
 
 * Understand the usage of return values.
 * Learn how to search for return values for different resource types.
-* Understand the difference between using `Ref`,  `Fn::GetAtt`, and `Fn::Sub` [intrinsic functions](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference.html) when using return values.
+* Understand the difference between using `Ref`, `Fn::GetAtt`, and `Fn::Sub` [intrinsic functions](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference.html) when using return values.
 
 
 Return values are documented in the [AWS resource and property types reference](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-template-resource-type-ref.html) for a given resource type: choose any resource type from the list, and then choose **Return Values** on the right side of the page to see which values you can use with [intrinsic functions](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference.html) such as `Ref` and `Fn::GetAtt`.
 
-Let’s take an [Amazon Simple Storage Service](https://aws.amazon.com/s3/) (Amazon S3) bucket resource type, `AWS::S3::Bucket`, as an example: choose **Amazon S3**  from the list under [AWS resource and property types reference](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-template-resource-type-ref.html). On the next page, choose **AWS::S3::Bucket** to view the reference documentation for the resource type: on the right pane of the page, choose **Return Values** to view available return values for the `AWS::S3::Bucket` resource type. Follow through the document to understand what available values are returned when you use `Ref` or `Fn::GetAtt` intrinsic functions. For example, if you want to reference the bucket name, use `Ref` followed by the [logical ID](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/resources-section-structure.html) of your bucket resource; if you wish to retrieve the [Amazon Resource Name](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) (ARN) of your bucket, use `Fn::GetAtt` with the `Arn` attribute.  In this lab, you will learn how to reference, from a given resource type you describe in your template, return values for another resource type you also describe in the template.
+Let’s take an [Amazon Simple Storage Service](https://aws.amazon.com/s3/) (Amazon S3) bucket resource type, `AWS::S3::Bucket`, as an example: choose **Amazon S3** from the list under [AWS resource and property types reference](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-template-resource-type-ref.html). On the next page, choose **AWS::S3::Bucket** to view the reference documentation for the resource type: on the right pane of the page, choose **Return Values** to view available return values for the `AWS::S3::Bucket` resource type.
+
+Follow through the document to understand what available values are returned when you use `Ref` or `Fn::GetAtt` intrinsic functions. For example, if you want to reference the bucket name, use `Ref` followed by the [logical ID](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/resources-section-structure.html) of your bucket resource; if you wish to retrieve the [Amazon Resource Name](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) (ARN) of your bucket, use `Fn::GetAtt` with the `Arn` attribute.
+
+In this lab, you will learn how to reference, from a given resource type you describe in your template, return values for another resource type that you also describe in the same template.
 
 
 ### Start Lab
@@ -39,7 +45,7 @@ In this lab, you will:
 The example shown next does not include the `BucketName` [property](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-s3-bucket.html#cfn-s3-bucket-name) for the Amazon S3 bucket. In this case, CloudFormation will generate a unique name for the given resource.
 {{% /notice %}}
 
-The bucket policy in the example shown next denies access to the Amazon S3 bucket, when the request meets the condition **aws:SecureTransport: false**. When the key **aws:SecureTransport** is **true**, the request is sent through HTTPS. Alternatively, when the key is **false**, the request is sent through HTTP, this policy explicitly denies access to HTTP requests as we have a **Deny** effect when condition **aws:SecureTransport** is **false**.
+The bucket policy in the example shown next denies access to the Amazon S3 bucket when a request meets the `aws:SecureTransport: false` condition. The policy below uses the `Deny` effect when a request is made via HTTP instead of HTTPS.
 
 Copy and append the example template snippet shown next to the `resource-return-values.yaml` file:
 
@@ -57,10 +63,10 @@ Resources:
     Properties:
       Bucket: !Ref S3Bucket
       PolicyDocument:
-        Version: 2012-10-17
+        Version: "2012-10-17"
         Statement:
           - Action:
-              - 's3:*'
+              - s3:*
             Effect: Deny
             Resource:
               - !GetAtt S3Bucket.Arn
@@ -79,10 +85,10 @@ Outputs:
 There are two resources in the template snippet you pasted into your template: an Amazon S3 [bucket](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-s3-bucket.html) and a bucket [policy](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-s3-policy.html). Note the following:
 
 
-* The [logical ID](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/resources-section-structure.html#resources-section-structure-resource-fields) of the Amazon S3 [bucket](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-s3-bucket.html) resource (i.e., `S3Bucket` in the above example), is referenced with `Ref` intrinsic function in the `Bucket` property of the `S3BucketPolicy` resource. The `Bucket` property requires the name of the Amazon S3 bucket to which the policy applies. The Amazon S3 [bucket](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-s3-bucket.html) resource returns the name of the bucket when you specify the logical ID of the Amazon S3 [bucket](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-s3-bucket.html) resource with the `Ref` function. For more information, see Amazon S3 bucket [return values](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-s3-bucket.html#aws-properties-s3-bucket-return-values).
-* Note `Resource` for the `PolicyDocument` property you specify for the resource `S3BucketPolicy`: `Resource` in the bucket policy requires the [Amazon Resource Name](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) (ARN) of the Amazon S3 bucket. Refer to the Amazon S3 bucket [return values](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-s3-bucket.html#aws-properties-s3-bucket-return-values): note that the `AWS::S3::Bucket` resource type returns the ARN of the bucket when you use the `Fn::GetAtt` intrinsic function, along with the logical ID of the [bucket](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-s3-bucket.html) resource and the `Arn` attribute.
-* Refer to the Amazon S3 bucket [return values](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-s3-bucket.html#aws-properties-s3-bucket-return-values): note that there are a number of values being returned by the `AWS::S3::Bucket` resource type when you specify the required attribute along with the `Fn::GetAtt` intrinsic function. As an example, see the `S3BucketDomainName` output described in the template snippet above, in the  `Outputs` [section](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/outputs-section-structure.html). Here, the intent is to output the DNS name of the bucket you describe in your template. The IPv4 DNS name of the bucket is returned when you specify the logical ID of the [bucket](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-s3-bucket.html) resource and the `DomainName` attribute for the `Fn::GetAtt` intrinsic function.
-* Now, let’s discuss the `Fn::Sub` intrinsic function, used above in the `Resource` attribute of the `PolicyDocument` property for the `S3BucketPolicy` resource. The `Fn::Sub` intrinsic function can be used to retrieve values that `Ref` and `Fn::GetAtt` return for a specified resource using the same format of logical ID and return value attribute. The main purpose of using `Fn::Sub`  with return values is to concatenate string(s) to the returned value(s). In the above example, `Fn::Sub` is used to concatenate `/*`  to the returned bucket ARN: the reason for adding `/*` at the end of the bucket ARN is to make sure the actions defined in the policy are applied to all the objects in the bucket.
+* The [logical ID](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/resources-section-structure.html#resources-section-structure-resource-fields) of the bucket resource (i.e., `S3Bucket` in the above example), is referenced with the `Ref` intrinsic function in the `Bucket` property of the `S3BucketPolicy` resource. The `Bucket` property requires the name of the Amazon S3 bucket to which the policy applies. The bucket resource returns the name of the bucket when you specify the logical ID of the bucket resource with the `Ref` function. For more information, see Amazon S3 bucket [return values](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-s3-bucket.html#aws-properties-s3-bucket-return-values).
+* Note the `Resource` section for the `PolicyDocument` property of `S3BucketPolicy`: `Resource` requires the [Amazon Resource Name](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) (ARN) of the bucket. Refer to the Amazon S3 bucket [return values](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-s3-bucket.html#aws-properties-s3-bucket-return-values), and note that the `AWS::S3::Bucket` resource type returns the ARN of the bucket when you use the `Fn::GetAtt` intrinsic function, along with the logical ID of the bucket and the `Arn` attribute.
+* Refer to the Amazon S3 bucket [return values](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-s3-bucket.html#aws-properties-s3-bucket-return-values): note that there are a number of values being returned by the `AWS::S3::Bucket` resource type when you specify the required attribute along with the `Fn::GetAtt` intrinsic function. As an example, see the `S3BucketDomainName` output described in the `Outputs` [section](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/outputs-section-structure.html) of the template snippet shown above. Here, the intent is to output the DNS name of the bucket you describe in your template. The IPv4 DNS name of the bucket is returned when you specify the logical ID of the bucket resource, along with the `DomainName` attribute for the `Fn::GetAtt` intrinsic function.
+* Now, let’s discuss the `Fn::Sub` intrinsic function, used above in the `Resource` attribute of the `PolicyDocument` property for the `S3BucketPolicy` resource. The `Fn::Sub` intrinsic function can be used to retrieve values that `Ref` and `Fn::GetAtt` return for a specified resource using the same format of logical ID and return value attribute. The main purpose of using `Fn::Sub` with return values is to concatenate string(s) to the returned value(s). In the above example, you use `Fn::Sub` to concatenate `/*`  to the returned bucket ARN: the reason for adding `/*` at the end of the bucket ARN is to make sure the actions defined in the policy are applied to all the objects in the bucket.
 
 
 Let’s create a stack using the `resource-return-values.yaml` template, and see the above in action!
@@ -100,9 +106,9 @@ Refresh the page until you see the `CREATE_COMPLETE` status for your stack. Now,
 
 ![resource-return-values.png](finding-output-values/resource-return-values.png)
 
-Looking at the stack events, you can see the Amazon S3 [bucket](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-s3-bucket.html) resource and the bucket [policy](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-s3-policy.html) are created successfully. Now, navigate to the Resources pane for your stack, note the Physical ID value for `S3Bucket`, and follow the link: this will bring you to the details page for your bucket in the [Amazon S3 Console](https://console.aws.amazon.com/s3/): choose **Permissions**, and review the bucket policy in the **Bucket policy** section: see how the return values have been substituted. Next, navigate to the **Outputs** pane of your stack, and note the value of the IPv4 DNS name displayed for the Amazon S3 bucket you created in the stack.
+Looking at the stack events, you can see the bucket and the bucket policy are created successfully. Now, navigate to the **Resources** pane for your stack, note the Physical ID value for `S3Bucket`, and follow the link: this will bring you to the details page for your bucket in the [Amazon S3 Console](https://console.aws.amazon.com/s3/). Next, in the bucket view, choose **Permissions** and review the bucket policy in the **Bucket policy** section: see how the return values have been substituted in the `Resource` section of the bucket policy. Next, navigate to the **Outputs** pane of your stack in the AWS CloudFormation Console, and note the value of the IPv4 DNS name displayed for the Amazon S3 bucket you created in the stack.
 
-Congratulations! You have now learned how to find return values for a specified resource, and how to use them in your templates in other resources using `Ref`,  `Fn::GetAtt` and `Fn::Sub` [intrinsic functions](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference.html).
+Congratulations! You have now learned how to find return values for a specified resource, and how to use them in your templates with other resources using `Ref`, `Fn::GetAtt` and `Fn::Sub` [intrinsic functions](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference.html).
 
 ### Challenge
 
@@ -114,7 +120,7 @@ In this section of the lab, you are tasked with updating an existing, example te
 
 To get started, open the `resource-return-values-challenge.yaml` template, that you can find in the `code/workspace/resource-return-values` directory, with your favorite code editor. Follow example requirements above, and update the template accordingly.
 
-When ready, create a new stack, called `resource-return-values-challenge` , with your updated `resource-return-values-challenge.yaml` template, and verify if the requirements are met.
+When ready, create a new stack, called `resource-return-values-challenge`, with your updated `resource-return-values-challenge.yaml` template, and verify if the requirements are met.
 
 {{%expand "Need a hint?" %}}
 * How can you [reference](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference.html) your security group in the `SecurityGroups` property of your Amazon EC2 instance?
@@ -123,7 +129,7 @@ When ready, create a new stack, called `resource-return-values-challenge` , with
 {{% /expand %}}
 
 {{%expand "Want to see the solution?" %}}
-* Reference the Security Group’s logical ID as a list item under the `SecurityGroups` EC2 instance resource property, by using `Ref` intrinsic function.
+* Reference the Security Group’s logical ID as a list item under the `SecurityGroups` instance resource property, by using `Ref` intrinsic function.
 * Modify the Amazon EC2 instance resource definition as next:
 
 ```yaml
@@ -136,10 +142,10 @@ When ready, create a new stack, called `resource-return-values-challenge` , with
         - !Ref InstanceSecurityGroup
       Tags:
         - Key: Name
-          Value: Resource-dependencies-workshop
+          Value: Resource-return-values-workshop
 ```
 
-* Use `Ref` intrinsic function, and pass the logical ID of the Amazon EC2 instance resource to retrieve the instance ID; similarly, pass the logical ID of the Amazon EC2 instance resource along with the `PublicIp` attribute to `Fn::GetAtt` function, to retrieve the public IP of the instance.
+* Use `Ref` intrinsic function, and pass the logical ID of the Amazon EC2 instance resource to retrieve the instance ID; similarly, pass the logical ID of the Amazon EC2 instance resource, along with the `PublicIp` attribute to the `Fn::GetAtt` function, to retrieve the public IP of the instance.
 * Pass the logical ID of the security group resource, along with the `GroupId` attribute, to the `Fn::GetAtt` function to retrieve the ID of the security group.
 * Modify the `Outputs` section of the template as shown next:
 
@@ -172,4 +178,4 @@ Follow the steps below to [delete the stacks](https://docs.aws.amazon.com/AWSClo
 
 ### Conclusion
 
-Great work! You have now learned how to find return values for a specified resource, and how to use them in your templates in other resources using `Ref`,  `Fn::GetAtt` and `Fn::Sub` [intrinsic functions](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference.html).
+Great work! You have now learned how to find return values for a specified resource, and how to use them in your templates in other resources using `Ref`, `Fn::GetAtt`, and `Fn::Sub` [intrinsic functions](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference.html).
