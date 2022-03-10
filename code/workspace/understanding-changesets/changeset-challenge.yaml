@@ -1,0 +1,24 @@
+AWSTemplateFormatVersion: "2010-09-09"
+
+Description: AWS CloudFormation workshop - Change sets - Challenge (uksb-1q9p31idr).
+
+Parameters:
+  MyQueueName:
+    Description: Name of the Amazon SQS queue you wish to create
+    Type: String
+    Default: mytestqueue
+
+  BucketName:
+    Description: Name of the Amazon S3 bucket you wish to create
+    Type: String
+
+Resources:
+  NewS3Bucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: !Ref BucketName
+
+  MySqsQueue:
+    Type: AWS::SQS::Queue
+    Properties:
+      QueueName: !Ref MyQueueName
