@@ -1,0 +1,16 @@
+AWSTemplateFormatVersion: "2010-09-09"
+
+Description: AWS CloudFormation workshop - Change sets - S3 bucket (uksb-1q9p31idr).
+
+Parameters:
+  BucketName:
+    Description: Name of the Amazon S3 bucket you wish to create
+    Type: String
+
+Resources:
+  MyS3Bucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: !Ref BucketName
+      VersioningConfiguration:
+        Status: Enabled
