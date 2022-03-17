@@ -336,14 +336,14 @@ Great work! You have now learned how to match the CloudFormation stack configura
 Choose to follow cleanup steps shown next to cleanup resources you created with this lab:
 
 1. Make sure you are in the directory: `code/workspace/resource-importing`
-2. Update the `resource-importing.yaml` template file to remove the `DeletionPolicy: Retain` line from the `SNSTopic2` resource definition, and save the template. 
+2. Update the `resource-importing.yaml` template file to remove the `DeletionPolicy: Retain` line from the `SNSTopic2` resource definition, and save the template.
 3. Navigate to the [AWS CloudFormation Console](https://console.aws.amazon.com/cloudformation/).
 4. Select the stack named `resource-importing` and choose **Update**.
 5. Choose **Replace current template** and upload the `resource-importing.yaml` template. Choose **Next**.
 6. In the parameters section, choose to accept the existing parameter value. Choose **Next**.
 7. Choose to accept default values in the **Configure stack options** page, and choose **Next**.
 8. Choose **Update stack** in the next page.
-9. After your stack update is complete, select the `resource-importing` stack and choose **Delete**. 
+9. After your stack update is complete, select the `resource-importing` stack and choose **Delete**.
 10. Repeat steps 2-9 above for the stack: `moving-resources`, by updating the `moving-resources.yaml` template to remove the `DeletionPolicy: Retain` line from the `SNSTopic1` resource definition, updating the stack, and deleting it after successful update. Choose to accept the existing parameter value when you update the stack.
 11. Repeat steps (2-9) above for stack: `resource-import-challenge` by updating the `resource-import-challenge.yaml` template to remove the `DeletionPolicy: Retain` line from the `Instance` resource definition, updating the stack, and deleting it after successful update.  Choose to accept existing parameter values when you update the stack.
 

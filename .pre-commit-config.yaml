@@ -30,7 +30,7 @@ repos:
 
 # CloudFormation
 - repo: https://github.com/aws-cloudformation/cfn-python-lint
-  rev: v0.58.0
+  rev: v0.58.3
   hooks:
   - id: cfn-python-lint
     name: AWS CloudFormation Linter
@@ -63,3 +63,10 @@ repos:
   rev: 22.1.0
   hooks:
     - id: black
+
+# Shell check
+- repo: https://github.com/shellcheck-py/shellcheck-py
+  rev: v0.8.0.4
+  hooks:
+    - id: shellcheck
+      files: solutions/.*\.(sh)$

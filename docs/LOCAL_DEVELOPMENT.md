@@ -78,30 +78,26 @@ run locally when developing the labs.
 * `make nag` - will run cfn-nag test against CloudFormation templates in `/code/solutions directory`.
 
 ### Versioning and releasing (Repo admin only)
-This repository follows Semantic Versioning [2.0.0](https://semver.org/). Given a version number MAJOR.MINOR.PATCH, increment the:
-
-1. MAJOR version when you make incompatible API changes,
-2. MINOR version when you add functionality in a backwards compatible manner, and
-3. PATCH version when you make backwards compatible bug fixes.
-
-The `bump2version` tool is used to take care of versioning including committing and tagging new versions.
+The `bump2version` tool is used to take care of versioning including tagging a new versions.
 
 When ready to publish new release follow the steps below:
 ```shell
-# checkout release branch
-git checkout release
+# checkout and update main branch
+git checkout main && git pull
 
-# merge main branch to release branch
+# checkout feature branch
+git checkout <feature-branch>
+
+# merge main branch to feature branch
 git merge main
 
 # bump the version following semantic guide above part=patch|minor|major
-make version part=patch
+make version part=minor
 
-# push the new version tag
+# push the new version tag to origin
 make release
 
-# push the changes to origin
-git push
+# merge the feature branch to main branch on github
 ```
 
 Finally, create new release on [cfn101-workshop](https://github.com/aws-samples/cfn101-workshop/releases) release page

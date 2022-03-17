@@ -1,0 +1,51 @@
+AWSTemplateFormatVersion: "2010-09-09"
+
+Description: AWS CloudFormation workshop - Resource Return Values Challenge Lab (uksb-1q9p31idr).
+
+Parameters:
+  LatestAmiId:
+    Type: AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>
+    Default: /aws/service/ami-amazon-linux-latest/amzn2-ami-hvm-x86_64-gp2
+
+Resources:
+  Ec2Instance:
+    Type: AWS::EC2::Instance
+    Properties:
+      ImageId: !Ref LatestAmiId
+      InstanceType: t2.micro
+      SecurityGroups:
+        - !Ref InstanceSecurityGroup
+      Tags:
+        - Key: Name
+          Value: Resource-return-values-workshop
+
+  InstanceSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Metadata:
+      cfn_nag:
+        rules_to_suppress:
+          - id: F1000
+            reason: This is using default VPC where we dont know VpcId to support egress. Missing egress rule means all traffic is allowed outbound.
+    Properties:
+      GroupDescription: Allow http to client host
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 80
+          ToPort: 80
+          CidrIp: 0.0.0.0/0
+      Tags:
+        - Key: Name
+          Value: Resource-return-values-workshop
+
+Outputs:
+  InstanceID:
+    Description: The ID of the launched instance
+    Value: !Ref Ec2Instance
+
+  PublicIP:
+    Description: Public IP of the launched instance
+    Value: !GetAtt Ec2Instance.PublicIp
+
+  SecurityGroupId:
+    Description: ID of the security group created
+    Value: !GetAtt InstanceSecurityGroup.GroupId
