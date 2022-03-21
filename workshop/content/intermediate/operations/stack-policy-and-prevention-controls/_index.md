@@ -6,7 +6,7 @@ weight: 300
 
 ### Overview
 
-When you describe your infrastructure with code using [AWS CloudFormation](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/Welcome.html), you have the choice of implementing policies to prevent unintentional operations. For this, you can use CloudFormation features such as [Stack Policy](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/protect-stack-resources.html), [Termination Protection](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-protect-stacks.html), and [DeletionPolicy](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-attribute-deletionpolicy.html) to prevent accidental updates, deletion of resources or stacks.
+When you describe your infrastructure with code using [AWS CloudFormation](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/Welcome.html), you have the choice of implementing policies to prevent unintentional operations. For example, you can choose to use CloudFormation features that include [Stack Policy](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/protect-stack-resources.html), [Termination Protection](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-protect-stacks.html), [DeletionPolicy](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-attribute-deletionpolicy.html), and [UpdateReplacePolicy](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-attribute-updatereplacepolicy.html) to prevent accidental stack terminations, updates and deletions of resources you describe in your stack.
 
 ### Topics Covered
 
@@ -14,7 +14,7 @@ By the end of this lab, you will be able to:
 
 * Learn how to set a [Stack Policy](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/protect-stack-resources.html) on a CloudFormation stack to determine which update actions you can perform on resources you manage with your stack.
 * Learn how to prevent stack deletion by enabling [Termination Protection](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-protect-stacks.html).
-* Learn how to use [DeletionPolicy](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-attribute-deletionpolicy.html) to retain - or backup in some cases - resources that you describe in your stack when you remove resources from the stack, or when you delete the stack.
+* Learn how to use [DeletionPolicy](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-attribute-deletionpolicy.html) attribute to retain - or backup, in some cases - resources that you describe in your stack when you remove resources from the stack, or when you delete the stack.
 
 
 
@@ -24,17 +24,17 @@ By the end of this lab, you will be able to:
 * Open the `stack-policy-lab.yaml` file.
 * Update the content of the template as you follow along steps on this lab.
 
-### **Lab Part 1 - Stack Policy & Termination Protection**
+### **Lab Part 1 - Stack Policy and Termination Protection**
 
 [Stack policy](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/protect-stack-resources.html) is a JSON-formatted document you set up on a stack to define and control update operations for your stack resources. [Termination Protection](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-protect-stacks.html) is a stack option that you enable on the stack to protect your stack from deletion.
 
-In this lab, you will first create an [Amazon Simple Notification Service](https://docs.aws.amazon.com/sns/latest/dg/sns-create-topic.html) (Amazon SNS) topic in a stack: you will set up a stack policy to deny updates to the topic, and enable termination protection for your stack. Next, you will update the stack you created to update the topic, and test the stack policy configured for the stack resource. Later, you will delete the stack to test the termination protection setting.
+In this lab, you will first create an [Amazon Simple Notification Service](https://aws.amazon.com/sns/) (Amazon SNS) [topic](https://docs.aws.amazon.com/sns/latest/dg/sns-create-topic.html) in a stack: you will set up a stack policy to deny updates to the topic, and enable termination protection for your stack. Next, you will update the stack you created to update the topic, and test the stack policy you configured for the stack resource. Later, you will delete the stack to test the termination protection setting you enabled.
 
 To get started, follow steps shown next:
 
 * Copy the code below, append it to the `stack-policy-lab.yaml` file, and save the file:
 
-```
+```yaml
 Parameters:
   SNSTopicTagValue:
     Description: Tag value for your Amazon SNS topic
@@ -60,7 +60,7 @@ In this next step, you will use the AWS CloudFormation Console to create a stack
 4. Enter a Stack name. For example, specify `stack-policy-lab`. In the parameters section, choose to accept the parameter value for `SNSTopicTagValue` as `Topic-Tag-1`. Choose **Next**.
 5. In **Configure Stack Options** page; under **Stack policy**, choose **Enter stack policy** and paste the following code for the stack policy. Under **Stack creation options**, choose **Enabled** for **Termination protection**, and choose **Next**.
 
-```
+```json
 {
   "Statement" : [
     {
@@ -79,7 +79,7 @@ In this next step, you will use the AWS CloudFormation Console to create a stack
 }
 ```
 
-1. In the next page, choose **Create Stack**.
+6. In the next page, choose **Create stack**.
 
 {{% notice note %}} When you apply a stack policy to a stack, all the resources in that stack are protected by default. Hence, you will need to specify an explicit `Allow` statement in your stack policy to allow updates to all other resources.
 {{% /notice %}}
@@ -96,7 +96,7 @@ Let’s now test the stack policy you applied, by updating the stack you created
 5. Choose to accept default values in the **Configure stack options** page, and choose **Next**.
 6. Choose **Update stack** in the next page.
 
-You will now observe the stack update fails with the `Action denied by stack policy` error, for the resource whose  [Logical ID](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/resources-section-structure.html#resources-section-structure-resource-fields) is `SNSTopic`.
+The stack update will fail. When looking in the **Events** pane for your stack, you will see the `Action denied by stack policy` error, for the resource whose [Logical ID](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/resources-section-structure.html#resources-section-structure-resource-fields) is `SNSTopic`.
 
 Let’s now test the termination protection feature, that you enabled on your `stack-policy-lab` stack:
 
@@ -133,7 +133,7 @@ Resources:
 3. From **Specify template**, choose **Upload a template file**. Upload the `deletion-policy-lab.yaml` template, and choose **Next**.
 4. Enter a Stack name. For example, specify `deletion-policy-lab`. Choose **Next**.
 5. Choose to accept default values on the **Configure stack options page**; scroll to the bottom of the page, and choose **Next**.
-6. In the next page, choose **Create Stack**.
+6. In the next page, choose **Create stack**.
 
 When you use a `Retain` value for the `DeletionPolicy` attribute, you indicate to retain the resource when you remove it from the stack, or when you delete the stack.
 
@@ -150,19 +150,27 @@ In the stack events pane, you will observe the resource whose Logical ID is `SNS
 
 Congratulations! You have now learned how to define a `DeletionPolicy` resource attribute on a resource to preserve it during stack deletion. For more information, see [`DeletionPolicy` attribute](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-attribute-deletionpolicy.html) and [`DeletionPolicy` options](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-attribute-deletionpolicy.html#aws-attribute-deletionpolicy-options).
 
+{{% notice note %}}
+On stack updates, you can choose to use the `UpdateReplacePolicy` [attribute](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-attribute-updatereplacepolicy.html) to retain - or, in some cases, backup - a given resource when the resource is replaced during the stack update.
+{{% /notice %}}
+
 ### Challenge
 
-You have now learned to create a stack policy to deny updates to a resource based on a [Logical Resource ID](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/resources-section-structure.html#resources-section-structure-resource-fields). In this exercise, you are tasked with creating a stack policy that denies updates to only resources with a specific resource type. You will create a stack policy to deny updates to the `AWS::RDS::DBInstance` resource type.
+You have learned how to create a stack policy to deny updates to a resource based on a [Logical Resource ID](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/resources-section-structure.html#resources-section-structure-resource-fields). In this exercise, you are tasked with creating a stack policy that applies to resources of a specific type: your task is to create a stack policy to deny all update actions to the `AWS::RDS::DBInstance` resource type.
 
-{{%expand "Need a hint" %}}
+{{%expand "Need a hint?" %}}
 
-Make use of the [Condition](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/protect-stack-resources.html#stack-policy-reference) key to define `ResourceType`.
+- Make use of the [Condition](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/protect-stack-resources.html#stack-policy-reference) key to define `ResourceType`.
+- How do you specify, in `Action`, your intent of including all update actions?
+- Which value should you specify for `Resource`?
 
 {{% /expand %}}
 
 {{%expand "Want to see the solution?" %}}
 
-```
+Create a stack policy that, for `"Effect" : "Deny"`, contains `Action`, `Resource`, and `Condition` blocks specified as shown next:
+
+```json
 {
   "Statement" : [
     {
@@ -188,7 +196,7 @@ Make use of the [Condition](https://docs.aws.amazon.com/AWSCloudFormation/latest
 
 {{% /expand %}}
 
-Great work! You have now learned how to create a stack policy to deny updates only for a given resource type.
+Great work! You have now learned how to create a stack policy to deny updates for a given resource type.
 
 ### Cleanup
 
@@ -204,4 +212,4 @@ Choose to follow steps shown next to cleanup resources you created with this lab
 
 ### Conclusion
 
-Congratulations! You have learned how to prevent unintentional updates, protect stack from deletion, and preserve resources in case of stack deletion.
+Congratulations! You have learned how to prevent unintentional updates, protect a stack from deletion, and preserve resources in case of an unintentional stack deletion.
