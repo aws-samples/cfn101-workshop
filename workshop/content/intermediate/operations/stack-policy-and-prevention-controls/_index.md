@@ -6,7 +6,7 @@ weight: 300
 
 ### Overview
 
-When you describe your infrastructure with code using [AWS CloudFormation](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/Welcome.html), you have the choice of implementing policies to prevent unintentional operations. For example, you can choose to use CloudFormation features that include [Stack Policy](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/protect-stack-resources.html), [Termination Protection](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-protect-stacks.html), [DeletionPolicy](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-attribute-deletionpolicy.html), and [UpdateReplacePolicy](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-attribute-updatereplacepolicy.html) to prevent accidental stack terminations, updates and deletions of resources you describe in your stack.
+When you describe your infrastructure with code using [AWS CloudFormation](https://aws.amazon.com/cloudformation/), you have the choice of implementing policies to prevent unintentional operations. For example, you can choose to use CloudFormation features that include [Stack Policy](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/protect-stack-resources.html), [Termination Protection](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-protect-stacks.html), [DeletionPolicy](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-attribute-deletionpolicy.html), and [UpdateReplacePolicy](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-attribute-updatereplacepolicy.html) to prevent accidental stack terminations, updates and deletions of resources you describe in your stack.
 
 ### Topics Covered
 
@@ -14,7 +14,7 @@ By the end of this lab, you will be able to:
 
 * Learn how to set a [Stack Policy](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/protect-stack-resources.html) on a CloudFormation stack to determine which update actions you can perform on resources you manage with your stack.
 * Learn how to prevent stack deletion by enabling [Termination Protection](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-protect-stacks.html).
-* Learn how to use [DeletionPolicy](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-attribute-deletionpolicy.html) attribute to retain - or backup, in some cases - resources that you describe in your stack when you remove resources from the stack, or when you delete the stack.
+* Learn how to use the [DeletionPolicy](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-attribute-deletionpolicy.html) attribute to retain - or backup, in some cases - resources that you describe in your stack when you remove resources from the stack, or when you delete the stack.
 
 
 
@@ -84,7 +84,7 @@ In this next step, you will use the AWS CloudFormation Console to create a stack
 {{% notice note %}} When you apply a stack policy to a stack, all the resources in that stack are protected by default. Hence, you will need to specify an explicit `Allow` statement in your stack policy to allow updates to all other resources.
 {{% /notice %}}
 
-The stack policy configured for your `stack-policy-lab` stack denies updates to the resource whose [Logical ID](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/resources-section-structure.html#resources-section-structure-resource-fields) is `SNSTopic`.
+The stack policy you configured above for your `stack-policy-lab` stack denies updates to the resource whose [Logical ID](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/resources-section-structure.html#resources-section-structure-resource-fields) is `SNSTopic`.
 
 Let’s now test the stack policy you applied, by updating the stack you created!
 
@@ -110,9 +110,9 @@ Congratulations! You have now learned how to define update operations for resour
 
 ### **Lab Part 2 - DeletionPolicy**
 
-[DeletionPolicy](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-attribute-deletionpolicy.html) is a CloudFormation resource attribute you configure on resources in your stack to preserve or backup resources in cases when the resource is removed from the stack, or when the stack is deleted. By default, CloudFormation will delete the resource on stack deletion if no `DeletionPolicy` is configured on the resource, or if its value is set to `Delete`.
+[DeletionPolicy](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-attribute-deletionpolicy.html) is a CloudFormation resource attribute you configure for resources in your stack to preserve - or backup, in some cases - such resources when you e.g., remove the resource from the stack, or when you delete the stack. By default, CloudFormation will delete the resource on stack deletion if no `DeletionPolicy` is configured for the resource, or if its value is set to `Delete`.
 
-In this lab, you will first create a CloudFormation stack with an Amazon SNS topic resource, and set `DeletionPolicy` attribute value to `Retain` to preserve the resource. You will then delete the stack, and check if the resource still exists.
+In this lab, you will first create a CloudFormation stack with an Amazon SNS topic resource, and set the `DeletionPolicy` attribute value to `Retain` to preserve the resource. You will then delete the stack, and check if the resource still exists.
 
 To get started, follow steps shown next:
 
