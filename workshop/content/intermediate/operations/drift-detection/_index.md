@@ -77,7 +77,7 @@ Now you will modify the DynamoDB table directly, outside of CloudFormation.
 2. Under the **Tables** heading on the menu, choose **Update settings**.
 3. Choose the **Table1** entry (the table name will be prefixed with the name of your stack).
 4. Choose the **Additional settings** tab.
-5. In the **Read/write capacity** section, choose the **Edit** button.
+5. In the **Read/write capacity** section, choose **Edit**.
 6. Choose the **On-demand** capacity mode, then choose **Save Changes**.
 
 In this step, you will use CloudFormation Drift Detection to identify the changes to the `Table1` resource compared to the original template.
@@ -95,7 +95,7 @@ You now have the necessary information to correct the configuration drift, and h
 
 1. Return to the [DynamoDB Console](https://console.aws.amazon.com/dynamodb), then choose **Update settings** as before.
 2. Choose the entry for **Table1**, and then navigate to the **Additional settings** tab.
-3. Choose the **Edit** button.
+3. Choose **Edit**.
 4. Choose **Provisioned** capacity mode.
 5. Choose **Off** for **Auto scaling** for both **Read capacity** and **Write capacity**.
 6. Enter `1` for both Read and Write capacity **provisioned capacity units**.
@@ -132,9 +132,9 @@ You will now update the template to match the new state of the resource and brin
 3. Save the template file.
 4. Navigate to the [CloudFormation Console](https://console.aws.amazon.com/cloudformation/).
 5. Choose your stack as before.
-6. Choose the **Update** button.
+6. Choose **Update**.
 7. Choose **Replace current template**, then choose **Upload a template file**.
-8. Choose the “**Choose file**” button and select your updated template file.
+8. Use **Choose file** to select your updated template file.
 9. Choose **Next**.
 10. On the stack details page, choose **Next**.
 11. On the stack options page, choose **Next**.
@@ -160,7 +160,7 @@ To begin, follow the steps below:
 Parameters:
   LatestAmiId:
     Type: AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>
-    Default: /aws/service/ami-amazon-linux-latest/amzn2-ami-kernel-5.10-hvm-x86_64-gp2
+    Default: /aws/service/ami-amazon-linux-latest/amzn2-ami-hvm-x86_64-gp2
 
 Resources:
   Instance1:
@@ -186,7 +186,7 @@ This `UserData` script will only run the first time the instance boots. You can 
 4. Enter a stack name, for example `drift-detection-challenge` and choose **Next**.
 5. In **Configure Stack Options**, choose **Next**.
 6. In the next page, choose **Create stack**.
-7. Once the stack is created, select the `drift-detection-challenge` stack and choose **Resources**. Take a note of the **Physical ID** for `Instance1`, for example `i-1234567890abcdef0`
+7. Once the stack is created, select the `drift-detection-challenge` stack and choose **Resources**. Take a note of the **Physical ID** for `Instance1`, for example `i-1234567890abcdef0`.
 
 You will now modify this resource in a similar way to the first lab to introduce drift. This modification causes an interruption, as the `UserData` [property](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-instance.html#cfn-ec2-instance-userdata) you will change requires the instance to be stopped first. You will change the message printed to read: `Hello Universe`.
 
@@ -194,18 +194,18 @@ You will now modify this resource in a similar way to the first lab to introduce
 2. Locate the **Instances** section, and select the instance with the ID recorded above.
 3. Choose the **Additional settings** tab.
 4. From **Instance state**, choose **Stop instance**, then choose **Stop**.
-5. Wait for the instance state to change to `Stopped`. Use the refresh button at the top of the table if necessary.
+5. Wait for the instance state to change to `Stopped`. Refresh the page if necessary.
 6. Once the Instance state is `Stopped`, select the instance again if necessary, then from **Actions** choose **Instance settings**, then choose **Edit user data**.
 7. In **New user data**, modify the script to change Hello World to Hello Universe as below:
 
-```
+```text
 #!/usr/bin/env bash
 echo Hello Universe
 ```
 
 8. Choose **Save**.
 9. Select the instance again, then from **Instance state**, choose **Start instance**.
-10. Wait for the instance state to change to `Running`. Use the refresh button at the top of the table if necessary.
+10. Wait for the instance state to change to `Running`. Refresh the page if necessary.
 
 In this step, you will use CloudFormation Drift Detection to identity the changes to the `Instance1` resource compared to the original template.
 
@@ -223,8 +223,15 @@ You can use a tool to decode the Base64 text and see the shell script it represe
 Note that some implementations, for example macOS, use `-D` instead of `-d` as the option to the `base64` command.
 {{% /notice %}}
 
+For example, when you run the following command:
+
 ```shell
 $ echo "IyEvdXNyL2Jpbi9lbnYgYmFzaAplY2hvIEhlbGxvIFdvcmxkCg==" | base64 -d
+```
+
+you should see the following output:
+
+```text
 #!/usr/bin/env bash
 echo Hello World
 ```
@@ -280,9 +287,9 @@ Well done! You have now learned how to repair drift without impact by deleting a
 Follow steps shown next to clean up the resources you created in this workshop.
 
 1. Navigate to the CloudFormation Console.
-2. Choose the stack created in the first lab, for example `drift-detection-workshop`
-3. Choose **Delete**, then choose the **Delete stack**
-4. For the `drift-detection-challenge` stack, edit the template file to change the `DeletionPolicy` to `Delete`
+2. Choose the stack created in the first lab, for example `drift-detection-workshop`.
+3. Choose **Delete**, then choose the **Delete stack**.
+4. For the `drift-detection-challenge` stack, edit the template file to change the `DeletionPolicy` to `Delete`.
 5. Update the stack by selecting it, then choosing **Upload**, then **Replace current template** and uploading the updated file. Choose **Next**, then choose **Next**, then choose **Next**, and then choose **Update stack**. Wait for the stack update to complete.
 6. Select the `drift-detection-challenge` stack and choose **Delete**, then choose **Delete stack**.
 
