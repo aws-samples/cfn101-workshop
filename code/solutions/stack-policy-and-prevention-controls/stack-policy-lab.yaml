@@ -1,0 +1,26 @@
+AWSTemplateFormatVersion: "2010-09-09"
+
+Description: AWS CloudFormation workshop - Stack policy and prevention controls - stack policy (uksb-1q9p31idr).
+
+Metadata:
+  cfn-lint:
+    config:
+      ignore_checks:
+        - W3011
+
+Parameters:
+  SNSTopicTagValue:
+    Description: Tag value for your Amazon SNS topic
+    Type: String
+    Default: Topic-Tag-1
+    MinLength: 1
+    MaxLength: 256
+
+Resources:
+  SNSTopic:
+    Type: AWS::SNS::Topic
+    Properties:
+      TopicName: Topic-1
+      Tags:
+        - Key: TagSNS
+          Value: !Ref SNSTopicTagValue

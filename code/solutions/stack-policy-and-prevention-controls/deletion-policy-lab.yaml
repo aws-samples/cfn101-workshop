@@ -1,0 +1,16 @@
+AWSTemplateFormatVersion: "2010-09-09"
+
+Description: AWS CloudFormation workshop - Stack policy and prevention controls - deletion policy (uksb-1q9p31idr).
+
+Metadata:
+  cfn-lint:
+    config:
+      ignore_checks:
+        - W3011
+
+Resources:
+  SNSTopic:
+    DeletionPolicy: Retain
+    Type: AWS::SNS::Topic
+    Properties:
+      TopicName: Topic-2
