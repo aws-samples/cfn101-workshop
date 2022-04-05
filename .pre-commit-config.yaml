@@ -30,7 +30,7 @@ repos:
 
 # CloudFormation
 - repo: https://github.com/aws-cloudformation/cfn-python-lint
-  rev: v0.58.3
+  rev: v0.58.4
   hooks:
   - id: cfn-python-lint
     name: AWS CloudFormation Linter
@@ -47,7 +47,7 @@ repos:
 
 # Python
 - repo: https://github.com/pycqa/pylint
-  rev: v2.12.2
+  rev: v2.13.4
   hooks:
     - id: pylint
       args:
@@ -60,7 +60,7 @@ repos:
     - id: isort
 
 - repo: https://github.com/psf/black
-  rev: 22.1.0
+  rev: 22.3.0
   hooks:
     - id: black
 
