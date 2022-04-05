@@ -6,7 +6,7 @@ weight: 500
 
 ### Overview
 
-When you choose to use [AWS CloudFormation](https://aws.amazon.com/cloudformation/) to provision your resources, you maintain your resources’ configurations with CloudFormation over time, as needed. If, subsequently, you choose to manage such resources outside of the purview of CloudFormation (for example, with the [AWS Management Console](https://aws.amazon.com/console/), the [AWS Command Line Interface](https://aws.amazon.com/cli/) (AWS CLI), [AWS SDKs](https://aws.amazon.com/getting-started/tools-sdks/), or with [AWS APIs](https://docs.aws.amazon.com/general/latest/gr/aws-apis.html), your resources’ configuration will drift.
+When you choose to use [AWS CloudFormation](https://aws.amazon.com/cloudformation/) to provision your resources, you maintain your resources’ configurations with CloudFormation over time, as needed. If, subsequently, you choose to manage such resources outside the purview of CloudFormation (for example, with the [AWS Management Console](https://aws.amazon.com/console/), the [AWS Command Line Interface](https://aws.amazon.com/cli/) (AWS CLI), [AWS SDKs](https://aws.amazon.com/getting-started/tools-sdks/), or with [AWS APIs](https://docs.aws.amazon.com/general/latest/gr/aws-apis.html), your resources’ configuration will drift.)
 
 CloudFormation offers [Drift Detection](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-stack-drift.html), that gives you information on the difference between the current configuration of a resource and the configuration you declared in the template you used to create or update the resource. The results of drift detection show you the affected resources and the differences between the current state and the template. You can then either return the resource to its original configuration, or update your template and your CloudFormation stack to reflect the new, desired state.
 
@@ -141,7 +141,7 @@ You will now update the template to match the new state of the resource and brin
 12. Choose **Update Stack**.
 13. Wait for the stack update to complete. Refresh the page to load the current state.
 14. Choose the **Stack info** tab.
-15. From **Stack actions**, the choose **Detect Drift**.
+15. From **Stack actions**, choose **Detect Drift**.
 16. Wait a few seconds for drift detection to complete.
 17. You should now see that the drift status is `IN_SYNC`, showing that the template and resource match.
 
@@ -149,7 +149,7 @@ Congratulations! You have learned how to repair stack drift by updating the temp
 
 ### Challenge
 
-In this exercise, you will use the knowledge gained from the earlier parts of this lab, along with the knowledge gained from the previous lab on [Resource Importing](/intermediate/operations/resource-importing.html), to solve an issue where a resource has been updated outside of your CloudFormation stack’s purview and its configuration drifted, but you are unable to update the CloudFormation stack to match without causing an [interruption](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-updating-stacks-update-behaviors.html) to the resource. You should remove the resource from the stack, and then import it with the updated properties.
+In this exercise, you will use the knowledge gained from the earlier parts of this lab, along with the knowledge gained from the previous lab on [Resource Importing](/intermediate/operations/resource-importing.html), to solve an issue where a resource has been updated outside your CloudFormation stack’s purview and its configuration drifted, but you are unable to update the CloudFormation stack to match without causing an [interruption](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-updating-stacks-update-behaviors.html) to the resource. You should remove the resource from the stack, and then import it with the updated properties.
 
 To begin, follow the steps below:
 
