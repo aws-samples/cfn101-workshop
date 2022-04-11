@@ -8,7 +8,6 @@ The following dependencies must be installed. Please refer to your operating sys
 
 - Python >=3.8 and pip
 - VirtualEnv
-- Hugo
 - Go
 - Ruby >=2.6 and gem
 - [cfn-nag](https://github.com/stelligent/cfn_nag)
@@ -20,9 +19,6 @@ brew install python
 
 # install VirtualEnv
 pip3 install virtualenv
-
-# install hugo
-brew install hugo
 
 # install go
 brew install go
@@ -36,19 +32,11 @@ brew gem install cfn-nag
 Once you have installed pre-requisites, run commands below:
 
 #### Step 1 - Clone the repository (Required)
-In the first step, you will clone the repository and initialize submodules.
+In the first step, you will clone the repository.
 
 1. Clone the repository:
    ```shell
    $ git clone https://github.com/aws-samples/cfn101-workshop.git
-   ```
-2. Initialize submodules:
-   ```shell
-   $ cd cfn101-workshop/
-
-   $ git submodule init
-
-   $ git submodule update
    ```
 
 #### Step 2 - `make init` (Required)
@@ -66,6 +54,11 @@ In the second step, you will use `make` to create a virtual environment.
    ```shell
    make test
    ```
+
+#### Run the local development utility (AWS employees only)
+Follow the instructions for Local Development at Workshop Studio documentation.
+
+Once you download binaries, and run preview server, the preview will be available at `http://localhost:8080`
 
 ### Testing(Automated and Manual)
 The repository has a GitHub actions set up which will run `cfn-lint` and `cfn-nag` tests on pull requests.
