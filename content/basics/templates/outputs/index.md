@@ -14,14 +14,14 @@ Furthermore, output values can be imported into other stacks. These are known as
 ##### YAML Syntax:
 The _Outputs_ section consists of the key name `Outputs`, followed by a colon.
 
-```yaml
+:::code{language=yaml showLineNumbers=false showCopyAction=false}
 Outputs:
   Logical ID:
     Description: Information about the value
     Value: Value to return
     Export:
       Name: Value to export
-```
+:::
 
 ::alert[For the maximum number of outputs you can declare in your template, see Outputs in [AWS CloudFormation quotas](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/cloudformation-limits.html).]{type="info"}
 
@@ -42,13 +42,12 @@ In this Lab, you will:
 4. the [AWS Documentation](https://docs.aws.amazon.com/en_pv/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-instance.html#aws-properties-ec2-instance-return-values) for available attributes. You can see that _PublicDnsName_ is valid return value for `Fn::GetAtt` function.
 
     Add the section below to your template:
-
     ```yaml
     Outputs:
       EC2PublicDNS:
         Description: 'Public DNS of EC2 instance'
         Value: !GetAtt WebServerInstance.PublicDnsName
-   ```
+    ```
 
 5. Go to the AWS console and update your stack with a new template.
 ::expand[![update-gif](/static/basics/templates/outputs/update-1.gif)]{header="How do I update a Stack?"}

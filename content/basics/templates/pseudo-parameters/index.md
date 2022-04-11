@@ -46,11 +46,10 @@ will require you to know the [Amazon Resource Name](https://docs.aws.amazon.com/
 First, check the return values section for the resource (the SSM parameter in this case): in the relevant [documentation page](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ssm-parameter.html#aws-resource-ssm-parameter-return-values), you see that `Ref` returns the parameter name, and `Fn::GetAtt` returns the type and the value. Since the ARN is not available as an output value for that resource type today, you can choose to leverage pseudo parameters to construct the ARN.
 
 You want to construct the resource ARN using pseudo parameters like the one in the following example. Let's say, for example, you have a sample parameter called `dbUsername` that you create in the `us-east-1` region, and in the AWS account `111122223333`; an example parameter ARN is constructed as in this example policy snippet:
-```json
+:::code{language=json showLineNumbers=false showCopyAction=false}
 {
     "Version": "2012-10-17",
     "Statement": [
-
         {
             "Effect": "Allow",
             "Action": [
@@ -60,7 +59,7 @@ You want to construct the resource ARN using pseudo parameters like the one in t
         }
     ]
 }
-```
+:::
 Let's describe resources you need in your CloudFormation template.
 
 Start by defining a [template parameter](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/parameters-section-structure.html),
@@ -96,27 +95,27 @@ Resources:
 Next, let’s define the IAM role and policy from where you want to reference the SSM parameter you defined above.
 Copy the content below, and paste it in the `Resources` section of the `pseudo-parameters.yaml` file by appending it to the existing file content:
 ```yaml
-  DemoRole:
-    Type: AWS::IAM::Role
-    Properties:
-      AssumeRolePolicyDocument:
-        Version: "2012-10-17"
-        Statement:
-          - Effect: Allow
-            Principal:
-              Service:
-                - lambda.amazonaws.com
-            Action:
-              - sts:AssumeRole
-      Path: /
-      Policies:
-        - PolicyName: ssm-least-privilege
-          PolicyDocument:
-            Version: "2012-10-17"
-            Statement:
-              - Effect: Allow
-                Action: ssm:GetParameter
-                Resource: '*'
+DemoRole:
+  Type: AWS::IAM::Role
+  Properties:
+    AssumeRolePolicyDocument:
+      Version: "2012-10-17"
+      Statement:
+        - Effect: Allow
+          Principal:
+            Service:
+              - lambda.amazonaws.com
+          Action:
+            - sts:AssumeRole
+    Path: /
+    Policies:
+      - PolicyName: ssm-least-privilege
+        PolicyDocument:
+          Version: "2012-10-17"
+          Statement:
+            - Effect: Allow
+              Action: ssm:GetParameter
+              Resource: '*'
 ```
 
 In the example snippet above, you have described an [execution role](https://docs.aws.amazon.com/lambda/latest/dg/lambda-intro-execution-role.html)
@@ -141,22 +140,22 @@ Finally, add the example snippet below to the `Resources` section of the `pseudo
 The snippet defines a Lambda function that uses the IAM Role you defined above with permissions to read the SSM parameter,
 which you also defined above. You will invoke this Lambda function to test if the Lambda function can access the SSM parameter named `dbUsername`.
 ```yaml
-  DemoLambdaFunction:
-    Type: AWS::Lambda::Function
-    Properties:
-      Handler: index.lambda_handler
-      Role: !GetAtt DemoRole.Arn
-      Runtime: python3.8
-      Code:
-        ZipFile: |
-          import boto3
+DemoLambdaFunction:
+  Type: AWS::Lambda::Function
+  Properties:
+    Handler: index.lambda_handler
+    Role: !GetAtt DemoRole.Arn
+    Runtime: python3.8
+    Code:
+      ZipFile: |
+        import boto3
 
-          client = boto3.client('ssm')
+        client = boto3.client('ssm')
 
 
-          def lambda_handler(event, context):
-              response = client.get_parameter(Name='dbUsername')
-              print(f'SSM dbUsername parameter value: {response["Parameter"]["Value"]}')
+        def lambda_handler(event, context):
+            response = client.get_parameter(Name='dbUsername')
+            print(f'SSM dbUsername parameter value: {response["Parameter"]["Value"]}')
 ```
 
 Save the template you have updated with content above. Next, navigate to the AWS CloudFormation [console](https://console.aws.amazon.com/cloudformation), and choose to create a stack using this template:
@@ -213,22 +212,22 @@ your CloudFormation template: for example, you choose the name of the S3 bucket 
 First, under the _Parameters_ section, add a template parameter `S3BucketNamePrefix` to be used as the S3 bucket prefix you'll be creating.
 
 ```yaml
-  S3BucketNamePrefix:
-    Description: The prefix to use for your S3 bucket
-    Type: String
-    Default: my-demo-bucket
-    AllowedPattern: ^[0-9a-zA-Z]+([0-9a-zA-Z-]*[0-9a-zA-Z])*$
-    ConstraintDescription: Bucket name prefix can include numbers, lowercase letters, uppercase letters, and hyphens (-). It cannot start or end with a hyphen (-).
-    MinLength: 3
+S3BucketNamePrefix:
+  Description: The prefix to use for your S3 bucket
+  Type: String
+  Default: my-demo-bucket
+  AllowedPattern: ^[0-9a-zA-Z]+([0-9a-zA-Z-]*[0-9a-zA-Z])*$
+  ConstraintDescription: Bucket name prefix can include numbers, lowercase letters, uppercase letters, and hyphens (-). It cannot start or end with a hyphen (-).
+  MinLength: 3
 ```
 
 Then, add a `DemoBucket` resource under the _Resources_ section of the template.
 
 ```yaml
-  DemoBucket:
-    Type: AWS::S3::Bucket
-    Properties:
-      BucketName: !Sub '${S3BucketNamePrefix}-${AWS::Region}-${AWS::AccountId}'
+DemoBucket:
+  Type: AWS::S3::Bucket
+  Properties:
+    BucketName: !Sub '${S3BucketNamePrefix}-${AWS::Region}-${AWS::AccountId}'
 ```
 See `code/solutions/pseudo-parameters/pseudo-parameters.yaml` for the full solution.
 :::

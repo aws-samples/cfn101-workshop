@@ -26,16 +26,16 @@ By the end of this lab, you will be able to:
 The _AWSTemplateFormatVersion_ section identifies the capabilities of the template. The latest template format version
 is _2010-09-09_ and is currently the only valid value.
 
-```yaml
+:::code{language=yaml showLineNumbers=false showCopyAction=true}
 AWSTemplateFormatVersion: "2010-09-09"
-```
+:::
 
 #### Description
 The _Description_ section enables you to include comments about your template.
 
-```yaml
+:::code{language=yaml showLineNumbers=false showCopyAction=true}
 Description: AWS CloudFormation workshop - Resources (uksb-1q9p31idr).
-```
+:::
 
 #### Metadata
 You can use the [_Metadata_ section](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/metadata-section-structure.html)
@@ -62,14 +62,14 @@ _Parameters_ enable you to input custom values to your template each time you cr
 
 AWS CloudFormation supports the following parameter types:
 
-|Type|Description|Example|
-|----|----|----|
-| _String_ |A literal string.|"MyUserName"|
-| _Number_ |An integer or float.|"123"|
-| _List\<Number\>_ |An array of integers or floats.|"10,20,30"|
-| _CommaDelimitedList_ |An array of literal strings.|"test,dev,prod"|
-|[AWS-Specific Parameter Types](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/parameters-section-structure.html#aws-specific-parameter-types)|AWS values such as Amazon VPC IDs.| _AWS::EC2::VPC::Id_ |
-|[SSM Parameter Types](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/parameters-section-structure.html#aws-ssm-parameter-types)|Parameters that correspond to existing parameters in Systems Manager Parameter Store.| _AWS::SSM::Parameter::Value\<AWS::EC2::Image::Id\>_ |
+| Type                                                                                                                                                          | Description                                                                           | Example                                             |
+|---------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------|-----------------------------------------------------|
+| _String_                                                                                                                                                      | A literal string.                                                                     | "MyUserName"                                        |
+| _Number_                                                                                                                                                      | An integer or float.                                                                  | "123"                                               |
+| _List\<Number\>_                                                                                                                                              | An array of integers or floats.                                                       | "10,20,30"                                          |
+| _CommaDelimitedList_                                                                                                                                          | An array of literal strings.                                                          | "test,dev,prod"                                     |
+| [AWS-Specific Parameter Types](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/parameters-section-structure.html#aws-specific-parameter-types) | AWS values such as Amazon VPC IDs.                                                    | _AWS::EC2::VPC::Id_                                 |
+| [SSM Parameter Types](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/parameters-section-structure.html#aws-ssm-parameter-types)               | Parameters that correspond to existing parameters in Systems Manager Parameter Store. | _AWS::SSM::Parameter::Value\<AWS::EC2::Image::Id\>_ |
 
 ```yaml
 Parameters:
@@ -142,10 +142,10 @@ Copy the code below to your terminal. Make sure to change the `--region` flag to
 
 ```shell
 aws ssm get-parameters \
---names /aws/service/ami-amazon-linux-latest/amzn2-ami-hvm-x86_64-gp2 \
---query "Parameters[].Value" \
---region eu-west-2 \
---output text
+    --names /aws/service/ami-amazon-linux-latest/amzn2-ami-hvm-x86_64-gp2 \
+    --query "Parameters[].Value" \
+    --region eu-west-2 \
+    --output text
 ```
 
 ![ami-id-gif](/static/basics/templates/resources/ami-id.gif)

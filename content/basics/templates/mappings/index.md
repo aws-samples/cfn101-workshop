@@ -15,7 +15,7 @@ Here is a simplified example of a Mappings section. It contains one Map, `AnExam
 `AnExampleMapping` contains three top level keys, `TopLevelKey01`, `TopLevelKey02` and `TopLevelKey03`. \
 Each top level key contains one or more `Key: Value` pairs.
 
-```yaml
+:::code{language=yaml showLineNumbers=false showCopyAction=false}
 Mappings:
   AnExampleMap:
     TopLevelKey01:
@@ -27,7 +27,7 @@ Mappings:
 
     TopLevelKey03:
       AFinalKey: ADifferentValue
-```
+:::
 
 ### Topics Covered
 In this Lab, you will:
@@ -100,14 +100,14 @@ Resources:
 As you have deleted the `InstanceType` parameter, you will need to update the tag. Reference `EnviromentType` in the tag property.
 
 ```yaml
-    Tags:
-      - Key: Name
-        Value: !Join [ '-', [ !Ref EnvironmentType, webserver ] ]
+Tags:
+  - Key: Name
+    Value: !Join [ '-', [ !Ref EnvironmentType, webserver ] ]
 ```
 
 #### 5. Finally, Deploy the solution
 
-Now that you have added a Mappings section to your template, go to the AWS console and update your CloudFormation Stack.
+Now that you have added a Mappings' section to your template, go to the AWS console and update your CloudFormation Stack.
 
 1. Open the **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** link in a new tab and log in to your AWS account.
 1. Click on the stack name, for example **cfn-workshop-ec2**.

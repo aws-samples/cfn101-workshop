@@ -79,9 +79,9 @@ Decide on the AWS region where you will be deploying your Cloudformation templat
 
 ::alert[Make sure to replace the name of the bucket after `s3://` with a unique name!]{type="info"}
 
-```shell
+:::code{language=shell showLineNumbers=false showCopyAction=true}
 aws s3 mb s3://example-bucket-name --region eu-west-1
-```
+:::
 
 ##### 2. Install function dependencies
 
@@ -90,9 +90,9 @@ directory with [pip](https://pypi.org/project/pip/), so it can be packaged with 
 
 From within a `code/workspace/package-and-deploy` directory run:
 
-```shell
+:::code{language=shell showLineNumbers=false showCopyAction=true}
 pip install pytz --target lambda
-```
+:::
 
 You should see the `pytz` package inside the `lambda/` folder.
 
@@ -100,13 +100,13 @@ You should see the `pytz` package inside the `lambda/` folder.
 
 From within a `code/workspace/package-and-deploy` directory run:
 
-```shell
+:::code{language=shell showLineNumbers=false showCopyAction=true}
 aws cloudformation package \
---template-file infrastructure.template \
---s3-bucket example-bucket-name \
---s3-prefix cfn-workshop-package-deploy \
---output-template-file infrastructure-packaged.template
-```
+    --template-file infrastructure.template \
+    --s3-bucket example-bucket-name \
+    --s3-prefix cfn-workshop-package-deploy \
+    --output-template-file infrastructure-packaged.template
+:::
 
 Let's have a closer look at the individual `package` options you have used in the command above.
 
@@ -142,14 +142,14 @@ You can notice that the `Code` property has been updated with two new attributes
 
 For completeness let’s also look what’s in the uploaded files. From the listing above we know the bucket and object name to download.
 
-```shell
+:::code{language=shell showLineNumbers=false showCopyAction=true}
 aws s3 cp s3://example-bucket-name/cfn-workshop-package-deploy/1234567890 .
-```
+:::
 
 We know that `package` will ZIP files, so even there is no `.zip` extension you can still `unzip` it.
 
 ##### Unix/Linux
-```shell
+:::code{language=shell showLineNumbers=false showCopyAction=false}
 unzip -l ce6c47b6c84d94bd207cea18e7d93458
 
 Archive:  ce6c47b6c84d94bd207cea18e7d93458
@@ -158,9 +158,9 @@ Archive:  ce6c47b6c84d94bd207cea18e7d93458
        12  02-12-2020 17:21   requirements.txt
       455  02-12-2020 17:18   lambda_function.py
      4745  02-13-2020 14:36   pytz/tzfile.py
-```
+:::
 ##### Powershell
-```powershell
+:::code{language=powershell showLineNumbers=false showCopyAction=false}
 rename-item ce6c47b6c84d94bd207cea18e7d93458 packagedLambda.zip
 
 Expand-Archive -LiteralPath packagedLambda.zip -DestinationPath packagedLambda
@@ -174,7 +174,7 @@ d-----        10/29/2021   4:25 PM                pytz
 d-----        10/29/2021   4:25 PM                pytz-2021.3.dist-info
 -a----        10/29/2021  11:19 AM            475 lambda_function.py
 -a----        10/29/2021  11:19 AM             14 requirements.txt
-```
+:::
 
 ### Validating a template
 
@@ -185,14 +185,14 @@ checks a CloudFormation template to ensure it is valid JSON or YAML. This is use
 
 Let's validate our packaged template. From within a `code/workspace/package-and-deploy` directory run:
 
-```shell
+:::code{language=shell showLineNumbers=false showCopyAction=true}
 aws cloudformation validate-template \
---template-body file://infrastructure-packaged.template
-```
+    --template-body file://infrastructure-packaged.template
+:::
 
 If successful, CloudFormation will send you a response with a list of parameters, template description and capabilities.
 
-```json
+:::code{language=json showLineNumbers=false showCopyAction=true}
 {
     "Parameters": [],
     "Description": "CFN 201 Workshop - Lab 12 Helper Scripts. ()",
@@ -201,7 +201,7 @@ If successful, CloudFormation will send you a response with a list of parameters
     ],
     "CapabilitiesReason": "The following resource(s) require capabilities: [AWS::IAM::Role]"
 }
-```
+:::
 
 ### Deploying the "packaged" template
 
@@ -212,13 +212,13 @@ Let's deploy packaged template.
 
 From within a `code/workspace/package-and-deploy` directory run:
 
-```shell
+:::code{language=shell showLineNumbers=false showCopyAction=true}
 aws cloudformation deploy \
---template-file infrastructure-packaged.template \
---stack-name cfn-workshop-lambda \
---region eu-west-1 \
---capabilities CAPABILITY_IAM
-```
+    --template-file infrastructure-packaged.template \
+    --stack-name cfn-workshop-lambda \
+    --region eu-west-1 \
+    --capabilities CAPABILITY_IAM
+:::
 
 ::alert[Note that we used the packaged template `infrastructure-packaged.template` that refers to the artifacts in S3. Not the original one with local paths!]{type="info"}
 
@@ -243,47 +243,47 @@ The Lambda function will determinate current UTC date and time. Then it will con
 From your terminal run:
 
 ##### Unix/Linux (AWS CLI version 2)
-```shell
+:::code{language=shell showLineNumbers=false showCopyAction=true}
 aws lambda invoke \
---function-name cfn-workshop-python-function \
---payload "{\"time_zone\": \"Europe/London\"}" \
-response.json
-```
+    --function-name cfn-workshop-python-function \
+    --payload "{\"time_zone\": \"Europe/London\"}" \
+    response.json
+:::
 ##### CMD
-```shell
+:::code{language= showLineNumbers=false showCopyAction=true}
 aws lambda invoke ^
---function-name cfn-workshop-python-function ^
---payload "{\"time_zone\": \"Europe/London\"}" ^
---cli-binary-format raw-in-base64-out ^
-response.json
-```
+    --function-name cfn-workshop-python-function ^
+    --payload "{\"time_zone\": \"Europe/London\"}" ^
+    --cli-binary-format raw-in-base64-out ^
+    response.json
+:::
 ##### Powershell
-```powershell
+:::code{language=powershell showLineNumbers=false showCopyAction=true}
 aws lambda invoke `
---function-name cfn-workshop-python-function `
---payload "{\`"time_zone\`": \`"Europe/London\`"}" `
---cli-binary-format raw-in-base64-out `
-response.json
-```
+    --function-name cfn-workshop-python-function `
+    --payload "{\`"time_zone\`": \`"Europe/London\`"}" `
+    --cli-binary-format raw-in-base64-out `
+    response.json
+:::
 
 Lambda will be triggered, and the response form Lambda will be saved in `response.json` file.
 
 You can check the result of the file by running command below:
 
 ##### Unix/Linux
-```shell
+:::code{language=shell showLineNumbers=false showCopyAction=true}
 cat response.json
-```
+:::
 ##### CMD/Powershell
-```powershell
+:::code{language=powershell showLineNumbers=false showCopyAction=true}
 more response.json
-```
+:::
 
 You should get a result similar to this:
 
-```shell script
+:::code{language=json showLineNumbers=false showCopyAction=false}
 {"message": "Current date/time in TimeZone *Europe/London* is: 2020-02-13 16:22"}
-```
+:::
 
 ---
 ### Conclusion

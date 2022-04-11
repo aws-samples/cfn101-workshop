@@ -37,9 +37,9 @@ your template more flexible. Let's convert `AmiID` to variable and pass it to re
 1. First, create a new parameter called `AmiID` and put it in the `Parameters` section of your template.
 
     ```yaml
-      AmiID:
-        Type: AWS::EC2::Image::Id
-        Description: 'The ID of the AMI.'
+    AmiID:
+      Type: AWS::EC2::Image::Id
+      Description: 'The ID of the AMI.'
     ```
 
 1. Use the intrinsic function `Ref` to pass the `AmiID` parameter input to the EC2 resource property.
@@ -100,8 +100,7 @@ Now it is time to update your stack. Go to the AWS console and update your Cloud
 1. In the left-hand pane, click on **Instances**.
 1. Select the instance with a name **t2.micro-webserver**
 1. Go to the **Tags** tab, you should see there a key `Name` with a value `t2.micro-webserver`.
-
-    ![tags-png](/static/basics/templates/intrinsic-functions/tags.png)
+   ![tags-png](/static/basics/templates/intrinsic-functions/tags.png)
 
 ### Challenge
 Crete another tag named `InstanceType` and use intrinsic function **Fn::Sub** to return type of the instance.
