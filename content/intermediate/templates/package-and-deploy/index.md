@@ -26,7 +26,7 @@ By the end of this lab, you will be able to:
 * Validate a CloudFormation template using `aws cloudformation validate-template` command
 * Deploy a template using the ` aws cloudformation deploy` command
 
-### Start Labs
+### Start Lab
 
 Have a look at the sample project at `code/workspace/package-and-deploy` directory.
 
@@ -102,10 +102,10 @@ From within a `code/workspace/package-and-deploy` directory run:
 
 ```shell
 aws cloudformation package \
-      --template-file infrastructure.template \
-      --s3-bucket example-bucket-name \
-      --s3-prefix cfn-workshop-package-deploy \
-      --output-template-file infrastructure-packaged.template
+--template-file infrastructure.template \
+--s3-bucket example-bucket-name \
+--s3-prefix cfn-workshop-package-deploy \
+--output-template-file infrastructure-packaged.template
 ```
 
 Let's have a closer look at the individual `package` options you have used in the command above.
@@ -187,7 +187,7 @@ Let's validate our packaged template. From within a `code/workspace/package-and-
 
 ```shell
 aws cloudformation validate-template \
-  --template-body file://infrastructure-packaged.template
+--template-body file://infrastructure-packaged.template
 ```
 
 If successful, CloudFormation will send you a response with a list of parameters, template description and capabilities.
@@ -214,10 +214,10 @@ From within a `code/workspace/package-and-deploy` directory run:
 
 ```shell
 aws cloudformation deploy \
-      --template-file infrastructure-packaged.template \
-      --stack-name cfn-workshop-lambda \
-      --region eu-west-1 \
-      --capabilities CAPABILITY_IAM
+--template-file infrastructure-packaged.template \
+--stack-name cfn-workshop-lambda \
+--region eu-west-1 \
+--capabilities CAPABILITY_IAM
 ```
 
 ::alert[Note that we used the packaged template `infrastructure-packaged.template` that refers to the artifacts in S3. Not the original one with local paths!]{type="info"}

@@ -62,9 +62,9 @@ functionality. This will allow you to connect to the EC2 instance using Systems 
               Service:
                 - ec2.amazonaws.com
             Action:
-              - sts\:AssumeRole
+              - sts:AssumeRole
       ManagedPolicyArns:
-        - arn\:aws\:iam::aws\:policy/AmazonSSMManagedInstanceCore
+        - arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore
 ```
 
 #### 3. Create an IAM Instance Profile

@@ -64,7 +64,7 @@ Resources:
             Principal: '*'
             Condition:
               Bool:
-                aws\:SecureTransport: false
+                aws:SecureTransport: false
 
 Outputs:
   S3BucketDomainName:

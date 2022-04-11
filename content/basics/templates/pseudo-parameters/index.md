@@ -54,9 +54,9 @@ You want to construct the resource ARN using pseudo parameters like the one in t
         {
             "Effect": "Allow",
             "Action": [
-                "ssm\:GetParameters"
+                "ssm:GetParameters"
             ],
-            "Resource": "arn\:aws\:ssm\:us-east-1:111122223333\:parameter/dbUsername"
+            "Resource": "arn:aws:ssm:us-east-1:111122223333:parameter/dbUsername"
         }
     ]
 }
@@ -107,7 +107,7 @@ Copy the content below, and paste it in the `Resources` section of the `pseudo-p
               Service:
                 - lambda.amazonaws.com
             Action:
-              - sts\:AssumeRole
+              - sts:AssumeRole
       Path: /
       Policies:
         - PolicyName: ssm-least-privilege
@@ -115,7 +115,7 @@ Copy the content below, and paste it in the `Resources` section of the `pseudo-p
             Version: "2012-10-17"
             Statement:
               - Effect: Allow
-                Action: ssm\:GetParameter
+                Action: ssm:GetParameter
                 Resource: '*'
 ```
 
@@ -134,7 +134,7 @@ Parameter Store resource you described in your template.
 
 Locate the `Policies` section for `DemoRole`; replace the whole line containing `Resource: '*'` with the following:
 ```yaml
-                Resource: !Sub 'arn:${AWS::Partition}\:ssm:${AWS::Region}:${AWS::AccountId}\:parameter/${BasicParameter}'
+                Resource: !Sub 'arn:${AWS::Partition}:ssm:${AWS::Region}:${AWS::AccountId}:parameter/${BasicParameter}'
 ```
 
 Finally, add the example snippet below to the `Resources` section of the `pseudo-parameters.yaml` template file.

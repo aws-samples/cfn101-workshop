@@ -78,9 +78,9 @@ With the dynamic reference above, you describe the intent of resolving the `LATE
 
 ```shell
 aws ec2 describe-instances \
-      --instance-ids YOUR_INSTANCE_ID \
-      --region YOUR_REGION \
-      --query 'Reservations[0].Instances[0].ImageId'
+--instance-ids YOUR_INSTANCE_ID \
+--region YOUR_REGION \
+--query 'Reservations[0].Instances[0].ImageId'
 ```
 
 Congratulations! You learned how to use dynamic references with an example using Parameter Store.
@@ -125,8 +125,8 @@ Let’s get started! Choose to follow steps shown next:
    ```yaml
          Environment:
            Variables:
-             RDS_HOSTNAME: '{{resolve\:secretsmanager\:DatabaseConnParams\:SecretString\:RDS_HOSTNAME}}'
-             RDS_PORT: '{{resolve\:secretsmanager\:DatabaseConnParams\:SecretString\:RDS_PORT}}'
+             RDS_HOSTNAME: '{{resolve:secretsmanager:DatabaseConnParams:SecretString:RDS_HOSTNAME}}'
+             RDS_PORT: '{{resolve:secretsmanager:DatabaseConnParams:SecretString:RDS_PORT}}'
    ```
 4. To Deploy the Lambda stack, follow the steps below:
     1. Navigate to the [AWS CloudFormation Console](https://console.aws.amazon.com/cloudformation/), and choose **Create stack With new resources (standard)**.
@@ -146,9 +146,9 @@ Let’s get started! Choose to follow steps shown next:
 5. When you invoke the example Lambda function you created, the function fetches `RDS_HOSTNAME` and `RDS_PORT` environment variables, and prints out their values. First, locate the Lambda function name by navigating to the **Resources** tab in the CloudFormation Console: look for the Physical ID of your Lambda function, and note its value. Next, verify you are passing database connection parameters to your Lambda function by invoking it with the following command (replace `YOUR_FUNCTION_NAME` with your Lambda function name and `YOUR_REGION` with the value you need):
    ```shell
    aws lambda invoke \
-         --function-name YOUR_FUNCTION_NAME \
-         --region YOUR_REGION \
-         output.json
+   --function-name YOUR_FUNCTION_NAME \
+   --region YOUR_REGION \
+   output.json
    ```
 
    Print the output for the above command using the following command:
@@ -175,10 +175,10 @@ AWS Lambda supports specifying memory configuration for a [function](https://doc
 
 ```shell
 aws ssm put-parameter \
-      --name "/lambda/memory-size" \
-      --value "256" \
-      --type "String" \
-      --region YOUR_REGION
+--name "/lambda/memory-size" \
+--value "256" \
+--type "String" \
+--region YOUR_REGION
 ```
 
 * Open the `code/workspace/dynamic-references/lambda-memory-size.yaml` template in your favorite text editor. Update the template by appending, to the `Resources` section, the example below that include the `MemorySize` property using a dynamic reference to the parameter:
@@ -189,7 +189,7 @@ aws ssm put-parameter \
       Role: !GetAtt FunctionExecutionRole.Arn
       Handler: index.handler
       Runtime: python3.7
-      MemorySize: '{{resolve\:ssm:/lambda/memory-size:1}}'
+      MemorySize: '{{resolve:ssm:/lambda/memory-size:1}}'
       Code:
         ZipFile: |
           import os
@@ -206,14 +206,14 @@ You can find the full solution in the `code/solutions/dynamic-references/lambda-
 1. Delete CloudWatch Log Groups associated with Lambda functions you created with `cfn-workshop-lambda-stack`, and with `cfn-workshop-lambda-memory-size-stack` (if you invoked the Lambda function for the challenge section, you should have a relevant Log Group present). For each of the stacks, locate the Lambda function name by navigating to the **Resources** tab in the CloudFormation Console; look for the Physical ID of your Lambda function, and note its value. Then, use the following command for each of the Lambda functions you have created (replace `YOUR_FUNCTION_NAME` with your Lambda function name, and `YOUR_REGION` with the value you need):
 ```shell
 aws logs delete-log-group \
-      --log-group-name /aws/lambda/YOUR_FUNCTION_NAME \
-      --region YOUR_REGION
+--log-group-name /aws/lambda/YOUR_FUNCTION_NAME \
+--region YOUR_REGION
 ```
 2. Delete the two Parameter Store parameters you created to store the AMI ID and `MemorySize` configuration using the following command (replace `YOUR_REGION` with the value you need):
 ```shell
 aws ssm delete-parameters \
-      --names "/golden-images/amazon-linux-2" "/lambda/memory-size" \
-      --region YOUR_REGION
+--names "/golden-images/amazon-linux-2" "/lambda/memory-size" \
+--region YOUR_REGION
 ```
 3. Next, in the CloudFormation console, select the stack you created last, for example: `cfn-workshop-lambda-memory-size-stack`.
 4. Choose **Delete** to delete the stack, and then choose **Delete stack** to confirm.

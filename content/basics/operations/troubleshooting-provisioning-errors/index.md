@@ -71,7 +71,7 @@ You choose to describe two [AWS Systems Manager Parameter Store](https://docs.aw
   DeadLetterQueueParameter:
     Type: AWS::SSM::Parameter
     Properties:
-      AllowedPattern: ^arn\:aws([-a-z0-9-]*[a-z0-9])*\:sqs:[a-z0-9-]+:[0-9]{12}:[a-zA-Z0-9_-]{1,80}(\.fifo){0,1}$
+      AllowedPattern: ^arn:aws([-a-z0-9-]*[a-z0-9])*:sqs:[a-z0-9-]+:[0-9]{12}:[a-zA-Z0-9_-]{1,80}(\.fifo){0,1}$
       Description: Parameter for the DeadLetterQueue ARN value
       Name: workshop-example-dead-letter-queue
       Type: String
@@ -80,7 +80,7 @@ You choose to describe two [AWS Systems Manager Parameter Store](https://docs.aw
   SourceQueueParameter:
     Type: AWS::SSM::Parameter
     Properties:
-      AllowedPattern: ^arn\:aws([-a-z0-9-]*[a-z0-9])*\:sqs:[a-z0-9-]+:[0-9]{12}:[a-zA-Z0-9_-]{1,80}(\.fifo){0,1}$
+      AllowedPattern: ^arn:aws([-a-z0-9-]*[a-z0-9])*:sqs:[a-z0-9-]+:[0-9]{12}:[a-zA-Z0-9_-]{1,80}(\.fifo){0,1}$
       Description: Parameter for the SourceQueue ARN value
       Name: workshop-example-source-queue
       Type: String

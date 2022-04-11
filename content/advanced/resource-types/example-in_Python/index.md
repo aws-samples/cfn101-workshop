@@ -97,13 +97,13 @@ The `awssamples-ec2-importkeypair.json` example schema file also contains a numb
     "handlers": {
         "create": {
             "permissions": [
-                "ec2\:ImportKeyPair",
-                "ec2\:CreateTags"
+                "ec2:ImportKeyPair",
+                "ec2:CreateTags"
             ]
         },
         "read": {
             "permissions": [
-                "ec2\:DescribeKeyPairs"
+                "ec2:DescribeKeyPairs"
             ]
         },
 ```
@@ -184,18 +184,18 @@ When ready, switch back to the terminal where you cloned or downloaded the sampl
 
 ```shell
 aws cloudformation create-stack \
-  --region us-east-1 \
-  --stack-name example-for-key-pair-contract-tests \
-  --template-body file://examples/example-template-contract-tests-input.yaml \
-  --parameters ParameterKey=KeyPairPublicKey,ParameterValue='PASTE_CONTENT_OF_example-key-pair-for-testing.pub'
+--region us-east-1 \
+--stack-name example-for-key-pair-contract-tests \
+--template-body file://examples/example-template-contract-tests-input.yaml \
+--parameters ParameterKey=KeyPairPublicKey,ParameterValue='PASTE_CONTENT_OF_example-key-pair-for-testing.pub'
 ```
 
 Wait until the `example-for-key-pair-contract-tests` stack is created, by using the CloudFormation console or the [stack-create-complete](https://docs.aws.amazon.com/cli/latest/reference/cloudformation/wait/stack-create-complete.html) wait command of the AWS CLI (the example uses `us-east-1` for the AWS region):
 
 ```shell
 aws cloudformation wait stack-create-complete \
-  --region us-east-1 \
-  --stack-name example-for-key-pair-contract-tests
+--region us-east-1 \
+--stack-name example-for-key-pair-contract-tests
 ```
 
 Next, you will need two terminal consoles opened on your machine; for each one, make sure you are at the root level of the `AWSSamples::EC2::ImportKeyPair` sample resource type project:
@@ -222,18 +222,18 @@ Now, let's test the sample resource type with an example template, that is alrea
 
 ```shell
 aws cloudformation create-stack \
-  --region us-east-1 \
-  --stack-name example-key-pair-stack \
-  --template-body file://examples/example-template-import-keypair.yaml \
-  --parameters ParameterKey=KeyPairPublicKey,ParameterValue='PASTE_CONTENT_OF_example-key-pair-for-testing.pub'
+--region us-east-1 \
+--stack-name example-key-pair-stack \
+--template-body file://examples/example-template-import-keypair.yaml \
+--parameters ParameterKey=KeyPairPublicKey,ParameterValue='PASTE_CONTENT_OF_example-key-pair-for-testing.pub'
 ```
 
 Wait until the stack creation finishes, after which you should have imported successfully the example key pair using CloudFormation and the sample `AWSSamples::EC2::ImportKeyPair` resource type (the example uses `us-east-1` for the AWS region):
 
 ```shell
 aws cloudformation wait stack-create-complete \
-  --region us-east-1 \
-  --stack-name example-key-pair-stack
+--region us-east-1 \
+--stack-name example-key-pair-stack
 ```
 
 
@@ -300,25 +300,25 @@ Steps to clean up resources you created follow next (assuming `us-east-1` as the
 
 ```shell
 aws cloudformation delete-stack \
-  --region us-east-1 \
-  --stack-name example-key-pair-stack
+--region us-east-1 \
+--stack-name example-key-pair-stack
 
 aws cloudformation wait stack-delete-complete \
-  --region us-east-1 \
-  --stack-name example-key-pair-stack
+--region us-east-1 \
+--stack-name example-key-pair-stack
 
 aws cloudformation delete-stack \
-  --region us-east-1 \
-  --stack-name example-for-key-pair-contract-tests
+--region us-east-1 \
+--stack-name example-for-key-pair-contract-tests
 
 aws cloudformation wait stack-delete-complete \
-  --region us-east-1 \
-  --stack-name example-for-key-pair-contract-tests
+--region us-east-1 \
+--stack-name example-for-key-pair-contract-tests
 
 aws cloudformation deregister-type \
-  --region us-east-1 \
-  --type-name AWSSamples::EC2::ImportKeyPair \
-  --type RESOURCE
+--region us-east-1 \
+--type-name AWSSamples::EC2::ImportKeyPair \
+--type RESOURCE
 ```
 
 

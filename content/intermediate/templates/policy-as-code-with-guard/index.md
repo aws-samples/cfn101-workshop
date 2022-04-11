@@ -59,7 +59,7 @@ Let's get started! Choose to follow steps shown next:
 2. Open the `example_bucket.yaml` CloudFormation template in your favorite text editor.
 3. The template describes an `AWS::S3::Bucket` resource type; update the template by appending a `Properties` section with [server-side encryption](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-s3-bucket-bucketencryption.html) configuration using the AES256 algorithm, and [versioning](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-s3-bucket-versioningconfiguration.html) enabled. Choose to copy content shown next, and paste it in the `example_bucket.yaml` file by appending it to the existing file content:
 
-```
+```yaml
     Properties:
       BucketEncryption:
         ServerSideEncryptionConfiguration:
@@ -71,7 +71,7 @@ Let's get started! Choose to follow steps shown next:
 
 4. Create example Guard rule clauses to validate both properties are described as you expect. Open the `example_bucket.guard` file in the same directory mentioned earlier, and create a **type block** to validate your configuration for resource(s) of type `AWS::S3::Bucket` you describe in your template. Copy content shown next, and paste it in the `example_bucket.guard` file by appending it to the existing content:
 
-```
+```json
 AWS::S3::Bucket {
     Properties {
         BucketEncryption.ServerSideEncryptionConfiguration[*] {
@@ -139,7 +139,7 @@ Resources.*[
 
 Let's rewrite example rule clauses you used earlier by using filters! As part of this exercise, you will also declare a `my_buckets` example variable by using `let`, and you will reference that variable in the new implementation of example rules with the `%` character as shown next:
 
-```
+```javascript
 let my_buckets = Resources.*[ Type == 'AWS::S3::Bucket' ]
 
 
@@ -175,7 +175,7 @@ Recall example rule clauses shown earlier. With one clause, you validated the se
 
 You will create two named rules: `rule validate_bucket_sse_example` and `validate_bucket_versioning_example`. For each rule declaration statement, you will use the `when` keyword with the intent of running the given rule against your input data only when selection targets (in this case, `AWS::S3::Bucket` resources) are present in your input data:
 
-```
+```javascript
 let my_buckets = Resources.*[ Type == 'AWS::S3::Bucket' ]
 
 
