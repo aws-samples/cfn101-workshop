@@ -80,8 +80,7 @@ In this next step, you will use the AWS CloudFormation Console to create a stack
 
 6. In the next page, choose **Create stack**.
 
-{{% notice note %}} When you apply a stack policy to a stack, all the resources in that stack are protected by default. Hence, you will need to specify an explicit `Allow` statement in your stack policy to allow updates to all other resources.
-{{% /notice %}}
+::alert[When you apply a stack policy to a stack, all the resources in that stack are protected by default. Hence, you will need to specify an explicit `Allow` statement in your stack policy to allow updates to all other resources.]
 
 The stack policy you configured above for your `stack-policy-lab` stack denies updates to the resource whose [Logical ID](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/resources-section-structure.html#resources-section-structure-resource-fields) is `SNSTopic`.
 
@@ -149,23 +148,21 @@ In the stack events pane, you will observe the resource whose Logical ID is `SNS
 
 Congratulations! You have now learned how to define a `DeletionPolicy` resource attribute on a resource to preserve it during stack deletion. For more information, see [`DeletionPolicy` attribute](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-attribute-deletionpolicy.html) and [`DeletionPolicy` options](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-attribute-deletionpolicy.html#aws-attribute-deletionpolicy-options).
 
-{{% notice note %}}
-On stack updates, you can choose to use the `UpdateReplacePolicy` [attribute](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-attribute-updatereplacepolicy.html) to retain - or, in some cases, backup - a given resource when the resource is replaced during the stack update.
-{{% /notice %}}
+::alert[On stack updates, you can choose to use the `UpdateReplacePolicy` [attribute](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-attribute-updatereplacepolicy.html) to retain - or, in some cases, backup - a given resource when the resource is replaced during the stack update.]
 
 ### Challenge
 
 You have learned how to create a stack policy to deny updates to a resource based on a [Logical Resource ID](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/resources-section-structure.html#resources-section-structure-resource-fields). In this exercise, you are tasked with creating a stack policy that applies to resources of a specific type: your task is to create a stack policy to deny all update actions to the `AWS::RDS::DBInstance` resource type.
 
-{{%expand "Need a hint?" %}}
+:::expand{header="Need a hint?"}
 
 - Make use of the [Condition](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/protect-stack-resources.html#stack-policy-reference) key to define `ResourceType`.
 - How do you specify, in `Action`, your intent of including all update actions?
 - Which value should you specify for `Resource`?
 
-{{% /expand %}}
+:::
 
-{{%expand "Want to see the solution?" %}}
+:::expand{header="Want to see the solution?"}
 
 Create a stack policy that, for `"Effect" : "Deny"`, contains `Action`, `Resource`, and `Condition` blocks specified as shown next:
 
@@ -193,7 +190,7 @@ Create a stack policy that, for `"Effect" : "Deny"`, contains `Action`, `Resourc
 }
 ```
 
-{{% /expand %}}
+:::
 
 Great work! You have now learned how to create a stack policy to deny updates for a given resource type.
 
