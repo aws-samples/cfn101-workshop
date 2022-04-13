@@ -175,9 +175,7 @@ Resources:
     Type: AWS::S3::Bucket
 ```
 
-{{% notice note %}}
-This `UserData` script will only run the first time the instance boots. You can [create a configuration](https://aws.amazon.com/premiumsupport/knowledge-center/execute-user-data-ec2/) which will run a script on every boot, but in order to keep the template complexity low for this workshop, this template just shows simple content.
-{{% /notice %}}
+::alert[This `UserData` script will only run the first time the instance boots. You can [create a configuration](https://aws.amazon.com/premiumsupport/knowledge-center/execute-user-data-ec2/) which will run a script on every boot, but in order to keep the template complexity low for this workshop, this template just shows simple content.]
 
 1. Navigate to the [AWS CloudFormation Console](https://console.aws.amazon.com/cloudformation/).
 2. From **Create stack**, choose **With new resources (standard)**.
@@ -217,10 +215,7 @@ In this step, you will use CloudFormation Drift Detection to identity the change
 7. Select `Instance1`, then choose **View drift details**.
 8. The drift details show that the `UserData` property has been modified. The `UserData` property is stored using Base64 encoding, so the exact change you made is not obvious in the display.
 
-{{% notice note %}}
-You can use a tool to decode the Base64 text and see the shell script it represents. For example, on Linux you can use the `base64` command line tool to process it as follows.
-Note that some implementations, for example macOS, use `-D` instead of `-d` as the option to the `base64` command.
-{{% /notice %}}
+::alert[You can use a tool to decode the Base64 text and see the shell script it represents. For example, on Linux you can use the `base64` command line tool to process it as follows. Note that some implementations, for example macOS, use `-D` instead of `-d` as the option to the `base64` command.]
 
 For example, when you run the following command:
 
@@ -235,18 +230,18 @@ you should see the following output:
 echo Hello World
 :::
 
-{{% notice warning %}}
-Be wary of using third-party websites to encode or decode your base64 text for UserData, especially if it contains or could contain sensitive information.
-{{% /notice %}}
+::alert[Be wary of using third-party websites to encode or decode your base64 text for UserData, especially if it contains or could contain sensitive information.]{type="warning"}
 
 Your task now is to update the stack with the new state of the resource, without causing a further interruption.
 
-{{%expand "Need a hint?" %}}
+:::expand{header="Need a hint?"}
+
 * You should detach the resource from the stack, then re-import it again with the `UserData` corrected. You do not need to convert the `UserData` to Base64.
 * Refer to the [Resource Importing](/intermediate/operations/resource-importing.html) lab for more guidance.
-{{% /expand %}}
 
-{{%expand "Want to see the solution?" %}}
+:::
+
+:::expand{header="Want to see the solution?"}
 
 1. Update the `drift-detection-challenge.yaml` template to add a `DeletionPolicy` attribute with a value of `Retain` to the `Instance1` resource. Save the file.
 2. Update the stack with the updated `drift-detection-challenge.yaml` template. This tells CloudFormation that when the resource is removed from the template, it should not delete it but just stop managing it.
@@ -275,7 +270,7 @@ Resources:
 11. Choose **Import resources**.
 12. Once the stack operation is complete and the resource is imported, you can run drift detection on the stack to confirm the instance is now in sync with the stack template.
 
-{{% /expand %}}
+:::
 
 You can find the template for the solution in `code/solutions/drift-detection/drift-detection-workshop.yaml`.
 
