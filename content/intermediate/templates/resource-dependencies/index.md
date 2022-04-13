@@ -219,29 +219,29 @@ To get started, open the `resource-dependencies-challenge.yaml` template, that y
 * Modify the Amazon EC2 instance resource definition as shown next:
 
 ```yaml
-  Ec2Instance:
-    Type: AWS::EC2::Instance
-    Properties:
-      ImageId: !Ref LatestAmiId
-      InstanceType: t2.micro
-      SecurityGroups:
-        - !Ref InstanceSecurityGroup
-      Tags:
-        - Key: Name
-          Value: Resource-dependencies-workshop
+Ec2Instance:
+  Type: AWS::EC2::Instance
+  Properties:
+    ImageId: !Ref LatestAmiId
+    InstanceType: t2.micro
+    SecurityGroups:
+      - !Ref InstanceSecurityGroup
+    Tags:
+      - Key: Name
+        Value: Resource-dependencies-workshop
 ```
 
 * Since there is no dependency between the Amazon EC2 instance and the Amazon S3 bucket resources, use the `DependsOn` attribute in the Amazon S3 bucket resource, and provide the Amazon EC2 instance's logical ID as a value for the `DependsOn` attribute.
 * Add the `DependsOn` attribute for the Amazon S3 bucket resource as shown next:
 
 ```yaml
-  S3Bucket:
-    Type: AWS::S3::Bucket
-    DependsOn: Ec2Instance
-    Properties:
-      Tags:
-        - Key: Name
-          Value: Resource-dependencies-workshop
+S3Bucket:
+  Type: AWS::S3::Bucket
+  DependsOn: Ec2Instance
+  Properties:
+    Tags:
+      - Key: Name
+        Value: Resource-dependencies-workshop
 ```
 :::
 
@@ -258,6 +258,7 @@ Follow the steps below to [delete the stacks](https://docs.aws.amazon.com/AWSClo
 3. In the stack details pane, choose **Delete** to delete the stack, and then choose **Delete stack** to confirm.
 4. Repeat steps above to delete other stacks you created: `resource-dependencies-lab-dependson`, `resource-dependencies-lab-ref-getatt`, and `resource-dependencies-challenge`.
 
+---
 ### Conclusion
 
 Great work! You learned how to use `Ref` and `Fn::GetAtt` intrinsic functions to define resource dependencies, as well as the `DependsOn` attribute to explicitly define resource dependencies.

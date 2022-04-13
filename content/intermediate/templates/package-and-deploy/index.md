@@ -51,9 +51,9 @@ Traditionally you would have to zip up and upload all the lambda sources to S3 f
 
 However, with [aws cloudformation package](https://docs.aws.amazon.com/cli/latest/reference/cloudformation/package.html) you can refer to the local files directly. That’s much more convenient!
 
-If you look at `infrastructure.template` snippet, you can see the reference in the `Code` property to the local directory.
+If you look at `infrastructure.template` snippet, you can see the reference in the `Code` property to the local directory, line [9].
 
-```yaml {hl_lines=[9]}
+:::code{language=yaml showLineNumbers=true showCopyAction=false}
 PythonFunction:
   Type: AWS::Lambda::Function
   Properties:
@@ -63,7 +63,7 @@ PythonFunction:
     Role: !GetAtt LambdaBasicExecutionRole.Arn
     Handler: lambda_function.handler
     Code: lambda/                                 # <<< This is a local directory
-```
+:::
 
 #### Package and Upload the artifacts
 
@@ -119,25 +119,25 @@ Let's have a closer look at the individual `package` options you have used in th
 
 Let's have a look at the newly generated file `infrastructure-packaged.template`.
 
-You can notice that the `Code` property has been updated with two new attributes, `S3Bucket` and `S3Key`.
+You can notice that the `Code` property has been updated with two new attributes, `S3Bucket` and `S3Key`, lines [12-14].
 
 ```yaml {hl_lines=[12,13,14]}
-  PythonFunction:
-    Type: AWS::Lambda::Function
-    Properties:
-      FunctionName: cfn-workshop-python-function
-      Description: Python Function to return specific TimeZone time
-      Runtime: python3.8
-      Role:
-        Fn::GetAtt:
-        - LambdaBasicExecutionRole
-        - Arn
-      Handler: lambda_function.handler
-      Code:
-        S3Bucket: example-bucket-name
-        S3Key: cfn-workshop-package-deploy/1234567890
-      TracingConfig:
-        Mode: Active
+PythonFunction:
+  Type: AWS::Lambda::Function
+  Properties:
+    FunctionName: cfn-workshop-python-function
+    Description: Python Function to return specific TimeZone time
+    Runtime: python3.8
+    Role:
+      Fn::GetAtt:
+      - LambdaBasicExecutionRole
+      - Arn
+    Handler: lambda_function.handler
+    Code:
+      S3Bucket: example-bucket-name
+      S3Key: cfn-workshop-package-deploy/1234567890
+    TracingConfig:
+      Mode: Active
 ```
 
 For completeness let’s also look what’s in the uploaded files. From the listing above we know the bucket and object name to download.
@@ -242,22 +242,28 @@ The Lambda function will determinate current UTC date and time. Then it will con
 
 From your terminal run:
 
-##### Unix/Linux (AWS CLI version 2)
+:::::tabs{variant="container"}
+
+::::tab{id="sh" label="Unix/Linux"}
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 aws lambda invoke \
     --function-name cfn-workshop-python-function \
     --payload "{\"time_zone\": \"Europe/London\"}" \
     response.json
 :::
-##### CMD
-:::code{language= showLineNumbers=false showCopyAction=true}
+::::
+
+::::tab{id="cmd" label="CMD"}
+:::code{language=shell showLineNumbers=false showCopyAction=true}
 aws lambda invoke ^
     --function-name cfn-workshop-python-function ^
     --payload "{\"time_zone\": \"Europe/London\"}" ^
     --cli-binary-format raw-in-base64-out ^
     response.json
 :::
-##### Powershell
+::::
+
+::::tab{id="powershell" label="Powershell"}
 :::code{language=powershell showLineNumbers=false showCopyAction=true}
 aws lambda invoke `
     --function-name cfn-workshop-python-function `
@@ -265,25 +271,27 @@ aws lambda invoke `
     --cli-binary-format raw-in-base64-out `
     response.json
 :::
+::::
+:::::
 
 Lambda will be triggered, and the response form Lambda will be saved in `response.json` file.
 
 You can check the result of the file by running command below:
 
-##### Unix/Linux
+:::::tabs{variant="container"}
+
+::::tab{id="sh" label="Unix/Linux"}
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 cat response.json
 :::
-##### CMD/Powershell
+::::
+
+::::tab{id="cmd" label="CMD/Powershell"}
 :::code{language=powershell showLineNumbers=false showCopyAction=true}
 more response.json
 :::
-
-You should get a result similar to this:
-
-:::code{language=json showLineNumbers=false showCopyAction=false}
-{"message": "Current date/time in TimeZone *Europe/London* is: 2020-02-13 16:22"}
-:::
+::::
+:::::
 
 ---
 ### Conclusion

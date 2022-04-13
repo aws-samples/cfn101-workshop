@@ -45,7 +45,7 @@ The VPC template has been created for you. It is titled `vpc.yaml`. This templat
 
 If you look in the file `vpc.yaml` file, you will notice that there are some outputs in the **Outputs** section of the template. You will now add exports to each of these so that we can consume them from other CloudFormation stacks.
 
-Add the highlighted lines shown below to your template file.
+Add the lines [4-5, 9-10 and 14-15] to your template file:
 
 ```yaml {hl_lines=[4,5,9,10,14,15]}
 Outputs:
@@ -82,7 +82,7 @@ Outputs:
 ##### 1. Prepare the IAM role template
 
 1. Open `iam.yaml` file.
-1. Copy the highlighted lines below to the **Outputs** section of the template.
+1. Copy the lines [4-5] to the **Outputs** section of the template:
     ```yaml {hl_lines=[4,5]}
     Outputs:
       WebServerInstanceProfile:
@@ -111,7 +111,7 @@ The concept of the **Layered Stack** is to use intrinsic functions to import pre
 
 ##### 2. Update the Parameters section
 
-Update the Parameters section to look as follows:
+Update the **Parameters** section to look as follows:
 
 ```yaml
 Parameters:
@@ -139,40 +139,40 @@ We perform this import by using the [Fn::ImportValue](https://docs.aws.amazon.co
 Update WebServerInstance resource in the Resources section of the `ec2.yaml` template:
 
 ```yaml
-  WebServerInstance:
-    Type: AWS::EC2::Instance
-    {...}
-    Properties:
-      SubnetId: !ImportValue cfn-workshop-PublicSubnet1
-      IamInstanceProfile: !ImportValue cfn-workshop-WebServerInstanceProfile
-      ImageId: !Ref AmiID
-      InstanceType: !FindInMap [EnvironmentToInstanceType, !Ref EnvironmentType, InstanceType]
-    {...}
+WebServerInstance:
+  Type: AWS::EC2::Instance
+  {...}
+  Properties:
+    SubnetId: !ImportValue cfn-workshop-PublicSubnet1
+    IamInstanceProfile: !ImportValue cfn-workshop-WebServerInstanceProfile
+    ImageId: !Ref AmiID
+    InstanceType: !FindInMap [EnvironmentToInstanceType, !Ref EnvironmentType, InstanceType]
+  {...}
 ```
 
 ##### 4. Update the security group
-Finally, update the security group resource similarly. Update `WebServerSecurityGroup` resource in the **Resources** section of the `ec2.yaml` template.
+Finally, update the security group resource similarly. Update `WebServerSecurityGroup` resource in the **Resources** section of the `ec2.yaml` template, line [19].
 
 ```yaml {hl_lines=[19]}
-  WebServerSecurityGroup:
-    Type: AWS::EC2::SecurityGroup
-    Properties:
-      GroupDescription: Enable HTTP and HTTPS access
-      SecurityGroupIngress:
-        - IpProtocol: tcp
-          FromPort: 80
-          ToPort: 80
-          CidrIp: 0.0.0.0/0
-      SecurityGroupEgress:
-        - IpProtocol: tcp
-          FromPort: 80
-          ToPort: 80
-          CidrIp: 0.0.0.0/0
-        - IpProtocol: tcp
-          FromPort: 443
-          ToPort: 443
-          CidrIp: 0.0.0.0/0
-      VpcId: !ImportValue cfn-workshop-VpcId
+WebServerSecurityGroup:
+  Type: AWS::EC2::SecurityGroup
+  Properties:
+    GroupDescription: Enable HTTP and HTTPS access
+    SecurityGroupIngress:
+      - IpProtocol: tcp
+        FromPort: 80
+        ToPort: 80
+        CidrIp: 0.0.0.0/0
+    SecurityGroupEgress:
+      - IpProtocol: tcp
+        FromPort: 80
+        ToPort: 80
+        CidrIp: 0.0.0.0/0
+      - IpProtocol: tcp
+        FromPort: 443
+        ToPort: 443
+        CidrIp: 0.0.0.0/0
+    VpcId: !ImportValue cfn-workshop-VpcId
 ```
 
 ##### 5. Deploy the EC2 Stack

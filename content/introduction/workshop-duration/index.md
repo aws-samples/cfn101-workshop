@@ -17,7 +17,7 @@ This part will take approximately 1 hour.
 
 #### Basics/Operations
 
-This part will take approximately 1 hour 30 minutes.
+This part will take approximately 2 hour.
 
 #### Intermediate/Templates
 
