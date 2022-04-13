@@ -171,16 +171,16 @@ AWS Lambda supports specifying memory configuration for a [function](https://doc
 * Review the CloudFormation [User Guide](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/dynamic-references.html#dynamic-references-ssm-pattern) for help with constructing a dynamic reference string to a specific version of a Parameter Store parameter.
 :::
 
-:::expand{header="Want to see the solution?"}
+::::expand{header="Want to see the solution?"}
 * Create a Parameter Store parameter specifying your required memory configuration using the following command (the example uses the `us-east-1` region - update this value accordingly):
 
-```shell
+:::code{language=yaml showLineNumbers=false showCopyAction=true}
 aws ssm put-parameter \
- --name "/lambda/memory-size" \
- --value "256" \
- --type "String" \
- --region YOUR_REGION
-```
+    --name "/lambda/memory-size" \
+    --value "256" \
+    --type "String" \
+    --region YOUR_REGION
+:::
 
 * Open the `code/workspace/dynamic-references/lambda-memory-size.yaml` template in your favorite text editor. Update the template by appending, to the `Resources` section, the example below that include the `MemorySize` property using a dynamic reference to the parameter:
 ```yaml
@@ -201,7 +201,7 @@ HelloWorldFunction:
 Create a `cfn-workshop-lambda-memory-size-stack` CloudFormation stack to provision resources you described and updated in the template.
 
 You can find the full solution in the `code/solutions/dynamic-references/lambda-memory-size.yaml` example template.
-:::
+::::
 
 ### Cleanup
 1. Delete CloudWatch Log Groups associated with Lambda functions you created with `cfn-workshop-lambda-stack`, and with `cfn-workshop-lambda-memory-size-stack` (if you invoked the Lambda function for the challenge section, you should have a relevant Log Group present). For each of the stacks, locate the Lambda function name by navigating to the **Resources** tab in the CloudFormation Console; look for the Physical ID of your Lambda function, and note its value. Then, use the following command for each of the Lambda functions you have created (replace `YOUR_FUNCTION_NAME` with your Lambda function name, and `YOUR_REGION` with the value you need):

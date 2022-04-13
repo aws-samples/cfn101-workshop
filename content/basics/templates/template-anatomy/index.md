@@ -17,7 +17,7 @@ of [the differences](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGu
 
 The following example shows an AWS CloudFormation YAML template structure and its top-level objects:
 
-```yaml
+:::code{language=yaml showLineNumbers=false showCopyAction=false}
 AWSTemplateFormatVersion: 'version date' (optional) # version of the CloudFormation template. Only accepted value is '2010-09-09'
 
 Description: 'String' (optional) # a text description of the Cloudformation template
@@ -39,7 +39,7 @@ Resources: 'set of resources' (required) # a components of your infrastructure
 Hooks: 'set of hooks' (optional) # Used for ECS Blue/Green Deployments
 
 Outputs: 'set of outputs' (optional) # values that are returned whenever you view your stack's properties
-```
+:::
 
 The only required top-level object is the **Resources** object, which must declare at least one resource.
 The definition of each of these objects can be found in the online [Template Anatomy](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/template-anatomy.html) documentation.

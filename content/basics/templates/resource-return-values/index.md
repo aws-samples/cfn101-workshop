@@ -118,16 +118,16 @@ When ready, create a new stack, called `resource-return-values-challenge`, with 
 * Modify the Amazon EC2 instance resource definition as next:
 
 ```yaml
-  Ec2Instance:
-    Type: AWS::EC2::Instance
-    Properties:
-      ImageId: !Ref LatestAmiId
-      InstanceType: t2.micro
-      SecurityGroups:
-        - !Ref InstanceSecurityGroup
-      Tags:
-        - Key: Name
-          Value: Resource-return-values-workshop
+Ec2Instance:
+  Type: AWS::EC2::Instance
+  Properties:
+    ImageId: !Ref LatestAmiId
+    InstanceType: t2.micro
+    SecurityGroups:
+      - !Ref InstanceSecurityGroup
+    Tags:
+      - Key: Name
+        Value: Resource-return-values-workshop
 ```
 
 * Use `Ref` intrinsic function, and pass the logical ID of the Amazon EC2 instance resource to retrieve the instance ID; similarly, pass the logical ID of the Amazon EC2 instance resource, along with the `PublicIp` attribute to the `Fn::GetAtt` function, to retrieve the public IP of the instance.

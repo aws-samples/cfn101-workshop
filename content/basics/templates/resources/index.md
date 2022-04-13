@@ -137,19 +137,19 @@ In this exercise, use the AWS CLI to query the AWS Systems Manager Parameter Sto
 
 ::expand[Check out the [AWS Compute Blog](https://aws.amazon.com/blogs/compute/query-for-the-latest-amazon-linux-ami-ids-using-aws-systems-manager-parameter-store/) to find out.]{header="Need a hint?"}
 
-:::expand{header="Want to see the solution?"}
+::::expand{header="Want to see the solution?"}
 Copy the code below to your terminal. Make sure to change the `--region` flag to use a region that you are deploying your CloudFormation to.
 
-```shell
+:::code{language=shell showLineNumbers=false showCopyAction=true}
 aws ssm get-parameters \
     --names /aws/service/ami-amazon-linux-latest/amzn2-ami-hvm-x86_64-gp2 \
     --query "Parameters[].Value" \
     --region eu-west-2 \
     --output text
-```
+:::
 
 ![ami-id-gif](/static/basics/templates/resources/ami-id.gif)
-:::
+::::
 
 ---
 ### Conclusion
