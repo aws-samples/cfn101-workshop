@@ -23,9 +23,9 @@ First we will check if a default VPC is present or not. We will use the AWS CLI 
 
 1. Copy the code below to your terminal. Make sure to change the `--region` flag to use a region that you are going to be deploying your CloudFormation to.
 
-    ```shell
+   :::code{language=shell showLineNumbers=false showCopyAction=true}
     aws ec2 describe-vpcs --filters Name=isDefault,Values=true --query "Vpcs[].VpcId" --region eu-west-2
-    ```
+    :::
 
 If the default VPC exists, it will be included here. Assert that `IsDefault` key is `true` and [move to the next step](../../Basics). You can skip the remainder of this section.
 
@@ -33,13 +33,13 @@ If the response is empty `[]` or the VPC is not **default** proceed to the next 
 
 1. Copy the code below to your terminal. Make sure to change the --region flag to use a region that you are going to be deploying your CloudFormation to.
 
-    ```shell
+   :::code{language=shell showLineNumbers=false showCopyAction=true}
     aws ec2 create-default-vpc --region eu-west-2
-    ```
+    :::
 
     The result will be a new default VPC created, and the response in the terminal will look like the sample below.
 
-    ```json
+   :::code{language=json showLineNumbers=false showCopyAction=false}
     {
         "Vpc": {
             "CidrBlock": "172.31.0.0/16",
@@ -62,6 +62,6 @@ If the response is empty `[]` or the VPC is not **default** proceed to the next 
             "Tags": []
         }
     }
-    ```
+    :::
 
    ::alert[If you wish to delete the default VPC again at the end of this workshop you should make a note of the **VpcId** above so that you can be sure to know which one to delete later.]{type="info"}

@@ -23,14 +23,14 @@ If you don't have an AWS account, you can [create a free account here](https://p
 
     ![new-user-1-png](/static/prerequisites/account/new-user-1.png)
 
-1. Click **Next: Permissions** to continue to the next step.
-1. Click **Attach existing policies directly** and choose **AdministratorAccess**.
+1. Choose **Next: Permissions** to continue to the next step.
+1. Choose **Attach existing policies directly** and choose **AdministratorAccess**.
 
     ![new-user-2-png](/static/prerequisites/account/new-user-2.png)
 
-1. Click **Next: Tags**
-1. Click **Next: Review**
-1. Click **Create User**
+1. Choose **Next: Tags**
+1. Choose **Next: Review**
+1. Choose **Create User**
 1. In the next screen, you'll see your **Access key ID**, and you will have the option to click **Show** to show the **Secret access key**.
 
     ![new-user-3-png](/static/prerequisites/account/new-user-3.png)

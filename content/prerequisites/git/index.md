@@ -13,9 +13,9 @@ There are two ways to install Git on macOS: using [Xcode](https://developer.appl
 
 1. Open your terminal and run following command:
 
-    ```shell
+   :::code{language=shell showLineNumbers=false showCopyAction=true}
     xcode-select --install
-    ```
+   :::
 
 1. Follow the installation steps in the opened software update popup window.
 
@@ -25,10 +25,10 @@ Git is included in the main package repository of every Linux distribution so us
 
 Verify the installation by typing `git --version` into a terminal.
 
-```shell
+:::code{language=shell showLineNumbers=false showCopyAction=true}
 git --version
 git version 2.30.0
-```
+:::
 
 ## Install Git on Windows
 
@@ -39,7 +39,7 @@ git version 2.30.0
  prompts to complete the installation. The default options are pretty sensible for most users.
 1. Open a Command Prompt (or Git Bash if during installation you elected not to use Git from the Windows Command Prompt).
 1. Run the following commands `git --version`
-    ```shell
-    git --version
-    git version 2.23.0.windows.1
-    ```
+:::code{language=shell showLineNumbers=false showCopyAction=true}
+git --version
+git version 2.23.0.windows.1
+:::
