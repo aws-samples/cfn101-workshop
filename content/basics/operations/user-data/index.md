@@ -31,40 +31,40 @@ The following diagram provides a high-level overview of the architecture you wil
 Begin by creating a Security Group.
 
 ```yaml
-  WebServerSecurityGroup:
-    Type: AWS::EC2::SecurityGroup
-    Properties:
-      GroupDescription: 'Enable HTTP access via port 80'
+WebServerSecurityGroup:
+  Type: AWS::EC2::SecurityGroup
+  Properties:
+    GroupDescription: 'Enable HTTP access via port 80'
 ```
 As the Apache web server will serve content on port 80, you will need to create an ingress rule `SecurityGroupIngress`
 in the security group to allow access from the Internet.
 
 ```yaml
-  WebServerSecurityGroup:
-    Type: AWS::EC2::SecurityGroup
-    Properties:
-      GroupDescription: 'Enable HTTP access via port 80'
-      SecurityGroupIngress:
-        - IpProtocol: tcp
-          FromPort: 80
-          ToPort: 80
-          CidrIp: 0.0.0.0/0
+WebServerSecurityGroup:
+  Type: AWS::EC2::SecurityGroup
+  Properties:
+    GroupDescription: 'Enable HTTP access via port 80'
+    SecurityGroupIngress:
+      - IpProtocol: tcp
+        FromPort: 80
+        ToPort: 80
+        CidrIp: 0.0.0.0/0
 ```
 
 Finally, associate the security group with the EC2 instance.
 
 ```yaml
-  WebServerInstance:
-    Type: AWS::EC2::Instance
-    Properties:
-      IamInstanceProfile: !Ref EC2InstanceProfile
-      ImageId: !Ref AmiID
-      InstanceType: !FindInMap [Environment, InstanceType, !Ref EnvType]
-      SecurityGroupIds:
-        - !Ref WebServerSecurityGroup
-      Tags:
-        - Key: Name
-          Value: !Join [ '-', [ !Ref EnvironmentType, webserver ] ]
+WebServerInstance:
+  Type: AWS::EC2::Instance
+  Properties:
+    IamInstanceProfile: !Ref EC2InstanceProfile
+    ImageId: !Ref AmiID
+    InstanceType: !FindInMap [Environment, InstanceType, !Ref EnvType]
+    SecurityGroupIds:
+      - !Ref WebServerSecurityGroup
+    Tags:
+      - Key: Name
+        Value: !Join [ '-', [ !Ref EnvironmentType, webserver ] ]
 ```
 
 :::alert{type="info"}
@@ -83,38 +83,38 @@ User data scripts are executed as the **root** user, so there is no need to use 
 :::
 
 ```yaml
-      UserData:
-        Fn::Base64: |
-          #!/bin/bash
-          yum update -y
-          yum install -y httpd php
-          systemctl start httpd
-          systemctl enable httpd
-          usermod -a -G apache ec2-user
-          chown -R ec2-user:apache /var/www
-          chmod 2775 /var/www
-          find /var/www -type d -exec chmod 2775 {} \;
-          find /var/www -type f -exec chmod 0664 {} \;
-          # PHP script to display Instance ID and Availability Zone
-          cat << 'EOF' > /var/www/html/index.php
-            <!DOCTYPE html>
-            <html>
-            <body>
-              <center>
-                <?php
-                # Get the instance ID from meta-data and store it in the $instance_id variable
-                $url = "http://169.254.169.254/latest/meta-data/instance-id";
-                $instance_id = file_get_contents($url);
-                # Get the instance's availability zone from metadata and store it in the $zone variable
-                $url = "http://169.254.169.254/latest/meta-data/placement/availability-zone";
-                $zone = file_get_contents($url);
-                ?>
-                <h2>EC2 Instance ID: <?php echo $instance_id ?></h2>
-                <h2>Availability Zone: <?php echo $zone ?></h2>
-              </center>
-            </body>
-            </html>
-          EOF
+UserData:
+  Fn::Base64: |
+    #!/bin/bash
+    yum update -y
+    yum install -y httpd php
+    systemctl start httpd
+    systemctl enable httpd
+    usermod -a -G apache ec2-user
+    chown -R ec2-user:apache /var/www
+    chmod 2775 /var/www
+    find /var/www -type d -exec chmod 2775 {} \;
+    find /var/www -type f -exec chmod 0664 {} \;
+    # PHP script to display Instance ID and Availability Zone
+    cat << 'EOF' > /var/www/html/index.php
+      <!DOCTYPE html>
+      <html>
+      <body>
+        <center>
+          <?php
+          # Get the instance ID from meta-data and store it in the $instance_id variable
+          $url = "http://169.254.169.254/latest/meta-data/instance-id";
+          $instance_id = file_get_contents($url);
+          # Get the instance's availability zone from metadata and store it in the $zone variable
+          $url = "http://169.254.169.254/latest/meta-data/placement/availability-zone";
+          $zone = file_get_contents($url);
+          ?>
+          <h2>EC2 Instance ID: <?php echo $instance_id ?></h2>
+          <h2>Availability Zone: <?php echo $zone ?></h2>
+        </center>
+      </body>
+      </html>
+    EOF
 ```
 
 #### 3. Add the **WebsiteURL** to CloudFormation _Outputs_
@@ -122,9 +122,9 @@ User data scripts are executed as the **root** user, so there is no need to use 
 Copy and paste the code below to the _Outputs_ section of the CloudFormation template.
 
 ```yaml
-  WebsiteURL:
-    Value: !Sub http://${WebServerEIP}
-    Description: Application URL
+WebsiteURL:
+  Value: !Sub http://${WebServerEIP}
+  Description: Application URL
 ```
 
 #### 4. Update the Stack

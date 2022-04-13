@@ -22,11 +22,11 @@ In this Lab, you will learn:
 1. Open the `multi-region-latest-ami.yaml` file.
 1. Update the `AmiID` parameter to:
 
-    ```yaml
-      AmiID:
-        Type: AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>
-        Description: The ID of the AMI.
-        Default: '/aws/service/ami-amazon-linux-latest/amzn2-ami-hvm-x86_64-gp2'
+   ```yaml
+   AmiID:
+    Type: AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>
+    Description: The ID of the AMI.
+    Default: '/aws/service/ami-amazon-linux-latest/amzn2-ami-hvm-x86_64-gp2'
    ```
 
 Go to the AWS console and update your stack with a new template.
