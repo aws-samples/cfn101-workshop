@@ -31,23 +31,23 @@ As an example, you will use the [AWSSamples::EC2::ImportKeyPair](https://github.
 
 Let's get started! Create a new directory and clone this [repository](https://github.com/aws-cloudformation/aws-cloudformation-samples) into it. Alternatively, you can choose to [download a ZIP archive](https://github.com/aws-cloudformation/aws-cloudformation-samples/archive/refs/heads/main.zip) instead. To clone the repository, use the following command:
 
-```shell
+:::code{language=shell showLineNumbers=false showCopyAction=true}
 git clone https://github.com/aws-cloudformation/aws-cloudformation-samples.git
-```
+:::
 
 The repository contains a number of samples. Change directory into the directory for the sample resource type:
 
-```shell
+:::code{language=shell showLineNumbers=false showCopyAction=false}
 cd aws-cloudformation-samples/
 cd resource-types/awssamples-ec2-importkeypair/python/
-```
+:::
 
 Let's take a look at a number of elements in the directory structure:
 
 * `docs/`: contains auto-generated syntax information for properties of the resource type. Every time you make changes to the resource schema file, you want to refresh auto-generated code - that includes files in this directory - with the `cfn generate` CloudFormation CLI [command](https://docs.aws.amazon.com/cloudformation-cli/latest/userguide/resource-type-cli-generate.html);
 * `inputs/`: contains files with key/value data for resource type input properties. The resource type creator specifies this input information for use with contract tests: *do not add sensitive information to those files*. For more information, see [Specifying input data for use in contract tests](https://docs.aws.amazon.com/cloudformation-cli/latest/userguide/resource-type-test.html#resource-type-test-input-data);
 * `awssamples-ec2-importkeypair.json`: resource schema file, named after the chosen resource type name, used to **describe the model for the resource**;
-* `src/`: contains a directory named after the resource type name, inside of which you should find:
+* `src/`: contains a directory named after the resource type name, inside which you should find:
   - `models.py`: managed by the CloudFormation CLI on your behalf when you make schema changes, and
   - `handlers.py`: where the resource type developer adds code for the CRUDL implementation logic. Open the `src/handlers.py` file with a text editor of your choice, and **familiarize with the handlers' structure** described in `create_handler`, `update_handler`, `delete_handler`, `read_handler`, `list_handler` functions;
 * `resource-role.yaml`: file managed by the CloudFormation CLI, that describes an [AWS Identity and Access Management](https://aws.amazon.com/iam/) (IAM) role whose `PolicyDocument` contains permissions the resource type developer indicates in the `handlers` section of the schema file.  CloudFormation assumes this role to manage resources for this resource type on behalf of the user as part of CRUDL operations;
@@ -93,7 +93,7 @@ For more information on how to create a schema and on schema elements, see [Reso
 
 The `awssamples-ec2-importkeypair.json` example schema file also contains a number of [AWS Identity and Access Management](https://aws.amazon.com/iam/) (IAM) permissions that handlers will need to manage the resource type on your behalf. When you look into the `handlers` section on the example schema file, you'll find a number of self-descriptive, EC2-related permissions. For example, for *create* and *read* handlers, you should find the following:
 
-```
+:::code{language=json showLineNumbers=false showCopyAction=false}
     "handlers": {
         "create": {
             "permissions": [
@@ -106,7 +106,7 @@ The `awssamples-ec2-importkeypair.json` example schema file also contains a numb
                 "ec2:DescribeKeyPairs"
             ]
         },
-```
+:::
 
 For more information on permissions from which you can choose when you create your resource type, see [Actions, resources, and condition keys for AWS services](https://docs.aws.amazon.com/service-authorization/latest/reference/reference_policies_actions-resources-contextkeys.html): on that page, choose the AWS service you need - in the current example, [Amazon EC2](https://docs.aws.amazon.com/service-authorization/latest/reference/list_amazonec2.html) - and then choose [Actions defined by Amazon EC2](https://docs.aws.amazon.com/service-authorization/latest/reference/list_amazonec2.html#amazonec2-actions-as-permissions).
 
@@ -118,7 +118,7 @@ For more information on permissions from which you can choose when you create yo
 Once you model a resource schema as shown in the example earlier, the next step is to start the code implementation in handlers. Considerations to make are:
 
 * for a given CRUDL handler (*Create*, *Read*, *Update*, *Delete*, *List*), you will need to implement a business logic as such:
-    * call a given, service-specific API(s) (such as `ImportKeyPair` in the *create* handler, `DeleteKeyPair` in the *delete* handler, et cetera);
+    * call a given, service-specific API(s) (such as `ImportKeyPair` in the *create* handler, `DeleteKeyPair` in the *delete* handler, etc.);
 * consume data returned by a given API you call in a given handler; moreover:
     * every handler must always return a `ProgressEvent`. For more information on its structure, see [ProgressEvent object schema](https://docs.aws.amazon.com/cloudformation-cli/latest/userguide/resource-type-test-progressevent.html);
     * if there are no errors, return a `ProgressEvent` object with `status=OperationStatus.SUCCESS` from a given handler; for example: `return ProgressEvent(status=OperationStatus.SUCCESS)`.  Additionally, if the handler is not *delete* or *list*, return a `ResourceModel` object (the model for the resource) with the data you gather with your handler code (from an API call) for the resource. For the *list* handler, instead of a single model, return a list of models for each of your resources of the type you're describing;
@@ -131,7 +131,7 @@ You can see examples of topics described above in the `src/awssamples_ec2_import
 
 The sample resource type leverages exception handling mechanism described above, whereas a downstream API error message is captured and returned along with a handler error code mapped to a given EC2 API. Here's an excerpt taken from the `read_handler` function in the sample resource type (if you look at the `_progress_event_failed` function in the sample resource type code, it then consumes input information by logging stacktrace information and by returning a `ProgressEvent` failure):
 
-```
+:::code{language=python showLineNumbers=false showCopyAction=false}
     except botocore.exceptions.ClientError as ce:
         return _progress_event_failed(
             handler_error_code=_get_handler_error_code(
@@ -140,7 +140,7 @@ The sample resource type leverages exception handling mechanism described above,
             error_message=str(ce),
             traceback_content=traceback.format_exc(),
         )
-```
+:::
 
 Even if, for the key pair import use case, a stabilization process is not necessarily needed, the sample resource type illustrates an example of a callback mechanism used in *create*, *update*, and *delete* handlers and driven by the `_is_callback` example function.
 
@@ -151,9 +151,9 @@ As part of software development best practices, you want to write *unit tests* t
 
 Let's run unit tests! Make sure you are in the directory that is at the root level of the `AWSSamples::EC2::ImportKeyPair` sample resource type (i.e., inside the `python` directory), and that you have followed prerequisites in the previous topic. Next, choose to run unit tests as follows:
 
-```shell
+:::code{language=shell showLineNumbers=false showCopyAction=true}
 pytest --cov src --cov-report term-missing
-```
+:::
 
 You should get an output indicating unit tests results, along with a total coverage percentage value. Unit tests in the sample resource type leverage a `.coveragerc` file at the root of the project that contains [configuration](https://coverage.readthedocs.io/en/latest/config.html) choices that include a required test coverage value.
 
@@ -172,38 +172,38 @@ Let's run contract tests for the sample resource type! First, let's set up test 
 
 First, let's generate an SSH key pair you will use for testing. Open a new terminal console in your machine, and choose an existing or new directory outside the `AWSSamples::EC2::ImportKeyPair` project directory path. When ready, change directory in to the one you chose or created, and create the SSH key pair with the `ssh-keygen` command:
 
-```shell
+:::code{language=shell showLineNumbers=false showCopyAction=true}
 ssh-keygen -t rsa -C "Example key pair for testing" -f example-key-pair-for-testing
-```
+:::
 
-Follow prompts and complete the creation of the key pair. You should now have, in the directory you chose, 2 files: `example-key-pair-for-testing` and `example-key-pair-for-testing.pub`. The former is the private key; the latter the public key portion, which is the one you will use in following steps where, when needed, you will need to provide its content by opening the public key file, copying its content in the clipboard and pasting it in the command line.
+Follow prompts and complete the creation of the key pair. You should now have, in the directory you chose, 2 files: `example-key-pair-for-testing` and `example-key-pair-for-testing.pub`. The former is the private key; the latter the public key portion, which is the one you will use in following steps where, when needed, you will need to provide it's content by opening the public key file, copying its content in the clipboard and pasting it in the command line.
 
 Next, create a CloudFormation stack that will create, for reference, an [AWS Systems Manager Parameter Store](https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-parameter-store.html) resource containing the public key material you will provide an input: contract tests will consume the `KeyPairPublicKeyForContractTests` [exported stack output value](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-stack-exports.html) of this stack. Input files in the `inputs` directory of the sample resource type, in turn, contain `{{KeyPairPublicKeyForContractTests}}` references to the value exported from the stack.
 
 When ready, switch back to the terminal where you cloned or downloaded the sample resource type, and make sure you are in the `aws-cloudformation-samples/resource-types/awssamples-ec2-importkeypair/python/` directory. With the next command, you will choose to create a new stack using the `examples/example-template-contract-tests-input.yaml` example template file: the template requires you to specify the `KeyPairPublicKey` input parameter, for which you will need to specify the content as mentioned earlier. The template also requires `OrganizationName` and `OrganizationBusinessUnitName`, that are set with example default values, `ExampleOrganization` and `ExampleBusinessUnit` respectively, and that will be used if you do not choose to provide values for them. Choose to create the stack as shown next, with a placeholder for the public key file content, where you will need to copy and paste the content of the public key file (the example uses `us-east-1` for the AWS region, change this value as needed):
 
-```shell
+:::code{language=shell showLineNumbers=false showCopyAction=true}
 aws cloudformation create-stack \
---region us-east-1 \
---stack-name example-for-key-pair-contract-tests \
---template-body file://examples/example-template-contract-tests-input.yaml \
---parameters ParameterKey=KeyPairPublicKey,ParameterValue='PASTE_CONTENT_OF_example-key-pair-for-testing.pub'
-```
+    --region us-east-1 \
+    --stack-name example-for-key-pair-contract-tests \
+    --template-body file://examples/example-template-contract-tests-input.yaml \
+    --parameters ParameterKey=KeyPairPublicKey,ParameterValue='PASTE_CONTENT_OF_example-key-pair-for-testing.pub'
+:::
 
 Wait until the `example-for-key-pair-contract-tests` stack is created, by using the CloudFormation console or the [stack-create-complete](https://docs.aws.amazon.com/cli/latest/reference/cloudformation/wait/stack-create-complete.html) wait command of the AWS CLI (the example uses `us-east-1` for the AWS region):
 
-```shell
+:::code{language=shell showLineNumbers=false showCopyAction=true}
 aws cloudformation wait stack-create-complete \
---region us-east-1 \
---stack-name example-for-key-pair-contract-tests
-```
+    --region us-east-1 \
+    --stack-name example-for-key-pair-contract-tests
+:::
 
 Next, you will need two terminal consoles opened on your machine; for each one, make sure you are at the root level of the `AWSSamples::EC2::ImportKeyPair` sample resource type project:
 
 * on the first terminal console, make sure Docker is running on your machine, and run `sam local start-lambda`
 * on the second terminal console, run contract tests: `cfn generate && cfn submit --dry-run && cfn test`
 
-For more information on contract tests for each handler (e.g., `contract_create_create`, `contract_create_read`, et cetera), see [Contract tests](https://docs.aws.amazon.com/cloudformation-cli/latest/userguide/contract-tests.html).
+For more information on contract tests for each handler (e.g., `contract_create_create`, `contract_create_read`, etc.), see [Contract tests](https://docs.aws.amazon.com/cloudformation-cli/latest/userguide/contract-tests.html).
 
 At the end of this process, you should see output indicating contract tests results. Let's move onto the next step!
 
@@ -212,29 +212,29 @@ At the end of this process, you should see output indicating contract tests resu
 
 Let's use the CloudFormation CLI to submit the resource to the registry in your CloudFormation account (the example uses `us-east-1` for the AWS region):
 
-```shell
+:::code{language=shell showLineNumbers=false showCopyAction=true}
 cfn generate && cfn submit --set-default --region us-east-1
-```
+:::
 
 Wait until the registration finishes, after which you should have the `AWSSamples::EC2::ImportKeyPair` sample resource type registered as a private extension in your account. To verify, choose *Activated extensions* in the CloudFormation console, and then choose *Privately registered*.
 
 Now, let's test the sample resource type with an example template, that is already available as `examples/example-template-import-keypair.yaml` in the repository you cloned or downloaded: if you open the file with a text editor of your choice, you will see how the sample resource type is referenced in the `Resources` section. For `KeyPairPublicKey`, choose to specify the same public key content you used for contract tests. The template also uses default values for `KeyPairName`, `OrganizationName`, and `OrganizationBusinessUnitName`, that will be used unless you specify your own. Choose to create the stack (the example uses `us-east-1` for the AWS region):
 
-```shell
+:::code{language=shell showLineNumbers=false showCopyAction=true}
 aws cloudformation create-stack \
---region us-east-1 \
---stack-name example-key-pair-stack \
---template-body file://examples/example-template-import-keypair.yaml \
---parameters ParameterKey=KeyPairPublicKey,ParameterValue='PASTE_CONTENT_OF_example-key-pair-for-testing.pub'
-```
+    --region us-east-1 \
+    --stack-name example-key-pair-stack \
+    --template-body file://examples/example-template-import-keypair.yaml \
+    --parameters ParameterKey=KeyPairPublicKey,ParameterValue='PASTE_CONTENT_OF_example-key-pair-for-testing.pub'
+:::
 
 Wait until the stack creation finishes, after which you should have imported successfully the example key pair using CloudFormation and the sample `AWSSamples::EC2::ImportKeyPair` resource type (the example uses `us-east-1` for the AWS region):
 
-```shell
+:::code{language=shell showLineNumbers=false showCopyAction=true}
 aws cloudformation wait stack-create-complete \
---region us-east-1 \
---stack-name example-key-pair-stack
-```
+    --region us-east-1 \
+    --stack-name example-key-pair-stack
+:::
 
 
 
@@ -262,7 +262,7 @@ Create a `sam-tests/example-read.json` file to test the *read* handler of the `A
 * Create a `sam-tests/example-read.json` file, by using the structure documented [here](https://docs.aws.amazon.com/cloudformation-cli/latest/userguide/resource-type-test.html#manual-testing);
 * from the Python command line interface, generate a `UUID4` value as in this example:
 
-```
+```shell
 >>> import uuid
 >>> uuid.uuid4()
 UUID('OUTPUT EDITED: THIS WILL CONTAIN A UUID4 VALUE')
@@ -271,7 +271,7 @@ UUID('OUTPUT EDITED: THIS WILL CONTAIN A UUID4 VALUE')
 * from the `Outputs` section of the `example-key-pair-stack` CloudFormation stack you created: use the value for `KeyPairId`, and pass it to a new `KeyPairId` key that you create in the JSON file's structure underneath the `desiredResourceState` key;
 * a resulting file structure should look like in the following example:
 
-```
+```json
 {
   "credentials": {
     "accessKeyId": "",
@@ -298,28 +298,28 @@ UUID('OUTPUT EDITED: THIS WILL CONTAIN A UUID4 VALUE')
 
 Steps to clean up resources you created follow next (assuming `us-east-1` as the AWS region you chose):
 
-```shell
+:::code{language=shell showLineNumbers=false showCopyAction=true}
 aws cloudformation delete-stack \
---region us-east-1 \
---stack-name example-key-pair-stack
+    --region us-east-1 \
+    --stack-name example-key-pair-stack
 
 aws cloudformation wait stack-delete-complete \
---region us-east-1 \
---stack-name example-key-pair-stack
+    --region us-east-1 \
+    --stack-name example-key-pair-stack
 
 aws cloudformation delete-stack \
---region us-east-1 \
---stack-name example-for-key-pair-contract-tests
+    --region us-east-1 \
+    --stack-name example-for-key-pair-contract-tests
 
 aws cloudformation wait stack-delete-complete \
---region us-east-1 \
---stack-name example-for-key-pair-contract-tests
+    --region us-east-1 \
+    --stack-name example-for-key-pair-contract-tests
 
 aws cloudformation deregister-type \
---region us-east-1 \
---type-name AWSSamples::EC2::ImportKeyPair \
---type RESOURCE
-```
+    --region us-east-1 \
+    --type-name AWSSamples::EC2::ImportKeyPair \
+    --type RESOURCE
+:::
 
 
 
