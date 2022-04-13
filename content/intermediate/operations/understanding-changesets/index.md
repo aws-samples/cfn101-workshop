@@ -41,12 +41,12 @@ In this part of the lab, you will specify a property, for a given resource type,
 Open the `bucket.yaml` CloudFormation template in your favorite text editor, and add `VersioningConfiguration` as shown below. Save the file.
 
 ```yaml
-  MyS3Bucket:
-    Type: AWS::S3::Bucket
-    Properties:
-      BucketName: !Ref BucketName
-      VersioningConfiguration:
-        Status: Enabled
+MyS3Bucket:
+  Type: AWS::S3::Bucket
+  Properties:
+    BucketName: !Ref BucketName
+    VersioningConfiguration:
+      Status: Enabled
 ```
 
 Next, create your first change set:

@@ -85,20 +85,20 @@ In this lab, you will learn how to import a resource into an existing stack. To 
 3. Copy the example below, and **append it to the `Parameters` section** of the `resource-importing.yaml` template, that you used for the previous lab:
 
 ```yaml
-  Topic2Name:
-    Type: String
-    Default: Topic2
-    Description: Name of the second Amazon SNS topic you created with the Amazon SNS console.
+Topic2Name:
+  Type: String
+  Default: Topic2
+  Description: Name of the second Amazon SNS topic you created with the Amazon SNS console.
 ```
 
 4. Next, copy the example below, and **append it to the `Resources` section** of the `resource-importing.yaml` template. Save the template file when done.
 
 ```yaml
-  SNSTopic2:
-    DeletionPolicy: Retain
-    Type: AWS::SNS::Topic
-    Properties:
-      TopicName: !Ref Topic2Name
+SNSTopic2:
+  DeletionPolicy: Retain
+  Type: AWS::SNS::Topic
+  Properties:
+    TopicName: !Ref Topic2Name
 ```
 
 5. The `resource-importing.yaml` template you just updated will now include 2 parameters (`Topic1Name` and `Topic2Name`), and 2 resources (`SNSTopic1` and `SNSTopic2`). Let’s import the new topic into the existing stack!
@@ -123,20 +123,20 @@ In this part of the lab, you will learn how to [move resources between stacks](h
 1. Remove the code below from the **Parameters** section of the `resource-importing.yaml` template you used for lab part 2:
 
 ```yaml
-  Topic1Name:
-    Type: String
-    Default: Topic1
-    Description: Name of the first Amazon SNS topic you created with the Amazon SNS console.
+Topic1Name:
+  Type: String
+  Default: Topic1
+  Description: Name of the first Amazon SNS topic you created with the Amazon SNS console.
 ```
 
 2. Remove the code below from the **Resources** section of the `resource-importing.yaml` template, and save the template file.
 
 ```yaml
-  SNSTopic1:
-    DeletionPolicy: Retain
-    Type: AWS::SNS::Topic
-    Properties:
-      TopicName: !Ref Topic1Name
+SNSTopic1:
+  DeletionPolicy: Retain
+  Type: AWS::SNS::Topic
+  Properties:
+    TopicName: !Ref Topic1Name
 ```
 
 3. Navigate to the [AWS CloudFormation Console](https://console.aws.amazon.com/cloudformation/).
@@ -187,9 +187,9 @@ Congratulations! You have learned how to move resources between stacks.
 
 1. To fetch the properties of an existing resource, use the AWS Management Console page for the relevant AWS service, or use a _Describe_ API call to describe the resource and fetch properties you want to include in the resource definition. For example, use the `aws ec2 describe-instances` [CLI command](https://docs.aws.amazon.com/cli/latest/reference/ec2/describe-instances.html) to describe your Amazon EC2 instance you want to import, using the instance ID as shown in the following example:
 
-```shell
+:::code{language=shell showLineNumbers=false showCopyAction=true}
 aws ec2 describe-instances --instance-ids i-1234567890abcdef0
-```
+:::
 
 ::alert[Make sure you verify that resource properties you define in a template match the actual configuration of the resource, to avoid unexpected changes.]{type="info"}
 
@@ -244,7 +244,7 @@ Resources:
 9. In the next page, choose **Create Stack**.
 10. After the stack is created, select the `resource-import-challenge` stack, and choose **Resources**. Take a note of the **Physical ID** for `Instance`, that uses this format: `i-12345abcd6789`.
 
-Let’s now reproduce the human error by changing the instance type outside of the management purview of your stack. Choose to [Change the instance type of an existing EBS-backed instance](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instance-resize.html#change-instance-type-of-ebs-backed-instance) by following the steps below:
+Let’s now reproduce the human error by changing the instance type outside the management purview of your stack. Choose to [Change the instance type of existing EBS-backed instance](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instance-resize.html#change-instance-type-of-ebs-backed-instance) by following the steps below:
 
 1. Navigate to the [Amazon EC2 Console](https://console.aws.amazon.com/ec2/).
 2. Locate the **Instances** section, select the instance with the name `InstanceImport`, and choose **Instance state**, **Stop instance**.
@@ -308,18 +308,18 @@ Parameters:
 
 You can find the template for the solution in the `code/solutions/resource-importing/resource-import-challenge-solution.yaml` example template.
 
-Great work! You have now learned how to match the CloudFormation stack configuration with the actual configuration on the resource when there is an out of band change.
+Great work! You have now learned how to match the CloudFormation stack configuration with the actual configuration on the resource when there is an out-of-band change.
 
 **Resource importing use cases**
 
 1. You previously created an AWS resource (for example, an Amazon S3 bucket) with e.g., the AWS Management Console or the AWS CLI, and you would like to manage your resource using CloudFormation.
-2. You want to reorganize resources by lifecycle and ownership into single stacks for easier management (for example, security group resources, et cetera).
+2. You want to reorganize resources by lifecycle and ownership into single stacks for easier management (for example, security group resources, etc.).
 3. You want to nest an existing stack within an existing one. For more information, see [Nesting an existing stack](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/resource-import-nested-stacks.html).
 4. You want to match the CloudFormation configuration for a resource which was updated out of band.
 
 ### Cleanup
 
-Choose to follow cleanup steps shown next to cleanup resources you created with this lab:
+Choose to follow cleanup steps shown next to clean up resources you created with this lab:
 
 1. Make sure you are in the directory: `code/workspace/resource-importing`
 2. Update the `resource-importing.yaml` template file to remove the `DeletionPolicy: Retain` line from the `SNSTopic2` resource definition, and save the template.

@@ -111,15 +111,15 @@ You then choose to add the `Monitoring` [property](https://docs.aws.amazon.com/A
 Update your existing `update-behaviors-of-stack-resources.yaml` template, and specify the `Monitoring` property in the definition for `EC2Instance` as shown next:
 
 ```yaml
-  EC2Instance:
-    Type: AWS::EC2::Instance
-    Properties:
-      InstanceType: !Ref InstanceType
-      ImageId: !Ref LatestAmiId
-      Monitoring: true
-      Tags:
-        - Key: Name
-          Value: cfn-workshop
+EC2Instance:
+  Type: AWS::EC2::Instance
+  Properties:
+    InstanceType: !Ref InstanceType
+    ImageId: !Ref LatestAmiId
+    Monitoring: true
+    Tags:
+      - Key: Name
+        Value: cfn-workshop
 ```
 
 Save your changes to the file. Next, update your stack:
@@ -146,15 +146,15 @@ You are tasked with updating the `Value` of the `Name` tag key for `EC2Instance`
 Update the `Value` information in your template, as shown next:
 
 ```yaml
-  EC2Instance:
-    Type: AWS::EC2::Instance
-    Properties:
-      InstanceType: !Ref InstanceType
-      ImageId: !Ref LatestAmiId
-      Monitoring: true
-      Tags:
-        - Key: Name
-          Value: cfn-workshop-new-value
+EC2Instance:
+  Type: AWS::EC2::Instance
+  Properties:
+    InstanceType: !Ref InstanceType
+    ImageId: !Ref LatestAmiId
+    Monitoring: true
+    Tags:
+      - Key: Name
+        Value: cfn-workshop-new-value
 ```
 
 Save your changes to the `update-behaviors-of-stack-resources.yaml` template. Before you update the stack with your updated template, see the **Update requires** [section](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-instance.html#cfn-ec2-instance-tags) for the `Tags` property; you will notice that **Update requires**, in this case, requires [No interruption](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-updating-stacks-update-behaviors.html#update-no-interrupt).

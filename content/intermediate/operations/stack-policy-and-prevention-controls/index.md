@@ -118,7 +118,7 @@ To get started, follow steps shown next:
 * Make sure you are in the `code/workspace/stack-policy-and-prevention-controls` directory.
 * Copy the code below, append it to the `deletion-policy-lab.yaml` file, and save the file:
 
-```
+```yaml
 Resources:
   SNSTopic:
     DeletionPolicy: Retain
@@ -199,7 +199,7 @@ Great work! You have now learned how to create a stack policy to deny updates fo
 
 ### Cleanup
 
-Choose to follow steps shown next to cleanup resources you created with this lab:
+Choose to follow steps shown next to clean up resources you created with this lab:
 
 1. Navigate to the [AWS CloudFormation Console](https://console.aws.amazon.com/cloudformation/).
 2. Select the stack named `stack-policy-lab` and choose **Delete**.

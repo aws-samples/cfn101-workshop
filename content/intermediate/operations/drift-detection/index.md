@@ -197,10 +197,10 @@ You will now modify this resource in a similar way to the first lab to introduce
 6. Once the Instance state is `Stopped`, select the instance again if necessary, then from **Actions** choose **Instance settings**, then choose **Edit user data**.
 7. In **New user data**, modify the script to change Hello World to Hello Universe as below:
 
-```text
+:::code{language=shell showLineNumbers=false showCopyAction=true}
 #!/usr/bin/env bash
 echo Hello Universe
-```
+:::
 
 8. Choose **Save**.
 9. Select the instance again, then from **Instance state**, choose **Start instance**.
@@ -224,16 +224,16 @@ Note that some implementations, for example macOS, use `-D` instead of `-d` as t
 
 For example, when you run the following command:
 
-```shell
+:::code{language=shell showLineNumbers=false showCopyAction=true}
 echo "IyEvdXNyL2Jpbi9lbnYgYmFzaAplY2hvIEhlbGxvIFdvcmxkCg==" | base64 -d
-```
+:::
 
 you should see the following output:
 
-```text
+:::code{language=shell showLineNumbers=false showCopyAction=false}
 #!/usr/bin/env bash
 echo Hello World
-```
+:::
 
 {{% notice warning %}}
 Be wary of using third-party websites to encode or decode your base64 text for UserData, especially if it contains or could contain sensitive information.
