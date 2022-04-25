@@ -107,7 +107,7 @@ Tags:
 
 #### 5. Finally, Deploy the solution
 
-Now that you have added a Mappings' section to your template, go to the AWS console and update your CloudFormation Stack.
+Now that you have added a Mappings section to your template, go to the AWS console and update your CloudFormation Stack.
 
 1. Open the **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** link in a new tab and log in to your AWS account.
 1. Click on the stack name, for example **cfn-workshop-ec2**.
