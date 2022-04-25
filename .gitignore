@@ -461,3 +461,4 @@ cython_debug/
 /code/solutions/package-and-deploy/lambda/pytz*/
 /code/solutions/package-and-deploy/infrastructure-packaged.template
 /code/solutions/package-and-deploy/response.json
+assets

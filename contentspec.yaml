@@ -1,0 +1,15 @@
+defaultLocaleCode: en
+localeCodes:
+- en
+params:
+  author: AWS
+  description: AWS CloudFormation Workshop
+  disableAssetsBusting: true
+  disableBreadcrumb: false
+  disableInlineCopyToClipBoard: true
+  disableLanguageSwitchingButton: false
+  disableNextPrev: false
+  disableSearch: false
+  disableShortcutsTitle: true
+  themeVariant: aws
+version: 2.0
