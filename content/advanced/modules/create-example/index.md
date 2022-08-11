@@ -1,0 +1,298 @@
+---
+title: "Create an Example Module"
+weight: 320
+---
+
+### Overview
+
+In this module, you will follow steps to register a sample CloudFormation Module as a private extension with the AWS CloudFormation registry in your AWS account. **You will also navigate through the example source code implementation logic for the resource type to understand key concepts of the resource type development workflow.**
+
+For this example we will be creating a Module that deploys an entire VPC, including all associated resources with defaults set. This example has been chosen to show how something as complex as a VPC can be defined by a central team in a best practice way and then consumed easily by other teams.
+
+### Topics Covered
+
+By the end of this lab, you will be able to:
+
+* understand key concepts to leverage when you develop a Module;
+* use the [CloudFormation Command Line Interface (CLI)](https://docs.aws.amazon.com/cloudformation-cli/latest/userguide/what-is-cloudformation-cli.html) to create a new project and submit the resource type as a private extension to the CloudFormation registry in your AWS account;
+* understand how to consume the Module in CloudFormation Templates.
+
+### Start Lab
+
+#### Sample Module walkthrough
+
+Let's get started! Create a new directory and then issue the following command from inside that directory:
+
+:::code{language=shell showLineNumbers=false showCopyAction=true}
+mkdir module
+cd module
+cfn init
+:::
+
+You will be prompted to answer a couple of quesions. Supply the answers as shown below:
+
+```
+Initializing new project
+Do you want to develop a new resource(r) or a module(m) or a hook(h)?.
+>> m
+What's the name of your module type?
+(<Organization>::<Service>::<Name>::MODULE)
+>> CFNWORKSHOP::EC2::VPC::MODULE
+Directory  /home/user/cfn101-workshop/module/fragments  Created 
+Initialized a new project in /home/user/cfn101-workshop/module
+```
+
+Let's take a look at what the command created in the directory structure:
+
+* `fragments/`: contains an auto-generated `sample.json` CloudFormation template file;
+* `.rpdk-config`: this is the config file that stores the details you supplied when you can the init command above;
+* `rpdk.log`: a log file for the actions carried out by the cfn cli;
+
+
+Let's first clean up a little. We will be using YAML format for this workshop so go ahead and delete the `sample.json` file, we will not be needing it:
+
+:::code{language=shell showLineNumbers=false showCopyAction=true}
+rm fragments/sample.json
+:::
+
+CloudFormation Modules are created using a standard CloudFormation Template, just like those you have been creating already in this workshop. However, Modules could only use a single temnplate file so no nested stacks are supported.
+
+The following diagram shows the VPC resources that we will be including in our example Module.
+
+![vpc-diagram](/static/advanced/modules/vpc.png)
+
+Create a new YAML file for our module within the `fragments` folder:
+
+:::code{language=shell showLineNumbers=false showCopyAction=true}
+touch fragments/module.yaml
+:::
+
+Open this file in your chosen text editor and paste the following CloudFormation YAML:
+
+:::code{language=yaml showLineNumbers=false showCopyAction=true}
+AWSTemplateFormatVersion: 2010-09-09
+
+Description: A full VPC Stack
+
+Parameters:
+
+  VpcCidr:
+    Type: String
+
+  NameTag:
+    Type: String
+
+Resources:
+
+  Vpc:
+    Type: AWS::EC2::VPC
+    Properties:
+      CidrBlock: !Ref VpcCidr
+      EnableDnsHostnames: true
+      EnableDnsSupport: true
+      InstanceTenancy: default
+      Tags:
+        - Key: Name
+          Value: !Ref NameTag
+
+  InternetGateway:
+    Type: AWS::EC2::InternetGateway
+    Properties:
+      Tags:
+        - Key: Name
+          Value: !Ref NameTag
+
+  VPCGatewayAttachment:
+    Type: AWS::EC2::VPCGatewayAttachment
+    Properties:
+      VpcId: !Ref Vpc
+      InternetGatewayId: !Ref InternetGateway
+
+  EIP1:
+    Type: AWS::EC2::EIP
+    Properties:
+      Domain: vpc
+      Tags:
+        - Key: Name
+          Value: !Sub ${NameTag}/PublicSubnet1
+
+  EIP2:
+    Type: AWS::EC2::EIP
+    Properties:
+      Domain: vpc
+      Tags:
+        - Key: Name
+          Value: !Sub ${NameTag}/PublicSubnet2
+
+  NATGateway1:
+    Type: AWS::EC2::NatGateway
+    Properties:
+      SubnetId: !Ref Public1Subnet
+      AllocationId: !GetAtt EIP1.AllocationId
+      Tags:
+        - Key: Name
+          Value: !Sub ${NameTag}/PublicSubnet1
+
+  NATGateway2:
+    Type: AWS::EC2::NatGateway
+    Properties:
+      SubnetId: !Ref Public2Subnet
+      AllocationId: !GetAtt EIP2.AllocationId
+      Tags:
+        - Key: Name
+          Value: !Sub ${NameTag}/PublicSubnet2
+
+  Public1Subnet:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref Vpc
+      AvailabilityZone: !Select [0, !GetAZs '']
+      CidrBlock: !Select [0, !Cidr [!GetAtt Vpc.CidrBlock, 4, 14 ]]
+      MapPublicIpOnLaunch: true
+      Tags:
+        - Key: Name
+          Value: !Sub ${NameTag}/PublicSubnet1
+
+  Public2Subnet:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref Vpc
+      AvailabilityZone: !Select [1, !GetAZs '']
+      CidrBlock: !Select [1, !Cidr [!GetAtt Vpc.CidrBlock, 4, 14 ]]
+      MapPublicIpOnLaunch: true
+      Tags:
+        - Key: Name
+          Value: !Sub ${NameTag}/PublicSubnet2
+
+  Private1Subnet:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref Vpc
+      AvailabilityZone: !Select [0, !GetAZs '']
+      CidrBlock: !Select [2, !Cidr [!GetAtt Vpc.CidrBlock, 4, 14 ]]
+      MapPublicIpOnLaunch: false
+      Tags:
+        - Key: Name
+          Value: !Sub ${NameTag}/PrivateSubnet1
+
+  Private2Subnet:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref Vpc
+      AvailabilityZone: !Select [1, !GetAZs '']
+      CidrBlock: !Select [3, !Cidr [!GetAtt Vpc.CidrBlock, 4, 14 ]]
+      MapPublicIpOnLaunch: false
+      Tags:
+        - Key: Name
+          Value: !Sub ${NameTag}/PrivateSubnet2
+
+  Public1RouteTable:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId: !Ref Vpc
+      Tags:
+        - Key: Name
+          Value: !Sub ${NameTag}/PublicSubnet1
+
+  Public2RouteTable:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId: !Ref Vpc
+      Tags:
+        - Key: Name
+          Value: !Sub ${NameTag}/PublicSubnet2
+
+  Private1RouteTable:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId: !Ref Vpc
+      Tags:
+        - Key: Name
+          Value: !Sub ${NameTag}/PrivateSubnet1
+
+  Private2RouteTable:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId: !Ref Vpc
+      Tags:
+        - Key: Name
+          Value: !Sub ${NameTag}/PrivateSubnet2
+
+  Public1RouteTableAssociation:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      RouteTableId: !Ref Public1RouteTable
+      SubnetId: !Ref Public1Subnet
+
+  Public2RouteTableAssociation:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      RouteTableId: !Ref Public2RouteTable
+      SubnetId: !Ref Public2Subnet
+
+  Private1RouteTableAssociation:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      RouteTableId: !Ref Private1RouteTable
+      SubnetId: !Ref Private1Subnet
+
+  Private2RouteTableAssociation:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      RouteTableId: !Ref Private2RouteTable
+      SubnetId: !Ref Private2Subnet
+
+  Public1DefaultRoute:
+    Type: AWS::EC2::Route
+    DependsOn:
+      - VPCGatewayAttachment
+    Properties:
+      RouteTableId: !Ref Public1RouteTable
+      DestinationCidrBlock: 0.0.0.0/0
+      GatewayId: !Ref InternetGateway
+
+  Public2DefaultRoute:
+    Type: AWS::EC2::Route
+    DependsOn:
+      - VPCGatewayAttachment
+    Properties:
+      RouteTableId: !Ref Public2RouteTable
+      DestinationCidrBlock: 0.0.0.0/0
+      GatewayId: !Ref InternetGateway
+
+  Private1DefaultRoute:
+    Type: AWS::EC2::Route
+    Properties:
+      RouteTableId: !Ref Private1RouteTable
+      DestinationCidrBlock: 0.0.0.0/0
+      NatGatewayId: !Ref NATGateway1
+
+  Private2DefaultRoute:
+    Type: AWS::EC2::Route
+    Properties:
+      RouteTableId: !Ref Private2RouteTable
+      DestinationCidrBlock: 0.0.0.0/0
+      NatGatewayId: !Ref NATGateway2
+:::
+
+This CloudFormation template contains 23 resources and would be very familar to anyone that has used CloudFormation to deploy an entire VPC. With so many components it can be hard to ensure that all the VPcs you deploy are done in a standard way and no mistakes are made. This is a great use case for CloudFormation modules. We can package all of these resources into a single Module that can be re-use by many teams as many times as they wish. Removing the complexity and chance of error or differences when needed multiple times. You will have noticed that template has 2 parameters; `VpcCidr` and `NameTag`. These will be available when consuming the module so that users can use a standard deployment but still have the ability to tailor it to their use case.
+
+Now that we have the `YAML` file complete we are ready to submit this as a Module to the CloudFormation registry.
+
+:::code{language=shell showLineNumbers=false showCopyAction=true}
+cfn submit
+:::
+
+You will see output similar to below:
+
+```
+Module fragment is valid.
+Successfully submitted type. Waiting for registration with token '{token}' to complete.
+Registration complete.
+{'ProgressStatus': 'COMPLETE', 'Description': 'Deployment is currently in DEPLOY_STAGE of status COMPLETED', ...
+...
+```
+
+You can now visit the CloudFormation console and you will; be able to see your new Module in the `Activated extensions` section of the registry.
+
+![activated-extensions](/static/advanced/modules/ActivatedExtensions.png)
