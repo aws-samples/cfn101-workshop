@@ -5,9 +5,9 @@ weight: 320
 
 ### Overview
 
-In this module, you will follow steps to register a sample CloudFormation Module as a private extension with the AWS CloudFormation registry in your AWS account. **You will also navigate through the example source code implementation logic for the resource type to understand key concepts of the resource type development workflow.**
+In this module, you will follow steps to register a sample CloudFormation Module as a private extension with the AWS CloudFormation registry in your AWS account.
 
-For this example we will be creating a Module that deploys an entire VPC, including all associated resources with defaults set. This example has been chosen to show how something as complex as a VPC can be defined by a central team in a best practice way and then consumed easily by other teams.
+For this example we will be creating a Module that deploys an entire VPC, including associated resources with defaults set. This example has been chosen to show how something as complex as a VPC can be defined by a central team in a best practice way and then consumed easily by other teams.
 
 ### Topics Covered
 
@@ -19,7 +19,7 @@ By the end of this lab, you will be able to:
 
 ### Start Lab
 
-#### Sample Module walkthrough
+#### Sample Module Walkthrough
 
 Let's get started! Create a new directory and then issue the following command from inside that directory:
 
@@ -29,7 +29,7 @@ cd module
 cfn init
 :::
 
-You will be prompted to answer a couple of quesions. Supply the answers as shown below:
+You will be prompted to answer some questions. Supply the answers as shown below:
 
 ```
 Initializing new project
@@ -44,31 +44,32 @@ Initialized a new project in /home/user/cfn101-workshop/module
 
 Let's take a look at what the command created in the directory structure:
 
-* `fragments/`: contains an auto-generated `sample.json` CloudFormation template file;
-* `.rpdk-config`: this is the config file that stores the details you supplied when you can the init command above;
+* `fragments/`: contains an auto generated `sample.json` CloudFormation template file;
+* `.rpdk-config`: this is the config file that stores the details you supplied when you ran the init command above;
 * `rpdk.log`: a log file for the actions carried out by the cfn cli;
 
 
-Let's first clean up a little. We will be using YAML format for this workshop so go ahead and delete the `sample.json` file, we will not be needing it:
+Let's first clean up a little. You will be using YAML format for this workshop so go ahead and delete the `sample.json` file, you will not be needing it:
 
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 rm fragments/sample.json
 :::
 
-CloudFormation Modules are created using a standard CloudFormation Template, just like those you have been creating already in this workshop. However, Modules could only use a single temnplate file so no nested stacks are supported.
+CloudFormation Modules are created using a standard CloudFormation Template, just like those you have been creating already in this workshop. However, Modules can use a single template file only no nested stacks are supported.
 
-The following diagram shows the VPC resources that we will be including in our example Module.
+The following diagram shows the VPC resources that you will be including in your example Module.
 
 ![vpc-diagram](/static/advanced/modules/vpc.png)
 
-Create a new YAML file for our module within the `fragments` folder:
+Create a new YAML file for your module within the `fragments` folder:
 
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 touch fragments/module.yaml
 :::
 
-Open this file in your chosen text editor and paste the following CloudFormation YAML:
+Open this file in your chosen text editor and paste in the following CloudFormation YAML:
 
+<!-- vale off -->
 :::code{language=yaml showLineNumbers=false showCopyAction=true}
 AWSTemplateFormatVersion: 2010-09-09
 
@@ -274,16 +275,21 @@ Resources:
       DestinationCidrBlock: 0.0.0.0/0
       NatGatewayId: !Ref NATGateway2
 :::
+<!-- vale on -->
 
-This CloudFormation template contains 23 resources and would be very familar to anyone that has used CloudFormation to deploy an entire VPC. With so many components it can be hard to ensure that all the VPcs you deploy are done in a standard way and no mistakes are made. This is a great use case for CloudFormation modules. We can package all of these resources into a single Module that can be re-use by many teams as many times as they wish. Removing the complexity and chance of error or differences when needed multiple times. You will have noticed that template has 2 parameters; `VpcCidr` and `NameTag`. These will be available when consuming the module so that users can use a standard deployment but still have the ability to tailor it to their use case.
+This CloudFormation template has 23 resources and would be very familiar to anyone that has used CloudFormation to deploy an entire VPC. With so many components it can be hard to ensure that all the VPCs you deploy are done in a standard way and no mistakes or differences are made.
 
-Now that we have the `YAML` file complete we are ready to submit this as a Module to the CloudFormation registry.
+This is a great use case for CloudFormation modules. All these resources can be placed in a single Module that can be used by many teams as many times as they wish. Removing the complexity and chance of error or differences when needed multiple times.
+
+You will have noticed that template has 2 parameters; `VpcCidr` and `NameTag`. These will be available when consuming the module so that users can use a standard deployment but still have the ability to tailor it to their use case.
+
+Now that you have the `YAML` file complete you are ready to submit this as a Module to the CloudFormation registry.
 
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 cfn submit
 :::
 
-You will see output similar to below:
+You will see output as below:
 
 ```
 Module fragment is valid.
@@ -293,6 +299,6 @@ Registration complete.
 ...
 ```
 
-You can now visit the CloudFormation console and you will; be able to see your new Module in the `Activated extensions` section of the registry.
+You can now visit the CloudFormation console and you will be able to see your new Module in the `Activated extensions` section of the registry.
 
 ![activated-extensions](/static/advanced/modules/ActivatedExtensions.png)
