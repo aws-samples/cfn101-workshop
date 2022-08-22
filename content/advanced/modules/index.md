@@ -13,10 +13,10 @@ A common use case for CloudFormation Modules is for codifying best practice or c
 
 A Module is a first-class object in CloudFormation: you can manage your Module as you would manage any AWS resource with CloudFormation. The Software Development Life Cycle (SDLC) process of a Module can be summarized as follows:
 
-1. you install prerequisite tools you will use for development and testing of your Module;
-2. you start to develop and run tests for your Module;
-3. when ready, you submit the Module to the [AWS CloudFormation registry](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/registry.html);
-4. manage your Module with CloudFormation: you describe the Module and its properties in your CloudFormation template(s), like you would do with any AWS resource type.
+1. Install prerequisite tools you will use for development and testing of your Module;
+2. Start to develop and run tests for your Module;
+3. When ready, submit the Module to the [AWS CloudFormation registry](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/registry.html);
+4. Manage your Module with CloudFormation: you describe the Module and its properties in your CloudFormation template(s), like you would do with any AWS resource type.
 
 ::alert[You have the choice to register your Module as a private or as a public extension in the CloudFormation registry: this lab covers private extension examples.]{type="info"}
 
