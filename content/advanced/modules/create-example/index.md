@@ -5,17 +5,17 @@ weight: 320
 
 ### Overview
 
-In this module, you will follow steps to register a sample CloudFormation Module as a private extension with the AWS CloudFormation registry in your AWS account.
+In this module, you will follow steps to register a sample CloudFormation Module as a private extension with the AWS CloudFormation registry in your AWS account for a specified AWS region.
 
-For this example we will be creating a Module that deploys an entire VPC, including associated resources with defaults set. This example has been chosen to show how something as complex as a VPC can be defined by a central team in a best practice way and then consumed easily by other teams.
+For this example we will be creating a Module that deploys an entire [Amazon Virtual Private Cloud](https://docs.aws.amazon.com/vpc/latest/userguide/what-is-amazon-vpc.html) (Amazon VPC), including associated resources with defaults set. This example has been chosen to show how something as complex as a VPC can be defined by a central team in a best practice way and then consumed easily by other teams.
 
 ### Topics Covered
 
 By the end of this lab, you will be able to:
 
 * understand key concepts to leverage when you develop a Module;
-* use the [CloudFormation Command Line Interface (CLI)](https://docs.aws.amazon.com/cloudformation-cli/latest/userguide/what-is-cloudformation-cli.html) to create a new project and submit the resource type as a private extension to the CloudFormation registry in your AWS account;
-* understand how to consume the Module in CloudFormation Templates.
+* use the [CloudFormation Command Line Interface (CLI)](https://docs.aws.amazon.com/cloudformation-cli/latest/userguide/what-is-cloudformation-cli.html) to create a new project and submit the resource type as a private extension to the CloudFormation registry in your AWS account for a specified AWS region;
+* understand how to consume the Module in CloudFormation templates.
 
 ### Start Lab
 
@@ -49,13 +49,13 @@ Let's take a look at what the command created in the directory structure:
 * `rpdk.log`: a log file for the actions carried out by the cfn cli;
 
 
-Let's first clean up a little. You will be using YAML format for this workshop so go ahead and delete the `sample.json` file, you will not be needing it:
+Let's first clean up a little. You will be using the YAML format for this workshop, so go ahead and delete the `sample.json` file, you will not be needing it:
 
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 rm fragments/sample.json
 :::
 
-CloudFormation Modules are created using a standard CloudFormation Template, just like those you have been creating already in this workshop. However, Modules can use a single template file only no nested stacks are supported.
+CloudFormation Modules are created using a standard CloudFormation template, just like those you have been creating already in this workshop. However, Modules can use a single template file only; no nested stacks are supported. For more information, see _Creating the module template fragment_ and _Considerations when authoring the template fragment_ in the [Module structure](https://docs.aws.amazon.com/cloudformation-cli/latest/userguide/modules-structure.html) documentation.
 
 The following diagram shows the VPC resources that you will be including in your example Module.
 
@@ -299,6 +299,6 @@ Registration complete.
 ...
 ```
 
-You can now visit the CloudFormation console and you will be able to see your new Module in the `Activated extensions` section of the registry.
+You can now visit the [AWS CloudFormation console](https://console.aws.amazon.com/cloudformation/), and you will be able to see your new Module in the `Activated extensions` section of the registry.
 
 ![activated-extensions](/static/advanced/modules/ActivatedExtensions.png)

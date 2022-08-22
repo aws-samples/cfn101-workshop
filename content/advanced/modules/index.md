@@ -11,7 +11,7 @@ In this workshop so far you have seen how to use CloudFormation to build applica
 
 A common use case for CloudFormation Modules is for codifying best practice or common configuration components that would be used within an enterprise, but might be company-specific, or contain proprietary logic.
 
-A Module you create is treated as a first-class citizen within CloudFormation: you can manage your Module as you would manage any AWS resource. The Software Development Life Cycle (SDLC) process of a Module can be summarized as follows:
+A Module is a first-class object in CloudFormation: you can manage your Module as you would manage any AWS resource with CloudFormation. The Software Development Life Cycle (SDLC) process of a Module can be summarized as follows:
 
 1. you install prerequisite tools you will use for development and testing of your Module;
 2. you start to develop and run tests for your Module;

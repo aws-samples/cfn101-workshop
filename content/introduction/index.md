@@ -24,4 +24,4 @@ In the **Advanced** part of the workshop, you will:
 
 + Learn about the [AWS CloudFormation registry](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/registry.html).
 + Learn how to extend CloudFormation by [creating modules](https://docs.aws.amazon.com/cloudformation-cli/latest/userguide/modules.html).
-+ Learn how to extend CloudFormation by [creating resource types](https://docs.aws.amazon.com/cloudformation-cli/latest/userguide/resource-types).
++ Learn how to extend CloudFormation by [creating resource types](https://docs.aws.amazon.com/cloudformation-cli/latest/userguide/resource-types.html).

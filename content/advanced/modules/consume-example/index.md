@@ -5,7 +5,7 @@ weight: 330
 
 #### Using the Sample Module
 
-You have just created and registered a new CloudFormation Module with the private registry. This means it can be used within any CloudFormation Template in the same AWS Account and Region.
+You have just created and registered a new CloudFormation Module with the private registry in your AWS account and for a given AWS Region. This means that your module can now be used in CloudFormation template(s) you will leverage to create/update stack(s) in the same AWS Account and Region.
 
 Let's see how you can consume it.
 
