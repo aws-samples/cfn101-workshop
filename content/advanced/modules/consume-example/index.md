@@ -26,7 +26,7 @@ Resources:
   Vpc:
     Type: CFNWORKSHOP::EC2::VPC::MODULE
     Properties:
-      CidrBlock: 10.1.0.0/16
+      VpcCidr: 10.1.0.0/16
       NameTag: Sample
 :::
 <!-- vale on -->
