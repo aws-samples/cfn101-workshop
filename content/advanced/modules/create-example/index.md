@@ -283,7 +283,7 @@ This is a great use case for CloudFormation modules. All these resources can be 
 
 You will have noticed that template has 2 parameters; `VpcCidr` and `NameTag`. These will be available when consuming the module so that users can use a standard deployment but still have the ability to tailor it to their use case.
 
-Now that you have the `YAML` file complete you are ready to submit this as a Module to the CloudFormation registry.
+Now that you have the `YAML` file complete you are ready to submit this as a Module to the CloudFormation registry. The command below registers the module in the default region; if you wish to specify a region, append the `--region` option to the command, for example `--region us-east-2`.
 
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 cfn submit
