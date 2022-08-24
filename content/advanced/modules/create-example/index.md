@@ -80,6 +80,208 @@ Parameters:
   VpcCidr:
     Type: String
 
+Resources:
+
+  Vpc:
+    Type: AWS::EC2::VPC
+    Properties:
+      CidrBlock: !Ref VpcCidr
+      EnableDnsHostnames: true
+      EnableDnsSupport: true
+      InstanceTenancy: default
+
+  InternetGateway:
+    Type: AWS::EC2::InternetGateway
+
+  VPCGatewayAttachment:
+    Type: AWS::EC2::VPCGatewayAttachment
+    Properties:
+      VpcId: !Ref Vpc
+      InternetGatewayId: !Ref InternetGateway
+
+  EIP1:
+    Type: AWS::EC2::EIP
+    Properties:
+      Domain: vpc
+
+  EIP2:
+    Type: AWS::EC2::EIP
+    Properties:
+      Domain: vpc
+
+  NATGateway1:
+    Type: AWS::EC2::NatGateway
+    Properties:
+      SubnetId: !Ref Public1Subnet
+      AllocationId: !GetAtt EIP1.AllocationId
+
+  NATGateway2:
+    Type: AWS::EC2::NatGateway
+    Properties:
+      SubnetId: !Ref Public2Subnet
+      AllocationId: !GetAtt EIP2.AllocationId
+
+  Public1Subnet:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref Vpc
+      AvailabilityZone: !Select [0, !GetAZs '']
+      CidrBlock: !Select [0, !Cidr [!GetAtt Vpc.CidrBlock, 4, 14 ]]
+      MapPublicIpOnLaunch: true
+
+  Public2Subnet:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref Vpc
+      AvailabilityZone: !Select [1, !GetAZs '']
+      CidrBlock: !Select [1, !Cidr [!GetAtt Vpc.CidrBlock, 4, 14 ]]
+      MapPublicIpOnLaunch: true
+
+  Private1Subnet:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref Vpc
+      AvailabilityZone: !Select [0, !GetAZs '']
+      CidrBlock: !Select [2, !Cidr [!GetAtt Vpc.CidrBlock, 4, 14 ]]
+      MapPublicIpOnLaunch: false
+
+  Private2Subnet:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref Vpc
+      AvailabilityZone: !Select [1, !GetAZs '']
+      CidrBlock: !Select [3, !Cidr [!GetAtt Vpc.CidrBlock, 4, 14 ]]
+      MapPublicIpOnLaunch: false
+
+  Public1RouteTable:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId: !Ref Vpc
+
+  Public2RouteTable:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId: !Ref Vpc
+
+  Private1RouteTable:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId: !Ref Vpc
+
+  Private2RouteTable:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId: !Ref Vpc
+
+  Public1RouteTableAssociation:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      RouteTableId: !Ref Public1RouteTable
+      SubnetId: !Ref Public1Subnet
+
+  Public2RouteTableAssociation:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      RouteTableId: !Ref Public2RouteTable
+      SubnetId: !Ref Public2Subnet
+
+  Private1RouteTableAssociation:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      RouteTableId: !Ref Private1RouteTable
+      SubnetId: !Ref Private1Subnet
+
+  Private2RouteTableAssociation:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      RouteTableId: !Ref Private2RouteTable
+      SubnetId: !Ref Private2Subnet
+
+  Public1DefaultRoute:
+    Type: AWS::EC2::Route
+    DependsOn:
+      - VPCGatewayAttachment
+    Properties:
+      RouteTableId: !Ref Public1RouteTable
+      DestinationCidrBlock: 0.0.0.0/0
+      GatewayId: !Ref InternetGateway
+
+  Public2DefaultRoute:
+    Type: AWS::EC2::Route
+    DependsOn:
+      - VPCGatewayAttachment
+    Properties:
+      RouteTableId: !Ref Public2RouteTable
+      DestinationCidrBlock: 0.0.0.0/0
+      GatewayId: !Ref InternetGateway
+
+  Private1DefaultRoute:
+    Type: AWS::EC2::Route
+    Properties:
+      RouteTableId: !Ref Private1RouteTable
+      DestinationCidrBlock: 0.0.0.0/0
+      NatGatewayId: !Ref NATGateway1
+
+  Private2DefaultRoute:
+    Type: AWS::EC2::Route
+    Properties:
+      RouteTableId: !Ref Private2RouteTable
+      DestinationCidrBlock: 0.0.0.0/0
+      NatGatewayId: !Ref NATGateway2
+:::
+<!-- vale on -->
+
+This CloudFormation template has 23 resources and would be very familiar to anyone that has used CloudFormation to deploy an entire VPC. With so many components it can be hard to ensure that all the VPCs you deploy are done in a standard way and no mistakes or differences are made.
+
+This is a great use case for CloudFormation modules. All these resources can be placed in a single Module that can be used by many teams as many times as they wish. Removing the complexity and chance of error or differences when needed multiple times.
+
+You will have noticed that template has a parameter; `VpcCidr`. This will be available when consuming the module so that users can use a standard deployment but still have the ability to tailor it to their use case.
+
+Now that you have the `YAML` file complete you are ready to submit this as a Module to the CloudFormation registry. The command below registers the module in the default region; if you wish to specify a region, append the `--region` option to the command, for example `--region us-east-2`.
+
+:::code{language=shell showLineNumbers=false showCopyAction=true}
+cfn submit
+:::
+
+You will see output as below:
+
+```
+Module fragment is valid.
+Successfully submitted type. Waiting for registration with token '{token}' to complete.
+Registration complete.
+{'ProgressStatus': 'COMPLETE', 'Description': 'Deployment is currently in DEPLOY_STAGE of status COMPLETED', ...
+...
+```
+
+You can now visit the [AWS CloudFormation console](https://console.aws.amazon.com/cloudformation/), and you will be able to see your new Module in the `Activated extensions` section of the registry.
+
+![activated-extensions](/static/advanced/modules/ActivatedExtensions.png)
+
+### Challenge
+
+Add tags to the resources so that the resources created are easily identifiable.
+
+:::expand{header="Need a hint?"}
+Something here6
+
+and here
+
+and here
+:::
+
+:::expand{header="Want to see the solution?"}
+
+<!-- vale off -->
+:::code{language=yaml showLineNumbers=false showCopyAction=true}
+AWSTemplateFormatVersion: 2010-09-09
+
+Description: A full VPC Stack
+
+Parameters:
+
+  VpcCidr:
+    Type: String
+
   NameTag:
     Type: String
 
@@ -276,29 +478,3 @@ Resources:
       NatGatewayId: !Ref NATGateway2
 :::
 <!-- vale on -->
-
-This CloudFormation template has 23 resources and would be very familiar to anyone that has used CloudFormation to deploy an entire VPC. With so many components it can be hard to ensure that all the VPCs you deploy are done in a standard way and no mistakes or differences are made.
-
-This is a great use case for CloudFormation modules. All these resources can be placed in a single Module that can be used by many teams as many times as they wish. Removing the complexity and chance of error or differences when needed multiple times.
-
-You will have noticed that template has 2 parameters; `VpcCidr` and `NameTag`. These will be available when consuming the module so that users can use a standard deployment but still have the ability to tailor it to their use case.
-
-Now that you have the `YAML` file complete you are ready to submit this as a Module to the CloudFormation registry. The command below registers the module in the default region; if you wish to specify a region, append the `--region` option to the command, for example `--region us-east-2`.
-
-:::code{language=shell showLineNumbers=false showCopyAction=true}
-cfn submit
-:::
-
-You will see output as below:
-
-```
-Module fragment is valid.
-Successfully submitted type. Waiting for registration with token '{token}' to complete.
-Registration complete.
-{'ProgressStatus': 'COMPLETE', 'Description': 'Deployment is currently in DEPLOY_STAGE of status COMPLETED', ...
-...
-```
-
-You can now visit the [AWS CloudFormation console](https://console.aws.amazon.com/cloudformation/), and you will be able to see your new Module in the `Activated extensions` section of the registry.
-
-![activated-extensions](/static/advanced/modules/ActivatedExtensions.png)
