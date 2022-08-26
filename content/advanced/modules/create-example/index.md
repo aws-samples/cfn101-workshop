@@ -13,7 +13,7 @@ For this example we will be creating a Module that deploys an entire [Amazon Vir
 
 By the end of this lab, you will be able to:
 
-* understand key concepts to leverage when you develop a Module;
+* understand key concepts to leverage when you develop a module;
 * use the [CloudFormation Command Line Interface (CLI)](https://docs.aws.amazon.com/cloudformation-cli/latest/userguide/what-is-cloudformation-cli.html) to create a new project and submit the module as a private extension to the CloudFormation registry in your AWS account for a specified AWS region;
 * understand how to consume the Module in CloudFormation templates.
 
