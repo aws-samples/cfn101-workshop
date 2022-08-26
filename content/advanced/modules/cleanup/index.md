@@ -21,7 +21,7 @@ Deregister version 1 of the Module from the CloudFormation Registry
 aws cloudformation deregister-type --type MODULE --type-name CFNWORKSHOP::EC2::VPC::MODULE --version-id 00000001
 :::
 
-Deregister the Module from the CloudFormation Registry
+Deregister the module from the CloudFormation Registry:
 
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 aws cloudformation deregister-type --type MODULE --type-name CFNWORKSHOP::EC2::VPC::MODULE
