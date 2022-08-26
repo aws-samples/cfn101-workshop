@@ -5,7 +5,7 @@ weight: 330
 
 #### Using the Sample Module
 
-You have just created and registered a new CloudFormation Module with the private registry in your AWS account and for a given AWS Region. This means that your module can now be used in CloudFormation template(s) you will leverage to create/update stack(s) in the same AWS Account and Region.
+You have just created and registered a new CloudFormation module with the private registry in your AWS account and for a given AWS Region. This means that your module can now be used in CloudFormation template(s) you will leverage to create/update stack(s) in the same AWS Account and Region.
 
 Let's see how you can consume it.
 
@@ -30,7 +30,7 @@ Resources:
 :::
 <!-- vale on -->
 
-That's it. Nice and short isn't it? You can see why Modules are going to be so useful.
+That's it. Nice and short isn't it? You can see why modules are going to be so useful.
 
 Let's create a new stack from that template using the following command:
 
@@ -40,15 +40,15 @@ aws cloudformation deploy --template-file use-module.yaml --stack-name cfn-works
 
 ### Taking a closer look
 
-Now that the Stack is deployed let's take a closer look at what actually happened. It will help to understand more on how Modules work in CloudFormation.
+Now that you deployed the stack, let's take a closer look at what actually happened. It will help to understand more on how modules work in CloudFormation.
 
 Open the AWS Console and navigate to the CloudFormation service. Locate the stack that you just created and select the `Resources` tab.
-Notice that the Stack is showing it has 23 resources.
+Notice that the stack is showing it has 23 resources.
 
 ![stack-resources](/static/advanced/modules/StackResources.png)
 
 This number of resources can be explained if we take a look at the processed template for this stack. You can see that the actual template that CloudFormation deploys is based upon the content of the module.
-When a Module is consumed in a CloudFormation template the Module resource is replaced with the resources defined for it in the Module template.
+When a module is consumed in a CloudFormation template, the module resource is replaced with the resources defined for it in the module template.
 
 ![stack-template](/static/advanced/modules/StackTemplate.png)
 
@@ -58,14 +58,14 @@ When a Module is consumed in a CloudFormation template the Module resource is re
 
 ### Challenge
 
-Add tags to the resources so that the resources created are easily identifiable.
+Add `Name` tags to the resources described in the module fragment, so that the resources created are easily identifiable. Users should be able to specify a value for  a new, relevant module property called `NameTag` when they consume the module.
 
 :::expand{header="Need a hint?"}
-* Update the `module.yaml` file to add Tags to all the resources that support them. Documentation for adding tags to a VPC can be found [here](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ec2-vpc.html#cfn-ec2-vpc-tags).
+* Update the `module.yaml` file to add `Name` tags to all the resources that support them. Documentation for adding tags to a VPC can be found [here](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ec2-vpc.html#cfn-ec2-vpc-tags). For other resource types in the template, determine whether they support tags or not, and how: see [AWS resource and property types reference](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-template-resource-type-ref.html) for more information. When done, reference the value for the `Name` tag you added to each resource supporting tags in a new `NameTag` input parameter you specify in the fragment.
 
 * Submit the changes, and set the new module version as the default version. For more information, see the `submit` [command](https://docs.aws.amazon.com/cloudformation-cli/latest/userguide/resource-type-cli-submit.html) in the CloudFormation Command Line Interface reference.
 
-* Update he `use-module.yaml` to include the new Tag parameter value.
+* Update the `use-module.yaml` template to include a new `NameTag` module property.
 
 * Perform a stack update on the `cfn-workshop-modules` stack.
 :::

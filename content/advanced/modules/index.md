@@ -11,18 +11,18 @@ In this workshop so far you have seen how to use CloudFormation to build applica
 
 A common use case for CloudFormation Modules is for codifying best practice or common configuration components that would be used within an enterprise, but might be company-specific, or contain proprietary logic.
 
-A Module is a first-class object in CloudFormation: you can manage your Module as you would manage any AWS resource with CloudFormation. The Software Development Life Cycle (SDLC) process of a Module can be summarized as follows:
+A module is a first-class object in CloudFormation: you can manage your module as you would manage any AWS resource with CloudFormation. The Software Development Life Cycle (SDLC) process of a module can be summarized as follows:
 
-1. Install prerequisite tools you will use for development and testing of your Module;
-2. Start to develop and run tests for your Module;
-3. When ready, submit the Module to the [AWS CloudFormation registry](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/registry.html);
-4. Manage your Module with CloudFormation: you describe the Module and its properties in your CloudFormation template(s), like you would do with any AWS resource type.
+1. Install prerequisite tools you will use for development and testing of your module;
+2. Start to develop your module;
+3. When ready, submit the module to the [AWS CloudFormation registry](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/registry.html);
+4. Manage your module with CloudFormation: you describe the module and its properties in your CloudFormation template(s), like you would do with any AWS resource type.
 
-::alert[You have the choice to register your Module as a private or as a public extension in the CloudFormation registry: this lab covers private extension examples.]{type="info"}
+::alert[You have the choice to register your module as a private or as a public extension in the CloudFormation registry: this lab covers private extension examples.]{type="info"}
 
 When you submit a private extension, you make it available in the AWS CloudFormation registry in your AWS account. Private extensions give you the ability to test the behavior of your resource type in a sandbox environment, such as in an AWS account you own and that you use for testing/experimentation.
 
-You can choose to deploy your Module in other [AWS regions using AWS CloudFormation StackSets](https://docs.aws.amazon.com/cloudformation-cli/latest/userguide/publish-extension-stacksets.html) as needed.
+You can choose to deploy your module in other [AWS regions using AWS CloudFormation StackSets](https://docs.aws.amazon.com/cloudformation-cli/latest/userguide/publish-extension-stacksets.html) as needed.
 
 For more information on private extensions, see [Using private extensions in CloudFormation](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/registry-register.html). For more information on public extensions, see [Publishing extensions to make them available for public use](https://docs.aws.amazon.com/cloudformation-cli/latest/userguide/publish-extension.html).
 

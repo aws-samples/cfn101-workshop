@@ -7,7 +7,7 @@ weight: 340
 
 To clean up the resources you created in this module, follow steps shown next.
 
-Delete the sample Stack that consumed the sample Module.
+Delete the sample stack that consumed the sample module:
 
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 aws cloudformation delete-stack --stack-name cfn-workshop-modules

@@ -5,9 +5,9 @@ weight: 320
 
 ### Overview
 
-In this module, you will follow steps to register a sample CloudFormation Module as a private extension with the AWS CloudFormation registry in your AWS account for a specified AWS region.
+In this lab, you will follow steps to register a sample CloudFormation module as a private extension with the AWS CloudFormation registry in your AWS account for a specified AWS region.
 
-For this example we will be creating a Module that deploys an entire [Amazon Virtual Private Cloud](https://docs.aws.amazon.com/vpc/latest/userguide/what-is-amazon-vpc.html) (Amazon VPC), including associated resources with defaults set. This example has been chosen to show how something as complex as a VPC can be defined by a central team in a best practice way and then consumed easily by other teams.
+For this example you will create a module that deploys an entire [Amazon Virtual Private Cloud](https://docs.aws.amazon.com/vpc/latest/userguide/what-is-amazon-vpc.html) (Amazon VPC), including associated resources with defaults set. This example has been chosen to show how something as complex as a VPC can be defined by a central team in a best practice way and then consumed easily by other teams.
 
 ### Topics Covered
 
@@ -55,9 +55,9 @@ Let's first clean up a little. You will be using the YAML format for this worksh
 rm fragments/sample.json
 :::
 
-CloudFormation Modules are created using a standard CloudFormation template, just like those you have been creating already in this workshop. However, Modules can use a single template file only; no nested stacks are supported. For more information, see _Creating the module template fragment_ and _Considerations when authoring the template fragment_ in the [Module structure](https://docs.aws.amazon.com/cloudformation-cli/latest/userguide/modules-structure.html) documentation.
+CloudFormation modules are created using a standard CloudFormation template, just like those you have been creating already in this workshop. However, modules can use a single template file only; no nested stacks are supported. For more information, see _Creating the module template fragment_ and _Considerations when authoring the template fragment_ in the [Module structure](https://docs.aws.amazon.com/cloudformation-cli/latest/userguide/modules-structure.html) documentation.
 
-The following diagram shows the VPC resources that you will be including in your example Module.
+The following diagram shows the VPC resources that you will be including in your example module.
 
 ![vpc-diagram](/static/advanced/modules/vpc.png)
 
@@ -233,7 +233,7 @@ Resources:
 
 This CloudFormation template has 23 resources and would be very familiar to anyone that has used CloudFormation to deploy an entire VPC. With so many components it can be hard to ensure that all the VPCs you deploy are done in a standard way and no mistakes or differences are made.
 
-This is a great use case for CloudFormation modules. All these resources can be placed in a single Module that can be used by many teams as many times as they wish. Removing the complexity and chance of error or differences when needed multiple times.
+This is a great use case for CloudFormation modules. All these resources can be placed in a single module that can be used by many teams as many times as they wish. Removing the complexity and chance of error or differences when needed multiple times.
 
 You will have noticed that template has a parameter; `VpcCidr`. This will be available when consuming the module so that users can use a standard deployment but still have the ability to tailor it to their use case.
 
@@ -253,6 +253,6 @@ Registration complete.
 ...
 ```
 
-You can now visit the [AWS CloudFormation console](https://console.aws.amazon.com/cloudformation/), and you will be able to see your new Module in the `Activated extensions` section of the registry.
+You can now visit the [AWS CloudFormation console](https://console.aws.amazon.com/cloudformation/), and you should be able to see your new module in the `Activated extensions` section of the relevant registry page.
 
 ![activated-extensions](/static/advanced/modules/ActivatedExtensions.png)
