@@ -15,7 +15,7 @@ aws cloudformation wait stack-delete-complete --stack-name cfn-workshop-modules
 :::
 
 :::alert{header="Only required if you completed the challenge" type="warning"}
-Deregister version 1 of the Module from the CloudFormation Registry
+Deregister version `00000001` of the module from the CloudFormation Registry. You will need to repeat this step for each version of this module you registered (except for the default version that cannot be deregistered):
 
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 aws cloudformation deregister-type --type MODULE --type-name CFNWORKSHOP::EC2::VPC::MODULE --version-id 00000001
