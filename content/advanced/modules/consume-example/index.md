@@ -63,7 +63,7 @@ Add tags to the resources so that the resources created are easily identifiable.
 :::expand{header="Need a hint?"}
 * Update the `module.yaml` file to add Tags to all the resources that support them. Documentation for adding tags to a VPC can be found [here](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ec2-vpc.html#cfn-ec2-vpc-tags).
 
-* Submit the changes and set the new version as the default version.
+* Submit the changes, and set the new module version as the default version. For more information, see the `submit` [command](https://docs.aws.amazon.com/cloudformation-cli/latest/userguide/resource-type-cli-submit.html) in the CloudFormation Command Line Interface reference.
 
 * Update he `use-module.yaml` to include the new Tag parameter value.
 
