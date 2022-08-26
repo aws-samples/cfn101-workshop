@@ -5,7 +5,7 @@ weight: 340
 
 ## Clean Up
 
-To clean up the resources you created in this module execute the following commands:
+To clean up the resources you created in this module, follow steps shown next.
 
 Delete the sample Stack that consumed the sample Module.
 
