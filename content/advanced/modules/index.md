@@ -7,7 +7,7 @@ weight: 300
 
 This part of the workshop focuses on how you can extend creation, provisioning, and management capabilities of [AWS CloudFormation](https://aws.amazon.com/cloudformation/) with modules you develop.
 
-In this workshop so far you have seen how to use CloudFormation to build applications using the published resource types. In this Module you will leverage [AWS CloudFormation Modules](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/modules.html) to create reusable `Modules` that are created once and used many times by other users in the same AWS Account and Region.
+In this workshop so far you have seen how to use CloudFormation to build applications using the published resource types. In this lab you will leverage [AWS CloudFormation Modules](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/modules.html) to create reusable `modules` that you create once, and are used many times by other users in the same AWS Account and Region.
 
 A common use case for CloudFormation Modules is for codifying best practice or common configuration components that would be used within an enterprise, but might be company-specific, or contain proprietary logic.
 
