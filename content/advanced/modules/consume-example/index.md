@@ -47,7 +47,7 @@ Notice that the Stack is showing it has 23 resources.
 
 ![stack-resources](/static/advanced/modules/StackResources.png)
 
-This number of resources can be explained if we take a look at the processed template for this stack. You can see that the actual template that CloudFormation deploys is based upon the content of the Module.
+This number of resources can be explained if we take a look at the processed template for this stack. You can see that the actual template that CloudFormation deploys is based upon the content of the module.
 When a Module is consumed in a CloudFormation template the Module resource is replaced with the resources defined for it in the Module template.
 
 ![stack-template](/static/advanced/modules/StackTemplate.png)
