@@ -5,7 +5,7 @@ weight: 310
 
 ### Module Development Tools
 
-Before proceeding to the next section, choose to install the following prerequisites on your machine:
+Before proceeding to the next section, install the following prerequisites on your machine:
 
 * install the [CloudFormation Command Line Interface (CLI)](https://docs.aws.amazon.com/cloudformation-cli/latest/userguide/what-is-cloudformation-cli.html).
 

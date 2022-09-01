@@ -21,7 +21,7 @@ By the end of this lab, you will be able to:
 
 #### Sample Module Walkthrough
 
-Let's get started! Create a new directory and then issue the following command from inside that directory:
+Let's get started! Create a new directory and then issue the following commands from inside that directory:
 
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 mkdir module
@@ -49,7 +49,7 @@ Let's take a look at what the command created in the directory structure:
 * `rpdk.log`: a log file for the actions carried out by the cfn cli;
 
 
-Let's first clean up a little. You will be using the YAML format for this workshop, so go ahead and delete the `sample.json` file, you will not be needing it:
+Let's first clean up a little. You will be using the YAML format for this workshop, so go ahead and delete the `sample.json` file, you will not need it:
 
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 rm fragments/sample.json
@@ -231,13 +231,13 @@ Resources:
 :::
 <!-- vale on -->
 
-This CloudFormation template has 23 resources and would be very familiar to anyone that has used CloudFormation to deploy an entire VPC. With so many components it can be hard to ensure that all the VPCs you deploy are done in a standard way and no mistakes or differences are made.
+This CloudFormation template has 23 resources and will be very familiar to anyone that has used CloudFormation to deploy an entire VPC. With so many components it can be hard to ensure that all the VPCs you deploy are done in a standard way and no mistakes or differences are made.
 
-This is a great use case for CloudFormation modules. All these resources can be placed in a single module that can be used by many teams as many times as they wish. Removing the complexity and chance of error or differences when needed multiple times.
+This is a great use case for CloudFormation modules. These resources can be placed in a single module that can be used by many teams as many times as they wish, removing the complexity and chance of error or differences when needed multiple times.
 
 You will have noticed that template has a parameter; `VpcCidr`. This will be available when consuming the module so that users can use a standard deployment but still have the ability to tailor it to their use case.
 
-Now that you have the `YAML` file complete you are ready to submit this as a Module to the CloudFormation registry. The command below registers the module in the default region; if you wish to specify a region, append the `--region` option to the command, for example `--region us-east-2`.
+Now that you have the `YAML` file complete, you are ready to submit this as a Module to the CloudFormation registry. The command below registers the module in the default region; if you wish to specify a region, append the `--region` option to the command, for example `--region us-east-2`.
 
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 cfn submit
