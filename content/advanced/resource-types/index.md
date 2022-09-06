@@ -7,9 +7,7 @@ weight: 300
 
 This part of the workshop focuses on how you can extend creation, provisioning, and management capabilities of [AWS CloudFormation](https://aws.amazon.com/cloudformation/) with resource types you develop.
 
-You leverage the [AWS CloudFormation registry](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/registry.html) to manage extensions that you can choose to use in your account. Extensions can be public or private, and include [modules](https://docs.aws.amazon.com/cloudformation-cli/latest/userguide/modules.html), that give you the ability to encapsulate configurations and best-practice building blocks that users can describe and consume in CloudFormation templates, and [resource types](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/registry.html).
-
-A resource type you create is treated as a first-class citizen within CloudFormation: you can manage your resource as you would manage any AWS resource.  The Software Development Life Cycle (SDLC) process of a resource type can be summarized as follows:
+A resource type is a first-class object in CloudFormation: you can manage your resource as you would manage any AWS resource with CloudFormation.  The Software Development Life Cycle (SDLC) process of a resource type can be summarized as follows:
 
 1. you install prerequisite tools you will use for development and testing of your resource type;
 2. you start to develop and run tests for your resource type;
