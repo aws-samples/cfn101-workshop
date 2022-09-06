@@ -38,7 +38,7 @@ Do you want to develop a new resource(r) or a module(m) or a hook(h)?.
 What's the name of your module type?
 (<Organization>::<Service>::<Name>::MODULE)
 >> CFNWORKSHOP::EC2::VPC::MODULE
-Directory  /home/user/cfn101-workshop/module/fragments  Created 
+Directory  /home/user/cfn101-workshop/module/fragments  Created
 Initialized a new project in /home/user/cfn101-workshop/module
 ```
 
