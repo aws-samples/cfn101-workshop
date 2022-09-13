@@ -314,6 +314,7 @@ Instead, for a step-by-step guide instead, follow the following steps to update 
 * Add a new template parameter, `RecordSetWeight`. Set its `Type` to `Number`, its `Default` value to `0`, its `MinValue` to `0`, and its `MaxValue` to `255`.  Add a `Decription` to tell the user what is the purpose of the parameter.
 * Update the set identifier with a value that will be unique for both records in the hosted zone. Update the `SetIdentifier` property for the record set, as in this example: `SetIdentifier: !Sub '${AppNameTagValue} application managed with the ${AWS::StackName} stack.'`
 * Add the `Weight` property for the `AWS::Route53::RecordSet` resource type, to reference the `RecordSetWeight` template parameter: `Weight: !Ref 'RecordSetWeight'`.
+* Remove the `Region: !Ref 'AWS::Region'` line from the recordset resource.
 * Update the existing stack: `cloudformation-workshop-dev-application`, with the new application-blue-green.template file. Pass `Blue` as a parameter value for `PageTextContent`, and `255` for `RecordSetWeight`. Example:
 
 :::code{language=shell showLineNumbers=false showCopyAction=true}
