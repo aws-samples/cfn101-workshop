@@ -1,0 +1,335 @@
+AWSTemplateFormatVersion: "2010-09-09"
+
+Description: Sample template describing an AWS::EC2::VPC resource, with two public subnets and 2 private subnets, route tables, and routes to the Internet. (uksb-1q9p31idr)
+
+Parameters:
+  AppNameTagValue:
+    Description: 'Specify a value for the AppName tag, that will be applied to your infrastructure resources that support tags; minimum length: 3, maximum: 50.'
+    Type: String
+    Default: AWS CloudFormation Workshop - example app
+    MaxLength: 50
+    MinLength: 3
+
+  Env:
+    Description: The type of environment with which to tag your infrastructure resources that support tags.
+    Type: String
+    AllowedValues:
+      - dev
+      - qa
+      - prod
+    Default: dev
+
+  NameTagValue:
+    Description: 'Specify a value for the Name tag, that will be applied to your infrastructure resources that support tags; minimum length: 3, maximum: 50.'
+    Type: String
+    Default: AWS CloudFormation Workshop
+    MaxLength: 50
+    MinLength: 3
+
+  PrivateSubnet1Ipv4Cidr:
+    Description: IPv4 CIDR block to assign to PrivateSubnet1.
+    Type: String
+    Default: 10.0.10.0/24
+    AllowedPattern: ^([0-9]+\.){3}[0-9]+\/[0-9]+$
+    MaxLength: 18
+    MinLength: 9
+
+  PrivateSubnet2Ipv4Cidr:
+    Description: IPv4 CIDR block to assign to PrivateSubnet2.
+    Type: String
+    Default: 10.0.20.0/24
+    AllowedPattern: ^([0-9]+\.){3}[0-9]+\/[0-9]+$
+    MaxLength: 18
+    MinLength: 9
+
+  PublicSubnet1Ipv4Cidr:
+    Description: IPv4 CIDR block to assign to PublicSubnet1.
+    Type: String
+    Default: 10.0.1.0/24
+    AllowedPattern: ^([0-9]+\.){3}[0-9]+\/[0-9]+$
+    MaxLength: 18
+    MinLength: 9
+
+  PublicSubnet2Ipv4Cidr:
+    Description: IPv4 CIDR block to assign to PublicSubnet2.
+    Type: String
+    Default: 10.0.2.0/24
+    AllowedPattern: ^([0-9]+\.){3}[0-9]+\/[0-9]+$
+    MaxLength: 18
+    MinLength: 9
+
+  VpcIpv4Cidr:
+    Description: IPv4 CIDR block to assign to your VPC.
+    Type: String
+    Default: 10.0.0.0/16
+    AllowedPattern: ^([0-9]+\.){3}[0-9]+\/[0-9]+$
+    MaxLength: 18
+    MinLength: 9
+
+Resources:
+  InternetGateway:
+    Type: AWS::EC2::InternetGateway
+    Properties:
+      Tags:
+        - Key: Name
+          Value: !Ref 'NameTagValue'
+        - Key: AppName
+          Value: !Ref 'AppNameTagValue'
+        - Key: Env
+          Value: !Ref 'Env'
+
+  NatGateway1:
+    Type: AWS::EC2::NatGateway
+    Properties:
+      AllocationId: !GetAtt NatGatewayEip1.AllocationId
+      SubnetId: !Ref 'PublicSubnet1'
+      Tags:
+        - Key: Name
+          Value: !Ref 'NameTagValue'
+        - Key: AppName
+          Value: !Ref 'AppNameTagValue'
+        - Key: Env
+          Value: !Ref 'Env'
+
+  NatGateway2:
+    Type: AWS::EC2::NatGateway
+    Properties:
+      AllocationId: !GetAtt NatGatewayEip2.AllocationId
+      SubnetId: !Ref 'PublicSubnet2'
+      Tags:
+        - Key: Name
+          Value: !Ref 'NameTagValue'
+        - Key: AppName
+          Value: !Ref 'AppNameTagValue'
+        - Key: Env
+          Value: !Ref 'Env'
+
+  NatGatewayEip1:
+    Type: AWS::EC2::EIP
+    DependsOn: VpcGatewayAttachment
+    Properties:
+      Domain: vpc
+      Tags:
+        - Key: Name
+          Value: !Ref 'NameTagValue'
+        - Key: AppName
+          Value: !Ref 'AppNameTagValue'
+        - Key: Env
+          Value: !Ref 'Env'
+
+  NatGatewayEip2:
+    Type: AWS::EC2::EIP
+    DependsOn: VpcGatewayAttachment
+    Properties:
+      Domain: vpc
+      Tags:
+        - Key: Name
+          Value: !Ref 'NameTagValue'
+        - Key: AppName
+          Value: !Ref 'AppNameTagValue'
+        - Key: Env
+          Value: !Ref 'Env'
+
+  PrivateSubnet1:
+    Type: AWS::EC2::Subnet
+    Properties:
+      AvailabilityZone: !Sub '${AWS::Region}a'
+      CidrBlock: !Ref 'PrivateSubnet1Ipv4Cidr'
+      Tags:
+        - Key: Name
+          Value: !Ref 'NameTagValue'
+        - Key: AppName
+          Value: !Ref 'AppNameTagValue'
+        - Key: Env
+          Value: !Ref 'Env'
+      VpcId: !Ref 'Vpc'
+
+  PrivateSubnet1Ipv4RouteToTheInternet:
+    Type: AWS::EC2::Route
+    Properties:
+      DestinationCidrBlock: 0.0.0.0/0
+      NatGatewayId: !Ref 'NatGateway1'
+      RouteTableId: !Ref 'PrivateSubnet1RouteTable'
+
+  PrivateSubnet1RouteTable:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      Tags:
+        - Key: Name
+          Value: !Ref 'NameTagValue'
+        - Key: AppName
+          Value: !Ref 'AppNameTagValue'
+        - Key: Env
+          Value: !Ref 'Env'
+      VpcId: !Ref 'Vpc'
+
+  PrivateSubnet1RouteTableAssociation:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      RouteTableId: !Ref 'PrivateSubnet1RouteTable'
+      SubnetId: !Ref 'PrivateSubnet1'
+
+  PrivateSubnet2:
+    Type: AWS::EC2::Subnet
+    Properties:
+      AvailabilityZone: !Sub '${AWS::Region}a'
+      CidrBlock: !Ref 'PrivateSubnet2Ipv4Cidr'
+      Tags:
+        - Key: Name
+          Value: !Ref 'NameTagValue'
+        - Key: AppName
+          Value: !Ref 'AppNameTagValue'
+        - Key: Env
+          Value: !Ref 'Env'
+      VpcId: !Ref 'Vpc'
+
+  PrivateSubnet2Ipv4RouteToTheInternet:
+    Type: AWS::EC2::Route
+    Properties:
+      DestinationCidrBlock: 0.0.0.0/0
+      NatGatewayId: !Ref 'NatGateway2'
+      RouteTableId: !Ref 'PrivateSubnet2RouteTable'
+
+  PrivateSubnet2RouteTable:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      Tags:
+        - Key: Name
+          Value: !Ref 'NameTagValue'
+        - Key: AppName
+          Value: !Ref 'AppNameTagValue'
+        - Key: Env
+          Value: !Ref 'Env'
+      VpcId: !Ref 'Vpc'
+
+  PrivateSubnet2RouteTableAssociation:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      RouteTableId: !Ref 'PrivateSubnet2RouteTable'
+      SubnetId: !Ref 'PrivateSubnet2'
+
+  PublicSubnet1:
+    Type: AWS::EC2::Subnet
+    Properties:
+      AvailabilityZone: !Sub '${AWS::Region}a'
+      CidrBlock: !Ref 'PublicSubnet1Ipv4Cidr'
+      Tags:
+        - Key: Name
+          Value: !Ref 'NameTagValue'
+        - Key: AppName
+          Value: !Ref 'AppNameTagValue'
+        - Key: Env
+          Value: !Ref 'Env'
+      VpcId: !Ref 'Vpc'
+
+  PublicSubnet1Ipv4RouteToTheInternet:
+    Type: AWS::EC2::Route
+    DependsOn: VpcGatewayAttachment
+    Properties:
+      DestinationCidrBlock: 0.0.0.0/0
+      GatewayId: !Ref 'InternetGateway'
+      RouteTableId: !Ref 'PublicSubnet1RouteTable'
+
+  PublicSubnet1RouteTable:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      Tags:
+        - Key: Name
+          Value: !Ref 'NameTagValue'
+        - Key: AppName
+          Value: !Ref 'AppNameTagValue'
+        - Key: Env
+          Value: !Ref 'Env'
+      VpcId: !Ref 'Vpc'
+
+  PublicSubnet1RouteTableAssociation:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      RouteTableId: !Ref 'PublicSubnet1RouteTable'
+      SubnetId: !Ref 'PublicSubnet1'
+
+  PublicSubnet2:
+    Type: AWS::EC2::Subnet
+    Properties:
+      AvailabilityZone: !Sub '${AWS::Region}b'
+      CidrBlock: !Ref 'PublicSubnet2Ipv4Cidr'
+      Tags:
+        - Key: Name
+          Value: !Ref 'NameTagValue'
+        - Key: AppName
+          Value: !Ref 'AppNameTagValue'
+        - Key: Env
+          Value: !Ref 'Env'
+      VpcId: !Ref 'Vpc'
+
+  PublicSubnet2Ipv4RouteToTheInternet:
+    Type: AWS::EC2::Route
+    DependsOn: VpcGatewayAttachment
+    Properties:
+      DestinationCidrBlock: 0.0.0.0/0
+      GatewayId: !Ref 'InternetGateway'
+      RouteTableId: !Ref 'PublicSubnet2RouteTable'
+
+  PublicSubnet2RouteTable:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      Tags:
+        - Key: Name
+          Value: !Ref 'NameTagValue'
+        - Key: AppName
+          Value: !Ref 'AppNameTagValue'
+        - Key: Env
+          Value: !Ref 'Env'
+      VpcId: !Ref 'Vpc'
+
+  PublicSubnet2RouteTableAssociation:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      RouteTableId: !Ref 'PublicSubnet2RouteTable'
+      SubnetId: !Ref 'PublicSubnet2'
+
+  Vpc:
+    Type: AWS::EC2::VPC
+    Properties:
+      CidrBlock: !Ref 'VpcIpv4Cidr'
+      EnableDnsHostnames: true
+      EnableDnsSupport: true
+      Tags:
+        - Key: Name
+          Value: !Ref 'NameTagValue'
+        - Key: AppName
+          Value: !Ref 'AppNameTagValue'
+        - Key: Env
+          Value: !Ref 'Env'
+
+  VpcGatewayAttachment:
+    Type: AWS::EC2::VPCGatewayAttachment
+    Properties:
+      InternetGatewayId: !Ref 'InternetGateway'
+      VpcId: !Ref 'Vpc'
+
+Outputs:
+  PrivateSubnet1Id:
+    Value: !Ref 'PrivateSubnet1'
+    Export:
+      Name: !Sub '${AWS::StackName}-PrivateSubnet1Id'
+
+  PrivateSubnet2Id:
+    Value: !Ref 'PrivateSubnet2'
+    Export:
+      Name: !Sub '${AWS::StackName}-PrivateSubnet2Id'
+
+  PublicSubnet1Id:
+    Value: !Ref 'PublicSubnet1'
+    Export:
+      Name: !Sub '${AWS::StackName}-PublicSubnet1Id'
+
+  PublicSubnet2Id:
+    Value: !Ref 'PublicSubnet2'
+    Export:
+      Name: !Sub '${AWS::StackName}-PublicSubnet2Id'
+
+  VpcId:
+    Value: !Ref 'Vpc'
+    Export:
+      Name: !Sub '${AWS::StackName}-VpcId'

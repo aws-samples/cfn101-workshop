@@ -1,0 +1,79 @@
+AWSTemplateFormatVersion: "2010-09-09"
+
+Description: Sample template describing an Amazon Route 53 hosted zone. (uksb-1q9p31idr)
+
+Parameters:
+  AppNameTagValue:
+    Description: 'Specify a value for the AppName tag, that will be applied to your infrastructure resources that support tags; minimum length: 3, maximum: 50.'
+    Type: String
+    Default: AWS CloudFormation Workshop - example app
+    MaxLength: 50
+    MinLength: 3
+
+  Env:
+    Description: The type of environment with which to tag your infrastructure resources that support tags.
+    Type: String
+    AllowedValues:
+      - dev
+      - qa
+      - prod
+    Default: dev
+
+  HostedZoneDescription:
+    Description: Please specify a description for your hosted zone.
+    Type: String
+    Default: Example hosted zone
+    MaxLength: 50
+    MinLength: 3
+
+  HostedZoneName:
+    Description: Please specify a name for your hosted zone.
+    Type: String
+    Default: my-example-domain.com
+    MaxLength: 1024
+    MinLength: 1
+
+  NameTagValue:
+    Description: 'Specify a value for the Name tag, that will be applied to your infrastructure resources that support tags; minimum length: 3, maximum: 50.'
+    Type: String
+    Default: AWS CloudFormation Workshop
+    MaxLength: 50
+    MinLength: 3
+
+  NetworkStackName:
+    Description: The name of the CloudFormation stack you created for network resources.
+    Type: String
+    Default: cloudformation-workshop-dev-base-network
+    AllowedPattern: ^[a-zA-Z]{1}[a-zA-Z0-9-]*$
+    MaxLength: 128
+    MinLength: 1
+
+Resources:
+  HostedZone:
+    Type: AWS::Route53::HostedZone
+    Properties:
+      HostedZoneConfig:
+        Comment: !Ref 'HostedZoneDescription'
+      HostedZoneTags:
+        - Key: Name
+          Value: !Ref 'NameTagValue'
+        - Key: AppName
+          Value: !Ref 'AppNameTagValue'
+        - Key: Env
+          Value: !Ref 'Env'
+      Name: !Ref 'HostedZoneName'
+      VPCs:
+        - VPCId: !ImportValue
+            Fn::Sub: ${NetworkStackName}-VpcId
+          VPCRegion: !Ref 'AWS::Region'
+
+Outputs:
+  HostedZoneId:
+    Value: !Ref 'HostedZone'
+    Export:
+      Name: !Sub '${AWS::StackName}-HostedZoneId'
+
+  HostedZoneName:
+    Value: !Ref 'HostedZoneName'
+    Export:
+      Name: !Sub '${AWS::StackName}-HostedZoneName'

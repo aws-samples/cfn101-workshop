@@ -1,0 +1,99 @@
+AWSTemplateFormatVersion: "2010-09-09"
+
+Description: Sample template describing security group resources for an example application. (uksb-1q9p31idr)
+
+Parameters:
+  AppNameTagValue:
+    Description: 'Specify a value for the AppName tag, that will be applied to your infrastructure resources that support tags; minimum length: 3, maximum: 50.'
+    Type: String
+    Default: AWS CloudFormation Workshop - example app
+    MaxLength: 50
+    MinLength: 3
+
+  Env:
+    Description: The type of environment with which to tag your infrastructure resources that support tags.
+    Type: String
+    AllowedValues:
+      - dev
+      - qa
+      - prod
+    Default: dev
+
+  NameTagValue:
+    Description: 'Specify a value for the Name tag, that will be applied to your infrastructure resources that support tags; minimum length: 3, maximum: 50.'
+    Type: String
+    Default: AWS CloudFormation Workshop
+    MaxLength: 50
+    MinLength: 3
+
+  NetworkStackName:
+    Description: The name of the CloudFormation stack you created for network resources.
+    Type: String
+    Default: cloudformation-workshop-dev-base-network
+    AllowedPattern: ^[a-zA-Z]{1}[a-zA-Z0-9-]*$
+    MaxLength: 128
+    MinLength: 1
+
+Resources:
+  AppInstancesSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Security Group for application instances.
+      SecurityGroupEgress:
+        - CidrIp: 0.0.0.0/0
+          FromPort: 80
+          IpProtocol: tcp
+          ToPort: 80
+        - CidrIp: 0.0.0.0/0
+          FromPort: 443
+          IpProtocol: tcp
+          ToPort: 443
+      SecurityGroupIngress:
+        - FromPort: 80
+          IpProtocol: tcp
+          SourceSecurityGroupId: !Ref 'LoadBalancerSecurityGroup'
+          ToPort: 80
+      Tags:
+        - Key: Name
+          Value: !Ref 'NameTagValue'
+        - Key: AppName
+          Value: !Ref 'AppNameTagValue'
+        - Key: Env
+          Value: !Ref 'Env'
+      VpcId: !ImportValue
+        Fn::Sub: ${NetworkStackName}-VpcId
+
+  LoadBalancerSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Security Group for the load balancer.
+      SecurityGroupEgress:
+        - CidrIp: 0.0.0.0/0
+          FromPort: 80
+          IpProtocol: tcp
+          ToPort: 80
+      SecurityGroupIngress:
+        - CidrIp: 0.0.0.0/0
+          FromPort: 80
+          IpProtocol: tcp
+          ToPort: 80
+      Tags:
+        - Key: Name
+          Value: !Ref 'NameTagValue'
+        - Key: AppName
+          Value: !Ref 'AppNameTagValue'
+        - Key: Env
+          Value: !Ref 'Env'
+      VpcId: !ImportValue
+        Fn::Sub: ${NetworkStackName}-VpcId
+
+Outputs:
+  AppInstancesSecurityGroupId:
+    Value: !Ref 'AppInstancesSecurityGroup'
+    Export:
+      Name: !Sub '${AWS::StackName}-AppInstancesSecurityGroupId'
+
+  LoadBalancerSecurityGroupId:
+    Value: !Ref 'LoadBalancerSecurityGroup'
+    Export:
+      Name: !Sub '${AWS::StackName}-LoadBalancerSecurityGroupId'

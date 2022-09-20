@@ -1,0 +1,267 @@
+AWSTemplateFormatVersion: "2010-09-09"
+
+Description: Sample template describing an example application deployment. (uksb-1q9p31idr)
+
+Parameters:
+  AppNameTagValue:
+    Description: 'Specify a value for the AppName tag, that will be applied to your infrastructure resources that support tags; minimum length: 3, maximum: 50.'
+    Type: String
+    Default: AWS CloudFormation Workshop - example app
+    MaxLength: 50
+    MinLength: 3
+
+  Env:
+    Description: The type of environment with which to tag your infrastructure resources that support tags.
+    Type: String
+    AllowedValues:
+      - dev
+      - qa
+      - prod
+    Default: dev
+
+  HostedZoneStackName:
+    Description: The name of the CloudFormation stack you created for hosted zone resource(s).
+    Type: String
+    Default: cloudformation-workshop-dev-hosted-zone
+    AllowedPattern: ^[a-zA-Z]{1}[a-zA-Z0-9-]*$
+    MaxLength: 128
+    MinLength: 1
+
+  InstanceType:
+    Description: Amazon EC2 instance type to use for your instances.
+    Type: String
+    AllowedValues:
+      - t2.micro
+      - t2.small
+      - t2.medium
+      - t3.micro
+      - t3.small
+      - t3.medium
+    Default: t2.micro
+
+  LatestAmiId:
+    Description: The ID of the region-specific Amazon Machine Image to use.
+    Type: AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>
+    Default: /aws/service/ami-amazon-linux-latest/amzn2-ami-hvm-x86_64-gp2
+
+  NameTagValue:
+    Description: 'Specify a value for the Name tag, that will be applied to your infrastructure resources that support tags; minimum length: 3, maximum: 50.'
+    Type: String
+    Default: AWS CloudFormation Workshop
+    MaxLength: 50
+    MinLength: 3
+
+  NetworkStackName:
+    Description: The name of the CloudFormation stack you created for network resources.
+    Type: String
+    Default: cloudformation-workshop-dev-base-network
+    AllowedPattern: ^[a-zA-Z]{1}[a-zA-Z0-9-]*$
+    MaxLength: 128
+    MinLength: 1
+
+  PageTextContent:
+    Description: The sample text to show in the HTML page.
+    Type: String
+    AllowedValues:
+      - Hello world!
+    Default: Hello world!
+
+  SecurityGroupStackName:
+    Description: The name of the CloudFormation stack you created for security group resources.
+    Type: String
+    Default: cloudformation-workshop-dev-security-groups
+    AllowedPattern: ^[a-zA-Z]{1}[a-zA-Z0-9-]*$
+    MaxLength: 128
+    MinLength: 1
+
+Resources:
+  AutoScalingGroup:
+    CreationPolicy:
+      ResourceSignal:
+        Count: 2
+        Timeout: PT15M
+    UpdatePolicy:
+      AutoScalingRollingUpdate:
+        MaxBatchSize: 1
+        MinInstancesInService: 2
+        PauseTime: PT15M
+        WaitOnResourceSignals: true
+    Type: AWS::AutoScaling::AutoScalingGroup
+    Properties:
+      DesiredCapacity: 2
+      LaunchTemplate:
+        LaunchTemplateId: !Ref 'LaunchTemplate'
+        Version: !GetAtt LaunchTemplate.LatestVersionNumber
+      MaxSize: 4
+      MinSize: 2
+      Tags:
+        - Key: Name
+          PropagateAtLaunch: true
+          Value: !Ref 'NameTagValue'
+        - Key: AppName
+          PropagateAtLaunch: true
+          Value: !Ref 'AppNameTagValue'
+        - Key: Env
+          PropagateAtLaunch: true
+          Value: !Ref 'Env'
+      TargetGroupARNs:
+        - !Ref 'TargetGroup'
+      VPCZoneIdentifier:
+        - !ImportValue
+          Fn::Sub: ${NetworkStackName}-PrivateSubnet1Id
+        - !ImportValue
+          Fn::Sub: ${NetworkStackName}-PrivateSubnet2Id
+
+  HttpListener:
+    Type: AWS::ElasticLoadBalancingV2::Listener
+    Properties:
+      DefaultActions:
+        - Order: 1
+          TargetGroupArn: !Ref 'TargetGroup'
+          Type: forward
+      LoadBalancerArn: !Ref 'LoadBalancer'
+      Port: 80
+      Protocol: HTTP
+
+  LaunchTemplate:
+    Type: AWS::EC2::LaunchTemplate
+    Metadata:
+      AWS::CloudFormation::Init:
+        configSets:
+          install:
+            - install_cfn_hup
+            - install_packages
+            - configure
+        configure:
+          files:
+            /var/www/html/index.html:
+              content: !Sub |
+                ${PageTextContent}
+              group: root
+              mode: "000644"
+              owner: root
+        install_cfn_hup:
+          files:
+            /etc/cfn/cfn-hup.conf:
+              content: !Sub |
+                [main]
+                interval=2
+                stack=${AWS::StackId}
+                region=${AWS::Region}
+              group: root
+              mode: "000400"
+              owner: root
+            /etc/cfn/hooks.d/cfn-auto-reloader.conf:
+              content: !Sub |
+                [cfn-auto-reloader-hook]
+                triggers=post.update
+                path=Resources.LaunchTemplate.Metadata.AWS::CloudFormation::Init
+                action=/opt/aws/bin/cfn-init -v --stack ${AWS::StackName} --resource LaunchTemplate --configsets install --region ${AWS::Region}
+              group: root
+              mode: "000400"
+              owner: root
+          services:
+            sysvinit:
+              cfn-hup:
+                enabled: true
+                ensureRunning: true
+                files:
+                  - /etc/cfn/cfn-hup.conf
+                  - /etc/cfn/hooks.d/cfn-auto-reloader.conf
+        install_packages:
+          packages:
+            yum:
+              httpd: []
+          services:
+            sysvinit:
+              httpd:
+                enabled: true
+                ensureRunning: true
+    Properties:
+      LaunchTemplateData:
+        ImageId: !Ref 'LatestAmiId'
+        InstanceType: !Ref 'InstanceType'
+        SecurityGroupIds:
+          - !ImportValue
+            Fn::Sub: ${SecurityGroupStackName}-AppInstancesSecurityGroupId
+        UserData: !Base64
+          Fn::Sub: |
+            #!/bin/bash
+            yum update -y aws-cfn-bootstrap
+            /opt/aws/bin/cfn-init -v --stack ${AWS::StackName} --resource LaunchTemplate --configsets install --region ${AWS::Region}
+            /opt/aws/bin/cfn-signal -e $? --stack ${AWS::StackName} --resource AutoScalingGroup --region ${AWS::Region}
+      TagSpecifications:
+        - ResourceType: launch-template
+          Tags:
+            - Key: Name
+              Value: !Ref 'NameTagValue'
+            - Key: AppName
+              Value: !Ref 'AppNameTagValue'
+            - Key: Env
+              Value: !Ref 'Env'
+
+  LoadBalancer:
+    Type: AWS::ElasticLoadBalancingV2::LoadBalancer
+    Properties:
+      IpAddressType: ipv4
+      Scheme: internet-facing
+      SecurityGroups:
+        - !ImportValue
+          Fn::Sub: ${SecurityGroupStackName}-LoadBalancerSecurityGroupId
+      Subnets:
+        - !ImportValue
+          Fn::Sub: ${NetworkStackName}-PublicSubnet1Id
+        - !ImportValue
+          Fn::Sub: ${NetworkStackName}-PublicSubnet2Id
+      Tags:
+        - Key: Name
+          Value: !Ref 'NameTagValue'
+        - Key: AppName
+          Value: !Ref 'AppNameTagValue'
+        - Key: Env
+          Value: !Ref 'Env'
+      Type: application
+
+  RecordSet:
+    Type: AWS::Route53::RecordSet
+    Properties:
+      AliasTarget:
+        DNSName: !GetAtt LoadBalancer.DNSName
+        EvaluateTargetHealth: true
+        HostedZoneId: !GetAtt LoadBalancer.CanonicalHostedZoneID
+      HostedZoneId: !ImportValue
+        Fn::Sub: ${HostedZoneStackName}-HostedZoneId
+      Name: !ImportValue
+        Fn::Sub: ${HostedZoneStackName}-HostedZoneName
+      Region: !Ref 'AWS::Region'
+      SetIdentifier: !ImportValue
+        Fn::Sub: ${HostedZoneStackName}-HostedZoneName
+      Type: A
+
+  TargetGroup:
+    Type: AWS::ElasticLoadBalancingV2::TargetGroup
+    Properties:
+      HealthCheckIntervalSeconds: 30
+      HealthCheckPath: /
+      HealthCheckTimeoutSeconds: 5
+      HealthyThresholdCount: 5
+      Matcher:
+        HttpCode: 200
+      Port: 80
+      Protocol: HTTP
+      Tags:
+        - Key: Name
+          Value: !Ref 'NameTagValue'
+        - Key: AppName
+          Value: !Ref 'AppNameTagValue'
+        - Key: Env
+          Value: !Ref 'Env'
+      TargetType: instance
+      UnhealthyThresholdCount: 2
+      VpcId: !ImportValue
+        Fn::Sub: ${NetworkStackName}-VpcId
+
+Outputs:
+  AppUrl:
+    Description: URL of the sample app.
+    Value: !Sub 'http://${LoadBalancer.DNSName}'

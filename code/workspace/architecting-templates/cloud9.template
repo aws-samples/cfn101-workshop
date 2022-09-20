@@ -1,0 +1,66 @@
+AWSTemplateFormatVersion: "2010-09-09"
+
+Description: Sample template describing an AWS Cloud9 environment. (uksb-1q9p31idr)
+
+Parameters:
+  AppNameTagValue:
+    Description: 'Specify a value for the AppName tag, that will be applied to your infrastructure resources that support tags; minimum length: 3, maximum: 50.'
+    Type: String
+    Default: AWS CloudFormation Workshop - example app
+    MaxLength: 50
+    MinLength: 3
+
+  Env:
+    Description: The type of environment with which to tag your infrastructure resources that support tags.
+    Type: String
+    AllowedValues:
+      - dev
+      - qa
+      - prod
+    Default: dev
+
+  InstanceType:
+    Description: Amazon EC2 instance type to use.
+    Type: String
+    AllowedValues:
+      - t2.micro
+      - t2.small
+      - t2.medium
+      - t3.micro
+      - t3.small
+      - t3.medium
+    Default: t2.micro
+
+  NetworkStackName:
+    Description: The name of the CloudFormation stack you created for network resources.
+    Type: String
+    Default: cloudformation-workshop-dev-base-network
+    AllowedPattern: ^[a-zA-Z]{1}[a-zA-Z0-9-]*$
+    MaxLength: 128
+    MinLength: 1
+
+Resources:
+  EnvironmentEc2:
+    Type: AWS::Cloud9::EnvironmentEC2
+    Properties:
+      AutomaticStopTimeMinutes: 120
+      Description: Example development environment.
+      ImageId: amazonlinux-2-x86_64
+      InstanceType: !Ref 'InstanceType'
+      Name: aws-cloudformation-workshop
+      SubnetId: !ImportValue
+        Fn::Sub: ${NetworkStackName}-PublicSubnet1Id
+      Tags:
+        - Key: AppName
+          Value: !Ref 'AppNameTagValue'
+        - Key: Env
+          Value: !Ref 'Env'
+
+Outputs:
+  EnvironmentId:
+    Description: The ID of the Cloud9 development environment.
+    Value: !Ref 'EnvironmentEc2'
+
+  EnvironmentName:
+    Description: The name of the Cloud9 development environment.
+    Value: !GetAtt EnvironmentEc2.Name
