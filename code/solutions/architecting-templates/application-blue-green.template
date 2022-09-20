@@ -11,7 +11,7 @@ Parameters:
     MinLength: 3
 
   Env:
-    Description: The name of the environment name to use.
+    Description: The type of environment to tag your infrastructure with.
     Type: String
     AllowedValues:
       - dev
