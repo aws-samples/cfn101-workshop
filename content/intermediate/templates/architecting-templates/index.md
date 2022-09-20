@@ -105,11 +105,21 @@ Let's create the Cloud9 environment! You'll use the [AWS CloudFormation Console]
 
 As part of the software development life cycle (SDLC), early testing is key to start to find and correct issues whilst you are developing your code, to *shorten the feedback loop and save time*. As part of best practices when working with CloudFormation, you want to validate that your templates are not only using either a valid JSON or YAML data structure, but that also conform to the [AWS CloudFormation resource specification](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/cfn-resource-specification.html). This way, if you specify an incorrect resource property name or value for example, you have the opportunity to detect this very early in the SDLC, as you develop your templates in your workstation.
 
-To validate your templates, you'll now use the [AWS CloudFormation Linter](https://github.com/aws-cloudformation/cfn-lint): in your Cloud9 environment, locate the command line terminal at the bottom of the page, and install `cfn-lint` by running the following command:
+To validate your templates, you'll now use the [AWS CloudFormation Linter](https://github.com/aws-cloudformation/cfn-lint): in your Cloud9 environment, locate the command line terminal at the bottom of the page: first, create and activate a new virtual environment for Python with `virtualenv` as shown next:
+
+:::code{language=shell showLineNumbers=false showCopyAction=true}
+mkdir ~/my-virtual-environments
+virtualenv ~/my-virtual-environments/cloudformation-workshop-venv
+source ~/my-virtual-environments/cloudformation-workshop-venv/bin/activate
+:::
+
+The last command above should have activated the virtual environment you created: your shell prompt should indicate so with the `(cloudformation-workshop-venv)` prefix added to it. You'll now install, into your virtual environment scope for your current terminal, `cfn-lint` by running the following command:
 
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 pip install cfn-lint
 :::
+
+::alert[Should you close your current terminal in Cloud9 and then reopen a new one, make sure you run again the command: `source ~/my-virtual-environments/cloudformation-workshop-venv/bin/activate` to activate your previously created virtual environment in your new terminal.]{type="info"}
 
 You'll see an example of using `cfn-lint` later on, as you continue to deploy your infrastructure. For a deeper dive into CloudFormation testing tools with this workshop, see the [Linting and testing](/basics/templates/linting-and-testing) lab. Note that you can also run `cfn-lint` as a plugin for a [supported editor](https://github.com/aws-cloudformation/cfn-lint#editor-plugins) of your choice in your workstation. You can also choose, for your projects, to run `cfn-lint` as a `pre-commit` [hook](https://github.com/aws-cloudformation/cfn-lint#pre-commit).
 
@@ -128,7 +138,11 @@ cd ~/environment
 git clone https://github.com/aws-samples/cfn101-workshop.git
 :::
 
-Next, change directory to `cfn101-workshop/code/workspace/architecting-templates`.
+Next, change directory to `cfn101-workshop/code/workspace/architecting-templates/`:
+
+:::code{language=shell showLineNumbers=false showCopyAction=true}
+cd cfn101-workshop/code/workspace/architecting-templates/
+:::
 
 
 
