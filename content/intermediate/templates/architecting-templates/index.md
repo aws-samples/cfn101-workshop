@@ -375,11 +375,10 @@ curl http://my-example-domain.com
 
 Navigate to the CloudFormation Console on your workstation. Select and delete, in the following order, stacks you created in this lab. *Note that since you used cross-stack references a number of stacks, you cannot delete a stack that exports a value if that value is still used by a consuming stack*:
 
-* Delete `cloudformation-workshop-dev-application-v2` and `cloudformation-workshop-dev-application` without waiting for each one of them has been deleted: such stacks are not depending between each others. When both stacks are deleted, continue with next steps.
-* Delete `cloudformation-workshop-dev-security-groups` and `cloudformation-workshop-dev-hosted-zone` without waiting for each one of them has been deleted as well. Then, continue with next steps.
-* `cloudformation-workshop-dev-cloud9`: this should delete also another stack whose name starts with `aws-cloud9-aws-cloudformation-workshop-`. When both stacks are deleted, continue with the last step shown next.
-* `cloudformation-workshop-dev-base-network`.
-
+1. Delete `cloudformation-workshop-dev-application-v2` and `cloudformation-workshop-dev-application` without waiting for each one of them to be deleted; such stacks do not depend on each other. When both stacks are deleted, continue with next step.
+2. Delete `cloudformation-workshop-dev-security-groups` and `cloudformation-workshop-dev-hosted-zone` without waiting for each one of them to be deleted as well. Then, continue with next steps.
+3. Delete `cloudformation-workshop-dev-cloud9`: this will delete Cloud9 instance. Also delete stack whose name starts with `aws-cloud9-aws-cloudformation-workshop-`. When both stacks are deleted, continue with the last step.
+4. Delete `cloudformation-workshop-dev-base-network` stack.
 
 
 ### Conclusion
