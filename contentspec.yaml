@@ -1,6 +1,7 @@
 defaultLocaleCode: en
 localeCodes:
 - en
+- ja
 params:
   author: AWS
   description: AWS CloudFormation Workshop
