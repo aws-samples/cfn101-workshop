@@ -21,5 +21,5 @@ aws configure
 AWS Access Key ID [None]: <アクセスキー ID を入力>
 AWS Secret Access Key [None]: <シークレットアクセスキーを入力>
 Default region name [None]: <リージョンを入力 (e.g. "us-east-1", "ap-northeast-1")>
-Default output format [None]: <空欄で結構>
+Default output format [None]: <空欄のまま>
 :::

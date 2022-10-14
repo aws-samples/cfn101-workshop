@@ -11,7 +11,7 @@ weight: 100
 既存の個人アカウントまたは会社のアカウントを利用する場合は、そのアカウントにリソースを作成する場合の影響とポリシーをご確認ください。
 :::
 
-AWS アカウントを持ちでない場合は、[こちらで無料でAWS アカウントを作成](https://portal.aws.amazon.com/billing/signup)することができます。
+AWS アカウントを持ちでない場合は、[こちらで無料で AWS アカウントを作成](https://portal.aws.amazon.com/billing/signup)できます。
 
 ## 管理者ユーザ
 

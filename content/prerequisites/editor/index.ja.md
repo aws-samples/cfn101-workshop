@@ -5,7 +5,7 @@ weight: 300
 
 [YAML](https://yaml.org/) の編集をサポートするお好みのコードエディタや IDE を利用できますが、このワークショップでは macOS、Linux、Windows でうまく動作する [Visual Studio Code](https://code.visualstudio.com/) の利用を前提とします。
 
-VS Code をインストールするためには、オペレーティングシステムのパッケージマネージャ（例： macOS の `brew cask install visual-studio-code`）を使うか、[VS code のサイトの指示](https://code.visualstudio.com/) に従ってインストールしてください。
+VS Code をインストールするためには、オペレーティングシステムのパッケージマネージャ（例： macOS の `brew cask install visual-studio-code`）を使うか、[VS Code のサイトの指示](https://code.visualstudio.com/) に従ってインストールしてください。
 
 ## CloudFormation Linter
 
