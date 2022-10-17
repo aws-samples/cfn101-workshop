@@ -3,9 +3,9 @@ title: "AWS CLI のインストールと設定"
 weight: 200
 ---
 
-[AWS CLI](https://aws.amazon.com/cli/) によって、ターミナルのセッションから AWS のサービスを操作することができます。必ず最新版の AWS CLI がインストールされていることをご確認ください。
+[AWS CLI](https://aws.amazon.com/jp/cli/) によって、ターミナルのセッションから AWS のサービスを操作することができます。必ず最新版の AWS CLI がインストールされていることをご確認ください。
 
-[AWS CLI の最新バージョンをインストールまたは更新します。](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html) ページで自分のオペレーティングシステムに合う手順を確認できます。
+[AWS CLI の最新バージョンをインストールまたは更新します。](https://docs.aws.amazon.com/ja_jp/cli/latest/userguide/getting-started-install.html) ページで自分のオペレーティングシステムに合う手順を確認できます。
 
 ## 認証情報の設定
 
