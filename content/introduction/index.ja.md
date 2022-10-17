@@ -13,10 +13,10 @@ weight: 10
 + 簡単な **[EC2](https://aws.amazon.com/jp/ec2/)** の Web サーバを立ち上げることにより基礎的な CloudFormation のコンセプト
 
 **中級編**では、以下の内容を学びます。
-+ **[ネストされたスタック](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-nested-stacks.html)** と **[多層スタック](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-stack-exports.html)** の作成を通して複数のスタックの管理方法
-+ S3 バケットから _ネストされたスタック_ の **[パッケージ化](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-cli-package.html)** と **[デプロイ](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-cli-deploy.html)** 方法
++ **[ネストされたスタック](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/using-cfn-nested-stacks.html)** と **[多層スタック](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/using-cfn-stack-exports.html)** の作成を通して複数のスタックの管理方法
++ S3 バケットから _ネストされたスタック_ の **[パッケージ化](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/using-cfn-cli-package.html)** と **[デプロイ](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/using-cfn-cli-deploy.html)** 方法
 
 **上級編**では、以下の内容を学びます。
-+ [AWS CloudFormation レジストリ](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/registry.html) 
-+ [モジュールの作成](https://docs.aws.amazon.com/cloudformation-cli/latest/userguide/modules.html) の作成によって CloudFormation を拡張する方法
-+ [リソースタイプの作成](https://docs.aws.amazon.com/cloudformation-cli/latest/userguide/resource-types) により CloudFormation を拡張する方法
++ [AWS CloudFormation レジストリ](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/registry.html) 
++ [モジュールの作成](https://docs.aws.amazon.com/ja_jp/cloudformation-cli/latest/userguide/modules.html) の作成によって CloudFormation を拡張する方法
++ [リソースタイプの作成](https://docs.aws.amazon.com/ja_jp/cloudformation-cli/latest/userguide/resource-types.html) により CloudFormation を拡張する方法
