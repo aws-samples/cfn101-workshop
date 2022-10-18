@@ -17,6 +17,6 @@ weight: 10
 + S3 バケットから _ネストされたスタック_ の **[パッケージ化](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/using-cfn-cli-package.html)** と **[デプロイ](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/using-cfn-cli-deploy.html)** 方法
 
 **上級編**では、以下の内容を学びます。
-+ [AWS CloudFormation レジストリ](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/registry.html) 
++ [AWS CloudFormation レジストリ](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/registry.html)
 + [モジュールの作成](https://docs.aws.amazon.com/ja_jp/cloudformation-cli/latest/userguide/modules.html) の作成によって CloudFormation を拡張する方法
 + [リソースタイプの作成](https://docs.aws.amazon.com/ja_jp/cloudformation-cli/latest/userguide/resource-types.html) により CloudFormation を拡張する方法
