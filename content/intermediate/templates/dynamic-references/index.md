@@ -54,7 +54,7 @@ Let’s get started! Choose to follow steps shown next:
     3. Locate the `AWS::EC2::Instance` resource type block in the template; update the template by appending, to properties in the `Properties` section, the `ImageId` property and a dynamic reference to your parameter:
 
        :::code{language=yaml showLineNumbers=false showCopyAction=true}
-       ImageId: '{{resolve\:ssm:/golden-images/amazon-linux-2}}'
+       ImageId: '{{resolve:ssm:/golden-images/amazon-linux-2}}'
        :::
 
 With the dynamic reference above, you describe the intent of resolving the `LATEST` version of your `/golden-images/amazon-linux-2` parameter during stack runtime.
