@@ -12,4 +12,4 @@ workload on AWS, using AWS best practices for security and availability.
 Partner Solutions are accelerators that condense hundreds of manual procedures into just a few steps. They are
 customizable and designed for production.
 
-[AWS Partner Solutions FaQ](https://aws.amazon.com/solutions/partners/faq/)
+[AWS Partner Solutions FAQs](https://aws.amazon.com/solutions/partners/faq/)
