@@ -101,7 +101,6 @@ The only required property of the EC2 resource type is _ImageId_. Let's find the
   1. Click **Instances** -> **Launch Instance**.
   1. Copy the **Amazon Linux 2 AMI** `ami-xxxxxxxxx` ID.
   ::alert[Make sure to use **(x86)** AMI ID, if the region supports both x86 and ARM architectures.]{type="info"}
-  ::expand[![ami-gif](/static/basics/templates/resources/ami-1.gif)]{header="Expand to see the solution"}
   1. Once you have your AMI ID, copy and paste it to **ImageId** property.
 
 ::alert[You can find a working solution for the **London Region** in `code/solutions/resources.yaml` file.]{type="info"}

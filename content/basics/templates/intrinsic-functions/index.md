@@ -92,8 +92,6 @@ Now it is time to update your stack. Go to the AWS console and update your Cloud
 1. On the **Review <stack_name>** page, scroll down to the bottom and click on **Update stack**.
 1. You can click the **refresh** button a few times until you see in the status **UPDATE_COMPLETE**.
 
-::expand[![update-gif](/static/basics/templates/intrinsic-functions/update-1.gif)]{header="Want to see how to update the stack?"}
-
 **To see the result of the stack update:**
 
 1. Open **[AWS EC2 console](https://console.aws.amazon.com/ec2)** link in a new tab of your browser.

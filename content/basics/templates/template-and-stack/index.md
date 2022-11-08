@@ -66,9 +66,20 @@ overwritten by mistake or to archive objects so that you can retrieve previous v
              - ServerSideEncryptionByDefault:
                  SSEAlgorithm: AES256
    ```
-1. Update the stack as per demo below:
-   ![stack-update](/static/basics/templates/template-and-stack/stack-update.gif)
-:::
+1. Go to the AWS console and update your CloudFormation Stack:
+
+   1. Open the **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** link in a new tab and log in to your AWS account.
+   1. Click on the stack name, for example **cfn-workshop-s3**.
+   1. In the top right corner select **Update**.
+   1. In **Prepare template**, choose **Replace current template**.
+   1. In **Template source**, choose **Upload a template file**.
+   1. Select **Choose file** button and navigate to your workshop directory.
+   1. Choose the file `code/workspace/template-and-stack.yaml` and select **Next**.
+   1. On **Specify stack details** page select **Next**.
+   1. You can leave **Configure stack options** default, select **Next**.
+   1. On the **Review <stack_name>** page, scroll down to the bottom, wait for **Change set** to complete and select **Submit**.
+   1. You can press the **refresh** button a few times until you see in the status **UPDATE_COMPLETE**.
+   :::
 
 ### Clean up
 
