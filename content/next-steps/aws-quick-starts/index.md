@@ -1,13 +1,15 @@
 ---
-title: "AWS Quick Starts"
+title: "AWS Partner Solutions"
 weight: 10
 ---
 
 ![aws-quickstarts](/static/next-steps/aws-quick-starts/aws-quickstarts.png)
 
-Quick Starts are automated reference deployments built by Amazon Web Services (AWS) solutions architects and AWS
-Partners. Quick Starts help you deploy popular technologies on AWS according to AWS best practices. You can reduce
-hundreds of manual procedures to just a few steps so that you can build and start using your environment within minutes.
+AWS Partner Solutions are automated reference deployments for key workloads on the AWS Cloud. Each Partner Solution
+launches, configures, and runs the AWS compute, network, storage, and other services required to deploy a specific
+workload on AWS, using AWS best practices for security and availability.
 
-#### >> [AWS Quick Starts solutions](https://aws.amazon.com/quickstart/) <<
-#### >> [AWS Quick Starts workshop](https://workshop.quickstart.awspartner.com/) <<
+Partner Solutions are accelerators that condense hundreds of manual procedures into just a few steps. They are
+customizable and designed for production.
+
+[AWS Partner Solutions FAQs](https://aws.amazon.com/solutions/partners/faq/)
