@@ -5,7 +5,7 @@ weight: 300
 
 ### 概要
 
-[AWS CloudFormation](https://aws.amazon.com/cloudformation/) を使用してコードでインフラストラクチャを記述する場合、意図しない操作を防ぐためのポリシーを実装するかを選択できます。例えば、[スタックポリシー](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/protect-stack-resources.html)、[削除保護](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-protect-stacks.html)、[DeletionPolicy](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-attribute-deletionpolicy.html) と [UpdateReplacePolicy](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-attribute-updatereplacepolicy.html) により、スタックに記述したリソースの偶発的な終了、更新、削除を防ぎます。
+[AWS CloudFormation](https://aws.amazon.com/cloudformation/) を使用してコードでインフラストラクチャを記述する場合、意図しない操作を防ぐためのポリシーを実装するかを選択できます。例えば、[スタックポリシー](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/protect-stack-resources.html)、[削除保護](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-protect-stacks.html)、[DeletionPolicy](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-attribute-deletionpolicy.html) 属性、[UpdateReplacePolicy](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-attribute-updatereplacepolicy.html) 属性により、スタックに記述したリソースの偶発的な終了、更新、削除を防ぎます。
 
 ### 取り上げるトピック
 
@@ -55,9 +55,9 @@ Resources:
 
 1. [AWS CloudFormation コンソール](https://console.aws.amazon.com/cloudformation/) に移動します。
 2. **スタックの作成**から、**新しいリソースを使用 (標準)** を選択します。
-3. **テンプレートの指定**セクションで、**テンプレートファイルをアップロード**を選択します。`stack-policy-lab.yaml` テンプレートをアップロードし、**次へ**を選択します。
-4. スタック名を入力します。例えば、`stack-policy-lab` と入力します。パラメータセクションで、`SnStopicTagValue` のパラメータ値を `Topic-Tag-1` とします。**次へ**を選択します。
-5. **スタックオプションの設定**ページの**スタックポリシー**セクションで、**スタックポリシーを入力する**を選択し、スタックポリシーに次のコードを貼り付けます。**スタック作成オプション**で、**削除保護**を**有効**とし、**次へ**を選択します。
+3. **テンプレートの指定**セクションで、**テンプレートファイルをアップロード**を選択します。`stack-policy-lab.yaml` テンプレートをアップロードし、**次へ**をクリックします。
+4. スタック名を入力します。例えば、`stack-policy-lab` と入力します。パラメータセクションで、`SnStopicTagValue` のパラメータ値を `Topic-Tag-1` とします。**次へ**をクリックします。
+5. **スタックオプションの設定**ページの**スタックポリシー**セクションで、**スタックポリシーを入力する**を選択し、スタックポリシーに次のコードを貼り付けます。**スタック作成オプション**で、**削除保護**を**有効**とし、**次へ**をクリックします。
 
 ```json
 {
@@ -78,7 +78,7 @@ Resources:
 }
 ```
 
-6. 次のページで、**スタックの作成**を選択します。
+6. 次のページで、**送信**をクリックします。
 
 ::alert[スタックポリシーをスタックに適用すると、そのスタック内のすべてのリソースがデフォルトで保護されます。従って、他のすべてのリソースを更新できるようにするには、スタックポリシーに明示的な `Allow` ステートメントを指定する必要があります。]
 
@@ -89,12 +89,12 @@ Resources:
 
 1. [AWS CloudFormation コンソール](https://console.aws.amazon.com/cloudformation/) に移動します。
 2. `stack-policy-lab`という名前のスタックを選択し、**更新**を選択します。
-3. 次のページで、**現在のテンプレートの使用**を選択します。**次へ**を選択します。
-4. パラメーターセクションで、`SNSTopicTagValue` の値を `Topic-Tag-1` から `Topic-Tag-2` に更新します。**次へ**を選択します。
-5. **スタックオプションの設定**ページでデフォルト値のまま、**次へ**を選択します。
-6. 次のページで**スタックの更新**を選択します。
+3. 次のページで、**現在のテンプレートの使用**を選択します。**次へ**をクリックします。
+4. パラメーターセクションで、`SNSTopicTagValue` の値を `Topic-Tag-1` から `Topic-Tag-2` に更新します。**次へ**をクリックします。
+5. **スタックオプションの設定**ページでデフォルト値のまま、**次へ**をクリックします。
+6. 次のページで**送信**をクリックします。
 
-スタックの更新は失敗します。スタックの**イベント**ペインを見ると、[論理 ID](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/resources-section-structure.html#resources-section-structure-resource-fields) が `SNSTopic` であるリソースの`Action denied by stack policy`というエラーが表示されます。
+スタックの更新は失敗します。スタックの**イベント**ペインを見ると、[論理 ID](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/resources-section-structure.html#resources-section-structure-resource-fields) が `SNSTopic` であるリソースの `Action denied by stack policy` というエラーが表示されます。
 
 それでは、`stack-policy-lab` スタックで有効にした削除保護機能をテストしてみましょう。
 
@@ -128,10 +128,10 @@ Resources:
 
 1. [AWS CloudFormation コンソール](https://console.aws.amazon.com/cloudformation/) に移動します。
 2. **スタックの作成**から、**新しいリソースを使用 (標準)** を選択します。
-3. **テンプレートの指定**セクションで、**テンプレートファイルをアップロード**を選択します。`deletion-policy-lab.yaml` テンプレートをアップロードし、**次へ**を選択します。
-4. スタック名を入力します。例えば、`deletion-policy-lab`と入力します。**次へ**を選択します。
-5. **スタックオプションの設定ページ**でデフォルト値のまま、ページの一番下までスクロールして**次へ**を選択します。
-6. 次のページで、**スタックの作成**を選択します。
+3. **テンプレートの指定**セクションで、**テンプレートファイルをアップロード**を選択します。`deletion-policy-lab.yaml` テンプレートをアップロードし、**次へ**をクリックします。
+4. スタック名を入力します。例えば、`deletion-policy-lab` と入力します。**次へ**をクリックします。
+5. **スタックオプションの設定ページ**でデフォルト値のまま、ページの一番下までスクロールして**次へ**をクリックします。
+6. 次のページで、**送信**をクリックします。
 
 `DeletionPolicy` 属性に `Retain` 値を使用するときは、スタックからリソースを削除するとき、またはスタックを削除するときにリソースを保持するように指定します。
 
@@ -200,9 +200,9 @@ Resources:
 
 1. [AWS CloudFormation コンソール](https://console.aws.amazon.com/cloudformation/) に移動します。
 2. `stack-policy-lab` という名前のスタックを選択し、**削除**を選択します。
-3. メッセージウィンドウで、**削除保護の編集**を選択し、**削除保護**で**無効**を選択します。**保存**を選択します。
+3. メッセージウィンドウで、**削除保護を編集する**を選択し、**削除保護**を**無効**とします。**保存する**をクリックします。
 4. `stack-policy-lab` という名前のスタックを選択し、**削除** を選択し、**スタックの削除** を選択して確定します。
-5. [Amazon SNS コンソール](https://console.aws.amazon.com/sns/) に移動し、**トピック** を選択します。次に、トピック `Topic-2` を選択し、**削除**を選択します。メッセージペインに `delete me` と入力し、**削除** を選択して確定します。
+5. [Amazon SNS コンソール](https://console.aws.amazon.com/sns/) に移動し、**トピック** を選択します。次に、トピック `Topic-2` を選択し、**削除**を選択します。メッセージペインに `これを削除` と入力し、**削除** を選択して確定します。
 
 * * *
 

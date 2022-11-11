@@ -5,7 +5,7 @@ weight: 650
 
 ### 概要
 
-インフラストラクチャをコードで記述する場合、インフラストラクチャの成長に合わせて拡張できることと、時間の経過に伴う継続的な保守性を考慮する必要があります。[AWS CloudFormation ベストプラクティス](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/best-practices.html) ページには、ワークフローで従って採用すべきベストプラクティスがまとめられています。このラボでは、コードで記述するリソースの _ライフサイクルと所有権_ の側面と _モジュール性と再利用_ のプラクティスを考慮して、テンプレートの設計に焦点を当てます。これらのプラクティスは、同じアカウントとリージョン内のスタックの値を参照して CloudFormation テンプレートに実装します。テンプレートの入力パラメータも同様です。このワークショップでは、ベストプラクティスの例を示す他のセルフペースラボもあります。例えば、[疑似パラメータ](/basics/templates/pseudo-parameters)、[リンティングとテスト](/basics/templates/linting-and-testing)、[動的参照](/mediate/templates/dynamic-references) (AWS CloudFormation テンプレート内の機密情報の参照)、[Policy-as-Code with Guard](/mediate/templates/policy-as-code-with-guard) (JSON および YAML 形式のデータのコードとしてのポリシー検証)です。
+インフラストラクチャをコードで記述する場合、インフラストラクチャの成長に合わせて拡張できることと、時間の経過に伴う継続的な保守性を考慮する必要があります。[AWS CloudFormation ベストプラクティス](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/best-practices.html) ページには、ワークフローで従って採用すべきベストプラクティスがまとめられています。このラボでは、コードで記述するリソースの _ライフサイクルと所有権_ の側面と _モジュール性と再利用_ のプラクティスを考慮して、テンプレートの設計に焦点を当てます。これらのプラクティスは、同じアカウントとリージョン内のスタックの値を参照して CloudFormation テンプレートに実装します。テンプレートの入力パラメータも同様です。このワークショップでは、ベストプラクティスの例を示す他のセルフペースラボもあります。例えば、[疑似パラメータ](/basics/templates/pseudo-parameters)、[リンティングとテスト](/basics/templates/linting-and-testing)、[動的参照](/intermediate/templates/dynamic-references) (AWS CloudFormation テンプレート内の機密情報の参照)、[Policy-as-Code with Guard](/intermediate/templates/policy-as-code-with-guard) (JSON および YAML 形式のデータのコードとしてのポリシー検証)です。
 
 
 
@@ -29,13 +29,13 @@ weight: 650
 * インターネット向けエンドポイントを持つ [Application Load Balancer](https://aws.amazon.com/elasticloadbalancing/application-load-balancer/) を作成します。このロードバランサーは EC2 インスタンスの前に配置されます。
 * [Amazon Route 53](https://aws.amazon.com/route53/) [ホストゾーン](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/hosted-zones-working-with.html) が1つあり、そこにロードバランサーを指す [エイリアス](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/resource-record-sets-choosing-alias-non-alias.html) レコードを保存します。このサンプルラボの実行中にドメイン名を登録する必要はありません。[プライベートホストゾーン](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/hosted-zones-private.html) を作成して、ホストゾーンが関連付けられた VPC で起動したEC2 インスタンスなどのコンピュートリソースからサンプルアプリケーションに HTTP リクエストを送信できるようにします。そのためには、[AWS Cloud9](https://aws.amazon.com/cloud9/) 環境 (このラボの一部を実行するために使用) を作成し、デプロイするアプリケーションに HTTP リクエストを送信します。
 
-デプロイを始める前に、これから構築するアプリケーションについて考えてみましょう。特に、*ジョブロール*について考えてみてください。例えば、ある会社では、セキュリティ、ネットワーク、アプリケーション、データベースなどに関連する機能を所有するさまざまなチームがあります。すべての機能を 1 つのチームが所有することになったとしても、各テンプレートの各機能をその機能に特化した個人のグループが所有し、マッピングできるようにテンプレートを設計するのがベストプラクティスです。これは、トラブルシューティングや再利用が容易な小さなテンプレートを用意する場合にも役立ちます。このようなテンプレートは、必要に応じてさらに小さなテンプレートに分割できます。また、情報を保持するリソース (データベースなど) と、そのデータを消費するリソース (サーバー群など) を別々のスタックにまとめることも検討してください。これは、関連するリソースを管理するデータベースチームなど、専任のリソース所有者をマッピングするのに役立つだけでなく、また、時間の経過に伴うトラブルシューティングやリソースの維持も容易になります。例えば、データベースとアプリケーションスタック全体を同じテンプレートに記述する場合、次に作成するスタックで問題が発生した場合、問題の性質によっては、最悪、スタックを削除して新しいスタックを作成する必要があります。影響範囲を絞り込むだけでなく、別のテンプレートを使用してデータベースを記述すると、後でテンプレートを再利用する可能性も高くなります。
+デプロイを始める前に、これから構築するアプリケーションについて考えてみましょう。特に、*ジョブロール*について考えてみてください。例えば、ある会社では、セキュリティ、ネットワーク、アプリケーション、データベースなどに関連する機能を所有するさまざまなチームがあります。すべての機能を 1 つのチームが所有することになったとしても、各テンプレートの各機能をその機能に特化した個人のグループが所有し、マッピングできるようにテンプレートを設計するのがベストプラクティスです。これは、トラブルシューティングや再利用が容易な小さなテンプレートを用意する場合にも役立ちます。このようなテンプレートは、必要に応じてさらに小さなテンプレートに分割できます。また、情報を保持するリソース (データベースなど) と、そのデータを消費するリソース (サーバー群など) を別々のスタックにまとめることも検討できます。これは、関連するリソースを管理するデータベースチームなど、専任のリソース所有者をマッピングするのに役立つだけでなく、また、時間の経過に伴うトラブルシューティングやリソースの維持も容易になります。例えば、データベースとアプリケーションスタック全体を同じテンプレートに記述する場合、次に作成するスタックで問題が発生した場合、問題の性質によっては、最悪、スタックを削除して新しいスタックを作成する必要があります。影響範囲を絞り込むだけでなく、別のテンプレートを使用してデータベースを記述すると、後でテンプレートを再利用する可能性も高くなります。
 
-では、これから構築するインフラストラクチャを見てみましょう。次のステップに進む前に、少し時間をとって、このインフラストラクチャをライフサイクルと所有権別に説明するための出発点を考えてください。これをどのように行いますか?
+では、これから構築するインフラストラクチャを見てみましょう。次のステップに進む前に、少し時間をとって、このインフラストラクチャをライフサイクルと所有権別に説明するための出発点について考える必要があります。どのように検討を進めますか?
 
 ![architecting-templates-infrastructure-diagram.png](/static/intermediate/templates/architecting-templates/architecting-templates-infrastructure-diagram.png)
 
-出発点として、次に説明する手順を使用します。後続の各スタックで説明するリソースは、前のスタックで作成するリソースに依存している場合があることに注意してください。
+出発点としては、次に説明する手順を使用します。後続の各スタックで説明するリソースは、前のスタックで作成するリソースに依存している場合があることに注意してください。
 
 * VPC 関連リソース用の 1 つのテンプレート
 * ホストゾーン用の 1 つのテンプレート
@@ -46,25 +46,25 @@ weight: 650
 
 前述の戦略では、所有権 (VPC 関連リソースを所有するネットワークチーム、セキュリティグループのリソースを所有するセキュリティチーム、インフラストラクチャとアプリケーションのデプロイを所有するアプリケーションチーム) を考慮しただけでなく、ライフサイクルも考慮してテンプレートを設計しました。例として、アプリケーションの新しいバージョンをロールアウトする必要があり、それをカットオーバーするための新しいアプリケーションスタックを作成したい場合、アプリケーションインフラストラクチャの依存関係を記述する他のすべての既存のスタックを（必要でない限り）必ずしも再デプロイまたは更新する必要はありません。
 
-::alert[上のサンプルインフラストラクチャの一部としてデータベースを作成する場合、それを別のテンプレートで記述することも検討できます。また、同じテンプレート内のアプリケーションセキュリティグループからingress/egressルールを参照するために、アプリケーションスタックのセキュリティグループと同じテンプレートに、そのセキュリティグループを記述することも選択可能です。その場合、データベース用のセキュリティグループの情報をエクスポートし、データベースを作成するスタックで使用します。]{type="info"}
+::alert[上のサンプルインフラストラクチャの一部としてデータベースを作成する場合、それを別のテンプレートで記述することも検討できます。また、同じテンプレート内のアプリケーションセキュリティグループから ingress/egress ルールを参照するために、アプリケーションスタックのセキュリティグループと同じテンプレートに、そのセキュリティグループを記述することも選択可能です。その場合、データベース用のセキュリティグループの情報をエクスポートし、データベースを作成するスタックで使用します。]{type="info"}
 
 
 
 ### 前提条件のインストール
 
-まだ、以下の手順が実行できていない場合、前提条件に従い、次のものを自分のワークステーションにインストールしてください (Cloud9 はこのラボで後ほど使用しますが、最初にワークステーションを使用することから始めます)。
+まだ、以下の手順が実行できていない場合、前提条件に従い、次のものを自分のワークステーションにインストールします (Cloud9 はこのラボで後ほど使用しますが、最初にワークステーションを使用することから始めます)。
 
-1。[Git をインストール](/prerequisites/git)。
-2。[ラボリソースを取得](/prerequisites/lab-resources): ラボリポジトリのクローンを作成します。これにより、リポジトリがワークステーションの `cfn101-workshop` ディレクトリにクローンされます。
+1. [Git をインストール](/prerequisites/git)。
+2. [ラボリソースを取得](/prerequisites/lab-resources): ラボリポジトリのクローンを作成します。これにより、リポジトリがワークステーションの `cfn101-workshop` ディレクトリにクローンされます。
 
 
-次に、クローンを作成したリポジトリの `cfn101-workshop/code/workspace/architecting-templates` ディレクトリに変更します。`base-network.template` ファイルと `cloud9.template` ファイルを見つけます。まず、これらを使用してベースインフラストラクチャと Cloud9 環境をそれぞれ作成します。
+次に、クローンを作成したリポジトリの `cfn101-workshop/code/workspace/architecting-templates` ディレクトリに移動します。まずは、`base-network.template` ファイルと `cloud9.template` ファイルを使用して、ベースインフラストラクチャと Cloud9 環境をそれぞれ作成します。
 
 
 
 ### VPC スタックの作成
 
-さあ、始めましょう！ CloudFormationを使用してインフラストラクチャを説明するときに、このラボで使用するサンプルテンプレートが一連の依存関係とどのように結び付けられているかを見てみましょう。これらの依存関係は、あるスタックにエクスポートされ、別のスタックにインポートされます。
+さあ、始めましょう！ CloudFormation を使用してインフラストラクチャを説明するときに、このラボで使用するサンプルテンプレートが一連の依存関係とどのように結び付けられているかを見てみましょう。これらの依存関係は、あるスタックにエクスポートされ、別のスタックにインポートされます。
 
 `base-network.template` ファイルを使用して新しいスタックを作成します。
 
@@ -72,33 +72,33 @@ weight: 650
 2. ページ上部のリージョンセレクターから、*バージニア北部* (`us-east-1`)などのリージョンを選択します。
 3. **スタックの作成**から、**新しいリソースを使用 (標準)** を選択します。
 4. **テンプレートの準備**セクションで、**テンプレート準備完了**を選択します。
-5. **テンプレートの指定**セクションでから、**テンプレートファイルのアップロード**を選択します。前述の `base-network.template` ファイルを選択し、**次へ** を選択します。
-6. スタック名を指定します。例えば、`cloudformation-workshop-dev-base-network` と入力します。デフォルトのパラメータ値のまま、**次へ** を選択します。
-7. 次のページで、**次へ**を選択します。
-8. 次のページで**スタックの作成**を選択します。
+5. **テンプレートの指定**セクションで、**テンプレートファイルのアップロード**を選択します。前述の `base-network.template` ファイルを選択し、**次へ** をクリックします。
+6. スタック名を指定します。例えば、`cloudformation-workshop-dev-base-network` と入力します。デフォルトのパラメータ値のまま、**次へ** をクリックします。
+7. 次のページで、**次へ**をクリックします。
+8. 次のページで**送信**をクリックします。
 
 スタックの作成が開始されます。最後に、スタックのステータスが `CREATE_COMPLETE` になります。スタックの作成が進むにつれて、ワークステーションの任意のテキストエディタで `base-network.template` ファイルを開きます。次の点に注意してください。
 
-* リージョン内の別々のアベイラビリティーゾーン (例えば、`us-east-1` リージョンの `us-east-1a`、`us-east-1b` アベイラビリティーゾーン) にサブネットを作成する場合は、各サブネットで `AvailabilityZone` [プロパティ](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ec2-subnet.html) を指定します。サンプルテンプレートでは、アベイラビリティーゾーン名 (`us-east-1a` など) をハードコーディングする代わりに、`Fn::Sub` [組み込み関数](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference-sub.html) を使用します (テンプレートでは YAML の短縮形 `!sub`) を使用して、リージョンの名前 (例:`AWS::Region` [疑似パラメータ] (https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/pseudo-parameter-reference.html#cfn-pseudo-param-region) の `us-east-1`) を `a` または `b` のいずれかと連結します。例えば、`AvailabilityZone: !Sub '${AWS::Region}a'` です。このように、テンプレートの移植性を高めることで、このテンプレートをリージョン間で再利用しやすくできます。
+* リージョン内の別々のアベイラビリティーゾーン (例えば、`us-east-1` リージョンの `us-east-1a`、`us-east-1b` アベイラビリティーゾーン) にサブネットを作成する場合は、各サブネットで `AvailabilityZone` [プロパティ](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ec2-subnet.html) を指定します。サンプルテンプレートでは、アベイラビリティーゾーン名 (`us-east-1a` など) をハードコーディングする代わりに、`Fn::Sub` [組み込み関数](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference-sub.html) を使用します (テンプレートでは YAML の短縮形 `!sub`) を使用して、リージョンの名前 (例: `AWS::Region` [疑似パラメータ](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/pseudo-parameter-reference.html#cfn-pseudo-param-region) の `us-east-1`) を `a` または `b` のいずれかと連結します。例えば、`AvailabilityZone: !Sub '${AWS::Region}a'` と記述します。このように、テンプレートの移植性を高めることで、このテンプレートをリージョン間で再利用しやすくできます。
 * テンプレートの `Outputs` セクションで、[エクスポート](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-stack-exports.html) したいリソースの値を書き留めて、次に作成するスタックでそれらの値を使用できるようにします。特定の名前でエクスポートを作成すると、その名前を参照してエクスポートの値を別のスタックで使用できます。各エクスポートは、アカウントやリージョンごとに一意でなければなりません。サンプルテンプレートでは、各エクスポートの名前にはプレフィックスとしてスタック名が含まれています（前述のように、`AWS::StackName` 疑似パラメータが `Fn::Sub` と共に使用されていることに注意してください）。スタック名は特定のアカウントとリージョンでも一意でなければならないため、最初にプレフィックスとしてスタック名を選択するのが妥当な選択です。もちろん、選択するサフィックスとプレフィックスを組み合わせると、アカウントやリージョン内でも一意のエクスポート名になることを確認する必要があります。最終的には、選択したエクスポート名が一意で、使いやすく、同じ命名規則で後続のスタックで派生しやすい形になっていることが重要です。
 
 
 
 ### Cloud9 環境の作成
 
-次に、Cloud9 環境を作成します。これを 2 つの目的で使用します。1 つは、このラボ用のインフラストラクチャのデプロイを継続すること、もう 1 つは VPC の範囲内で DNS 設定を検証することです。Cloud9 環境をデプロイする前に、環境そのものを記述するテンプレートでどのようにエクスポートを実行するかを見てみましょう。お好みのテキストエディタで `cloud9.template` ファイルを開き、`AWS::Cloud9:: EnvironmentEC2` リソースタイプの`SubnetId` [プロパティ](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-cloud9-environmentec2.html#cfn-cloud9-environmentec2-subnetid) の値を書き留めておきます。Cloud9 環境の EC2 インスタンスを使用して、前述のプライベートホストゾーンの DNS レコードの解像度をテストするには、プライベートホストゾーン自体に関連付けるのと同じ VPC に属するサブネットでインスタンスを起動します。このラボでは、前に作成した最初のパブリックサブネットを指定します。そのためには、値が最初のサブネットの ID を含むエクスポートの名前を参照します。この例ではまず、最初のパブリックサブネットのエクスポートの名前を作成します。目的の値をエクスポートしたスタックの名前を (このスタック名を `cloud9.template` に入力パラメータとして渡します) VPC スタックで選択したサフィックスに連結します: `Fn::Sub: ${NetworkStackName}-PublicSubnet1Id`。エクスポートの合成名を使用して、その値を `Fn::ImportValue` [組み込み関数](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference-importvalue.html) で利用します。これはサンプルテンプレートに YAML の短縮形で示されています。クロススタック参照の詳細については、この [ページ](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference-importvalue.html) の `Fn::ImportValue` の **Note** セクションを参照してください。
+次に、Cloud9 環境を作成します。これを 2 つの目的で使用します。1 つは、このラボ用のインフラストラクチャのデプロイを継続すること、もう 1 つは VPC の範囲内で DNS 設定を検証することです。Cloud9 環境をデプロイする前に、環境そのものを記述するテンプレートでどのようにエクスポートを実行するかを見てみましょう。お好みのテキストエディタで `cloud9.template` ファイルを開き、`AWS::Cloud9:: EnvironmentEC2` リソースタイプの`SubnetId` [プロパティ](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-cloud9-environmentec2.html#cfn-cloud9-environmentec2-subnetid) の値を書き留めておきます。Cloud9 環境の EC2 インスタンスを使用して、前述のプライベートホストゾーンの DNS レコードの名前解決をテストするには、プライベートホストゾーン自体に関連付けるのと同じ VPC に属するサブネットでインスタンスを起動します。このラボでは、前に作成した最初のパブリックサブネットを指定します。そのためには、値が最初のサブネットの ID を含むエクスポートの名前を参照します。この例ではまず、最初のパブリックサブネットのエクスポート名を作成します。目的の値をエクスポートしたスタックの名前を (このスタック名を `cloud9.template` に入力パラメータとして渡します) VPC スタックで選択したサフィックスに連結します: `Fn::Sub: ${NetworkStackName}-PublicSubnet1Id`。エクスポートの合成名を使用して、その値を `Fn::ImportValue` [組み込み関数](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference-importvalue.html) で利用します。これはサンプルテンプレートに YAML の短縮形で示されています。クロススタック参照の詳細については、この [ページ](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference-importvalue.html) の `Fn::ImportValue` の **Note** セクションを参照してください。
 
 Cloud9の環境を作ってみましょう！ [AWS CloudFormation コンソール](https://console.aws.amazon.com/cloudformation/) を使用します。
 
-1. 前に選択したのと同じリージョン(*バージニア北部* (`us-east-1`)など) にいることを確認してください。
+1. 前に選択したのと同じリージョン (*バージニア北部* (`us-east-1`)など) にいることを確認してください。
 2. **スタックの作成**から、**新しいリソースを使用 (標準)** を選択します。
 3. **テンプレートの準備**セクションで、**テンプレート準備完了**を選択します。
-4.  **テンプレートの指定**セクションでから、**テンプレートファイルのアップロード**を選択します。`cloud9.template` ファイルを選択し、**次へ**を選択します。
-5. スタック名を指定します。例えば、`cloudformation-workshop-dev-cloud9`と入力します。デフォルトのパラメータ値のまま、**次へ** を選択します。
-6. 次のページで、**次へ**を選択します。
-7. 次のページで**スタックの作成**を選択します。
-8. スタックのステータスが `CREATE_COMPLETE`になるまで、スタックの作成ページを更新します。名前のプレフィックスが `aws-cloud9-aws-cloudformation-workshop-` となっている別のスタックも作成されることに注意してください。このスタックは、Cloud9 環境のセキュリティグループと EC2 インスタンスを作成します。
-9. 準備ができたら、Cloud9 環境を開きます。[AWS Cloud9 コンソール](https://console.aws.amazon.com/cloud9/home) に移動し、`aws-cloudformation-workshop`環境を見つけて、**Open IDE** を選択します。これで、環境が別のウィンドウで開かれるはずです。
+4.  **テンプレートの指定**セクションで、**テンプレートファイルのアップロード**を選択します。`cloud9.template` ファイルを選択し、**次へ**をクリックします。
+5. スタック名を指定します。例えば、`cloudformation-workshop-dev-cloud9` と入力します。デフォルトのパラメータ値のまま、**次へ** をクリックします。
+6. 次のページで、**次へ**をクリックします。
+7. 次のページで**送信**をクリックします。
+8. スタックのステータスが `CREATE_COMPLETE` になるまで、スタックの作成ページを更新します。名前のプレフィックスが `aws-cloud9-aws-cloudformation-workshop-` となっている別のスタックも作成されることに注意してください。このスタックは、Cloud9 環境のセキュリティグループと EC2 インスタンスを作成します。
+9. 準備ができたら、Cloud9 環境を開きます。[AWS Cloud9 コンソール](https://console.aws.amazon.com/cloud9/home) に移動し、`aws-cloudformation-workshop` 環境を見つけて、**Open IDE** を選択します。これで、環境が別のウィンドウで開かれるはずです。
 
 
 
@@ -122,7 +122,7 @@ pip install cfn-lint
 
 ::alert[Cloud9の現在のターミナルを閉じてから新しいターミナルを再度開く場合は、`source ~/my-virtual-environments/cloudformation-workshop-venv/bin/activate` コマンドをもう一度実行して、以前に作成した仮想環境を新しいターミナルでアクティブ化してください。]{type="info"}
 
-インフラストラクチャをデプロイし続ける中で、`cfn-lint` を使用する例を後で説明します。このワークショップでの CloudFormation テストツールの詳細については、[リンティングとテスト] (/basics/templates/linting-and-testing) ラボを参照してください。`cfn-lint` をワークステーションで任意の [サポートされているエディタ](https://github.com/aws-cloudformation/cfn-lint#editor-plugins) のプラグインとしても実行可能です。あなたのプロジェクトにて、`cfn-lint` を `pre-commit` [フック] (https://github.com/aws-cloudformation/cfn-lint#pre-commit) として実行するように選択することもできます。
+インフラストラクチャをデプロイし続ける中で、`cfn-lint` を使用する例を後で説明します。このワークショップでの CloudFormation テストツールの詳細については、[リンティングとテスト](/basics/templates/linting-and-testing) ラボを参照してください。`cfn-lint` をワークステーションで任意の [サポートされているエディタ](https://github.com/aws-cloudformation/cfn-lint#editor-plugins) のプラグインとしても実行可能です。あなたのプロジェクトにて、`cfn-lint` を `pre-commit` [フック](https://github.com/aws-cloudformation/cfn-lint#pre-commit) として実行するように選択することもできます。
 
 ::alert[フェイルファスト戦略や使用しているSDLCプロセスの一環として、コードで記述したインフラストラクチャが、会社が必要としている統制に準拠していることを確認するためのコンプライアンス検証チェックも含める必要があります。一例として、CloudFormation のツールや機能には [AWS CloudFormation Guard](https://docs.aws.amazon.com/cfn-guard/latest/ug/what-is-guard.html) と [AWS CloudFormation Hooks](https://docs.aws.amazon.com/cloudformation-cli/latest/userguide/hooks.html) がありますが、これらはこのラボでは説明しません。この CloudFormation ワークショップの、[Policy-as-Code with Guard](/mediate/templates/policy-as-code-with-guard) ラボを試してみてください。]{type="info"}
 
@@ -157,7 +157,7 @@ cfn-lint *.template
 
 上記のコマンドの出力は表示されないはずです。つまり、エラーがないということです。このコマンドは、テンプレートが前述のリソースタイプの仕様に準拠していることを確認しました。このラボでは、テンプレートアーキテクチャの例に焦点を当て、ワークスペースを準備するために、VPC と Cloud9 環境のリソースを直接デプロイし始めました。ベストプラクティスの一環として、リソースをデプロイしたり、テンプレートをリポジトリに追加したりする前に `cfn-lint` を実行して、時間を節約し、プロセスの早い段階で変更を加えます。
 
-`cfn-lint` の機能の例を説明するために、Cloud9 の左側にある *Environment* ナビゲーションタブを使用して `aws-cloudformation-workshop -> cfn101-workshop-> code -> workspace -> architecting-templates` ディレクトリの `hosted-zone.template` ファイルを開きます。 `Name: !Ref 'HostedZoneName'` の行を参照して、一時的に `Names: !Ref 'HostedZoneName'` を参照します (`Name` プロパティを一時的に `Names` に変更しました)。次に、先ほど行ったように `cfn-lint` を実行すると、次のようなエラーが表示されるはずです。
+`cfn-lint` の機能の例を説明するために、Cloud9 の左側にある *Environment* ナビゲーションタブを使用して `aws-cloudformation-workshop -> cfn101-workshop-> code -> workspace -> architecting-templates` ディレクトリの `hosted-zone.template` ファイルを開きます。 `Name: !Ref 'HostedZoneName'` の行を、一時的に `Names: !Ref 'HostedZoneName'` をに変更します (`Name` プロパティを一時的に `Names` に変更します)。次に、先ほど行ったように `cfn-lint` を実行すると、次のようなエラーが表示されるはずです。
 
 :::code{language=shell showLineNumbers=false showCopyAction=false}
 E3002 Invalid Property Resources/HostedZone/Properties/Names
@@ -173,7 +173,7 @@ E3002 Invalid Property Resources/HostedZone/Properties/Names
 
 Cloud9 の `hosted-zone.template` ファイルを開きます。次の点に注意してください。
 
-* このラボでは、これから作成するホストゾーンを VPC に関連付けます。VPC の ID を参照する `AWS::Route53::HostedZone` リソースタイプの設定を見ると、このサンプルテンプレートがどのように実装されているかがわかります。そのためには、まずエクスポートの名前を `Fn::Sub: ${NetworkStackName}-VpcId` で構成し、次に外側の `!ImportValue` 宣言でエクスポートの値を利用します。
+* このラボでは、これから作成するホストゾーンを VPC に関連付けます。VPC の ID を参照する `AWS::Route53::HostedZone` リソースタイプの設定を見ると、このサンプルテンプレートがどのように実装されているかがわかります。そのためには、まずエクスポート名を `Fn::Sub: ${NetworkStackName}-VpcId` で構成し、次に外側の `!ImportValue` 宣言でエクスポートの値を利用します。
 * ホストゾーンを作成したら、ホストゾーン情報を利用するアプリケーションスタックを作成します。アプリケーションスタックには、同じスタックで作成するロードバランサーを指す DNS エイリアスレコードを記述し、このレコードの保存場所を知る必要があります。`hosted-zone.template` ファイルでは、ホストゾーンの ID と名前を `Outputs` セクションにエクスポートして、この情報を後でアプリケーションスタックで使用できるようにします。
 
 このテンプレートで説明されているビジネスロジックを理解できたので、次はホストゾーンを作成します。 これには、Cloud9 環境に既にインストールされている AWS CLI を使用します。まず、`hosted-zone.template` ファイルと `us-east-1` リージョンに `cloudformation-workshop-dev-hosted-zone` という名前の新しいスタックを作成します。
@@ -201,13 +201,13 @@ aws cloudformation wait stack-create-complete \
     --region us-east-1
 :::
 
-スタックの作成が完了すると、Route 53 のプライベートホストゾーンが作成されます。スタックの作成に使用したデフォルトのテンプレートパラメータを見てください。ホストゾーンの名前は `my-example-domain.com` です。[Route 53 Console](https://console.aws.amazon.com/route53/home) に移動し、**ホストゾーン**から、作成したホストゾーンを選択すると、詳細ページに`NS`と`SOA`の 2 つの DNS レコードタイプが既にあることがわかります。後で CloudFormation を使用してロードバランサー用のエイリアスレコードを作成します。そのレコードも詳細ページに表示されるはずです。
+スタックの作成が完了すると、Route 53 のプライベートホストゾーンが作成されます。スタックの作成に使用したデフォルトのテンプレートパラメータを見てください。ホストゾーンの名前は `my-example-domain.com` です。[Route 53 Console](https://console.aws.amazon.com/route53/home) に移動し、**ホストゾーン**から、作成したホストゾーンを選択すると、詳細ページに `NS` と `SOA` の 2 つの DNS レコードタイプが既にあることがわかります。後で CloudFormation を使用してロードバランサー用のエイリアスレコードを作成します。そのレコードも詳細ページに表示されるはずです。
 
 
 
 ### セキュリティグループの作成
 
-Cloud9 の `security-groups.template` ファイルを開きます。このサンプルテンプレートでは、2 つのセキュリティグループについて説明しています。1 つは作成するロードバランサー用、もう 1 つはサンプルウェブアプリケーションを実行する EC2 インスタンス用です。どちらのセキュリティグループも、前に見たのと同じ方法で VPC ID を消費することに注意してください。また、セキュリティグループ ID が `Outputs` セクションにエクスポートされ、後でアプリケーションスタックから使用できるようにするのにも注意してください。
+Cloud9 の `security-groups.template` ファイルを開きます。このサンプルテンプレートでは、2 つのセキュリティグループについて説明しています。1 つは作成するロードバランサー用、もう 1 つはサンプル Web アプリケーションを実行する EC2 インスタンス用です。どちらのセキュリティグループも、前に見たのと同じ方法で VPC ID を消費することに注意してください。また、セキュリティグループ ID が `Outputs` セクションでエクスポートされ、後でアプリケーションスタックから使用できるようにするのにも注意してください。
 
 `cloudformation-workshop-dev-security-groups` という名前の新しいスタックでセキュリティグループを作成します。
 
@@ -234,9 +234,9 @@ Cloud9 で `application.template` ファイルを開きます。このテンプ�
 
 
 * このラボで簡単にテストできるように、ロードバランサーの HTTP リスナーを使用します。
-* Auto Scaling グループ [リソース](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-as-group.html) は `LaunchTemplate` [リソース](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ec2-launchtemplate.html) を使用して各インスタンスをブートストラップします。特に、 `LaunchTemplateData` の下にある `UserData` プロパティ内から、各インスタンスで [CloudFormation ヘルパースクリプト](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/cfn-helper-scripts-reference.html) が最初に `yum update-y aws-cfn-bootstrap` でどのようにセットアップされているかが分かります。`cfn-init` [helper script](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/cfn-init.html) を使ってパッケージ (`httpd` など) をインストールしたり、コンテンツを設定したりする方法: 例として、デフォルト値が `Hello world!` となっているサンプルテンプレートパラメータから参照されている `/var/www/html/index.html` Web アプリケーションファイルの値に注目してください。
-* `UserData` セクションの `cfn-signal` [helper script](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/cfn-signal.html) は、インスタンスが正常に作成されたか更新されたかを CloudFormation に伝えるように設定されています。さらに、`cfn-hup` [helper] (https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/cfn-hup.html) は、スタックの更新時に `Metadata` の変化を検出するように設定されています (この例では、検出の `interval` はデフォルト値の `15`の代わりに2分ごとにチェックするように設定されていることに注意してください)。必要に応じて変更を適用します。
-* Auto Scaling グループは、`Timeout` を 15 分に設定した「CreationPolicy」[属性](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-attribute-creationpolicy.html) を使用して、その間に少なくとも 2 つの `Count` シグナル (2 つのインスタンスのそれぞれから 1 つ) を受信して、インスタンスのブートストラップが成功しました。このような信号が 15 分以内に受信されない場合、スタックはロールバックされます。
+* Auto Scaling グループ [リソース](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-as-group.html) は `LaunchTemplate` [リソース](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ec2-launchtemplate.html) を使用して各インスタンスをブートストラップします。特に、 `LaunchTemplateData` の下にある `UserData` プロパティ内から、最初に`yum update -y aws-cfn-bootstrap` を使用して各インスタンスで [CloudFormation ヘルパースクリプト](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/cfn-helper-scripts-reference.html) がどのようにセットアップされて、次に、`cfn-init` [ヘルパースクリプト](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/cfn-init.html) がパッケージ (`httpd` など) インストールとコンテンツの設定にどのように使用されるかがわかります: 例として、デフォルト値が `Hello world!` となっているサンプルテンプレートパラメータから参照されている `/var/www/html/index.html` Web アプリケーションファイルの値に注目してください。
+* `UserData` セクションの `cfn-signal` [ヘルパースクリプト](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/cfn-signal.html) は、インスタンスが正常に作成されたか更新されたかを CloudFormation に伝えるように設定されています。さらに、`cfn-hup` [ヘルパー](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/cfn-hup.html) は、スタックの更新時に `Metadata` の変化を検出するように設定されています (この例では、検出の `interval` はデフォルト値の `15`の代わりに 2 分ごとにチェックするように設定されていることに注意してください)。必要に応じて変更を適用します。
+* Auto Scaling グループは、`Timeout` を 15 分に設定した CreationPolicy [属性](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-attribute-creationpolicy.html) を使用して、その間に少なくとも 2 つの `Count` シグナル (2 つのインスタンスのそれぞれから 1 つ) を受信して、インスタンスのブートストラップが成功しました。このような信号が 15 分以内に受信されない場合、スタックはロールバックされます。
 * Auto Scaling グループは、`UpdatePolicy` [属性](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-attribute-updatepolicy.html) と `autoScalingRollingUpdate` [ポリシー](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-attribute-updatepolicy.html#cfn-attributes-updatepolicy-rollingupdate) も使用しています。 スタックを更新し、関連するリソースの更新がトリガーされると、ポリシーは `MaxBatchSize` で指定されたとおりに一度に 1 つのインスタンスを更新し、最低 2 つのインスタンスをサービス状態のままにします (`MinInstanceInService` を参照)。さらに、`PauseTime` と `WaitOnResourceSignals` を組み合わせると、追加または置換されたインスタンスから正常にシグナルを受信するまで、Auto Scaling グループが 15 分間 (`PT15M`) 待つように CloudFormation に指示します。
 
 アプリケーションとそのインフラストラクチャを、`cloudformation-workshop-dev-application` という新しいスタックでデプロイします。
@@ -271,7 +271,7 @@ aws cloudformation wait stack-create-complete \
 
 #### ロードバランサーの URL に接続して検証
 
-CloudFormation コンソールから、`cloudformation-workshop-dev-application` スタックを選択し、`出力`タブを選択します。ブラウザの新しいタブで、`AppUrl` 出力値のリンクを開きます。出力`Hello world!` が表示されています。
+CloudFormation コンソールから、`cloudformation-workshop-dev-application` スタックを選択し、`出力`タブを選択します。ブラウザの新しいタブで、`AppUrl` 出力値のリンクを開きます。出力 `Hello world!` が表示されています。
 
 
 
@@ -293,10 +293,10 @@ curl http://my-example-domain.com
 
 ### チャレンジ
 
-この課題では、再利用とモジュール性に関連する主要な概念を思い出して適用し、それらをデプロイメントのオーケストレーションの観点から拡張します。あなたは、（Cloud9のワークスペースにある）`application.template`ファイルを `application-blue-green.template` という名前の新しいファイルにコピーし、この新しいファイルを更新して、blue/greenのデプロイパターンのコンテキストで2つのスタックで使用できるようにします。[Amazon Route 53 DNSルーティングの更新](https://docs.aws.amazon.com/whitepapers/latest/blue-green-deployments/update-dns-routing-with-amazon-route-53.html)をご参照ください。このチャレンジの要件は次の通りでです。
+この課題では、再利用とモジュール性に関連する主要な概念を思い出して適用し、それらをデプロイメントのオーケストレーションの観点から拡張します。あなたは、（Cloud9のワークスペースにある）`application.template`ファイルを `application-blue-green.template` という名前の新しいファイルにコピーし、この新しいファイルを更新して、blue/green のデプロイパターンのコンテキストで2つのスタックで使用できるようにします。[Amazon Route 53 DNSルーティングの更新](https://docs.aws.amazon.com/whitepapers/latest/blue-green-deployments/update-dns-routing-with-amazon-route-53.html)をご参照ください。このチャレンジの要件は次の通りでです。
 
-* 2つのスタックを用意します。作成した既存の `cloudformation-workshop-dev-application` を更新し、`cloudformation-workshop-dev-application-v2` という名前の新しいスタックを作成して、それぞれ`Hello world!` の代わりに`Blue` と `Green` を出力として表示します！。両方のスタックをそれぞれ *Blue* と *Green* と呼んでみましょう。両方のスタックに新しい `application-blue-green.template` ファイルを使用します。
-* 各スタックは、前に使用したものと同じ `名前` (ホストゾーン名) を持つ新しいエイリアスレコードを作成する必要があります。ただし、これらのレコードは両方とも [加重セット](https://docs.aws.amazon.com/ja_jp/Route53/latest/DeveloperGuide/resource-record-sets-values-weighted.html#rrsets-values-weighted-weight) である必要があります。これにより、Route 53 は、[特定のリソースの合計に対する重みの比率](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/routing-policy-weighted.html) に基づいてユーザーが発行したクエリに応答します。最初に、 *Blue* スタックに重み `255` (大きい重み) を割り当て、*Green* スタックに重み `1` (少ない重み) を割り当てます。この方法では、*Blue* は最初にトラフィックの 255/256、*Green* はトラフィックの 1/256 に割り当てられます。
+* 2つのスタックを用意します。作成した既存の `cloudformation-workshop-dev-application` を更新し、`cloudformation-workshop-dev-application-v2` という名前の新しいスタックを作成して、それぞれ`Hello world!` の代わりに `Blue` と `Green` を出力として表示します。両方のスタックをそれぞれ *Blue* と *Green* と呼び、両方のスタックに新しい `application-blue-green.template` ファイルを使用します。
+* 各スタックは、前に使用したものと同じ `名前` (ホストゾーン名) を持つ新しいエイリアスレコードを作成する必要があります。ただし、これらのレコードは両方とも [加重セット](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/resource-record-sets-values-weighted.html#rrsets-values-weighted-weight) である必要があります。これにより、Route 53 は、[特定のリソースの合計に対する重みの比率](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/routing-policy-weighted.html) に基づいてユーザーが発行したクエリに応答します。最初に、 *Blue* スタックに重み `255` (大きい重み) を割り当て、*Green* スタックに重み `1` (少ない重み) を割り当てます。この方法では、*Blue* は最初にトラフィックの 255/256、*Green* はトラフィックの 1/256 に割り当てられます。
 * テンプレート内の _set identifier_ を必ず更新して、同じテンプレートを使用する 2 つのスタックで値が一意になるようにしてください。
 
 このラボの例で望ましい状態を示す図を以下に示します。
@@ -305,13 +305,13 @@ curl http://my-example-domain.com
 
 `AWS::Route53::RecordSet` リソースタイプの CloudFormation ドキュメント [ページ](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-route53-recordset.html) を参照して、上記の要件を満たすために追加または更新するプロパティを特定してください。
 
-2 つのスタックを作成したら、`my-example-domain.com` エイリアスが最初はほとんどが *Blue* を指していることを `curl` で検証します。次に、両方のスタックで作成したエイリアスレコードのウェイト値を反転させて、もう一度テストすると、ほとんどのトラフィックが代わりにほとんど *Green* になります（つまり、出力が `Green` のサンプルアプリのバージョン 2 をロードします）。
+2 つのスタックを作成したら、`my-example-domain.com` エイリアスが最初はほとんどが *Blue* を指していることを `curl` で検証します。次に、両方のスタックで作成したエイリアスレコードのウェイト値を反転させて、もう一度テストすると、ほとんどのトラフィックが *Green* にルーティングされます（つまり、出力が `Green` のサンプルアプリのバージョン 2 をロードします）。
 
 
 
 :::expand{header= "ヒントが必要ですか？"}
 
-* サンプルの `PageTextContent` テンプレートパラメータを再利用して、新しい値を追加して、テンプレートを使用する特定のスタックでの `Blue` または `Green` の実行を実証および検証できるようにすることを検討してください。
+* サンプルの `PageTextContent` テンプレートパラメータを再利用して、新しい値を追加して、テンプレートを使用する特定のスタックでの `Blue` または `Green` の実行を実証および検証できるようにする方法を検討してください。
 * `SetIdentifier` [プロパティ](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-route53-recordset.html#cfn-route53-recordset-setidentifier) を参照してください。*Blue* スタックを起動するか、*Green* スタックを起動するかに応じて、このプロパティに一意の値を指定する方法を選択します。
 * `Weight` [プロパティ](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-route53-recordset.html#cfn-route53-recordset-weight) を参照してください。
 * 更新したレコードセットで `Region` [プロパティ](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-route53-recordset.html#cfn-route53-recordset-region) を指定する必要はありません。
@@ -319,13 +319,13 @@ curl http://my-example-domain.com
 
 
 
-:::expand{header= "解決策を見たいですか？"}
+::::expand{header= "解決策を見たいですか？"}
 
 解決策は、`code/solutions/architecting-templates` ディレクトリにある `application-blue-green.template` ファイルにあります。
 
-代わりに、ステップバイステップガイドとして、以下の手順に従って `application-blue-green.template` ファイルのワークスペースコピーを更新してください。
+代わりに、`application-blue-green.template` ファイルを参照しつつ、以下の手順に従ってあなたのワークスペースを更新してください。
 
-* `AllowedValues` を `PageTextContent` サンプル入力パラメータ(`-Blue`、`-Green`)に、必要に応じてインデントに注意して、2 行に分けて追加します。
+* `AllowedValues` を `PageTextContent` サンプル入力パラメータ(`-Blue`、`-Green`)を、インデントに注意し、2 行に分けて追加します。
 * 新しいテンプレートパラメータ `RecordSetWeight` を追加します。`Type`を `Number` に、`Default` の値を `0`に、`MinValue` を `0` に、`MaxValue` を `255` に設定します。 パラメータの目的をユーザに伝えるための `Decription` を追加します。
 * セット識別子を、ホストゾーンの両方のレコードで一意となる値に更新します。次の例のように、レコードセットの `SetIdentifier` プロパティを更新します。例: `SetIdentifier: !Sub '${AppNameTagValue} application managed with the ${AWS::StackName} stack.'`
 * `AWS::Route53::RecordSet` リソースタイプに `Weight` プロパティを追加して、`RecordsetWeight` テンプレートパラメータを参照します:`Weight: !Ref 'RecordSetWeight'`。
@@ -388,11 +388,11 @@ curl http://my-example-domain.com
 
 ### クリーンアップ
 
-ワークステーションの CloudFormation コンソールに移動します。このラボで作成したスタックを次の順序で選択して削除します。*クロススタック参照を使用していくつかのスタックを参照しているため、値をエクスポートするスタックが利用側スタックでまだ使用されている場合は削除できないことに注意してください*:
+ワークステーションの CloudFormation コンソールに移動します。このラボで作成したスタックを次の順序で選択して削除します。クロススタック参照を使用していくつかのスタックを参照しているため、値をエクスポートするスタックが利用側スタックでまだ使用されている場合は削除できないことに注意してください。
 
-1. `cloudformation-workshop-dev-application-v2` と`cloudformation-workshop-dev-application` は、それぞれが削除されるのを待たずに削除します。このようなスタックは互いに依存しません。両方のスタックが削除されたら、次のステップに進みます。
-2. `cloudformation-workshop-dev-security-groups` と `cloudformation-workshop-dev-hosted-zone` は、それぞれが削除されるのを待たずに削除します。次のステップに進みます。
-3. `cloudformation-workshop-dev-cloud9` を削除します。このスタックを削除すると、開始した削除アクションによって、名前が `aws-cloud9-aws-cloudformation-workshop-` で始まるスタックも削除されるはずであることに注意してください。両方のスタックが削除されたら、最後のステップに進みます。
+1. `cloudformation-workshop-dev-application-v2` と`cloudformation-workshop-dev-application` は、互いに依存していないため、それぞれが削除されるのを待たずに削除可能です。こ両方のスタックが削除されたら、次のステップに進みます。
+2. `cloudformation-workshop-dev-security-groups` と `cloudformation-workshop-dev-hosted-zone` は、それぞれが削除されるのを待たずに削除可能です。次のステップに進みます。
+3. `cloudformation-workshop-dev-cloud9` を削除します。このスタックを削除すると、開始した削除アクションによって、名前が `aws-cloud9-aws-cloudformation-workshop-` で始まるスタックも削除されます。両方のスタックが削除されたら、最後のステップに進みます。
 4. `cloudformation-workshop-dev-base-network` スタックを削除します。
 
 

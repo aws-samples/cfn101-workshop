@@ -4,7 +4,7 @@ weight: 200
 ---
 
 ### 概要
-[AWS CloudFormation](https://aws.amazon.com/cloudformation/) スタックを更新すると、そのスタック内の 1 つ以上のリソースを目的の新しい状態に更新します。リソースの依存関係、[スタックリソースの更新動作](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-updating-stacks-update-behaviors.html)、またはユーザーエラーなどの要因により、特定の状態と実際の新しい状態との間に違いが生じる可能性があります資源。
+[AWS CloudFormation](https://aws.amazon.com/cloudformation/) スタックを更新すると、そのスタック内の 1 つ以上のリソースを目的の新しい状態に更新します。リソースの依存関係、[スタックリソースの更新動作](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-updating-stacks-update-behaviors.html)、またはユーザーエラーなどの要因により、特定の状態と実際の新しい状態との間に違いが生じる可能性があります。
 
 スタックを[直接](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-updating-stacks-direct.html)更新するか、[変更セット](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-updating-stacks-changesets.html) で更新するかを選択します。後者では、適用前に提案された変更のプレビューが表示され、予期しないリソース構成や置換を防ぐのに役立ちます。
 
@@ -28,17 +28,17 @@ weight: 200
     1. [AWS CloudFormation コンソール](https://console.aws.amazon.com/cloudformation/) に移動します。
     2. **スタックの作成**から、**新しいリソースを使用 (標準)** を選択します。
     3. **テンプレートの準備**セクションで、**テンプレート準備完了**を選択します。
-    4. **テンプレートの指定**セクションで、**テンプレートファイルのアップロード**を選択します。`bucket.yaml` テンプレートファイルを選択し、**次へ**を選択します。
-    5. スタック名を指定します (例:`changesets-workshop`)。
-    6. `BucketName` パラメータには必ず一意の値を指定します。詳細については、[バケットの名前付](https://docs.aws.amazon.com/AmazonS3/latest/userguide/bucketnamingrules.html) を参照してください。**次へ**を選択します。
-    7. 次のページで、すべてのオプションをデフォルト値のままにし、**次へ**を選択します。
-    8. レビューページで、**スタックの作成**を選択します。
+    4. **テンプレートの指定**セクションで、**テンプレートファイルのアップロード**を選択します。`bucket.yaml` テンプレートファイルを選択し、**次へ**をクリックします。
+    5. スタック名を指定します (例: `changesets-workshop`)。
+    6. `BucketName` パラメータには必ず一意の値を指定します。詳細については、[バケットの名前付け](https://docs.aws.amazon.com/AmazonS3/latest/userguide/bucketnamingrules.html) をご参照ください。**次へ**をクリックします。
+    7. 次のページで、すべてのオプションをデフォルト値のままにし、**次へ**をクリックします。
+    8. レビューページで、**送信**をクリックします。
     9. スタックのステータスが `CREATE_COMPLETE` になるまで、スタックの作成ページを更新します。
 
 ### ラボパート 1
 ラボのこの部分では、特定のリソースタイプについて、スタックの更新時に [中断を伴わない更新](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-updating-stacks-update-behaviors.html#update-no-interrupt) を必要とするプロパティを指定します。次に、変更セットを作成して変更をプレビューし、変更セット操作の出力を確認します。
 
-お好みのテキストエディタで `bucket.yaml` CloudFormation テンプレートを開き、以下に示すように `VersioningConfiguration` を追加します。ファイルを保存します。
+お好みのテキストエディタで `bucket.yaml` CloudFormation テンプレートを開き、以下に示すように `VersioningConfiguration` を追加し、ファイルを保存します。
 
 ```yaml
 MyS3Bucket:
@@ -51,10 +51,10 @@ MyS3Bucket:
 
 次に、最初の変更セットを作成します。
 
-1. CloudFormation コンソールで`changesets-workshop`スタックを選択し、**スタックアクション** から **既存スタックの変更セットの作成** を選択します。
-2. **テンプレートの準備**セクションで、**既存テンプレートを置き換える**を選択します。**テンプレートの指定**で、**テンプレートファイルのアップロード**を選択し、更新した `bucket.yaml` テンプレートを選択し、**次へ**を選択します。
-3. **スタックの詳細を指定**ページと**スタックオプションの設定**ページの両方で **次へ**を再度**選択**し、**変更セットを作成**を選択します。
-4. 変更セットの名前を指定します (例:`bucket-versioning-update`)。また、`MyS3Bucket のバケットバージョニングを有効にする`などの説明を指定し、**変更セットを作成** を選択します。
+1. CloudFormation コンソールで`changesets-workshop`スタックを選択し、**スタックアクション** から **既存スタックの変更セットを作成** を選択します。
+2. **テンプレートの準備**セクションで、**既存テンプレートを置き換える**を選択します。**テンプレートの指定**セクションで、**テンプレートファイルのアップロード**を選択し、更新した `bucket.yaml` テンプレートを選択し、**次へ**をクリックします。
+3. **スタックの詳細を指定**ページと**スタックオプションの設定**ページの両方で **次へ**を**選択**し、**変更セットの作成**をクリックします。
+4. 変更セットの名前を指定します (例: `bucket-versioning-update`)。また、`MyS3Bucket のバケットバージョニングを有効にする`などの説明を指定し、**変更セットの作成** をクリックします。
 5. 変更セットのステータスが `CREATE_COMPLETE` になるまでページを更新します。
 6. ページの下部に、予想される変更の概要が表示されます。詳細については**JSONの変更**タブに移動します。以下のようになっているはずです。
 
@@ -100,8 +100,8 @@ MyS3Bucket:
 
 それでは、始めましょう。
 
-1. CloudFormation コンソールで`changesets-workshop`スタックを選択し、**スタックアクション** から **既存スタックの変更セットの作成** を選択します。
-2. **テンプレートの準備**から、**現在のテンプレートの使用**を選択し、**次へ**を選択します。
+1. CloudFormation コンソールで `changesets-workshop` スタックを選択し、**スタックアクション** から **既存スタックの変更セットを作成** を選択します。
+2. **テンプレートの準備**セクションで、**現在のテンプレートの使用**を選択し、**次へ**をクリックします。
 3.新しい一意の[バケット名](https://docs.aws.amazon.com/AmazonS3/latest/userguide/bucketnamingrules.html)を指定して `BucketName` パラメータの値を変更し、前の手順に従って変更セットの作成を完了します。
 
 この変更セットの**JSONの変更**は次のようになります。
@@ -152,7 +152,7 @@ MyS3Bucket:
 
 前の例とは2つの重要な違いがあることがわかります。まず、`resourceChange` 構造の`replacement`プロパティの値が `True` に設定されています。次に、`detail` 構造の下に `Static` と `Dynamic` の 2 つの評価が表示されます。これらの点について詳しく説明しましょう。
 
-置換が必要な `bucketName` [プロパティ](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-s3-bucket.html#aws-properties-s3-bucket-properties) を更新したため、`replacement` の値は `True` です。CloudFormation は新しいリソース (この場合は新しいバケット) を作成し、古いリソースを削除します。特定のリソースに複数の変更を加え、それぞれの`requiresRecreation` フィールドの値が異なる場合、CloudFormation は作作成が必要になったときにリソースを置き換えます。言い換えると、多くの変更のうちの 1 つだけを置き換える必要がある場合、CloudFormation はリソースを置き換えるため、`replacement` フィールドを `True` に設定します。
+置換が必要な `BucketName` [プロパティ](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-s3-bucket.html#aws-properties-s3-bucket-properties) を更新したため、`replacement` の値は `True` です。CloudFormation は新しいリソース (この場合は新しいバケット) を作成し、古いリソースを削除します。特定のリソースに複数の変更を加え、それぞれの`requiresRecreation` フィールドの値が異なる場合、CloudFormation は作作成が必要になったときにリソースを置き換えます。言い換えると、多くの変更のうちの 1 つだけを置き換える必要がある場合、CloudFormation はリソースを置き換えるため、`replacement` フィールドを `True` に設定します。
 
 `replacement` フィールドの値は、`target` 構造の `requiresRecreation` フィールドで示されます。`requiresRecreation` フィールドが `Never` の場合、`replacement` フィールドは `False` になります。`requiresRecreation` フィールドが `Always` で、`evaluation` フィールドが `Static` の場合、`replacement` は `True` になります。ただし、`RequiresRecreation` フィールドが`Always`で、`evaluation` フィールドが `Dynamic` の場合、`replacement` は`Conditionally` になります。
 
@@ -165,7 +165,7 @@ CloudFormation では、変更セットを実行した後に初めて値を決�
 次に、変更に関する静的評価関連データに注目しましょう。 上の例で、静的評価では、パラメータ参照値 `ParameterReference` が変更された結果であることが示されています。変更された正確なパラメータは `causingEntity` フィールド (この場合は `BucketName`) で示されます。
 
 ### チャレンジ
-お好みのテキストエディタで、`code/workspace/understanding-changesets` ディレクトリにある `changeset-challenge.yaml` という名前のテンプレートファイルを開きます。このファイルは、以前に使用した `bucket.yaml` テンプレートの修正版です。Amazon S3 バケットリソースの論理 ID、つまり `MyS3Bucket` ではなく `News3Bucket` を書き留めてください。テンプレートには、`MySqsQueue` 論理 ID を持つ [Amazon Simple Queue Service](https://aws.amazon.com/sqs/) (SQS) [queue](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-sqs-queue.html#aws-resource-sqs-queue-properties) という新しいリソースも記述されていることに注意してください。
+お好みのテキストエディタで、`code/workspace/understanding-changesets` ディレクトリにある `changeset-challenge.yaml` という名前のテンプレートファイルを開きます。このファイルは、以前に使用した `bucket.yaml` テンプレートの修正版です。`MyS3Bucket` ではなく `News3Bucket` のAmazon S3 バケットリソースの論理 ID を書き留めてください。テンプレートには、`MySqsQueue` 論理 ID を持つ [Amazon Simple Queue Service](https://aws.amazon.com/sqs/) (SQS) [queue](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-sqs-queue.html#aws-resource-sqs-queue-properties) という新しいリソースも記述されていることに注意してください。
 
 `changeset-challenge.yaml` ファイルを使用して `changesets-workshop` スタックの新しい変更セットを作成したらどうなると思いますか? リソースはいくつ追加されますか？ リソースは削除されますか? 変更セットの**JSONの変更**からキューの物理 ID を取得できますか?
 
@@ -174,7 +174,7 @@ CloudFormation では、変更セットを実行した後に初めて値を決�
 :::expand[* テンプレート内のリソースの論理 ID を変更し、更新したテンプレートでスタックを更新すると、CloudFormation はリソースを置き換えようとします。]{header="ヒントが必要ですか？"}
 :::
 :::expand{header= "解決策を見たいですか？"}
-* CloudFormation は、新しい `MySQsQueue` キューリソースを追加することに加えて、`News3Bucket` 論理 ID を使用して新しいバケットを作成し、`MyS3Bucket` を削除しようとします。新しいリソースの物理 ID は、作成されるまで使用できません。**JSONの変更**は次のようになるはずです。
+* CloudFormation は、新しい `MySQsQueue` キューリソースを追加することに加えて、`News3Bucket` 論理 ID を使用して新しいバケットを作成し、`MyS3Bucket` を削除しようとします。新しいリソースの物理 ID は作成されるまで使用できません。**JSONの変更**は次のようになるはずです。
 
 ```json
 [

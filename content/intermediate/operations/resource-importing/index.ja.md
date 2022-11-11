@@ -34,14 +34,14 @@ weight: 400
 開始するには、次に示す手順に従ってください。
 
 1. [Amazon SNS コンソール](https://console.aws.amazon.com/sns/) に移動し、**トピック** を選択します。次に、**トピックの作成**を選択します。
-2. **タイプ**セクションで、`スタンダード`を選択してください。
+2. **タイプ**セクションで、`スタンダード`を選択します。
 3. トピックの**名前** (`Topic1` など) を指定します。
 4. 準備ができたら、**トピックの作成**を選択します。
-5. トピックが正常に作成されたら、`Topic1` の**詳細**セクションの下にある [Amazon リソースネーム (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) をメモします。この ARN 値は、このラボの後半で使用します。参考までに、Amazon SNS トピックの ARN パターンの例は `arn\:aws\:sns\:us-east-1:123456789012\:MyTopic`です。
+5. トピックが正常に作成されたら、`Topic1` の**詳細**セクションの下にある [Amazon リソースネーム (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) をメモします。この ARN 値は、このラボの後半で使用します。参考に、Amazon SNS トピックの ARN パターンの例は `arn:aws:sns:us-east-1:123456789012:MyTopic`です。
 
 次に、リソースのインポート機能を使用して、新しく作成したトピックを、これから作成する新しいスタックにインポートします。そのためには、CloudFormation テンプレートを使用して、既存のトピックを `AWS::SNS::Topic` [リソース](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-sns-topic.html) で次のように記述します。
 
-* `TopicName` [プロパティ](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-sns-topic.html#aws-resource-sns-topic-properties) には、既存のトピックの名前、つまり `Topic1` を指定します。この値を `Topic1Name` と呼ぶテンプレート [パラメータ](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/parameters-section-structure.html) で渡すことを選択します。次に、このパラメータの値を `Ref` [組み込み関数](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference-ref.html) で参照します。
+* `TopicName` [プロパティ](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-sns-topic.html#aws-resource-sns-topic-properties) には、既存のトピックの名前、つまり `Topic1` を指定します。この値を `Topic1Name` と呼ぶテンプレート[パラメータ](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/parameters-section-structure.html) で渡します。次に、このパラメータの値を `Ref` [組み込み関数](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference-ref.html) で参照します。
 * インポートする各リソースには、`DeletionPolicy` [属性](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-attribute-deletionpolicy.html) が記述されている必要があります。トピックにはこの属性を指定し、属性値には `Retain` を指定します。`DeletionPolicy` 属性に `Retain` 値を使用するときは、スタックからリソースを削除するとき、またはスタックを削除するときにリソースを保持するように指定します。
 * 以下のコードをコピーして `resource-importing.yaml` ファイルに追加し、ファイルを保存します。
 
@@ -66,13 +66,13 @@ Resources:
 
 1. [AWS CloudFormation コンソール](https://console.aws.amazon.com/cloudformation/) に移動します。
 2. **スタックの作成**から、**既存のリソースを使用 (リソースをインポート)** を選択します。
-3. **概要をインポート**を読み、**次へ**を選択してください。
-4. **テンプレートの指定**から、**テンプレートファイルのアップロード**を選択します。`resource-importing.yaml` テンプレートをアップロードし、**次へ**を選択します。
+3. **概要をインポート**を読み、**次へ**をクリックします。
+4. **テンプレートの指定**セクションで、**テンプレートファイルのアップロード**をクリックします。`resource-importing.yaml` テンプレートをアップロードし、**次へ**をクリックします。
 5. [識別子の値](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/resource-import.html#resource-import-overview) には、`Topic1` を作成した後にメモしたトピック ARN の値を指定します。
-6. **スタックの名前**を入力します。例えば、`resource-importing`と指定します。`Topic1Name` パラメータ値には必ず `Topic1` を指定してください。
-7. 次のページで、**リソースをインポート**を選択します。
+6. **スタックの名前**を入力します。例えば、`resource-importing`と指定します。`Topic1Name` パラメータ値には必ず `Topic1` を指定します。
+7. 次のページで、**リソースをインポート**をクリックします。
 
-Amazon SNS トピックがスタックに正常にインポートされると、スタックのステータスに`IMPORT_COMPLETE` と表示されます。
+Amazon SNS トピックがスタックに正常にインポートされると、スタックのステータスに `IMPORT_COMPLETE` と表示されます。
 
 おめでとうございます！ Amazon SNS コンソールで以前に作成したリソースを、新しいスタックにインポートしました。 [AWS Command Line Interface](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-welcome.html) を使用して既存のリソースを新しいスタックにインポートする方法については、[AWS CLI を使用した既存のリソースからのスタックの作成](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/resource-import-new-stack.html#resource-import-new-stack-cli) を参照してください。
 
@@ -81,8 +81,8 @@ Amazon SNS トピックがスタックに正常にインポートされると、
 このラボでは、リソースを既存のスタックにインポートする方法を学びます。開始するには、以下の手順に従ってください。
 
 1. [Amazon SNS コンソール](https://console.aws.amazon.com/sns/) に移動して 2 つ目のトピックを作成します。ラボパート1で使用した手順に従い、新しいトピックの名前として **Topic2** を指定します。
-2. トピックが正常に作成されたら、`Topic2`の**詳細**セクションの下にある [Amazon リソースネーム (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) をメモします。この情報は、後でこのラボで使用します (ARN パターンの例: `arn\:aws\:sns\:us-east-1:123456789012\:MyTopic`)。
-3. 以下の例をコピーして、前のラボで使用した `resource-importing.yaml` テンプレートの `Parameters` セクションに追加してください。
+2. トピックが正常に作成されたら、`Topic2`の**詳細**セクションの下にある [Amazon リソースネーム (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) をメモします。この情報は、後でこのラボで使用します (ARN パターンの例: `arn:aws:sns:us-east-1:123456789012:MyTopic`)。
+3. 以下の例をコピーして、前のラボで使用した `resource-importing.yaml` テンプレートの `Parameters` セクションに追加します。
 
 ```yaml
 Topic2Name:
@@ -91,7 +91,7 @@ Topic2Name:
   Description: Name of the second Amazon SNS topic you created with the Amazon SNS console.
 ```
 
-4. 次に、以下の例をコピーして、`resource-importing.yaml` テンプレートの `Resources` セクションに追加してください。完了したら、テンプレートファイルを保存します。
+4. 次に、以下の例をコピーして、`resource-importing.yaml` テンプレートの `Resources` セクションに追加します。完了したら、テンプレートファイルを保存します。
 
 ```yaml
 SNSTopic2:
@@ -103,24 +103,24 @@ SNSTopic2:
 
 5. 先ほど更新した `resource-importing.yaml` テンプレートには、2 つのパラメータ (`Topic1Name` と `Topic2Name`) と 2 つのリソース (`SNSTopic1` と `SNSTopic2`) が含まれるようになりました。新しいトピックを既存のスタックにインポートしましょう！
 6. [AWS CloudFormation コンソール](https://console.aws.amazon.com/cloudformation/) に移動します。
-7. `resource-importing` という名前のスタックを選択し、**スタックアクション** から**リソースをスタックにインポート** を選択します。
-8. **概要をインポート**を読み、**次へ**を選択してください。
-9.**テンプレートの指定**から、**テンプレートファイルのアップロード**を選択します。このラボパートで更新した `resource-importing.yaml` テンプレートをアップロードし、**次へ**を選択します。
+7. `resource-importing` という名前のスタックを選択し、**スタックアクション** から**リソースへのスタックのインポート** を選択します。
+8. **概要をインポート**を読み、**次へ**をクリックします。
+9. **テンプレートの指定**から、**テンプレートファイルのアップロード**を選択します。このラボパートで更新した `resource-importing.yaml` テンプレートをアップロードし、**次へ**をクリックします。
 10. [識別子の値](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/resource-import.html#resource-import-overview) には、`Topic2` を作成した後に書き留めたトピックの ARN 値を指定します。
-11. パラメータについては、必ず `Topic1Name` に `Topic1` を指定し、`Topic2Name` に `Topic2` を指定してください。**次へ**を選択します。
-12. 次のページで、**リソースをインポート**を選択します。
+11. パラメータについては、必ず `Topic1Name` に `Topic1` を指定し、`Topic2Name` に `Topic2` を指定します。**次へ**をクリックします。
+12. 次のページで、**リソースをインポート**をクリックします。
 
-Amazon SNS トピックがスタックに正常にインポートされると、スタックのステータス `IMPORT_COMPLETE`と表示されます。
+Amazon SNS トピックがスタックに正常にインポートされると、スタックのステータス `IMPORT_COMPLETE` と表示されます。
 
-おめでとうございます！ これで、リソースを既存のスタックにインポートする方法がわかりました。 詳細については、[AWS CLI を使用した既存のリソースのスタックへのインポート](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/resource-import-existing-stack.html#resource-import-existing-stack-cli) も参照してください。
+おめでとうございます！ これで、リソースを既存のスタックにインポートする方法がわかりました。 追加の情報については、[AWS CLI を使用した既存のリソースのスタックへのインポート](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/resource-import-existing-stack.html#resource-import-existing-stack-cli) をご参照ください。
 
 
 ### ラボパート 3
 
-ラボのこの部分では、[スタック間でリソースを移動する](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/refactor-stacks.html) 方法を学びます。`SNSTopic1` リソースを `resource-importing` スタックから削除し、新しいリソースにインポートします。`SNSTopic1` の `DeletionPolicy` 属性に `Retain` を指定したので、スタックを更新しても `SNSTopic1` リソースは削除されないことに注意してください。さっそく始めましょう。
+ラボのこの部分では、[スタック間でリソースを移動する](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/refactor-stacks.html) 方法を学びます。`SNSTopic1` リソースを `resource-importing` スタックから削除し、新しいリソースにインポートします。`SNSTopic1` の `DeletionPolicy` 属性に `Retain` を指定したので、スタックを更新しても `SNSTopic1` リソースは削除されないことに注意します。さっそく始めましょう。
 
 
-1. ラボパート 2 で使用した `resource-importing.yaml` テンプレートの **Parameters** セクションから以下のコードを削除してください。
+1. ラボパート 2 で使用した `resource-importing.yaml` テンプレートの **Parameters** セクションから以下のコードを削除します。
 
 ```yaml
 Topic1Name:
@@ -141,16 +141,16 @@ SNSTopic1:
 
 3. [AWS CloudFormation コンソール](https://console.aws.amazon.com/cloudformation/) に移動します。
 4. `resource-importing`という名前のスタックを選択し、**更新**を選択します。
-5. **既存テンプレートを置き換える**を選択し、`resource-importing.yaml` テンプレートをアップロードします。**次へ**を選択します。
-6. パラメータセクションで、`Topic2Name` のパラメータ値を `Topic2` として受け入れることを選択します。**次へ**を選択します。
-7. **スタックオプションの設定**ページでデフォルト値のまま、**次へ**を選択します。
-8. 次のページで**スタックの更新**を選択します。
-9. スタックからの `SNSTopic1` リソースの削除を確認するには、`resource-importing` スタックを選択し、**Resources** を選択します。表示されるリソースは`SNSTopic2`だけです。
+5. **既存テンプレートを置き換える**を選択し、`resource-importing.yaml` テンプレートをアップロードします。**次へ**をクリックします。
+6. パラメータセクションで、`Topic2Name` のパラメータ値を `Topic2` のままにします。**次へ**をクリックします。
+7. **スタックオプションの設定**ページでデフォルト値のまま、**次へ**をクリックします。
+8. 次のページで**送信**をクリックします。
+9. スタックからの `SNSTopic1` リソースの削除を確認するには、`resource-importing` スタックを選択し、**リソース** を選択します。表示されるリソースは`SNSTopic2`だけです。
 
 
 `SNSTopic1` リソースを新しいスタックにインポートします。
 
-1. `code/workspace/resource-importing` ディレクトリにいることを確認してください。
+1. `code/workspace/resource-importing` ディレクトリにいることを確認します。
 2. お好みのテキストエディタで `moving-resources.yaml` テンプレートファイルを開きます。
 3. 以下の例を `moving-resources.yaml` テンプレートに追加して保存します。
 
@@ -169,12 +169,12 @@ Resources:
 ```
 
 4. [AWS CloudFormation コンソール](https://console.aws.amazon.com/cloudformation/) に移動します。
-5. **スタックの作成**から、**既存のリソースを使用 (リソースをインポート)**を選択します。
-6. **概要をインポート**を読み、**次へ**を選択します。
-7. **テンプレートを指定**から、**テンプレートファイルをアップロード**を選択します。`moving-resources.yaml` テンプレートをアップロードし、**次へ**を選択します。
+5. **スタックの作成**から、**既存のリソースを使用 (リソースをインポート)** を選択します。
+6. **概要をインポート**を読み、**次へ**をクリックします。
+7. **テンプレートの指定**セクションで、**テンプレートファイルをアップロード**を選択します。`moving-resources.yaml` テンプレートをアップロードし、**次へ**をクリックします。
 8. [識別子の値](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/resource-import.html#resource-import-overview) には、`Topic1` を作成した後にメモしたトピック ARN 値を指定します。
-9. **スタック名**を入力します。例えば、`moving-resources` と指定します。`Topic1Name` パラメータには必ず `Topic1` を指定してください。
-10. 次のページで**リソースをインポート**を選択します。
+9. **スタック名**を入力します。例えば、`moving-resources` と指定します。`Topic1Name` パラメータには必ず `Topic1` を指定します。
+10. 次のページで**リソースをインポート**をクリックします。
 
 Amazon SNS トピックがスタックに正常にインポートされると、スタックのステータスには `IMPORT_COMPLETE` と表示されます。
 
@@ -238,11 +238,11 @@ Resources:
 
 4. [AWS CloudFormation コンソール](https://console.aws.amazon.com/cloudformation/) に移動します。
 5. **スタックの作成**から、**既存のリソースを使用 (リソースをインポート)** を選択します。
-6. **テンプレートを指定**から、**テンプレートファイルをアップロード**を選択します。`resource-import-challenge.yaml` テンプレートをアップロードし、**次へ**を選択します。
-7. **スタックの名前**を入力します。例えば、`resource-import-challenge` と指定します。`InstanceType` には `t2.nano` を指定してください。**[次へ]**を選択します。
-8. **スタックオプションの設定**ページでデフォルト値のまま、**次へ**を選択します。
-9. 次のページで、**スタックの作成**を選択します。
-10. スタックを作成したら、`resource-import-challenge` スタックを選択し、**リソース**を選択します。`i-12345abcd6789` という形式の `インスタンス`の**物理 ID**をメモしておきましょう。
+6. **テンプレートを指定**セクションで、**テンプレートファイルのアップロード**を選択します。`resource-import-challenge.yaml` テンプレートをアップロードし、**次へ**をクリックします。
+7. **スタックの名前**を入力します。例えば、`resource-import-challenge` と指定します。`InstanceType` には `t2.nano` を指定します。[**次へ**]をクリックします。
+8. **スタックオプションの設定**ページはデフォルト値のまま、**次へ**をクリックします。
+9. 次のページで、**送信**を選択します。
+10. スタックを作成したら、`resource-import-challenge` スタックを選択し、**リソース**を確認します。`i-12345abcd6789` という形式の `インスタンス`の**物理 ID**をメモしておきましょう。
 
 次に、スタックの管理範囲外でインスタンスタイプを変更して、ヒューマンエラーを再現してみましょう。以下の手順に従って [既存の EBS-backed インスタンスのインスタンスタイプを変更](ehttps://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instance-resize.html#change-instance-type-of-ebs-backed-instanc) を実行します。
 
@@ -259,13 +259,13 @@ Resources:
 
 今回のタスクは、スタックを更新するときに `InstanceType` プロパティに追加の変更を加えることなく、スタック内で現在 `t2.nano` に設定されているインスタンスタイプ値を、CloudFormation 以外の方法で行われた新しいインスタンス設定である `t2.micro` と一致させることです。
 
-::expand[* ラボパート3で学んだ概念の使い方を考えてください。]{header="ヒントが必要ですか？"}
+::expand[* ラボパート3で学んだ概念の利用を検討します。]{header="ヒントが必要ですか？"}
 
 :::expand{header= "解決策を見たいですか？"}
-1. `resource-import-challenge.yaml`テンプレートを更新します。`Instance` リソースに、値が`Retain` の `DeletionPolicy` 属性を追加し、ファイルを保存します。
+1. `resource-import-challenge.yaml` テンプレートを更新します。`Instance` リソースに、値が`Retain` の `DeletionPolicy` 属性を追加し、ファイルを保存します。
 
 2. パラメータ値を変更せずに、更新された `resource-import-challenge.yaml` テンプレートを使用してスタックを更新します。
-3. スタックを更新し、インスタンスの `DeletionPolicy` 属性が `Retain` に設定されたら、`Parameters` セクションにあるインスタンスリソース定義と関連パラメータをテンプレートから削除します。この例では、書くべきパラメーターがないため、`Parameters` セクション自体を削除してください。。そのためには、`resource-import-challenge.yaml` テンプレートから次の 2 つのコードブロックを削除してください。
+3. スタックを更新し、インスタンスの `DeletionPolicy` 属性が `Retain` に設定されたら、`Parameters` セクションにあるインスタンスリソース定義と関連パラメータをテンプレートから削除します。今回の例では、書くべきパラメーターが特に存在しないため、`Parameters` セクション自体を削除します。具体的には、`resource-import-challenge.yaml` テンプレートから次の 2 つのコードブロックを削除します。
 
 ```yaml
 Parameters:
@@ -298,10 +298,10 @@ Parameters:
 5. このスタックの更新後、ステップ 3 で削除した 2 つのコードブロックを `resource-import-challenge.yaml` テンプレートに追加して保存します。
 6. `resource-import-challenge`という名前のスタックを選択し、**スタックアクション**から**スタックへのリソースのインポート**を選択します。
 7. **概要をインポート**を読み、**次へ**を選択してください。
-8. **テンプレートを指定**から、**テンプレートファイルのアップロード**を選択します。更新した`resource-import-challenge.yaml`テンプレートをアップロードし、**次へ**を選択します。
-9. [識別子の値](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/resource-import.html#resource-import-overview) には、このチャレンジの一部として先ほど書き留めたインスタンスの**物理 ID ** を指定します。
+8. **テンプレートを指定**から、**テンプレートファイルのアップロード**を選択します。更新した`resource-import-challenge.yaml`テンプレートをアップロードし、**次へ**をクリックします。
+9. [識別子の値](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/resource-import.html#resource-import-overview) には、このチャレンジの一部として先ほど書き留めたインスタンスの**物理 ID** を指定します。
 10. インスタンスタイプパラメータとして `t2.micro` を選択します。ここでは、実際のインスタンスタイプ設定である `t2.micro` と一致しています。
-11.次のページで、**リソースをインポート**を選択します。
+11. 次のページで、**リソースをインポート**をクリックします。
 :::
 
 
@@ -324,14 +324,14 @@ Parameters:
 1. `code/workspace/resource-importing` というディレクトリにいることを確認してください
 2. `resource-importing.yaml` テンプレートファイルを更新して、`SNSTopic2` リソース定義から `deletionPolicy: Retain` 行を削除し、テンプレートを保存します。
 3. [AWS CloudFormation コンソール](https://console.aws.amazon.com/cloudformation/) に移動します。
-4. `resource-importing`という名前のスタックを選択し、**更新**を選択します。
-5. **現在のテンプレートを置き換える**を選択し、`resource-importing.yaml` テンプレートをアップロードします。**次へ**を選択します。
-6. パラメータセクションで、既存のパラメータ値を受け入れることを選択します。**次へ**を選択します。
-7. **スタックオプションの設定**ページでデフォルトのまま、**次へ**を選択します。
-8. 次のページで**スタックを更新**を選択します。
+4. `resource-importing` という名前のスタックを選択し、**更新**を選択します。
+5. **現在テンプレートを置き換える**を選択し、`resource-importing.yaml` テンプレートをアップロードします。**次へ**をクリックします。
+6. パラメータセクションで、既存のパラメータ値を受け入れることを選択します。**次へ**をクリックします。
+7. **スタックオプションの設定**ページでデフォルトのまま、**次へ**をクリックします。
+8. 次のページで**送信**を選択します。
 9. スタックの更新が完了したら、`resource-importing` スタックを選択し、**削除** を選択します。
-10. `moving-resources.yaml` テンプレートを更新して `SNSTopic1` リソース定義から `deletionPolicy: Retain` 行を削除し、スタックを更新し、正常に更新されたらスタックを削除します。手順2～9を繰り返します。スタックの更新時に既存のパラメータ値を受け入れます。
-11. `resource-import-challenge.yaml` テンプレートを更新して `Instance` リソース定義から `DeletionPolicy: Retain` 行を削除し、スタックを更新し、正常に更新されたら削除することで、スタック:`resource-import-challenge` について上記のステップ (2～9) を繰り返します。 スタックの更新時に既存のパラメータ値を受け入れるように選択します。
+10. `moving-resources.yaml` テンプレートを更新して `SNSTopic1` リソース定義から `deletionPolicy: Retain` 行を削除し、スタックを更新します。正常に更新されたら、手順2～9を繰り返し、スタックを削除します。スタックの更新時には、既存のパラメータ値を受け入れます。
+11. `resource-import-challenge.yaml` テンプレートを更新して `Instance` リソース定義から `DeletionPolicy: Retain` 行を削除し、スタックを更新します。正常に更新されたらスタック `resource-import-challenge` について上記のステップ (2～9) を繰り返し、スタック削除します。 スタックの更新時には、既存のパラメータ値を受け入れます。
 
 ### まとめ
 

@@ -6,7 +6,7 @@ weight: 600
 ### 概要
 
 このワークショップの [基本](/basics)で、CloudFormation コンソールを介して単一の YAML テンプレートをデプロイしました。
-とても簡単な作業でした。ただし、CloudFormation テンプレートが他のファイルまたはアーティファクトを参照する場合もあります。
+本作業はmとても簡単な作業でしたが、CloudFormation テンプレートが他のファイルまたはアーティファクトを参照する場合もあります。
 
 例えば、LambdaのソースコードやZIPファイル、またはネストされたCloudFormationテンプレートファイルは、「アーティファクト」です。
 [ネストされたスタックラボ](/intermediate/templates/nested-stacks) で学んだように、 メインの CloudFormation テンプレートをデプロイする前に、これらのファイルが S3 で利用可能になっている必要があります。
@@ -50,7 +50,7 @@ cfn101-workshop/code/workspace/package-and-deploy
 
 ただし、[aws cloudformation package](https://docs.aws.amazon.com/cli/latest/reference/cloudformation/package.html) を使えば、ローカルファイルを直接参照できます。これを利用する方が、従来の方法と比較し、便利です。
 
-`infrastructure.template` スニペットを見ると、`Code` プロパティのローカルディレクトリの [9] 行目への参照がわかります。
+`infrastructure.template` スニペットを見ると、`Code` プロパティのローカルディレクトリの [9] 行目への参照が分かります。
 
 :::code{language=yaml showLineNumbers=true showCopyAction=false}
 PythonFunction:
@@ -74,7 +74,7 @@ PythonFunction:
 
 ##### 1. S3 バケットの作成
 
-CloudformationテンプレートをデプロイするAWSリージョンを決めてください。Lambda がパッケージ化されたアーティファクトにアクセスできるようにするには、S3 バケットが Lambda と同じリージョンにある必要があります。
+CloudformationテンプレートをデプロイするAWSリージョンを先に決めます。Lambda がパッケージ化されたアーティファクトにアクセスできるようにするには、S3 バケットが Lambda と同じリージョンにある必要があります。
 
 ::alert[`s3://` の後のバケット名は必ず一意の名前に置き換えてください！]{type="info"}
 
@@ -145,7 +145,7 @@ PythonFunction:
 aws s3 cp s3://example-bucket-name/cfn-workshop-package-deploy/1234567890 .
 :::
 
-`package`はファイルを圧縮することがわかっているので、`.zip` 拡張子がなくても `unzip` できます。
+`package` はファイルを圧縮することがわかっているので、`.zip` 拡張子がなくても `unzip` できます。
 
 ##### Unix/Linux
 :::code{language=shell showLineNumbers=false showCopyAction=false}
@@ -202,7 +202,7 @@ aws cloudformation validate-template \
 }
 :::
 
-###「パッケージ化された」テンプレートのデプロイ
+### 「パッケージ化された」テンプレートのデプロイ
 
 [`aws cloudformation deploy`](https://docs.aws.amazon.com/cli/latest/reference/cloudformation/deploy/index.html) コマンドは、CLI を使用して CloudFormation テンプレートをデプロイするために使用されます。
 
@@ -226,7 +226,7 @@ aws cloudformation deploy \
 ##### Capabilities
 
 コンソールを使用する際に、このテンプレートをデプロイするとリソースが作成される可能性があることを認識する必要があります。
-アカウントの権限に影響する可能性があります。これは、意図せずに権限を誤って変更しないようにするためです。
+アカウントの権限に影響する可能性があり、意図せずに誤って権限を変更しないようにするためです。
 
 CLIを使用する際には、このスタックによってIAMの権限に影響するリソースが作成される可能性があることも確認する必要があります。
 そのためには、前の例で示したように、`—capabilities` フラグを使います。capabilitiesについては、
@@ -246,7 +246,8 @@ Lambda 関数は、現在の UTC の日付と時刻を決定します。次に�
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 aws lambda invoke \
     --function-name cfn-workshop-python-function \
-    --payload "{\"time_zone\": \"Europe/London\"}" \
+    --payload "{\"time_zone\": \"Asia/Tokyo\"}" \
+    --cli-binary-format raw-in-base64-out \
     response.json
 :::
 ::::
@@ -255,7 +256,7 @@ aws lambda invoke \
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 aws lambda invoke ^
     --function-name cfn-workshop-python-function ^
-    --payload "{\"time_zone\": \"Europe/London\"}" ^
+    --payload "{\"time_zone\": \"Asia/Tokyo\"}" ^
     --cli-binary-format raw-in-base64-out ^
     response.json
 :::
@@ -265,7 +266,7 @@ aws lambda invoke ^
 :::code{language=powershell showLineNumbers=false showCopyAction=true}
 aws lambda invoke `
     --function-name cfn-workshop-python-function `
-    --payload "{\`"time_zone\`": \`"Europe/London\`"}" `
+    --payload "{\`"time_zone\`": \`"Asia/Tokyo\`"}" `
     --cli-binary-format raw-in-base64-out `
     response.json
 :::

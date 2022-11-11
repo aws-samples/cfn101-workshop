@@ -10,8 +10,8 @@ weight: 700
 
 ベストプラクティスの一環として、policy-as-code プラクティスを採用して、ソフトウェア開発ライフサイクル（SDLC）のごく早い段階で、次のようなポリシー・コンプライアンスの問題をプログラムで検出します。
 
-* 開発者のワークステーションで
-* デリバリーパイプラインの継続的インテグレーション (CI) フェーズで
+* 開発者のワークステーションで検出
+* デリバリーパイプラインの継続的インテグレーション (CI) フェーズで検出
 
 policy-as-code を採用すると、SDLCプロセスの早い段階で発見したポリシー・コンプライアンスの問題に対処する機会が得られるため、**SDLCのフィードバック・ループをスピードアップ**できます。
 
@@ -28,7 +28,7 @@ Policy-as-Codeをプログラムで活用するには、まずポリシー要件
 * ルール/ルール節をモジュール性と再利用性のために書き直す
 * 初めてのガードルールテストを記述する
 * ガードルールを書く際のプラクティスとしてテスト駆動開発 (TDD) を採用する
-* 詳細と高度な使用例については、Guardのドキュメントを参照します
+* 詳細と高度な使用例については、Guard のドキュメントを参照する
 
 
 ### ラボを開始
@@ -55,7 +55,7 @@ cfn-guard help
 
 さあ、始めましょう！ 次に示す手順に従って進めます。
 
-1. ディレクトリを `code/workspace/policy-as-code-with-guard` ディレクトリに変更します。
+1. `code/workspace/policy-as-code-with-guard` ディレクトリに移動します。
 2. お好みのテキストエディタで `example_bucket.yaml` CloudFormation テンプレートを開きます。
 3. テンプレートには `AWS::S3::Bucket` リソースタイプが記述されています。AES256 アルゴリズムを使用して [サーバー側の暗号化](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-s3-bucket-bucketencryption.html)と[バージョニング](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-s3-bucket-versioningconfiguration.html)有効化設定を含む `Properties` セクションを追加してテンプレートを更新します。次に表示される内容をコピーし、`example_bucket.yaml`ファイルにペーストします。
 
@@ -69,7 +69,7 @@ Properties:
     Status: Enabled
 ```
 
-4. ガードルール節の例を作成して、両方のプロパティが期待どおりに説明されていることを確認します。前述と同じディレクトリにある `example_bucket.guard` ファイルを開き、**タイプブロック**を作成して、テンプレートに記述した `AWS::S3::Bucket` タイプのリソースの設定を検証します。次に表示されるコンテンツをコピーし、`example_bucket.guard` ファイルにペーストします。
+4. ガードルール節の例を作成して、両方のプロパティが期待どおりに説明されていることを確認します。前述と同じディレクトリにある `example_bucket.guard` ファイルを開き、**type ブロック**を作成して、テンプレートに記述した `AWS::S3::Bucket` タイプのリソースの設定を検証します。次に表示されるコンテンツをコピーし、`example_bucket.guard` ファイルにペーストします。
 
 ```json
 AWS::S3::Bucket {
@@ -84,14 +84,14 @@ AWS::S3::Bucket {
 }
 ```
 
-::alert[ガードルールを書くときは、リソースタイプを選択するデフォルトモードとして**filters**を使用します。新しい概念について少しずつ学んでいくので、このセクションでは引き続き type ブロック (特定の型をマッチさせる場合に使うフィルターのためのブロック) を使います。そしてフィルターについては次のセクションで学びます。]{type="info"}
+::alert[ガードルールを書くときは、リソースタイプを選択するデフォルトモードとして **filters** を使用します。新しい概念について少しずつ学んでいくので、このセクションでは引き続き type ブロック (特定の型をマッチさせる場合に使うフィルターのためのブロック) を使います。そしてフィルターについては次のセクションで学びます。]{type="info"}
 
 5. 前述のルール節のサンプルセットを確認してください。次の点に注意してください。
     * 外側のブロックには `AWS::S3::Bucket` タイプが含まれています。このブロック内のルール条項は、入力データとして提供しているテンプレートで宣言した `AWS::S3::Bucket` タイプのすべてのリソースに適用されます。
     * ルール節は、ドット (`.`) 文字を使ってデータ階層を下ります (例えば、`VersioningConfiguration.Status` は `VersioningConfiguration` の下の `Status` プロパティを参照します)。
-    * ワイルドカード (`*`) 文字は、特定のレベルのすべての配列インデックスをたどるのに使われます (例えば、`ServerSideEncryptionConfiguration[*]`)。
-    * ルール節には、`<<` と `>>` ブロックで区切られたオプションのセクションが含まれており、[custom message](https://docs.aws.amazon.com/cfn-guard/latest/ug/writing-rules.html#clauses-custom-messages) を指定できます。
-    * 例で宣言されているルール節は検証に合格することが期待されます。Guardでは、[Conjunctive Normal Form](https://en.wikipedia.org/wiki/Conjunctive_normal_form) (CNF) を使用して、複数の論理的な `AND` 節を `OR` 節にまたがって記述します。前述の例では、ルール節は `AND` 節として解釈されます (つまり、サーバー側の暗号化 *と* バージョン管理を検証し、データがルールに照らして検証に合格するには、*両方* が満たされる必要があります。）。例えば、A節 *または* B節が満たされているかを検証したいユースケースがある場合は、A節の行に `OR` を追加してこの動作を記述します。次の例では、ルールが合格するためには、`ExampleClause1` と `ExampleClause2` の両方の要件が満たされている必要があります。`ExampleClauseA` か `ExampleClauseB` のどちらかが満たされなければなりません:
+    * ワイルドカード (`*`) 文字は、特定のレベルのすべての配列インデックスを辿るために使われます (例えば、`ServerSideEncryptionConfiguration[*]`)。
+    * ルール節には、`<<` と `>>` ブロックで区切られたオプションのセクションが含まれており、[カスタムメッセージ](https://docs.aws.amazon.com/cfn-guard/latest/ug/writing-rules.html#clauses-custom-messages) を指定できます。
+    * 例で宣言されているルール節は検証に合格することが期待されます。Guardでは、[Conjunctive Normal Form](https://en.wikipedia.org/wiki/Conjunctive_normal_form) (CNF) を使用して、複数の論理的な `AND` 節を、`OR` 節を交えて記述します。前述の例では、ルール節は `AND` 節として解釈されます (つまり、サーバー側の暗号化 *と* バージョン管理を検証し、データがルールに照らして検証に合格するには、*両方* が満たされる必要があります。）。例えば、ClauseA *または* ClauseB が満たされているかを検証したいユースケースがある場合は、ClauseA の行に `OR` を追加してこの動作を記述します。次の例において、ルールを合格するためには、`ExampleClause1` と `ExampleClause2` の両方の要件が満たされている必要があります。`ExampleClauseA` か `ExampleClauseB` のどちらかが満たされなければなりません:
 
 :::code{language=shell showLineNumbers=false showCopyAction=false}
 [...]
@@ -119,6 +119,7 @@ Evaluation of rules example_bucket.guard against data example_bucket.yaml
 --
 Rule [example_bucket.guard/default] is compliant for template [example_bucket.yaml]
 --
+:::
 
 ::alert[前述の `example_bucket.guard/default` 出力部分に示されている `default` サフィックスは、ルール節が `default` という名前のルールに属していることを示しています。このラボの後半で、特定の名前 (**名前付きルール**) でルールを作成し、そのようなルールをデフォルトルールの代わりに使用します。これにより、モジュール化された再利用可能なルールを作成できます。]{type="info"}
 
@@ -135,7 +136,7 @@ Resources.*[
 ]
 :::
 
-さっき使ったルール節の例をフィルターで書き直してみましょう！ この演習の一部として、`let` を使用して `my_buckets` サンプル変数を宣言し、次に示すように `%` 文字を使用してサンプルルールの新しい実装でその変数を参照します。
+先程使ったルール節の例をフィルターで書き直してみましょう！ この演習の一部として、`let` を使用して `my_buckets` サンプル変数を宣言し、次に示すように `%` 文字を使用したサンプルルールで、その変数を参照します。
 
 ```javascript
 let my_buckets = Resources.*[ Type == 'AWS::S3::Bucket' ]
@@ -151,13 +152,13 @@ let my_buckets = Resources.*[ Type == 'AWS::S3::Bucket' ]
 }
 ```
 
-`example_bucket.guard` の既存のルール節を今表示されている新しい内容に置き換えて、検証を再実行します。
+`example_bucket.guard` の既存のルール節を新しい内容に置き換えて、検証を再実行します。
 
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 cfn-guard validate -d example_bucket.yaml -r example_bucket.guard
 :::
 
-現在フィルターを使用しているルール節に対する検証は合格するはずです。
+フィルターを使用しているルール節に対する検証が合格するはずです。
 
 ::alert[Guard は*file*、*rule*、*block* レベルで変数スコープをサポートしています。特定のスコープ内の変数の具体的な配置によって、ガードルールを含むファイルでの変数の可視性が決まります。前に示した `my_buckets` 変数のスコープはファイルレベルのスコープなので、`example_bucket.guard` ルールファイルに記述したルール/ルール節から `my_buckets` が見えるはずです。詳細については、[AWS CloudFormation Guard ルールにおける変数の割り当てと参照](https://docs.aws.amazon.com/cfn-guard/latest/ug/variables.html) を参照してください。]{type="info"}
 
@@ -194,7 +195,7 @@ rule validate_bucket_versioning_example when %my_buckets !empty {
 }
 ```
 
-`example_bucket.guard` 内の既存のルール節を置き換えて、名前付きの 2 つのルールをコピーして貼り付けます。完了したら、検証を再実行します。
+`example_bucket.guard` 内の既存のルール節を置き換えます。上記、名前付きの 2 つのルールをコピーして貼り付けます。完了したら、検証を再実行します。
 
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 cfn-guard validate -d example_bucket.yaml -r example_bucket.guard
@@ -202,7 +203,7 @@ cfn-guard validate -d example_bucket.yaml -r example_bucket.guard
 
 すると、以下のような出力が得られるはずです。前に確認した `default` ルールの代わりに、`rule validate_bucket_sse_example` と `validate_bucket_versioning_example` ルールに割り当てた名前が表示されるはずです。
 
-::code{language=shell showLineNumbers=false showCopyAction=false}
+:::code{language=shell showLineNumbers=false showCopyAction=false}
 example_bucket.yaml Status = PASS
 PASS rules
 example_bucket.guard/validate_bucket_sse_example           PASS
@@ -215,9 +216,9 @@ Rule [example_bucket.guard/validate_bucket_versioning_example] is compliant for 
 --
 :::
 
-::alert[入力データにターゲットの選択が含まれていない場合 (前の例で、テンプレートに Amazon S3 バケットを記述しなかった場合): 前述の (`when %my_buckets !empty`) のように `when` キーワードを使用する場合、ルールの評価はスキップされ、結果のGuard出力で`SKIP`とマークされます。もし、代わりに `when` キーワードと `%my_buckets !empty` の部分を省略する、ルールは取得エラーにより失敗します。句、クエリ、演算子の詳細については、[AWS CloudFormation Guard ルールの作成](https://docs.aws.amazon.com/cfn-guard/latest/ug/writing-rules.html)を参照してください。]{type="info"}
+::alert[入力データにターゲットの選択が含まれていない場合 (前の例で、テンプレートに Amazon S3 バケットを記述しなかった場合): 前述の (`when %my_buckets !empty`) のように `when` キーワードを使用する場合、ルールの評価はスキップされ、結果のGuard出力で`SKIP`とマークされます。もし、代わりに `when` キーワードと `%my_buckets !empty` の部分を省略すると、ルールは取得エラーにより失敗します。節、クエリ、演算子の詳細については、[AWS CloudFormation Guard ルールの作成](https://docs.aws.amazon.com/cfn-guard/latest/ug/writing-rules.html)を参照してください。]{type="info"}
 
-おめでとうございます！ 最初のルール節を2つの別々の名前付きルールに分離したので、モジュール性と再利用性が優先されます。 また、必要に応じてコードを書いたり、使用したり、トラブルシューティングしたりするための小さなコード部分の例も用意しました。
+おめでとうございます！ 最初のルール節を2つの別々の名前付きルールに分離したので、モジュール性と再利用性が優先されます。 また、必要に応じてコードを書いたり、使用したり、トラブルシューティングしたりするための小規模のコードの例も用意しました。
 
 
 #### ルールの相互関係
@@ -320,22 +321,22 @@ Test Case #2
 
 タスクは以下のとおりです。
 1. `example_bucket_tests.yaml` ユニットテストファイルの内容に、`true` に設定されたすべての `publicAccessBlockConfiguration` プロパティを含むテスト入力データを提供するときに、これから作成する `validate_bucket_public_access_block_example` という新しいルールが合格することを検証するための新しい `input` セクションを追加します。
-2. `example_bucket.guard` ファイルに `validate_bucket_public_access_block_example` ルールを実装します。ルールに記述する各句の後に、`PublicAccessBlockConfiguration` プロパティごとにカスタムメッセージを追加します。
+2. `example_bucket.guard` ファイルに `validate_bucket_public_access_block_example` ルールを実装します。ルールに記述する各節の後に、`PublicAccessBlockConfiguration` プロパティごとにカスタムメッセージを追加します。
 3. テストを実行するには、`test` サブコマンドでガードを実行します。ユニットテストの出力に Test Case #3 セクションがあり、新しいルールのユニットテストが成功したことを示す `validate_bucket_public_access_block_example: Expected = PASS, Evaluated = PASS` のような行があるはずです。
-3. `example_bucket.yaml` テンプレートを更新し、関連する `PublicAccessBlockConfiguration`を構成を追加します。
+3. `example_bucket.yaml` テンプレートを更新し、関連する `PublicAccessBlockConfiguration` 設定を追加します。
 4. `validate` サブコマンドを使用してガードを実行し、`example_bucket.yaml` ファイルの内容を、`example_bucket.guard` ファイルに記述したルールと照らし合わせて検証します。結果の出力には、新しいルールに対する検証が成功したことを示す `example_bucket.guard/validate_bucket_public_access_block_example PASS` のような行が表示されるはずです。
 
 
 :::expand{header= "ヒントが必要ですか？"}
-* `PublicAccessBlockConfiguration` プロパティドキュメント [ページ](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-s3-bucket-publicaccessblockconfiguration.html) に移動して、その下にあるプロパティの名前を調べてください。
+* `PublicAccessBlockConfiguration` プロパティドキュメント [ページ](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-s3-bucket-publicaccessblockconfiguration.html) に移動して、その下にあるプロパティの名前を調べます。
 * `versioningConfiguration.Status` 節についても、同じルール構造に従います。`PublicAccessBlockConfiguration` [プロパティ](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-s3-bucket-publicaccessblockconfiguration.html) のそれぞれについて記述するルール節については、文字列の代わりに ブール値 `true` を利用します。
 :::
 
 
-:::expand{header= "解決策を見たいですか？"}
+::::expand{header= "解決策を見たいですか？"}
 注:次に示す内容は、`code/solutions/policy-as-code-with-guard` ディレクトリにある関連ファイルにもあります。
 
-* この内容を `example_bucket_tests.yaml` ユニットテストファイルに追加してください。
+* この内容を `example_bucket_tests.yaml` ユニットテストファイルに追加します。
 
 ```yaml
 - input:
@@ -354,7 +355,7 @@ Test Case #2
 ```
 
 
-* この内容を `example_bucket.guard` ファイルに追加してください。
+* この内容を `example_bucket.guard` ファイルに追加します。
 
 ```json
 rule validate_bucket_public_access_block_example when %my_buckets !empty {
@@ -382,7 +383,7 @@ cfn-guard test -t example_bucket_tests.yaml -r example_bucket.guard
 :::
 
 
-* このコンテンツを `example_bucket.yaml` テンプレートに追加してください。
+* このコンテンツを `example_bucket.yaml` テンプレートに追加します。
 
 ```yaml
 PublicAccessBlockConfiguration:
