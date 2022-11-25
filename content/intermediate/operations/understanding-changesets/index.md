@@ -3,6 +3,10 @@ title: "Understanding change sets"
 weight: 200
 ---
 
+_Lab Duration: ~20 minutes_
+
+---
+
 ### Overview
 When you update an [AWS CloudFormation](https://aws.amazon.com/cloudformation/) stack, you update one or more resources in that stack to a desired new state. Due to factors that include resource dependencies, [update behaviors of stack resources](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-updating-stacks-update-behaviors.html), or user error, there could be differences between the desired state and the actual, new state of a given resource.
 

@@ -3,6 +3,10 @@ title: "Intrinsic functions"
 weight: 400
 ---
 
+_Lab Duration: ~10 minutes_
+
+---
+
 ### Overview
 
 This lab shows how to use **[Intrinsic Functions](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference.html)** in your template.

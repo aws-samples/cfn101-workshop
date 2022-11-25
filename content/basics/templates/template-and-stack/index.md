@@ -3,6 +3,10 @@ title: "Template and stack"
 weight: 200
 ---
 
+_Lab Duration: ~10 minutes_
+
+---
+
 ### Overview
 This lab will start with the most basic template containing only Resources object, which contains a single resource declaration of the S3 bucket.
 
@@ -39,7 +43,7 @@ By the end of this lab, you will be able to:
      + The _Stack name_ identifies the stack. Use a name to help you distinguish the purpose of this stack.
      + Click **Next**.
 12. You can leave **Configure stack options** default, click **Next**.
-13. On the **Review <stack_name>** page, scroll down to the bottom and click on **Create stack**.
+13. On the **Review <stack_name>** page, scroll down to the bottom and choose **Submit**.
 14. You can click the **refresh** button a few times until you see in the status **CREATE_COMPLETE**.
 
 ### Challenge
@@ -78,7 +82,7 @@ overwritten by mistake or to archive objects so that you can retrieve previous v
    1. On **Specify stack details** page, select **Next**.
    1. On the **Configure stack options** page, select **Next**.
    1. On the **Review <stack_name>** page, scroll down and wait for the **Change set** section to complete. Then select **Submit**.
-   1. Wait for the stack stack status to reach **UPDATE_COMPLETE**. You need to periodically select **Refresh** to see the latest stack status.
+   1. Wait for the stack status to reach **UPDATE_COMPLETE**. You need to periodically select **Refresh** to see the latest stack status.
    :::
 
 ### Clean up

@@ -3,6 +3,10 @@ title: "Mappings"
 weight: 600
 ---
 
+_Lab Duration: ~10 minutes_
+
+---
+
 ### Overview
 
 This lab will introduce **[Mappings](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/mappings-section-structure.html)**.

@@ -3,6 +3,10 @@ title: "Resource Dependencies"
 weight: 200
 ---
 
+_Lab Duration: ~15 minutes_
+
+---
+
 ### Overview
 
 You use [AWS CloudFormation](https://aws.amazon.com/cloudformation/) to programmatically provision resources you describe in your templates. There are cases where a resource depends on one or more resources; for example, an [Amazon Elastic Compute Cloud](https://aws.amazon.com/ec2/) (Amazon EC2) instance depends on a Security Group that you wish to use for your Amazon EC2 instance: you describe both resources in a way that you reference the Security Group in the EC2 instance, so that your CloudFormation stack creates the Security Group first, and your Amazon EC2 instance next.

@@ -3,6 +3,10 @@ title: "Helper scripts"
 weight: 400
 ---
 
+_Lab Duration: ~15 minutes_
+
+---
+
 ### Overview
 In this lab we will look into CloudFormation [Helper Scripts](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/cfn-helper-scripts-reference.html).
 What you have learned in a previous lab is a great starting point. However, as you may notice from your `UserData`
