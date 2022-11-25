@@ -3,6 +3,10 @@ title: "Conditions"
 weight: 100
 ---
 
+_Lab Duration: ~20 minutes_
+
+---
+
 ### Overview
 
 When you describe your infrastructure with [AWS CloudFormation](https://aws.amazon.com/cloudformation/), you declare resources and resource properties in your CloudFormation templates. You might have use cases where you want to create resources, or specify resource property values, based on conditions.

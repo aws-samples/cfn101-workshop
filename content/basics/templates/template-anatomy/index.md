@@ -3,6 +3,10 @@ title: "Template anatomy"
 weight: 100
 ---
 
+_Lab Duration: ~10 minutes_
+
+---
+
 ### Template
 
 **An AWS CloudFormation template** is a declaration of the AWS resources that make up a **stack**.

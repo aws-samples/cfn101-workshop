@@ -3,6 +3,10 @@ title: "Finding return values"
 weight: 800
 ---
 
+_Lab Duration: ~10 minutes_
+
+---
+
 ### Overview
 You use [AWS CloudFormation](https://aws.amazon.com/cloudformation/) to programmatically describe your resources in your templates. When you do so, you might also need to reference return values, for a given resource, from another resource or resources that you also describe in the same template, and that depend on the given resource.
 

@@ -3,6 +3,10 @@ title: "Resources"
 weight: 300
 ---
 
+_Lab Duration: ~10 minutes_
+
+---
+
 ### Overview
 
 In this Lab, you will learn little more about CloudFormation top-level sections, including Format Version, Description, Metadata, Parameters and Resources.

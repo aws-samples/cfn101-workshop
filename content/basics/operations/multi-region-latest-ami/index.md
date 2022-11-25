@@ -3,6 +3,10 @@ title: "Multi region latest AMI"
 weight: 100
 ---
 
+_Lab Duration: ~10 minutes_
+
+---
+
 ### Overview
 Consider the use case of deploying your current template in different regions. You would need to manually change `AmiID`
 property in your template to match the AMI ID for each AWS Region. Similarly, if there is an update to the Amazon Machine

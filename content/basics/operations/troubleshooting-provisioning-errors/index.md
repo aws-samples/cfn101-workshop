@@ -3,6 +3,10 @@ title: "Troubleshooting provisioning errors"
 weight: 500
 ---
 
+_Lab Duration: ~25 minutes_
+
+---
+
 ### Overview
 As you iterate on the development of your CloudFormation template, you can test provisioning of resources described in your template by creating a CloudFormation [stack](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacks.html). If you specify incorrect property values for resource configurations in the template, by default the stack will roll back to the last-known stable state, and all stack resources will be rolled back.
 

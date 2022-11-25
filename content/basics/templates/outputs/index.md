@@ -3,6 +3,10 @@ title: "Outputs"
 weight: 700
 ---
 
+_Lab Duration: ~10 minutes_
+
+---
+
 ### Overview
 
 In this lab you will learn about **[Outputs](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/outputs-section-structure.html)**.

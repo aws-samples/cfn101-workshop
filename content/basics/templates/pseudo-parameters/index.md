@@ -7,7 +7,6 @@ _Lab Duration: ~15 minutes_
 
 ---
 
-
 ### Overview
 In this lab, you will learn how to use [pseudo parameters](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/pseudo-parameter-reference.html) to write reusable templates.
 
