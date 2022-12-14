@@ -3,6 +3,10 @@ title: "Nested stacks"
 weight: 400
 ---
 
+_Lab Duration: ~30 minutes_
+
+---
+
 ### Overview
 
 Your CloudFormation template has grown considerably over the course of this workshop. As your infrastructure grows, common
