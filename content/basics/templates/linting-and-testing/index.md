@@ -3,6 +3,11 @@ title: "Linting and testing"
 weight: 900
 ---
 
+_Lab Duration: ~15 minutes_
+
+_Challenge: ~3 minutes._
+---
+
 ### Overview
 It is a best practice to lint and test your CloudFormation templates in early phases of the Software Development Life Cycle (SDLC). First, you run linting and testing actions for your templates on your workstation; next, you add template linting and testing practices to the Continuous Integration (CI) phase of your pipelines: you use the CI phase as an initial gating step for code promotion.
 

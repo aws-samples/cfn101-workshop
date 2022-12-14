@@ -3,6 +3,10 @@ title: "User data"
 weight: 300
 ---
 
+_Lab Duration: ~10 minutes_
+
+---
+
 ### Overview
 
 You can use AWS CloudFormation to automatically install, configure, and start applications on Amazon EC2 instances. Doing
@@ -59,7 +63,7 @@ WebServerInstance:
   Properties:
     IamInstanceProfile: !Ref EC2InstanceProfile
     ImageId: !Ref AmiID
-    InstanceType: !FindInMap [Environment, InstanceType, !Ref EnvType]
+    InstanceType: !FindInMap [EnvironmentToInstanceType, !Ref EnvironmentType, InstanceType]
     SecurityGroupIds:
       - !Ref WebServerSecurityGroup
     Tags:
