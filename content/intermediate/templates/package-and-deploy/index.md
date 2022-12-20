@@ -17,14 +17,14 @@ CloudFormation templates that refer to other files.
 
 This section will cover three key commands, used to package, validate and deploy CloudFormation templates with the AWS CLI.
 
+
 ### Topics Covered
 
 By the end of this lab, you will be able to:
-
-- Identify when packaging a template is required
-- Package a template using `aws cloudformation package` command
-- Validate a CloudFormation template using `aws cloudformation validate-template` command
-- Deploy a template using the ` aws cloudformation deploy` command
+* Identify when packaging a template is required
+* Package a template using `aws cloudformation package` command
+* Validate a CloudFormation template using `aws cloudformation validate-template` command
+* Deploy a template using the ` aws cloudformation deploy` command
 
 ### Start Lab
 
@@ -32,17 +32,18 @@ Have a look at the sample project at `code/workspace/package-and-deploy` directo
 
 The project consists of:
 
-- A CloudFormation template to spin up the infrastructure.
-- One Lambda function.
-- Requirements file to install your function dependencies.
+* A CloudFormation template to spin up the infrastructure.
+* One Lambda function.
+* Requirements file to install your function dependencies.
 
 :::code{language=shell showLineNumbers=false showCopyAction=false}
 cfn101-workshop/code/workspace/package-and-deploy
 ├── infrastructure.template
 └── lambda/
-├── lambda_function.py
-└── requirements.txt
+    ├── lambda_function.py
+    └── requirements.txt
 :::
+
 
 #### Reference local files in CloudFormation template
 
@@ -54,14 +55,14 @@ If you look at `infrastructure.template` snippet, you can see the reference in t
 
 :::code{language=yaml showLineNumbers=true showCopyAction=false}
 PythonFunction:
-Type: AWS::Lambda::Function
-Properties:
-FunctionName: cfn-workshop-python-function
-Description: Python Function to return specific TimeZone time
-Runtime: python3.8
-Role: !GetAtt LambdaBasicExecutionRole.Arn
-Handler: lambda_function.handler
-Code: lambda/ # <<< This is a local directory
+  Type: AWS::Lambda::Function
+  Properties:
+    FunctionName: cfn-workshop-python-function
+    Description: Python Function to return specific TimeZone time
+    Runtime: python3.8
+    Role: !GetAtt LambdaBasicExecutionRole.Arn
+    Handler: lambda_function.handler
+    Code: lambda/                                 # <<< This is a local directory
 :::
 
 #### Package and Upload the artifacts
@@ -103,18 +104,18 @@ From within a `code/workspace/package-and-deploy` directory run:
 
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 aws cloudformation package \
- --template-file infrastructure.template \
- --s3-bucket example-bucket-name \
- --s3-prefix cfn-workshop-package-deploy \
- --output-template-file infrastructure-packaged.template
+    --template-file infrastructure.template \
+    --s3-bucket example-bucket-name \
+    --s3-prefix cfn-workshop-package-deploy \
+    --output-template-file infrastructure-packaged.template
 :::
 
 Let's have a closer look at the individual `package` options you have used in the command above.
 
-- `--template-file` - This is a path where your CloudFormation template is located.
-- `--s3-bucket` - The name of the S3 bucket where the artifacts will be uploaded to.
-- `--s3-prefix` - The prefix name is a path name (folder name) for the S3 bucket.
-- `--output-template-file` - The path to the file where the command writes the output AWS CloudFormation template.
+* `--template-file` - This is a path where your CloudFormation template is located.
+* `--s3-bucket` - The name of the S3 bucket where the artifacts will be uploaded to.
+* `--s3-prefix` - The prefix name is a path name (folder name) for the S3 bucket.
+* `--output-template-file` - The path to the file where the command writes the output AWS CloudFormation template.
 
 ##### 4. Examine the packaged files
 
@@ -131,8 +132,8 @@ PythonFunction:
     Runtime: python3.8
     Role:
       Fn::GetAtt:
-        - LambdaBasicExecutionRole
-        - Arn
+      - LambdaBasicExecutionRole
+      - Arn
     Handler: lambda_function.handler
     Code:
       S3Bucket: example-bucket-name
@@ -150,23 +151,17 @@ aws s3 cp s3://example-bucket-name/cfn-workshop-package-deploy/1234567890 .
 We know that `package` will ZIP files, so even there is no `.zip` extension you can still `unzip` it.
 
 ##### Unix/Linux
-
 :::code{language=shell showLineNumbers=false showCopyAction=false}
 unzip -l ce6c47b6c84d94bd207cea18e7d93458
 
-Archive: ce6c47b6c84d94bd207cea18e7d93458
-Length Date Time Name
-
----
-
+Archive:  ce6c47b6c84d94bd207cea18e7d93458
+  Length      Date    Time    Name
+---------  ---------- -----   ----
        12  02-12-2020 17:21   requirements.txt
       455  02-12-2020 17:18   lambda_function.py
      4745  02-13-2020 14:36   pytz/tzfile.py
-
 :::
-
 ##### Powershell
-
 :::code{language=powershell showLineNumbers=false showCopyAction=false}
 rename-item ce6c47b6c84d94bd207cea18e7d93458 packagedLambda.zip
 
@@ -175,14 +170,12 @@ Expand-Archive -LiteralPath packagedLambda.zip -DestinationPath packagedLambda
 ls packagedLambda
 
 Directory: C:\Users\username\cfn101-workshop\code\workspace\package-and-deploy\tmp
-Mode LastWriteTime Length Name
-
----
-
-d----- 10/29/2021 4:25 PM pytz
-d----- 10/29/2021 4:25 PM pytz-2021.3.dist-info
--a---- 10/29/2021 11:19 AM 475 lambda_function.py
--a---- 10/29/2021 11:19 AM 14 requirements.txt
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+d-----        10/29/2021   4:25 PM                pytz
+d-----        10/29/2021   4:25 PM                pytz-2021.3.dist-info
+-a----        10/29/2021  11:19 AM            475 lambda_function.py
+-a----        10/29/2021  11:19 AM             14 requirements.txt
 :::
 
 ### Validating a template
@@ -196,19 +189,19 @@ Let's validate our packaged template. From within a `code/workspace/package-and-
 
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 aws cloudformation validate-template \
- --template-body file://infrastructure-packaged.template
+    --template-body file://infrastructure-packaged.template
 :::
 
 If successful, CloudFormation will send you a response with a list of parameters, template description and capabilities.
 
 :::code{language=json showLineNumbers=false showCopyAction=true}
 {
-"Parameters": [],
-"Description": "CFN 201 Workshop - Lab 12 Helper Scripts. ()",
-"Capabilities": [
-"CAPABILITY_IAM"
-],
-"CapabilitiesReason": "The following resource(s) require capabilities: [AWS::IAM::Role]"
+    "Parameters": [],
+    "Description": "CFN 201 Workshop - Lab 12 Helper Scripts. ()",
+    "Capabilities": [
+        "CAPABILITY_IAM"
+    ],
+    "CapabilitiesReason": "The following resource(s) require capabilities: [AWS::IAM::Role]"
 }
 :::
 
@@ -223,10 +216,10 @@ From within a `code/workspace/package-and-deploy` directory run:
 
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 aws cloudformation deploy \
- --template-file infrastructure-packaged.template \
- --stack-name cfn-workshop-lambda \
- --region eu-west-1 \
- --capabilities CAPABILITY_IAM
+    --template-file infrastructure-packaged.template \
+    --stack-name cfn-workshop-lambda \
+    --region eu-west-1 \
+    --capabilities CAPABILITY_IAM
 :::
 
 ::alert[Note that we used the packaged template `infrastructure-packaged.template` that refers to the artifacts in S3. Not the original one with local paths!]{type="info"}
@@ -256,27 +249,30 @@ From your terminal run:
 ::::tab{id="sh" label="Unix/Linux"}
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 aws lambda invoke \
- --function-name cfn-workshop-python-function \
- --payload "{\"time_zone\": \"Europe/London\"}" \
- response.json
+    --function-name cfn-workshop-python-function \
+    --payload "{\"time_zone\": \"Europe/London\"}" \
+    --cli-binary-format raw-in-base64-out \
+    response.json
 :::
 ::::
 
 ::::tab{id="cmd" label="CMD"}
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 aws lambda invoke ^
---function-name cfn-workshop-python-function ^
---payload "{\"time_zone\": \"Europe/London\"}" ^
---cli-binary-format raw-in-base64-out ^
-response.json
+    --function-name cfn-workshop-python-function ^
+    --payload "{\"time_zone\": \"Europe/London\"}" ^
+    --cli-binary-format raw-in-base64-out ^
+    response.json
 :::
 ::::
 
 ::::tab{id="powershell" label="Powershell"}
 :::code{language=powershell showLineNumbers=false showCopyAction=true}
-aws lambda invoke `    --function-name cfn-workshop-python-function`
---payload "{\`"time_zone\`": \`"Europe/London\`"}" `    --cli-binary-format raw-in-base64-out`
-response.json
+aws lambda invoke `
+    --function-name cfn-workshop-python-function `
+    --payload "{\`"time_zone\`": \`"Europe/London\`"}" `
+    --cli-binary-format raw-in-base64-out `
+    response.json
 :::
 ::::
 :::::
@@ -301,11 +297,9 @@ more response.json
 :::::
 
 ---
-
 ### Conclusion
-
 Congratulations, you have successfully packaged and deployed CloudFormation template using the command line.
 
-- The `package` command simplifies deployment of templates that use features such as nested stacks, or refer to other local assets.
-- The `validate` command can speed up development of templates by catching errors more quickly.
-- The `deploy` command allows you to deploy CloudFormation templates.
+* The `package` command simplifies deployment of templates that use features such as nested stacks, or refer to other local assets.
+* The `validate` command can speed up development of templates by catching errors more quickly.
+* The `deploy` command allows you to deploy CloudFormation templates.
