@@ -3,6 +3,10 @@ title: "Package and deploy"
 weight: 600
 ---
 
+_Lab Duration: ~15 minutes_
+
+---
+
 ### Overview
 
 In the [Basics](/basics) part of this workshop, you have deployed single YAML templates via CloudFormation console.

@@ -3,6 +3,10 @@ title: "Layered stacks"
 weight: 500
 ---
 
+_Lab Duration: ~25 minutes_
+
+---
+
 ### Overview
 In the previous lab, we saw how we use the `Outputs` section and the `Fn::GetAtt` function to pass values from a child
 stack to parent stack. This enabled us to have dedicated templates for a VPC and an IAM role. As we mentioned previously,
