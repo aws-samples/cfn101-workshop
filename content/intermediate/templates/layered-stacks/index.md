@@ -4,6 +4,7 @@ weight: 500
 ---
 
 ### Overview
+
 In the previous lab, we saw how we use the `Outputs` section and the `Fn::GetAtt` function to pass values from a child
 stack to parent stack. This enabled us to have dedicated templates for a VPC and an IAM role. As we mentioned previously,
 this gives us the ability to create templates that can be re-used. However, what about if we want to re-use **stacks**?
@@ -18,6 +19,7 @@ global variables that can be **[Imported](https://docs.aws.amazon.com/AWSCloudFo
 into any CloudFormation stack.
 
 ### Topics Covered
+
 In this lab, you will build:
 
 1. **The VPC stack.** This contains the same simple VPC template used in the previous lab but with Export added to the Outputs.
@@ -37,6 +39,7 @@ This diagram represents the high-level overview of the infrastructure that will 
 You will find the working files in `code/workspace/layered-stacks`. In the rest of this lab, you should add your code to the templates here. The solution can be found in the `code/solutions/layered-stacks` folder. You can reference these against your code.
 
 #### Create VPC Stack
+
 The VPC template has been created for you. It is titled `vpc.yaml`. This template will create VPC stack with 2 Public Subnets, an Internet Gateway, and Route tables.
 
 ##### 1. Prepare the VPC template
@@ -83,13 +86,13 @@ Outputs:
 
 1. Open `iam.yaml` file.
 1. Copy the lines [4-5] to the **Outputs** section of the template:
-    ```yaml {hl_lines=[4,5]}
-    Outputs:
-      WebServerInstanceProfile:
-        Value: !Ref WebServerInstanceProfile
-        Export:
-          Name: cfn-workshop-WebServerInstanceProfile
-    ```
+   ```yaml {hl_lines=[4,5]}
+   Outputs:
+     WebServerInstanceProfile:
+       Value: !Ref WebServerInstanceProfile
+       Export:
+         Name: cfn-workshop-WebServerInstanceProfile
+   ```
 
 ##### 2. Deploy the IAM Stack
 
@@ -105,6 +108,7 @@ Outputs:
 #### Create EC2 Layered Stack
 
 ##### 1. Prepare the EC2 template
+
 The concept of the **Layered Stack** is to use intrinsic functions to import previously exported values instead of using
 **Parameters**. Therefore, the first change to make to the `ec2.yaml` is to remove the parameters that will no longer be used;
 `SubnetId`, `VpcId`, and `WebServerInstanceProfile`.
@@ -116,18 +120,18 @@ Update the **Parameters** section to look as follows:
 ```yaml
 Parameters:
   EnvironmentType:
-    Description: 'Specify the Environment type of the stack.'
+    Description: "Specify the Environment type of the stack."
     Type: String
     Default: Test
     AllowedValues:
       - Dev
       - Test
       - Prod
-    ConstraintDescription: 'Specify either Dev, Test or Prod.'
+    ConstraintDescription: "Specify either Dev, Test or Prod."
 
   AmiID:
     Type: AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>
-    Description: 'The ID of the AMI.'
+    Description: "The ID of the AMI."
     Default: /aws/service/ami-amazon-linux-latest/amzn2-ami-hvm-x86_64-gp2
 ```
 
@@ -151,6 +155,7 @@ WebServerInstance:
 ```
 
 ##### 4. Update the security group
+
 Finally, update the security group resource similarly. Update `WebServerSecurityGroup` resource in the **Resources** section of the `ec2.yaml` template, line [19].
 
 ```yaml {hl_lines=[19]}
@@ -213,10 +218,12 @@ For example, you can not delete the **VPC stack** before you delete **EC2 stack*
 1. In the top right corner, click on **Delete**.
 1. In the pop-up window click on **Delete stack**.
 1. Hit the **refresh** button a few times until you see in the status **DELETE_COMPLETE**.
-1. Now you can delete **IAM** and **VPC** stack in any other as there are no more dependencies.
+1. Now you can delete **IAM** and **VPC** stack in any order as there are no more dependencies.
 
 ---
+
 ### Conclusion
+
 **Layered stacks** allow you to create resources that can be used again and again in multiple stacks. All the stack needs
 to know is the **Export** name used. They allow the separation of roles and responsibilities. For example, a network team
 could create and supply an approved VPC design as a template. You deploy it as a stack and then just reference the Exports

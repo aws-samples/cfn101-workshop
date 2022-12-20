@@ -9,14 +9,15 @@ _Lab Duration: ~10 minutes_
 
 ### Overview
 
-In this Lab, you will learn little more about CloudFormation top-level sections, including Format Version, Description, Metadata, Parameters and Resources.
+In this Lab, you will learn a little more about CloudFormation top-level sections, including Format Version, Description, Metadata, Parameters and Resources.
 
 ### Topics Covered
+
 By the end of this lab, you will be able to:
 
-+ Understand CloudFormation template structure and some of its sections.
-+ Deploy an EC2 instance via CloudFormation.
-+ Query SSM parameter store to get the latest Amazon Linux AMI ID.
+- Understand CloudFormation template structure and some of its sections.
+- Deploy an EC2 instance via CloudFormation.
+- Query SSM parameter store to get the latest Amazon Linux AMI ID.
 
 ### Start Lab
 
@@ -27,6 +28,7 @@ By the end of this lab, you will be able to:
 1. Copy the code as you go through the topics below.
 
 #### Format Version
+
 The _AWSTemplateFormatVersion_ section identifies the capabilities of the template. The latest template format version
 is _2010-09-09_ and is currently the only valid value.
 
@@ -35,6 +37,7 @@ AWSTemplateFormatVersion: "2010-09-09"
 :::
 
 #### Description
+
 The _Description_ section enables you to include comments about your template.
 
 :::code{language=yaml showLineNumbers=false showCopyAction=true}
@@ -42,6 +45,7 @@ Description: AWS CloudFormation workshop - Resources (uksb-1q9p31idr).
 :::
 
 #### Metadata
+
 You can use the [_Metadata_ section](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/metadata-section-structure.html)
 to include arbitrary JSON or YAML objects. This section is useful for providing information to other tools that interact
 with your CloudFormation template. For example, when deploying CloudFormation templates via the AWS console, you can
@@ -53,21 +57,22 @@ Metadata:
   AWS::CloudFormation::Interface:
     ParameterGroups:
       - Label:
-          default: 'Amazon EC2 Configuration'
+          default: "Amazon EC2 Configuration"
         Parameters:
           - InstanceType
     ParameterLabels:
       InstanceType:
-        default: 'Type of EC2 Instance'
+        default: "Type of EC2 Instance"
 ```
 
 #### Parameters
+
 _Parameters_ enable you to input custom values to your template each time you create or update a stack.
 
 AWS CloudFormation supports the following parameter types:
 
 | Type                                                                                                                                                          | Description                                                                           | Example                                             |
-|---------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------|-----------------------------------------------------|
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------- | --------------------------------------------------- |
 | _String_                                                                                                                                                      | A literal string.                                                                     | "MyUserName"                                        |
 | _Number_                                                                                                                                                      | An integer or float.                                                                  | "123"                                               |
 | _List\<Number\>_                                                                                                                                              | An array of integers or floats.                                                       | "10,20,30"                                          |
@@ -83,7 +88,7 @@ Parameters:
     AllowedValues:
       - t2.micro
       - t2.small
-    Description: 'Enter t2.micro or t2.small. Default is t2.micro.'
+    Description: "Enter t2.micro or t2.small. Default is t2.micro."
 ```
 
 #### Resources
@@ -93,7 +98,7 @@ The required _Resources_ section declares the AWS resources that you want to inc
 ```yaml
 Resources:
   WebServerInstance:
-    Type: 'AWS::EC2::Instance'
+    Type: "AWS::EC2::Instance"
     Properties:
       InstanceType: !Ref InstanceType
       ImageId: <replace with AMI ID ami-xxxxx>
@@ -101,11 +106,11 @@ Resources:
 
 The only required property of the EC2 resource type is _ImageId_. Let's find the AMI ID via AWS console:
 
-  1. Open **[AWS EC2 console](https://console.aws.amazon.com/ec2)**
-  1. Click **Instances** -> **Launch Instance**.
-  1. Copy the **Amazon Linux 2 AMI** `ami-xxxxxxxxx` ID.
-  ::alert[Make sure to use **(x86)** AMI ID, if the region supports both x86 and ARM architectures.]{type="info"}
-  1. Once you have your AMI ID, copy and paste it to **ImageId** property.
+1. Open **[AWS EC2 console](https://console.aws.amazon.com/ec2)**
+1. Click **Instances** -> **Launch Instance**.
+1. Copy the **Amazon Linux 2 AMI** `ami-xxxxxxxxx` ID.
+   ::alert[Make sure to use **(x86)** AMI ID, if the region supports both x86 and ARM architectures.]{type="info"}
+1. Once you have your AMI ID, copy and paste it to **ImageId** property.
 
 ::alert[You can find a working solution for the **London Region** in `code/solutions/resources.yaml` file.]{type="info"}
 
@@ -124,17 +129,17 @@ If you have deleted your default VPC, you can create a new one by following the 
 1. Select the file `resources.yaml`.
 1. Click **Next**.
 1. Provide a **Stack name**. For example **cfn-workshop-ec2**.
-    + The _Stack name_ identifies the stack. Use a name to help you distinguish the purpose of this stack.
-    + For **Type of EC2 Instance** select you preferred instance size, for example **t2.micro**.
-    + Click **Next**.
+   - The _Stack name_ identifies the stack. Use a name to help you distinguish the purpose of this stack.
+   - For **Type of EC2 Instance** select your preferred instance size, for example **t2.micro**.
+   - Click **Next**.
 1. You can leave **Configure stack options** default, click **Next**.
 1. On the **Review <stack_name>** page, scroll down to the bottom and click on **Create stack**.
-    ::alert[This will create EC2 instance in your account. To check the cost of the deployed stack, click on **Estimate cost** on the review page.]{type="info"}
+   ::alert[This will create EC2 instance in your account. To check the cost of the deployed stack, click on **Estimate cost** on the review page.]{type="info"}
 1. You can click the **refresh** button a few times until you see in the status **CREATE_COMPLETE**.
 
 ### Challenge
 
-In this exercise, use the AWS CLI to query the AWS Systems Manager Parameter Store the get the latest Amazon Linux AMI ID.
+In this exercise, use the AWS CLI to query the AWS Systems Manager Parameter Store to get the latest Amazon Linux AMI ID.
 
 ::alert[To complete this challenge, you have to have [AWS CLI](../../../prerequisites/awscli) configured.]{type="info"}
 
@@ -145,15 +150,17 @@ Copy the code below to your terminal. Make sure to change the `--region` flag to
 
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 aws ssm get-parameters \
-    --names /aws/service/ami-amazon-linux-latest/amzn2-ami-hvm-x86_64-gp2 \
-    --query "Parameters[].Value" \
-    --region eu-west-2 \
-    --output text
+ --names /aws/service/ami-amazon-linux-latest/amzn2-ami-hvm-x86_64-gp2 \
+ --query "Parameters[].Value" \
+ --region eu-west-2 \
+ --output text
 :::
 
 ![ami-id-gif](/static/basics/templates/resources/ami-id.gif)
 ::::
 
 ---
+
 ### Conclusion
+
 Congratulations! You now have successfully learned how to deploy EC2 instance via CloudFormation.
