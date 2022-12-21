@@ -34,7 +34,7 @@ In this Lab, you will:
 
 + Create an Output section in your template and return Public DNS name of the instance.
 + Create Elastic IP resource and attach it to the EC2 instance.
-+ Learn how to view outputs form within CloudFormation in AWS console.
++ Learn how to view outputs from within CloudFormation in AWS console.
 
 ### Start Lab
 

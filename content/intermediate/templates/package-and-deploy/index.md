@@ -98,6 +98,8 @@ From within a `code/workspace/package-and-deploy` directory run:
 pip install pytz --target lambda
 :::
 
+If you have `python 3` installed you may have to use `pip3` instead of `pip` for the above command.
+
 You should see the `pytz` package inside the `lambda/` folder.
 
 ##### 3. Run the `package` command
@@ -253,6 +255,7 @@ From your terminal run:
 aws lambda invoke \
     --function-name cfn-workshop-python-function \
     --payload "{\"time_zone\": \"Europe/London\"}" \
+    --cli-binary-format raw-in-base64-out \
     response.json
 :::
 ::::

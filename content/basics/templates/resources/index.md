@@ -9,7 +9,7 @@ _Lab Duration: ~10 minutes_
 
 ### Overview
 
-In this Lab, you will learn little more about CloudFormation top-level sections, including Format Version, Description, Metadata, Parameters and Resources.
+In this Lab, you will learn a little more about CloudFormation top-level sections, including Format Version, Description, Metadata, Parameters and Resources.
 
 ### Topics Covered
 By the end of this lab, you will be able to:
@@ -125,7 +125,7 @@ If you have deleted your default VPC, you can create a new one by following the 
 1. Click **Next**.
 1. Provide a **Stack name**. For example **cfn-workshop-ec2**.
     + The _Stack name_ identifies the stack. Use a name to help you distinguish the purpose of this stack.
-    + For **Type of EC2 Instance** select you preferred instance size, for example **t2.micro**.
+    + For **Type of EC2 Instance** select your preferred instance size, for example **t2.micro**.
     + Click **Next**.
 1. You can leave **Configure stack options** default, click **Next**.
 1. On the **Review <stack_name>** page, scroll down to the bottom and click on **Create stack**.
@@ -134,7 +134,7 @@ If you have deleted your default VPC, you can create a new one by following the 
 
 ### Challenge
 
-In this exercise, use the AWS CLI to query the AWS Systems Manager Parameter Store the get the latest Amazon Linux AMI ID.
+In this exercise, use the AWS CLI to query the AWS Systems Manager Parameter Store to get the latest Amazon Linux AMI ID.
 
 ::alert[To complete this challenge, you have to have [AWS CLI](../../../prerequisites/awscli) configured.]{type="info"}
 
