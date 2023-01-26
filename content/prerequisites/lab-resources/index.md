@@ -15,6 +15,6 @@ Or Download the ZIP file from [the GitHub repository page](https://github.com/aw
 
 ![git-download-png](/static/prerequisites/lab-resources/git-download.png)
 
-2. Open the downloaded files in your code editor, as installed in [a previous step](/prerequisites/editor):
+2. Open the **code** section from downloaded files in your code editor, as installed in [a previous step](/prerequisites/editor):
 
 ![vscode-png](/static/prerequisites/lab-resources/vscode.png)
