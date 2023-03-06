@@ -27,9 +27,9 @@ awsAccountConfig:
     maxAccessibleRegions: 3
     accessibleRegions:
       required:
+        - us-east-1
         - us-east-2
         - us-west-2
-        - eu-west-1
   participantRole:
     managedPolicies:
       - "arn:aws:iam::aws:policy/AdministratorAccess"
