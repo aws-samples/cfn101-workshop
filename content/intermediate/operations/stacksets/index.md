@@ -100,8 +100,8 @@ In this next step, you will use the AWS CloudFormation Console to create a stack
 
 ![StackSetsDeploymentOptions](/static/intermediate/operations/stacksets/stacksetsdeploymentoptions.png)
 1. For **Specify regions**, choose to deploy in **US East (N. Virginia)** and **US West (Oregon)**.
-2. Leave the values for **Deployment options** as is.
-3. On **Review** page, review the contents of the page and choose **Submit**.
+2. Accept default values for **Deployment options**.
+3. On the **Review** page, review the contents of the page and choose **Submit**.
 4. Refresh the StackSet creation page until you see **CREATE** status as `SUCCEEDED`.
 
 ![StackSetCompletion](/static/intermediate/operations/stacksets/createstacksetcompletion.png)
@@ -109,7 +109,7 @@ In this next step, you will use the AWS CloudFormation Console to create a stack
 5. Under **Stack instances**, you should see two stacks deployed. One in `us-east-1` and another in `us-west-2`.
 
 ![StackInstances](/static/intermediate/operations/stacksets/stackinstances.png)
-6. Navigate to **Exports**. You should see two Outputs with Export name `AWS-CloudFormationWorkshop-SubnetId1`, `AWS-CloudFormationWorkshop-SubnetId2,` and `AWS-CloudFormationWorkshop-VpcId`. These exports are created in each region where you deployed your stack sets (`us-east-1` and `us-west-2`).
+6. Navigate to **Exports**. You should see 3 exports named `AWS-CloudFormationWorkshop-SubnetId1`, `AWS-CloudFormationWorkshop-SubnetId2,` and `AWS-CloudFormationWorkshop-VpcId`. These exports are created in each region where you deployed your stack sets (`us-east-1` and `us-west-2`).
 
 ![StackSetExports](/static/intermediate/operations/stacksets/exports.png)
 
@@ -117,17 +117,17 @@ Congratulations! You have deployed your infrastructure to multiple AWS Regions u
 
 **Part 2**
 
-In this part of the lab, you will deploy a new CloudFormation template, `example_securitygroup.yaml`, that describes a security group, that you will associate to the VPC you created earlier in a given region. You will also output the **Security Group ID** so that you can consume it later in the *Challenge* portion of this workshop lab. The architecture diagram highlighting the security group resource you will describe with the `example_securitygroup.yaml` template is shown next:
+In this part of the lab, you will use a new CloudFormation template, `example_securitygroup.yaml`, describing a security group that you will associate to the VPC you created earlier in a given region. You will also export the output for the **Security Group ID**, so that you can consume it later in the *Challenge* portion of this workshop lab. The architecture diagram highlighting the security group resource you will describe with the `example_securitygroup.yaml` template is shown next:
 
 ![StackSetsSecuritygroup](/static/intermediate/operations/stacksets/stacksetsecuritygroup.png)
 
 Let’s get started:
 
-1. Change directory to the `code/workspace/stacksets` directory.
+1. Make sure you are in the following directory: `code/workspace/stacksets`.
 2. Open the `example_securitygroup.yaml` template in your favorite text editor.
 3. Familiarize with the configuration for the example security group in the template. In the example, your intents are to:
-    1. create a security group: you will choose to deploy your security group in the same VPC you created earlier and in multiple regions using a single Create operation using CloudFormation StackSets. You will reference the VPC ID using the `Fn::ImportValue` [intrinsic function](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference-importvalue.html).
-    2. export the `SecurityGroupId` as an output. When you export the resource names as output values, these resources are available in each of the regions where you have deployed your stack set. This is because output values are region-specific.
+    1. create a security group: you will choose to deploy your security group in the same VPC you created earlier and in multiple regions using a single create operation using CloudFormation StackSets. You will reference the VPC ID using the `Fn::ImportValue` [intrinsic function](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference-importvalue.html).
+    2. export the `SecurityGroupId` output. Exports are region-specific.
 
 
 In this next step, you will use the AWS CloudFormation console to create a stack set from the `example_securitygroup.yaml` template:
