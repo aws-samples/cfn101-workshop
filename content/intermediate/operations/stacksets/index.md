@@ -86,17 +86,17 @@ In this next step, you will use the AWS CloudFormation Console to create a stack
 
 1. Navigate to the [AWS CloudFormation Console](https://console.aws.amazon.com/cloudformation/).
 2. From the left hand panel, select the **StackSets** tab. Choose **Create StackSets**.
-3. In **Permissions** section, for **IAM Admin role ARN** leave is empty, and set **IAM execution role name** to **AWSCloudFormationStackSetsExecutionRole**.
-5. From **Prerequisite**-**Prepare template** section choose **Template is ready**.
+3. In the **Permissions** section: leave the value for **IAM Admin role ARN** empty; set **IAM execution role name** to **AWSCloudFormationStackSetsExecutionRole**.
+5. From the **Prerequisite**-**Prepare template** section, choose **Template is ready**.
 6. Under **Specify template**, select **Template source** and choose **Upload a template file**. Select **Choose file** and supply the CloudFormation template `example_network.yaml` mentioned earlier, and then choose **Next**.
 7. In **Specify StackSet details** page, provide name, description and set parameters:
     1. Specify a **StackSet** name. For example, choose `example-network-workshop`.
-    2. Provide **StackSet description**. For example choose `provisions VPC, internet gateway, two public subnets and two routes`.
+    2. Provide a **StackSet description**. For example, choose `Provisions VPC, internet gateway, two public subnets, and two routes`.
     3. For **Parameters**, keep them as is. Choose **Next**.
 8. On **Configure StackSet options**, leave **Execution configuration** as is. Choose **Next**.
 9. In **Set deployment options** page, in **Add stacks to stack set** section, choose to **Deploy new stacks**
 10. Under **Accounts**, choose **Deploy stacks in accounts**.
-11. In the **Account numbers** text box, enter the 12-digit AWS account ID for the account you are using for this lab. You can find this by choosing the user/role drop down you have logged into the account with on the top right corner.
+11. In the **Account numbers** text box, enter the 12-digit AWS account ID for the account you are using for this lab. You can find this value by choosing the user/role drop-down menu on the top-right corner.
 
 ![StackSetsDeploymentOptions](/static/intermediate/operations/stacksets/stacksetsdeploymentoptions.png)
 1. For **Specify regions**, choose to deploy in **US East (N. Virginia)** and **US West (Oregon)**.
