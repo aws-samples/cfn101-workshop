@@ -49,9 +49,9 @@ You created the administrator role for StackSets; next, you will create the exec
 
 1. Download the execution role CloudFormation template: https://s3.amazonaws.com/cloudformation-stackset-sample-templates-us-east-1/AWSCloudFormationStackSetExecutionRole.yml
 2. Navigate to the [AWS CloudFormation console](https://console.aws.amazon.com/cloudformation) and select **Create Stack** and choose **With new resources**.
-3. Leave **Prepare template** setting as is.
-    1. For **Template source** select **Upload a template file**.
-    2. Select **Choose file** and supply the CloudFormation template you downloaded: **AWSCloudFormationStackSetExecutionRole.** Choose **Next**.
+3. Leave the **Prepare template** setting as is.
+    1. For **Template source**, select **Upload a template file**.
+    2. Select **Choose file** and supply the CloudFormation template you downloaded: *AWSCloudFormationStackSetExecutionRole.yml*. Choose **Next**.
 4. In **Specify stack details** page, for **Stack name** use `StackSetExecutionRole`.
 5. In **Parameters**, enter the 12-digit account ID for the AWS account you are using for this lab. Choose **Next**.
 6. For **Configure stack options** you may choose to configure tags, as mentioned earlier. For example, enter *Owner* for the tag key, and your email address for the tag value. Leave all other settings as is. Choose **Next**.
