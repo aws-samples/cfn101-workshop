@@ -134,40 +134,40 @@ In this next step, you will use the AWS CloudFormation console to create a stack
 
 
 1. Navigate to the [AWS CloudFormation Console](https://console.aws.amazon.com/cloudformation/).
-2. From the left hand panel, select **StackSets** tab. Choose **Create StackSets.**
-3. Under **Permissions** section, in **IAM Admin role ARN**, select **IAM role name** from dropdown and set it to **AWSCloudFormationStackSetAdministrationRole**, and set **IAM execution role name** to **AWSCloudFormationStackSetsExecutionRole**.
+2. From the left hand panel, select the **StackSets** tab. Choose **Create StackSets.**
+3. In the **Permissions** section: for **IAM Admin role ARN**, select **IAM role name** from the drop-down menu, and set it to **AWSCloudFormationStackSetAdministrationRole**; set **IAM execution role name** to **AWSCloudFormationStackSetsExecutionRole**.
 4. From **Prepare template**, choose **Template is ready**.
 5. For **Template source**, choose **Upload a template file**. Select **Choose file** and supply the CloudFormation template `example_securitygroup.yaml` mentioned earlier, and then choose **Next**.
 6. In **Specify StackSet details** page, provide name, description and set parameters.
     1. Specify a **StackSet name**. For example, choose `example-securitygroup-workshop`.
-    2. Provide **StackSet description**. For example choose `provisions security group and associates it to the existing VPC`.
+    2. Provide a **StackSet description**. For example, choose `Provisions a security group, and associates it to the existing VPC`.
     3. For **Parameters**, keep them as is. Choose **Next**.
 7. On **Configure StackSet options**, leave **Execution Configuration** as is. Choose **Next**.
 8. In **Set deployment options** page, in **Add stacks to stack set** section, choose to **Deploy new stacks**.
     1. Under **Accounts**, choose **Deploy stacks in accounts** option.
     2. From **Add stacks to stackset**, choose **Deploy new stacks**.
-    3. In **Account numbers** text box, enter the 12-digit AWS account ID for the account you are using for this lab. You can find this by selecting the user/role drop down you have logged into the account with on the top right corner.
+    3. In the **Account numbers** text box, enter the 12-digit AWS account ID for the account you are using for this lab.
     4. For **Specify regions**, choose to deploy in **US East (N. Virginia)** and **US West (Oregon)**.
-    5. Leave the values for **Deployment options** as is. Ensure **Maximum concurrent accounts** is set to **1**, **Failure tolerance** to **0** and **Region Concurrency** to **Sequential**. Choose **Next**.
-9. On **Review** page, review the contents of the page and choose **Submit**.
+    5. Accept default values for **Deployment options**. Ensure **Maximum concurrent accounts** is set to **1**, **Failure tolerance** to **0** and **Region Concurrency** to **Sequential**. Choose **Next**.
+9. On the **Review** page, review the contents of the page, and choose **Submit**.
 10. Refresh the StackSet creation page until you see the **Status** of the **CREATE** operation as `SUCCEEDED`.
 11. Under **Stack instances**, you should see two stacks deployed. One in `us-east-1` and another in `us-west-2`.
-12. Navigate to **Exports**. You should see new entry with Export name `AWS-CloudFormationWorkshop-SecurityGroupId`.
+12. Navigate to **Exports**. You should see a new export named `AWS-CloudFormationWorkshop-SecurityGroupId`.
 
 ![StackSetsSecuritygroupexports](/static/intermediate/operations/stacksets/exportssecuritygroup.png)
 
-Congratulations! You have learned how export the output values from one stack set and import this value into another stack set.
+Congratulations! You have learned how export an output value from a stack set instance, and import it into another stack set instance.
 
 
 ### Challenge
 
-In this exercise, you will use the knowledge gained from earlier parts of this lab to deploy a new stack set that would provision an [Amazon Elastic Compute Cloud (Amazon EC2)](https://docs.aws.amazon.com/ec2/?id=docs_gateway) instance in the existing VPC and attach the security group you created earlier. Your task is to update the template `example_ec2instance.yaml` to import `SubnetId1` that you exported as part of Part 1 of this lab. You will also choose to deploy in **Parallel**. The architecture diagram highlighting the EC2 instance you will describe as part of this challenge is shown next:
+In this exercise, you will use the knowledge gained from earlier parts of this lab. Your task is to create a new `example-ec2instance-workshop` stack set that will provision an [Amazon Elastic Compute Cloud (Amazon EC2)](https://docs.aws.amazon.com/ec2/?id=docs_gateway) instance in the existing VPC, and attach the security group you created earlier. Your task is also to update the `example_ec2instance.yaml` template to import the value for `SubnetId1` that you exported as part of Part 1 of this lab. When you create the stack set, choose to deploy StackSets operations in **Parallel**. The architecture diagram highlighting the EC2 instance you will describe as part of this challenge is shown next:
 
 ![StackSetsEc2instance](/static/intermediate/operations/stacksets/stacksetsec2instance.png)
 
 :::expand{header="Need a hint?"}
 
-* Change directory to the `code/workspace/stacksets` directory.
+* Make sure you are in the directory named `code/workspace/stacksets`.
 * Open the `example_ec2instance.yaml` CloudFormation template in the text editor of your choice.
 
 ::alert[Note: [Amazon Machine Image (AMI) IDs](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/AMIs.html) are different for instances in different regions. To use region-specific AMI IDs, understand the following code snippet in the Parameters section of your template queries the latest AMI ID for that region and this is also referenced (`LatestAmiId`) in **Parameters** section of your template.]{type="info"}
