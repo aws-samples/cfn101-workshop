@@ -1,0 +1,31 @@
+AWSTemplateFormatVersion: "2010-09-09"
+
+Description: Sample template describing an EC2 instance for an example application. (uksb-1q9p31idr)
+
+Parameters:
+  LatestAmiId:
+    Description: The ID of the region-specific Amazon Machine Image to use.
+    Type: AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>
+    Default: /aws/service/ami-amazon-linux-latest/amzn2-ami-hvm-x86_64-gp2
+
+  InstanceType:
+    Description: Amazon EC2 instance type to use for your instances.
+    Type: String
+    AllowedValues:
+      - t2.micro
+      - t2.small
+      - t2.medium
+      - t3.micro
+      - t3.small
+      - t3.medium
+    Default: t2.micro
+
+Resources:
+  Ec2:
+    Type: AWS::EC2::Instance
+    Properties:
+      ImageId: !Ref LatestAmiId
+      SecurityGroupIds:
+        - !ImportValue AWS-CloudFormationWorkshop-SecurityGroupId
+      InstanceType: !Ref InstanceType
+      SubnetId: !ImportValue AWS-CloudFormationWorkshop-SubnetId1
