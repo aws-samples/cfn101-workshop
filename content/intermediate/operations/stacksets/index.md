@@ -64,7 +64,7 @@ Now that you created necessary permissions, you will proceed with Part 1 of the 
 
 **Part 1**
 
-In part 1 of this lab, you will use an example CloudFormation template `example_network.yaml`, and you will deploy this template in two Regions of the same account using StackSets. In part 2 of this lab, you will use another example CloudFormation template, `example_securitygroup.yaml`, and deploy the security group in the same network that you created earlier and in the same two regions. The architecture diagram of resources you will describe with `example_network.yaml` is shown next:
+In part 1 of this lab, you will use an example CloudFormation template: `example_network.yaml`, and you'll use this template to create stacks in two Regions of the same account using StackSets. In part 2 of this lab, you'll use another example CloudFormation template, `example_securitygroup.yaml`, and create a security group for each network that you created earlier. The architecture diagram of resources you'll describe with `example_network.yaml` is shown next:
 
 ![StackSetsNetworkStack](/static/intermediate/operations/stacksets/stacksetsnetworkstack.png)
 
@@ -74,9 +74,9 @@ To get started, follow steps shown next:
 1. Change directory to the `code/workspace/stacksets` directory.
 2. Open the `example_network.yaml` CloudFormation template in the text editor of your choice.
 3. Familiarize with the configuration for the example resources in the template. In the example, your intents are to:
-    1. create an [Amazon Virtual Private Cloud](https://docs.aws.amazon.com/vpc/?id=docs_gateway), Internet Gateway, two public subnets, route table, and two routes to the Internet: you will choose to deploy these resources in multiple regions using a single 'Create' operation via CloudFormation StackSets;
+    1. create an [Amazon Virtual Private Cloud](https://docs.aws.amazon.com/vpc/?id=docs_gateway), Internet Gateway, two public subnets, route table, and two routes to the Internet: you will choose to deploy these resources in multiple regions using a single create operation via CloudFormation StackSets;
 
-    2. [export](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-stack-exports.html) the VPC ID and Subnet IDs as outputs. When you export these IDs as output values, these resources are available in each of the regions where you deployed your stack sets. This is because output values are region-specific.
+    2. [export](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-stack-exports.html) the VPC ID and Subnet IDs outputs. Exports are region-specific.
 
 
 You will use the `example_network.yaml` template, that contains the network resources mentioned earlier, to deploy the template in two regions (`us-east-1` and `us-west-2`) of the same account.
