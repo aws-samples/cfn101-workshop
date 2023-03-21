@@ -170,7 +170,7 @@ In this exercise, you will use the knowledge gained from earlier parts of this l
 * Make sure you are in the directory named `code/workspace/stacksets`.
 * Open the `example_ec2instance.yaml` CloudFormation template in the text editor of your choice.
 
-::alert[Note: [Amazon Machine Image (AMI) IDs](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/AMIs.html) are different for instances in different regions. To use region-specific AMI IDs, understand the following code snippet in the Parameters section of your template queries the latest AMI ID for that region and this is also referenced (`LatestAmiId`) in **Parameters** section of your template.]{type="info"}
+::alert[Note: [Amazon Machine Image (AMI)](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/AMIs.html) resources are unique in each region. To use region-specific AMI IDs, you use the following code snippet in the `Parameters` section of your template to query the ID of the latest AMI for a given region; you also reference `LatestAmiId` in the **Resources** section of your template in `ImageId`.]{type="info"}
 
 ```yaml
   LatestAmiId:
@@ -178,12 +178,13 @@ In this exercise, you will use the knowledge gained from earlier parts of this l
     Type: AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>
     Default: /aws/service/ami-amazon-linux-latest/amzn2-ami-hvm-x86_64-gp2
 ```
-* Edit the Resources section of the template to import the value for SubnetId1 that was exported in Part 1. You can import the parameter of your choice the same way you imported VPC ID from `example_network.yaml` to `example_securitygroup.yaml`.
+* Edit the `Resources` section of the template to import the value for `SubnetId1` that you exported in Part 1. You can import the parameter of your choice the same way you imported the ID of the VPC, from `example_network.yaml` to `example_securitygroup.yaml`.
 :::
 
 :::expand{header="Want to see the solution?"}
 * You can find the full solution in the `code/solutions/stacksets/example_ec2instance.yaml` template.
-* To deploy stack sets in parallel, when creating a new stack set, in **Deployment Options**, choose to deploy as **Parallel**. This will deploy StackSets operation in both the regions in **parallel**, thus saving time.
+* Add the following line to the EC2 instance properties: `      SubnetId: !ImportValue AWS-CloudFormationWorkshop-SubnetId1`.
+* Use the updated template, and create a new `example-ec2instance-workshop` stack set to deploy the EC2 instance resources in the 2 regions you chose earlier.  To deploy StackSets operations in parallel, from **Deployment Options** choose **Parallel**. This will deploy StackSets operations in both regions in parallel, thus saving time.
 :::
 ### Cleanup
 
@@ -192,14 +193,14 @@ You will now tear down the resources you created. To delete stack set, you will 
 **How to delete AWS CloudFormation stacks within stack set**
 
 1. Navigate to the [AWS CloudFormation StackSets console.](https://console.aws.amazon.com/cloudformation/home#/stacksets)
-2. Select the CloudFormation stack set you want to delete the stacks from. Choose the last stack set you created, i.e. `example_ec2instance` stack set.
-3. From top right section of the page, select **Actions** and choose **Delete stacks from StackSet**.
+2. Select the CloudFormation stack set you want to delete the stacks from. Choose the last stack set you created, i.e., `example-ec2instance-workshop`.
+3. From top-right section of the page, select **Actions**, and choose **Delete stacks from StackSet**.
 4. Under **Accounts**, select **Deploy stacks in accounts** under **Deployment locations**.
-5. Under **Account numbers** enter the 12-digit AWS account ID for the account you are using for this lab. You can find this by selecting the user/role drop down you have logged into the account with on the top right corner.
+5. Under **Account numbers** enter the 12-digit AWS account ID for the account you are using for this lab.
 6. For **Specify regions** select **Add all regions**. This will automatically select the AWS Regions that the StackSet deployed stacks into. Choose **Next**.
 7. The **Status** changes to `PENDING`.
 8. Refresh until the **Status** changes to `SUCCEEDED`.
-9. Follow steps 2 through 8 for the other two stack sets (i.e. example_securitygroup and example_network).
+9. Follow steps 2 through 8 for the other two stack sets, and in the following order: `example-securitygroup-workshop`, and `example-network-workshop`.
 
 
 Now that you have deleted stacks within each StackSet, you will now choose to delete the empty StackSet.
@@ -217,4 +218,4 @@ Now that you have deleted stacks within each StackSet, you will now choose to de
 
 ### Conclusion
 
-Great work! You learned how you can use CloudFormation StackSets to deploy templates in multiple AWS Regions using a single operation, and how to export output parameters from one stack set and import them into the another stack set.
+Great work! You learned how you can use CloudFormation StackSets to deploy templates in multiple AWS Regions using a single operation, and how to export output parameters from one stack set instance and import them into another stack set instance.
