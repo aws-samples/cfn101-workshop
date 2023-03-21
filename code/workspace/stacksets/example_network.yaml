@@ -19,7 +19,7 @@ Parameters:
     Default: 10.0.20.0/24
 
   AppNameTagValue:
-    Description: Give a unique name for "CloudFormationLab" tag value
+    Description: Enter a value for AppNameTagValue
     Type: String
     Default: CloudFormationWorkshop
 

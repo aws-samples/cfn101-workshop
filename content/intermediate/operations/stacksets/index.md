@@ -9,7 +9,7 @@ _Lab Duration: ~45 minutes_
 
 ### Overview
 
-You can deploy the same infrastructure in multiple AWS [Regions](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Concepts.RegionsAndAvailabilityZones.html) and/or multiple AWS accounts using AWS [CloudFormation StackSets](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/what-is-cfnstacksets.html). With CloudFormation StackSets, you can create, update or delete stacks across multiple accounts and AWS regions with a single operation. From an administrator account, you can define and manage a CloudFormation template, and use the template as a basis for provisioning stacks into target accounts or regions of your choice. You can also share parameters between stack sets by [exporting and importing output values](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference-importvalue.html), and establish dependencies in your stack sets.
+You can deploy the same infrastructure in multiple AWS [Regions](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Concepts.RegionsAndAvailabilityZones.html) and/or multiple AWS accounts using [AWS CloudFormation StackSets](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/what-is-cfnstacksets.html). With CloudFormation StackSets, you can create, update or delete stacks across multiple accounts and AWS regions with a single operation. From an administrator account, you can define and manage a CloudFormation template, and use the template as a basis for provisioning stacks into target accounts or regions of your choice. You can also share parameters between stack sets by [exporting and importing output values](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference-importvalue.html), and establish dependencies in your stack sets.
 
 Although you can use StackSets to deploy across multiple AWS accounts and regions, in this lab you will focus on learning how to deploy across regions using one account. An architecture diagram of the target state is shown next:
 
@@ -20,7 +20,7 @@ Although you can use StackSets to deploy across multiple AWS accounts and region
 By the end of this lab, you will be able to:
 
 * Leverage CloudFormation StackSets to provision resources in one account and across multiple regions using a single operation.
-* Understand how you can export output parameters from one stack set, and import them into another stack set.
+* Understand how you can export output parameters from a stack set instance, and import them into another stack set instance.
 
 ### Start Lab
 
@@ -28,18 +28,18 @@ By the end of this lab, you will be able to:
 
 Specific permissions are required by AWS CloudFormation StackSets to deploy stacks in multiple AWS accounts - and across multiple AWS Regions. You will need an administrator role to perform StackSets operations, and an execution role to deploy the actual stacks in target account(s). These roles require specific naming conventions: **AWSCloudFormationStackSetAdministrationRole** for the administrator role, and **AWSCloudFormationStackSetExecutionRole** for the execution role. StackSets execution will fail if these roles are missing.
 
-::alert[Note on cross-account deployments, the **AWSCloudFormationStackSetAdministrationRole** should be created in the account where you are creating the stack set (the Administrator account). The **AWSCloudFormationStackSetExecutionRole** should be created in each target account where you wish to deploy the stack. Learn more about [granting self-managed permissions](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-prereqs-self-managed.html) for CloudFormation StackSets. If your accounts are managed using AWS Organizations, you can [enable trusted access](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-orgs-enable-trusted-access.html), and CloudFormation will take care of provisioning all the necessary roles across the accounts.]{type="info"}
+::alert[Note that, on cross-account deployments, the **AWSCloudFormationStackSetAdministrationRole** should be created in the account where you are creating the stack set (the Administrator account). The **AWSCloudFormationStackSetExecutionRole** should be created in each target account where you wish to deploy the stack. Learn more about [granting self-managed permissions](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-prereqs-self-managed.html) for CloudFormation StackSets. If your accounts are managed using AWS Organizations, you can [enable trusted access](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-orgs-enable-trusted-access.html), and CloudFormation will take care of provisioning all the necessary roles across the accounts.]{type="info"}
 
 To get started with this lab, use CloudFormation to create the administrator and execution roles:
 
 1.  Download the administrator role CloudFormation template: https://s3.amazonaws.com/cloudformation-stackset-sample-templates-us-east-1/AWSCloudFormationStackSetAdministrationRole.yml
 2. Navigate to the [AWS CloudFormation console](https://console.aws.amazon.com/cloudformation), and make sure you are in the **US East (N. Virginia)** region.
 3. Choose **Create Stack** and select **With new resources**.
-4. Leave **Prepare template** setting as is.
-    1. For Template source select **Upload a template file**.
-    2. Select **Choose file** and supply the CloudFormation template you downloaded: *AWSCloudFormationStackSetAdministrationRole.yml.* Choose **Next**.
-5. For **Stack name** use `StackSetAdministratorRole`. Choose **Next**.
-6. In **Configure stack options** you may choose to configure tags, which are key-value pairs, that can help you identify your stacks and the resources they create. For example, enter *Owner* in the left column which is the tag key, and your email address in the right column which is the tag value. Leave all other settings as is. Choose **Next**.
+4. Leave the **Prepare template** setting as is.
+    1. For **Template source**, select **Upload a template file**.
+    2. Select **Choose file** and supply the CloudFormation template you downloaded: *AWSCloudFormationStackSetAdministrationRole.yml*. Choose **Next**.
+5. For **Stack name**, use `StackSetAdministratorRole`. Choose **Next**.
+6. In **Configure stack options** you may choose to configure tags, which are key-value pairs, that can help you identify your stacks and the resources they create. For example, enter *Owner* in the left column which is the tag key, and your email address in the right column which is the tag value. Accept default values for the other settings in the page. Choose **Next**.
 7. Under **Review,** review the contents of the page. At the bottom of the page, select **I acknowledge that AWS CloudFormation might create IAM resources with custom names**.
 8.  Choose **Submit**.
 
@@ -47,7 +47,7 @@ Wait until the stack creation completes with a `CREATE_COMPLETE` **Status**.
 
 You created the administrator role for StackSets; next, you will create the execution role.
 
-1. Download the execution role CloudFormation template - https://s3.amazonaws.com/cloudformation-stackset-sample-templates-us-east-1/AWSCloudFormationStackSetExecutionRole.yml.
+1. Download the execution role CloudFormation template: https://s3.amazonaws.com/cloudformation-stackset-sample-templates-us-east-1/AWSCloudFormationStackSetExecutionRole.yml
 2. Navigate to the [AWS CloudFormation console](https://console.aws.amazon.com/cloudformation) and select **Create Stack** and choose **With new resources**.
 3. Leave **Prepare template** setting as is.
     1. For **Template source** select **Upload a template file**.
