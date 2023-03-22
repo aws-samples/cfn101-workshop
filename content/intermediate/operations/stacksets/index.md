@@ -74,7 +74,7 @@ To get started, follow steps shown next:
 1. Change directory to the `code/workspace/stacksets` directory.
 2. Open the `example_network.yaml` CloudFormation template in the text editor of your choice.
 3. Familiarize with the configuration for the example resources in the template. In the example, your intents are to:
-    1. create an [Amazon Virtual Private Cloud](https://docs.aws.amazon.com/vpc/?id=docs_gateway), Internet Gateway, two public subnets, route table, and two routes to the Internet: you will choose to deploy these resources in multiple regions using a single create operation via CloudFormation StackSets;
+    1. create an [Amazon Virtual Private Cloud](https://aws.amazon.com/vpc/), Internet Gateway, two public subnets, route table, and two routes to the Internet: you will choose to deploy these resources in multiple regions using a single create operation via CloudFormation StackSets;
 
     2. [export](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-stack-exports.html) the VPC ID and Subnet IDs outputs. Exports are region-specific.
 
