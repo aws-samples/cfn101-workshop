@@ -1,0 +1,28 @@
+AWSTemplateFormatVersion: "2010-09-09"
+
+Description: Sample template describing security group resources for an example application. (uksb-1q9p31idr)
+
+Resources:
+  InstanceSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Allow http to client host
+      VpcId: !ImportValue
+        Fn::Sub: AWS-CloudFormationWorkshop-VpcId
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 80
+          ToPort: 80
+          CidrIp: 0.0.0.0/0
+      SecurityGroupEgress:
+        - IpProtocol: tcp
+          FromPort: 80
+          ToPort: 80
+          CidrIp: 0.0.0.0/0
+
+Outputs:
+  SecurityGroupId:
+    Description: The security group ID to use to attach to instances.
+    Value: !Ref 'InstanceSecurityGroup'
+    Export:
+      Name: AWS-CloudFormationWorkshop-SecurityGroupId
