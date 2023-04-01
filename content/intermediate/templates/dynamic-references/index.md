@@ -31,7 +31,7 @@ In this lab, you will create a Parameter Store parameter to persist an AMI ID: i
 
 Let’s get started! Choose to follow steps shown next:
 
-1. Navigate to the Amazon EC2 [Console](https://console.aws.amazon.com/ec2/v2/home?region=us-east-1#LaunchInstanceWizard:), and [choose the Region](https://docs.aws.amazon.com/awsconsolehelpdocs/latest/gsg/select-region.html) you wish to use. Next, locate the latest *Amazon Linux 2 AMI, (64-bit x86)*, and note the AMI ID (e.g., `ami-abcd1234`). You will use this value in the next step.
+1. Navigate to the Amazon EC2 [Console](https://us-east-1.console.aws.amazon.com/ec2/home?region=us-east-1#LaunchInstances:), and [choose the Region](https://docs.aws.amazon.com/awsconsolehelpdocs/latest/gsg/select-region.html) you wish to use. Next, locate the latest *Amazon Linux 2 AMI, (64-bit x86)*, and note the AMI ID (e.g., `ami-abcd1234`). You will use this value in the next step.
 
 ![ec2](/static/intermediate/templates/dynamic-references/ec2-console-ami-picker.png)
 
@@ -97,7 +97,7 @@ Let’s get started! Choose to follow steps shown next:
     1. Make sure you are in the `code/workspace/dynamic-references` directory.
     2. Open the `database.yaml` CloudFormation template in your favorite text editor.
     3. Note the following resources in the template:
-        1. the resource of type `AWS::RDS::DBInstance`, with which you describe your Amazon RDS instance;
+        1. the resource of type `AWS::RDS::DBInstance`, with which you describe your Amazon RDS instance. **Note:** For resources of the type `AWS::RDS::DBInstance`, if a [deletion policy](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-attribute-deletionpolicy.html) is not explicitly defined, CloudFormation defaults to `Snapshot` i.e. CloudFormation creates a snapshot for the resource before deleting it. In this lab, DeletionPolicy for the resource is set to `Delete` to skip snapshot creation on delete.
         2. the resource of type `AWS::SecretsManager::Secret`, where you will store database connection parameters, as JSON key-value pairs, in a secret named `DatabaseConnParams`:
    ```json
    {
@@ -119,6 +119,7 @@ Let’s get started! Choose to follow steps shown next:
     9. On the **Review** page for your stack, scroll down to the bottom, and choose **Create stack**.
     10. You can view the progress of stack being created in the CloudFormation Console, by refreshing the stack creation page.
     11. Refresh the page until you see the `CREATE_COMPLETE` status for your stack.
+
 3. Next, you will create an AWS Lambda Function, and read a number of database connection parameters as [Environment Variables](https://docs.aws.amazon.com/lambda/latest/dg/configuration-envvars.html) to your Lambda function, by using dynamic references to the Secrets Manager secret you created earlier.
     1. Make sure you are in the `code/workspace/dynamic-references` directory.
     2. Open the `lambda-function.yaml` CloudFormation template in your favorite text editor.
