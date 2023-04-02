@@ -97,7 +97,7 @@ Let’s get started! Choose to follow steps shown next:
     1. Make sure you are in the `code/workspace/dynamic-references` directory.
     2. Open the `database.yaml` CloudFormation template in your favorite text editor.
     3. Note the following resources in the template:
-        1. the resource of type `AWS::RDS::DBInstance`, with which you describe your Amazon RDS instance. **Note:** For resources of the type `AWS::RDS::DBInstance`, if a [deletion policy](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-attribute-deletionpolicy.html) is not explicitly defined, CloudFormation defaults to `Snapshot` i.e. CloudFormation creates a snapshot for the resource before deleting it. In this lab, DeletionPolicy for the resource is set to `Delete` to skip snapshot creation on delete.
+        1. the resource of type `AWS::RDS::DBInstance`, with which you describe your Amazon RDS instance. **Note:** for resources of the type `AWS::RDS::DBInstance` that don't specify the `DBClusterIdentifier` property (as in the example for this lab), if a [deletion policy](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-attribute-deletionpolicy.html) is not explicitly defined, the deletion policy defaults to `Snapshot`, and CloudFormation creates a snapshot for the resource before deleting it. In this lab, `DeletionPolicy` for the resource is set to `Delete` to skip snapshot creation on delete.
         2. the resource of type `AWS::SecretsManager::Secret`, where you will store database connection parameters, as JSON key-value pairs, in a secret named `DatabaseConnParams`:
    ```json
    {
