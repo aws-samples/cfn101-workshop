@@ -23,6 +23,7 @@ Parameters:
 
 Resources:
   Database:
+    DeletionPolicy: Delete
     Type: AWS::RDS::DBInstance
     Metadata:
       cfn_nag:
