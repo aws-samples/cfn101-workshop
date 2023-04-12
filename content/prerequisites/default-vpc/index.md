@@ -21,7 +21,7 @@ If you have deleted your default VPC, you can create a new one by following one 
 
 First we will check if a default VPC is present or not. We will use the AWS CLI to list all existing VPCs in the region
 
-1. Copy the code below to your terminal. Make sure to change the `--region` flag to use a region that you are going to be deploying your CloudFormation to.
+1. Copy the code below to your cloud9 terminal. Make sure to change the `--region` flag to use a region that you are going to be deploying your CloudFormation to.
 
    :::code{language=shell showLineNumbers=false showCopyAction=true}
     aws ec2 describe-vpcs --filters Name=isDefault,Values=true --query "Vpcs[].VpcId" --region eu-west-2
@@ -31,13 +31,13 @@ If the default VPC exists, it will be included here. Assert that `IsDefault` key
 
 If the response is empty `[]` or the VPC is not **default** proceed to the next step. A default VPC does not exist in this region.
 
-1. Copy the code below to your terminal. Make sure to change the --region flag to use a region that you are going to be deploying your CloudFormation to.
+1. Copy the code below to your cloud9 terminal. Make sure to change the --region flag to use a region that you are going to be deploying your CloudFormation to.
 
    :::code{language=shell showLineNumbers=false showCopyAction=true}
     aws ec2 create-default-vpc --region eu-west-2
     :::
 
-    The result will be a new default VPC created, and the response in the terminal will look like the sample below.
+    The result will be a new default VPC created, and the response in the cloud9 terminal will look like the sample below.
 
    :::code{language=json showLineNumbers=false showCopyAction=false}
     {

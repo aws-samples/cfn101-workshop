@@ -34,7 +34,7 @@ In this module, you will use the three pseudo parameters below:
 Let’s walk through an example of how to leverage pseudo parameters.
 
 ### Start Lab
-* Change directory to: `code/workspace/pseudo-parameters`.
+* Change directory to: `code/workspace/pseudo-parameters` in Cloud9 Editor.
 * Open the `pseudo-parameters.yaml` file.
 * Update the content of the template as you follow along steps on this lab.
 
@@ -161,27 +161,45 @@ DemoLambdaFunction:
             response = client.get_parameter(Name='dbUsername')
             print(f'SSM dbUsername parameter value: {response["Parameter"]["Value"]}')
 ```
+Save the template you have updated with content above.
 
-Save the template you have updated with content above. Next, navigate to the AWS CloudFormation [console](https://console.aws.amazon.com/cloudformation), and choose to create a stack using this template:
-* In the CloudFormation console, select *Create stack With new resources (standard)*.
-* In *Prepare template*, select *Template is ready*.
-* In *Template source*, select *Upload a template file*.
-* Choose the `pseudo-parameters.yaml` template.
-* Enter a *Stack name*. For example, choose to specify `cfn-workshop-pseudo-parameters`.
-* Accept the *Configure stack options* default value, and choose *Next*.
-* On the _Review_ page, scroll down to the bottom, and check the box under the following *Capabilities* section: **I acknowledge that AWS CloudFormation might create IAM resources.**
-* Choose *Create stack*. You can view the progress of the stack being created in the CloudFormation console.
-* Wait until the stack creation is complete. Refresh the view in the console until you see your stack to be in the `CREATE_COMPLETE` status.
+# Deploy Stack
 
-![resources-png](/static/basics/templates/pseudo-parameters/resources.png)
+1. In Cloud9 terminal run the following command to copy updated template in previous step to s3 bucket created in       pre-requisite section:
+
+    :::code{language=shell showLineNumbers=false showCopyAction=true}
+      aws s3 cp cfn101-workshop/code/workspace/pseudo-parameters/pseudo-parameters.yaml s3://{s3_bucket_name}/basic/pseudo-parameters/pseudo-parameters.yaml
+    :::
+
+      ![pseudo-png](/static/basics/templates/pseudo-parameters/pseudo-parameters.png)
+
+1. Open the S3 bucket folder in which the template in previous step was copied and copy the object URL.
+
+      ![pseudo-url-png](/static/basics/templates/pseudo-parameters/pseudo-parameters-url.png)
+
+1. In the CloudFormation console, select *Create stack With new resources (standard)*.
+1. In *Prepare template*, select **Template is ready**.
+1. In *Template source*, select **Amazon S3 URL**.
+1. Paste the URL of s3 object copied from step 2.
+
+      ![pseudo-s3-url-copy-png](/static/basics/templates/pseudo-parameters/pseudo-parameters-s3-url.png)
+
+1. Click **Next**
+1. Enter a *Stack name*. For example, choose to specify `cfn-workshop-pseudo-parameters`.
+1. Accept the *Configure stack options* default value, and choose *Next*.
+1. On the _Review_ page, scroll down to the bottom, and check the box under the following *Capabilities* section: **I acknowledge that AWS CloudFormation might create IAM resources.**
+1. Choose *Create stack*. You can view the progress of the stack being created in the CloudFormation console.
+1. Wait until the stack creation is complete. Refresh the view in the console until you see your stack to be in the `CREATE_COMPLETE` status.
+
+    ![resources-png](/static/basics/templates/pseudo-parameters/resources.png)
 
 Verify IAM permissions you described work as you expect. Under the _Resources_ tab for your CloudFormation stack, as shown in the picture above, find the `DemoRole` you described with the `pseudo-parameters.yaml` template. Choose to follow the link to the Physical ID of the `DemoRole`. Expand the inline policy `ssm-least-privilege` under the section for the policy name.
 
-![role-png](/static/basics/templates/pseudo-parameters/role.png)
+  ![role-png](/static/basics/templates/pseudo-parameters/role.png)
 
 You should see the IAM policy you described with your CloudFormation template. Verify that the ARN for your parameter is constructed as you expected.
 
-![policy-png](/static/basics/templates/pseudo-parameters/policy.png)
+  ![policy-png](/static/basics/templates/pseudo-parameters/policy.png)
 
 In the _Resources_ tab, you should also find the Lambda function you described with your template.
 
@@ -213,29 +231,58 @@ your CloudFormation template: for example, you choose the name of the S3 bucket 
 :::
 
 :::expand{header="Want to see the solution?"}
-First, under the _Parameters_ section, add a template parameter `S3BucketNamePrefix` to be used as the S3 bucket prefix you'll be creating.
+  1. First, under the _Parameters_ section, add a template parameter `S3BucketNamePrefix` to be used as the S3 bucket prefix you'll be creating.
 
-```yaml
-S3BucketNamePrefix:
-  Description: The prefix to use for your S3 bucket
-  Type: String
-  Default: cfn-workshop
-  AllowedPattern: ^(?!(^xn--|.$))^[a-z0-9][a-z0-9-]{1,61}[a-z0-9]$
-  ConstraintDescription: Bucket name prefix can include numbers, lowercase letters, uppercase letters, and hyphens (-). It cannot start or end with a hyphen (-).
-```
+      ```yaml
+        S3BucketNamePrefix:
+          Description: The prefix to use for your S3 bucket
+          Type: String
+          Default: cfn-workshop
+          AllowedPattern: ^(?!(^xn--|.$))^[a-z0-9][a-z0-9-]{1,61}[a-z0-9]$
+          ConstraintDescription: Bucket name prefix can include numbers, lowercase letters, uppercase letters, and hyphens (-). It cannot start or end with a hyphen (-).
+      ```
+  1. Then, add a `DemoBucket` resource under the _Resources_ section of the template.
 
-Then, add a `DemoBucket` resource under the _Resources_ section of the template.
+      ```yaml
+        DemoBucket:
+          Type: AWS::S3::Bucket
+          Properties:
+            BucketName: !Sub '${S3BucketNamePrefix}-${AWS::Region}-${AWS::AccountId}'
+      ```
+        See `code/solutions/pseudo-parameters/pseudo-parameters.yaml` for the full solution.
 
-```yaml
-DemoBucket:
-  Type: AWS::S3::Bucket
-  Properties:
-    BucketName: !Sub '${S3BucketNamePrefix}-${AWS::Region}-${AWS::AccountId}'
-```
-See `code/solutions/pseudo-parameters/pseudo-parameters.yaml` for the full solution.
+
+  1.  In Cloud9 terminal run the following command to copy update template in previous step to s3 bucket created in pre-requisite section:
+
+      :::code{language=shell showLineNumbers=false showCopyAction=true}
+      aws s3 cp cfn101-workshop/code/workspace/pseudo-parameters/pseudo-parameters.yaml s3://{s3_bucket_name}/basic/pseudo-parameters/pseudo-parameters.yaml
+      :::
+
+      ![pseudo-png](/static/basics/templates/pseudo-parameters/pseudo-parameters.png)
+
+  1. Open the S3 bucket folder in which the template in previous step was copied and copy the object URL.
+
+       ![pseudo-url-png](/static/basics/templates/pseudo-parameters/pseudo-parameters-url.png)
+
+  1. Go to the AWS console to update your CloudFormation Stack:
+  1. Log in to the **[AWS CloudFormation Console](https://console.aws.amazon.com/cloudformation)** in a new browser tab.
+  1. Select the stack name, for example **cfn-workshop-s3**.
+  1. In the top right corner select **Update**.
+  1. In **Prepare template**, choose **Replace current template**.
+  1. In **Template source**, choose **Amazon S3 URL**.
+  1. Paste the URL of s3 object copied from step 3.
+
+      ![pseudo-s3-url-copy-png](/static/basics/templates/pseudo-parameters/pseudo-parameters-s3-url.png)
+
+  1. Select **Next**.
+  1. On **Specify stack details** page, select **Next**.
+  1. On the **Configure stack options** page, select **Next**.
+  1. On the **Review <stack_name>** page, scroll down and wait for the **Change set** section to complete. Then select **Submit**.
+  1. Wait for the stack status to reach **UPDATE_COMPLETE**. You need to periodically select **Refresh** to see the latest stack status.
 :::
 
-Test your solution, to verify it worked as you expected. First, [update the stack](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-updating-stacks-direct.html) you created earlier: select the template whose content you updated. Wait until the stack update operation succeeds, and verify your S3 bucket uses the `YOUR_BUCKET_NAME_PREFIX-AWS_REGION-YOUR_ACCOUNT_ID` format.
+
+Wait until the stack update operation succeeds, and verify your S3 bucket uses the `YOUR_BUCKET_NAME_PREFIX-AWS_REGION-YOUR_ACCOUNT_ID` format.
 
 ### Clean up
 Follow these steps to clean up created resources:

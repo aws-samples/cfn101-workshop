@@ -24,7 +24,7 @@ In this Lab, you will:
 
 ### Start Lab
 
-1. Go to the `code/workspace` directory.
+1. Go to the `code/workspace` directory in Cloud9 Editor.
 1. Open the `intrinsic-functions.yaml` file.
 1. Copy the code as you go through the topics below.
 
@@ -65,7 +65,7 @@ of **tags**. Each tag is a simple label consisting of a customer-defined key, an
 to categorize resources by purpose, owner, environment, or other criteria. Let's use the intrinsic function **Fn::Join** to name your instance.
 
 1. Add property `Tags` to the `Properties` section.
-1. Reference `InstanceType` parameter and add a word _webserver_, delimited with dash `-` to the tags' property.
+2. Reference `InstanceType` parameter and add a word _webserver_, delimited with dash `-` to the tags' property.
 
     ```yaml
     Resources:
@@ -79,17 +79,34 @@ to categorize resources by purpose, owner, environment, or other criteria. Let's
               Value: !Join [ '-', [ !Ref InstanceType, webserver ] ]
     ```
 
+
+
+
 #### Update EC2 stack
 
 Now it is time to update your stack. Go to the AWS console and update your CloudFormation Stack.
+1. In Cloud9 terminal run the following command to copy updated template in previous step to s3 bucket created in       pre-requisite section:
+
+      :::code{language=shell showLineNumbers=false showCopyAction=true}
+        aws s3 cp cfn101-workshop/code/workspace/intrinsic-functions.yaml s3://{s3_bucket_name}/basic/intrinsic-functions.yaml
+      :::
+
+       ![intrinsic-functions-png](/static/basics/templates/intrinsic-functions/intrinsic-functions.png)
+
+1. Open the S3 bucket folder in which the template in previous step was copied and copy the object URL.
+
+      ![intrinsic-functions-png](/static/basics/templates/intrinsic-functions/intrinsic-functions-url.png)
 
 1. Open the **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** link in a new tab and log in to your AWS account.
 1. Click on the stack name, for example **cfn-workshop-ec2**.
 1. In the top right corner click on **Update**.
 1. In **Prepare template**, choose **Replace current template**.
-1. In **Template source**, choose **Upload a template file**.
-1. Click on **Choose file** button and navigate to your workshop directory.
-1. Select the file `intrinsic-functions.yaml` and click **Next**.
+1. In **Template source**, choose **Amazon S3 URL**.
+1. Paste the URL of s3 object copied from Step 2.
+
+      ![intrinsic-functions-s3-url-copy-png](/static/basics/templates/intrinsic-functions/intrinsic-functions-s3-url.png)
+
+1. Click **Next**
 1. For **Type of EC2 Instance** leave the default value in.
 1. For **Amazon Machine Image ID** copy and paste AMI ID you have hardcoded in `resources.yaml` file and click **Next**.
 1. You can leave **Configure stack options** default, click **Next**.

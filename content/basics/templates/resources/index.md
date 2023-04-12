@@ -22,7 +22,7 @@ By the end of this lab, you will be able to:
 
 ::alert[As you read through each section, there are code samples at the end. Copy these into your own template file.]{type="info"}
 
-1. Go to `code/workspace/` directory.
+1. Go to `code/workspace/` directory in Cloud9 Directory.
 1. Open the `resources.yaml` file.
 1. Copy the code as you go through the topics below.
 
@@ -104,37 +104,51 @@ The only required property of the EC2 resource type is _ImageId_. Let's find the
   1. Open **[AWS EC2 console](https://console.aws.amazon.com/ec2)**
   1. Click **Instances** -> **Launch Instance**.
   1. Copy the **Amazon Linux 2 AMI** `ami-xxxxxxxxx` ID.
-  ::alert[Make sure to use **(x86)** AMI ID, if the region supports both x86 and ARM architectures.]{type="info"}
+      ::alert[Make sure to use **(x86)** AMI ID, if the region supports both x86 and ARM architectures.]{type="info"}
   1. Once you have your AMI ID, copy and paste it to **ImageId** property.
 
-::alert[You can find a working solution for the **London Region** in `code/solutions/resources.yaml` file.]{type="info"}
+      ::alert[You can find a working solution for the **London Region** in `code/solutions/resources.yaml` file.]{type="info"}
 
-Now your EC2 template is ready to be deployed. Go back to AWS console and deploy the stack same way as you did in [Template and Stack](../templates/template-and-stack).
+  1. In Cloud9 terminal run the following command to copy updated template in previous step to s3 bucket created in       pre-requisite section:
 
-:::alert{type="warning"}
-To complete this and future labs you will need **Default VPC** in the region you will be deploying CloudFormation templates to. \
-If you have deleted your default VPC, you can create a new one by following the AWS documentation for **[Creating a Default VPC](https://docs.aws.amazon.com/vpc/latest/userguide/default-vpc.html#create-default-vpc)**.
-:::
+      :::code{language=shell showLineNumbers=false showCopyAction=true}
+        aws s3 cp cfn101-workshop/code/workspace/resources.yaml s3://{s3_bucket_name}/basic/resources.yaml
+      :::
 
-1. Open the **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** link in a new tab and log in to your AWS account.
-1. Click on **Create stack** (_With new resources (Standard)_ if you have clicked in the top right corner).
-1. In **Prepare template**, choose **Template is ready**.
-1. In **Template source**, choose **Upload a template file**.
-1. Click on **Choose file** button and navigate to your workshop directory.
-1. Select the file `resources.yaml`.
-1. Click **Next**.
-1. Provide a **Stack name**. For example **cfn-workshop-ec2**.
-    + The _Stack name_ identifies the stack. Use a name to help you distinguish the purpose of this stack.
-    + For **Type of EC2 Instance** select your preferred instance size, for example **t2.micro**.
-    + Click **Next**.
-1. You can leave **Configure stack options** default, click **Next**.
-1. On the **Review <stack_name>** page, scroll down to the bottom and click on **Create stack**.
-    ::alert[This will create EC2 instance in your account. To check the cost of the deployed stack, click on **Estimate cost** on the review page.]{type="info"}
-1. You can click the **refresh** button a few times until you see in the status **CREATE_COMPLETE**.
+       ![resources-png](/static/basics/templates/resources/resources.png)
+
+  1. Open the S3 bucket folder in which the template in previous step was copied and copy the object URL.
+
+      ![resources-url-png](/static/basics/templates/resources/resources-url.png)
+
+      Now your EC2 template is ready to be deployed. Go back to AWS console and deploy the stack same way as you did in [Template and Stack](../templates/template-and-stack).
+
+      :::alert{type="warning"}
+      To complete this and future labs you will need **Default VPC** in the region you will be deploying CloudFormation templates to. \
+      If you have deleted your default VPC, you can create a new one by following the AWS documentation for **[Creating a Default VPC](https://docs.aws.amazon.com/vpc/latest/userguide/default-vpc.html#create-default-vpc)**.
+      :::
+
+  1. Open the **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** link in a new tab and log in to your AWS account.
+  1. Click on **Create stack** (_With new resources (Standard)_ if you have clicked in the top right corner).
+  1. In **Prepare template**, choose **Template is ready**.
+  1. In **Template source**, choose **Amazon S3 URL**.
+  1. Paste the URL of s3 object copied from step 6.
+
+      ![resources-s3-url-copy-png](/static/basics/templates/resources/resources-s3-url.png)
+
+  1. Click **Next**
+  1. Provide a **Stack name**. For example **cfn-workshop-ec2**.
+      + The _Stack name_ identifies the stack. Use a name to help you distinguish the purpose of this stack.
+      + For **Type of EC2 Instance** select your preferred instance size, for example **t2.micro**.
+      + Click **Next**.
+  1. You can leave **Configure stack options** default, click **Next**.
+  1. On the **Review <stack_name>** page, scroll down to the bottom and click on **Create stack**.
+      ::alert[This will create EC2 instance in your account. To check the cost of the deployed stack, click on **Estimate cost** on the review page.]{type="info"}
+  1. You can click the **refresh** button a few times until you see in the status **CREATE_COMPLETE**.
 
 ### Challenge
 
-In this exercise, use the AWS CLI to query the AWS Systems Manager Parameter Store to get the latest Amazon Linux AMI ID.
+In this exercise, use the Cloud9 Terminal to query the AWS Systems Manager Parameter Store to get the latest Amazon Linux AMI ID.
 
 ::alert[To complete this challenge, you have to have [AWS CLI](../../../prerequisites/awscli) configured.]{type="info"}
 
