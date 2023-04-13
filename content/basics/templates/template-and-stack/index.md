@@ -35,10 +35,20 @@ By the end of this lab, you will be able to:
 4. Open the **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** link in a new tab and log in to your AWS account.
 5. Click on **Create stack** (_With new resources (Standard)_ if you have clicked in the top right corner).
 6. In **Prepare template**, choose **Template is ready**.
+:::::tabs{variant="container"}
+::::tab{id="lc" label="Local"}
 7. In **Template source**, choose **Upload a template file**.
 8. Click on **Choose file** button and navigate to your workshop directory.
 9. Select the file `template-and-stack.yaml` referenced in step 1.
 10. Click **Next**.
+::::
+::::tab{id="c9" label="Cloud9"}
+7. step1
+8. step 2
+9. step 3
+:::
+::::
+:::::
 11. Provide a **Stack name**. For example **cfn-workshop-s3**.
      + The _Stack name_ identifies the stack. Use a name to help you distinguish the purpose of this stack.
      + Click **Next**.
