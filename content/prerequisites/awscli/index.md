@@ -1,5 +1,5 @@
 ---
-title: "Install and configure the AWS CLI | Cloud9 IDE"
+title: "Install AWS CLI | Cloud9 IDE"
 weight: 200
 ---
 
