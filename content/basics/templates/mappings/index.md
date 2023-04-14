@@ -113,6 +113,28 @@ Tags:
 
 Now that you have added a Mappings section to your template, go to the AWS console and update your CloudFormation Stack.
 
+:::::tabs{variant="container"}
+
+::::tab{id="cloud9" label="Cloud9"}
+1. Upload the file to your **template S3 bucket** using AWS CLI [aws s3 cp](https://docs.aws.amazon.com/cli/latest/reference/s3/cp.html) command
+    + `aws s3 cp code/workspace/mappings.yaml s3://cfn-workshop-01-{accountid}`
+1. Determine the **Object URL** as you'll need it in the next step, based on this format `https://[bucketname].s3.amazonaws.com/[key]`
+    + for example `https://cfn-workshop-01-{accountid}.s3.amazonaws.com/mappings.yaml`
+1. Open the **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** link in a new tab and log in to your AWS account.
+1. Click on the stack name, for example **cfn-workshop-ec2**.
+1. In the top right corner click on **Update**.
+1. In **Prepare template**, choose **Replace current template**.
+1. In **Template source**, choose **Amazon S3 URL**.
+1. Paste the `mappings.yaml` **Object URL** you copied from the S3 bucket.
+1. Click **Next**.
+1. For **Amazon Machine Image ID** leave the default value in.
+1. For **EnvironmentType** select the environment from drop down list, for example **Test** and click **Next**.
+1. You can leave **Configure stack options** default, click **Next**.
+1. On the **Review <stack_name>** page, scroll down to the bottom and click on **Update stack**.
+1. You can click the **refresh** button a few times until you see in the status **UPDATE_COMPLETE**.
+::::
+
+::::tab{id="local" label="Local development"}
 1. Open the **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** link in a new tab and log in to your AWS account.
 1. Click on the stack name, for example **cfn-workshop-ec2**.
 1. In the top right corner click on **Update**.
@@ -125,6 +147,9 @@ Now that you have added a Mappings section to your template, go to the AWS conso
 1. You can leave **Configure stack options** default, click **Next**.
 1. On the **Review <stack_name>** page, scroll down to the bottom and click on **Update stack**.
 1. You can click the **refresh** button a few times until you see in the status **UPDATE_COMPLETE**.
+::::
+:::::
+
 
 ### Challenge
 
