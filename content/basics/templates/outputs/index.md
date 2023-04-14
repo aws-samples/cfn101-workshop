@@ -39,11 +39,11 @@ In this Lab, you will:
 ### Start Lab
 
 1. Go to the `code/workspace` directory.
-2. Open the `outputs.yaml` file.
-3. Copy the code as you go through the topics below.
+1. Open the `outputs.yaml` file.
+1. Copy the code as you go through the topics below.
 
     To get the _PublicDnsName_ of the instance, you will need to use `Fn::GetAtt` intrinsic function. Let's first check
-4. the [AWS Documentation](https://docs.aws.amazon.com/en_pv/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-instance.html#aws-properties-ec2-instance-return-values) for available attributes. You can see that _PublicDnsName_ is valid return value for `Fn::GetAtt` function.
+1. the [AWS Documentation](https://docs.aws.amazon.com/en_pv/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-instance.html#aws-properties-ec2-instance-return-values) for available attributes. You can see that _PublicDnsName_ is valid return value for `Fn::GetAtt` function.
 
     Add the section below to your template:
     ```yaml
@@ -53,9 +53,44 @@ In this Lab, you will:
         Value: !GetAtt WebServerInstance.PublicDnsName
     ```
 
-5. Go to the AWS console and update your stack with a new template.
+1. Go to the AWS console and update your stack with a new template.
 
-6. View the output value on the [AWS CloudFormation console](https://console.aws.amazon.com/cloudformation), in the _Outputs_ tab.
+:::::tabs{variant="container"}
+
+::::tab{id="cloud9" label="Cloud9"}
+1. Upload the file to your **template S3 bucket** using AWS CLI [aws s3 cp](https://docs.aws.amazon.com/cli/latest/reference/s3/cp.html) command
+    + `aws s3 cp code/workspace/outputs.yaml s3://cfn-workshop-01-{accountid}`
+1. Determine the **Object URL** as you'll need it in the next step, based on this format `https://[bucketname].s3.amazonaws.com/[key]`
+    + for example `https://cfn-workshop-01-{accountid}.s3.amazonaws.com/outputs.yaml`
+1. Open the **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** link in a new tab and log in to your AWS account.
+1. Click on the stack name, for example **cfn-workshop-ec2**.
+1. In the top right corner click on **Update**.
+1. In **Prepare template**, choose **Template is ready**.
+1. In **Template source**, choose **Amazon S3 URL**.
+1. Paste the `outputs.yaml` **Object URL** you copied from the S3 bucket
+1. Click **Next**.
+1. You can leave **Configure stack options** default, click **Next**.
+1. On the **Review <stack_name>** page, scroll down to the bottom and click on **Update stack**.
+1. You can click the **refresh** button a few times until you see in the status **UPDATE_COMPLETE**.
+1. View the output value on the [AWS CloudFormation console](https://console.aws.amazon.com/cloudformation), in the _Outputs_ tab.
+::::
+
+::::tab{id="local" label="Local development"}
+1. Open the **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** link in a new tab and log in to your AWS account.
+1. Click on the stack name, for example **cfn-workshop-ec2**.
+1. In the top right corner click on **Update**.
+1. In **Prepare template**, choose **Template is ready**.
+1. In **Template source**, choose **Upload a template file**.
+1. Click on **Choose file** button and navigate to your workshop directory.
+1. Select the file `outputs.yaml` and click **Next**.
+1. You can leave **Configure stack options** default, click **Next**.
+1. On the **Review <stack_name>** page, scroll down to the bottom and click on **Update stack**.
+1. You can click the **refresh** button a few times until you see in the status **UPDATE_COMPLETE**.
+1. View the output value on the [AWS CloudFormation console](https://console.aws.amazon.com/cloudformation), in the _Outputs_ tab.
+::::
+
+
+
 
 ### Challenge
 
