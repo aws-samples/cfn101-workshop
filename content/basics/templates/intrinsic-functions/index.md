@@ -83,6 +83,31 @@ to categorize resources by purpose, owner, environment, or other criteria. Let's
 
 Now it is time to update your stack. Go to the AWS console and update your CloudFormation Stack.
 
+
+:::::tabs{variant="container"}
+
+::::tab{id="cloud9" label="Cloud9"}
+1. Upload the file to your **template S3 bucket** using AWS CLI [aws s3 cp](https://docs.aws.amazon.com/cli/latest/reference/s3/cp.html) command
+    + `aws s3 cp code/workspace/intrinsic-functions.yaml s3://cfn-workshop-01-{accountid}`
+1. Determine the **Object URL** as you'll need it in the next step, based on this format `https://[bucketname].s3.amazonaws.com/[key]`
+    + for example `https://cfn-workshop-01-{accountid}.s3.amazonaws.com/intrinsic-functions.yaml`
+1. Open the **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** link in a new tab and log in to your AWS account.
+1. Click on **Create stack** (_With new resources (Standard)_ if you have clicked in the top right corner).
+1. In **Prepare template**, choose **Template is ready**.
+1. In **Template source**, choose **Amazon S3 URL**.
+1. Paste the `intrinsic-functions.yaml` **Object URL** you copied from the S3 bucket
+1. Click **Next**.
+1. Provide a **Stack name**. For example **cfn-workshop-ec2**.
+    + The _Stack name_ identifies the stack. Use a name to help you distinguish the purpose of this stack.
+    + For **Type of EC2 Instance** select your preferred instance size, for example **t2.micro**.
+    + Click **Next**.
+1. You can leave **Configure stack options** default, click **Next**.
+1. On the **Review <stack_name>** page, scroll down to the bottom and click on **Create stack**.
+    ::alert[This will create EC2 instance in your account. To check the cost of the deployed stack, click on **Estimate cost** on the review page.]{type="info"}
+1. You can click the **refresh** button a few times until you see in the status **CREATE_COMPLETE**.
+::::
+
+::::tab{id="local" label="Local development"}
 1. Open the **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** link in a new tab and log in to your AWS account.
 1. Click on the stack name, for example **cfn-workshop-ec2**.
 1. In the top right corner click on **Update**.
@@ -95,6 +120,10 @@ Now it is time to update your stack. Go to the AWS console and update your Cloud
 1. You can leave **Configure stack options** default, click **Next**.
 1. On the **Review <stack_name>** page, scroll down to the bottom and click on **Update stack**.
 1. You can click the **refresh** button a few times until you see in the status **UPDATE_COMPLETE**.
+::::
+
+:::::
+
 
 **To see the result of the stack update:**
 
