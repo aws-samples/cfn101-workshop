@@ -97,14 +97,11 @@ Now it is time to update your stack. Go to the AWS console and update your Cloud
 1. In **Template source**, choose **Amazon S3 URL**.
 1. Paste the `intrinsic-functions.yaml` **Object URL** you copied from the S3 bucket
 1. Click **Next**.
-1. Provide a **Stack name**. For example **cfn-workshop-ec2**.
-    + The _Stack name_ identifies the stack. Use a name to help you distinguish the purpose of this stack.
-    + For **Type of EC2 Instance** select your preferred instance size, for example **t2.micro**.
-    + Click **Next**.
+1. For **Type of EC2 Instance** leave the default value in.
+1. For **Amazon Machine Image ID** copy and paste AMI ID you have hardcoded in `resources.yaml` file and click **Next**.
 1. You can leave **Configure stack options** default, click **Next**.
-1. On the **Review <stack_name>** page, scroll down to the bottom and click on **Create stack**.
-    ::alert[This will create EC2 instance in your account. To check the cost of the deployed stack, click on **Estimate cost** on the review page.]{type="info"}
-1. You can click the **refresh** button a few times until you see in the status **CREATE_COMPLETE**.
+1. On the **Review <stack_name>** page, scroll down to the bottom and click on **Update stack**.
+1. You can click the **refresh** button a few times until you see in the status **UPDATE_COMPLETE**.
 ::::
 
 ::::tab{id="local" label="Local development"}
