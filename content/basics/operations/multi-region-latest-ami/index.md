@@ -35,7 +35,30 @@ In this Lab, you will learn:
 
 Go to the AWS console and update your stack with a new template.
 
+:::::tabs{variant="container"}
+::::tab{id="cloud9" label="Cloud9"}
+1. Upload the file to your **template S3 bucket** using AWS CLI [aws s3 cp](https://docs.aws.amazon.com/cli/latest/reference/s3/cp.html) command.
+
+   `aws s3 cp code/workspace/multi-region-latest-ami.yaml s3://cfn-workshop-01-{accountid}`
+
+1. Determine the **Object URL** as you'll need it in the next step, based on this format `https://[bucketname].s3.amazonaws.com/[key]`
+    for example:-
+     `https://cfn-workshop-01-{accountid}.s3.amazonaws.com/multi-region-latest-ami.yaml`
 1. Open the **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** link in a new tab and log in to your AWS account.
+1. Click on the stack name, for example **cfn-workshop-ec2**.
+1. In the top right corner click on **Update**.
+1. In **Prepare template**, choose **Replace current template**.
+1. In **Template source**, choose **Amazon S3 URL**.
+1. Paste the `multi-region-latest-ami.yaml` **Object URL** you copied from the S3 bucket.
+1. Click **Next**.
+1. For **Amazon Machine Image ID** copy and paste in `/aws/service/ami-amazon-linux-latest/amzn2-ami-hvm-x86_64-gp2`
+1. For **EnvironmentType** select the different environment than is listed. For example if you have **Dev** selected, choose **Test** and click **Next**.
+1. You can leave **Configure stack options** default, click **Next**.
+1. On the **Review <stack_name>** page, scroll down to the bottom and click on **Update stack**.
+1. You can click the **refresh** button a few times until you see in the status **UPDATE_COMPLETE**.
+::::
+
+::::tab{id="local" label="Local development"}
 1. Click on the stack name, for example **cfn-workshop-ec2**.
 1. In the top right corner click on **Update**.
 1. In **Prepare template**, choose **Replace current template**.
@@ -47,7 +70,8 @@ Go to the AWS console and update your stack with a new template.
 1. You can leave **Configure stack options** default, click **Next**.
 1. On the **Review <stack_name>** page, scroll down to the bottom and click on **Update stack**.
 1. You can click the **refresh** button a few times until you see in the status **UPDATE_COMPLETE**.
-
+::::
+:::::
 ::expand[![update-2](/static/basics/operations/multi-region-latest-ami/update-2.gif)]{header="How do I update a Stack?"}
 
 ### Challenge
