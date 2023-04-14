@@ -117,9 +117,9 @@ Now that you have added a Mappings section to your template, go to the AWS conso
 
 ::::tab{id="cloud9" label="Cloud9"}
 1. Upload the file to your **template S3 bucket** using AWS CLI [aws s3 cp](https://docs.aws.amazon.com/cli/latest/reference/s3/cp.html) command
-    + `aws s3 cp code/workspace/mappings.yaml s3://cfn-workshop-01-{accountid}`
+    `aws s3 cp code/workspace/mappings.yaml s3://cfn-workshop-01-{accountid}`
 1. Determine the **Object URL** as you'll need it in the next step, based on this format `https://[bucketname].s3.amazonaws.com/[key]`
-    + for example `https://cfn-workshop-01-{accountid}.s3.amazonaws.com/mappings.yaml`
+    for example `https://cfn-workshop-01-{accountid}.s3.amazonaws.com/mappings.yaml`
 1. Open the **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** link in a new tab and log in to your AWS account.
 1. Click on the stack name, for example **cfn-workshop-ec2**.
 1. In the top right corner click on **Update**.
