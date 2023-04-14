@@ -92,7 +92,8 @@ Now it is time to update your stack. Go to the AWS console and update your Cloud
 1. Determine the **Object URL** as you'll need it in the next step, based on this format `https://[bucketname].s3.amazonaws.com/[key]`
     + for example `https://cfn-workshop-01-{accountid}.s3.amazonaws.com/intrinsic-functions.yaml`
 1. Open the **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** link in a new tab and log in to your AWS account.
-1. Click on **Create stack** (_With new resources (Standard)_ if you have clicked in the top right corner).
+1. Click on the stack name, for example **cfn-workshop-ec2**.
+1. In the top right corner click on **Update**.
 1. In **Prepare template**, choose **Template is ready**.
 1. In **Template source**, choose **Amazon S3 URL**.
 1. Paste the `intrinsic-functions.yaml` **Object URL** you copied from the S3 bucket
