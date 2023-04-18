@@ -109,31 +109,76 @@ Let’s deploy the solution!
 
 When you create the stack, you will pass `test` as the value for `EnvType`, and you will observe only an EC2 instance resource will be provisioned by CloudFormation. Save the template you have updated with content above; next, navigate to the AWS CloudFormation [console](https://console.aws.amazon.com/cloudformation), and choose to create a stack using this template:
 
-* In the CloudFormation console, select **Create stack**, **With new resources (standard)**.
-* In **Prepare template**, select **Template is ready**.
-* In **Template source**, select **Upload a template file**.
-* Choose the `condition-resource.yaml` template.
-* Enter a **Stack name**. For example, choose to specify `cfn-workshop-condition-test`.
-* Pass `test` as the value for the `EnvType` parameter. Choose **Next**.
-* Choose to accept default values in the **Configure stack options** page. Choose **Next**.
-* Choose **Create stack**. You can view the progress of the stack being created in the CloudFormation console.
-* Wait until the stack creation is complete. Refresh the view in the console until you see your stack to be in the `CREATE_COMPLETE` status.
+:::::tabs{variant="container"}
+::::tab{id="cloud9" label="Cloud9"}
+1. Upload the file to your **template S3 bucket** using AWS CLI [aws s3 cp](https://docs.aws.amazon.com/cli/latest/reference/s3/cp.html) command.
 
+   `aws s3 cp code/workspace/condition-resource.yaml s3://cfn-workshop-01-{accountid}`
+
+1. Determine the **Object URL** as you'll need it in the next step, based on this format `https://[bucketname].s3.amazonaws.com/[key]`
+    for example:-
+     `https://cfn-workshop-01-{accountid}.s3.amazonaws.com/condition-resource.yaml`
+1. In the CloudFormation console, select **Create stack**, **With new resources (standard)**.
+1. In **Prepare template**, select **Template is ready**.
+1. In **Template source**, choose **Amazon S3 URL**.
+1. Paste the `condition-resource.yaml` **Object URL** you copied from the S3 bucket.
+1. Click **Next**.
+1. Enter a **Stack name**. For example, choose to specify `cfn-workshop-condition-test`.
+1. Pass `test` as the value for the `EnvType` parameter. Choose **Next**.
+1. Choose to accept default values in the **Configure stack options** page. Choose **Next**.
+1. Choose **Create stack**. You can view the progress of the stack being created in the CloudFormation console.
+1. Wait until the stack creation is complete. Refresh the view in the console until you see your stack to be in the `CREATE_COMPLETE` status.
+::::
+::::tab{id="local" label="Local development"}
+1. In the CloudFormation console, select **Create stack**, **With new resources (standard)**.
+1. In **Prepare template**, select **Template is ready**.
+1. In **Template source**, select **Upload a template file**.
+1. Choose the `condition-resource.yaml` template.
+1. Enter a **Stack name**. For example, choose to specify `cfn-workshop-condition-test`.
+1. Pass `test` as the value for the `EnvType` parameter. Choose **Next**.
+1. Choose to accept default values in the **Configure stack options** page. Choose **Next**.
+1. Choose **Create stack**. You can view the progress of the stack being created in the CloudFormation console.
+1. Wait until the stack creation is complete. Refresh the view in the console until you see your stack to be in the `CREATE_COMPLETE` status.
+::::
+:::::
 Once the stack is in the `CREATE_COMPLETE` status, navigate to the **Resources** tab for your stack: verify the only resource provisioned is your EC2 instance, based on the logic you created driven by the `test` value you passed to the `EnvType` parameter, and to the condition you added and associated to the other two resources in the template:
 
 ![condition-test](/static/intermediate/templates/conditions/condition-test.png)
 
 In the next step, you will create a new stack with the same template. This time, you will pass `prod` as the value for the `EnvType` parameter, and verify that you will provision, with CloudFormation, your `Volume` and `MountPoint` resources as well. Navigate to the AWS CloudFormation [console](https://console.aws.amazon.com/cloudformation), and choose to create a stack using your existing template:
 
-* In the CloudFormation console, select **Create stack**, **With new resources (standard)**.
-* In **Prepare template**, select **Template is ready**.
-* In **Template source**, select **Upload a template file**.
-* Choose the `condition-resource.yaml` template.
-* Enter a **Stack name**. For example, choose to specify `cfn-workshop-condition-prod`.
-* Pass `prod` as the value for the `EnvType` parameter. Choose **Next**.
-* Choose to accept default values in the **Configure stack options** page. Choose **Next**.
-* Choose **Create stack**. You can view the progress of the stack being created in the CloudFormation console.
-* Wait until the stack creation is complete. Refresh the view in the console until you see your stack to be in the `CREATE_COMPLETE` status.
+:::::tabs{variant="container"}
+::::tab{id="cloud9" label="Cloud9"}
+1. Upload the file to your **template S3 bucket** using AWS CLI [aws s3 cp](https://docs.aws.amazon.com/cli/latest/reference/s3/cp.html) command.
+
+   `aws s3 cp code/workspace/condition-resource.yaml s3://cfn-workshop-01-{accountid}`
+
+1. Determine the **Object URL** as you'll need it in the next step, based on this format `https://[bucketname].s3.amazonaws.com/[key]`
+    for example:-
+     `https://cfn-workshop-01-{accountid}.s3.amazonaws.com/condition-resource.yaml`
+1. In the CloudFormation console, select **Create stack**, **With new resources (standard)**.
+1. In **Prepare template**, select **Template is ready**.
+1. In **Template source**, choose **Amazon S3 URL**.
+1. Paste the `condition-resource.yaml` **Object URL** you copied from the S3 bucket.
+1. Click **Next**.
+1. Enter a **Stack name**. For example, choose to specify `cfn-workshop-condition-prod`.
+1. Pass `prod` as the value for the `EnvType` parameter. Choose **Next**.
+1. Choose to accept default values in the **Configure stack options** page. Choose **Next**.
+1. Choose **Create stack**. You can view the progress of the stack being created in the CloudFormation console.
+1. Wait until the stack creation is complete. Refresh the view in the console until you see your stack to be in the `CREATE_COMPLETE` status.
+::::
+::::tab{id="local" label="Local development"}
+1. In the CloudFormation console, select **Create stack**, **With new resources (standard)**.
+1. In **Prepare template**, select **Template is ready**.
+1. In **Template source**, select **Upload a template file**.
+1. Choose the `condition-resource.yaml` template.
+1. Enter a **Stack name**. For example, choose to specify `cfn-workshop-condition-prod`.
+1. Pass `prod` as the value for the `EnvType` parameter. Choose **Next**.
+1. Choose to accept default values in the **Configure stack options** page. Choose **Next**.
+1. Choose **Create stack**. You can view the progress of the stack being created in the CloudFormation console.
+1. Wait until the stack creation is complete. Refresh the view in the console until you see your stack to be in the `CREATE_COMPLETE` status.
+::::
+:::::
 
 This time, the `IsProduction` condition is true. Navigate to the **Resources** tab for your stack, and verify that along with your EC2 instance resource, your other `Volume` and `MountPoint` resources are also provisioned:
 
@@ -190,15 +235,38 @@ Time to deploy your resources!
 
 In this section, you will pass `test` as the value for the `EnvType` parameter, and verify the type of your EC2 instance will be `t2.micro`. Navigate to the AWS CloudFormation [console](https://console.aws.amazon.com/cloudformation), and choose to create a stack using this template:
 
-* In the CloudFormation console, select **Create stack**, **With new resources (standard)**.
-* In **Prepare template**, select **Template is ready**.
-* In **Template source**, select **Upload a template file**.
-* Choose the `condition-resource-property.yaml` template.
-* Enter a **Stack name**. For example, choose to specify `cfn-workshop-condition-property-test`.
-* Pass `test` as the value for the `EnvType` parameter. Choose **Next**.
-* Choose to accept default values in the **Configure stack options** page. Choose **Next**.
-* Choose **Create stack**. You can view the progress of the stack being created in the CloudFormation console.
-* Wait until the stack creation is complete. Refresh the view in the console until you see your stack to be in the `CREATE_COMPLETE` status.
+:::::tabs{variant="container"}
+::::tab{id="cloud9" label="Cloud9"}
+1. Upload the file to your **template S3 bucket** using AWS CLI [aws s3 cp](https://docs.aws.amazon.com/cli/latest/reference/s3/cp.html) command.
+
+   `aws s3 cp code/workspace/condition-resource.yaml s3://cfn-workshop-01-{accountid}`
+
+1. Determine the **Object URL** as you'll need it in the next step, based on this format `https://[bucketname].s3.amazonaws.com/[key]`
+    for example:-
+     `https://cfn-workshop-01-{accountid}.s3.amazonaws.com/condition-resource.yaml`
+1. In the CloudFormation console, select **Create stack**, **With new resources (standard)**.
+1. In **Prepare template**, select **Template is ready**.
+1. In **Template source**, choose **Amazon S3 URL**.
+1. Paste the `condition-resource.yaml` **Object URL** you copied from the S3 bucket.
+1. Click **Next**.
+1. Enter a **Stack name**. For example, choose to specify `cfn-workshop-condition-property-test`.
+1. Pass `test` as the value for the `EnvType` parameter. Choose **Next**.
+1. Choose to accept default values in the **Configure stack options** page. Choose **Next**.
+1. Choose **Create stack**. You can view the progress of the stack being created in the CloudFormation console.
+1. Wait until the stack creation is complete. Refresh the view in the console until you see your stack to be in the `CREATE_COMPLETE` status.
+::::
+::::tab{id="local" label="Local development"}
+1. In the CloudFormation console, select **Create stack**, **With new resources (standard)**.
+1. In **Prepare template**, select **Template is ready**.
+1. In **Template source**, select **Upload a template file**.
+1. Choose the `condition-resource-property.yaml` template.
+1. Enter a **Stack name**. For example, choose to specify `cfn-workshop-condition-property-test`.
+1. Pass `test` as the value for the `EnvType` parameter. Choose **Next**.
+1. Choose to accept default values in the **Configure stack options** page. Choose **Next**.
+1. Choose **Create stack**. You can view the progress of the stack being created in the CloudFormation console.
+1. Wait until the stack creation is complete. Refresh the view in the console until you see your stack to be in the `CREATE_COMPLETE` status.
+::::
+:::::
 
 Once the Stack is in the `CREATE_COMPLETE` status, navigate to the **Resources** tab for your stack, and locate the EC2 instance you created with your stack.
 
@@ -235,15 +303,37 @@ Outputs:
 
 Next, navigate to the AWS CloudFormation [console](https://console.aws.amazon.com/cloudformation), and choose to  update your `cfn-workshop-condition-prod` stack:
 
-* In the CloudFormation console, select **Update stack**.
-* In **Prepare template**, select **Replace current template**.
-* In **Template source**, select **Upload a template file**.
-* Choose the `condition-resource.yaml` template.
-* `EnvType` should already be set to `prod`. Choose **Next**.
-* Choose to accept default values in the **Configure stack options** page. Choose **Next**.
-* Choose **Update stack**. You can view the progress of the stack being created in the CloudFormation console.
-* Wait until the stack creation is complete. Refresh the view in the console until you see your stack to be in the `UPDATE_COMPLETE` status.
+  :::::tabs{variant="container"}
+    ::::tab{id="cloud9" label="Cloud9"}
+    1. Upload the file to your **template S3 bucket** using AWS CLI [aws s3 cp](https://docs.aws.amazon.com/cli/latest/reference/s3/cp.html) command.
 
+        `aws s3 cp code/workspace/condition-resource.yaml s3://cfn-workshop-01-{accountid}`
+
+    1. Determine the **Object URL** as you'll need it in the next step, based on this format `https://[bucketname].s3.amazonaws.com/[key]`
+        for example:-
+        `https://cfn-workshop-01-{accountid}.s3.amazonaws.com/condition-resource.yaml`
+    1. In the CloudFormation console, select **Update stack**.
+    1. In **Prepare template**, select **Replace current template**.
+    1. In **Template source**, choose **Amazon S3 URL**.
+    1. Paste the `condition-resource.yaml` **Object URL** you copied from the S3 bucket.
+    1. Click **Next**.
+    1. `EnvType` should already be set to `prod`. Choose **Next**.
+    1. Choose to accept default values in the **Configure stack options** page. Choose **Next**.
+    1. Choose **Update stack**. You can view the progress of the stack being created in the CloudFormation console.
+    1. Wait until the stack creation is complete. Refresh the view in the console until you see your stack to be in the `UPDATE_COMPLETE` status.
+    ::::
+    ::::tab{id="local" label="Local development"}
+    1. In the CloudFormation console, select **Update stack**.
+    1. In **Prepare template**, select **Replace current template**.
+    1. In **Template source**, select **Upload a template file**.
+    1. Choose the `condition-resource.yaml` template.
+    1. `EnvType` should already be set to `prod`. Choose **Next**.
+    1. Choose to accept default values in the **Configure stack options** page. Choose **Next**.
+    1. Choose **Update stack**. You can view the progress of the stack being created in the CloudFormation console.
+    1. Wait until the stack creation is complete. Refresh the view in the console until you see your stack to be in the
+    `UPDATE_COMPLETE` status.
+    ::::
+  :::::
 
 Navigate to the `Outputs` section of your stack, and validate the `VolumeId` output is present.
 ![condition-prod-update](/static/intermediate/templates/conditions/condition-prod-update.png)
