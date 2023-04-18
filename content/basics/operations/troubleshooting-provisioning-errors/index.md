@@ -33,15 +33,39 @@ To get started, follow steps shown next:
     2. describe both queues as [First-In-First-Out](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-sqs-queues.html#aws-sqs-queue-fifoqueue) (FIFO) queues in this example. When you describe a *source* queue and a *dead-letter* [queue](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-sqs-queues.html#aws-sqs-queue-redrive), both queues must be of the same type: either *standard* or *FIFO* (the latter is the example for this lab). Note, that the example template contains different configuration for the two `FifoQueue` property values, instead of the expected value of `true` for both. Moreover, when you describe a FIFO queue, its name must contain a `.fifo` suffix: whilst `SourceQueue` contains the `.fifo` suffix in its `QueueName`, it is configured as a standard queue (i.e., with `FifoQueue` set to `false`), thus resulting in an error.
 
 Use the `sqs-queues.yaml` template, that contains the error mentioned earlier, to test the stack rollback pause functionality, then fix the error, and complete the stack creation:
+:::::tabs{variant="container"}
+::::tab{id="cloud9" label="Cloud9"}
+1. Upload the file to your **template S3 bucket** using AWS CLI [aws s3 cp](https://docs.aws.amazon.com/cli/latest/reference/s3/cp.html) command.
 
+   `aws s3 cp code/workspace/sqs-queues.yaml s3://cfn-workshop-01-{accountid}`
+
+1. Determine the **Object URL** as you'll need it in the next step, based on this format `https://[bucketname].s3.amazonaws.com/[key]`
+    for example:-
+     `https://cfn-workshop-01-{accountid}.s3.amazonaws.com/sqs-queues.yaml`
 1. Navigate to the [AWS CloudFormation Console](https://console.aws.amazon.com/cloudformation/), and [choose a Region](https://docs.aws.amazon.com/awsconsolehelpdocs/latest/gsg/select-region.html) you wish to use.
-2. From **Create stack**, choose **With new resources (standard)**.
-3. From **Prepare template**, choose **Template is ready**.
-4. From **Template source**, choose **Upload a template file**. Choose the `sqs-queues.yaml` template mentioned earlier, and then choose **Next**.
-5. Specify a stack name: for example, `troubleshoot-provisioning-errors-workshop`. On the same page, accept the default value for the `QueueNamePrefix` parameter, and choose **Next**.
-6. In **Stack failure options**, select **Preserve successfully provisioned resources**. Choose **Next**.
-7. Choose **Create stack** in the next page.
-8. Refresh the stack creation page until you see your stack in the `CREATE_FAILED` status.
+1. From **Create stack**, choose **With new resources (standard)**.
+1. From **Prepare template**, choose **Template is ready**.
+1. In **Template source**, choose **Amazon S3 URL**.
+1. Paste the `sqs-queues.yaml` **Object URL** you copied from the S3 bucket.
+1. Click **Next**.
+1. Specify a stack name: for example, `troubleshoot-provisioning-errors-workshop`. On the same page, accept the default value for the `QueueNamePrefix` parameter, and choose **Next**.
+1. In **Stack failure options**, select **Preserve successfully provisioned resources**. Choose **Next**.
+1. Choose **Create stack** in the next page.
+1. Refresh the stack creation page until you see your stack in the `CREATE_FAILED` status.
+::::
+
+::::tab{id="local" label="Local development"}
+1. Navigate to the [AWS CloudFormation Console](https://console.aws.amazon.com/cloudformation/), and [choose a Region](https://docs.aws.amazon.com/awsconsolehelpdocs/latest/gsg/select-region.html) you wish to use.
+1. From **Create stack**, choose **With new resources (standard)**.
+1. From **Prepare template**, choose **Template is ready**.
+1. From Prepare template, choose Template is ready.
+1. From Template source, choose Upload a template file. Choose the `sqs-queues.yaml` template mentioned earlier, and then choose Next.
+1. Specify a stack name: for example, `troubleshoot-provisioning-errors-workshop`. On the same page, accept the default value for the `QueueNamePrefix` parameter, and choose **Next**.
+1. In **Stack failure options**, select **Preserve successfully provisioned resources**. Choose **Next**.
+1. Choose **Create stack** in the next page.
+1. Refresh the stack creation page until you see your stack in the `CREATE_FAILED` status.
+::::
+:::::
 
 The stack creation has failed, because of the error mentioned earlier. Select the name of your stack from the list (for example, `troubleshoot-provisioning-errors-workshop`): in the **Resources** tab, note that the `DeadLetterQueue` resource is in the `CREATE_COMPLETE` status, and the `SourceQueue` resource is in `CREATE_FAILED` status, along with a relevant error in the **Status reason** column.
 
@@ -51,12 +75,34 @@ In the same stack view page, you will also see options from which you can choose
 
 Your goal is to troubleshoot and fix the error in the template, and resume provisioning, to create the `SourceQueue` resource. As part of this process, preserve the state of your `DeadLetterQueue` that has been created successfully earlier. Next steps:
 
-1. with the `sqs-queues.yaml` template opened in your editor, find `SourceQueue` resource, and change `FifoQueue: false` into `FifoQueue: true`. When done, save your changes.
-2. In the **Stack rollback paused** view shown in the picture earlier, choose **Update**.
-3. In **Prepare template**, choose **Replace current template**, and choose to upload the template you just updated.
-4. Choose **Next** in the **Parameters** page.
-5. In the **Configure stack options** page, locate the **Stack failure options** section: the **Preserve successfully provisioned resources** option you chose at stack creation should still be selected. Scroll down on the page, and choose **Next**.
-6. Next, choose **Update stack**.
+ With the `sqs-queues.yaml` template opened in your editor, find `SourceQueue` resource, and change `FifoQueue: false` into `FifoQueue: true`. When done, save your changes.
+
+:::::tabs{variant="container"}
+::::tab{id="cloud9" label="Cloud9"}
+1. Upload the file to your **template S3 bucket** using AWS CLI [aws s3 cp](https://docs.aws.amazon.com/cli/latest/reference/s3/cp.html) command.
+
+   `aws s3 cp code/workspace/sqs-queues.yaml s3://cfn-workshop-01-{accountid}`
+
+1. Determine the **Object URL** as you'll need it in the next step, based on this format `https://[bucketname].s3.amazonaws.com/[key]`
+    for example:-
+     `https://cfn-workshop-01-{accountid}.s3.amazonaws.com/sqs-queues.yaml`
+
+1. In the **Stack rollback paused** view shown in the picture earlier, choose **Update**.
+1. In **Prepare template**, choose **Replace current template**,
+1. In **Template source**, choose **Amazon S3 URL**.
+1. Paste the `sqs-queues.yaml` **Object URL** you copied from the S3 bucket.
+1. Choose **Next** in the **Parameters** page.
+1. In the **Configure stack options** page, locate the **Stack failure options** section: the **Preserve successfully provisioned resources** option you chose at stack creation should still be selected. Scroll down on the page, and choose **Next**.
+1. Next, choose **Update stack**.
+::::
+::::tab{id="local" label="Local development"}
+1. In the **Stack rollback paused** view shown in the picture earlier, choose **Update**.
+1. In **Prepare template**, choose **Replace current template**, and choose to upload the template you just updated.
+1. Choose **Next** in the **Parameters** page.
+1. In the **Configure stack options** page, locate the **Stack failure options** section: the **Preserve successfully provisioned resources** option you chose at stack creation should still be selected. Scroll down on the page, and choose **Next**.
+1. Next, choose **Update stack**.
+::::
+:::::
 
 Refresh the page until you see your stack in the `UPDATE_COMPLETE` status. In the **Resources** tab for your stack, your `SourceQueue` resource should now be in the `CREATE_COMPLETE` status.
 
@@ -91,7 +137,9 @@ You choose to describe two [AWS Systems Manager Parameter Store](https://docs.aw
       Value: !GetAtt SourceQueue.QueueName
 ```
 
-* Save your changes to the file. Next, [update your stack](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-updating-stacks-direct.html) by using the AWS CloudFormation Console. When you do so, choose **Replace current template** in **Prepare template**, and upload the template you just updated. In the **Configure stack options** page, the **Preserve successfully provisioned resources** option should still be selected.
+* Save your changes to the file. Next,
+
+[update your stack](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-updating-stacks-direct.html) by using the AWS CloudFormation Console using the same procedure you followed in previous step to update stack. When you do so, choose **Replace current template** in **Prepare template**, and upload the template you just updated. In the **Configure stack options** page, the **Preserve successfully provisioned resources** option should still be selected.
 * The stack update operation will fail: when you look into the **Resources** tab for your stack, you should see that one of the two new resources has been created successfully, and the other new one should be in a `CREATE_FAILED` status instead.
 * Troubleshoot and fix the error in the snippet you pasted into your template.
 * Resume the stack update: verify your stack will be in the `UPDATE_COMPLETE` status, and the resource that was previously in the `CREATE_FAILED` status will be in a `CREATE_COMPLETE` status.
@@ -103,7 +151,7 @@ You choose to describe two [AWS Systems Manager Parameter Store](https://docs.aw
 
 :::expand{header="Want to see the solution?"}
 * Update your template: change `Value: !GetAtt 'SourceQueue.QueueName'` into `Value: !GetAtt 'SourceQueue.Arn'` for the `SourceQueueParameter` resource.
-* [Update your stack](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-updating-stacks-direct.html) by choosing to use the updated template.
+* [Update your stack](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-updating-stacks-direct.html) by choosing to use the updated template using the same procedure you followed in previous step to update stack.
 * Note: the template with the full solution is available in the `code/solutions/troubleshooting-provisioning-errors` directory.
 :::
 
