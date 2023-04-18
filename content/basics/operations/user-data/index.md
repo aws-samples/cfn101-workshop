@@ -136,6 +136,26 @@ WebsiteURL:
 Similar to previous labs, update the stack with the updated template. Once CloudFormation completes updating the stack,
 you can then check to see that your script has set up a web server on the EC2 instance.
 
+:::::tabs{variant="container"}
+
+::::tab{id="cloud9" label="Cloud9"}
+1. Deploy the updated `user-data.yaml` template using the AWS CLI [aws cloudformation deploy](https://docs.aws.amazon.com/cli/latest/reference/cloudformation/index.html) command
+:::code{language=shell showLineNumbers=false showCopyAction=true}
+aws cloudformation deploy \
+    --stack-name cfn-workshop-ec2 \
+    --template-file code/workspace/user-data.yaml \
+    --capabilities CAPABILITY_IAM
+:::
+
+    ::alert[The current EC2 instance will be terminated and replaced with a new one.]{type="info"}
+    ::alert[The **CAPABILITY_IAM** value will create IAM resources.]{type="info"}
+
+1. Open the **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** link in a new tab and log in to your AWS account.
+1. Note the stack is being updated.
+1. You can click the **refresh** button a few times until you see in the status **UPDATE_COMPLETE**.
+::::
+
+::::tab{id="local" label="Local development"}
 1. Open the **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** link in a new tab and log in to your AWS account.
 1. Click on the stack name, for example **cfn-workshop-ec2**.
 1. In the top right corner click on **Update**.
@@ -148,6 +168,8 @@ you can then check to see that your script has set up a web server on the EC2 in
 1. You can leave **Configure stack options** default, click **Next**.
 1. On the **Review <stack_name>** page, scroll down to the bottom and tick **I acknowledge that AWS CloudFormation might create IAM resources** check box, then click on **Update stack**.
 1. You can click the **refresh** button a few times until you see in the status **UPDATE_COMPLETE**.
+::::
+:::::
 
 In a web browser, enter the `WebsiteURL` (you can get the WebsiteURL from the _Outputs_ tab of the CloudFormation console).
 
