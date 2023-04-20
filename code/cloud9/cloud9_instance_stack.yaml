@@ -1,11 +1,12 @@
 ---
-AWSTemplateFormatVersion: '2010-09-09'
-Description: AWS CloudFormation template for dynamic Cloud 9 setups. Creates a Cloud9
+AWSTemplateFormatVersion: "2010-09-09"
+Description:
+  AWS CloudFormation template for dynamic Cloud 9 setups. Creates a Cloud9
   bootstraps the instance.
 Parameters:
   BucketName:
     Type: String
-    Default: "cfn-workshop-01-123456789"
+    Default: "cfn-workshop-01-123456789 "
   C9InstanceType:
     Description: Cloud9 instance type
     Type: String
@@ -38,12 +39,13 @@ Parameters:
     Default: ""
   ShutdownTimeout:
     Type: Number
-    Description: Inactivity time before shutting down the instance in minutes
-    Default: 30
+    Description: Inactivity time before shutting down the instance in seconds
+    Default: 3600
 Conditions:
-  Create3rdPartyResources: !Equals [ !Ref C9EnvType, 3rdParty ]
+  Create3rdPartyResources: !Equals [!Ref C9EnvType, 3rdParty]
+
 Resources:
-################## PERMISSIONS AND ROLES #################
+  ################## PERMISSIONS AND ROLES #################
   C9Role:
     Type: AWS::IAM::Role
     Properties:
@@ -51,79 +53,79 @@ Resources:
         - Key: Environment
           Value: AWS
       AssumeRolePolicyDocument:
-        Version: '2012-10-17'
+        Version: "2012-10-17"
         Statement:
-        - Effect: Allow
-          Principal:
-            Service:
-            - ec2.amazonaws.com
-            - ssm.amazonaws.com
-          Action:
-          - sts:AssumeRole
+          - Effect: Allow
+            Principal:
+              Service:
+                - ec2.amazonaws.com
+                - ssm.amazonaws.com
+            Action:
+              - sts:AssumeRole
       ManagedPolicyArns:
-      - arn:aws:iam::aws:policy/AdministratorAccess
+        - arn:aws:iam::aws:policy/AdministratorAccess
       Path: "/"
 
   C9LambdaExecutionRole:
     Type: AWS::IAM::Role
     Properties:
       AssumeRolePolicyDocument:
-        Version: '2012-10-17'
+        Version: "2012-10-17"
         Statement:
-        - Effect: Allow
-          Principal:
-            Service:
-            - lambda.amazonaws.com
-          Action:
-          - sts:AssumeRole
+          - Effect: Allow
+            Principal:
+              Service:
+                - lambda.amazonaws.com
+            Action:
+              - sts:AssumeRole
       Path: "/"
       Policies:
-      - PolicyName:
-          Fn::Join:
-          - ''
-          - - C9LambdaPolicy-
-            - Ref: AWS::Region
-        PolicyDocument:
-          Version: '2012-10-17'
-          Statement:
-          - Effect: Allow
-            Action:
-            - logs:CreateLogGroup
-            - logs:CreateLogStream
-            - logs:PutLogEvents
-            Resource: arn:aws:logs:*:*:*
-          - Effect: Allow
-            Action:
-            - cloudformation:DescribeStacks
-            - cloudformation:DescribeStackEvents
-            - cloudformation:DescribeStackResource
-            - cloudformation:DescribeStackResources
-            - ec2:DescribeInstances
-            - ec2:AssociateIamInstanceProfile
-            - ec2:ModifyInstanceAttribute
-            - ec2:ReplaceIamInstanceProfileAssociation
-            - iam:ListInstanceProfiles
-            - iam:PassRole
-            Resource: "*"
+        - PolicyName:
+            Fn::Join:
+              - ""
+              - - C9LambdaPolicy-
+                - Ref: AWS::Region
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action:
+                  - logs:CreateLogGroup
+                  - logs:CreateLogStream
+                  - logs:PutLogEvents
+                Resource: arn:aws:logs:*:*:*
+              - Effect: Allow
+                Action:
+                  - cloudformation:DescribeStacks
+                  - cloudformation:DescribeStackEvents
+                  - cloudformation:DescribeStackResource
+                  - cloudformation:DescribeStackResources
+                  - ec2:DescribeInstances
+                  - ec2:AssociateIamInstanceProfile
+                  - ec2:ModifyInstanceAttribute
+                  - ec2:ReplaceIamInstanceProfileAssociation
+                  - iam:ListInstanceProfiles
+                  - iam:PassRole
+                Resource: "*"
 
-################## LAMBDA BOOTSTRAP FUNCTION ################
+  ################## LAMBDA BOOTSTRAP FUNCTION ################
 
   C9BootstrapInstanceLambda:
     Description: Bootstrap Cloud9 instance
     Type: Custom::C9BootstrapInstanceLambda
     DependsOn:
-    - C9BootstrapInstanceLambdaFunction
-    - C9Instance
-    - C9InstanceProfile
-    - C9LambdaExecutionRole
+      - C9BootstrapInstanceLambdaFunction
+      - C9Instance
+      - C9InstanceProfile
+      - C9LambdaExecutionRole
     Properties:
       Tags:
         - Key: Environment
           Value: AWS
       ServiceToken:
         Fn::GetAtt:
-        - C9BootstrapInstanceLambdaFunction
-        - Arn
+          - C9BootstrapInstanceLambdaFunction
+          - Arn
       REGION:
         Ref: AWS::Region
       StackName:
@@ -134,8 +136,8 @@ Resources:
         Ref: C9InstanceProfile
       LabIdeInstanceProfileArn:
         Fn::GetAtt:
-        - C9InstanceProfile
-        - Arn
+          - C9InstanceProfile
+          - Arn
 
   C9BootstrapInstanceLambdaFunction:
     Type: AWS::Lambda::Function
@@ -146,11 +148,11 @@ Resources:
       Handler: index.lambda_handler
       Role:
         Fn::GetAtt:
-        - C9LambdaExecutionRole
-        - Arn
+          - C9LambdaExecutionRole
+          - Arn
       Runtime: python3.9
       MemorySize: 256
-      Timeout: '600'
+      Timeout: "600"
       Code:
         ZipFile: |
           from __future__ import print_function
@@ -210,7 +212,7 @@ Resources:
                       responseData = {'Error': traceback.format_exc(e)}
                   finally:
                       cfnresponse.send(event, context, status, responseData, 'CustomResourcePhysicalID')
-################## SSM BOOTSRAP HANDLER ###############
+  ################## SSM BOOTSRAP HANDLER ###############
   C9OutputBucket:
     Type: AWS::S3::Bucket
     DeletionPolicy: Delete
@@ -231,76 +233,70 @@ Resources:
       DocumentType: Command
       DocumentFormat: YAML
       Content:
-        schemaVersion: '2.2'
+        schemaVersion: "2.2"
         description: Bootstrap Cloud9 Instance
         mainSteps:
-        - action: aws:runShellScript
-          name: C9bootstrap
-          inputs:
-            runCommand:
-            - "#!/bin/bash"
-            - date
-            - echo LANG=en_US.utf-8 >> /etc/environment
-            - echo LC_ALL=en_US.UTF-8 >> /etc/environment
-            - . /home/ec2-user/.bashrc
-            - yum -y remove aws-cli; yum -y install sqlite telnet jq strace tree gcc glibc-static python3 python3-pip gettext bash-completion
-            - echo '=== CONFIGURE default python version ==='
-            - PATH=$PATH:/usr/bin
-            - alternatives --set python /usr/bin/python3
-            - echo '=== INSTALL and CONFIGURE default software components ==='
-            - sudo -H -u ec2-user bash -c "pip install --user -U boto boto3 botocore awscli"
-            - echo '=== Resizing the Instance volume'
-            - !Sub SIZE=${C9InstanceVolumeSize}
-            - !Sub REGION=${AWS::Region}
-            - |
-              INSTANCEID=$(curl http://169.254.169.254/latest/meta-data/instance-id)
-              VOLUMEID=$(aws ec2 describe-instances \
-                --instance-id $INSTANCEID \
-                --query "Reservations[0].Instances[0].BlockDeviceMappings[0].Ebs.VolumeId" \
-                --output text --region $REGION)
-              aws ec2 modify-volume --volume-id $VOLUMEID --size $SIZE --region $REGION
-              while [ \
-                "$(aws ec2 describe-volumes-modifications \
-                  --volume-id $VOLUMEID \
-                  --filters Name=modification-state,Values="optimizing","completed" \
-                  --query "length(VolumesModifications)"\
-                  --output text --region $REGION)" != "1" ]; do
-              sleep 1
-              done
-              if [ $(readlink -f /dev/xvda) = "/dev/xvda" ]
-              then
-                sudo growpart /dev/xvda 1
-                STR=$(cat /etc/os-release)
-                SUB="VERSION_ID=\"2\""
-                if [[ "$STR" == *"$SUB"* ]]
-                then
-                  sudo xfs_growfs -d /
-                else
-                  sudo resize2fs /dev/xvda1
-                fi
-              else
-                sudo growpart /dev/nvme0n1 1
-                STR=$(cat /etc/os-release)
-                SUB="VERSION_ID=\"2\""
-                if [[ "$STR" == *"$SUB"* ]]
-                then
-                  sudo xfs_growfs -d /
-                else
-                  sudo resize2fs /dev/nvme0n1p1
-                fi
-              fi
-            - mkdir /home/ec2-user/.aws
-            - echo '[default]' > /home/ec2-user/.aws/config
-            - echo 'output = json' >> /home/ec2-user/.aws/config
-            - chmod 600 /home/ec2-user/.aws/config && chmod 600 /home/ec2-user/.aws/credentials
-            - echo 'PATH=$PATH:/usr/local/bin' >> /home/ec2-user/.bashrc
-            - echo 'export PATH' >> /home/ec2-user/.bashrc
-            - echo '=== CLEANING /home/ec2-user ==='
-            - for f in cloud9; do rm -rf /home/ec2-user/$f; done
-            - chown -R ec2-user:ec2-user /home/ec2-user/
-            - echo '=== PREPARE REBOOT in 1 minute with at ==='
-            - FILE=$(mktemp) && echo $FILE && echo '#!/bin/bash' > $FILE && echo 'reboot -f --verbose' >> $FILE && at now + 1 minute -f $FILE
-            - echo "Bootstrap completed with return code $?"
+          - action: aws:runShellScript
+            name: C9bootstrap
+            inputs:
+              runCommand:
+                - "#!/bin/bash"
+                - date
+                - echo LANG=en_US.utf-8 >> /etc/environment
+                - echo LC_ALL=en_US.UTF-8 >> /etc/environment
+                - . /home/ec2-user/.bashrc
+                - echo '=== Resizing the Instance volume'
+                - !Sub SIZE=${C9InstanceVolumeSize}
+                - !Sub REGION=${AWS::Region}
+                - |
+                  INSTANCEID=$(curl http://169.254.169.254/latest/meta-data/instance-id)
+                  VOLUMEID=$(aws ec2 describe-instances \
+                    --instance-id $INSTANCEID \
+                    --query "Reservations[0].Instances[0].BlockDeviceMappings[0].Ebs.VolumeId" \
+                    --output text --region $REGION)
+                  aws ec2 modify-volume --volume-id $VOLUMEID --size $SIZE --region $REGION
+                  while [ \
+                    "$(aws ec2 describe-volumes-modifications \
+                      --volume-id $VOLUMEID \
+                      --filters Name=modification-state,Values="optimizing","completed" \
+                      --query "length(VolumesModifications)"\
+                      --output text --region $REGION)" != "1" ]; do
+                  sleep 1
+                  done
+                  if [ $(readlink -f /dev/xvda) = "/dev/xvda" ]
+                  then
+                    sudo growpart /dev/xvda 1
+                    STR=$(cat /etc/os-release)
+                    SUB="VERSION_ID=\"2\""
+                    if [[ "$STR" == *"$SUB"* ]]
+                    then
+                      sudo xfs_growfs -d /
+                    else
+                      sudo resize2fs /dev/xvda1
+                    fi
+                  else
+                    sudo growpart /dev/nvme0n1 1
+                    STR=$(cat /etc/os-release)
+                    SUB="VERSION_ID=\"2\""
+                    if [[ "$STR" == *"$SUB"* ]]
+                    then
+                      sudo xfs_growfs -d /
+                    else
+                      sudo resize2fs /dev/nvme0n1p1
+                    fi
+                  fi
+                - mkdir /home/ec2-user/.aws
+                - echo '[default]' > /home/ec2-user/.aws/config
+                - echo 'output = json' >> /home/ec2-user/.aws/config
+                - chmod 600 /home/ec2-user/.aws/config && chmod 600 /home/ec2-user/.aws/credentials
+                - echo 'PATH=$PATH:/usr/local/bin' >> /home/ec2-user/.bashrc
+                - echo 'export PATH' >> /home/ec2-user/.bashrc
+                - echo '=== CLEANING /home/ec2-user ==='
+                - for f in cloud9; do rm -rf /home/ec2-user/$f; done
+                - chown -R ec2-user:ec2-user /home/ec2-user/
+                - echo '=== PREPARE REBOOT in 1 minute with at ==='
+                - FILE=$(mktemp) && echo $FILE && echo '#!/bin/bash' > $FILE && echo 'reboot -f --verbose' >> $FILE && at now + 1 minute -f $FILE
+                - echo "Bootstrap completed with return code $?"
 
   C9BootstrapAssociation:
     Type: AWS::SSM::Association
@@ -314,15 +310,15 @@ Resources:
       Targets:
         - Key: tag:SSMBootstrap
           Values:
-          - Active
+            - Active
 
-################## INSTANCE #####################
+  ################## INSTANCE #####################
   C9InstanceProfile:
     Type: AWS::IAM::InstanceProfile
     Properties:
       Path: "/"
       Roles:
-      - Ref: C9Role
+        - Ref: C9Role
 
   C9Instance:
     Description: "-"
@@ -336,13 +332,12 @@ Resources:
         Ref: C9InstanceType
       Name:
         Ref: AWS::StackName
-      OwnerArn: !If [Create3rdPartyResources, !Ref OwnerArn, !Ref "AWS::NoValue" ]
+      OwnerArn:
+        !If [Create3rdPartyResources, !Ref OwnerArn, !Ref "AWS::NoValue"]
       Tags:
-        -
-          Key: SSMBootstrap
+        - Key: SSMBootstrap
           Value: Active
-        -
-          Key: Environment
+        - Key: Environment
           Value: AWS
 
   TemplateBucket:
@@ -360,10 +355,10 @@ Outputs:
   Cloud9IDE:
     Value:
       Fn::Join:
-      - ''
-      - - https://
-        - Ref: AWS::Region
-        - ".console.aws.amazon.com/cloud9/ide/"
-        - Ref: C9Instance
-        - "?region="
-        - Ref: AWS::Region
+        - ""
+        - - https://
+          - Ref: AWS::Region
+          - ".console.aws.amazon.com/cloud9/ide/"
+          - Ref: C9Instance
+          - "?region="
+          - Ref: AWS::Region
