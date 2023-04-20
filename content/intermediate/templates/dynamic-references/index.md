@@ -31,7 +31,7 @@ In this lab, you will create a Parameter Store parameter to persist an AMI ID: i
 
 Let’s get started! Choose to follow steps shown next:
 
-1. Navigate to the Amazon EC2 [Console](https://us-east-1.console.aws.amazon.com/ec2/home?region=us-east-1#LaunchInstances:), and [choose the Region](https://docs.aws.amazon.com/awsconsolehelpdocs/latest/gsg/select-region.html) you wish to use. Next, locate the latest *Amazon Linux 2 AMI, (64-bit x86)*, and note the AMI ID (e.g., `ami-abcd1234`). You will use this value in the next step.
+1. Navigate to the _Launch an Instance_ Amazon EC2 [Console](https://us-east-1.console.aws.amazon.com/ec2/home?region=us-east-1#LaunchInstances:), and [choose the Region](https://docs.aws.amazon.com/awsconsolehelpdocs/latest/gsg/select-region.html) you wish to use. Next, locate the latest *Amazon Linux 2 AMI, (64-bit x86)*, and note the AMI ID (e.g., `ami-abcd1234`). You will use this value in the next step.
 
 ![ec2](/static/intermediate/templates/dynamic-references/ec2-console-ami-picker.png)
 
@@ -63,15 +63,43 @@ With the dynamic reference above, you describe the intent of resolving the `LATE
 
 4. It’s now time to create your stack! Follow steps below:
 
+	:::::tabs{variant="container"}
+
+	::::tab{id="cloud9" label="Cloud9"}
+	1. Upload the `ec2-instance.yaml` file to your **template S3 bucket** using AWS CLI [aws s3 cp](https://docs.aws.amazon.com/cli/latest/reference/s3/cp.html) command
+	:::code{language=shell showLineNumbers=false showCopyAction=true}
+	aws s3 cp code/workspace/dynamic-references/ec2-instance.yaml s3://cfn-workshop-01-{accountid}
+    :::
+	1. Determine the **Object URL** as you'll need it in the next step, based on this format `https://[bucketname].s3.amazonaws.com/[key]` for example
+	:::code{language=shell showLineNumbers=false showCopyAction=true}
+    https://cfn-workshop-01-{accountid}.s3.amazonaws.com/ec2-instance.yaml
+    :::
+	1. Open the **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** link in a new tab and log in to your AWS account.
+	1. Click on **Create stack With new resources (standard)**.
+	1. In **Prepare template**, choose **Template is ready**.
+	1. In **Template source**, choose **Amazon S3 URL**.
+	1. Paste the `ec2-instance.yaml` **Object URL**you copied from the S3 bucket
+	1. Click **Next**.
+    1. Enter a Stack name. For example, `cfn-workshop-ec2-stack`.
+    1. Choose to use default values for **Configure stack options**, and choose **Next**.
+    1. On the **Review** page for your stack, scroll down to the bottom, and choose **Create stack**.
+    1. You can view the progress of stack being created in the CloudFormation Console, by refreshing the stack creation page.
+    1. Refresh the page until you see the `CREATE_COMPLETE` status for your stack.
+    ::::
+
+	::::tab{id="local" label="Local development"}
     1. Navigate to the [AWS CloudFormation Console](https://console.aws.amazon.com/cloudformation/), and choose **Create stack With new resources (standard)**.
     2. In **Prepare template**, select **Template is ready**.
     3. In **Template source**, select **Upload a template file**.
-    4. Choose the file `ec2_instance.yaml`.
+    4. Choose the file `ec2-instance.yaml`.
     5. Enter a Stack name. For example, `cfn-workshop-ec2-stack`.
     6. Choose to use default values for **Configure stack options**, and choose **Next**.
     7. On the **Review** page for your stack, scroll down to the bottom, and choose **Create stack**.
     8. You can view the progress of stack being created in the CloudFormation Console, by refreshing the stack creation page.
     9. Refresh the page until you see the `CREATE_COMPLETE` status for your stack.
+	::::
+    :::::
+
 
 ::alert[You can also use dynamic references to an SSM parameter to point a specific parameter version. For example, to have CloudFormation resolve version `1` of your parameter, you use: `ImageId: '{{resolve\:ssm:/golden-images/amazon-linux-2:1}}'`. When you lock a dynamic reference to a specific version, this helps to prevent unintentional updates to your resource when you update your stack.]{type="info"}
 
@@ -108,6 +136,34 @@ Let’s get started! Choose to follow steps shown next:
    }
    ```
 2. To deploy the Database stack, follow the steps below:
+
+	:::::tabs{variant="container"}
+
+	::::tab{id="cloud9" label="Cloud9"}
+	1. Upload the `database.yaml` file to your **template S3 bucket** using AWS CLI [aws s3 cp](https://docs.aws.amazon.com/cli/latest/reference/s3/cp.html) command
+	:::code{language=shell showLineNumbers=false showCopyAction=true}
+	aws s3 cp code/workspace/dynamic-references/database.yaml s3://cfn-workshop-01-{accountid}
+    :::
+	1. Determine the **Object URL** as you'll need it in the next step, based on this format `https://[bucketname].s3.amazonaws.com/[key]` for example
+	:::code{language=shell showLineNumbers=false showCopyAction=true}
+    https://cfn-workshop-01-{accountid}.s3.amazonaws.com/database.yaml
+    :::
+	1. Open the **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** link in a new tab and log in to your AWS account.
+	1. Click on **Create stack With new resources (standard)**.
+	1. In **Prepare template**, choose **Template is ready**.
+	1. In **Template source**, choose **Amazon S3 URL**.
+	1. Paste the `database.yaml` **Object URL** you copied from the S3 bucket
+	1. Click **Next**.
+    1. Enter a Stack name. For example, `cfn-workshop-database-stack`.
+    1. For `DBUsername`, specify the primary username for the DB instance.
+    1. For `DBPassword`, specify the password for the primary user.
+    1. Choose to use default values for **Configure stack options**, and choose **Next**.
+    1. On the **Review** page for your stack, scroll down to the bottom, and choose **Create stack**.
+    1. You can view the progress of stack being created in the CloudFormation Console, by refreshing the stack creation page.
+    1. Refresh the page until you see the `CREATE_COMPLETE` status for your stack.
+    ::::
+
+	::::tab{id="local" label="Local development"}
     1. Navigate to the [AWS CloudFormation Console](https://console.aws.amazon.com/cloudformation/), and choose **Create stack With new resources (standard)**.
     2. In **Prepare template**, select **Template is ready**.
     3. In **Template source**, select **Upload a template file**.
@@ -119,6 +175,8 @@ Let’s get started! Choose to follow steps shown next:
     9. On the **Review** page for your stack, scroll down to the bottom, and choose **Create stack**.
     10. You can view the progress of stack being created in the CloudFormation Console, by refreshing the stack creation page.
     11. Refresh the page until you see the `CREATE_COMPLETE` status for your stack.
+    ::::
+    :::::
 
 3. Next, you will create an AWS Lambda Function, and read a number of database connection parameters as [Environment Variables](https://docs.aws.amazon.com/lambda/latest/dg/configuration-envvars.html) to your Lambda function, by using dynamic references to the Secrets Manager secret you created earlier.
     1. Make sure you are in the `code/workspace/dynamic-references` directory.
@@ -131,15 +189,42 @@ Let’s get started! Choose to follow steps shown next:
        RDS_PORT: '{{resolve:secretsmanager:DatabaseConnParams:SecretString:RDS_PORT}}'
    ```
 4. To Deploy the Lambda stack, follow the steps below:
+	:::::tabs{variant="container"}
+
+	::::tab{id="cloud9" label="Cloud9"}
+	1. Upload the `lambda-function.yaml` file to your **template S3 bucket** using AWS CLI [aws s3 cp](https://docs.aws.amazon.com/cli/latest/reference/s3/cp.html) command
+	:::code{language=shell showLineNumbers=false showCopyAction=true}
+	aws s3 cp code/workspace/dynamic-references/lambda-function.yaml s3://cfn-workshop-01-{accountid}
+    :::
+	1. Determine the **Object URL** as you'll need it in the next step, based on this format `https://[bucketname].s3.amazonaws.com/[key]` for example
+	:::code{language=shell showLineNumbers=false showCopyAction=true}
+    https://cfn-workshop-01-{accountid}.s3.amazonaws.com/lambda-function.yaml
+    :::
+	1. Open the **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** link in a new tab and log in to your AWS account.
+	1. Click on **Create stack With new resources (standard)**.
+	1. In **Prepare template**, choose **Template is ready**.
+	1. In **Template source**, choose **Amazon S3 URL**.
+	1. Paste the `lambda-function.yaml` **Object URL** you copied from the S3 bucket
+	1. Click **Next**.
+    1. Enter a Stack name. For example, `cfn-workshop-lambda-stack`.
+    6. Choose to use default values for **Configure stack options**, and choose **Next**.
+    7. On the **Review** page for your stack, scroll down to the bottom, and select the IAM Capabilities check box as shown in the following example:
+       ![Acknowledge IAM Capability](/static/intermediate/templates/dynamic-references/iam-capability.png)
+    8. Choose **Create** stack. Refresh the page until you see your stack in the `CREATE_COMPLETE` status.
+    ::::
+
+	::::tab{id="local" label="Local development"}
     1. Navigate to the [AWS CloudFormation Console](https://console.aws.amazon.com/cloudformation/), and choose **Create stack With new resources (standard)**.
     2. In **Prepare template**, select **Template is ready**.
     3. In **Template source**, select **Upload a template file**.
-    4. Choose the file `lambda_function.yaml`.
+    4. Choose the file `lambda-function.yaml`.
     5. Enter a Stack name. For example, `cfn-workshop-lambda-stack`, and choose **Next**.
     6. Choose to use default values for **Configure stack options**, and choose **Next**.
     7. On the **Review** page for your stack, scroll down to the bottom, and select the IAM Capabilities check box as shown in the following example:
        ![Acknowledge IAM Capability](/static/intermediate/templates/dynamic-references/iam-capability.png)
     8. Choose **Create** stack. Refresh the page until you see your stack in the `CREATE_COMPLETE` status.
+    ::::
+    :::::
 
    In the template you just used, database connection parameters are retrieved during stack runtime using a dynamic string. You retrieved the value for a given key, such as `RDS_HOSTNAME`, with: `'{{resolve\:secretsmanager\:DatabaseConnParams\:SecretString\:RDS_HOSTNAME}}'`, where `DatabaseConnParams` is the secret ID.
 
