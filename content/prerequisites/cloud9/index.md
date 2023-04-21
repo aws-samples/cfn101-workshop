@@ -1,35 +1,8 @@
 ---
-title: "Install AWS CLI | Cloud9 IDE"
+title: "Use Cloud9 IDE"
 weight: 200
 ---
 
-:::::tabs{variant="container"}
-::::tab{id="cli" label="AWS CLI"}
- The [AWS CLI](https://aws.amazon.com/cli/) allows you to interact with AWS services from a terminal session.
- Make sure you have the latest version of the AWS CLI installed on your system.
-
-See the [Installing or updating the latest version of the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html)
-page for installation instructions for your operating system.
-
-## Configure your credentials
-
-Open a terminal window and run `aws configure` to set up your environment.
-
-:::code{language=shell showLineNumbers=false showCopyAction=true}
-aws configure
-:::
-
-Type the **access key ID** and **secret key** you created in [the previous step](/prerequisites/account) and choose a default region (for example you can use `us-east-1`). Preferably use a region that doesn't have any resources already deployed into it.
-
-:::code{language=shell showLineNumbers=false showCopyAction=false}
-AWS Access Key ID [None]: <type key ID here>
-AWS Secret Access Key [None]: <type access key>
-Default region name [None]: <choose region (e.g. "us-east-1", "eu-west-1")>
-Default output format [None]: <leave blank>
-:::
-::::
-
-::::tab{id="cloud9" label="Cloud 9"}
 ## What is Cloud9
 
 AWS Cloud9 is a cloud-based IDE that also offers a command-line terminal. It already comes with AWS CLI, Node.js, AWS CDK Toolkit, and Git installed by default. That's why we strongly recommend you to consider AWS Cloud9 to run this workshop. You can configure a cloud watch instance from aws console as well using aws cloud formation.
@@ -57,5 +30,3 @@ Create a cloud9 instance from console by following step from [Create Cloud9 Envi
     :::code{language=shell showLineNumbers=false showCopyAction=true}
     sudo pip install --upgrade pip
     :::
-::::
-:::::
