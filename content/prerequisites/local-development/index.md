@@ -3,6 +3,7 @@ title: "Use local development"
 weight: 200
 ---
 
+Local development for this workshop requires a numer of development tools. Please install and verify these are installed correctly before proceeding with the workshop.
 
 ## Install AWS CLI
 
@@ -12,7 +13,7 @@ Make sure you have the latest version of the AWS CLI installed on your system.
 See the [Installing or updating the latest version of the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html)
 page for installation instructions for your operating system.
 
-## Configure your credentials
+### Configure your credentials
 
 Open a terminal window and run `aws configure` to set up your environment.
 
@@ -29,7 +30,7 @@ Default region name [None]: <choose region (e.g. "us-east-1", "eu-west-1")>
 Default output format [None]: <leave blank>
 :::
 
-## Setting up Editor
+## Install Code Editor
 
 You may use any code editor or IDE of your choice that supports editing [YAML](https://yaml.org/) but for this workshop
 we will assume the use of [Visual Studio Code](https://code.visualstudio.com/) as it works well on macOS, Linux, and Windows.
@@ -47,4 +48,49 @@ If you are using Visual Studio Code, you should install the [cfn-lint](https://m
 :::alert{type="info"}
 Note that `cfn-lint` is not installed automatically with the Visual Studio Code  `cfn-lint` extension.
 Install it separately following the [installation instructions](https://github.com/aws-cloudformation/cfn-python-lint#install)
+:::
+
+## Install Git (optional)
+
+:::alert{type="info"}
+Git is only used to download the lab sample files, you can download a zip file containing all samples directly from the website if you prefer.
+:::
+
+You may already have Git installed. To check, type `git --version` into a terminal. If not, please follow the instructions below for your operating system.
+
+### Install Git on macOS
+
+There are two ways to install Git on macOS: using [Xcode](https://developer.apple.com/xcode/) or using [Homebrew](https://brew.sh/).
+
+#### Install Git with Xcode
+
+1. Open your terminal and run following command:
+
+   :::code{language=shell showLineNumbers=false showCopyAction=true}
+    xcode-select --install
+   :::
+
+1. Follow the installation steps in the opened software update popup window.
+
+### Install Git on Linux
+
+Git is included in the main package repository of every Linux distribution so use your package manager to install it (e.g. `apt install git`).
+
+Verify the installation by typing `git --version` into a terminal.
+
+:::code{language=shell showLineNumbers=false showCopyAction=true}
+git --version
+git version 2.30.0
+:::
+
+### Install Git on Windows
+
+1. Download the latest [Git for Windows installer](https://git-for-windows.github.io/).
+1. When you've successfully started the installer, you should see the Git Setup wizard screen. Follow the Next and Finish
+ prompts to complete the installation. The default options are pretty sensible for most users.
+1. Open a Command Prompt (or Git Bash if during installation you elected not to use Git from the Windows Command Prompt).
+1. Run the following commands `git --version`
+:::code{language=shell showLineNumbers=false showCopyAction=true}
+git --version
+git version 2.23.0.windows.1
 :::
