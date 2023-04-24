@@ -392,11 +392,13 @@ aws cloudformation describe-stack-resources \
     --output text
 :::
 
-The command above should return the `AccessLogsBucket` bucket name; for example, `cloudformationmanageduploadinfra-accesslogsbucket-[...omitted...]`; make a note of it. This bucket should not contain objects as part of running this lab; verify that by using the following command, that should not show objects in its output (make sure to replace the bucket name with the one you identified in the previous step):
+The command above should return the `AccessLogsBucket` bucket name; for example, `cloudformationmanageduploadinfra-accesslogsbucket-[...omitted...]`; make a note of it. This bucket might contain objects as part of running this lab; list its content with the following command (make sure to replace the bucket name with the one you identified in the previous step):
 
 :::code{language=shell showLineNumbers=false showCopyAction=false}
 aws s3 ls s3://NAME-OF-YOUR-cloudformationmanageduploadinfra-accesslogsbucket-[...]
 :::
+
+As described on this [page](https://docs.aws.amazon.com/AmazonS3/latest/userguide/ServerLogs.html#how-logs-delivered), Amazon S3 periodically collects and consolidates access logs when you enable server access logging for your bucket (that is, in this case, the bucket for artifacts using the logs bucket), and then uploads the logs to the target logging bucket. If you do not see objects in the logs bucket above at this time, there might be a chance, depending on your case, that logs might be delivered whilst you are attempting to delete the logs bucket later on, if you choose to do so. You cannot delete a bucket with objects in it; if this is the case, you'll get an error when deleting the stack that created the logs bucket: if you choose to delete logs in your logs bucket, use the same process you chose to use above for objects in the artifacts bucket, before (re)attempting to delete the bucket (or the stack that creates it; see steps below for more information).
 
 Before deleting the `CloudFormationManagedUploadInfrastructure` stack, you'll need to update it to disable the `DeletionPolicy: Retain` and `UpdateReplacePolicy: Retain` for both `AccessLogsBucket` and `EncryptionKey`. Retrieve the template for the stack, and save it to the `CloudFormationManagedUploadInfrastructure.template` file on your machine:
 
