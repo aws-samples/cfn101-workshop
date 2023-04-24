@@ -312,22 +312,26 @@ In the example below, you will use `AvailabilityZone` property and parameter to 
 :::::tabs{variant="container"}
 
 ::::tab{id="cloud9" label="Cloud9"}
-1. Deploy the updated `helper-scripts.yaml` template using the AWS CLI [aws cloudformation deploy](https://docs.aws.amazon.com/cli/latest/reference/cloudformation/index.html) command
+1. Upload the `helper-scripts.yaml` file to your **template S3 bucket** using AWS CLI [aws s3 cp](https://docs.aws.amazon.com/cli/latest/reference/s3/cp.html) command
 :::code{language=shell showLineNumbers=false showCopyAction=true}
-aws cloudformation deploy \
-    --stack-name cfn-workshop-ec2 \
-    --template-file code/workspace/helper-scripts.yaml \
-    --capabilities CAPABILITY_IAM \
-    --parameter-overrides AvailabilityZone=eu-west-2b
+aws s3 cp code/workspace/helper-scripts.yaml s3://cfn-workshop-01-{accountid}
 :::
-
-    ::alert[The current EC2 instance will be terminated and replaced with a new one.]{type="info"}
-    ::alert[The **CAPABILITY_IAM** value will create IAM resources.]{type="info"}
-
+1. Determine the **Object URL** as you'll need it in the next step, based on this format `https://[bucketname].s3.amazonaws.com/[key]` for example
+:::code{language=shell showLineNumbers=false showCopyAction=true}
+https://cfn-workshop-01-{accountid}.s3.amazonaws.com/helper-scripts.yaml
+:::
 1. Open the **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** link in a new tab and log in to your AWS account.
-1. Note the stack is being updated.
-2. Open the _Parameter_ tab - you can see the retained **AmiID** and **EnvironmentType** values, and new **AvailabilityZone** value.
-1. You can click the **refresh** button a few times until you see in the status **UPDATE_COMPLETE**.
+1. Click on the stack name, for example **cfn-workshop-ec2**.
+1. In the top right corner click on **Update**.
+1. In **Prepare template**, choose **Replace current template**.
+1. In **Template source**, choose **Amazon S3 URL**.
+1. Paste the `helper-scripts.yaml` **Object URL** you copied from the S3 bucket and click **Next**.
+1. For **Amazon Machine Image ID** leave the default value in.
+1. For **AvailabilityZone** parameter, select the different availability zone than the one you made a note in a step 3, for example **eu-west-2b**.
+        ![az-update](/static/basics/operations/helper-scripts/az-update-1.png)
+1. For **EnvironmentType** leave the selected environment in.
+1. You can leave **Configure stack options** default, click **Next**.
+1. On the **Review <stack_name>** page, scroll down to the bottom and tick **I acknowledge that AWS CloudFormation might create IAM resources** check box, then click on **Submit**.
 ::::
 
 ::::tab{id="local" label="Local development"}
@@ -343,7 +347,7 @@ aws cloudformation deploy \
         ![az-update](/static/basics/operations/helper-scripts/az-update-1.png)
 1. For **EnvironmentType** leave the selected environment in.
 1. You can leave **Configure stack options** default, click **Next**.
-1. On the **Review <stack_name>** page, scroll down to the bottom and tick **I acknowledge that AWS CloudFormation might create IAM resources** check box, then click on **Update stack**.
+1. On the **Review <stack_name>** page, scroll down to the bottom and tick **I acknowledge that AWS CloudFormation might create IAM resources** check box, then click on **Submit**.
 
     ::alert[Notice that in **Change set preview**, the _Replacement_ condition of EC2 resource is **True**. Hence, the current EC2 instance will be terminated and replaced with a new one.]{type="info"}
 
@@ -385,21 +389,25 @@ Add the code below to html `<h2>` tags:
 :::::tabs{variant="container"}
 
 ::::tab{id="cloud9" label="Cloud9"}
-1. Deploy the updated `helper-scripts.yaml` template using the AWS CLI [aws cloudformation deploy](https://docs.aws.amazon.com/cli/latest/reference/cloudformation/index.html) command
+1. Upload the `helper-scripts.yaml` file to your **template S3 bucket** using AWS CLI [aws s3 cp](https://docs.aws.amazon.com/cli/latest/reference/s3/cp.html) command
 :::code{language=shell showLineNumbers=false showCopyAction=true}
-aws cloudformation deploy \
-    --stack-name cfn-workshop-ec2 \
-    --template-file code/workspace/helper-scripts.yaml \
-    --capabilities CAPABILITY_IAM
+aws s3 cp code/workspace/helper-scripts.yaml s3://cfn-workshop-01-{accountid}
 :::
-
-    ::alert[The current EC2 instance will be terminated and replaced with a new one.]{type="info"}
-    ::alert[The **CAPABILITY_IAM** value will create IAM resources.]{type="info"}
-
+1. Determine the **Object URL** as you'll need it in the next step, based on this format `https://[bucketname].s3.amazonaws.com/[key]` for example
+:::code{language=shell showLineNumbers=false showCopyAction=true}
+https://cfn-workshop-01-{accountid}.s3.amazonaws.com/helper-scripts.yaml
+:::
 1. Open the **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** link in a new tab and log in to your AWS account.
-1. Note the stack is being updated.
-1. Open the _Parameter_ tab - you can see the existing  **AmiID**,  **EnvironmentType** and **AvailabilityZone** values are retained.
-1. You can click the **refresh** button a few times until you see in the status **UPDATE_COMPLETE**.
+1. Click on the stack name, for example **cfn-workshop-ec2**.
+1. In the top right corner click on **Update**.
+1. In **Prepare template**, choose **Replace current template**.
+1. In **Template source**, choose **Amazon S3 URL**.
+1. Paste the `helper-scripts.yaml` **Object URL** you copied from the S3 bucket and click **Next**.
+1. For **Amazon Machine Image ID** leave the default value in.
+1. For **AvailabilityZone** parameter, leave the selected AZ in.
+1. For **EnvironmentType** leave the selected environment in.
+1. You can leave **Configure stack options** default, click **Next**.
+1. On the **Review <stack_name>** page, scroll down to the bottom and tick **I acknowledge that AWS CloudFormation might create IAM resources** check box, then click on **Submit**.
 ::::
 
 ::::tab{id="local" label="Local development"}
@@ -414,7 +422,7 @@ aws cloudformation deploy \
 1. For **AvailabilityZone** parameter, leave the selected AZ in.
 1. For **EnvironmentType** leave the selected environment in.
 1. You can leave **Configure stack options** default, click **Next**.
-1. On the **Review <stack_name>** page, scroll down to the bottom and tick **I acknowledge that AWS CloudFormation might create IAM resources** check box, then click on **Update stack**.
+1. On the **Review <stack_name>** page, scroll down to the bottom and tick **I acknowledge that AWS CloudFormation might create IAM resources** check box, then click on **Submit**.
 1. You can click the **refresh** button a few times until you see in the status **UPDATE_COMPLETE**.
 ::::
 :::::
