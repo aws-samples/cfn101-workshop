@@ -1,5 +1,5 @@
 ---
-title: "Use local development"
+title: "Use local Development"
 weight: 200
 ---
 
@@ -94,3 +94,23 @@ git version 2.30.0
 git --version
 git version 2.23.0.windows.1
 :::
+
+## Clone lab resources using git
+Clone the repository to your working directory:
+
+:::code{language=shell showLineNumbers=false showCopyAction=true}
+git clone https://github.com/aws-samples/cfn101-workshop
+:::
+
+## Or Download ZIP file manually (optional)
+1. Download the ZIP file from [the GitHub repository page](https://github.com/aws-samples/cfn101-workshop):
+
+![git-download-png](/static/prerequisites/git/git-download.png)
+
+Extract the contents of the zip file.
+
+# Open workshop files
+The templates and code you will work on is located in the **code** folder.
+Open the **code** section from downloaded files in your code editor, as installed in [a previous step](/prerequisites/editor):
+
+![vscode-png](/static/prerequisites/local-development/vscode.png)
