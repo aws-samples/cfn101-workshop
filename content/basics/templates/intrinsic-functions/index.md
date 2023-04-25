@@ -105,7 +105,7 @@ Now it is time to update your stack. Go to the AWS console and update your Cloud
    ![tags-png](/static/basics/templates/intrinsic-functions/tags.png)
 
 ### Challenge
-Crete another tag named `InstanceType` and use intrinsic function **Fn::Sub** to return type of the instance.
+Create another tag named `InstanceType` and use intrinsic function **Fn::Sub** to return type of the instance.
 
 The syntax for the short form is `!Sub`
 
