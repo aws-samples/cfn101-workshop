@@ -58,7 +58,7 @@ Install it separately following the [installation instructions](https://github.c
 :::
 
 ### Open workshop files
-The templates and code you will work on is located in the **code** folder.
+The templates and the code you will work on are both located in the **code** folder.
 Open the **code** section from downloaded files in your code editor, as installed in [a previous step](/prerequisites/editor):
 
 ![vscode-png](/static/prerequisites/local-development/vscode.png)
