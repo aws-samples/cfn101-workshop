@@ -22,7 +22,7 @@ We recommend using **us-east-1 (N. Virginia)** as the _AWS Region_ for the works
 ## Create a Cloud9 instance from AWS Console
 
 1. Create a Cloud9 instance from the **AWS Console** by following the steps from the [Creating an EC2 Environment](https://docs.aws.amazon.com/cloud9/latest/user-guide/create-environment-main.html) guide.
-1. Once created, your instance should be listed on the AWS Cloud9 [Environments](https://console.aws.amazon.com/cloud9/home) page. Click **Open** if not already.
+1. Once created, your instance should be listed on the AWS Cloud9 [Environments](https://console.aws.amazon.com/cloud9/home) page. Choose **Open** if not already.
 1. You will see a terminal area at the bottom where you will run the commands as you progress through the workshop. In the main work area you will open and edit code and template files.
 1. In a Cloud9 terminal, download and run a bootstrap script to upgrade SAM CLI to the most recent version and install few other tools:
     :::code{language=shell showLineNumbers=false showCopyAction=true}
