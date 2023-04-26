@@ -51,6 +51,30 @@ Resources:
 
 Save your changes to the file. Next, create your stack with the `update-behaviors-of-stack-resources.yaml` template:
 
+:::::tabs{variant="container"}
+::::tab{id="cloud9" label="Cloud9"}
+1. Upload the `update-behaviors-of-stack-resources.yaml` file to your **template S3 bucket** using AWS CLI [aws s3 cp](https://docs.aws.amazon.com/cli/latest/reference/s3/cp.html) command
+:::code{language=shell showLineNumbers=false showCopyAction=true}
+aws s3 cp code/workspace/update-behaviors-of-stack-resources.yaml s3://cfn-workshop-01-{accountid}
+:::
+1. Determine the **Object URL** as you'll need it in the next step, based on this format `https://[bucketname].s3.amazonaws.com/[key]` for example
+:::code{language=shell showLineNumbers=false showCopyAction=true}
+https://cfn-workshop-01-{accountid}.s3.amazonaws.com/update-behaviors-of-stack-resources.yaml
+:::
+1. Open the **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** link in a new tab and log in to your AWS account.
+1. Click on **Create stack With new resources (standard)**.
+1. In **Prepare template**, choose **Template is ready**.
+1. In **Template source**, choose **Amazon S3 URL**.
+1. Paste the `update-behaviors-of-stack-resources.yaml` **Object URL** you copied from the S3 bucket
+1. Click **Next**.
+1. Enter a Stack name. For example, `cfn-workshop-update-behaviors-of-stack-resources`. On the same page, accept default values for `InstanceType` and `LatestAmiId` parameters, and choose **Next**.
+1. You can leave **Configure stack options** default, click **Next**.
+1. On the **Review <stack_name>** page, scroll down to the bottom and choose **Submit**.
+1. You can click the **refresh** button a few times until you see in the status **CREATE_COMPLETE**.
+::::
+
+::::tab{id="local" label="Local development"}
+
 1. Navigate to the [AWS CloudFormation Console](https://console.aws.amazon.com/cloudformation/).
 2. [Choose a Region](https://docs.aws.amazon.com/awsconsolehelpdocs/latest/gsg/select-region.html) you wish to use.
 3. From **Create stack**, choose **With new resources (standard)**.
@@ -60,6 +84,10 @@ Save your changes to the file. Next, create your stack with the `update-behavior
 7. Choose to accept default values in the **Configure stack options** page. Choose **Next**.
 8. On the **Review** page, scroll down to the bottom, and choose **Create stack**.
 9. Wait until the stack creation is complete. Refresh the view in the console until you see your stack to be in the `CREATE_COMPLETE` status.
+
+::::
+:::::
+
 
 **Replacement**
 So far, you've created an Amazon EC2 instance with your stack. For your instance's [Amazon Machine Image](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/AMIs.html) (AMI), you used the latest `x86-64` Amazon Linux 2 AMI in this lab. Let's now consider a scenario where you have a requirement to use a different AMI for your Amazon EC2 instance. In this lab, you choose to update the CloudFormation stack you created earlier, `cfn-workshop-update-behaviors-of-stack-resources`, and override the parameter value for `LatestAmiId` with `/aws/service/ami-amazon-linux-latest/amzn2-ami-hvm-x86_64-ebs`.
@@ -97,6 +125,7 @@ Let’s go ahead and update the stack:
 7. Choose to accept default values in the **Configure stack options** page, and choose **Next**.
 8. On the **Review** page, scroll down to the bottom and choose **Update stack**.
 
+
 While your stack is updating, navigate to the [Amazon EC2 Console](https://console.aws.amazon.com/ec2/), and choose **Instances**. Note that your instance will be first stopped - thus, it will be temporarily not available - and, once the instance type changes to `t2.small`, it will then enter the running status shortly. This example illustrates the **Updates with Some Interruption** behavior.
 
 Congratulations! You have learned the **Updates with Some Interruption** behavior.
@@ -124,6 +153,31 @@ EC2Instance:
 
 Save your changes to the file. Next, update your stack:
 
+
+:::::tabs{variant="container"}
+::::tab{id="cloud9" label="Cloud9"}
+1. Upload the `update-behaviors-of-stack-resources.yaml` file to your **template S3 bucket** using AWS CLI [aws s3 cp](https://docs.aws.amazon.com/cli/latest/reference/s3/cp.html) command:
+:::code{language=shell showLineNumbers=false showCopyAction=true}
+aws s3 cp code/workspace/update-behaviors-of-stack-resources.yaml s3://cfn-workshop-01-{accountid}
+:::
+1. Determine the **Object URL** as you'll need it in the next step, based on this format `https://[bucketname].s3.amazonaws.com/[key]` for example:
+:::code{language=shell showLineNumbers=false showCopyAction=true}
+https://cfn-workshop-01-{accountid}.s3.amazonaws.com/update-behaviors-of-stack-resources.yaml
+:::
+1. Open the **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** link in a new tab and log in to your AWS account.
+1. Click on the stack name, for example **cfn-workshop-update-behaviors-of-stack-resources**.
+1. In the top right corner click on **Update**.
+1. In **Prepare template**, choose **Template is ready**.
+1. In **Template source**, choose **Amazon S3 URL**.
+1. Paste the `update-behaviors-of-stack-resources.yaml` **Object URL** you copied from the S3 bucket and click **Next**.
+1. On the parameters page, accept the default value for `LatestAmiId`  and `InstanceType` parameters, and choose **Next**.
+1. Choose to accept default values in the **Configure stack options** page, and choose **Next**
+1. You can leave **Configure stack options** default, click **Next**.
+1. On the **Review** page, scroll down to the bottom and choose **Update stack**.
+::::
+
+::::tab{id="local" label="Local development"}
+
 1. Navigate to the [AWS CloudFormation Console](https://console.aws.amazon.com/cloudformation/).
 2. Make sure you choose the [region](https://docs.aws.amazon.com/awsconsolehelpdocs/latest/gsg/select-region.html) where you’ve created the `cfn-workshop-update-behaviors-of-stack-resources` stack.
 3. Choose the stack you created earlier, for example `cfn-workshop-update-behaviors-of-stack-resources`.
@@ -132,6 +186,9 @@ Save your changes to the file. Next, update your stack:
 6. On the parameters page, accept the default value for `LatestAmiId`  and `InstanceType` parameters, and choose **Next**.
 7. Choose to accept default values in the **Configure stack options** page, and choose **Next**.
 8. On the **Review** page, scroll down to the bottom and choose **Update stack**.
+::::
+:::::
+
 
 Navigate to the [Amazon EC2 Console](https://console.aws.amazon.com/ec2/), and choose **Instances**. While the stack is updating, note that your instance will stay in the running status. This illustrates the **Update with No Interruption** behavior.
 
@@ -142,7 +199,7 @@ You are tasked with updating the `Value` of the `Name` tag key for `EC2Instance`
 
 ::expand[* Where, in the CloudFormation documentation for a given resource type (in this case, for the `AWS::EC2::Instance` [resource](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-instance.html)), can you learn about the update behavior for a given resource property?]{header="Need a hint?"}
 
-:::expand{header="Want to see the solution?"}
+::::::expand{header="Want to see the solution?"}
 Update the `Value` information in your template, as shown next:
 
 ```yaml
@@ -159,8 +216,32 @@ EC2Instance:
 
 Save your changes to the `update-behaviors-of-stack-resources.yaml` template. Before you update the stack with your updated template, see the **Update requires** [section](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-instance.html#cfn-ec2-instance-tags) for the `Tags` property; you will notice that **Update requires**, in this case, requires [No interruption](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-updating-stacks-update-behaviors.html#update-no-interrupt).
 
+
 Update your stack:
 
+:::::tabs{variant="container"}
+::::tab{id="cloud9" label="Cloud9"}
+1. Upload the `update-behaviors-of-stack-resources.yaml` file to your **template S3 bucket** using AWS CLI [aws s3 cp](https://docs.aws.amazon.com/cli/latest/reference/s3/cp.html) command:
+:::code{language=shell showLineNumbers=false showCopyAction=true}
+aws s3 cp code/workspace/update-behaviors-of-stack-resources.yaml s3://cfn-workshop-01-{accountid}
+:::
+1. Determine the **Object URL** as you'll need it in the next step, based on this format `https://[bucketname].s3.amazonaws.com/[key]` for example:
+:::code{language=shell showLineNumbers=false showCopyAction=true}
+https://cfn-workshop-01-{accountid}.s3.amazonaws.com/update-behaviors-of-stack-resources.yaml
+:::
+1. Open the **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** link in a new tab and log in to your AWS account.
+1. Click on the stack name, for example **cfn-workshop-update-behaviors-of-stack-resources**.
+1. In the top right corner click on **Update**.
+1. In **Prepare template**, choose **Template is ready**.
+1. In **Template source**, choose **Amazon S3 URL**.
+1. Paste the `update-behaviors-of-stack-resources.yaml` **Object URL** you copied from the S3 bucket and click **Next**.
+1. On the parameters page, accept the default value for `LatestAmiId`  and `InstanceType` parameters, and choose **Next**.
+1. Choose to accept default values in the **Configure stack options** page, and choose **Next**
+1. You can leave **Configure stack options** default, click **Next**.
+1. On the **Review** page, scroll down to the bottom and choose **Update stack**.
+::::
+
+::::tab{id="local" label="Local development"}
 1. Navigate to the [AWS CloudFormation Console](https://console.aws.amazon.com/cloudformation/).
 2. Make sure you choose the [region](https://docs.aws.amazon.com/awsconsolehelpdocs/latest/gsg/select-region.html) where you’ve created the `cfn-workshop-update-behaviors-of-stack-resources` stack.
 3. Choose the stack you created earlier, for example `cfn-workshop-update-behaviors-of-stack-resources`.
@@ -169,7 +250,10 @@ Update your stack:
 6. On the next page, choose to accept default values for `LatestAmiId`  and `InstanceType` parameters, and choose **Next**.
 7. Choose to accept default values in the **Configure stack options** page, and choose **Next**.
 8. On the **Review** page, scroll down to the bottom and choose **Update stack**.
-:::
+::::
+:::::
+
+::::::
 
 ### Cleanup
 Follow steps shown next to clean up resources you created in this lab:
