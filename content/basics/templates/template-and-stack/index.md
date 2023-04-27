@@ -36,27 +36,17 @@ By the end of this lab, you will be able to:
 
    :::::tabs{variant="container"}
 	::::tab{id="cloud9" label="Cloud9"}
-	1. Upload the `template-and-stack.yaml` file to your **template S3 bucket** using AWS CLI [aws s3 cp](https://docs.aws.amazon.com/cli/latest/reference/s3/cp.html) command
-	:::code{language=shell showLineNumbers=false showCopyAction=true}
-	aws s3 cp code/workspace/template-and-stack.yaml s3://cfn-workshop-01-{accountid}
-   :::
-	1. Determine the **Object URL** as you'll need it in the next step, based on this format `https://[bucketname].s3.amazonaws.com/[key]` for example
-	:::code{language=shell showLineNumbers=false showCopyAction=true}
-   https://cfn-workshop-01-{accountid}.s3.amazonaws.com/template-and-stack.yaml
-   :::
-	1. Open the **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** link in a new tab and log in to your AWS account.
-	1. Click on **Create stack With new resources (standard)**.
-	1. In **Prepare template**, choose **Template is ready**.
-	1. In **Template source**, choose **Amazon S3 URL**.
-	1. Paste the `template-and-stack.yaml` **Object URL** you copied from the S3 bucket
-	1. Click **Next**.
-   1. Enter a Stack name. For example, `cfn-workshop-s3`.
-   1. You can leave **Configure stack options** default, click **Next**.
-   1. On the **Review <stack_name>** page, scroll down to the bottom and choose **Submit**.
-   1. You can click the **refresh** button a few times until you see in the status **CREATE_COMPLETE**.
-   ::::
-
-	::::tab{id="local" label="Local development"}
+	1. In the Cloud9 terminal navigate to `code/workspace`:
+    :::code{language=shell showLineNumbers=false showCopyAction=true}
+    cd cfn101-workshop/code/workspace
+    :::
+    1. Run `awscli` command to create the stack. The required parameters `--stack-name` and `--template-file` has been pre-filled for you.
+    :::code{language=shell showLineNumbers=false showCopyAction=true}
+    aws cloudformation create-stack --stack-name cfn-workshop-s3 --template-body file://template-and-stack.yaml
+    :::
+    1. Wait for the stack to finish deploying.
+    ::::
+    ::::tab{id="local" label="Local Development"}
    1. Open the **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** link in a new tab and log in to your AWS account.
    1. Click on **Create stack** (_With new resources (Standard)_ if you have clicked in the top right corner).
    1. In **Prepare template**, choose **Template is ready**.
