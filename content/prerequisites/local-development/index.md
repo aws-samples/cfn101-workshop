@@ -3,6 +3,8 @@ title: "Local Development Setup"
 weight: 300
 ---
 
+_Setup Duration: ~15 minutes_
+
 :::alert{type="info"}
 This is only required if you are not using Cloud9 IDE for the workshop.
 :::

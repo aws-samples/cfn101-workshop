@@ -3,7 +3,7 @@ title: "AWS Cloud9 Setup (Recommended)"
 weight: 200
 ---
 
-_Lab Duration: ~10 minutes_
+_Setup Duration: ~10 minutes_
 
 ## Overview
 
