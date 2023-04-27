@@ -8,7 +8,7 @@ _Lab Duration: ~10 minutes_
 ---
 
 ### Overview
-This lab will start with the most basic template containing only Resources object, which contains a single resource declaration of the S3 bucket.
+This lab will start with the most basic template containing only `Resources` section, which contains a single resource declaration of the S3 bucket.
 
 ### Topics Covered
 By the end of this lab, you will be able to:
@@ -131,9 +131,9 @@ overwritten by mistake or to archive objects so that you can retrieve previous v
 Follow these steps to clean up created resources:
 
 1. In the **[CloudFormation console](https://console.aws.amazon.com/cloudformation)**, select the stack you have created in this lab. For example `cfn-workshop-s3`.
-1. In the top right corner, click on **Delete**.
-1. In the pop-up window click on **Delete stack**.
-1. You can click the **refresh** button a few times until you see in the status **DELETE_COMPLETE**.
+1. In the top right corner, select **Delete**.
+1. In the pop-up window, select **Delete stack**.
+1. Wait for the stack status to reach **DELETE_COMPLETE** status. You need to periodically select **Refresh** to see the latest stack status.
 
 ---
 
