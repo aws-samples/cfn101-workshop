@@ -3,6 +3,10 @@ title: "Local Development Setup"
 weight: 300
 ---
 
+:::alert{type="info"}
+This is only required if you are not using Cloud9 IDE for the workshop.
+:::
+
 Local development for this workshop requires a number of development tools. Please install and verify these are installed correctly before proceeding with the workshop.
 
 ### Install AWS CLI
@@ -59,6 +63,6 @@ Install it separately following the [installation instructions](https://github.c
 
 ### Open workshop files
 The templates and the code you will work on are both located in the **code** folder.
-Open the **code** section from downloaded files in your code editor, as installed in [a previous step](/prerequisites/editor):
+Open the **code** section from downloaded files in your code editor:
 
 ![vscode-png](/static/prerequisites/local-development/vscode.png)
