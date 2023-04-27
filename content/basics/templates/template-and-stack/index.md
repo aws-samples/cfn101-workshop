@@ -40,7 +40,7 @@ By the end of this lab, you will be able to:
     :::code{language=shell showLineNumbers=false showCopyAction=true}
     cd cfn101-workshop/code/workspace
     :::
-    1. Run `awscli` command to create the stack. The required parameters `--stack-name` and `--template-body` has been pre-filled for you.
+    1. Use the AWS CLI to create the stack. The required parameters `--stack-name` and `--template-body` have been pre-filled for you.
     :::code{language=shell showLineNumbers=false showCopyAction=true}
     aws cloudformation create-stack --stack-name cfn-workshop-s3 --template-body file://template-and-stack.yaml
     :::
@@ -52,23 +52,23 @@ By the end of this lab, you will be able to:
     ::::
     ::::tab{id="local" label="Local Development"}
    1. Open the **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** link in a new tab and log in to your AWS account.
-   1. Click on **Create stack** (_With new resources (Standard)_ if you have clicked in the top right corner).
+   1. Choose **Create stack** (_With new resources (Standard)_ from the top-right side of the page.
    1. In **Prepare template**, choose **Template is ready**.
    1. In **Template source**, choose **Upload a template file**.
-   1. Click on **Choose file** button and navigate to your workshop directory.
+   1. Choose the **Choose file** button and navigate to your workshop directory.
    1. Select the file `template-and-stack.yaml` referenced in step 1.
-   1. Click **Next**.
+   1. Choose **Next**.
    1. Provide a **Stack name**. For example `cfn-workshop-s3`.
         + The _Stack name_ identifies the stack. Use a name to help you distinguish the purpose of this stack.
-        + Click **Next**.
-   1. You can leave **Configure stack options** default, click **Next**.
+        + Choose **Next**.
+   1. Choose to accept default values for **Configure stack options**; choose **Next**.
    1. On the **Review <stack_name>** page, scroll down to the bottom and choose **Submit**.
-   1. You can click the **refresh** button a few times until you see in the status **CREATE_COMPLETE**.
+   1. Use the **refresh** button to update the page as needed, until you see the stack to be in the **CREATE_COMPLETE** status.
    ::::
    :::::
 
 ### Challenge
-In this exercise, enable versioning on the S3 bucket. Enabled versioning will prevent objects from being deleted or
+In this exercise, you'll enable versioning on the S3 bucket to prevent objects from being deleted or
 overwritten by mistake or to archive objects so that you can retrieve previous versions of them.
 
 1. Create a property `VersioningConfiguration` in the `Properties` section of the S3 resource.
@@ -99,7 +99,7 @@ overwritten by mistake or to archive objects so that you can retrieve previous v
     :::code{language=shell showLineNumbers=false showCopyAction=true}
     cd cfn101-workshop/code/workspace
     :::
-    1. Run `awscli` command to create the stack. The required parameters `--stack-name` and `--template-body` has been pre-filled for you.
+    1. Use the AWS CLI to create the stack. The required parameters `--stack-name` and `--template-body` have been pre-filled for you.
     :::code{language=shell showLineNumbers=false showCopyAction=true}
     aws cloudformation update-stack --stack-name cfn-workshop-s3 --template-body file://template-and-stack.yaml
     :::
