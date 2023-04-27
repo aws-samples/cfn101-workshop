@@ -33,31 +33,32 @@ You will be prompted to answer some questions. Supply the answers as shown below
 
    :::::tabs{variant="container"}
 	::::tab{id="cloud9" label="Cloud9"}
-            ```
-            Initializing new project
-            Do you want to develop a new resource(r) or a module(m) or a hook(h)?.
-            >> m
-            What's the name of your module type?
-            (<Organization>::<Service>::<Name>::MODULE)
-            >> CFNWORKSHOP::EC2::VPC::MODULE
-            Directory  /home/ec2-user/environment/workshop/cfn101-workshop/module/fragments  Created 
-            Initialized a new project in /home/ec2-user/environment/cfn101-workshop/module
-            ```
-      ::::
-  ::::tab{id="local" label="Local development"}
-            ```
-            Initializing new project
-            Do you want to develop a new resource(r) or a module(m) or a hook(h)?.
-            >> m
-            What's the name of your module type?
-            (<Organization>::<Service>::<Name>::MODULE)
-            >> CFNWORKSHOP::EC2::VPC::MODULE
-            Directory  /home/user/cfn101-workshop/module/fragments  Created
-            Initialized a new project in /home/user/cfn101-workshop/module
-            ```
-      ::::
-      :::::
-                
+  ```
+  Initializing new project
+  Do you want to develop a new resource(r) or a module(m) or a hook(h)?.
+  >> m
+  What's the name of your module type?
+  (<Organization>::<Service>::<Name>::MODULE)
+  >> CFNWORKSHOP::EC2::VPC::MODULE
+  Directory  /home/ec2-user/environment/workshop/cfn101-workshop/module/fragments  Created 
+  Initialized a new project in /home/ec2-user/environment/cfn101-workshop/module
+  ```
+   ::::
+
+	::::tab{id="local" label="Local development"}
+  ```
+  Initializing new project
+  Do you want to develop a new resource(r) or a module(m) or a hook(h)?.
+  >> m
+  What's the name of your module type?
+  (<Organization>::<Service>::<Name>::MODULE)
+  >> CFNWORKSHOP::EC2::VPC::MODULE
+  Directory  /home/user/cfn101-workshop/module/fragments  Created
+  Initialized a new project in /home/user/cfn101-workshop/module
+  ```
+   ::::
+   :::::
+
 Let's take a look at what the command created in the directory structure:
 
 * `fragments/`: contains an auto generated `sample.json` CloudFormation template file;
@@ -83,6 +84,176 @@ Create a new YAML file for your module within the `fragments` folder:
 touch fragments/module.yaml
 :::
 
+   :::::tabs{variant="container"}
+	::::tab{id="cloud9" label="Cloud9"}
+
+Copy the code below and save to `module.yaml` file
+
+<!-- vale off -->
+:::code{language=yaml showLineNumbers=false showCopyAction=true}
+AWSTemplateFormatVersion: 2010-09-09
+
+Description: A full VPC Stack
+
+Parameters:
+
+  VpcCidr:
+    Type: String
+
+Resources:
+
+  Vpc:
+    Type: AWS::EC2::VPC
+    Properties:
+      CidrBlock: !Ref VpcCidr
+      EnableDnsHostnames: true
+      EnableDnsSupport: true
+      InstanceTenancy: default
+
+  InternetGateway:
+    Type: AWS::EC2::InternetGateway
+
+  VPCGatewayAttachment:
+    Type: AWS::EC2::VPCGatewayAttachment
+    Properties:
+      VpcId: !Ref Vpc
+      InternetGatewayId: !Ref InternetGateway
+
+  EIP1:
+    Type: AWS::EC2::EIP
+    Properties:
+      Domain: vpc
+
+  EIP2:
+    Type: AWS::EC2::EIP
+    Properties:
+      Domain: vpc
+
+  NATGateway1:
+    Type: AWS::EC2::NatGateway
+    Properties:
+      SubnetId: !Ref Public1Subnet
+      AllocationId: !GetAtt EIP1.AllocationId
+
+  NATGateway2:
+    Type: AWS::EC2::NatGateway
+    Properties:
+      SubnetId: !Ref Public2Subnet
+      AllocationId: !GetAtt EIP2.AllocationId
+
+  Public1Subnet:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref Vpc
+      AvailabilityZone: !Select [0, !GetAZs '']
+      CidrBlock: !Select [0, !Cidr [!GetAtt Vpc.CidrBlock, 4, 14 ]]
+      MapPublicIpOnLaunch: true
+
+  Public2Subnet:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref Vpc
+      AvailabilityZone: !Select [1, !GetAZs '']
+      CidrBlock: !Select [1, !Cidr [!GetAtt Vpc.CidrBlock, 4, 14 ]]
+      MapPublicIpOnLaunch: true
+
+  Private1Subnet:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref Vpc
+      AvailabilityZone: !Select [0, !GetAZs '']
+      CidrBlock: !Select [2, !Cidr [!GetAtt Vpc.CidrBlock, 4, 14 ]]
+      MapPublicIpOnLaunch: false
+
+  Private2Subnet:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref Vpc
+      AvailabilityZone: !Select [1, !GetAZs '']
+      CidrBlock: !Select [3, !Cidr [!GetAtt Vpc.CidrBlock, 4, 14 ]]
+      MapPublicIpOnLaunch: false
+
+  Public1RouteTable:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId: !Ref Vpc
+
+  Public2RouteTable:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId: !Ref Vpc
+
+  Private1RouteTable:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId: !Ref Vpc
+
+  Private2RouteTable:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId: !Ref Vpc
+
+  Public1RouteTableAssociation:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      RouteTableId: !Ref Public1RouteTable
+      SubnetId: !Ref Public1Subnet
+
+  Public2RouteTableAssociation:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      RouteTableId: !Ref Public2RouteTable
+      SubnetId: !Ref Public2Subnet
+
+  Private1RouteTableAssociation:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      RouteTableId: !Ref Private1RouteTable
+      SubnetId: !Ref Private1Subnet
+
+  Private2RouteTableAssociation:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      RouteTableId: !Ref Private2RouteTable
+      SubnetId: !Ref Private2Subnet
+
+  Public1DefaultRoute:
+    Type: AWS::EC2::Route
+    DependsOn:
+      - VPCGatewayAttachment
+    Properties:
+      RouteTableId: !Ref Public1RouteTable
+      DestinationCidrBlock: 0.0.0.0/0
+      GatewayId: !Ref InternetGateway
+
+  Public2DefaultRoute:
+    Type: AWS::EC2::Route
+    DependsOn:
+      - VPCGatewayAttachment
+    Properties:
+      RouteTableId: !Ref Public2RouteTable
+      DestinationCidrBlock: 0.0.0.0/0
+      GatewayId: !Ref InternetGateway
+
+  Private1DefaultRoute:
+    Type: AWS::EC2::Route
+    Properties:
+      RouteTableId: !Ref Private1RouteTable
+      DestinationCidrBlock: 0.0.0.0/0
+      NatGatewayId: !Ref NATGateway1
+
+  Private2DefaultRoute:
+    Type: AWS::EC2::Route
+    Properties:
+      RouteTableId: !Ref Private2RouteTable
+      DestinationCidrBlock: 0.0.0.0/0
+      NatGatewayId: !Ref NATGateway2
+:::
+<!-- vale on -->
+  ::::
+
+	::::tab{id="local" label="Local development"}
+ 
 Open this file in your chosen text editor and paste in the following CloudFormation YAML:
 
 <!-- vale off -->
@@ -246,6 +417,9 @@ Resources:
       NatGatewayId: !Ref NATGateway2
 :::
 <!-- vale on -->
+
+   ::::
+   :::::
 
 This CloudFormation template has 23 resources and will be very familiar to anyone that has used CloudFormation to deploy an entire VPC. With so many components it can be hard to ensure that all the VPCs you deploy are done in a standard way and no mistakes or differences are made.
 
