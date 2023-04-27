@@ -36,7 +36,7 @@ By the end of this lab, you will be able to:
 
    :::::tabs{variant="container"}
 	::::tab{id="cloud9" label="Cloud9"}
-	1. In the Cloud9 terminal navigate to `code/workspace`:
+	1. In the **Cloud9 terminal** navigate to `code/workspace`:
     :::code{language=shell showLineNumbers=false showCopyAction=true}
     cd cfn101-workshop/code/workspace
     :::
@@ -48,7 +48,7 @@ By the end of this lab, you will be able to:
     :::code{language=shell showLineNumbers=false showCopyAction=true}
     "StackId": "arn:aws:cloudformation:us-east-1:123456789012:stack/cfn-workshop-s3/739fafa0-e4d7-11ed-a000-12d9009553ff"
     :::
-    1. Open the **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** console in a new tab and check if the stack status is `CREATE_COMPLETE`.
+    1. Open the **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** console in a new tab and check if the stack status is **CREATE_COMPLETE**.
     ::::
     ::::tab{id="local" label="Local Development"}
    1. Open the **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** link in a new tab and log in to your AWS account.
@@ -91,11 +91,11 @@ overwritten by mistake or to archive objects so that you can retrieve previous v
              - ServerSideEncryptionByDefault:
                  SSEAlgorithm: AES256
    ```
-1. Go to the AWS console to update your CloudFormation Stack:
+1. It’s now time to update your stack! Follow steps below:
 
    :::::tabs{variant="container"}
 	::::tab{id="cloud9" label="Cloud9"}
-	1. In the Cloud9 terminal navigate to `code/workspace`:
+	1. In the **Cloud9 terminal** navigate to `code/workspace`:
     :::code{language=shell showLineNumbers=false showCopyAction=true}
     cd cfn101-workshop/code/workspace
     :::
@@ -107,10 +107,10 @@ overwritten by mistake or to archive objects so that you can retrieve previous v
     :::code{language=shell showLineNumbers=false showCopyAction=true}
     "StackId": "arn:aws:cloudformation:us-east-1:123456789012:stack/cfn-workshop-s3/739fafa0-e4d7-11ed-a000-12d9009553ff"
     :::
-    1. Open the **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** console in a new tab and check if the stack status is `CREATE_COMPLETE`.
+    1. Open the **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** console in a new tab and check if the stack status is **UPDATE_COMPLETE**.
     ::::
     ::::tab{id="local" label="Local Development"}
-   1. Log in to the **[AWS CloudFormation Console](https://console.aws.amazon.com/cloudformation)** in a new browser tab.
+   1. Log in to the **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** console in a new browser tab.
    1. Select the stack name, for example `cfn-workshop-s3`.
    1. In the top right corner select **Update**.
    1. In **Prepare template**, choose **Replace current template**.
