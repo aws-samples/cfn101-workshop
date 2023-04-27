@@ -44,7 +44,7 @@ By the end of this lab, you will be able to:
     :::code{language=shell showLineNumbers=false showCopyAction=true}
     aws cloudformation create-stack --stack-name cfn-workshop-s3 --template-body file://template-and-stack.yaml
     :::
-    1. If the `create-stack` command was successful CloudFormation will return `StackId`.
+    1. If the `create-stack` command was successfully sent, CloudFormation will return `StackId`.
     :::code{language=shell showLineNumbers=false showCopyAction=true}
     "StackId": "arn:aws:cloudformation:us-east-1:123456789012:stack/cfn-workshop-s3/739fafa0-e4d7-11ed-a000-12d9009553ff"
     :::
@@ -71,7 +71,7 @@ By the end of this lab, you will be able to:
 In this exercise, you'll enable versioning on the S3 bucket to prevent objects from being deleted or
 overwritten by mistake or to archive objects so that you can retrieve previous versions of them.
 
-1. Create a property `VersioningConfiguration` in the `Properties` section of the S3 resource.
+1. Create a `VersioningConfiguration` property in the `Properties` section of the S3 resource.
 2. Set the `Status` to `Enabled`.
 3. Update the stack to reflect the changes made in the template.
 
@@ -103,7 +103,7 @@ overwritten by mistake or to archive objects so that you can retrieve previous v
     :::code{language=shell showLineNumbers=false showCopyAction=true}
     aws cloudformation update-stack --stack-name cfn-workshop-s3 --template-body file://template-and-stack.yaml
     :::
-    1. If the `create-stack` command was successful CloudFormation will return `StackId`.
+    1. If the `create-stack` command was successfully sent, CloudFormation will return `StackId`.
     :::code{language=shell showLineNumbers=false showCopyAction=true}
     "StackId": "arn:aws:cloudformation:us-east-1:123456789012:stack/cfn-workshop-s3/739fafa0-e4d7-11ed-a000-12d9009553ff"
     :::
