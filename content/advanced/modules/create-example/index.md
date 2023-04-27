@@ -31,9 +31,8 @@ cfn init
 
 You will be prompted to answer some questions. Supply the answers as shown below:
 
-  :::::tabs{variant="container"}
-	      ::::tab{id="cloud9" label="Cloud9"}
-
+    :::::tabs{variant="container"}
+        ::::tab{id="cloud9" label="Cloud9"}
         ```
         Initializing new project
         Do you want to develop a new resource(r) or a module(m) or a hook(h)?.
@@ -44,8 +43,8 @@ You will be prompted to answer some questions. Supply the answers as shown below
         Directory  /home/ec2-user/environment/workshop/cfn101-workshop/module/fragments  Created 
         Initialized a new project in /home/ec2-user/environment/cfn101-workshop/module
         ```
+    ::::
         ::::tab{id="local" label="Local development"}
-
         ```
         Initializing new project
         Do you want to develop a new resource(r) or a module(m) or a hook(h)?.
@@ -56,7 +55,9 @@ You will be prompted to answer some questions. Supply the answers as shown below
         Directory  /home/user/cfn101-workshop/module/fragments  Created
         Initialized a new project in /home/user/cfn101-workshop/module
         ```
-
+    ::::
+    :::::
+        
 Let's take a look at what the command created in the directory structure:
 
 * `fragments/`: contains an auto generated `sample.json` CloudFormation template file;
