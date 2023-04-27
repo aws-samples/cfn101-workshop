@@ -24,14 +24,6 @@ We recommend using **us-east-1 (N. Virginia)** as the _AWS Region_ for the works
 1. Create a Cloud9 instance from the **AWS Console** by following the steps from the [Creating an EC2 Environment](https://docs.aws.amazon.com/cloud9/latest/user-guide/create-environment-main.html) guide.
 1. Once created, your instance should be listed on the AWS Cloud9 [Environments](https://console.aws.amazon.com/cloud9/home) page. Choose **Open** if not already.
 1. You will see a terminal area at the bottom where you will run the commands as you progress through the workshop. In the main work area you will open and edit code and template files.
-1. In a Cloud9 terminal, download and run a bootstrap script to upgrade SAM CLI to the most recent version and install few other tools:
-    :::code{language=shell showLineNumbers=false showCopyAction=true}
-    curl 'https://static.us-east-1.prod.workshops.aws/public/ca3cac3e-84b1-4b6a-bd2b-d4565df5a5db/static/bin/bootstrap.sh' | bash
-    :::
-1. Verify the new version
-    :::code{language=shell showLineNumbers=false showCopyAction=true}
-    sam --version
-    :::
 
 :::alert{type="info"}
 If you have issues using the Cloud9 environment, please see the [Troubleshooting AWS Cloud9](https://docs.aws.amazon.com/cloud9/latest/user-guide/troubleshooting.html) page in the user guide.
