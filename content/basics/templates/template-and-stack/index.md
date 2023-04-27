@@ -8,7 +8,7 @@ _Lab Duration: ~10 minutes_
 ---
 
 ### Overview
-This lab will start with the most basic template containing only `Resources` section, which contains a single resource declaration of the S3 bucket.
+This lab will start with the most basic template containing only the `Resources` section, which contains a single resource declaration of the S3 bucket.
 
 ### Topics Covered
 By the end of this lab, you will be able to:
