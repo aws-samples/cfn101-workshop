@@ -105,9 +105,9 @@ Now it is time to update your stack. Go to the AWS console and update your Cloud
    ![tags-png](/static/basics/templates/intrinsic-functions/tags.png)
 
 ### Challenge
-Crete another tag named `InstanceType` and use intrinsic function **Fn::Sub** to return type of the instance.
+Create another tag named `InstanceType` and use the `Fn::Sub` intrinsic function to return the type of the instance.
 
-The syntax for the short form is `!Sub`
+The syntax for the YAML short form of the `Fn::Sub` intrinsic function is `!Sub`.
 
 ::expand[Check out the AWS Documentation for **[Fn::Sub](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference-sub.html)** function.]{header="Need a hint?"}
 
