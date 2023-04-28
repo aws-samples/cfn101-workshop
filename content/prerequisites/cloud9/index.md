@@ -11,7 +11,7 @@ _Setup Duration: ~10 minutes_
 just a browser. It includes a code editor, debugger, and terminal. Since your Cloud9 IDE is cloud-based, you can run labs
 from your office, home, or anywhere using an internet-connected machine.
 
-For the best experience with the workshop and minimal setup effort we recommend using it to run this workshop because it
+For the best experience and minimal setup effort, we recommend using it to run this workshop because it
 comes with the necessary set of tools pre-installed. If you prefer to work locally, follow the
 [Local Development Setup](/prerequisites/local-development) instead.
 
