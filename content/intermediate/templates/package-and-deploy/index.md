@@ -154,7 +154,7 @@ aws s3 cp s3://example-bucket-name/cfn-workshop-package-deploy/1234567890 .
 
 We know that `package` will ZIP files, so even there is no `.zip` extension you can still `unzip` it.
 
-##### Unix/Linux
+##### Cloud9/Unix/Linux
 :::code{language=shell showLineNumbers=false showCopyAction=false}
 unzip -l ce6c47b6c84d94bd207cea18e7d93458
 
@@ -250,7 +250,7 @@ From your terminal run:
 
 :::::tabs{variant="container"}
 
-::::tab{id="sh" label="Unix/Linux"}
+::::tab{id="sh" label="Cloud9/Unix/Linux"}
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 aws lambda invoke \
     --function-name cfn-workshop-python-function \
@@ -287,7 +287,7 @@ You can check the result of the file by running command below:
 
 :::::tabs{variant="container"}
 
-::::tab{id="sh" label="Unix/Linux"}
+::::tab{id="sh" label="Cloud9/Unix/Linux"}
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 cat response.json
 :::

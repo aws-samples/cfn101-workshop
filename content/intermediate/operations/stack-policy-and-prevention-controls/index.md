@@ -53,11 +53,64 @@ Resources:
 
 In this next step, you will use the AWS CloudFormation Console to create a stack using the `stack-policy-lab.yaml` template file. Follow steps shown next:
 
+   :::::tabs{variant="container"}
+	::::tab{id="cloud9" label="Cloud9"}
+    Create a stack by following these steps:
+    1. Create a new JSON file for the stack policy.
+        
+        :::code{language=shell showLineNumbers=false showCopyAction=true}
+        touch policy-body.json
+        :::
+    1. Open this file in Cloud9 editor and paste in the following JSON code:
+    ```json
+    {
+      "Statement" : [
+        {
+          "Effect" : "Deny",
+          "Principal" : "*",
+          "Action" : "Update:Modify",
+          "Resource" : "LogicalResourceId/SNSTopic"
+        },
+        {
+          "Effect" : "Allow",
+          "Principal" : "*",
+          "Action" : "Update:*",
+          "Resource" : "*"
+        }
+      ]
+    }
+    ```
+    1. Enter a Stack name. For example, `specify stack-policy-lab`.
+    1. The template requires you to provide a value for the `SNSTopicTagValue` input parameter. For example use `Topic-Tag-1`
+    1. Let's create the stack from the template using the following command (the example uses `us-east-1` for the AWS region, change this value as needed):
+    :::code{language=shell showLineNumbers=false showCopyAction=true}
+    aws cloudformation create-stack \
+        --region us-east-1 \
+        --stack-name stack-policy-lab \
+        --template-body file://stack-policy-lab.yaml \
+        --stack-policy-body file://policy-body.json \
+        --parameters ParameterKey=SNSTopicTagValue,ParameterValue=Topic-Tag-1 \
+        --enable-termination-protection
+    :::
+    1. CloudFormation returns the following output:
+:::code{language=shell showLineNumbers=false showCopyAction=true}
+{
+"StackId" : "arn:aws:cloudformation:us-east-1:123456789012:stack/changesets-workshop/330b0120-1771-11e4-af37-50ba1b98bea6"
+}
+:::
+1. Wait until the `stack-policy-lab` stack is created, by using the CloudFormation console or the [stack-create-complete](https://docs.aws.amazon.com/cli/latest/reference/cloudformation/wait/stack-create-complete.html) wait command of the AWS CLI 
+:::code{language=shell showLineNumbers=false showCopyAction=true}
+aws cloudformation wait stack-create-complete \
+  --stack-name stack-policy-lab \
+:::
+  ::::
+	::::tab{id="local" label="Local development"}  
+
 1. Navigate to the [AWS CloudFormation Console](https://console.aws.amazon.com/cloudformation/).
 2. From **Create stack**, choose **With new resources (standard)**.
 3. From **Specify template**, choose **Upload a template file**. Upload the `stack-policy-lab.yaml` template, and choose **Next**.
 4. Enter a Stack name. For example, specify `stack-policy-lab`. In the parameters section, choose to accept the parameter value for `SNSTopicTagValue` as `Topic-Tag-1`. Choose **Next**.
-5. In **Configure Stack Options** page; under **Stack policy**, choose **Enter stack policy** and paste the following code for the stack policy. Under **Stack creation options**, choose **Enabled** for **Termination protection**, and choose **Next**.
+5. In **Configure Stack Options** page; under **Stack policy**, choose **Enter stack policy** and paste the following code for the stack policy. Under **Stack creation options**, choose **Activated** for **Termination protection**, and choose **Next**.
 
 ```json
 {
@@ -80,21 +133,42 @@ In this next step, you will use the AWS CloudFormation Console to create a stack
 
 6. In the next page, choose **Create stack**.
 
+   ::::
+   :::::
+
 ::alert[When you apply a stack policy to a stack, all the resources in that stack are protected by default. Hence, you will need to specify an explicit `Allow` statement in your stack policy to allow updates to all other resources.]
 
 The stack policy you configured above for your `stack-policy-lab` stack denies updates to the resource whose [Logical ID](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/resources-section-structure.html#resources-section-structure-resource-fields) is `SNSTopic`.
 
 Let’s now test the stack policy you applied, by updating the stack you created!
 
-
+   :::::tabs{variant="container"}
+	::::tab{id="cloud9" label="Cloud9"}
+  Run the following command in the terminal to update the value of `SNSTopicTagValue` from `Topic-Tag-1` to `Topic-Tag-2`
+  :::code{language=shell showLineNumbers=false showCopyAction=true}
+  aws cloudformation update-stack \
+      --stack-name stack-policy-lab \
+      --use-previous-template \
+      --parameters ParameterKey=SNSTopicTagValue,ParameterValue=Topic-Tag-2
+  :::
+  CloudFormation returns the following output:
+  :::code{language=shell showLineNumbers=false showCopyAction=true}
+{
+  "StackId" : "arn:aws:cloudformation:us-east-1:123456789012:stack/changesets-workshop/330b0120-1771-11e4-af37-50ba1b98bea6"
+}
+    :::
+  ::::
+	::::tab{id="local" label="Local development"}  
 1. Navigate to the [AWS CloudFormation Console](https://console.aws.amazon.com/cloudformation/).
 2. Select the stack named `stack-policy-lab`, and choose **Update**.
 3. In the next page, choose to accept **Use current template**. Choose **Next**.
 4. In the parameters section, update the value of `SNSTopicTagValue` from `Topic-Tag-1` to `Topic-Tag-2`. Choose **Next**.
 5. Choose to accept default values in the **Configure stack options** page, and choose **Next**.
 6. Choose **Update stack** in the next page.
+   ::::
+   :::::
 
-The stack update will fail. When looking in the **Events** pane for your stack, you will see the `Action denied by stack policy` error, for the resource whose [Logical ID](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/resources-section-structure.html#resources-section-structure-resource-fields) is `SNSTopic`.
+The stack update will fail. When looking in the **Events** pane for your stack in [AWS CloudFormation Console](https://console.aws.amazon.com/cloudformation/), you will see the `Action denied by stack policy` error, for the resource whose [Logical ID](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/resources-section-structure.html#resources-section-structure-resource-fields) is `SNSTopic`.
 
 Let’s now test the termination protection feature, that you enabled on your `stack-policy-lab` stack:
 
@@ -103,7 +177,7 @@ Let’s now test the termination protection feature, that you enabled on your `s
 
 You will observe a message window informing you that **Termination protection** is enabled on the stack, and you will need to disable it before deleting the stack.
 
-Congratulations! You have now learned how to define update operations for resources in a CloudFormation stack, and prevent the stack from deletion. For information on how to apply a stack policy using the [AWS Command Line Interface](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-welcome.html), see [Setting a stack policy](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/protect-stack-resources.html#protect-stack-resources-protecting). To enable or disable termination protection using the AWS Command Line Interface, use the [update-termination-protection](https://docs.aws.amazon.com/cli/latest/reference/cloudformation/update-termination-protection.html) command.
+Congratulations! You have now learned how to define update operations for resources in a CloudFormation stack, and prevent the stack from deletion. 
 
 
 ### **Lab Part 2 - DeletionPolicy**
@@ -125,6 +199,17 @@ Resources:
     Properties:
       TopicName: Topic-2
 ```
+   :::::tabs{variant="container"}
+	::::tab{id="cloud9" label="Cloud9"}
+  Run the following command in the terminal to **Create Stack**:
+  :::code{language=shell showLineNumbers=false showCopyAction=true}
+  aws cloudformation create-stack \
+      --stack-name deletion-policy-lab \
+      --templatebody file://deletion-policy-lab.yaml
+  :::
+  ::::
+
+	::::tab{id="local" label="Local development"} 
 
 1. Navigate to the [AWS CloudFormation Console](https://console.aws.amazon.com/cloudformation/).
 2. From **Create stack**, choose **With new resources (standard)**.
@@ -132,7 +217,8 @@ Resources:
 4. Enter a Stack name. For example, specify `deletion-policy-lab`. Choose **Next**.
 5. Choose to accept default values on the **Configure stack options page**; scroll to the bottom of the page, and choose **Next**.
 6. In the next page, choose **Create stack**.
-
+   ::::
+   :::::
 When you use a `Retain` value for the `DeletionPolicy` attribute, you indicate to retain the resource when you remove it from the stack, or when you delete the stack.
 
 After the stack is created, let’s now test the `DeletionPolicy` you set on the resource:
@@ -200,7 +286,7 @@ Choose to follow steps shown next to clean up resources you created with this la
 
 1. Navigate to the [AWS CloudFormation Console](https://console.aws.amazon.com/cloudformation/).
 2. Select the stack named `stack-policy-lab` and choose **Delete**.
-3. In the message window, select **Edit termination protection**, and select **Disabled** for **Termination protection**. Choose **Save**.
+3. In the message window, select **Edit termination protection**, and select **Deactivated** for **Termination protection**. Choose **Save**.
 4. Select the stack named `stack-policy-lab` and choose **Delete**, and then choose **Delete stack** to confirm.
 5. Navigate to the [Amazon SNS Console](https://console.aws.amazon.com/sns/), and choose **Topics**. Next, select the topic `Topic-2`, and choose **Delete**. In the message pane, enter `delete me`, and choose **Delete** to confirm.
 
