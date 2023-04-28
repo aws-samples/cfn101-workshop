@@ -257,9 +257,38 @@ DemoBucket:
     BucketName: !Sub '${S3BucketNamePrefix}-${AWS::Region}-${AWS::AccountId}'
 ```
 See `code/solutions/pseudo-parameters/pseudo-parameters.yaml` for the full solution.
-:::
 
-Test your solution, to verify it worked as you expected. First, [update the stack](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-updating-stacks-direct.html) you created earlier: select the template whose content you updated. Wait until the stack update operation succeeds, and verify your S3 bucket uses the `YOUR_BUCKET_NAME_PREFIX-AWS_REGION-YOUR_ACCOUNT_ID` format.
+  :::::tabs{variant="container"}
+    ::::tab{id="cloud9" label="Cloud9"}
+      1. In the **Cloud9 terminal** navigate to `code/workspace/pseudo-parameters`:
+      :::code{language=shell showLineNumbers=false showCopyAction=true}
+      cd cfn101-workshop/code/workspace/pseudo-parameters
+      :::
+      1. Use the AWS CLI to create the stack. The required parameters `--stack-name` and `--template-body` have been pre-filled for you.
+      :::code{language=shell showLineNumbers=false showCopyAction=true}
+      aws cloudformation create-stack --stack-name cfn-workshop-s4 --template-body file://pseudo-parameters.yaml
+      :::
+      1. If the `create-stack` command was successfully sent, CloudFormation will return `StackId`.
+      :::code{language=shell showLineNumbers=false showCopyAction=true}
+      "StackId": "arn:aws:cloudformation:us-east-1:123456789012:stack/cfn-workshop-s3/739fafa0-e4d7-11ed-a000-12d9009553ff"
+      :::
+      1. Open the **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** console in a new tab and check if the stack status is **CREATE_COMPLETE**.
+      1. Open Open the **[AWS CloudFormation](https://console.aws.amazon.com/s3)** Console and Verify your S3 bucket uses the `YOUR_BUCKET_NAME_PREFIX-AWS_REGION-YOUR_ACCOUNT_ID` format.
+    ::::
+    ::::tab{id="local" label="Local development"}
+      1. In the CloudFormation console, select *Create stack With new resources (standard)*.
+      1. In **Prepare template**, select **Template is ready**.
+      1. In **Template source**, select **Upload a template file**.
+      1. Choose the `pseudo-parameters.yaml` template.
+      1. Enter a **Stack name**. For example, choose to specify `cfn-workshop-pseudo-parameters`.
+      1. Accept the **Configure stack options** default value, and choose **Next**.
+      1. On the _Review_ page, scroll down to the bottom, and check the box under the following *Capabilities* section: **I acknowledge that AWS CloudFormation might create IAM resources.**
+      1. Choose **Create stack**. You can view the progress of the stack being created in the CloudFormation console.
+      1. Wait until the stack creation is complete. Refresh the view in the console until you see your stack to be in the `CREATE_COMPLETE` status.
+      1. Open Open the **[AWS CloudFormation](https://console.aws.amazon.com/s3)** Console and Verify your S3 bucket uses the `YOUR_BUCKET_NAME_PREFIX-AWS_REGION-YOUR_ACCOUNT_ID` format.
+    ::::
+    :::::
+:::
 
 ### Clean up
 Follow these steps to clean up created resources:
