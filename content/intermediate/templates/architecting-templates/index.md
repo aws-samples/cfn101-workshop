@@ -53,8 +53,7 @@ With the strategy shown earlier, you have not only designed your templates by ta
 
 Unless you have done this already, make sure you follow prerequisites, and install the following in your own workstation (you'll use Cloud9 later on in this lab, but you'll start with using your workstation first):
 
-1. [Install Git](/prerequisites/git).
-2. [Get lab resources](/prerequisites/lab-resources): clone the lab repository. This will clone the repository into a `cfn101-workshop` directory in your workstation.
+1. [Get lab resources](/prerequisites/local-development): clone the lab repository. This will clone the repository into a `cfn101-workshop` directory in your workstation.
 
 
 Next, change directory to the `cfn101-workshop/code/workspace/architecting-templates` directory of the repository you have cloned. Locate the `base-network.template` file and the `cloud9.template` file: you'll first use them to create the base infrastructure and your Cloud9 environment respectively.
