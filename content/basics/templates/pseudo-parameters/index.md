@@ -167,20 +167,19 @@ Save the template you have updated with content above. Next, navigate to the AWS
 :::::tabs{variant="container"}
 
 ::::tab{id="cloud9" label="Cloud9"}
-1. Upload the file to your **template S3 bucket** using AWS CLI [aws s3 cp](https://docs.aws.amazon.com/cli/latest/reference/s3/cp.html) command
-    `aws s3 cp code/workspace/pseudo-parameters.yaml s3://cfn-workshop-01-{accountid}`
-1. Determine the **Object URL** as you'll need it in the next step, based on this format `https://[bucketname].s3.amazonaws.com/[key]`
-    for example `https://cfn-workshop-01-{accountid}.s3.amazonaws.com/pseudo-parameters.yaml`
-1. In the CloudFormation console, select *Create stack With new resources (standard)*.
-1. In **Prepare template**, choose **Template is ready**.
-1. In **Template source**, choose **Amazon S3 URL**.
-1. Paste the `pseudo-parameters.yaml` **Object URL** you copied from the S3 bucket
-1. Click **Next**.
-1. Enter a **Stack name**. For example, choose to specify `cfn-workshop-pseudo-parameters`.
-1. Accept the **Configure stack options** default value, and choose **Next**.
-1. On the _Review_ page, scroll down to the bottom, and check the box under the following *Capabilities* section: **I acknowledge that AWS CloudFormation might create IAM resources.**
-1. Choose **Create stack**. You can view the progress of the stack being created in the CloudFormation console.
-1. Wait until the stack creation is complete. Refresh the view in the console until you see your stack to be in the `CREATE_COMPLETE` status.
+1. In the **Cloud9 terminal** navigate to `code/workspace/pseudo-parameters`:
+:::code{language=shell showLineNumbers=false showCopyAction=true}
+cd cfn101-workshop/code/workspace/pseudo-parameters
+:::
+1. Use the AWS CLI to create the stack. The required parameters `--stack-name` and `--template-body` have been pre-filled for you.
+:::code{language=shell showLineNumbers=false showCopyAction=true}
+aws cloudformation create-stack --stack-name cfn-workshop-s4 --template-body file://pseudo-parameters.yaml
+:::
+1. If the `create-stack` command was successfully sent, CloudFormation will return `StackId`.
+:::code{language=shell showLineNumbers=false showCopyAction=true}
+"StackId": "arn:aws:cloudformation:us-east-1:123456789012:stack/cfn-workshop-s3/739fafa0-e4d7-11ed-a000-12d9009553ff"
+:::
+1. Open the **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** console in a new tab and check if the stack status is **CREATE_COMPLETE**.
 ::::
 
 ::::tab{id="local" label="Local development"}
@@ -195,6 +194,8 @@ Save the template you have updated with content above. Next, navigate to the AWS
 1. Wait until the stack creation is complete. Refresh the view in the console until you see your stack to be in the `CREATE_COMPLETE` status.
 ::::
 :::::
+
+You should see new resources created under Resources tab in cloudformation stack console:
 
 ![resources-png](/static/basics/templates/pseudo-parameters/resources.png)
 
