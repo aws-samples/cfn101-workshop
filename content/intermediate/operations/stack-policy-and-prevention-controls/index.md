@@ -1,211 +1,341 @@
 ---
-title: "Stack policy and prevention controls"
-weight: 300
+title: "Understanding change sets"
+weight: 200
+---
+
+_Lab Duration: ~20 minutes_
+
 ---
 
 ### Overview
+When you update an [AWS CloudFormation](https://aws.amazon.com/cloudformation/) stack, you update one or more resources in that stack to a desired new state. Due to factors that include resource dependencies, [update behaviors of stack resources](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-updating-stacks-update-behaviors.html), or user error, there could be differences between the desired state and the actual, new state of a given resource.
 
-When you describe your infrastructure with code using [AWS CloudFormation](https://aws.amazon.com/cloudformation/), you have the choice of implementing policies to prevent unintentional operations. For example, you can choose to use CloudFormation features that include [Stack Policy](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/protect-stack-resources.html), [Termination Protection](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-protect-stacks.html), [DeletionPolicy](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-attribute-deletionpolicy.html), and [UpdateReplacePolicy](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-attribute-updatereplacepolicy.html) to prevent accidental stack terminations, updates and deletions of resources you describe in your stack.
+You choose to update your stacks either [directly](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-updating-stacks-direct.html), or with [change sets](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-updating-stacks-changesets.html): the latter gives you a preview of proposed changes before you apply them, and helps prevent unexpected resource configurations or replacements.
+
+You can create change sets by either modifying template parameter values, or by providing an updated template where you described your changes. You can also choose to create multiple change sets for the same stack, before executing the change set that best suits your requirements.
 
 ### Topics Covered
+In this lab, you’ll learn:
 
-By the end of this lab, you will be able to:
-
-* Learn how to set a [Stack Policy](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/protect-stack-resources.html) on a CloudFormation stack to determine which update actions you can perform on resources you manage with your stack.
-* Learn how to prevent stack deletion by enabling [Termination Protection](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-protect-stacks.html).
-* Learn how to use the [DeletionPolicy](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-attribute-deletionpolicy.html) attribute to retain - or backup, in some cases - resources that you describe in your stack when you remove resources from the stack, or when you delete the stack.
-
-
+* how to create change sets
+* how to read change sets to understand what your stack will look like after the update
+* how CloudFormation decides which resources need replacement, and how static and dynamic evaluations work
 
 ### Start Lab
+Using a sample template, you will create a CloudFormation stack. You will then create two different change sets for this stack: one by editing the template, and another one by modifying a parameter value.
 
-* Change directory to `code/workspace/stack-policy-and-prevention-controls`.
-* Open the `stack-policy-lab.yaml` file.
-* Update the content of the template as you follow along steps on this lab.
+Let’s get started!
 
-### **Lab Part 1 - Stack Policy and Termination Protection**
+   :::::tabs{variant="container"}
+	::::tab{id="cloud9" label="Cloud9"}
+	
+    1. Change directory to: `cfn101-workshop/code/workspace/understanding-changesets`.
+    1. Open the `bucket.yaml` CloudFormation template in your `Cloud9` editor, and familiarize yourself with the sample template content.
+    1. Create a stack by following these steps:
+    
+        1. The template requires you to provide a unique value for the `BucketName` input parameter. For more information, see [Bucket naming rules](https://docs.aws.amazon.com/AmazonS3/latest/userguide/bucketnamingrules.html)
+        1. Let's create the stack from the template using the following command (the example uses `us-east-1` for the AWS region, change this value as needed):
+        :::code{language=shell showLineNumbers=false showCopyAction=true}
 
-[Stack policy](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/protect-stack-resources.html) is a JSON-formatted document you set up on a stack to define and control update operations for your stack resources. [Termination Protection](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-protect-stacks.html) is a stack option that you enable on the stack to protect your stack from deletion.
+        aws cloudformation create-stack \
+                --region us-east-1 \
+                --stack-name changesets-workshop \
+                --template-body file://bucket.yaml \
+                --parameters ParameterKey=BucketName,ParameterValue='YOUR_UNIQUE_BUCKET_NAME-HERE'
+        :::
+        1. CloudFormation returns the following output:
+            ```json
+            {
+            "StackId" : "arn:aws:cloudformation:us-east-1:123456789012:stack/changesets-workshop/330b0120-1771-11e4-af37-50ba1b98bea6"
+            }            
+            ```
+        1. Wait until the `changesets-workshop` stack is created, by using the CloudFormation console or the [wait stack-create-complete](https://docs.aws.amazon.com/cli/latest/reference/cloudformation/wait/stack-create-complete.html) AWS CLI command.
+        :::code{language=shell showLineNumbers=false showCopyAction=true}
+        aws cloudformation wait stack-create-complete \
+    	        --stack-name changesets-workshop
+    	  :::
+      ::::
 
-In this lab, you will first create an [Amazon Simple Notification Service](https://aws.amazon.com/sns/) (Amazon SNS) [topic](https://docs.aws.amazon.com/sns/latest/dg/sns-create-topic.html) in a stack: you will set up a stack policy to deny updates to the topic, and enable termination protection for your stack. Next, you will update the stack you created to update the topic, and test the stack policy you configured for the stack resource. Later, you will delete the stack to test the termination protection setting you enabled.
+::::tab{id="local" label="Local development"}  
 
-To get started, follow steps shown next:
+1. Change directory to: `code/workspace/understanding-changesets`.
+1. Open the `bucket.yaml` CloudFormation template in your favorite text editor, and familiarize yourself with the sample template content.
+1. Create a stack by following these steps:
+    1. Navigate to the [AWS CloudFormation Console](https://console.aws.amazon.com/cloudformation/).
+    2. From **Create stack**, choose **With new resources (standard)**.
+    3. From **Prepare template**, choose **Template is ready**.
+    4. From **Template source**, choose **Upload a template file**. Choose the `bucket.yaml` template file, and then choose **Next**.
+    5. Specify a stack name, for example `changesets-workshop`.
+    6. Make sure to provide a unique value for the `BucketName` parameter. For more information, see [Bucket naming rules](https://docs.aws.amazon.com/AmazonS3/latest/userguide/bucketnamingrules.html). Choose **Next**.
+    7. In the next page, choose to leave all options to default values, and choose **Next**.
+    8. In the review page, choose **Create Stack**.
+    9. Refresh the stack creation page until you see your stack in the `CREATE_COMPLETE` status.
 
-* Copy the code below, append it to the `stack-policy-lab.yaml` file, and save the file:
+   ::::
+   :::::
+
+### Lab part 1
+In this part of the lab, you will specify a property, for a given resource type, that requires [no interruption](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-updating-stacks-update-behaviors.html#update-no-interrupt) on stack updates. You will then create a change set to preview the changes, and inspect the output of the change set operation.
+
+   :::::tabs{variant="container"}
+	::::tab{id="cloud9" label="Cloud9"}
+	
+Open the `bucket.yaml` CloudFormation template in your `Cloud9` editor, and add `VersioningConfiguration` as shown below. Save the file.
 
 ```yaml
-Parameters:
-  SNSTopicTagValue:
-    Description: Tag value for your Amazon SNS topic
-    Type: String
-    Default: Topic-Tag-1
-    MinLength: 1
-    MaxLength: 256
-Resources:
-  SNSTopic:
-    Type: AWS::SNS::Topic
-    Properties:
-      TopicName: Topic-1
-      Tags:
-        - Key: TagSNS
-          Value: !Ref SNSTopicTagValue
+MyS3Bucket:
+  Type: AWS::S3::Bucket
+  Properties:
+    BucketName: !Ref BucketName
+    VersioningConfiguration:
+      Status: Enabled
+```
+Next, create your first change set:
+
+    1. From Terminal run the following command to **Create change set**, specify a name for the change set for example:`bucket-versioning-update` and provide the `BucketName` parameter that chosen in above example.
+    :::code{language=shell showLineNumbers=false showCopyAction=true}
+    
+    aws cloudformation create-change-set \
+        --stack-name changesets-workshop \
+        --change-set-name bucket-versioning-update
+        --template-body file://bucket.yaml \
+        --parameters ParameterKey=BucketName,ParameterValue='TYPE_UNIQUE_BUCKET_NAME-HERE'
+    :::
+
+    2. CloudFormation returns the following output of the AWS CLI.
+        ```json
+        {
+        "StackId" : "arn:aws:cloudformation:us-east-1:123456789012:stack/changesets-workshop/330b0120-1771-11e4-af37-50ba1b98bea6",
+        "Id": "arn:aws:cloudformation:us-east-1:123456789012:changeSet/bucket-versioning-update/a470cff7-cb2c-4cba-bf27-2b3b9ccc1333"
+        }
+        ```
+    ::::
+
+::::tab{id="local" label="Local development"}    
+
+Open the `bucket.yaml` CloudFormation template in your favorite text editor, and add `VersioningConfiguration` as shown below. Save the file.
+
+```yaml
+MyS3Bucket:
+  Type: AWS::S3::Bucket
+  Properties:
+    BucketName: !Ref BucketName
+    VersioningConfiguration:
+      Status: Enabled
 ```
 
-In this next step, you will use the AWS CloudFormation Console to create a stack using the `stack-policy-lab.yaml` template file. Follow steps shown next:
+Next, create your first change set:
 
-1. Navigate to the [AWS CloudFormation Console](https://console.aws.amazon.com/cloudformation/).
-2. From **Create stack**, choose **With new resources (standard)**.
-3. From **Specify template**, choose **Upload a template file**. Upload the `stack-policy-lab.yaml` template, and choose **Next**.
-4. Enter a Stack name. For example, specify `stack-policy-lab`. In the parameters section, choose to accept the parameter value for `SNSTopicTagValue` as `Topic-Tag-1`. Choose **Next**.
-5. In **Configure Stack Options** page; under **Stack policy**, choose **Enter stack policy** and paste the following code for the stack policy. Under **Stack creation options**, choose **Enabled** for **Termination protection**, and choose **Next**.
+1. In the CloudFormation console, select the `changesets-workshop` stack, and from **Stack actions**, choose **Create change set for current stack**.
+2. From **Prepare template**, choose **Replace current template**. For **Template source**, choose **Upload a template file**, then select your updated `bucket.yaml` template, and choose **Next**.
+3. Choose **Next** again in both the **Specify stack details** and **Configure stack options** pages, and then choose **Create change set**.
+4. Specify a name for the change set, for example: `bucket-versioning-update`, as well as a description, for example: `Enable bucket versioning for MyS3Bucket.`, and choose **Create change set**.
+5. Refresh the page until the status of the change set is `CREATE_COMPLETE`.
+
+   ::::
+  :::::
+
+1. In the [AWS CloudFormation ](https://console.aws.amazon.com/cloudformation/) console, select the stack you created in this workshop. For example `changesets-workshop`.
+1. From **changesets** tab, choose **bucket-versioning-update**.
+1. Navigate to the **JSON changes** tab for more information, which should look similar to this:
 
 ```json
-{
-  "Statement" : [
-    {
-      "Effect" : "Deny",
-      "Principal" : "*",
-      "Action" : "Update:Modify",
-      "Resource" : "LogicalResourceId/SNSTopic"
+[
+  {
+    "resourceChange": {
+      "logicalResourceId": "MyS3Bucket",
+      "action": "Modify",
+      "physicalResourceId": "understanding-changesets-123",
+      "resourceType": "AWS::S3::Bucket",
+      "replacement": "False",
+      "moduleInfo": null,
+      "details": [
+        {
+          "target": {
+            "name": "VersioningConfiguration",
+            "requiresRecreation": "Never",
+            "attribute": "Properties"
+          },
+          "causingEntity": null,
+          "evaluation": "Static",
+          "changeSource": "DirectModification"
+        }
+      ],
+      "changeSetId": null,
+      "scope": [
+        "Properties"
+      ]
     },
-    {
-      "Effect" : "Allow",
-      "Principal" : "*",
-      "Action" : "Update:*",
-      "Resource" : "*"
-    }
-  ]
-}
+    "hookInvocationCount": null,
+    "type": "Resource"
+  }
+]
 ```
 
-6. In the next page, choose **Create stack**.
 
-::alert[When you apply a stack policy to a stack, all the resources in that stack are protected by default. Hence, you will need to specify an explicit `Allow` statement in your stack policy to allow updates to all other resources.]
+In the `resourceChange` structure, you can see the logical ID of the resource, the action CloudFormation will take, the Physical ID of the resource, the type of resource, and whether CloudFormation will replace the resource or not. In the `Details` structure, CloudFormation labels this change as a direct modification that will never require the bucket to be recreated (replaced) because updating the [Versioning configuration](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-s3-bucket.html#cfn-s3-bucket-versioningconfiguration) property requires no interruption.
 
-The stack policy you configured above for your `stack-policy-lab` stack denies updates to the resource whose [Logical ID](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/resources-section-structure.html#resources-section-structure-resource-fields) is `SNSTopic`.
+If you execute this change set, CloudFormation will then not replace your bucket, based on the configuration you provided; let's hold off on executing the change set, and create another change set.
 
-Let’s now test the stack policy you applied, by updating the stack you created!
+### Lab part 2
+You will now modify the value for a property, `BucketName`, that requires a [replacement](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-updating-stacks-update-behaviors.html#update-replacement) on stack updates. You will then create a change set to preview your changes, and inspect the output of the change set operation.
 
+Let’s get started!
 
-1. Navigate to the [AWS CloudFormation Console](https://console.aws.amazon.com/cloudformation/).
-2. Select the stack named `stack-policy-lab`, and choose **Update**.
-3. In the next page, choose to accept **Use current template**. Choose **Next**.
-4. In the parameters section, update the value of `SNSTopicTagValue` from `Topic-Tag-1` to `Topic-Tag-2`. Choose **Next**.
-5. Choose to accept default values in the **Configure stack options** page, and choose **Next**.
-6. Choose **Update stack** in the next page.
+   :::::tabs{variant="container"}
+	::::tab{id="cloud9" label="Cloud9"}
 
-The stack update will fail. When looking in the **Events** pane for your stack, you will see the `Action denied by stack policy` error, for the resource whose [Logical ID](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/resources-section-structure.html#resources-section-structure-resource-fields) is `SNSTopic`.
+1. From Terminal run the following command to **Create change set**, Change the value for `BucketName` parameter by specifying a new unique bucket [name](https://docs.aws.amazon.com/AmazonS3/latest/userguide/bucketnamingrules.html), and follow the rest of the process as before to finish creating the change set.
 
-Let’s now test the termination protection feature, that you enabled on your `stack-policy-lab` stack:
+ :::code{language=shell showLineNumbers=false showCopyAction=true}
+ aws cloudformation create-change-set \
+      --stack-name changesets-workshop \
+      --change-set-name replace-change-set \
+      --template-body file://bucket.yaml \
+      --parameters ParameterKey=BucketName,ParameterValue='YOUR-NEW-UNIQUE-BUCKET-NAME-HERE'
+ :::
 
-1. Navigate to the [AWS CloudFormation Console](https://console.aws.amazon.com/cloudformation/).
-2. Select the stack named `stack-policy-lab`, and choose **Delete**.
+  ::::
+	::::tab{id="local" label="Local development"}
 
-You will observe a message window informing you that **Termination protection** is enabled on the stack, and you will need to disable it before deleting the stack.
+    1. In the CloudFormation console, select the `changesets-workshop` stack, and from **Stack actions**, choose **Create change set for current stack**.
+    2. From **Prepare template**, choose **Use current template** and choose **Next**.
+    3. Change the value for `BucketName` parameter by specifying a new unique bucket [name](https://docs.aws.amazon.com/AmazonS3/latest/userguide/bucketnamingrules.html), and follow the rest of the process as before to finish creating the change set.
 
-Congratulations! You have now learned how to define update operations for resources in a CloudFormation stack, and prevent the stack from deletion. For information on how to apply a stack policy using the [AWS Command Line Interface](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-welcome.html), see [Setting a stack policy](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/protect-stack-resources.html#protect-stack-resources-protecting). To enable or disable termination protection using the AWS Command Line Interface, use the [update-termination-protection](https://docs.aws.amazon.com/cli/latest/reference/cloudformation/update-termination-protection.html) command.
+   ::::
+   :::::
+    
+Here’s what the **JSON changes** for this change set should look like:
 
-
-### **Lab Part 2 - DeletionPolicy**
-
-[DeletionPolicy](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-attribute-deletionpolicy.html) is a CloudFormation resource attribute you configure for resources in your stack to preserve - or backup, in some cases - such resources when you e.g., remove the resource from the stack, or when you delete the stack. By default, CloudFormation will delete the resource on stack deletion if no `DeletionPolicy` is configured for the resource, or if its value is set to `Delete`.
-
-In this lab, you will first create a CloudFormation stack with an Amazon SNS topic resource, and set the `DeletionPolicy` attribute value to `Retain` to preserve the resource. You will then delete the stack, and check if the resource still exists.
-
-To get started, follow steps shown next:
-
-* Make sure you are in the `code/workspace/stack-policy-and-prevention-controls` directory.
-* Copy the code below, append it to the `deletion-policy-lab.yaml` file, and save the file:
-
-```yaml
-Resources:
-  SNSTopic:
-    DeletionPolicy: Retain
-    Type: AWS::SNS::Topic
-    Properties:
-      TopicName: Topic-2
+```json
+[
+  {
+    "resourceChange": {
+      "logicalResourceId": "MyS3Bucket",
+      "action": "Modify",
+      "physicalResourceId": "understanding-changesets-123",
+      "resourceType": "AWS::S3::Bucket",
+      "replacement": "True",
+      "moduleInfo": null,
+      "details": [
+        {
+          "target": {
+            "name": "BucketName",
+            "requiresRecreation": "Always",
+            "attribute": "Properties"
+          },
+          "causingEntity": null,
+          "evaluation": "Dynamic",
+          "changeSource": "DirectModification"
+        },
+        {
+          "target": {
+            "name": "BucketName",
+            "requiresRecreation": "Always",
+            "attribute": "Properties"
+          },
+          "causingEntity": "BucketName",
+          "evaluation": "Static",
+          "changeSource": "ParameterReference"
+        }
+      ],
+      "changeSetId": null,
+      "scope": [
+        "Properties"
+      ]
+    },
+    "hookInvocationCount": null,
+    "type": "Resource"
+  }
+]
 ```
 
-1. Navigate to the [AWS CloudFormation Console](https://console.aws.amazon.com/cloudformation/).
-2. From **Create stack**, choose **With new resources (standard)**.
-3. From **Specify template**, choose **Upload a template file**. Upload the `deletion-policy-lab.yaml` template, and choose **Next**.
-4. Enter a Stack name. For example, specify `deletion-policy-lab`. Choose **Next**.
-5. Choose to accept default values on the **Configure stack options page**; scroll to the bottom of the page, and choose **Next**.
-6. In the next page, choose **Create stack**.
 
-When you use a `Retain` value for the `DeletionPolicy` attribute, you indicate to retain the resource when you remove it from the stack, or when you delete the stack.
+You can see there are two key differences from the previous example. First, the value for the `replacement` property under the `resourceChange` structure is set to `True`; second, you see two evaluations, `Static` and `Dynamic`, under the `details` structure. Let's talk about these aspects in more detail.
 
-After the stack is created, let’s now test the `DeletionPolicy` you set on the resource:
+The value for `replacement` is `True` because you updated the `BucketName` [property](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-s3-bucket.html#cfn-s3-bucket-bucketname) that requires a replacement. CloudFormation will create a new resource (a new bucket in this case), and then delete the old one. If there are multiple changes you make on a given resource, and each change has a different value for the `requiresRecreation` field, CloudFormation replaces the resource when a recreation is required. In other words, if only one of the many changes requires a replacement, CloudFormation replaces the resources, and therefore sets the `replacement` field to `True`.
 
-1. Navigate to the [AWS CloudFormation Console](https://console.aws.amazon.com/cloudformation/).
-2. Select the stack named `deletion-policy-lab`, and choose **Delete**. Next, choose **Delete stack** to confirm.
+The value in the `replacement` field is indicated by the `requiresRecreation` field in the `target` structure. If the `requiresRecreation` field is `Never`, the `replacement` field is `False`. If the `requiresRecreation` field is `Always` and the `evaluation` field is `Static`, `replacement` is `True`. However, if the `requiresRecreation` field is `Always` and the `evaluation` field is `Dynamic`, `replacement` is `Conditionally`.
 
-In the stack events pane, you will observe the resource whose Logical ID is `SNSTopic` skipped the deletion. To confirm the resource was retained, follow the steps below:
+To understand why there are two different evaluations for the same resource in the above example, let’s see what each of these means.
 
+A `Static` evaluation means that CloudFormation can determine the value before executing the change set because it already has all the information it needs to evaluate the changes.
 
-1. Navigate to the [Amazon SNS Console](https://console.aws.amazon.com/sns/), and choose **Topics**.
-2. You will observe the topic `Topic-2` you created in the stack is still present, and was not deleted during stack deletion.
+In some cases, CloudFormation can determine a value only after you execute a change set. CloudFormation labels those changes as `Dynamic` evaluations. In other words, if you reference an updated resource that is conditionally replaced, CloudFormation can't determine whether the reference to the updated resource will change. For example, if your template includes a reference to a resource that is conditionally replaced, the value of the reference (the physical ID of the resource) might change, depending on whether the resource will be recreated. If the resource is recreated, it will have a new physical ID, so all references to that resource will also be updated.  In the above example, you are referencing an updated parameter which results in a `Dynamic` evaluation.
 
-Congratulations! You have now learned how to define a `DeletionPolicy` resource attribute on a resource to preserve it during stack deletion. For more information, see [`DeletionPolicy` attribute](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-attribute-deletionpolicy.html) and [`DeletionPolicy` options](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-attribute-deletionpolicy.html#aws-attribute-deletionpolicy-options).
-
-::alert[On stack updates, you can choose to use the `UpdateReplacePolicy` [attribute](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-attribute-updatereplacepolicy.html) to retain - or, in some cases, backup - a given resource when the resource is replaced during the stack update.]
+Now, let's focus on static evaluation-related data for your changes.  In the above example, the static evaluation shows that the change is a result of a modified parameter reference value, `ParameterReference`: the exact parameter that was changed is indicated by the `causingEntity` field, that is `BucketName` in this case.
 
 ### Challenge
+Open, in your favorite text editor, the template file named `changeset-challenge.yaml`, that you can find in the `code/workspace/understanding-changesets` directory. This file is a modified version of the `bucket.yaml` template you used earlier: note the logical ID of the Amazon S3 bucket resource, that is `NewS3Bucket` instead of `MyS3Bucket`. Note that there is also a new resource described in the template: an [Amazon Simple Queue Service](https://aws.amazon.com/sqs/) (SQS) [queue](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-sqs-queues.html), with the `MySqsQueue` logical ID.
 
-You have learned how to create a stack policy to deny updates to a resource based on a [Logical Resource ID](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/resources-section-structure.html#resources-section-structure-resource-fields). In this exercise, you are tasked with creating a stack policy that applies to resources of a specific type: your task is to create a stack policy to deny all update actions to the `AWS::RDS::DBInstance` resource type.
+What do you think will happen if you create a new change set for the `changesets-workshop` stack using the `changeset-challenge.yaml` file? How many resources will be added? Will any resource be removed? Will you be able to get the physical ID of the queue from the **JSON changes** of the change set?
 
-:::expand{header="Need a hint?"}
+Create a change set with this file, and see if you were able to correctly determine the proposed changes.
 
-- Make use of the [Condition](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/protect-stack-resources.html#stack-policy-reference) key to define `ResourceType`.
-- How do you specify, in `Action`, your intent of including all update actions?
-- Which value should you specify for `Resource`?
-
-:::
-
+::expand[* When you change the logical ID of a resource in your template, and you update your stack with your updated template, CloudFormation tries to replace the resource.]{header="Need a hint?"}
 :::expand{header="Want to see the solution?"}
-
-Create a stack policy that, for `"Effect" : "Deny"`, contains `Action`, `Resource`, and `Condition` blocks specified as shown next:
+* In addition to adding the new `MySqsQueue` queue resource, CloudFormation will try to create a new bucket with the `NewS3Bucket` logical ID, and delete `MyS3Bucket`. Physical IDs of new resources are not available until they are created. Here’s what the **JSON changes** should look like:
 
 ```json
-{
-  "Statement" : [
-    {
-      "Effect" : "Deny",
-      "Principal" : "*",
-      "Action" : "Update:*",
-      "Resource" : "*",
-      "Condition" : {
-        "StringEquals" : {
-          "ResourceType" : ["AWS::RDS::DBInstance"]
-        }
-      }
+[
+  {
+    "resourceChange": {
+      "logicalResourceId": "MyS3Bucket",
+      "action": "Remove",
+      "physicalResourceId": "understanding-changesets-123",
+      "resourceType": "AWS::S3::Bucket",
+      "replacement": null,
+      "moduleInfo": null,
+      "details": [],
+      "changeSetId": null,
+      "scope": []
     },
-    {
-      "Effect" : "Allow",
-      "Principal" : "*",
-      "Action" : "Update:*",
-      "Resource" : "*"
-    }
-  ]
-}
+    "hookInvocationCount": null,
+    "type": "Resource"
+  },
+  {
+    "resourceChange": {
+      "logicalResourceId": "NewS3Bucket",
+      "action": "Add",
+      "physicalResourceId": null,
+      "resourceType": "AWS::S3::Bucket",
+      "replacement": null,
+      "moduleInfo": null,
+      "details": [],
+      "changeSetId": null,
+      "scope": []
+    },
+    "hookInvocationCount": null,
+    "type": "Resource"
+  },
+  {
+    "resourceChange": {
+      "logicalResourceId": "MySqsQueue",
+      "action": "Add",
+      "physicalResourceId": null,
+      "resourceType": "AWS::SQS::Queue",
+      "replacement": null,
+      "moduleInfo": null,
+      "details": [],
+      "changeSetId": null,
+      "scope": []
+    },
+    "hookInvocationCount": null,
+    "type": "Resource"
+  }
+]
 ```
-
 :::
-
-Great work! You have now learned how to create a stack policy to deny updates for a given resource type.
-
 ### Cleanup
 
-Choose to follow steps shown next to clean up resources you created with this lab:
+To clean up resources you created with this lab:
 
-1. Navigate to the [AWS CloudFormation Console](https://console.aws.amazon.com/cloudformation/).
-2. Select the stack named `stack-policy-lab` and choose **Delete**.
-3. In the message window, select **Edit termination protection**, and select **Disabled** for **Termination protection**. Choose **Save**.
-4. Select the stack named `stack-policy-lab` and choose **Delete**, and then choose **Delete stack** to confirm.
-5. Navigate to the [Amazon SNS Console](https://console.aws.amazon.com/sns/), and choose **Topics**. Next, select the topic `Topic-2`, and choose **Delete**. In the message pane, enter `delete me`, and choose **Delete** to confirm.
+1. From the CloudFormation console, select the stack named `changesets-workshop`.
+2. Choose **Delete**, and then **Delete Stack** to delete your stack and change sets you created for it.
 
-* * *
+---
 
 ### Conclusion
+Nicely done!
 
-Congratulations! You have learned how to prevent unintentional updates, protect a stack from deletion, and preserve resources in case of an unintentional stack deletion.
+You learned how to create change sets, how to read a change set output, and how CloudFormation decides which resources need to be replaced based on resource configuration changes you make.
