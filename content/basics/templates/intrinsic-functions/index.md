@@ -93,7 +93,7 @@ cd cfn101-workshop/code/workspace
 :::
 1. Use the AWS CLI to update the stack. The required parameter `--template-body` have been pre-filled for you. Use `AmiId` which you have hardcoded in `resources.yaml` file earlier.
 :::code{language=shell showLineNumbers=false showCopyAction=true}
-aws cloudformation update-stack --stack-name cfn-workshop-s3 --template-body file://intrinsic-functions.yaml --parameters '[{"parameter_key":"AmiID","parameter_value":"ami-id"}]'
+aws cloudformation update-stack --stack-name cfn-workshop-s3 --template-body file://intrinsic-functions.yaml --parameters '[{"ParameterKey":"AmiID","ParameterValue":"ami-id"}]'
 :::
 1. If the `update-stack` command was successfully sent, CloudFormation will return `StackId`.
 :::code{language=shell showLineNumbers=false showCopyAction=true}
