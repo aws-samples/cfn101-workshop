@@ -62,8 +62,8 @@ By the end of this lab, you will be able to:
         + The _Stack name_ identifies the stack. Use a name to help you distinguish the purpose of this stack.
         + Choose **Next**.
    1. Choose to accept default values for **Configure stack options**; choose **Next**.
-   1. On the **Review <stack_name>** page, scroll down to the bottom and choose **Submit**.
-   1. Use the **refresh** button to update the page as needed, until you see the stack to be in the **CREATE_COMPLETE** status.
+   1. On the **Review <stack_name>** page, scroll to the bottom and choose **Submit**.
+   1. Use the **refresh** button to update the page as needed, until you see the stack has the **CREATE_COMPLETE** status.
    ::::
    :::::
 
