@@ -167,7 +167,7 @@ https://cfn-workshop-01-{accountid}.s3.amazonaws.com/resources.yaml
 
 In this exercise, use the AWS CLI to query the AWS Systems Manager Parameter Store to get the latest Amazon Linux AMI ID.
 
-::alert[To complete this challenge, you have to have [AWS CLI](../../../prerequisites/awscli) configured.]{type="info"}
+::alert[To complete this challenge, make sure you have the [AWS CLI](../../../prerequisites/local-development) configured. Your Cloud9 environment comes with this pre-configured.]{type="info"}
 
 ::expand[Check out the [AWS Compute Blog](https://aws.amazon.com/blogs/compute/query-for-the-latest-amazon-linux-ami-ids-using-aws-systems-manager-parameter-store/) to find out.]{header="Need a hint?"}
 
