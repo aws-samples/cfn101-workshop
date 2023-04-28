@@ -8,7 +8,7 @@ _Setup Duration: ~10 minutes_
 ## Overview
 
 [AWS Cloud9](https://aws.amazon.com/cloud9/) is a cloud-based IDE that lets you write, run, and debug your code with
-just a browser. It includes a code editor, debugger, and terminal. Since your Cloud9 IDE is cloud-based, you can do labs
+just a browser. It includes a code editor, debugger, and terminal. Since your Cloud9 IDE is cloud-based, you can run labs
 from your office, home, or anywhere using an internet-connected machine.
 
 For the best experience with the workshop and minimal setup effort we recommend using it to run this workshop because it
