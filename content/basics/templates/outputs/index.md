@@ -74,7 +74,7 @@ aws cloudformation update-stack --stack-name cfn-workshop-s3 --template-body fil
 
 ::::tab{id="local" label="Local development"}
 1. Open the **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** link in a new tab and log in to your AWS account.
-1. Click on the stack name, for example **cfn-workshop-ec2**.
+1. Click on the stack name, for example **cfn-workshop-ec3**.
 1. In the top right corner click on **Update**.
 1. In **Prepare template**, choose **Template is ready**.
 1. In **Template source**, choose **Upload a template file**.
@@ -83,9 +83,10 @@ aws cloudformation update-stack --stack-name cfn-workshop-s3 --template-body fil
 1. You can leave **Configure stack options** default, click **Next**.
 1. On the **Review <stack_name>** page, scroll down to the bottom and click on **Update stack**.
 1. You can click the **refresh** button a few times until you see in the status **UPDATE_COMPLETE**.
-1. View the output value on the [AWS CloudFormation console](https://console.aws.amazon.com/cloudformation), in the _Outputs_ tab.
 ::::
 :::::
+
+View the output value on the [AWS CloudFormation console](https://console.aws.amazon.com/cloudformation), in the _Outputs_ tab.
 
 
 ### Challenge
@@ -143,10 +144,9 @@ _Outputs_ section of the template. You should continue using the `outputs.yaml` 
     1. Open the **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** console in a new tab and check if the stack status is **UPDATE_COMPLETE**.
     1.  View the output value on the [AWS CloudFormation console](https://console.aws.amazon.com/cloudformation), in the _Outputs_ tab.
     ::::
-
     ::::tab{id="local" label="Local development"}
     1. Open the **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** link in a new tab and log in to your AWS account.
-    1. Click on the stack name, for example **cfn-workshop-ec2**.
+    1. Click on the stack name, for example **cfn-workshop-ec3**.
     1. In the top right corner click on **Update**.
     1. In **Prepare template**, choose **Template is ready**.
     1. In **Template source**, choose **Upload a template file**.
