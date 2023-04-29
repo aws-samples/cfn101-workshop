@@ -94,7 +94,7 @@ Let’s create a stack using the `resource-return-values.yaml` template, and see
   1. Use the AWS CLI to create the stack. The required parameter `--template-body` have been pre-filled for you.
     :::code{language=shell showLineNumbers=false showCopyAction=true}
 
-    aws cloudformation create-stack --stack-name cfn-workshop-s4 --template-body file://resource-return-values.yaml
+    aws cloudformation create-stack --stack-name cfn-workshop-s5 --template-body file://resource-return-values.yaml
     :::
   1. If the `create-stack` command was successfully sent, CloudFormation will return `StackId`.
     :::code{language=shell showLineNumbers=false showCopyAction=true}
@@ -109,7 +109,7 @@ Let’s create a stack using the `resource-return-values.yaml` template, and see
 1. In **Prepare template**, choose **Template is ready**.
 1. In **Template source**, select **Upload a template file**.
 1. Upload the `resource-return-values.yaml` template, and choose **Next**.
-1. Enter a stack name. For example, `cfn-workshop-s4`. When ready, choose **Next**.
+1. Enter a stack name. For example, `cfn-workshop-s5`. When ready, choose **Next**.
 1. Choose to accept default values on the **Configure stack options** page; scroll to the bottom of the page, and choose **Next**.
 1. In the review page, scroll to the bottom and choose **Create stack**.
 1. Refresh the page until you see the `CREATE_COMPLETE` status for your stack.
@@ -183,7 +183,7 @@ Outputs:
         :::
     1. Use the AWS CLI to update the stack. The required parameter `--template-body` have been pre-filled for you.
         :::code{language=shell showLineNumbers=false showCopyAction=true}
-        aws cloudformation update-stack --stack-name cfn-workshop-s4 --template-body file://resource-return-values.yaml
+        aws cloudformation update-stack --stack-name cfn-workshop-s5 --template-body file://resource-return-values.yaml
         :::
     1. If the `update-stack` command was successfully sent, CloudFormation will return `StackId`.
         :::code{language=shell showLineNumbers=false showCopyAction=true}
@@ -194,7 +194,7 @@ Outputs:
     ::::
     ::::tab{id="local" label="Local development"}
     1. Open the **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** link in a new tab and log in to your AWS account.
-    1. Click on the stack name, for example **cfn-workshop-ec4**.
+    1. Click on the stack name, for example **cfn-workshop-s5**.
     1. In the top right corner click on **Update**.
     1. In **Prepare template**, choose **Template is ready**.
     1. In **Template source**, choose **Upload a template file**.
