@@ -133,7 +133,7 @@ aws cloudformation update-stack --stack-name cfn-workshop-s3 --template-body fil
 
 ::::tab{id="local" label="Local development"}
 1. Open the **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** link in a new tab and log in to your AWS account.
-1. Click on the stack name, for example **cfn-workshop-ec2**.
+1. Click on the stack name, for example **cfn-workshop-ec3**.
 1. In the top right corner click on **Update**.
 1. In **Prepare template**, choose **Replace current template**.
 1. In **Template source**, choose **Upload a template file**.
@@ -207,7 +207,7 @@ To test that your solution works, Follow below steps:
     ::::
     ::::tab{id="local" label="Local development"}
     1. Open the **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** link in a new tab and log in to your AWS account.
-    1. Click on the stack name, for example **cfn-workshop-ec2**.
+    1. Click on the stack name, for example **cfn-workshop-ec3**.
     1. In the top right corner click on **Update**.
     1. In **Prepare template**, choose **Replace current template**.
     1. In **Template source**, choose **Upload a template file**.
