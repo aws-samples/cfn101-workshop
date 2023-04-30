@@ -61,9 +61,9 @@ In this Lab, you will:
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 cd cfn101-workshop/code/workspace
 :::
-1. Use the AWS CLI to update the stack. The required parameter `--template-body` have been pre-filled for you.
+1. Use the AWS CLI to update the stack. The required parameter `--template-body` have been pre-filled for you. Replace the `ParameterValue` **MyAmiId** with  the value you have hardcoded in `resources.yaml` file earlier.
 :::code{language=shell showLineNumbers=false showCopyAction=true}
-aws cloudformation update-stack --stack-name cfn-workshop-s3 --template-body file://outputs.yaml --parameters
+aws cloudformation update-stack --stack-name cfn-workshop-ec2 --template-body file://outputs.yaml --parameters '[{"ParameterKey":"AmiID","ParameterValue":"MyAmiId"}]'
 :::
 1. If the `update-stack` command was successfully sent, CloudFormation will return `StackId`.
 :::code{language=shell showLineNumbers=false showCopyAction=true}
@@ -74,7 +74,7 @@ aws cloudformation update-stack --stack-name cfn-workshop-s3 --template-body fil
 
 ::::tab{id="local" label="Local development"}
 1. Open the **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** link in a new tab and log in to your AWS account.
-1. Click on the stack name, for example **cfn-workshop-ec3**.
+1. Click on the stack name, for example **cfn-workshop-ec2**.
 1. In the top right corner click on **Update**.
 1. In **Prepare template**, choose **Template is ready**.
 1. In **Template source**, choose **Upload a template file**.
@@ -133,9 +133,9 @@ _Outputs_ section of the template. You should continue using the `outputs.yaml` 
       :::code{language=shell showLineNumbers=false showCopyAction=true}
       cd cfn101-workshop/code/workspace
       :::
-    1. Use the AWS CLI to update the stack. The required parameter `--template-body` have been pre-filled for you.
+    1. Use the AWS CLI to update the stack. The required parameter `--template-body` have been pre-filled for you. Replace the `ParameterValue` **MyAmiId** with  the value you have hardcoded in `resources.yaml` file earlier.
       :::code{language=shell showLineNumbers=false showCopyAction=true}
-      aws cloudformation update-stack --stack-name cfn-workshop-s3 --template-body file://outputs.yaml --parameters
+      aws cloudformation update-stack --stack-name cfn-workshop-ec2 --template-body file://outputs.yaml --parameters '[{"ParameterKey":"AmiID","ParameterValue":"MyAmiId"}]'
       :::
     1. If the `update-stack` command was successfully sent, CloudFormation will return `StackId`.
       :::code{language=shell showLineNumbers=false showCopyAction=true}
@@ -146,7 +146,7 @@ _Outputs_ section of the template. You should continue using the `outputs.yaml` 
     ::::
     ::::tab{id="local" label="Local development"}
     1. Open the **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** link in a new tab and log in to your AWS account.
-    1. Click on the stack name, for example **cfn-workshop-ec3**.
+    1. Click on the stack name, for example **cfn-workshop-ec2**.
     1. In the top right corner click on **Update**.
     1. In **Prepare template**, choose **Template is ready**.
     1. In **Template source**, choose **Upload a template file**.
