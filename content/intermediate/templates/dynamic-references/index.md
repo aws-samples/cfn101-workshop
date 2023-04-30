@@ -27,11 +27,11 @@ Consider a scenario where you are required to provide life cycle environments fo
 
 After you (or a team in your organization) builds a custom AMI, you can choose to use Parameter Store to store the identifier of the AMI. This makes it easier for you to programmatically point to an AMI you wish to use when you launch EC2 instances, thus reducing the likelihood of configuration mistakes.
 
-In this lab, you will create a Parameter Store parameter to persist an AMI ID: instead of a custom AMI, you will use the latest _Amazon Linux 2 AMI, 64-bit x86_ available in a region of your choice. You will then reference your parameter in the `ImageId` [property](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-instance.html#cfn-ec2-instance-imageid) of an EC2 instance that you describe in a template.
+In this lab, you will create a Parameter Store parameter to persist an AMI ID: instead of a custom AMI, you will use the latest _Amazon Linux 2023 AMI, 64-bit x86_ available in a region of your choice. You will then reference your parameter in the `ImageId` [property](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-instance.html#cfn-ec2-instance-imageid) of an EC2 instance that you describe in a template.
 
 Let’s get started! Choose to follow steps shown next:
 
-1. Navigate to the _Launch an Instance_ Amazon EC2 [Console](https://us-east-1.console.aws.amazon.com/ec2/home?region=us-east-1#LaunchInstances:), and [choose the Region](https://docs.aws.amazon.com/awsconsolehelpdocs/latest/gsg/select-region.html) you wish to use. Next, locate the latest *Amazon Linux 2 AMI, (64-bit x86)*, and note the AMI ID (e.g., `ami-abcd1234`). You will use this value in the next step.
+1. Navigate to the _Launch an Instance_ Amazon EC2 [Console](https://us-east-1.console.aws.amazon.com/ec2/home?region=us-east-1#LaunchInstances:), and [choose the Region](https://docs.aws.amazon.com/awsconsolehelpdocs/latest/gsg/select-region.html) you wish to use. Next, locate the latest *Amazon Linux 2023 AMI, (64-bit x86)*, and note the AMI ID (e.g., `ami-abcd1234`). You will use this value in the next step.
 
 ![ec2](/static/intermediate/templates/dynamic-references/ec2-console-ami-picker.png)
 
@@ -47,7 +47,15 @@ Let’s get started! Choose to follow steps shown next:
 
 ::alert[You can choose to create Parameter Store parameters of the type `String` or `StringList` using CloudFormation. For more details, check the documentation for [AWS::SSM::Parameter](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ssm-parameter.html).]{type="info"}
 
-3. Follow steps shown next to create a dynamic reference to your parameter in an EC2 instance you describe in a template:
+3. If the `put-parameter` command was successful, SSM will return `Version` and `Tier`.
+:::code{language=json showLineNumbers=false showCopyAction=false}
+{
+    "Version": 1,
+    "Tier": "Standard"
+}
+:::
+
+4. Follow steps shown next to create a dynamic reference to your parameter in an EC2 instance you describe in a template:
 
     1. change directory to `code/workspace/dynamic-references`.
     2. Open the `ec2-instance.yaml` CloudFormation template in your favorite text editor.
@@ -61,30 +69,24 @@ With the dynamic reference above, you describe the intent of resolving the `LATE
 
 ::alert[CloudFormation does not support [public parameters](https://docs.aws.amazon.com/systems-manager/latest/userguide/parameter-store-finding-public-parameters.html) [in dynamic references](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/dynamic-references.html#dynamic-references-ssm). You can choose to use [SSM Parameter Types](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/parameters-section-structure.html#aws-ssm-parameter-types) to retrieve the value for a public parameter.]{type="info"}
 
-4. It’s now time to create your stack! Follow steps below:
+5. It’s now time to create your stack! Follow steps below:
 
 	:::::tabs{variant="container"}
 
 	::::tab{id="cloud9" label="Cloud9"}
-	1. Upload the `ec2-instance.yaml` file to your **template S3 bucket** using AWS CLI [aws s3 cp](https://docs.aws.amazon.com/cli/latest/reference/s3/cp.html) command
-	:::code{language=shell showLineNumbers=false showCopyAction=true}
-	aws s3 cp code/workspace/dynamic-references/ec2-instance.yaml s3://cfn-workshop-01-{accountid}
+    1. In the **Cloud9 terminal** navigate to `code/workspace/dynamic-references`:
+    :::code{language=shell showLineNumbers=false showCopyAction=true}
+    cd cfn101-workshop/code/workspace/dynamic-references
     :::
-	1. Determine the **Object URL** as you'll need it in the next step, based on this format `https://[bucketname].s3.amazonaws.com/[key]` for example
-	:::code{language=shell showLineNumbers=false showCopyAction=true}
-    https://cfn-workshop-01-{accountid}.s3.amazonaws.com/ec2-instance.yaml
+    1. Use the AWS CLI to create the stack. The required parameters `--stack-name` and `--template-body` have been pre-filled for you.
+    :::code{language=shell showLineNumbers=false showCopyAction=true}
+    aws cloudformation create-stack --stack-name cfn-workshop-ec2-stack --template-body file://ec2-instance.yaml
     :::
-	1. Open the **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** link in a new tab and log in to your AWS account.
-	1. Click on **Create stack With new resources (standard)**.
-	1. In **Prepare template**, choose **Template is ready**.
-	1. In **Template source**, choose **Amazon S3 URL**.
-	1. Paste the `ec2-instance.yaml` **Object URL**you copied from the S3 bucket
-	1. Click **Next**.
-    1. Enter a Stack name. For example, `cfn-workshop-ec2-stack`.
-    1. Choose to use default values for **Configure stack options**, and choose **Next**.
-    1. On the **Review** page for your stack, scroll down to the bottom, and choose **Create stack**.
-    1. You can view the progress of stack being created in the CloudFormation Console, by refreshing the stack creation page.
-    1. Refresh the page until you see the `CREATE_COMPLETE` status for your stack.
+    1. If the `create-stack` command was successfully sent, CloudFormation will return `StackId`.
+    :::code{language=shell showLineNumbers=false showCopyAction=true}
+    "StackId": "arn:aws:cloudformation:us-east-1:123456789012:stack/cfn-workshop-ec2-stack/3fabc340-e74e-11ed-9b33-0a550dedb7a1"
+    :::
+    1. Open the **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** console in a new tab and wait for stack status to reach the **CREATE_COMPLETE** status. You need to periodically select Refresh to see the latest stack status.
     ::::
 
 	::::tab{id="local" label="Local development"}
@@ -103,7 +105,7 @@ With the dynamic reference above, you describe the intent of resolving the `LATE
 
 ::alert[You can also use dynamic references to an SSM parameter to point a specific parameter version. For example, to have CloudFormation resolve version `1` of your parameter, you use: `ImageId: '{{resolve\:ssm:/golden-images/amazon-linux-2:1}}'`. When you lock a dynamic reference to a specific version, this helps to prevent unintentional updates to your resource when you update your stack.]{type="info"}
 
-5. Verify that the ID of the image you used for your EC2 instance matches the image ID you stored in your Parameter Store parameter. First, locate the EC2 Instance ID by navigating to the **Resources** tab in the CloudFormation Console: look for the Physical ID of your EC2 Instance, and note its value. Next, run the following command (replace the `YOUR_INSTANCE_ID` and `YOUR_REGION` placeholder before you run the command):
+6. Verify that the ID of the image you used for your EC2 instance matches the image ID you stored in your Parameter Store parameter. First, locate the EC2 Instance ID by navigating to the **Resources** tab in the CloudFormation Console: look for the Physical ID of your EC2 Instance, and note its value. Next, run the following command (replace the `YOUR_INSTANCE_ID` and `YOUR_REGION` placeholder before you run the command):
 
    :::code{language=shell showLineNumbers=false showCopyAction=true}
    aws ec2 describe-instances \
@@ -111,6 +113,11 @@ With the dynamic reference above, you describe the intent of resolving the `LATE
     --region YOUR_REGION \
     --query 'Reservations[0].Instances[0].ImageId'
    :::
+
+7. If the `describe-instances` command was successfully sent, EC2 will return `ImageId`.
+:::code{language=shell showLineNumbers=false showCopyAction=true}
+"ami-02396cdd13e9a1257"
+:::
 
 Congratulations! You learned how to use dynamic references with an example using Parameter Store.
 
@@ -140,27 +147,20 @@ Let’s get started! Choose to follow steps shown next:
 	:::::tabs{variant="container"}
 
 	::::tab{id="cloud9" label="Cloud9"}
-	1. Upload the `database.yaml` file to your **template S3 bucket** using AWS CLI [aws s3 cp](https://docs.aws.amazon.com/cli/latest/reference/s3/cp.html) command
-	:::code{language=shell showLineNumbers=false showCopyAction=true}
-	aws s3 cp code/workspace/dynamic-references/database.yaml s3://cfn-workshop-01-{accountid}
+    1. In the **Cloud9 terminal** navigate to `code/workspace/dynamic-references`:
+    :::code{language=shell showLineNumbers=false showCopyAction=true}
+    cd cfn101-workshop/code/workspace/dynamic-references
     :::
-	1. Determine the **Object URL** as you'll need it in the next step, based on this format `https://[bucketname].s3.amazonaws.com/[key]` for example
-	:::code{language=shell showLineNumbers=false showCopyAction=true}
-    https://cfn-workshop-01-{accountid}.s3.amazonaws.com/database.yaml
+    1. Use the AWS CLI to create the stack. The required parameters `--stack-name` and `--template-body` have been pre-filled for you. Enter your values for the `DBUsername` and `DBPassword` parameters.
+    :::code{language=shell showLineNumbers=false showCopyAction=true}
+    aws cloudformation create-stack --stack-name cfn-workshop-database-stack --template-body file://database.yaml \
+      --parameters ParameterKey=DBUsername,ParameterValue='admin' ParameterKey=DBPassword,ParameterValue='wjznf74irj831o9'
     :::
-	1. Open the **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** link in a new tab and log in to your AWS account.
-	1. Click on **Create stack With new resources (standard)**.
-	1. In **Prepare template**, choose **Template is ready**.
-	1. In **Template source**, choose **Amazon S3 URL**.
-	1. Paste the `database.yaml` **Object URL** you copied from the S3 bucket
-	1. Click **Next**.
-    1. Enter a Stack name. For example, `cfn-workshop-database-stack`.
-    1. For `DBUsername`, specify the primary username for the DB instance.
-    1. For `DBPassword`, specify the password for the primary user.
-    1. Choose to use default values for **Configure stack options**, and choose **Next**.
-    1. On the **Review** page for your stack, scroll down to the bottom, and choose **Create stack**.
-    1. You can view the progress of stack being created in the CloudFormation Console, by refreshing the stack creation page.
-    1. Refresh the page until you see the `CREATE_COMPLETE` status for your stack.
+    1. If the `create-stack` command was successfully sent, CloudFormation will return `StackId`.
+    :::code{language=shell showLineNumbers=false showCopyAction=true}
+    "StackId": "arn:aws:cloudformation:us-east-1:123456789012:stack/cfn-workshop-database-stack/5b6b44f0-e750-11ed-af8c-12a600715c03"
+    :::
+    1. Open the **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** console in a new tab and wait for stack status to reach the **CREATE_COMPLETE** status. You need to periodically select Refresh to see the latest stack status.
     ::::
 
 	::::tab{id="local" label="Local development"}
@@ -192,25 +192,20 @@ Let’s get started! Choose to follow steps shown next:
 	:::::tabs{variant="container"}
 
 	::::tab{id="cloud9" label="Cloud9"}
-	1. Upload the `lambda-function.yaml` file to your **template S3 bucket** using AWS CLI [aws s3 cp](https://docs.aws.amazon.com/cli/latest/reference/s3/cp.html) command
-	:::code{language=shell showLineNumbers=false showCopyAction=true}
-	aws s3 cp code/workspace/dynamic-references/lambda-function.yaml s3://cfn-workshop-01-{accountid}
+    1. In the **Cloud9 terminal** navigate to `code/workspace/dynamic-references`:
+    :::code{language=shell showLineNumbers=false showCopyAction=true}
+    cd cfn101-workshop/code/workspace/dynamic-references
     :::
-	1. Determine the **Object URL** as you'll need it in the next step, based on this format `https://[bucketname].s3.amazonaws.com/[key]` for example
-	:::code{language=shell showLineNumbers=false showCopyAction=true}
-    https://cfn-workshop-01-{accountid}.s3.amazonaws.com/lambda-function.yaml
+    1. Use the AWS CLI to create the stack. The required parameters `--stack-name` and `--template-body` have been pre-filled for you.
+    :::code{language=shell showLineNumbers=false showCopyAction=true}
+    aws cloudformation create-stack --stack-name cfn-workshop-lambda-stack --template-body file://lambda-function.yaml \
+      --capabilities CAPABILITY_IAM
     :::
-	1. Open the **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** link in a new tab and log in to your AWS account.
-	1. Click on **Create stack With new resources (standard)**.
-	1. In **Prepare template**, choose **Template is ready**.
-	1. In **Template source**, choose **Amazon S3 URL**.
-	1. Paste the `lambda-function.yaml` **Object URL** you copied from the S3 bucket
-	1. Click **Next**.
-    1. Enter a Stack name. For example, `cfn-workshop-lambda-stack`.
-    6. Choose to use default values for **Configure stack options**, and choose **Next**.
-    7. On the **Review** page for your stack, scroll down to the bottom, and select the IAM Capabilities check box as shown in the following example:
-       ![Acknowledge IAM Capability](/static/intermediate/templates/dynamic-references/iam-capability.png)
-    8. Choose **Create** stack. Refresh the page until you see your stack in the `CREATE_COMPLETE` status.
+    1. If the `create-stack` command was successfully sent, CloudFormation will return `StackId`.
+    :::code{language=shell showLineNumbers=false showCopyAction=true}
+    "StackId": "arn:aws:cloudformation:us-east-1:123456789012:stack/cfn-workshop-lambda-stack/7e465860-e751-11ed-aa31-0a674dce3c49"
+    :::
+    1. Open the **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** console in a new tab and wait for stack status to reach the **CREATE_COMPLETE** status. You need to periodically select Refresh to see the latest stack status.
     ::::
 
 	::::tab{id="local" label="Local development"}
