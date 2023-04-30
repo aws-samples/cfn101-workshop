@@ -60,13 +60,33 @@ Resources:
 
 In the next step, you will use the AWS CloudFormation Console to create a new stack using this template:
 
-1. Navigate to the [AWS CloudFormation Console](https://console.aws.amazon.com/cloudformation/).
-2. From **Create stack**, choose **With new resources (standard)**.
-3. From **Specify template**, choose **Upload a template file**. Choose the `drift-detection-workshop.yaml` template mentioned earlier, and then choose **Next**.
-4. Enter a stack name. For example, specify `drift-detection-workshop`. Choose **Next**.
-5. In **Configure stack options**, choose **Next**.
-6. Choose **Create stack**.
-7. Refresh the stack creation page until you see your stack in the `CREATE_COMPLETE` state.
+
+   :::::tabs{variant="container"}
+	::::tab{id="cloud9" label="Cloud9"}
+	1. In the **Cloud9 terminal** navigate to `code/workspace/drift-detection`:
+    :::code{language=shell showLineNumbers=false showCopyAction=true}
+    cd cfn101-workshop/ccode/workspace/drift-detection
+    :::
+    1. Use the AWS CLI to create the stack. The required parameters `--stack-name` and `--template-body` have been pre-filled for you.
+    :::code{language=shell showLineNumbers=false showCopyAction=true}
+    aws cloudformation create-stack --stack-name drift-detection-workshop --template-body file://drift-detection-workshop.yaml
+    :::
+    1. If the `create-stack` command was successfully sent, CloudFormation will return `StackId`.
+    :::code{language=shell showLineNumbers=false showCopyAction=true}
+    "StackId": "arn:aws:cloudformation:us-east-1:123456789012:stack/drift-detection-workshop/739fafa0-e4d7-11ed-a000-12d9009553ff"
+    :::
+    1. Open the **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** console in a new tab and check if the stack status is **CREATE_COMPLETE**.
+    ::::
+    ::::tab{id="local" label="Local Development"}
+   1. Navigate to the [AWS CloudFormation Console](https://console.aws.amazon.com/cloudformation/).
+   1. From **Create stack**, choose **With new resources (standard)**.
+   1. From **Specify template**, choose **Upload a template file**. Choose the `drift-detection-workshop.yaml` template mentioned earlier, and then choose **Next**.
+   1. Enter a stack name. For example, specify `drift-detection-workshop`. Choose **Next**.
+   1. In **Configure stack options**, choose **Next**.
+   1. Choose **Create stack**.
+   1. Refresh the stack creation page until you see your stack in the `CREATE_COMPLETE` state.
+   ::::
+   :::::
 
 ### Detecting and repairing drift by modifying the resource
 
@@ -129,20 +149,47 @@ You will now update the template to match the new state of the resource and brin
 1. In your favourite text editor, open the template file for the workshop.
 2. Modify `Queue1`'s `MessageRetentionPeriod` to match the value shown in the **Actual** column of the drift details page you saw in the previous step. In your template, set the value for `MessageRetentionPeriod` to `172800`, that is the number of seconds in `2` days.
 3. Save the template file.
+1. It’s now time to update your stack! Follow steps below:
+
 4. Navigate to the [CloudFormation Console](https://console.aws.amazon.com/cloudformation/).
 5. Choose your stack as before.
-6. Choose **Update**.
-7. Choose **Replace current template**, then choose **Upload a template file**.
-8. Use **Choose file** to select your updated template file.
-9. Choose **Next**.
-10. On the stack details page, choose **Next**.
-11. On the stack options page, choose **Next**.
-12. Choose **Update Stack**.
-13. Wait for the stack update to complete. Refresh the page to load the current state.
-14. Choose the **Stack info** tab.
-15. From **Stack actions**, choose **Detect Drift**.
-16. Wait a few seconds for drift detection to complete.
-17. You should now see that the drift status is `IN_SYNC`, showing that the template and resource match.
+
+1. It’s now time to update your stack! Follow steps below:
+
+   :::::tabs{variant="container"}
+	::::tab{id="cloud9" label="Cloud9"}
+	1. In the **Cloud9 terminal** navigate to `code/workspace`:
+    :::code{language=shell showLineNumbers=false showCopyAction=true}
+    cd cfn101-workshop/code/workspace
+    :::
+    1. Use the AWS CLI to create the stack. The required parameters `--stack-name` and `--template-body` have been pre-filled for you.
+    :::code{language=shell showLineNumbers=false showCopyAction=true}
+    aws cloudformation update-stack --stack-name cfn-workshop-s3 --template-body file://template-and-stack.yaml
+    :::
+    1. If the `create-stack` command was successfully sent, CloudFormation will return `StackId`.
+    :::code{language=shell showLineNumbers=false showCopyAction=true}
+    "StackId": "arn:aws:cloudformation:us-east-1:123456789012:stack/cfn-workshop-s3/739fafa0-e4d7-11ed-a000-12d9009553ff"
+    :::
+    1. Open the **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** console in a new tab and check if the stack status is **UPDATE_COMPLETE**.
+    ::::
+    ::::tab{id="local" label="Local Development"}
+   1. Log in to the **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** console in a new browser tab.
+   1. Navigate to the [CloudFormation Console](https://console.aws.amazon.com/cloudformation/).
+   1. Choose your stack as before.
+   1. Choose **Update**.
+   1. Choose **Replace current template**, then choose **Upload a template file**.
+   1. Use **Choose file** to select your updated template file.
+   1. Choose **Next**.
+   1. On the stack details page, choose **Next**.
+   1. On the stack options page, choose **Next**.
+   1. Choose **Update Stack**.
+   1. Wait for the stack update to complete. Refresh the page to load the current state.
+   1. Choose the **Stack info** tab.
+   1. From **Stack actions**, choose **Detect Drift**.
+   1. Wait a few seconds for drift detection to complete.
+   1. You should now see that the drift status is `IN_SYNC`, showing that the template and resource match.
+   ::::
+   :::::
 
 Congratulations! You have learned how to repair stack drift by updating the template to match the new state of a resource.
 
@@ -177,13 +224,36 @@ Resources:
 
 ::alert[This `UserData` script will only run the first time the instance boots. You can [create a configuration](https://aws.amazon.com/premiumsupport/knowledge-center/execute-user-data-ec2/) which will run a script on every boot, but in order to keep the template complexity low for this workshop, this template just shows simple content.]
 
-1. Navigate to the [AWS CloudFormation Console](https://console.aws.amazon.com/cloudformation/).
-2. From **Create stack**, choose **With new resources (standard)**.
-3. From **Specify template**, choose **Upload a template file**, upload the `drift-detection-challenge.yaml` file and choose **Next**.
-4. Enter a stack name, for example `drift-detection-challenge` and choose **Next**.
-5. In **Configure Stack Options**, choose **Next**.
-6. In the next page, choose **Create stack**.
-7. Once the stack is created, select the `drift-detection-challenge` stack and choose **Resources**. Take a note of the **Physical ID** for `Instance1`, for example `i-1234567890abcdef0`.
+
+   :::::tabs{variant="container"}
+	::::tab{id="cloud9" label="Cloud9"}
+	1. In the **Cloud9 terminal** navigate to `code/workspace`:
+    :::code{language=shell showLineNumbers=false showCopyAction=true}
+    cd cfn101-workshop/code/workspace
+    :::
+    1. Use the AWS CLI to create the stack. The required parameters `--stack-name` and `--template-body` have been pre-filled for you.
+    :::code{language=shell showLineNumbers=false showCopyAction=true}
+    aws cloudformation update-stack --stack-name cfn-workshop-s3 --template-body file://template-and-stack.yaml
+    :::
+    1. If the `create-stack` command was successfully sent, CloudFormation will return `StackId`.
+    :::code{language=shell showLineNumbers=false showCopyAction=true}
+    "StackId": "arn:aws:cloudformation:us-east-1:123456789012:stack/cfn-workshop-s3/739fafa0-e4d7-11ed-a000-12d9009553ff"
+    :::
+    1. Open the **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** console in a new tab and check if the stack status is **UPDATE_COMPLETE**.
+    ::::
+    ::::tab{id="local" label="Local Development"}
+   1. Log in to the **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** console in a new browser tab.
+   1. Navigate to the [AWS CloudFormation Console](https://console.aws.amazon.com/cloudformation/).
+   1. From **Create stack**, choose **With new resources (standard)**.
+   1. From **Specify template**, choose **Upload a template file**, upload the `drift-detection-challenge.yaml` file and choose **Next**.
+   1. Enter a stack name, for example `drift-detection-challenge` and choose **Next**.
+   1. In **Configure Stack Options**, choose **Next**.
+   1. In the next page, choose **Create stack**.
+   1. Once the stack is created, select the `drift-detection-challenge` stack and choose **Resources**. Take a note of the **Physical ID** for `Instance1`, for example `i-1234567890abcdef0`.
+   ::::
+   :::::
+
+
 
 You will now modify this resource in a similar way to the first lab to introduce drift. This modification causes an interruption, as the `UserData` [property](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-instance.html#cfn-ec2-instance-userdata) you will change requires the instance to be stopped first. You will change the message printed to read: `Hello Universe`.
 
@@ -242,7 +312,6 @@ Your task now is to update the stack with the new state of the resource, without
 :::
 
 :::expand{header="Want to see the solution?"}
-
 1. Update the `drift-detection-challenge.yaml` template to add a `DeletionPolicy` attribute with a value of `Retain` to the `Instance1` resource. Save the file.
 2. Update the stack with the updated `drift-detection-challenge.yaml` template. This tells CloudFormation that when the resource is removed from the template, it should not delete it but just stop managing it.
 3. Once the stack update is complete, edit the template file again to remove the whole resource declaration (you can also choose to comment it out, using the `#` character at the start of each relevant line), and save the file.
