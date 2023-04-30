@@ -103,13 +103,13 @@ The only required property of the EC2 resource type is _ImageId_. Let's find the
 
   1. Open **[AWS EC2 console](https://console.aws.amazon.com/ec2)**
   1. Click **Instances** -> **Launch Instance**.
-  1. Copy the **Amazon Linux 2 AMI** `ami-xxxxxxxxx` ID.
-  ::alert[Make sure to use **(x86)** AMI ID, if the region supports both x86 and ARM architectures.]{type="info"}
+  1. Copy the **Amazon Linux 2023 AMI** `ami-xxxxxxxxx` ID.
+  ::alert[Make sure to use **64-bit (x86)** AMI ID, if the region supports both x86 and ARM architectures.]{type="info"}
   1. Once you have your AMI ID, copy and paste it to **ImageId** property.
 
-::alert[You can find a working solution for the **London Region** in `code/solutions/resources.yaml` file.]{type="info"}
+::alert[You can find a working solution for the **US East (N.Virginia) Region** in `code/solutions/resources.yaml` file.]{type="info"}
 
-Now your EC2 template is ready to be deployed. Go back to AWS console and deploy the stack same way as you did in [Template and Stack](../templates/template-and-stack).
+Now your EC2 template is ready to be deployed. Deploy the stack same way as you did in [Template and Stack](../template-and-stack).
 
 :::alert{type="warning"}
 To complete this and future labs you will need **Default VPC** in the region you will be deploying CloudFormation templates to. \
@@ -169,7 +169,7 @@ Copy the code below to your terminal. Make sure to change the `--region` flag to
 aws ssm get-parameters \
     --names /aws/service/ami-amazon-linux-latest/amzn2-ami-hvm-x86_64-gp2 \
     --query "Parameters[].Value" \
-    --region eu-west-2 \
+    --region us-east-1 \
     --output text
 :::
 
@@ -178,4 +178,4 @@ aws ssm get-parameters \
 
 ---
 ### Conclusion
-Congratulations! You now have successfully learned how to deploy EC2 instance via CloudFormation.
+Congratulations! You have successfully learned how to deploy an EC2 instance via CloudFormation.
