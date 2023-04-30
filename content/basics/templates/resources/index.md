@@ -118,30 +118,21 @@ If you have deleted your default VPC, you can create a new one by following the 
 
 :::::tabs{variant="container"}
 
-::::tab{id="cloud9" label="Cloud9"}
-1. Upload the file to your **template S3 bucket** using AWS CLI [aws s3 cp](https://docs.aws.amazon.com/cli/latest/reference/s3/cp.html) command:
-:::code{language=shell showLineNumbers=false showCopyAction=true}
-aws s3 cp code/workspace/resources.yaml s3://cfn-workshop-01-{accountid}
-:::
-1. Determine the **Object URL** as you'll need it in the next step, based on this format `https://[bucketname].s3.amazonaws.com/[key]` for example:
-:::code{language=shell showLineNumbers=false showCopyAction=true}
-https://cfn-workshop-01-{accountid}.s3.amazonaws.com/resources.yaml
-:::
-1. Open the **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** link in a new tab and log in to your AWS account.
-1. Click on **Create stack** (_With new resources (Standard)_ if you have clicked in the top right corner).
-1. In **Prepare template**, choose **Template is ready**.
-1. In **Template source**, choose **Amazon S3 URL**.
-1. Paste the `resources.yaml` **Object URL** you copied from the S3 bucket
-1. Click **Next**.
-1. Provide a **Stack name**. For example `cfn-workshop-ec2`.
-    + The _Stack name_ identifies the stack. Use a name to help you distinguish the purpose of this stack.
-    + For **Type of EC2 Instance** select your preferred instance size, for example **t2.micro**.
-    + Click **Next**.
-1. You can leave **Configure stack options** default, click **Next**.
-1. On the **Review <stack_name>** page, scroll down to the bottom and click on **Create stack**.
-    ::alert[This will create EC2 instance in your account. To check the cost of the deployed stack, click on **Estimate cost** on the review page.]{type="info"}
-1. You can click the **refresh** button a few times until you see in the status **CREATE_COMPLETE**.
-::::
+  ::::tab{id="cloud9" label="Cloud9"}
+  1. In the **Cloud9 terminal** navigate to `code/workspace`:
+  :::code{language=shell showLineNumbers=false showCopyAction=true}
+  cd cfn101-workshop/code/workspace
+  :::
+  1. Use the AWS CLI to create the stack. The required parameters `--stack-name` and `--template-body` have been pre-filled for you.
+  :::code{language=shell showLineNumbers=false showCopyAction=true}
+  aws cloudformation create-stack --stack-name cfn-workshop-ec2 --template-body file://resources.yaml
+  :::
+  1. If the `create-stack` command was successfully sent, CloudFormation will return `StackId`.
+  :::code{language=shell showLineNumbers=false showCopyAction=true}
+  "StackId": "arn:aws:cloudformation:us-east-1:123456789012:stack/cfn-workshop-ec2/62df5090-e747-11ed-a22a-0e39ed6c0e49"
+  :::
+  1. Open the **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** console in a new tab and wait for stack status to reach the **CREATE_COMPLETE** status. You need to periodically select Refresh to see the latest stack status.
+  ::::
 
 ::::tab{id="local" label="Local development"}
 1. Open the **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** link in a new tab and log in to your AWS account.
