@@ -88,18 +88,17 @@ Let’s create a stack using the `resource-return-values.yaml` template, and see
 :::::tabs{variant="container"}
 ::::tab{id="cloud9" label="Cloud9"}
   1. In the **Cloud9 terminal** navigate to `code/workspace/resource-return-values`:
-    :::code{language=shell showLineNumbers=false showCopyAction=true}
-    cd cfn101-workshop/code/workspace
-    :::
+      :::code{language=shell showLineNumbers=false showCopyAction=true}
+    cd cfn101-workshop/code/workspace/resource-return-values
+      :::
   1. Use the AWS CLI to create the stack. The required parameter `--template-body` have been pre-filled for you.
-    :::code{language=shell showLineNumbers=false showCopyAction=true}
-
-    aws cloudformation create-stack --stack-name cfn-workshop-s5 --template-body file://resource-return-values.yaml
-    :::
+      :::code{language=shell showLineNumbers=false showCopyAction=true}
+      aws cloudformation create-stack --stack-name cfn-workshop-return-values --template-body file://resource-return-values.yaml
+      :::
   1. If the `create-stack` command was successfully sent, CloudFormation will return `StackId`.
-    :::code{language=shell showLineNumbers=false showCopyAction=true}
-    "StackId": "arn:aws:cloudformation:us-east-1:123456789012:stack/cfn-workshop-s3/739fafa0-e4d7-11ed-a000-12d9009553ff"
-    :::
+      :::code{language=shell showLineNumbers=false showCopyAction=true}
+      "StackId": "arn:aws:cloudformation:us-east-1:123456789012:stack/cfn-workshop-s3/739fafa0-e4d7-11ed-a000-12d9009553ff"
+      :::
   1. Open the **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** console in a new tab and check if the stack status is **CREATE_COMPLETE**.
 ::::
 
@@ -109,7 +108,7 @@ Let’s create a stack using the `resource-return-values.yaml` template, and see
 1. In **Prepare template**, choose **Template is ready**.
 1. In **Template source**, select **Upload a template file**.
 1. Upload the `resource-return-values.yaml` template, and choose **Next**.
-1. Enter a stack name. For example, `cfn-workshop-s5`. When ready, choose **Next**.
+1. Enter a stack name. For example, `cfn-workshop-return-values`. When ready, choose **Next**.
 1. Choose to accept default values on the **Configure stack options** page; scroll to the bottom of the page, and choose **Next**.
 1. In the review page, scroll to the bottom and choose **Create stack**.
 1. Refresh the page until you see the `CREATE_COMPLETE` status for your stack.
@@ -179,30 +178,29 @@ Outputs:
     ::::tab{id="cloud9" label="Cloud9"}
     1. In the **Cloud9 terminal** navigate to `code/workspace/resource-return-values`:
         :::code{language=shell showLineNumbers=false showCopyAction=true}
-        cd cfn101-workshop/code/workspace
+        cd cfn101-workshop/code/workspace/resource-return-values
         :::
-    1. Use the AWS CLI to update the stack. The required parameter `--template-body` have been pre-filled for you.
+    1. Use the AWS CLI to create the stack. The required parameter `--template-body` have been pre-filled for you.
         :::code{language=shell showLineNumbers=false showCopyAction=true}
-        aws cloudformation update-stack --stack-name cfn-workshop-s5 --template-body file://resource-return-values.yaml
+        aws cloudformation create-stack --stack-name cfn-workshop-return-values-challenge --template-body file://resource-return-values-challenge.yaml
         :::
-    1. If the `update-stack` command was successfully sent, CloudFormation will return `StackId`.
+    1. If the `create-stack` command was successfully sent, CloudFormation will return `StackId`.
         :::code{language=shell showLineNumbers=false showCopyAction=true}
         "StackId": "arn:aws:cloudformation:us-east-1:123456789012:stack/cfn-workshop-s3/739fafa0-e4d7-11ed-a000-12d9009553ff"
         :::
-    1. Open the **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** console in a new tab and check if the stack status is **UPDATE_COMPLETE**.
+    1. Open the **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** console in a new tab and check if the stack status is **CREATE_COMPLETE**.
     1. View the output value on the [AWS CloudFormation console](https://console.aws.amazon.com/cloudformation), in the _Outputs_ tab.
     ::::
     ::::tab{id="local" label="Local development"}
-    1. Open the **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** link in a new tab and log in to your AWS account.
-    1. Click on the stack name, for example **cfn-workshop-s5**.
-    1. In the top right corner click on **Update**.
+    1. Navigate to the [AWS CloudFormation Console](https://console.aws.amazon.com/cloudformation/).
+    1. In the CloudFormation console, select **Create stack With new resources (standard)**.
     1. In **Prepare template**, choose **Template is ready**.
-    1. In **Template source**, choose **Upload a template file**.
-    1. Click on **Choose file** button and navigate to your workshop directory.
-    1. Select the file `resource-return-values.yaml` and click **Next**.
-    1. You can leave **Configure stack options** default, click **Next**.
-    1. On the **Review <stack_name>** page, scroll down to the bottom and click on **Update stack**.
-    1. You can click the **refresh** button a few times until you see in the status **UPDATE_COMPLETE**.
+    1. In **Template source**, select **Upload a template file**.
+    1. Upload the `resource-return-values-challenge.yaml` template, and choose **Next**.
+    1. Enter a stack name. For example, `cfn-workshop-return-values-challenge`. When ready, choose **Next**.
+    1. Choose to accept default values on the **Configure stack options** page; scroll to the bottom of the page, and choose **Next**.
+    1. In the review page, scroll to the bottom and choose **Create stack**.
+    1. Refresh the page until you see the `CREATE_COMPLETE` status for your stack.
     1. View the output value on the [AWS CloudFormation console](https://console.aws.amazon.com/cloudformation), in the _Outputs_ tab.
     ::::
     :::::
