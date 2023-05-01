@@ -122,7 +122,7 @@ cd cfn101-workshop/code/workspace
 :::
 1. Use the AWS CLI to update the stack. The required parameter `--template-body` have been pre-filled for you. Replace the `ParameterValue` **MyAmiId** with  the value you have hardcoded in `resources.yaml` file earlier.
 :::code{language=shell showLineNumbers=false showCopyAction=true}
-aws cloudformation update-stack --stack-name cfn-workshop-ec2 --template-body file://mappings.yaml --parameters '[{"ParameterKey":"AmiID","ParameterValue":"MyAmiId"}]'
+aws cloudformation update-stack --stack-name cfn-workshop-ec2 --template-body file://mappings.yaml --parameters ParameterKey="AmiID",ParameterValue="MyAmiId"
 :::
 1. If the `update-stack` command was successfully sent, CloudFormation will return `StackId`.
 :::code{language=shell showLineNumbers=false showCopyAction=true}
@@ -197,7 +197,7 @@ To test that your solution works, Follow below steps:
     :::
     1. Use the AWS CLI to update the stack. The required parameter `--template-body` have been pre-filled for you. Replace the `ParameterValue` **MyAmiId** with the value you have hardcoded in `resources.yaml` file earlier.
     :::code{language=shell showLineNumbers=false showCopyAction=true}
-    aws cloudformation update-stack --stack-name cfn-workshop-ec2 --template-body file://mappings.yaml --parameters '[{"ParameterKey":"AmiID","ParameterValue":"MyAmiId"},{"ParameterKey":"EnvironmentType","ParameterValue":"Dev"}]'
+    aws cloudformation update-stack --stack-name cfn-workshop-ec2 --template-body file://mappings.yaml --parameters ParameterKey="AmiID",ParameterValue="MyAmiId" ParameterKey="EnvironmentType",ParameterValue="Dev"
     :::
     1. If the `update-stack` command was successfully sent, CloudFormation will return `StackId`.
     :::code{language=shell showLineNumbers=false showCopyAction=true}
