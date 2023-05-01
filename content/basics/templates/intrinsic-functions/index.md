@@ -93,7 +93,7 @@ cd cfn101-workshop/code/workspace
 :::
 1. Use the AWS CLI to update the stack. The required parameter `--template-body` have been pre-filled for you. Replace the `ParameterValue` **MyAmiId** with the value you have hardcoded in `resources.yaml` file earlier.
 :::code{language=shell showLineNumbers=false showCopyAction=true}
-aws cloudformation update-stack --stack-name cfn-workshop-ec2 --template-body file://intrinsic-functions.yaml --parameters '[{"ParameterKey":"AmiID","ParameterValue":"MyAmiId"}]'
+aws cloudformation update-stack --stack-name cfn-workshop-ec2 --template-body file://intrinsic-functions.yaml --parameters ParameterKey="AmiID",ParameterValue="MyAmiId"
 :::
 1. If the `update-stack` command was successfully sent, CloudFormation will return `StackId`.
 :::code{language=shell showLineNumbers=false showCopyAction=true}
@@ -161,7 +161,7 @@ The syntax for the YAML short form of the `Fn::Sub` intrinsic function is `!Sub`
         :::
         1. Use the AWS CLI to update the stack. The required parameter `--template-body` have been pre-filled for you. Replace the `ParameterValue` **MyAmiId** with the value you have hardcoded in `resources.yaml` file earlier.
         :::code{language=shell showLineNumbers=false showCopyAction=true}
-        aws cloudformation update-stack --stack-name cfn-workshop-ec2 --template-body file://intrinsic-functions.yaml --parameters '[{"ParameterKey":"AmiID","ParameterValue":"MyAmiId"}]'
+        aws cloudformation update-stack --stack-name cfn-workshop-ec2 --template-body file://intrinsic-functions.yaml --parameters ParameterKey="AmiID",ParameterValue="MyAmiId"
         :::
         1. If the `update-stack` command was successfully sent, CloudFormation will return `StackId`.
         :::code{language=shell showLineNumbers=false showCopyAction=true}
