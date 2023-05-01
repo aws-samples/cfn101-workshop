@@ -114,7 +114,7 @@ Go to the AWS console and update your stack with a new template.
   :::
 2. Use the AWS CLI to update the stack. The required parameter `--template-body` have been pre-filled for you.
   :::code{language=shell showLineNumbers=false showCopyAction=true}
-  aws cloudformation update-stack --stack-name cfn-workshop-ec2 --template-body file://session-manager.yaml --parameters '[{"ParameterKey":"EnvironmentType","ParameterValue":"Dev"}]' --capabilities CAPABILITY_NAMED_IAM
+  aws cloudformation update-stack --stack-name cfn-workshop-ec2 --template-body file://session-manager.yaml --parameters ParameterKey="EnvironmentType",ParameterValue="Dev" --capabilities CAPABILITY_NAMED_IAM
   :::
   :::alert{type="info"}
   For System Manager to work, the instance need to meet following conditions:
