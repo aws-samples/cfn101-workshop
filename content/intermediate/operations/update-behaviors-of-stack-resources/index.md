@@ -51,28 +51,22 @@ Resources:
 
 Save your changes to the file. Next, create your stack with the `update-behaviors-of-stack-resources.yaml` template:
 
-:::::tabs{variant="container"}
-::::tab{id="cloud9" label="Cloud9"}
-1. Upload the `update-behaviors-of-stack-resources.yaml` file to your **template S3 bucket** using AWS CLI [aws s3 cp](https://docs.aws.amazon.com/cli/latest/reference/s3/cp.html) command
-:::code{language=shell showLineNumbers=false showCopyAction=true}
-aws s3 cp code/workspace/update-behaviors-of-stack-resources.yaml s3://cfn-workshop-01-{accountid}
-:::
-1. Determine the **Object URL** as you'll need it in the next step, based on this format `https://[bucketname].s3.amazonaws.com/[key]` for example
-:::code{language=shell showLineNumbers=false showCopyAction=true}
-https://cfn-workshop-01-{accountid}.s3.amazonaws.com/update-behaviors-of-stack-resources.yaml
-:::
-1. Open the **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** link in a new tab and log in to your AWS account.
-1. Click on **Create stack With new resources (standard)**.
-1. In **Prepare template**, choose **Template is ready**.
-1. In **Template source**, choose **Amazon S3 URL**.
-1. Paste the `update-behaviors-of-stack-resources.yaml` **Object URL** you copied from the S3 bucket
-1. Click **Next**.
-1. Enter a Stack name. For example, `cfn-workshop-update-behaviors-of-stack-resources`. On the same page, accept default values for `InstanceType` and `LatestAmiId` parameters, and choose **Next**.
-1. You can leave **Configure stack options** default, click **Next**.
-1. On the **Review <stack_name>** page, scroll down to the bottom and choose **Submit**.
-1. You can click the **refresh** button a few times until you see in the status **CREATE_COMPLETE**.
+   :::::tabs{variant="container"}
+	::::tab{id="cloud9" label="Cloud9"}
+1. In the **Cloud9 terminal** navigate to `code/workspace/update-behaviors-of-stack-resources`:
+    :::code{language=shell showLineNumbers=false showCopyAction=true}
+    cd code/workspace/update-behaviors-of-stack-resources
+    :::
+    1. Use the AWS CLI to create the stack. The required parameters `--stack-name` and `--template-body` have been pre-filled for you.
+    :::code{language=shell showLineNumbers=false showCopyAction=true}
+    aws cloudformation create-stack --stack-name update-behaviors-of-stack-resources --template-body file://update-behaviors-of-stack-resources.yaml
+    :::
+    1. If the `create-stack` command was successfully sent, CloudFormation will return `StackId`.
+    :::code{language=shell showLineNumbers=false showCopyAction=true}
+    "StackId": "arn:aws:cloudformation:us-east-1:123456789012:stack/drift-detection-workshop/739fafa0-e4d7-11ed-a000-12d9009553ff"
+    :::
+    1. Open the **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** console in a new tab and check if the stack status is **CREATE_COMPLETE**.
 ::::
-
 ::::tab{id="local" label="Local development"}
 
 1. Navigate to the [AWS CloudFormation Console](https://console.aws.amazon.com/cloudformation/).
@@ -154,28 +148,22 @@ EC2Instance:
 Save your changes to the file. Next, update your stack:
 
 
-:::::tabs{variant="container"}
-::::tab{id="cloud9" label="Cloud9"}
-1. Upload the `update-behaviors-of-stack-resources.yaml` file to your **template S3 bucket** using AWS CLI [aws s3 cp](https://docs.aws.amazon.com/cli/latest/reference/s3/cp.html) command:
-:::code{language=shell showLineNumbers=false showCopyAction=true}
-aws s3 cp code/workspace/update-behaviors-of-stack-resources.yaml s3://cfn-workshop-01-{accountid}
-:::
-1. Determine the **Object URL** as you'll need it in the next step, based on this format `https://[bucketname].s3.amazonaws.com/[key]` for example:
-:::code{language=shell showLineNumbers=false showCopyAction=true}
-https://cfn-workshop-01-{accountid}.s3.amazonaws.com/update-behaviors-of-stack-resources.yaml
-:::
-1. Open the **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** link in a new tab and log in to your AWS account.
-1. Click on the stack name, for example **cfn-workshop-update-behaviors-of-stack-resources**.
-1. In the top right corner click on **Update**.
-1. In **Prepare template**, choose **Template is ready**.
-1. In **Template source**, choose **Amazon S3 URL**.
-1. Paste the `update-behaviors-of-stack-resources.yaml` **Object URL** you copied from the S3 bucket and click **Next**.
-1. On the parameters page, accept the default value for `LatestAmiId`  and `InstanceType` parameters, and choose **Next**.
-1. Choose to accept default values in the **Configure stack options** page, and choose **Next**
-1. You can leave **Configure stack options** default, click **Next**.
-1. On the **Review** page, scroll down to the bottom and choose **Update stack**.
+   :::::tabs{variant="container"}
+	::::tab{id="cloud9" label="Cloud9"}
+1. In the **Cloud9 terminal** navigate to `code/workspace/update-behaviors-of-stack-resources`:
+    :::code{language=shell showLineNumbers=false showCopyAction=true}
+    cd code/workspace/update-behaviors-of-stack-resources
+    :::
+    1. Use the AWS CLI to create the stack. The required parameters `--stack-name` and `--template-body` have been pre-filled for you.
+    :::code{language=shell showLineNumbers=false showCopyAction=true}
+    aws cloudformation update-stack --stack-name update-behaviors-of-stack-resources --template-body file://update-behaviors-of-stack-resources.yaml
+    :::
+    1. If the `update-stack` command was successfully sent, CloudFormation will return `StackId`.
+    :::code{language=shell showLineNumbers=false showCopyAction=true}
+    "StackId": "arn:aws:cloudformation:us-east-1:123456789012:stack/drift-detection-workshop/739fafa0-e4d7-11ed-a000-12d9009553ff"
+    :::
+    1. Open the **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** console in a new tab and check if the stack status is **CREATE_COMPLETE**.
 ::::
-
 ::::tab{id="local" label="Local development"}
 
 1. Navigate to the [AWS CloudFormation Console](https://console.aws.amazon.com/cloudformation/).
@@ -221,24 +209,19 @@ Update your stack:
 
 :::::tabs{variant="container"}
 ::::tab{id="cloud9" label="Cloud9"}
-1. Upload the `update-behaviors-of-stack-resources.yaml` file to your **template S3 bucket** using AWS CLI [aws s3 cp](https://docs.aws.amazon.com/cli/latest/reference/s3/cp.html) command:
-:::code{language=shell showLineNumbers=false showCopyAction=true}
-aws s3 cp code/workspace/update-behaviors-of-stack-resources.yaml s3://cfn-workshop-01-{accountid}
-:::
-1. Determine the **Object URL** as you'll need it in the next step, based on this format `https://[bucketname].s3.amazonaws.com/[key]` for example:
-:::code{language=shell showLineNumbers=false showCopyAction=true}
-https://cfn-workshop-01-{accountid}.s3.amazonaws.com/update-behaviors-of-stack-resources.yaml
-:::
-1. Open the **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** link in a new tab and log in to your AWS account.
-1. Click on the stack name, for example **cfn-workshop-update-behaviors-of-stack-resources**.
-1. In the top right corner click on **Update**.
-1. In **Prepare template**, choose **Template is ready**.
-1. In **Template source**, choose **Amazon S3 URL**.
-1. Paste the `update-behaviors-of-stack-resources.yaml` **Object URL** you copied from the S3 bucket and click **Next**.
-1. On the parameters page, accept the default value for `LatestAmiId`  and `InstanceType` parameters, and choose **Next**.
-1. Choose to accept default values in the **Configure stack options** page, and choose **Next**
-1. You can leave **Configure stack options** default, click **Next**.
-1. On the **Review** page, scroll down to the bottom and choose **Update stack**.
+1. In the **Cloud9 terminal** navigate to `code/workspace/update-behaviors-of-stack-resources`:
+  :::code{language=shell showLineNumbers=false showCopyAction=true}
+  cd code/workspace/update-behaviors-of-stack-resources
+  :::
+  1. Use the AWS CLI to create the stack. The required parameters `--stack-name` and `--template-body` have been pre-filled for you.
+  :::code{language=shell showLineNumbers=false showCopyAction=true}
+  aws cloudformation update-stack --stack-name update-behaviors-of-stack-resources --template-body file://update-behaviors-of-stack-resources.yaml
+  :::
+  1. If the `update-stack` command was successfully sent, CloudFormation will return `StackId`.
+  :::code{language=shell showLineNumbers=false showCopyAction=true}
+  "StackId": "arn:aws:cloudformation:us-east-1:123456789012:stack/drift-detection-workshop/739fafa0-e4d7-11ed-a000-12d9009553ff"
+  :::
+  1. Open the **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** console in a new tab and check if the stack status is **CREATE_COMPLETE**.
 ::::
 
 ::::tab{id="local" label="Local development"}
