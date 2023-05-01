@@ -305,33 +305,29 @@ In the example below, you will use `AvailabilityZone` property and parameter to 
 
 1. Check the availability zone of the deployed Web Server instance.
     + Go to the **[Instances](https://console.aws.amazon.com/ec2#instances)** in the EC2 console
-    + Select the `<enviroment>-webserver` instance and make a note of the **Availability zone** value. For example `eu-west-2a`.
+    + Select the `<enviroment>-webserver` instance and make a note of the **Availability zone** value. For example `us-east-1c`.
 
 1. Deploy the updated template to the existing stack
 
 :::::tabs{variant="container"}
 
 ::::tab{id="cloud9" label="Cloud9"}
-1. Upload the `helper-scripts.yaml` file to your **template S3 bucket** using AWS CLI [aws s3 cp](https://docs.aws.amazon.com/cli/latest/reference/s3/cp.html) command
-:::code{language=shell showLineNumbers=false showCopyAction=true}
-aws s3 cp code/workspace/helper-scripts.yaml s3://cfn-workshop-01-{accountid}
-:::
-1. Determine the **Object URL** as you'll need it in the next step, based on this format `https://[bucketname].s3.amazonaws.com/[key]` for example
-:::code{language=shell showLineNumbers=false showCopyAction=true}
-https://cfn-workshop-01-{accountid}.s3.amazonaws.com/helper-scripts.yaml
-:::
-1. Open the **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** link in a new tab and log in to your AWS account.
-1. Click on the stack name, for example **cfn-workshop-ec2**.
-1. In the top right corner click on **Update**.
-1. In **Prepare template**, choose **Replace current template**.
-1. In **Template source**, choose **Amazon S3 URL**.
-1. Paste the `helper-scripts.yaml` **Object URL** you copied from the S3 bucket and click **Next**.
-1. For **Amazon Machine Image ID** leave the default value in.
-1. For **AvailabilityZone** parameter, select the different availability zone than the one you made a note in a step 3, for example **eu-west-2b**.
-        ![az-update](/static/basics/operations/helper-scripts/az-update-1.png)
-1. For **EnvironmentType** leave the selected environment in.
-1. You can leave **Configure stack options** default, click **Next**.
-1. On the **Review <stack_name>** page, scroll down to the bottom and tick **I acknowledge that AWS CloudFormation might create IAM resources** check box, then click on **Submit**.
+  1. In the **Cloud9 terminal** navigate to `code/workspace`:
+  :::code{language=shell showLineNumbers=false showCopyAction=true}
+  cd cfn101-workshop/code/workspace
+  :::
+  1. Use the AWS CLI to create the stack. The required parameters `--stack-name` and `--template-body` have been pre-filled for you.
+  :::code{language=shell showLineNumbers=false showCopyAction=true}
+  aws cloudformation update-stack --stack-name cfn-workshop-ec2 \
+  --template-body file://helper-scripts.yaml \
+  --capabilities CAPABILITY_IAM \
+  --parameters ParameterKey=AvailabilityZone,ParameterValue=YOUR-DIFFERENT-AVAILABILITY-ZONE-HERE
+  :::
+  1. If the `update-stack` command was successfully sent, CloudFormation will return `StackId`.
+  :::code{language=shell showLineNumbers=false showCopyAction=true}
+  "StackId": "arn:aws:cloudformation:us-east-1:123456789012:stack/cfn-workshop-ec2/96d87030-e809-11ed-a82c-0eb19aaeb30f"
+  :::
+  1. Open the **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** console in a new tab and wait for stack status to reach **UPDATE_COMPLETE**. You need to periodically select Refresh to see the latest stack status.
 ::::
 
 ::::tab{id="local" label="Local development"}
@@ -351,13 +347,13 @@ https://cfn-workshop-01-{accountid}.s3.amazonaws.com/helper-scripts.yaml
 
     ::alert[Notice that in **Change set preview**, the _Replacement_ condition of EC2 resource is **True**. Hence, the current EC2 instance will be terminated and replaced with a new one.]{type="info"}
 
-1. You can click the **refresh** button a few times until you see in the status **UPDATE_COMPLETE**.
+1. Wait for stack status to reach **UPDATE_COMPLETE**. You need to periodically select Refresh to see the latest stack status.
 ::::
 :::::
 
 5. Verify the new instance was deployed and is functional
 
-In a web browser, enter the `WebsiteURL` (you can get the WebsiteURL from the _Outputs_ tab of the CloudFormation console).
+In a web browser, enter the `WebsiteURL` (you can get the WebsiteURL from the _Outputs_ tab of the CloudFormation console). The updated `AvailabilityZone` value will be displayed.
 
 #### Challenge
 
@@ -389,25 +385,22 @@ Add the code below to html `<h2>` tags:
 :::::tabs{variant="container"}
 
 ::::tab{id="cloud9" label="Cloud9"}
-1. Upload the `helper-scripts.yaml` file to your **template S3 bucket** using AWS CLI [aws s3 cp](https://docs.aws.amazon.com/cli/latest/reference/s3/cp.html) command
-:::code{language=shell showLineNumbers=false showCopyAction=true}
-aws s3 cp code/workspace/helper-scripts.yaml s3://cfn-workshop-01-{accountid}
-:::
-1. Determine the **Object URL** as you'll need it in the next step, based on this format `https://[bucketname].s3.amazonaws.com/[key]` for example
-:::code{language=shell showLineNumbers=false showCopyAction=true}
-https://cfn-workshop-01-{accountid}.s3.amazonaws.com/helper-scripts.yaml
-:::
-1. Open the **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** link in a new tab and log in to your AWS account.
-1. Click on the stack name, for example **cfn-workshop-ec2**.
-1. In the top right corner click on **Update**.
-1. In **Prepare template**, choose **Replace current template**.
-1. In **Template source**, choose **Amazon S3 URL**.
-1. Paste the `helper-scripts.yaml` **Object URL** you copied from the S3 bucket and click **Next**.
-1. For **Amazon Machine Image ID** leave the default value in.
-1. For **AvailabilityZone** parameter, leave the selected AZ in.
-1. For **EnvironmentType** leave the selected environment in.
-1. You can leave **Configure stack options** default, click **Next**.
-1. On the **Review <stack_name>** page, scroll down to the bottom and tick **I acknowledge that AWS CloudFormation might create IAM resources** check box, then click on **Submit**.
+  1. In the **Cloud9 terminal** navigate to `code/workspace`:
+  :::code{language=shell showLineNumbers=false showCopyAction=true}
+  cd cfn101-workshop/code/workspace
+  :::
+  1. Use the AWS CLI to create the stack. The required parameters have been pre-filled for you.
+  :::code{language=shell showLineNumbers=false showCopyAction=true}
+  aws cloudformation update-stack --stack-name cfn-workshop-ec2 \
+  --template-body file://helper-scripts.yaml \
+  --capabilities CAPABILITY_IAM \
+  --parameters ParameterKey=AvailabilityZone,ParameterValue=YOUR-SAME-AVAILABILITY-ZONE-HERE
+  :::
+  1. If the `update-stack` command was successfully sent, CloudFormation will return `StackId`.
+  :::code{language=shell showLineNumbers=false showCopyAction=true}
+  "StackId": "arn:aws:cloudformation:us-east-1:123456789012:stack/cfn-workshop-ec2/96d87030-e809-11ed-a82c-0eb19aaeb30f"
+  :::
+  1. Open the **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** console in a new tab and wait for stack status to reach **UPDATE_COMPLETE**. You need to periodically select Refresh to see the latest stack status.
 ::::
 
 ::::tab{id="local" label="Local development"}
@@ -423,9 +416,10 @@ https://cfn-workshop-01-{accountid}.s3.amazonaws.com/helper-scripts.yaml
 1. For **EnvironmentType** leave the selected environment in.
 1. You can leave **Configure stack options** default, click **Next**.
 1. On the **Review <stack_name>** page, scroll down to the bottom and tick **I acknowledge that AWS CloudFormation might create IAM resources** check box, then click on **Submit**.
-1. You can click the **refresh** button a few times until you see in the status **UPDATE_COMPLETE**.
+1. Wait for stack status to reach **UPDATE_COMPLETE**. You need to periodically select Refresh to see the latest stack status.
 ::::
 :::::
+
 ##### 3. Verify that changes has been deployed successfully
 
 Open a new browser window in private mode and enter the `WebsiteURL` (you can get the WebsiteURL from the _Outputs_ tab of the CloudFormation console).
@@ -440,7 +434,7 @@ Follow these steps to clean up created resources:
 1. In the **[CloudFormation console](https://console.aws.amazon.com/cloudformation)**, select the stack you have created in this lab. For example `cfn-workshop-ec2`.
 1. In the top right corner, click on **Delete**.
 1. In the pop-up window click on **Delete stack**.
-1. You can click the **refresh** button a few times until you see in the status **DELETE_COMPLETE**.
+2. Wait for the stack to reach the **DELETE_COMPLETE** status. You need to periodically select Refresh to see the latest stack status.
 
 ---
 
