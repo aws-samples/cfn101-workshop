@@ -1,6 +1,6 @@
 ---
 title: "Default VPC"
-weight: 600
+weight: 400
 ---
 A default VPC is suitable for getting started quickly, and for launching public instances such as a blog or simple website.
 
