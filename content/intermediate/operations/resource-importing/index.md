@@ -62,17 +62,66 @@ Resources:
 
 ::alert[All resources you import must have a [DeletionPolicy](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-attribute-deletionpolicy.html) attribute set in your template for the import operation to succeed. For more information, see [Considerations during an import operation](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/resource-import.html#resource-import-considerations).]{type="info"}
 
-In this next step, you will use the AWS CloudFormation Console to [create a stack](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/resource-import-new-stack.html) using the `resource-importing.yaml` template:
+In this next step, you will use the AWS CloudFormation to [create a stack](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/resource-import-new-stack.html) using the `resource-importing.yaml` template:
+
+   :::::tabs{variant="container"}
+	::::tab{id="cloud9" label="Cloud9"}
+  1. Create a text file to describe the resources for an `IMPORT` operation.
+  :::code{language=shell showLineNumbers=false showCopyAction=true}
+  touch resource-import.txt
+  :::
+  1. Copy and Paste the below code to the `resource-import` text file, Save it. For the [**ResourceIdentifier Value**](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/resource-import.html#resource-import-overview), update the value for the topic ARN you noted after you created `Topic1`.
+  :::code{language=shell showLineNumbers=false showCopyAction=true}
+[
+  {
+      "ResourceType":"AWS::SNS::Topic",
+      "LogicalResourceId":"SNSTopic1",
+      "ResourceIdentifier": {
+        "TopicArn":"arn:aws:sns:us-east-1:123456789012:Topic1"
+      }
+  }
+]
+  :::
+  1. Let's create a change set of type `IMPORT` to import the resources from the template by using the following command. The template requires you to provide a value for `Topic1Name` input parameter. For Example, Specify a name for the stack `resource-importing` and for the change set `resource-import-change-set` and provide the parameter value for `Topic1Name` to `Topic1`.
+  :::code{language=shell showLineNumbers=false showCopyAction=true}
+  aws cloudformation create-change-set \
+    --stack-name resource-importing \
+    --change-set-name resource-import-change-set \
+    --change-set-type IMPORT \
+    --resources-to-import file://resources-import.txt \
+    --template-body file://resource-importing.yaml \
+    --parameters ParameterKey=Topic1Name,ParameterValue=Topic1
+  :::
+  1. Review the change set to make sure the correct resources are imported.
+  :::code{language=shell showLineNumbers=false showCopyAction=true}
+  aws cloudformation describe-change-set \
+    --stack-name resource-importing --change-set-name resource-import-change-set
+  :::
+  1. Execute the change set to import the resources.
+  :::code{language=shell showLineNumbers=false showCopyAction=true}
+  aws cloudformation execute-change-set \
+    --stack-name resource-importing --change-set-name resource-import-change-set
+  :::
+  1. Wait until the `IMPORT` operation is complete, by using the the [wait stack-import-complete](https://docs.aws.amazon.com/cli/latest/reference/cloudformation/wait/stack-import-complete.html) AWS CLI command.
+  :::code{language=shell showLineNumbers=false showCopyAction=true}
+  aws cloudformation wait stack-import-complete \
+    --stack-name resource-importing
+  :::
+
+  ::::
+	::::tab{id="local" label="Local development"}  
 
 1. Navigate to the [AWS CloudFormation Console](https://console.aws.amazon.com/cloudformation/).
-2. From **Create stack**, choose **With existing resources (import resources)**.
-3. Read the **Import overview**, and choose **Next**.
-4. From **Specify template**, choose **Upload a template file**. Upload the `resource-importing.yaml` template, and choose **Next**.
-5. For the [**Identifier Value**](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/resource-import.html#resource-import-overview), specify the value for the topic ARN you noted after you created `Topic1`.
-6. Enter a **Stack name**. For example, specify `resource-importing`. Make sure you specify `Topic1` for the `Topic1Name` parameter value.
-7. In the next page, choose **Import resources**.
+1. From **Create stack**, choose **With existing resources (import resources)**.
+1. Read the **Import overview**, and choose **Next**.
+1. From **Specify template**, choose **Upload a template file**. Upload the `resource-importing.yaml` template, and choose **Next**.
+1. For the [**Identifier Value**](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/resource-import.html#resource-import-overview), specify the value for the topic ARN you noted after you created `Topic1`.
+1. Enter a **Stack name**. For example, specify `resource-importing`. Make sure you specify `Topic1` for the `Topic1Name` parameter value.
+1. In the next page, choose **Import resources**.
 
 Your stack status will show `IMPORT_COMPLETE` once your Amazon SNS topic is successfully imported into your stack.
+   ::::
+   :::::  
 
 Congratulations! You imported a resource, that you created earlier with the Amazon SNS Console, into a new stack! For information on how to import existing resources into a new stack using the [AWS Command Line Interface](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-welcome.html), see [Creating a stack from existing resources using AWS CLI](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/resource-import-new-stack.html#resource-import-new-stack-cli).
 
@@ -102,15 +151,60 @@ SNSTopic2:
 ```
 
 5. The `resource-importing.yaml` template you just updated will now include 2 parameters (`Topic1Name` and `Topic2Name`), and 2 resources (`SNSTopic1` and `SNSTopic2`). Let’s import the new topic into the existing stack!
-6. Navigate to the [AWS CloudFormation Console](https://console.aws.amazon.com/cloudformation/).
-7. Select the stack named `resource-importing` and, from **Stack actions**, choose **Import resources into stack**.
-8. Read the **Import Overview** and choose **Next**.
-9. From **Specify template**, choose **Upload a template file**. Upload the `resource-importing.yaml` template you updated with this lab part, and choose **Next**.
-10. For the [**Identifier Value**](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/resource-import.html#resource-import-overview), specify the topic ARN value you noted after you created `Topic2`.
-11. For parameters, make sure you specify `Topic1` for `Topic1Name`, and `Topic2` for `Topic2Name`. Choose **Next**.
-12. In the next page, choose **Import resources**.
+   :::::tabs{variant="container"}
+	::::tab{id="cloud9" label="Cloud9"}
+      1. Copy the below code and update it to the `resource-import` text file. For the [**ResourceIdentifier Value**](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/resource-import.html#resource-import-overview), update the value for the topic ARN you noted after you created `Topic2`.
+      :::code{language=shell showLineNumbers=false showCopyAction=true}
+[
+  {
+      "ResourceType":"AWS::SNS::Topic",
+      "LogicalResourceId":"SNSTopic2",
+      "ResourceIdentifier": {
+        "TopicArn":"arn:aws:sns:us-east-1:123456789012:Topic2"
+      }
+  }  
+]
+      :::
+      1. Let's create a change set of type `IMPORT` to import the resources from the template by using the following command. Specify the  parameter values for `Topic1Name` to `Topic1` and  for `Topic2Name` to `Topic2` as described in the following command.
+      :::code{language=shell showLineNumbers=false showCopyAction=true}
+      aws cloudformation create-change-set \
+        --stack-name resource-importing \
+        --change-set-name resource-import-change-set \
+        --change-set-type IMPORT \
+        --resources-to-import file://resources-import.txt \
+        --template-body file://resource-importing.yaml \
+        --parameters ParameterKey=Topic1Name,ParameterValue=Topic1 ParameterKey=Topic2Name,ParameterValue=Topic2
+      :::
+      1. Review the change set to make sure the correct resources are imported.
+      :::code{language=shell showLineNumbers=false showCopyAction=true}
+      aws cloudformation describe-change-set \
+        --stack-name resource-importing --change-set-name resource-import-change-set
+      :::
+      1. Execute the change set to import the resources.
+      :::code{language=shell showLineNumbers=false showCopyAction=true}
+      aws cloudformation execute-change-set \
+        --stack-name resource-importing --change-set-name resource-import-change-set
+      :::
+      1. Wait until the `IMPORT` operation is complete, by using the the [wait stack-import-complete](https://docs.aws.amazon.com/cli/latest/reference/cloudformation/wait/stack-import-complete.html) AWS CLI command.
+      :::code{language=shell showLineNumbers=false showCopyAction=true}
+      aws cloudformation wait stack-import-complete \
+        --stack-name resource-importing
+      :::
+    
+    ::::
+	::::tab{id="local" label="Local development"}  
+
+    1. Navigate to the [AWS CloudFormation Console](https://console.aws.amazon.com/cloudformation/).
+    1. Select the stack named `resource-importing` and, from **Stack actions**, choose **Import resources into stack**.
+    1. Read the **Import Overview** and choose **Next**.
+    1. From **Specify template**, choose **Upload a template file**. Upload the `resource-importing.yaml` template you updated with this lab part, and choose **Next**.
+    1. For the [**Identifier Value**](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/resource-import.html#resource-import-overview), specify the topic ARN value you noted after you created `Topic2`.
+    1. For parameters, make sure you specify `Topic1` for `Topic1Name`, and `Topic2` for `Topic2Name`. Choose **Next**.
+    1. In the next page, choose **Import resources**.
 
 Your stack status will show `IMPORT_COMPLETE` once your Amazon SNS topic is successfully imported into your stack.
+   ::::
+   :::::  
 
 Congratulations! You have learned how to import a resource into an existing stack! For more information, see also [Import an existing resource into a stack using the AWS CLI](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/resource-import-existing-stack.html#resource-import-existing-stack-cli).
 
@@ -138,16 +232,46 @@ SNSTopic1:
   Properties:
     TopicName: !Ref Topic1Name
 ```
+   :::::tabs{variant="container"}
+	::::tab{id="cloud9" label="Cloud9"}
+      1. Let's create the change set of type `UPDATE` to remove the resource `SNSTopic1` from the stack by using the following command. Provide a name for the stack as `resource-importing` and for the change set name use `resource-import-change-set`, Specify the parameter values for `Topic2Name` to `Topic2`.
+      :::code{language=shell showLineNumbers=false showCopyAction=true}
+      aws cloudformation create-change-set \
+        --stack-name resource-importing \
+        --change-set-name resource-import-change-set \
+        --change-set-type UPDATE \
+        --template-body file://resource-importing.yaml \
+        --parameters ParameterKey=Topic2Name,ParameterValue=Topic2
+      :::
+      1. Review the change set to make sure the correct resources are removed.
+      :::code{language=shell showLineNumbers=false showCopyAction=true}
+      aws cloudformation describe-change-set \
+        --stack-name resource-importing --change-set-name resource-import-change-set
+      :::
+      1. Execute the change set to import the resources.
+      :::code{language=shell showLineNumbers=false showCopyAction=true}
+      aws cloudformation execute-change-set \
+        --stack-name resource-importing --change-set-name resource-import-change-set
+      :::
+      1. Wait until the `UPDATE` operation is complete, by using the the [wait stack-update-complete](https://docs.aws.amazon.com/cli/latest/reference/cloudformation/wait/stack-update-complete.html) AWS CLI command.
+      :::code{language=shell showLineNumbers=false showCopyAction=true}
+      aws cloudformation wait stack-update-complete \
+        --stack-name resource-importing
+      :::
+    
+    ::::
+	::::tab{id="local" label="Local development"}  
 
-3. Navigate to the [AWS CloudFormation Console](https://console.aws.amazon.com/cloudformation/).
-4. Select the stack named `resource-importing` and choose **Update**.
-5. Choose **Replace current template** and upload the `resource-importing.yaml` template. Choose **Next**.
-6. In the parameters section, choose to accept the parameter value for `Topic2Name` as `Topic2`. Choose **Next**.
-7. Choose to accept default values in the **Configure stack options** page, and choose **Next**.
-8. Choose **Update stack** in the next page.
-9. To confirm the removal of `SNSTopic1` resource from the stack, select the `resource-importing` stack and choose **Resources**. You should see only one resource: `SNSTopic2`.
-
-
+    3. Navigate to the [AWS CloudFormation Console](https://console.aws.amazon.com/cloudformation/).
+    4. Select the stack named `resource-importing` and choose **Update**.
+    5. Choose **Replace current template** and upload the `resource-importing.yaml` template. Choose **Next**.
+    6. In the parameters section, choose to accept the parameter value for `Topic2Name` as `Topic2`. Choose **Next**.
+    7. Choose to accept default values in the **Configure stack options** page, and choose **Next**.
+    8. Choose **Update stack** in the next page.
+    9. To confirm the removal of `SNSTopic1` resource from the stack, select the `resource-importing` stack and choose **Resources**. You should see only one resource: `SNSTopic2`.
+    
+   ::::
+   :::::  
 Choose to import the `SNSTopic1` resource into a new stack:
 
 1. Make sure you are in the `code/workspace/resource-importing` directory.
@@ -167,6 +291,49 @@ Resources:
     Properties:
       TopicName: !Ref Topic1Name
 ```
+   :::::tabs{variant="container"}
+	::::tab{id="cloud9" label="Cloud9"}
+  1. Copy the code below and replace it to the `resource-import.txt` file.
+  :::code{language=shell showLineNumbers=false showCopyAction=true}
+[
+  {
+      "ResourceType":"AWS::SNS::Topic",
+      "LogicalResourceId":"SNSTopic1",
+      "ResourceIdentifier": {
+        "TopicArn":"arn:aws:sns:us-east-1:123456789012:Topic1"
+      }
+  }
+]
+  :::
+  1. For the [**ResourceIdentifier Value**](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/resource-import.html#resource-import-overview), update the value for the topic ARN you noted after you created `Topic1` from **Lab1**.
+  1. Let's create a change set of type `IMPORT` to import the resources from the template by using the following command. Provide `moving-resources` as name of the stack and for the change set use `moving-resource-change-set`, Specify `Topic1` as parameter value for `Topic1Name`.
+  :::code{language=shell showLineNumbers=false showCopyAction=true}
+  aws cloudformation create-change-set \
+    --stack-name moving-resources \
+    --change-set-name moving-resources-change-set \
+    --change-set-type IMPORT \
+    --resources-to-import file://resources-import.txt \
+    --template-body file://moving-resources.yaml \
+    --parameters ParameterKey=Topic1Name,ParameterValue=Topic1
+  :::
+  1. Review the change set to make sure the correct resources are imported.
+  :::code{language=shell showLineNumbers=false showCopyAction=true}
+  aws cloudformation describe-change-set \
+    --stack-name moving-resources --change-set-name moving-resources-change-set
+  :::
+  1. Execute the change set to import the resources.
+  :::code{language=shell showLineNumbers=false showCopyAction=true}
+  aws cloudformation execute-change-set \
+    --stack-name moving-resources --change-set-name moving-resources-change-set
+  :::
+  1. Wait until the `IMPORT` operation is complete, by using the the [wait stack-import-complete](https://docs.aws.amazon.com/cli/latest/reference/cloudformation/wait/stack-import-complete.html) AWS CLI command.
+  :::code{language=shell showLineNumbers=false showCopyAction=true}
+  aws cloudformation wait stack-import-complete \
+    --stack-name moving-resources
+  :::
+
+  ::::
+	::::tab{id="local" label="Local development"}  
 
 4. Navigate to the [AWS CloudFormation Console](https://console.aws.amazon.com/cloudformation/).
 5. From **Create stack**, choose **With existing resources (import resources)**.
@@ -177,6 +344,8 @@ Resources:
 10. Choose **Import Resources** in the next page.
 
 The stack status will show `IMPORT_COMPLETE` once your Amazon SNS topic is successfully imported into your stack.
+   ::::
+   :::::  
 
 Congratulations! You have learned how to move resources between stacks.
 
@@ -235,14 +404,32 @@ Resources:
         - Key: Name
           Value: InstanceImport
 ```
-
-4. Navigate to the [AWS CloudFormation Console](https://console.aws.amazon.com/cloudformation/).
-5. From **Create stack**, choose **With new resources (standard)**.
-6. From **Specify template**, choose **Upload a template file**. Upload the `resource-import-challenge.yaml` template and choose **Next**.
-7. Enter a **Stack name**. For example, specify `resource-import-challenge`. Specify `t2.nano` for `InstanceType`. Choose **Next.**
-8. In **Configure Stack Options**, choose **Next**.
-9. In the next page, choose **Create Stack**.
-10. After the stack is created, select the `resource-import-challenge` stack, and choose **Resources**. Take a note of the **Physical ID** for `Instance`, that uses this format: `i-12345abcd6789`.
+   :::::tabs{variant="container"}
+	::::tab{id="cloud9" label="Cloud9"}
+  1. Let's **Create Stack** by using the code below. For example, Specify **Stack Name** as `resource-import-challenge` and `t2.nano` for `InstanceType` parameter.
+  :::code{language=shell showLineNumbers=false showCopyAction=true}
+  aws cloudformation create-stack \
+    --stack-name resource-import-challenge \
+    --template-body file://resource-import-challenge.yaml \
+    --parameters ParameterKey=InstanceType,ParameterValue=t2.nano  
+  :::
+  1. Wait until the stack status to `CREATE_COMPLETE` by using the following command
+  :::code{language=shell showLineNumbers=false showCopyAction=true}
+  aws cloudformation wait stack-create-complete \
+     --stack-name resource-import-challenge
+  :::
+ ::::
+   ::::tab{id="LocalDevelopment" label="LocalDevelopment"}
+    
+    1. Navigate to the [AWS CloudFormation Console](https://console.aws.amazon.com/cloudformation/).
+    1. From **Create stack**, choose **With new resources (standard)**.
+    1. From **Specify template**, choose **Upload a template file**. Upload the `resource-import-challenge.yaml` template and choose **Next**.
+    1. Enter a **Stack name**. For example, specify `resource-import-challenge`. Specify `t2.nano` for `InstanceType`. Choose **Next.**
+    1. In **Configure Stack Options**, choose **Next**.
+    1. In the next page, choose **Create Stack**.
+  ::::
+ :::::
+After the stack is created, select the `resource-import-challenge` stack, and choose **Resources**. Take a note of the **Physical ID** for `Instance`, that uses this format: `i-12345abcd6789`.
 
 Let’s now reproduce the human error by changing the instance type outside the management purview of your stack. Choose to [Change the instance type of existing EBS-backed instance](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instance-resize.html#change-instance-type-of-ebs-backed-instance) by following the steps below:
 
@@ -263,9 +450,14 @@ Your task is to reconcile the instance type value, that in your stack is current
 
 :::expand{header="Want to see the solution?"}
 1. Update the `resource-import-challenge.yaml` template: add a `DeletionPolicy` attribute, with a value of `Retain`, to the `Instance` resource. Save the file.
-
 2. Update the stack by using the updated `resource-import-challenge.yaml` template without changing parameter values.
-3. Once you updated the stack, and the `DeletionPolicy` attribute is set to `Retain` for your instance, remove the instance resource definition and relevant parameters in the `Parameters` section from the template: in this example, remove the `Parameters` section itself, as you do not have any more parameters to describe. To do so, remove the two following code blocks from the `resource-import-challenge.yaml` template:
+    :::code{language=shell showLineNumbers=false showCopyAction=true}
+    aws cloudformation update-stack \
+        --stack-name resource-import-challenge \
+        --template-body file://resource-import-challenge.yaml \
+        --parameters ParameterKey=InstanceType,ParameterValue=t2.nano  
+    :::
+1. Once you updated the stack, and the `DeletionPolicy` attribute is set to `Retain` for your instance, remove the instance resource definition and relevant parameters in the `Parameters` section from the template: in this example, remove the `Parameters` section itself, as you do not have any more parameters to describe. To do so, remove the two following code blocks from the `resource-import-challenge.yaml` template:
 
 ```yaml
 Parameters:
@@ -295,17 +487,58 @@ Parameters:
 ```
 
 4. Save the template file. Update the stack again with the updated `resource-import-challenge.yaml` template, which now has no parameters section, and no instance resource definition. This action will remove the instance from the stack, but will not delete it because you previously described and applied the `DeletionPolicy` attribute set to `Retain`.
-5. After this stack update, add the two removed code blocks from Step 3 back to the `resource-import-challenge.yaml` template, and save it.
-6. Select the stack named `resource-import-challenge` and, from **Stack actions**, choose **Import resources into stack**.
-7. Read the **Import Overview** and choose **Next**.
-8. From **Specify template**, choose **Upload a template file**. Upload your updated `resource-import-challenge.yaml` template, and choose **Next**.
-9. For the [**Identifier Value**](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/resource-import.html#resource-import-overview), specify the instance's **Physical ID**, that you noted earlier as part of this challenge.
-10. Select `t2.micro` for the instance type parameter: here you are matching the actual instance type configuration setting, that is `t2.micro`.
-11. In the next page, choose **Import resources**.
-:::
-
-
-
+    :::code{language=shell showLineNumbers=false showCopyAction=true}
+    aws cloudformation update-stack \
+        --stack-name resource-import-challenge \
+        --template-body file://resource-import-challenge.yaml
+    :::
+1. After this stack update, add the two removed code blocks from Step 3 back to the `resource-import-challenge.yaml` template, and save it.
+1. Let's **Create the Stack**
+   :::::tabs{variant="container"}
+	::::tab{id="cloud9" label="Cloud9"}
+      1. Copy the code below and replace the `resources-import.txt` For the [**Identifier Value**](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/resource-import.html#resource-import-overview), specify the instance's **Physical ID**, that you noted earlier as part of this challenge.
+       :::code{language=shell showLineNumbers=false showCopyAction=true}
+[
+  {
+      "ResourceType":"AWS::EC2::Instance",
+      "LogicalResourceId":"Instance",
+      "ResourceIdentifier": {
+        "InstanceId":"i-12345abcd6789"
+      }
+  }
+      :::  
+    
+      1. Update the `resource-import-challenge` Stack to **Import resources** by using the following code. Specify `t2.micro` for the `InstanceType` parameter.
+      :::code{language=shell showLineNumbers=false showCopyAction=true}
+      aws cloudformation create-change-set \
+          --stack-name resource-import-challenge \
+          --change-set-name import-challenge --change-set-type IMPORT \
+          --resources-to-import file://resources-import.txt \
+          --template-body file://resource-import-challenge.yaml \
+          --parameters ParameterKey=InstanceType,ParameterValue=t2.micro
+      :::
+      1. Execute the change set by using the following code
+      :::code{language=shell showLineNumbers=false showCopyAction=true}
+      aws cloudformation execute-change-set \
+            --stack-name resource-import-challenge \
+            --change-set-name import-challenge --change-set-type IMPORT
+      :::
+      1. Wait unitl the `IMPORT` operation is complete by using the following command
+      :::code{language=shell showLineNumbers=false showCopyAction=true}
+      aws cloudformation wait stack-import-complete \
+            --stack-name resource-import-challenge
+      :::
+    ::::
+      ::::tab{id="LocalDevelopment" label="LocalDevelopment"}  
+      1. Select the stack named `resource-import-challenge` and, from **Stack actions**, choose **Import resources into stack**.
+      1. Read the **Import Overview** and choose **Next**.
+      1. From **Specify template**, choose **Upload a template file**. Upload your updated `resource-import-challenge.yaml` template, and choose **Next**.
+      1. For the [**Identifier Value**](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/resource-import.html#resource-import-overview), specify the instance's **Physical ID**, that you noted earlier as part of this challenge.
+      1. Select `t2.micro` for the instance type parameter: here you are matching the actual instance type configuration setting, that is `t2.micro`.
+      1. In the next page, choose **Import resources**.
+      ::::
+    :::::
+  :::
 You can find the template for the solution in the `code/solutions/resource-importing/resource-import-challenge-solution.yaml` example template.
 
 Great work! You have now learned how to match the CloudFormation stack configuration with the actual configuration on the resource when there is an out-of-band change.
@@ -323,16 +556,42 @@ Choose to follow cleanup steps shown next to clean up resources you created with
 
 1. Make sure you are in the directory: `code/workspace/resource-importing`
 2. Update the `resource-importing.yaml` template file to remove the `DeletionPolicy: Retain` line from the `SNSTopic2` resource definition, and save the template.
-3. Navigate to the [AWS CloudFormation Console](https://console.aws.amazon.com/cloudformation/).
-4. Select the stack named `resource-importing` and choose **Update**.
-5. Choose **Replace current template** and upload the `resource-importing.yaml` template. Choose **Next**.
-6. In the parameters section, choose to accept the existing parameter value. Choose **Next**.
-7. Choose to accept default values in the **Configure stack options** page, and choose **Next**.
-8. Choose **Update stack** in the next page.
-9. After your stack update is complete, select the `resource-importing` stack and choose **Delete**.
-10. Repeat steps 2-9 above for the stack: `moving-resources`, by updating the `moving-resources.yaml` template to remove the `DeletionPolicy: Retain` line from the `SNSTopic1` resource definition, updating the stack, and deleting it after successful update. Choose to accept the existing parameter value when you update the stack.
-11. Repeat steps (2-9) above for stack: `resource-import-challenge` by updating the `resource-import-challenge.yaml` template to remove the `DeletionPolicy: Retain` line from the `Instance` resource definition, updating the stack, and deleting it after successful update.  Choose to accept existing parameter values when you update the stack.
-
+  :::::tabs{variant="container"}
+::::tab{id="cloud9" label="Cloud9"}
+    1. Update the **Stack** by using the following command
+    :::code{language=shell showLineNumbers=false showCopyAction=true}
+    aws cloudformation create-change-set \
+          --stack-name resource-importing \
+          --change-set-name resource-import-change-set \
+          --change-set-type UPDATE \
+          --template-body file://resource-importing.yaml
+    :::
+    1. Execute the change set to update the stack by using the following command
+    :::code{language=shell showLineNumbers=false showCopyAction=true}
+    aws cloudformation execute-change-set \
+          --stack-name resource-importing \
+          --change-set-name resource-import-change-set \
+    :::
+    1. Delete the stack by running the following command
+    :::code{language=shell showLineNumbers=false showCopyAction=true}
+    aws cloudformation delete-stack \
+          --stack-name resource-importing \
+    :::
+    1. Repeat steps (1-3) above for the stack: `moving-resources`, by updating the `moving-resources.yaml` template to remove the `DeletionPolicy: Retain` line from the `SNSTopic1` resource definition, updating the stack, and deleting it after successful update. Choose to accept the existing parameter value when you update the stack.
+    1. Repeat steps (1-3) above for stack: `resource-import-challenge` by updating the `resource-import-challenge.yaml` template to remove the `DeletionPolicy: Retain` line from the `Instance` resource definition, updating the stack, and deleting it after successful update.  Choose to accept existing parameter values when you update the stack.
+    ::::
+      ::::tab{id="LocalDevelopment" label="LocalDevelopment"}  
+    1. Navigate to the [AWS CloudFormation Console](https://console.aws.amazon.com/cloudformation/).
+    1. Select the stack named `resource-importing` and choose **Update**.
+    1. Choose **Replace current template** and upload the `resource-importing.yaml` template. Choose **Next**.
+    1. In the parameters section, choose to accept the existing parameter value. Choose **Next**.
+    1. Choose to accept default values in the **Configure stack options** page, and choose **Next**.
+    1. Choose **Update stack** in the next page.
+    1. After your stack update is complete, select the `resource-importing` stack and choose **Delete**.
+    1. Repeat steps (2-9) above for the stack: `moving-resources`, by updating the `moving-resources.yaml` template to remove the `DeletionPolicy: Retain` line from the `SNSTopic1` resource definition, updating the stack, and deleting it after successful update. Choose to accept the existing parameter value when you update the stack.
+    1. Repeat steps (2-9) above for stack: `resource-import-challenge` by updating the `resource-import-challenge.yaml` template to remove the `DeletionPolicy: Retain` line from the `Instance` resource definition, updating the stack, and deleting it after successful update.  Choose to accept existing parameter values when you update the stack.
+      ::::
+    :::::
 ### Conclusion
 
 Great job! You have now learned how to import resources, as well as use cases and considerations to make when you import resources.
