@@ -70,17 +70,34 @@ Outputs:
 ```
 
 ##### 2. Deploy the VPC Stack
-
-1. Navigate to CloudFormation in the console and click **Create stack With new resources (standard)**.
-1. In **Prepare template** select **Template is ready**.
-1. In **Template source** select **Upload a template file**.
-1. Choose a file `vpc.yaml`.
-1. Enter a **stack name**. For example, `cfn-workshop-vpc`.
-1. For the **AvailabilityZones** parameter, select **2 AZs**.
-1. You can leave the rest of the parameters **default**.
-1. Navigate through the wizard leaving everything default.
-1. On the Review page, scroll down to the bottom and click on **Create stack**.
-
+   :::::tabs{variant="container"}
+	::::tab{id="cloud9" label="Cloud9"}
+  1. Change the directory to `cfn101-workshop/code/workspace/layered-stacks`.
+  1. **Create Stack** by using the following code. The template requires you provide the values for `AvailabilityZones` parameter, For example `us-east-1a` and `us-east-1b` are used below. Please select 2 Availability Zone based on your region. 
+  :::code{language=shell showLineNumbers=false showCopyAction=true}
+  aws cloudformation create-stack \
+    --stack-name cfn-workspace-vpc \
+    --template-body file://vpc.yaml \
+    --parameters ParameterKey=AvailabilityZones,ParameterValue=us-east-1a\\,us-east-1b
+  :::
+  1. Wait until the stack creation is completed by running the following command
+  :::code{language=shell showLineNumbers=false showCopyAction=true}
+  aws cloudformation wait stack-create-complete \
+    --stack-name cfn-workspace-vpc
+  :::
+  ::::
+	::::tab{id="local" label="Local development"}
+  1. Navigate to CloudFormation in the console and click **Create stack With new resources (standard)**.
+  1. In **Prepare template** select **Template is ready**.
+  1. In **Template source** select **Upload a template file**.
+  1. Choose a file `vpc.yaml`.
+  1. Enter a **stack name**. For example, `cfn-workshop-vpc`.
+  1. For the **AvailabilityZones** parameter, select **2 AZs**.
+  1. You can leave the rest of the parameters **default**.
+  1. Navigate through the wizard leaving everything default.
+  1. On the Review page, scroll down to the bottom and click on **Create stack**.
+   ::::
+   :::::  
 #### Create IAM Stack
 
 ##### 1. Prepare the IAM role template
@@ -96,16 +113,32 @@ Outputs:
     ```
 
 ##### 2. Deploy the IAM Stack
-
-1. Navigate to CloudFormation in the console and click **Create stack With new resources (standard)**.
-1. In **Prepare template** select **Template is ready**.
-1. In **Template source** select **Upload a template file**.
-1. Choose a file `iam.yaml`.
-1. Enter a **stack name**. For example, `cfn-workshop-iam`.
-1. Click **Next**.
-1. Navigate through the wizard leaving everything default.
-1. **Acknowledge IAM capabilities** and click on **Create stack**.
-
+   :::::tabs{variant="container"}
+	::::tab{id="cloud9" label="Cloud9"}
+  1. Let's **Create Stack** by using the following code. The template requires you to specify `CAPABILITY_IAM` capability for creating IAM resources.
+  :::code{language=shell showLineNumbers=false showCopyAction=true}
+  aws cloudformation create-stack \
+    --stack-name cfn-workspace-iam \
+    --template-body file://iam.yaml \
+    --capabilities CAPABILITY_IAM
+  :::
+  1. Wait until the stack creation is completed by running the following command
+  :::code{language=shell showLineNumbers=false showCopyAction=true}
+  aws cloudformation wait stack-create-complete \
+    --stack-name cfn-workspace-iam
+  :::
+  ::::
+	::::tab{id="local" label="Local development"}
+  1. Navigate to CloudFormation in the console and click **Create stack With new resources (standard)**.
+  1. In **Prepare template** select **Template is ready**.
+  1. In **Template source** select **Upload a template file**.
+  1. Choose a file `iam.yaml`.
+  1. Enter a **stack name**. For example, `cfn-workshop-iam`.
+  1. Click **Next**.
+  1. Navigate through the wizard leaving everything default.
+  1. **Acknowledge IAM capabilities** and click on **Create stack**.
+   ::::
+   :::::  
 #### Create EC2 Layered Stack
 
 ##### 1. Prepare the EC2 template
@@ -180,16 +213,31 @@ WebServerSecurityGroup:
 ```
 
 ##### 5. Deploy the EC2 Stack
-
-1. Navigate to CloudFormation in the console and click **Create stack With new resources (standard)**.
-1. In **Prepare template** select **Template is ready**.
-1. In **Template source** select **Upload a template file**.
-1. Choose a file `ec2.yaml`.
-1. Enter a **stack name**. For example, `cfn-workshop-ec2`.
-1. You can leave the rest of the parameters **default**.
-1. Navigate through the wizard leaving everything default.
-1. On the **Review page**, scroll down to the bottom and click on **Create stack**.
-
+   :::::tabs{variant="container"}
+	::::tab{id="cloud9" label="Cloud9"}
+  1. Let's **Create Stack** by using the following code. The template requires you to specify `CAPABILITY_IAM` capability for creating IAM resources.
+  :::code{language=shell showLineNumbers=false showCopyAction=true}
+  aws cloudformation create-stack \
+    --stack-name cfn-workspace-ec2 \
+    --template-body file://ec2.yaml 
+  :::
+  1. Wait until the stack creation is completed by running the following command
+  :::code{language=shell showLineNumbers=false showCopyAction=true}
+  aws cloudformation wait stack-create-complete \
+    --stack-name cfn-workspace-ec2
+  :::
+  ::::
+	::::tab{id="local" label="Local development"}
+  1. Navigate to CloudFormation in the console and click **Create stack With new resources (standard)**.
+  1. In **Prepare template** select **Template is ready**.
+  1. In **Template source** select **Upload a template file**.
+  1. Choose a file `ec2.yaml`.
+  1. Enter a **stack name**. For example, `cfn-workshop-ec2`.
+  1. You can leave the rest of the parameters **default**.
+  1. Navigate through the wizard leaving everything default.
+  1. On the **Review page**, scroll down to the bottom and click on **Create stack**.
+   ::::
+   :::::    
 #### 7. Test the deployment
 
 ##### 1. Verify that application was deployed successfully
@@ -212,13 +260,28 @@ If you not sure how to do that, follow the instructions from the [Session Manage
 For example, you can not delete the **VPC stack** before you delete **EC2 stack**. You get following error message:
 
 ![delete-export-before-import.png](/static/intermediate/templates/layered-stacks/delete-export-before-import.png)
-
-1. In the **[CloudFormation console](https://console.aws.amazon.com/cloudformation)**, select the **EC2 stack**, for example `cfn-workshop-ec2`.
-1. In the top right corner, click on **Delete**.
-1. In the pop-up window click on **Delete stack**.
-1. Hit the **refresh** button a few times until you see in the status **DELETE_COMPLETE**.
-1. Now you can delete **IAM** and **VPC** stack in any order as there are no more dependencies.
-
+   :::::tabs{variant="container"}
+	::::tab{id="cloud9" label="Cloud9"}
+  1. **Delete Stack** by running the following command
+  :::code{language=shell showLineNumbers=false showCopyAction=true}
+  aws cloudformation delete-stack \
+    --stack-name cfn-workspace-ec2
+  :::
+  1. Wait until the stack is deleted by using the following command.
+  :::code{language=shell showLineNumbers=false showCopyAction=true}
+  aws cloudformation wait stack-delete-complete \
+    --stack-name cfn-workspace-ec2
+  :::
+  1. Repeat steps (1-2) above for stacks: `cfn-workshop-iam` and `cfn-workshop-vpc2`.
+  ::::
+	::::tab{id="local" label="Local development"}
+  1. In the **[CloudFormation console](https://console.aws.amazon.com/cloudformation)**, select the **EC2 stack**, for example `cfn-workshop-ec2`.
+  1. In the top right corner, click on **Delete**.
+  1. In the pop-up window click on **Delete stack**.
+  1. Hit the **refresh** button a few times until you see in the status **DELETE_COMPLETE**.
+  1. Now you can delete **IAM** and **VPC** stack in any order as there are no more dependencies.
+   ::::
+   :::::    
 ---
 ### Conclusion
 **Layered stacks** allow you to create resources that can be used again and again in multiple stacks. All the stack needs
