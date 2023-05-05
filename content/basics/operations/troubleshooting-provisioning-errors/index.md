@@ -40,12 +40,12 @@ Use the `sqs-queues.yaml` template, that contains the error mentioned earlier, t
 cd cfn101-workshop/code/workspace/troubleshooting-provisioing-errors
 :::
 1. Use the AWS CLI to create the stack. The required parameter `--template-body` have been pre-filled for you.
-:::code{language=shell showLineNumbers=false showCopyAction=true}
+:::code{language=shell showLineNumbers=false showCopyAction=false}
 aws cloudformation create-stack --stack-name cfn-workshop-troubleshoot-provisioning-errors-workshop --template-body file://sqs-queues.yaml --disable-rollback
 :::
 1. If the `create-stack` command was successfully sent, CloudFormation will return `StackId`.
-:::code{language=shell showLineNumbers=false showCopyAction=true}
-"StackId": "arn:aws:cloudformation:us-east-1:123456789012:stack/cfn-workshop-s3/739fafa0-e4d7-11ed-a000-12d9009553ff"
+:::code{language=shell showLineNumbers=false showCopyAction=false}
+"StackId": "arn:aws:cloudformation:us-east-1:123456789012:stack/cfn-workshop-troubleshoot-provisioning-errors-workshop/739fafa0-e4d7-11ed-a000-12d9009553ff"
 :::
  1. Open the **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** console in a new tab and check if the stack status is **CREATE_FAILED**.
 ::::
@@ -80,12 +80,12 @@ Your goal is to troubleshoot and fix the error in the template, and resume provi
 cd cfn101-workshop/code/workspace/troubleshooting-provisioing-errors
 :::
 1. Use the AWS CLI to update the stack. The required parameter `--template-body` have been pre-filled for you.
-:::code{language=shell showLineNumbers=false showCopyAction=true}
+:::code{language=shell showLineNumbers=false showCopyAction=false}
 aws cloudformation update-stack --stack-name cfn-workshop-troubleshoot-provisioning-errors-workshop --template-body file://sqs-queues.yaml --disable-rollback
 :::
 1. If the `update-stack` command was successfully sent, CloudFormation will return `StackId`.
-:::code{language=shell showLineNumbers=false showCopyAction=true}
-"StackId": "arn:aws:cloudformation:us-east-1:123456789012:stack/cfn-workshop-s3/739fafa0-e4d7-11ed-a000-12d9009553ff"
+:::code{language=shell showLineNumbers=false showCopyAction=false}
+"StackId": "arn:aws:cloudformation:us-east-1:123456789012:stack/cfn-workshop-troubleshoot-provisioning-errors-workshop/739fafa0-e4d7-11ed-a000-12d9009553ff"
 :::
  1. Open the **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** console in a new tab and check if the stack status is **UPDATE_COMPLETE**.
 ::::
@@ -143,38 +143,39 @@ You choose to describe two [AWS Systems Manager Parameter Store](https://docs.aw
  * Navigate to this SQS resource documentation [page](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-sqs-queues.html#aws-properties-sqs-queues-return-values), and determine which one of the available return values you need to get, with `Fn::GetAtt`, the SQS queue ARN. Use this information to validate if the relevant configuration in the snippet you pasted earlier is the one you expect.
 :::
 
-:::expand{header="Want to see the solution?"}
+::::::expand{header="Want to see the solution?"}
 * Update your template: change `Value: !GetAtt 'SourceQueue.QueueName'` into `Value: !GetAtt 'SourceQueue.Arn'` for the `SourceQueueParameter` resource.
-  :::::tabs{variant="container"}
-    ::::tab{id="cloud9" label="Cloud9"}
-    1. In the **Cloud9 terminal** navigate to `code/workspace/troubleshooting-provisioing-errors`:
-      :::code{language=shell showLineNumbers=false showCopyAction=true}
-      cd cfn101-workshop/code/workspace/troubleshooting-provisioing-errors
-      :::
-    1. Use the AWS CLI to update the stack. The required parameter `--template-body` have been pre-filled for you.
-      :::code{language=shell showLineNumbers=false showCopyAction=true}
-      aws cloudformation update-stack --stack-name cfn-workshop-troubleshoot-provisioning-errors-workshop --template-body file://sqs-queues.yaml --disable-rollback
-      :::
-    1. If the `update-stack` command was successfully sent, CloudFormation will return `StackId`.
-      :::code{language=shell showLineNumbers=false showCopyAction=true}
-      "StackId": "arn:aws:cloudformation:us-east-1:123456789012:stack/cfn-workshop-s3/739fafa0-e4d7-11ed-a000-12d9009553ff"
-      :::
-    1. Open the **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** console in a new tab and check if the stack status is **UPDATE_COMPLETE**.
-    ::::
-    ::::tab{id="local" label="Local development"}
-    1. Click on the stack name, for example **cfn-workshop-troubleshoot-provisioning-errors-workshop**.
-    1. In the top right corner click on **Update**.
-    1. In **Prepare template**, choose **Replace current template**.
-    1. In **Template source**, choose **Upload a template file**.
-    1. Click on **Choose file** button and navigate to your workshop directory.
-    1. Select the file `sqs-queues.yaml ` and click **Next**.
-    1. You can leave **Configure stack options** default, click **Next**.
-    1. On the **Review <stack_name>** page, scroll down to the bottom and click on **Update stack**.
-    1. You can click the **refresh** button a few times until you see in the status **UPDATE_COMPLETE**.
-      ::::
-      :::::
+
+:::::tabs{variant="container"}
+::::tab{id="cloud9" label="Cloud9"}
+1. In the **Cloud9 terminal** navigate to `code/workspace/troubleshooting-provisioing-errors`:
+  :::code{language=shell showLineNumbers=false showCopyAction=true}
+  cd cfn101-workshop/code/workspace/troubleshooting-provisioing-errors
+  :::
+1. Use the AWS CLI to update the stack. The required parameter `--template-body` have been pre-filled for you.
+  :::code{language=shell showLineNumbers=false showCopyAction=false}
+  aws cloudformation update-stack --stack-name cfn-workshop-troubleshoot-provisioning-errors-workshop --template-body file://sqs-queues.yaml --disable-rollback
+  :::
+1. If the `update-stack` command was successfully sent, CloudFormation will return `StackId`.
+  :::code{language=shell showLineNumbers=false showCopyAction=false}
+  "StackId": "arn:aws:cloudformation:us-east-1:123456789012:stack/cfn-workshop-troubleshoot-provisioning-errors-workshop/739fafa0-e4d7-11ed-a000-12d9009553ff"
+  :::
+1. Open the **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** console in a new tab and check if the stack status is **UPDATE_COMPLETE**.
+::::
+::::tab{id="local" label="Local development"}
+1. Click on the stack name, for example **cfn-workshop-troubleshoot-provisioning-errors-workshop**.
+1. In the top right corner click on **Update**.
+1. In **Prepare template**, choose **Replace current template**.
+1. In **Template source**, choose **Upload a template file**.
+1. Click on **Choose file** button and navigate to your workshop directory.
+1. Select the file `sqs-queues.yaml ` and click **Next**.
+1. You can leave **Configure stack options** default, click **Next**.
+1. On the **Review <stack_name>** page, scroll down to the bottom and click on **Update stack**.
+1. You can click the **refresh** button a few times until you see in the status **UPDATE_COMPLETE**.
+::::
+:::::
 * Note: the template with the full solution is available in the `code/solutions/troubleshooting-provisioning-errors` directory.
-:::
+::::::
 
 ### Cleanup
 Choose to follow cleanup steps shown next to clean up resources you created with this lab:
