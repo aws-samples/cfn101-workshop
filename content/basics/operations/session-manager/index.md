@@ -113,7 +113,7 @@ Go to the AWS console and update your stack with a new template.
   cd cfn101-workshop/code/workspace
   :::
 2. Use the AWS CLI to update the stack. The required parameter `--template-body` have been pre-filled for you.
-  :::code{language=shell showLineNumbers=false showCopyAction=true}
+  :::code{language=shell showLineNumbers=false showCopyAction=false}
   aws cloudformation update-stack --stack-name cfn-workshop-ec2 --template-body file://session-manager.yaml --parameters ParameterKey="EnvironmentType",ParameterValue="Dev" --capabilities CAPABILITY_NAMED_IAM
   :::
   :::alert{type="info"}
@@ -124,8 +124,8 @@ Go to the AWS console and update your stack with a new template.
   By changing the environment, instance will be stopped and started again. This will help to start `ssm-agent` which may have timed-out as the role wasn't attached in a previous lab.
   :::
 3. If the `update-stack` command was successfully sent, CloudFormation will return `StackId`.
-  :::code{language=shell showLineNumbers=false showCopyAction=true}
-  "StackId": "arn:aws:cloudformation:us-east-1:123456789012:stack/cfn-workshop-s3/739fafa0-e4d7-11ed-a000-12d9009553ff"
+  :::code{language=shell showLineNumbers=false showCopyAction=false}
+  "StackId": "arn:aws:cloudformation:us-east-1:123456789012:stack/cfn-workshop-ec2/739fafa0-e4d7-11ed-a000-12d9009553ff"
   :::
 4. Open the **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** console in a new tab and check if the stack status is **UPDATE_COMPLETE**.
 ::::
