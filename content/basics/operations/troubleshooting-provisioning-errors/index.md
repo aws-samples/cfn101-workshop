@@ -41,11 +41,11 @@ cd cfn101-workshop/code/workspace/troubleshooting-provisioing-errors
 :::
 1. Use the AWS CLI to create the stack. The required parameter `--template-body` have been pre-filled for you.
 :::code{language=shell showLineNumbers=false showCopyAction=false}
-aws cloudformation create-stack --stack-name cfn-workshop-troubleshoot-provisioning-errors-workshop --template-body file://sqs-queues.yaml --disable-rollback
+aws cloudformation create-stack --stack-name cfn-workshop-troubleshooting-provisioning-errors --template-body file://sqs-queues.yaml --disable-rollback
 :::
 1. If the `create-stack` command was successfully sent, CloudFormation will return `StackId`.
 :::code{language=shell showLineNumbers=false showCopyAction=false}
-"StackId": "arn:aws:cloudformation:us-east-1:123456789012:stack/cfn-workshop-troubleshoot-provisioning-errors-workshop/739fafa0-e4d7-11ed-a000-12d9009553ff"
+"StackId": "arn:aws:cloudformation:us-east-1:123456789012:stack/cfn-workshop-troubleshooting-provisioning-errors/739fafa0-e4d7-11ed-a000-12d9009553ff"
 :::
  1. Open the **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** console in a new tab and check if the stack status is **CREATE_FAILED**.
 ::::
@@ -56,7 +56,7 @@ aws cloudformation create-stack --stack-name cfn-workshop-troubleshoot-provision
 1. From **Prepare template**, choose **Template is ready**.
 1. From Prepare template, choose Template is ready.
 1. From Template source, choose Upload a template file. Choose the `sqs-queues.yaml` template mentioned earlier, and then choose Next.
-1. Specify a stack name: for example, `troubleshoot-provisioning-errors-workshop`. On the same page, accept the default value for the `QueueNamePrefix` parameter, and choose **Next**.
+1. Specify a stack name: for example, `cfn-workshop-troubleshooting-provisioning-errors`. On the same page, accept the default value for the `QueueNamePrefix` parameter, and choose **Next**.
 1. In **Stack failure options**, select **Preserve successfully provisioned resources**. Choose **Next**.
 1. Choose **Create stack** in the next page.
 1. Refresh the stack creation page until you see your stack in the `CREATE_FAILED` status.
@@ -81,11 +81,11 @@ cd cfn101-workshop/code/workspace/troubleshooting-provisioing-errors
 :::
 1. Use the AWS CLI to update the stack. The required parameter `--template-body` have been pre-filled for you.
 :::code{language=shell showLineNumbers=false showCopyAction=false}
-aws cloudformation update-stack --stack-name cfn-workshop-troubleshoot-provisioning-errors-workshop --template-body file://sqs-queues.yaml --disable-rollback
+aws cloudformation update-stack --stack-name cfn-workshop-troubleshooting-provisioning-errors --template-body file://sqs-queues.yaml --disable-rollback
 :::
 1. If the `update-stack` command was successfully sent, CloudFormation will return `StackId`.
 :::code{language=shell showLineNumbers=false showCopyAction=false}
-"StackId": "arn:aws:cloudformation:us-east-1:123456789012:stack/cfn-workshop-troubleshoot-provisioning-errors-workshop/739fafa0-e4d7-11ed-a000-12d9009553ff"
+"StackId": "arn:aws:cloudformation:us-east-1:123456789012:stack/cfn-workshop-troubleshooting-provisioning-errors/739fafa0-e4d7-11ed-a000-12d9009553ff"
 :::
  1. Open the **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** console in a new tab and check if the stack status is **UPDATE_COMPLETE**.
 ::::
@@ -154,16 +154,16 @@ You choose to describe two [AWS Systems Manager Parameter Store](https://docs.aw
   :::
 1. Use the AWS CLI to update the stack. The required parameter `--template-body` have been pre-filled for you.
   :::code{language=shell showLineNumbers=false showCopyAction=false}
-  aws cloudformation update-stack --stack-name cfn-workshop-troubleshoot-provisioning-errors-workshop --template-body file://sqs-queues.yaml --disable-rollback
+  aws cloudformation update-stack --stack-name cfn-workshop-troubleshooting-provisioning-errors --template-body file://sqs-queues.yaml --disable-rollback
   :::
 1. If the `update-stack` command was successfully sent, CloudFormation will return `StackId`.
   :::code{language=shell showLineNumbers=false showCopyAction=false}
-  "StackId": "arn:aws:cloudformation:us-east-1:123456789012:stack/cfn-workshop-troubleshoot-provisioning-errors-workshop/739fafa0-e4d7-11ed-a000-12d9009553ff"
+  "StackId": "arn:aws:cloudformation:us-east-1:123456789012:stack/cfn-workshop-troubleshooting-provisioning-errors/739fafa0-e4d7-11ed-a000-12d9009553ff"
   :::
 1. Open the **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** console in a new tab and check if the stack status is **UPDATE_COMPLETE**.
 ::::
 ::::tab{id="local" label="Local development"}
-1. Click on the stack name, for example **cfn-workshop-troubleshoot-provisioning-errors-workshop**.
+1. Click on the stack name, for example **cfn-workshop-troubleshooting-provisioning-errors**.
 1. In the top right corner click on **Update**.
 1. In **Prepare template**, choose **Replace current template**.
 1. In **Template source**, choose **Upload a template file**.
@@ -179,7 +179,7 @@ You choose to describe two [AWS Systems Manager Parameter Store](https://docs.aw
 
 ### Cleanup
 Choose to follow cleanup steps shown next to clean up resources you created with this lab:
-1. Choose the stack you have created on this lab, for example `troubleshoot-provisioning-errors-workshop`.
+1. Choose the stack you have created on this lab, for example `cfn-workshop-troubleshooting-provisioning-errors`.
 2. Choose **Delete** to delete the stack, and then choose **Delete stack** to confirm.
 
 ---
