@@ -82,7 +82,7 @@ In this next step, you will use the AWS CloudFormation to [create a stack](https
   }
 ]
   :::
-  1. Let's create a change set of type `IMPORT` to import the resources from the template by using the following command. The template requires you to provide a value for `Topic1Name` input parameter. For Example, Specify a name for the stack `resource-importing` and for the change set `resource-import-change-set` and provide the parameter value for `Topic1Name` to `Topic1`.
+  1. Let's create a change set of type `IMPORT` to import the resources from the template by using the following AWS CLI command. The template requires you to provide a value for `Topic1Name` input parameter. For Example, Specify a name for the stack `resource-importing` and for the change set `resource-import-change-set` and provide the parameter value for `Topic1Name` to `Topic1`.
   :::code{language=shell showLineNumbers=false showCopyAction=true}
   aws cloudformation create-change-set \
     --stack-name resource-importing \
@@ -165,7 +165,7 @@ SNSTopic2:
   }  
 ]
       :::
-      1. Let's create a change set of type `IMPORT` to import the resources from the template by using the following command. Specify the  parameter values for `Topic1Name` to `Topic1` and  for `Topic2Name` to `Topic2` as described in the following command.
+      1. Let's create a change set of type `IMPORT` to import the resources from the template by using the following AWS CLI command. Specify the  parameter values for `Topic1Name` to `Topic1` and  for `Topic2Name` to `Topic2` as described below.
       :::code{language=shell showLineNumbers=false showCopyAction=true}
       aws cloudformation create-change-set \
         --stack-name resource-importing \
@@ -234,7 +234,7 @@ SNSTopic1:
 ```
    :::::tabs{variant="container"}
 	::::tab{id="cloud9" label="Cloud9"}
-      1. Let's create the change set of type `UPDATE` to remove the resource `SNSTopic1` from the stack by using the following command. Provide a name for the stack as `resource-importing` and for the change set name use `resource-import-change-set`, Specify the parameter values for `Topic2Name` to `Topic2`.
+      1. Let's create the change set of type `UPDATE` to remove the resource `SNSTopic1` from the stack by using the following AWS CLI command. Provide a name for the stack as `resource-importing` and for the change set name use `resource-import-change-set`, Specify the parameter values for `Topic2Name` to `Topic2`.
       :::code{language=shell showLineNumbers=false showCopyAction=true}
       aws cloudformation create-change-set \
         --stack-name resource-importing \
@@ -306,7 +306,7 @@ Resources:
 ]
   :::
   1. For the [**ResourceIdentifier Value**](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/resource-import.html#resource-import-overview), update the value for the topic ARN you noted after you created `Topic1` from **Lab1**.
-  1. Let's create a change set of type `IMPORT` to import the resources from the template by using the following command. Provide `moving-resources` as name of the stack and for the change set use `moving-resource-change-set`, Specify `Topic1` as parameter value for `Topic1Name`.
+  1. Let's create a change set of type `IMPORT` to import the resources from the template by using the following AWS CLI command. Provide `moving-resources` as name of the stack and for the change set use `moving-resource-change-set`, Specify `Topic1` as parameter value for `Topic1Name`.
   :::code{language=shell showLineNumbers=false showCopyAction=true}
   aws cloudformation create-change-set \
     --stack-name moving-resources \
@@ -413,7 +413,7 @@ Resources:
     --template-body file://resource-import-challenge.yaml \
     --parameters ParameterKey=InstanceType,ParameterValue=t2.nano  
   :::
-  1. Wait until the stack status to `CREATE_COMPLETE` by using the following command
+  1. Wait until the stack status to `CREATE_COMPLETE` by using the following AWS CLI command
   :::code{language=shell showLineNumbers=false showCopyAction=true}
   aws cloudformation wait stack-create-complete \
      --stack-name resource-import-challenge
@@ -523,7 +523,7 @@ Parameters:
             --stack-name resource-import-challenge \
             --change-set-name import-challenge --change-set-type IMPORT
       :::
-      1. Wait unitl the `IMPORT` operation is complete by using the following command
+      1. Wait unitl the `IMPORT` operation is complete by using the following AWS CLI command
       :::code{language=shell showLineNumbers=false showCopyAction=true}
       aws cloudformation wait stack-import-complete \
             --stack-name resource-import-challenge
@@ -558,7 +558,7 @@ Choose to follow cleanup steps shown next to clean up resources you created with
 2. Update the `resource-importing.yaml` template file to remove the `DeletionPolicy: Retain` line from the `SNSTopic2` resource definition, and save the template.
   :::::tabs{variant="container"}
 ::::tab{id="cloud9" label="Cloud9"}
-    1. Update the **Stack** by using the following command
+    1. Update the **Stack** by using the following AWS CLI command
     :::code{language=shell showLineNumbers=false showCopyAction=true}
     aws cloudformation create-change-set \
           --stack-name resource-importing \
@@ -566,13 +566,13 @@ Choose to follow cleanup steps shown next to clean up resources you created with
           --change-set-type UPDATE \
           --template-body file://resource-importing.yaml
     :::
-    1. Execute the change set to update the stack by using the following command
+    1. Execute the change set to update the stack by using the following AWS CLI command
     :::code{language=shell showLineNumbers=false showCopyAction=true}
     aws cloudformation execute-change-set \
           --stack-name resource-importing \
           --change-set-name resource-import-change-set \
     :::
-    1. Delete the stack by running the following command
+    1. Delete the stack by running the following AWS CLI command
     :::code{language=shell showLineNumbers=false showCopyAction=true}
     aws cloudformation delete-stack \
           --stack-name resource-importing \
