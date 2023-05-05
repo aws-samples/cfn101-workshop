@@ -43,17 +43,17 @@ cd cfn101-workshop/code/workspace
 :::
 1. Use the AWS CLI to update the stack. The required parameter `--template-body` have been pre-filled for you.
 :::code{language=shell showLineNumbers=false showCopyAction=true}
-aws cloudformation update-stack --stack-name cfn-workshop-ec2 --template-body file://multi-region-latest-ami.yaml
+aws cloudformation update-stack --stack-name cfn-workshop-resources --template-body file://multi-region-latest-ami.yaml
 :::
 1. If the `update-stack` command was successfully sent, CloudFormation will return `StackId`.
 :::code{language=shell showLineNumbers=false showCopyAction=false}
-"StackId": "arn:aws:cloudformation:us-east-1:123456789012:stack/cfn-workshop-ec2/739fafa0-e4d7-11ed-a000-12d9009553ff"
+"StackId": "arn:aws:cloudformation:us-east-1:123456789012:stack/cfn-workshop-resources/739fafa0-e4d7-11ed-a000-12d9009553ff"
 :::
  1. Open the **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** console in a new tab and check if the stack status is **UPDATE_COMPLETE**.
 ::::
 
 ::::tab{id="local" label="Local development"}
-1. Click on the stack name, for example **cfn-workshop-ec2**.
+1. Click on the stack name, for example **cfn-workshop-resources**.
 1. In the top right corner click on **Update**.
 1. In **Prepare template**, choose **Replace current template**.
 1. In **Template source**, choose **Upload a template file**.
