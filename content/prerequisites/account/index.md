@@ -6,7 +6,7 @@ weight: 100
 ## Create an AWS Account for Experimentation
 
 To deploy our app, you'll need access to an AWS account. If you already have an account, and your system is configured
-with credentials of an administrator user, you can [move to the next step](../awscli).
+with credentials of an administrator user, you can [move to the next step](../cloud9).
 
 :::alert{type="warning"}
 If you are using an existing account, either personal or a company account, make sure you understand the implications
