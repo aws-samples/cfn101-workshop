@@ -125,11 +125,11 @@ If you have deleted your default VPC, you can create a new one by following the 
   :::
   1. Use the AWS CLI to create the stack. The required parameters `--stack-name` and `--template-body` have been pre-filled for you.
   :::code{language=shell showLineNumbers=false showCopyAction=true}
-  aws cloudformation create-stack --stack-name cfn-workshop-ec2 --template-body file://resources.yaml
+  aws cloudformation create-stack --stack-name cfn-workshop-resources --template-body file://resources.yaml
   :::
   1. If the `create-stack` command was successfully sent, CloudFormation will return `StackId`.
-  :::code{language=shell showLineNumbers=false showCopyAction=true}
-  "StackId": "arn:aws:cloudformation:us-east-1:123456789012:stack/cfn-workshop-ec2/62df5090-e747-11ed-a22a-0e39ed6c0e49"
+  :::code{language=shell showLineNumbers=false showCopyAction=false}
+  "StackId": "arn:aws:cloudformation:us-east-1:123456789012:stack/cfn-workshop-resources/62df5090-e747-11ed-a22a-0e39ed6c0e49"
   :::
   1. Open the **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** console in a new tab and wait for stack status to reach the **CREATE_COMPLETE** status. You need to periodically select Refresh to see the latest stack status.
   ::::
@@ -142,7 +142,7 @@ If you have deleted your default VPC, you can create a new one by following the 
 1. Click on **Choose file** button and navigate to your workshop directory.
 1. Select the file `resources.yaml`.
 1. Click **Next**.
-1. Provide a **Stack name**. For example `cfn-workshop-ec2`.
+1. Provide a **Stack name**. For example `cfn-workshop-resources`.
     + The _Stack name_ identifies the stack. Use a name to help you distinguish the purpose of this stack.
     + For **Type of EC2 Instance** select your preferred instance size, for example **t2.micro**.
     + Click **Next**.
