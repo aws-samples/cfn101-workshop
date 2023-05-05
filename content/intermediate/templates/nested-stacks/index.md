@@ -148,11 +148,11 @@ VpcStack:
 ::::tab{id="cloud9" label="Cloud9"}
 1. In the **Cloud9 terminal** navigate to `code/workspace/nested-stacks`:
   :::code{language=shell showLineNumbers=false showCopyAction=true}
-    cd cfn101-workshop/code/workspace/nested-stacks
+  cd cfn101-workshop/code/workspace/nested-stacks
   :::
 1. Run the below command to copy the `vpc.yaml` to S3 bucket. Replace the `bucket-name` with the bucket name from previous step.
   :::code{language=shell showLineNumbers=false showCopyAction=true}
-    aws s3 cp vpc.yaml s3://{bucket-name}
+  aws s3 cp vpc.yaml s3://{bucket-name}
   :::
 ::::
 ::::tab{id="local" label="Local development"}
@@ -178,15 +178,15 @@ Please double-check **Parameters** and **Resources** sections are correctly form
 ::::tab{id="cloud9" label="Cloud9"}
 1. In the **Cloud9 terminal** navigate to `code/workspace/nested-stacks`:
   :::code{language=shell showLineNumbers=false showCopyAction=true}
-    cd cfn101-workshop/code/workspace/nested-stacks
+  cd cfn101-workshop/code/workspace/nested-stacks
   :::
 1. Use the AWS CLI to create the stack. The required parameter `--template-body` have been pre-filled for you. Replace the `ParameterValue` **bucketName** with the value you have written down in [Prepare S3 bucket](#2-prepare-s3-bucket) section. Replace the `ParameterValue` **AZ1** and  **AZ2** with the value of any 2 AZ's from your vpc.
   :::code{language=shell showLineNumbers=false showCopyAction=false}
-  aws cloudformation create-stack --stack-name cfn-workshop-nested-stack --template-body file://main.yaml --parameters ParameterKey="S3BucketName",ParameterValue="bucketName" ParameterKey="AvailabilityZones",ParameterValue=AZ1\\,AZ2 --capabilities CAPABILITY_NAMED_IAM
+  aws cloudformation create-stack --stack-name cfn-workshop-nested-stacks --template-body file://main.yaml --parameters ParameterKey="S3BucketName",ParameterValue="bucketName" ParameterKey="AvailabilityZones",ParameterValue=AZ1\\,AZ2 --capabilities CAPABILITY_NAMED_IAM
   :::
 1. If the `create-stack` command was successfully sent, CloudFormation will return `StackId`.
   :::code{language=shell showLineNumbers=false showCopyAction=false}
-  "StackId": "arn:aws:cloudformation:us-east-1:123456789012:stack/cfn-workshop-nested-stack/739fafa0-e4d7-11ed-a000-12d9009553ff"
+  "StackId": "arn:aws:cloudformation:us-east-1:123456789012:stack/cfn-workshop-nested-stacks/739fafa0-e4d7-11ed-a000-12d9009553ff"
   :::
 1. Open the **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** console in a new tab and check if the stack status is **CREATE_COMPLETE**.
 ::::
@@ -196,7 +196,7 @@ Please double-check **Parameters** and **Resources** sections are correctly form
 1. In **Prepare template** select **Template is ready**.
 1. In **Template source** select **Upload a template file**.
 1. Choose a file `main.yaml`.
-1. Enter a **Stack name**. For example, cfn-workshop-nested-stack
+1. Enter a **Stack name**. For example, cfn-workshop-nested-stacks
 1. For the **AvailabilityZones** parameter, select 2 AZs.
 1. For the **S3BucketName** provide the name of the bucket you have written down in [Prepare S3 bucket](#2-prepare-s3-bucket) section.
 1. You can leave rest of the parameters default.
@@ -288,13 +288,13 @@ Update the previously created nested stack with a new template.
   :::
 1. Use the AWS CLI to update the stack. The required parameter `--template-body` have been pre-filled for you. Replace the `ParameterValue` **bucketName** with the value you have written down in [Prepare S3 bucket](#2-prepare-s3-bucket) section. Replace the `ParameterValue` **AZ1** and  **AZ2** with the value of any 2 AZ's from your vpc.
   :::code{language=shell showLineNumbers=false showCopyAction=false}
-  aws cloudformation update-stack --stack-name cfn-workshop-nested-stack --template-body file://main.yaml --parameters ParameterKey="S3BucketName",ParameterValue="bucketName" ParameterKey="AvailabilityZones",ParameterValue=AZ1\\,AZ2 --capabilities CAPABILITY_NAMED_IAM
+  aws cloudformation update-stack --stack-name cfn-workshop-nested-stacks --template-body file://main.yaml --parameters ParameterKey="S3BucketName",ParameterValue="bucketName" ParameterKey="AvailabilityZones",ParameterValue=AZ1\\,AZ2 --capabilities CAPABILITY_NAMED_IAM
   :::
 1. If the `update-stack` command was successfully sent, CloudFormation will return `StackId`.
   :::code{language=shell showLineNumbers=false showCopyAction=false}
-  "StackId": "arn:aws:cloudformation:us-east-1:123456789012:stack/cfn-workshop-nested-stack/739fafa0-e4d7-11ed-a000-12d9009553ff"
+  "StackId": "arn:aws:cloudformation:us-east-1:123456789012:stack/cfn-workshop-nested-stacks/739fafa0-e4d7-11ed-a000-12d9009553ff"
   :::
-1. Open the **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** console in a new tab and check if the stack status is **CREAUPDATETE_COMPLETE**.
+1. Open the **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** console in a new tab and check if the stack status is **CREATE_COMPLETE**.
 ::::
 
 ::::tab{id="local" label="Local development"}
@@ -530,11 +530,11 @@ Update the previously created nested stack with a new template.
   :::
 1. Use the AWS CLI to update the stack. The required parameter `--template-body` have been pre-filled for you. Replace the `ParameterValue` **bucketName** with the value you have written down in [Prepare S3 bucket](#2-prepare-s3-bucket) section. Replace the `ParameterValue` **AZ1** and  **AZ2** with the value of any 2 AZ's from your vpc.
   :::code{language=shell showLineNumbers=false showCopyAction=false}
-  aws cloudformation update-stack --stack-name cfn-workshop-nested-stack --template-body file://main.yaml --parameters ParameterKey="S3BucketName",ParameterValue="bucketName" ParameterKey="AvailabilityZones",ParameterValue=AZ1\\,AZ2 --capabilities CAPABILITY_NAMED_IAM
+  aws cloudformation update-stack --stack-name cfn-workshop-nested-stacks --template-body file://main.yaml --parameters ParameterKey="S3BucketName",ParameterValue="bucketName" ParameterKey="AvailabilityZones",ParameterValue=AZ1\\,AZ2 --capabilities CAPABILITY_NAMED_IAM
   :::
 1. If the `update-stack` command was successfully sent, CloudFormation will return `StackId`.
   :::code{language=shell showLineNumbers=false showCopyAction=false}
-  "StackId": "arn:aws:cloudformation:us-east-1:123456789012:stack/cfn-workshop-nested-stack/739fafa0-e4d7-11ed-a000-12d9009553ff"
+  "StackId": "arn:aws:cloudformation:us-east-1:123456789012:stack/cfn-workshop-nested-stacks/739fafa0-e4d7-11ed-a000-12d9009553ff"
   :::
 1. Open the **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** console in a new tab and check if the stack status is **CREAUPDATETE_COMPLETE**.
 ::::
@@ -576,7 +576,7 @@ If you not sure how to do that, follow the instructions from the [Session Manage
 
 Follow these steps to clean up created resources:
 
-1. In the **[CloudFormation console](https://console.aws.amazon.com/cloudformation)**, select the **root** stack you have created in this lab. For example `cfn-workshop-nested-stack`.
+1. In the **[CloudFormation console](https://console.aws.amazon.com/cloudformation)**, select the **root** stack you have created in this lab. For example `cfn-workshop-nested-stacks`.
 1. The **root** stack will handle the deletion of all the **children** stacks for you.
 1. In the top right corner, click on **Delete**.
 1. In the pop-up window click on **Delete stack**.
