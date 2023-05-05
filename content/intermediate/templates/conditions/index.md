@@ -116,11 +116,11 @@ When you create the stack, you will pass `test` as the value for `EnvType`, and 
 cd cfn101-workshop/code/workspace/conditions
 :::
 1. Use the AWS CLI to create the stack. The required parameter `--template-body` have been pre-filled for you.
-:::code{language=shell showLineNumbers=false showCopyAction=true}
+:::code{language=shell showLineNumbers=false showCopyAction=false}
 aws cloudformation create-stack --stack-name cfn-workshop-condition-test --template-body file://condition-resource.yaml --parameters ParameterKey="EnvType",ParameterValue="test"
 :::
 1. If the `create-stack` command was successfully sent, CloudFormation will return `StackId`.
-:::code{language=shell showLineNumbers=false showCopyAction=true}
+:::code{language=shell showLineNumbers=false showCopyAction=false}
 "StackId": "arn:aws:cloudformation:us-east-1:123456789012:stack/cfn-workshop-condition-test/739fafa0-e4d7-11ed-a000-12d9009553ff"
 :::
 1. Open the **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** console in a new tab and check if the stack status is **CREATE_COMPLETE**.
@@ -150,11 +150,11 @@ In the next step, you will create a new stack with the same template. This time,
 cd cfn101-workshop/code/workspace/conditions
 :::
 1. Use the AWS CLI to create the stack. The required parameter `--template-body` have been pre-filled for you.
-:::code{language=shell showLineNumbers=false showCopyAction=true}
+:::code{language=shell showLineNumbers=false showCopyAction=false}
 aws cloudformation create-stack --stack-name cfn-workshop-condition-prod --template-body file://condition-resource.yaml --parameters ParameterKey="EnvType",ParameterValue="prod"
 :::
 1. If the `create-stack` command was successfully sent, CloudFormation will return `StackId`.
-:::code{language=shell showLineNumbers=false showCopyAction=true}
+:::code{language=shell showLineNumbers=false showCopyAction=false}
 "StackId": "arn:aws:cloudformation:us-east-1:123456789012:stack/cfn-workshop-condition-prod/739fafa0-e4d7-11ed-a000-12d9009553ff"
 :::
 1. Open the **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** console in a new tab and check if the stack status is **CREATE_COMPLETE**.
@@ -234,11 +234,11 @@ In this section, you will pass `test` as the value for the `EnvType` parameter, 
 cd cfn101-workshop/code/workspace/conditions
 :::
 1. Use the AWS CLI to create the stack. The required parameter `--template-body` have been pre-filled for you.
-:::code{language=shell showLineNumbers=false showCopyAction=true}
+:::code{language=shell showLineNumbers=false showCopyAction=false}
 aws cloudformation create-stack --stack-name cfn-workshop-condition-property-test --template-body file://condition-resource-property.yaml --parameters ParameterKey="EnvType",ParameterValue="test"
 :::
 1. If the `create-stack` command was successfully sent, CloudFormation will return `StackId`.
-:::code{language=shell showLineNumbers=false showCopyAction=true}
+:::code{language=shell showLineNumbers=false showCopyAction=false}
 "StackId": "arn:aws:cloudformation:us-east-1:123456789012:stack/cfn-workshop-condition-property-test/739fafa0-e4d7-11ed-a000-12d9009553ff"
 :::
 1. Open the **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** console in a new tab and check if the stack status is **CREATE_COMPLETE**.
@@ -279,7 +279,7 @@ So far, you’ve learned how to use conditions with resources and property value
 * Review the documentation on [Conditions](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/conditions-section-structure.html) and [Associating a condition](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference-conditions.html#associating-a-condition). How do you conditionally create an output?
 :::
 
-:::expand{header="Want to see the solution?"}
+::::::expand{header="Want to see the solution?"}
 Append the following content to the `condition-resource.yaml` file:
 
 ```yaml
@@ -291,37 +291,37 @@ Outputs:
 
 Next, navigate to the AWS CloudFormation [console](https://console.aws.amazon.com/cloudformation), and choose to  update your `cfn-workshop-condition-prod` stack:
 
-  :::::tabs{variant="container"}
-    ::::tab{id="cloud9" label="Cloud9"}
-    1. In the **Cloud9 terminal** navigate to `code/workspace/conditions`:
-      :::code{language=shell showLineNumbers=false showCopyAction=true}
-      cd cfn101-workshop/code/workspace/conditions
-      :::
-    1. Use the AWS CLI to update the stack. The required parameter `--template-body` have been pre-filled for you.
-      :::code{language=shell showLineNumbers=false showCopyAction=true}
-      aws cloudformation update-stack --stack-name cfn-workshop-condition-prod --template-body file://condition-resource.yaml --parameters ParameterKey="EnvType",ParameterValue="prod"
-      :::
-    1. If the `update-stack` command was successfully sent, CloudFormation will return `StackId`.
-      :::code{language=shell showLineNumbers=false showCopyAction=true}
-      "StackId": "arn:aws:cloudformation:us-east-1:123456789012:stack/cfn-workshop-prod/739fafa0-e4d7-11ed-a000-12d9009553ff"
-    1. Open the **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** console in a new tab and check if the stack status is **UPDATE_COMPLETE**.
-    ::::
-    ::::tab{id="local" label="Local development"}
-    1. In the CloudFormation console, select **Update stack**.
-    1. In **Prepare template**, select **Replace current template**.
-    1. In **Template source**, select **Upload a template file**.
-    1. Choose the `condition-resource.yaml` template.
-    1. `EnvType` should already be set to `prod`. Choose **Next**.
-    1. Choose to accept default values in the **Configure stack options** page. Choose **Next**.
-    1. Choose **Update stack**. You can view the progress of the stack being created in the CloudFormation console.
-    1. Wait until the stack creation is complete. Refresh the view in the console until you see your stack to be in the
-    `UPDATE_COMPLETE` status.
-    ::::
-  :::::
+:::::tabs{variant="container"}
+::::tab{id="cloud9" label="Cloud9"}
+1. In the **Cloud9 terminal** navigate to `code/workspace/conditions`:
+  :::code{language=shell showLineNumbers=false showCopyAction=true}
+  cd cfn101-workshop/code/workspace/conditions
+  :::
+1. Use the AWS CLI to update the stack. The required parameter `--template-body` have been pre-filled for you.
+  :::code{language=shell showLineNumbers=false showCopyAction=false}
+  aws cloudformation update-stack --stack-name cfn-workshop-condition-prod --template-body file://condition-resource.yaml --parameters ParameterKey="EnvType",ParameterValue="prod"
+  :::
+1. If the `update-stack` command was successfully sent, CloudFormation will return `StackId`.
+  :::code{language=shell showLineNumbers=false showCopyAction=false}
+  "StackId": "arn:aws:cloudformation:us-east-1:123456789012:stack/cfn-workshop-prod/739fafa0-e4d7-11ed-a000-12d9009553ff"
+1. Open the **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** console in a new tab and check if the stack status is **UPDATE_COMPLETE**.
+::::
+::::tab{id="local" label="Local development"}
+1. In the CloudFormation console, select **Update stack**.
+1. In **Prepare template**, select **Replace current template**.
+1. In **Template source**, select **Upload a template file**.
+1. Choose the `condition-resource.yaml` template.
+1. `EnvType` should already be set to `prod`. Choose **Next**.
+1. Choose to accept default values in the **Configure stack options** page. Choose **Next**.
+1. Choose **Update stack**. You can view the progress of the stack being created in the CloudFormation console.
+1. Wait until the stack creation is complete. Refresh the view in the console until you see your stack to be in the
+  `UPDATE_COMPLETE` status.
+::::
+:::::
 
 Navigate to the `Outputs` section of your stack, and validate the `VolumeId` output is present.
 ![condition-prod-update](/static/intermediate/templates/conditions/condition-prod-update.png)
-:::
+::::::
 
 The full solution is also available in the `code/solutions/conditions/condition-output.yaml` template file.
 
