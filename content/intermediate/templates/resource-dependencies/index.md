@@ -71,11 +71,11 @@ Use the AWS CloudFormation Console to [create a stack](https://docs.aws.amazon.c
 cd cfn101-workshop/code/workspace/resource-dependencies
 :::
 1. Use the AWS CLI to create the stack. The required parameter `--template-body` have been pre-filled for you.
-:::code{language=shell showLineNumbers=false showCopyAction=true}
+:::code{language=shell showLineNumbers=false showCopyAction=false}
 aws cloudformation create-stack --stack-name cfn-workshop-resource-dependencies-lab --template-body file://resource-dependencies-without-dependson.yaml
 :::
 1. If the `create-stack` command was successfully sent, CloudFormation will return `StackId`.
-:::code{language=shell showLineNumbers=false showCopyAction=true}
+:::code{language=shell showLineNumbers=false showCopyAction=false}
 "StackId": "arn:aws:cloudformation:us-east-1:123456789012:stack/cfn-workshop-resource-dependencies-lab/739fafa0-e4d7-11ed-a000-12d9009553ff"
 :::
  1. Open the **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** console in a new tab and check if the stack status is **CREATE_COMPLETE**.
@@ -206,14 +206,14 @@ Let’s create a stack, and verify the above behavior. Use the AWS CloudFormatio
 cd cfn101-workshop/code/workspace/resource-dependencies
 :::
 1. Use the AWS CLI to create the stack. The required parameter `--template-body` have been pre-filled for you.
-:::code{language=shell showLineNumbers=false showCopyAction=true}
+:::code{language=shell showLineNumbers=false showCopyAction=false}
 aws cloudformation create-stack --stack-name cfn-workshop-resource-dependencies-lab-ref-getatt --template-body file://resource-dependencies-with-intrinsic-functions.yaml
 :::
 1. If the `create-stack` command was successfully sent, CloudFormation will return `StackId`.
-:::code{language=shell showLineNumbers=false showCopyAction=true}
+:::code{language=shell showLineNumbers=false showCopyAction=false}
 "StackId": "arn:aws:cloudformation:us-east-1:123456789012:stack/cfn-workshop-resource-dependencies-lab-ref-getatt/739fafa0-e4d7-11ed-a000-12d9009553ff"
 :::
- 1. Open the **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** console in a new tab and check if the stack status is **CREATE_COMPLETE**.
+1. Open the **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** console in a new tab and check if the stack status is **CREATE_COMPLETE**.
 ::::
 
 ::::tab{id="local" label="Local development"}
@@ -257,7 +257,7 @@ To get started, open the `resource-dependencies-challenge.yaml` template, that y
 * How can you [specify](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-attribute-dependson.html) that the creation of a resource should follow another resource?
 :::
 
-:::expand{header="Want to see the solution?"}
+::::::expand{header="Want to see the solution?"}
 * Reference the Security Group's logical ID as a list item under the `SecurityGroups` EC2 instance resource property, by using the `Ref` intrinsic function. CloudFormation should then wait for the Security Group to be created first, and then initiates the Amazon EC2 instance creation.
 * Modify the Amazon EC2 instance resource definition as shown next:
 
@@ -287,33 +287,33 @@ S3Bucket:
         Value: Resource-dependencies-workshop
 ```
 
-  :::::tabs{variant="container"}
-  ::::tab{id="cloud9" label="Cloud9"}
-    1. In the **Cloud9 terminal** navigate to `code/workspace/resource-dependencies`:
-    :::code{language=shell showLineNumbers=false showCopyAction=true}
-    cd cfn101-workshop/code/workspace/resource-dependencies
-    :::
-    1. Use the AWS CLI to create the stack. The required parameter `--template-body` have been pre-filled for you.
-    :::code{language=shell showLineNumbers=false showCopyAction=true}
-    aws cloudformation create-stack --stack-name cfn-workshop-resource-dependencies-challenge --template-body file://resource-dependencies-with-intrinsic-functions.yaml
-    :::
-    1. If the `create-stack` command was successfully sent, CloudFormation will return `StackId`.
-    :::code{language=shell showLineNumbers=false showCopyAction=true}
-    "StackId": "arn:aws:cloudformation:us-east-1:123456789012:stack/cfn-workshop-resource-dependencies-challenge/739fafa0-e4d7-11ed-a000-12d9009553ff"
-    :::
-    1. Open the **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** console in a new tab and check if the stack status is **CREATE_COMPLETE**.
-    ::::
-  ::::tab{id="local" label="Local development"}
-    1. Navigate to the [AWS CloudFormation Console](https://console.aws.amazon.com/cloudformation/).
-    2. From **Create stack**, choose **With new resources (standard)**.
-    3. Choose the **Template is ready** option. From **Specify template**, choose **Upload a template file**. Upload the `resource-dependencies-with-intrinsic-functions.yaml` template, and choose **Next**.
-    4. Enter a stack name. For example, `cfn-workshop-resource-dependencies-challenge`.
-    5. In the **Parameters** section, provide an email address for Amazon SNS topic subscription; when ready, choose **Next**.
-    6. Choose to accept default values on the **Configure stack options** page; scroll to the bottom of the page, and choose **Next**.
-    7. In the review page, scroll to the bottom and choose **Create stack**.
-    ::::
-    :::::
+:::::tabs{variant="container"}
+::::tab{id="cloud9" label="Cloud9"}
+1. In the **Cloud9 terminal** navigate to `code/workspace/resource-dependencies`:
+  :::code{language=shell showLineNumbers=false showCopyAction=true}
+  cd cfn101-workshop/code/workspace/resource-dependencies
+  :::
+1. Use the AWS CLI to create the stack. The required parameter `--template-body` have been pre-filled for you.
+  :::code{language=shell showLineNumbers=false showCopyAction=false}
+  aws cloudformation create-stack --stack-name cfn-workshop-resource-dependencies-challenge --template-body file://resource-dependencies-with-intrinsic-functions.yaml
 :::
+1. If the `create-stack` command was successfully sent, CloudFormation will return `StackId`.
+  :::code{language=shell showLineNumbers=false showCopyAction=false}
+  "StackId": "arn:aws:cloudformation:us-east-1:123456789012:stack/cfn-workshop-resource-dependencies-challenge/739fafa0-e4d7-11ed-a000-12d9009553ff"
+:::
+1. Open the **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** console in a new tab and check if the stack status is **CREATE_COMPLETE**.
+::::
+::::tab{id="local" label="Local development"}
+1. Navigate to the [AWS CloudFormation Console](https://console.aws.amazon.com/cloudformation/).
+1. From **Create stack**, choose **With new resources (standard)**.
+1. Choose the **Template is ready** option. From **Specify template**, choose **Upload a template file**. Upload the `resource-dependencies-with-intrinsic-functions.yaml` template, and choose **Next**.
+1. Enter a stack name. For example, `cfn-workshop-resource-dependencies-challenge`.
+1. In the **Parameters** section, provide an email address for Amazon SNS topic subscription; when ready, choose **Next**.
+1. Choose to accept default values on the **Configure stack options** page; scroll to the bottom of the page, and choose **Next**.
+1. In the review page, scroll to the bottom and choose **Create stack**.
+::::
+:::::
+::::::
 
 
 The full solution for this challenge is available in the `code/solutions/resource-dependencies/resource-dependencies-challenge.yaml` template.
