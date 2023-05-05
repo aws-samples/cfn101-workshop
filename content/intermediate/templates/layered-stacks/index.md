@@ -73,14 +73,14 @@ Outputs:
    :::::tabs{variant="container"}
 	::::tab{id="cloud9" label="Cloud9"}
   1. Change the directory to `cfn101-workshop/code/workspace/layered-stacks`.
-  1. **Create Stack** by using the following code. The template requires you provide the values for `AvailabilityZones` parameter, For example `us-east-1a` and `us-east-1b` are used below. Please select 2 Availability Zone based on your region. 
+  1. **Create Stack** by using the following AWS CLI command. The template requires you provide the values for `AvailabilityZones` parameter, For example `us-east-1a` and `us-east-1b` are used below. Please select 2 Availability Zone based on your region. 
   :::code{language=shell showLineNumbers=false showCopyAction=true}
   aws cloudformation create-stack \
     --stack-name cfn-workspace-vpc \
     --template-body file://vpc.yaml \
     --parameters ParameterKey=AvailabilityZones,ParameterValue=us-east-1a\\,us-east-1b
   :::
-  1. Wait until the stack creation is completed by running the following command
+  1. Wait until the stack creation is completed by running the following AWS CLI command
   :::code{language=shell showLineNumbers=false showCopyAction=true}
   aws cloudformation wait stack-create-complete \
     --stack-name cfn-workspace-vpc
@@ -115,14 +115,14 @@ Outputs:
 ##### 2. Deploy the IAM Stack
    :::::tabs{variant="container"}
 	::::tab{id="cloud9" label="Cloud9"}
-  1. Let's **Create Stack** by using the following code. The template requires you to specify `CAPABILITY_IAM` capability for creating IAM resources.
+  1. Let's **Create Stack** by using the following AWS CLI command. The template requires you to specify `CAPABILITY_IAM` capability for creating IAM resources.
   :::code{language=shell showLineNumbers=false showCopyAction=true}
   aws cloudformation create-stack \
     --stack-name cfn-workspace-iam \
     --template-body file://iam.yaml \
     --capabilities CAPABILITY_IAM
   :::
-  1. Wait until the stack creation is completed by running the following command
+  1. Wait until the stack creation is completed by running the following AWS CLI command
   :::code{language=shell showLineNumbers=false showCopyAction=true}
   aws cloudformation wait stack-create-complete \
     --stack-name cfn-workspace-iam
@@ -215,13 +215,13 @@ WebServerSecurityGroup:
 ##### 5. Deploy the EC2 Stack
    :::::tabs{variant="container"}
 	::::tab{id="cloud9" label="Cloud9"}
-  1. Let's **Create Stack** by using the following code. The template requires you to specify `CAPABILITY_IAM` capability for creating IAM resources.
+  1. Let's **Create Stack** by using the following AWS CLI command. The template requires you to specify `CAPABILITY_IAM` capability for creating IAM resources.
   :::code{language=shell showLineNumbers=false showCopyAction=true}
   aws cloudformation create-stack \
     --stack-name cfn-workspace-ec2 \
     --template-body file://ec2.yaml 
   :::
-  1. Wait until the stack creation is completed by running the following command
+  1. Wait until the stack creation is completed by running the following AWS CLI command
   :::code{language=shell showLineNumbers=false showCopyAction=true}
   aws cloudformation wait stack-create-complete \
     --stack-name cfn-workspace-ec2
@@ -262,12 +262,12 @@ For example, you can not delete the **VPC stack** before you delete **EC2 stack*
 ![delete-export-before-import.png](/static/intermediate/templates/layered-stacks/delete-export-before-import.png)
    :::::tabs{variant="container"}
 	::::tab{id="cloud9" label="Cloud9"}
-  1. **Delete Stack** by running the following command
+  1. **Delete Stack** by running the following AWS CLI command
   :::code{language=shell showLineNumbers=false showCopyAction=true}
   aws cloudformation delete-stack \
     --stack-name cfn-workspace-ec2
   :::
-  1. Wait until the stack is deleted by using the following command.
+  1. Wait until the stack is deleted by using the following AWS CLI command.
   :::code{language=shell showLineNumbers=false showCopyAction=true}
   aws cloudformation wait stack-delete-complete \
     --stack-name cfn-workspace-ec2
