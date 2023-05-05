@@ -88,16 +88,16 @@ Let’s create a stack using the `resource-return-values.yaml` template, and see
 :::::tabs{variant="container"}
 ::::tab{id="cloud9" label="Cloud9"}
   1. In the **Cloud9 terminal** navigate to `code/workspace/resource-return-values`:
-      :::code{language=shell showLineNumbers=false showCopyAction=true}
+      :::code{language=shell showLineNumbers=false showCopyAction=false}
     cd cfn101-workshop/code/workspace/resource-return-values
       :::
   1. Use the AWS CLI to create the stack. The required parameter `--template-body` have been pre-filled for you.
-      :::code{language=shell showLineNumbers=false showCopyAction=true}
+      :::code{language=shell showLineNumbers=false showCopyAction=false}
       aws cloudformation create-stack --stack-name cfn-workshop-return-values --template-body file://resource-return-values.yaml
       :::
   1. If the `create-stack` command was successfully sent, CloudFormation will return `StackId`.
-      :::code{language=shell showLineNumbers=false showCopyAction=true}
-      "StackId": "arn:aws:cloudformation:us-east-1:123456789012:stack/cfn-workshop-s3/739fafa0-e4d7-11ed-a000-12d9009553ff"
+      :::code{language=shell showLineNumbers=false showCopyAction=false}
+      "StackId": "arn:aws:cloudformation:us-east-1:123456789012:stack/cfn-workshop-return-values/739fafa0-e4d7-11ed-a000-12d9009553ff"
       :::
   1. Open the **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** console in a new tab and check if the stack status is **CREATE_COMPLETE**.
 ::::
@@ -139,7 +139,7 @@ When ready, create a new stack, called `resource-return-values-challenge`, with 
 * Review Amazon EC2 instance [return values](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-instance.html#aws-properties-ec2-instance-return-values) and security group [return values](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-security-group.html#aws-properties-ec2-security-group-return-values), and see what values are returned when you use `Ref` or `Fn::GetAtt` [intrinsic functions](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference.html).
 :::
 
-:::expand{header="Want to see the solution?"}
+::::::expand{header="Want to see the solution?"}
 * Reference the Security Group’s logical ID as a list item under the `SecurityGroups` instance resource property, by using `Ref` intrinsic function.
 * Modify the Amazon EC2 instance resource definition as next:
 
@@ -174,37 +174,37 @@ Outputs:
     Description: ID of the security group created
     Value: !GetAtt InstanceSecurityGroup.GroupId
 ```
-  :::::tabs{variant="container"}
-    ::::tab{id="cloud9" label="Cloud9"}
-    1. In the **Cloud9 terminal** navigate to `code/workspace/resource-return-values`:
-        :::code{language=shell showLineNumbers=false showCopyAction=true}
-        cd cfn101-workshop/code/workspace/resource-return-values
-        :::
-    1. Use the AWS CLI to create the stack. The required parameter `--template-body` have been pre-filled for you.
-        :::code{language=shell showLineNumbers=false showCopyAction=true}
-        aws cloudformation create-stack --stack-name cfn-workshop-return-values-challenge --template-body file://resource-return-values-challenge.yaml
-        :::
-    1. If the `create-stack` command was successfully sent, CloudFormation will return `StackId`.
-        :::code{language=shell showLineNumbers=false showCopyAction=true}
-        "StackId": "arn:aws:cloudformation:us-east-1:123456789012:stack/cfn-workshop-s3/739fafa0-e4d7-11ed-a000-12d9009553ff"
-        :::
-    1. Open the **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** console in a new tab and check if the stack status is **CREATE_COMPLETE**.
-    1. View the output value on the [AWS CloudFormation console](https://console.aws.amazon.com/cloudformation), in the _Outputs_ tab.
-    ::::
-    ::::tab{id="local" label="Local development"}
-    1. Navigate to the [AWS CloudFormation Console](https://console.aws.amazon.com/cloudformation/).
-    1. In the CloudFormation console, select **Create stack With new resources (standard)**.
-    1. In **Prepare template**, choose **Template is ready**.
-    1. In **Template source**, select **Upload a template file**.
-    1. Upload the `resource-return-values-challenge.yaml` template, and choose **Next**.
-    1. Enter a stack name. For example, `cfn-workshop-return-values-challenge`. When ready, choose **Next**.
-    1. Choose to accept default values on the **Configure stack options** page; scroll to the bottom of the page, and choose **Next**.
-    1. In the review page, scroll to the bottom and choose **Create stack**.
-    1. Refresh the page until you see the `CREATE_COMPLETE` status for your stack.
-    1. View the output value on the [AWS CloudFormation console](https://console.aws.amazon.com/cloudformation), in the _Outputs_ tab.
-    ::::
-    :::::
-:::
+:::::tabs{variant="container"}
+::::tab{id="cloud9" label="Cloud9"}
+1. In the **Cloud9 terminal** navigate to `code/workspace/resource-return-values`:
+  :::code{language=shell showLineNumbers=false showCopyAction=false}
+  cd cfn101-workshop/code/workspace/resource-return-values
+  :::
+1. Use the AWS CLI to create the stack. The required parameter `--template-body` have been pre-filled for you.
+  :::code{language=shell showLineNumbers=false showCopyAction=false}
+  aws cloudformation create-stack --stack-name cfn-workshop-return-values-challenge --template-body file://resource-return-values-challenge.yaml
+  :::
+1. If the `create-stack` command was successfully sent, CloudFormation will return `StackId`.
+  :::code{language=shell showLineNumbers=false showCopyAction=false}
+  "StackId": "arn:aws:cloudformation:us-east-1:123456789012:stack/cfn-workshop-return-values/739fafa0-e4d7-11ed-a000-12d9009553ff"
+  :::
+1. Open the **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** console in a new tab and check if the stack status is **CREATE_COMPLETE**.
+1. View the output value on the [AWS CloudFormation console](https://console.aws.amazon.com/cloudformation), in the _Outputs_ tab.
+::::
+::::tab{id="local" label="Local development"}
+1. Navigate to the [AWS CloudFormation Console](https://console.aws.amazon.com/cloudformation/).
+1. In the CloudFormation console, select **Create stack With new resources (standard)**.
+1. In **Prepare template**, choose **Template is ready**.
+1. In **Template source**, select **Upload a template file**.
+1. Upload the `resource-return-values-challenge.yaml` template, and choose **Next**.
+1. Enter a stack name. For example, `cfn-workshop-return-values-challenge`. When ready, choose **Next**.
+1. Choose to accept default values on the **Configure stack options** page; scroll to the bottom of the page, and choose **Next**.
+1. In the review page, scroll to the bottom and choose **Create stack**.
+1. Refresh the page until you see the `CREATE_COMPLETE` status for your stack.
+1. View the output value on the [AWS CloudFormation console](https://console.aws.amazon.com/cloudformation), in the _Outputs_ tab.
+::::
+:::::
+::::::
 
 The full solution for this challenge is available in the `code/solutions/resource-return-values/resource-return-values-challenge.yaml` template.
 
