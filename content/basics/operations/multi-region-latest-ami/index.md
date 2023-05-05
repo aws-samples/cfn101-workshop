@@ -46,8 +46,8 @@ cd cfn101-workshop/code/workspace
 aws cloudformation update-stack --stack-name cfn-workshop-ec2 --template-body file://multi-region-latest-ami.yaml
 :::
 1. If the `update-stack` command was successfully sent, CloudFormation will return `StackId`.
-:::code{language=shell showLineNumbers=false showCopyAction=true}
-"StackId": "arn:aws:cloudformation:us-east-1:123456789012:stack/cfn-workshop-s3/739fafa0-e4d7-11ed-a000-12d9009553ff"
+:::code{language=shell showLineNumbers=false showCopyAction=false}
+"StackId": "arn:aws:cloudformation:us-east-1:123456789012:stack/cfn-workshop-ec2/739fafa0-e4d7-11ed-a000-12d9009553ff"
 :::
  1. Open the **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** console in a new tab and check if the stack status is **UPDATE_COMPLETE**.
 ::::
