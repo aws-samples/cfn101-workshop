@@ -55,7 +55,6 @@ In this Lab, you will:
 1. Update the stack with new template.
 
 :::::tabs{variant="container"}
-
 ::::tab{id="cloud9" label="Cloud9"}
 1. In the **Cloud9 terminal** navigate to `code/workspace`:
 :::code{language=shell showLineNumbers=false showCopyAction=true}
@@ -71,18 +70,17 @@ aws cloudformation update-stack --stack-name cfn-workshop-resources --template-b
 :::
  1. Open the **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** console in a new tab and check if the stack status is **UPDATE_COMPLETE**.
 ::::
-
 ::::tab{id="local" label="Local development"}
 1. Open the **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** link in a new tab and log in to your AWS account.
-1. Click on the stack name, for example **cfn-workshop-resources**.
-1. In the top right corner click on **Update**.
+1. Choose **Create stack** (_With new resources (Standard)_ from the top-right side of the page.
 1. In **Prepare template**, choose **Template is ready**.
 1. In **Template source**, choose **Upload a template file**.
-1. Click on **Choose file** button and navigate to your workshop directory.
+1. Select the **Choose file** button and navigate to your workshop directory.
 1. Select the file `outputs.yaml` and click **Next**.
-1. You can leave **Configure stack options** default, click **Next**.
-1. On the **Review <stack_name>** page, scroll down to the bottom and click on **Update stack**.
-1. You can click the **refresh** button a few times until you see in the status **UPDATE_COMPLETE**.
+1. Provide a **Stack name**. For example `cfn-workshop-outputs`.
+1. Choose to accept default values for **Configure stack options**; choose **Next**.
+1. On the **Review <stack_name>** page, scroll to the bottom and choose **Submit**.
+1. Use the **refresh** button to update the page as needed, until you see the stack has the **CREATE_COMPLETE** status.
 ::::
 :::::
 
@@ -160,7 +158,17 @@ _Outputs_ section of the template. You should continue using the `outputs.yaml` 
 :::::
 ::::::
 
+### Clean up
+
+Follow these steps to clean up created resources:
+
+1. In the **[CloudFormation console](https://console.aws.amazon.com/cloudformation)**, select the stack you have created in this lab. For example `cfn-workshop-outputs`.
+1. In the top right corner, select **Delete**.
+1. In the pop-up window, select **Delete stack**.
+1. Wait for the stack to reach the **DELETE_COMPLETE** status. You need to periodically select **Refresh** to see the latest stack status.
+
 ---
+
 ### Conclusion
 
 Great work! You have now successfully learned how to use **Outputs** in CloudFormation template.
