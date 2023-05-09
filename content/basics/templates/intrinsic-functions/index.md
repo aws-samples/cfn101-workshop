@@ -92,17 +92,17 @@ cd cfn101-workshop/code/workspace
 :::
 1. Use the AWS CLI to update the stack. The required parameter `--template-body` have been pre-filled for you. Replace the `ParameterValue` **MyAmiId** with the value you have hardcoded in `resources.yaml` file earlier.
 :::code{language=shell showLineNumbers=false showCopyAction=true}
-aws cloudformation update-stack --stack-name cfn-workshop-resources --template-body file://intrinsic-functions.yaml --parameters ParameterKey="AmiID",ParameterValue="MyAmiId"
+aws cloudformation update-stack --stack-name cfn-workshop-intrinsic-functions --template-body file://intrinsic-functions.yaml --parameters ParameterKey="AmiID",ParameterValue="MyAmiId"
 :::
 1. If the `update-stack` command was successfully sent, CloudFormation will return `StackId`.
 :::code{language=shell showLineNumbers=false showCopyAction=false}
-"StackId": "arn:aws:cloudformation:us-east-1:123456789012:stack/cfn-workshop-resources/739fafa0-e4d7-11ed-a000-12d9009553ff"
+"StackId": "arn:aws:cloudformation:us-east-1:123456789012:stack/cfn-workshop-intrinsic-functions/739fafa0-e4d7-11ed-a000-12d9009553ff"
 :::
  1. Open the **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** console in a new tab and check if the stack status is **UPDATE_COMPLETE**.
 ::::
 ::::tab{id="local" label="Local development"}
 1. Open the **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** link in a new tab and log in to your AWS account.
-1. Click on the stack name, for example **ccfn-workshop-resources**.
+1. Click on the stack name, for example **cfn-workshop-intrinsic-functions**.
 1. In the top right corner click on **Update**.
 1. In **Prepare template**, choose **Replace current template**.
 1. In **Template source**, choose **Upload a template file**.
@@ -156,17 +156,17 @@ cd cfn101-workshop/code/workspace
 :::
 1. Use the AWS CLI to update the stack. The required parameter `--template-body` have been pre-filled for you. Replace the `ParameterValue` **MyAmiId** with the value you have hardcoded in `resources.yaml` file earlier.
 :::code{language=shell showLineNumbers=false showCopyAction=true}
-aws cloudformation update-stack --stack-name cfn-workshop-resources --template-body file://intrinsic-functions.yaml --parameters ParameterKey="AmiID",ParameterValue="MyAmiId"
+aws cloudformation update-stack --stack-name cfn-workshop-intrinsic-functions --template-body file://intrinsic-functions.yaml --parameters ParameterKey="AmiID",ParameterValue="MyAmiId"
 :::
 1. If the `update-stack` command was successfully sent, CloudFormation will return `StackId`.
 :::code{language=shell showLineNumbers=false showCopyAction=false}
-"StackId": "arn:aws:cloudformation:us-east-1:123456789012:stack/cfn-workshop-resources/739fafa0-e4d7-11ed-a000-12d9009553ff"
+"StackId": "arn:aws:cloudformation:us-east-1:123456789012:stack/cfn-workshop-intrinsic-functions/739fafa0-e4d7-11ed-a000-12d9009553ff"
 :::
 1. Open the **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** console in a new tab and check if the stack status is **UPDATE_COMPLETE**.
 ::::
 ::::tab{id="local" label="Local development"}
 1. Open the **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** link in a new tab and log in to your AWS account.
-1. Click on the stack name, for example **cfn-workshop-resources**.
+1. Click on the stack name, for example **cfn-workshop-intrinsic-functions**.
 1. In the top right corner click on **Update**.
 1. In **Prepare template**, choose **Replace current template**.
 1. In **Template source**, choose **Upload a template file**.
