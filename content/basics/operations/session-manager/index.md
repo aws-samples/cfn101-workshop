@@ -104,7 +104,7 @@ WebServerInstance:
 
 #### 5. Update the Stack
 
-Go to the AWS console and update your stack with a new template.
+Go to the AWS console and create the stack with a new template.
 
 :::::tabs{variant="container"}
 ::::tab{id="cloud9" label="Cloud9"}
@@ -112,9 +112,9 @@ Go to the AWS console and update your stack with a new template.
   :::code{language=shell showLineNumbers=false showCopyAction=true}
   cd cfn101-workshop/code/workspace
   :::
-2. Use the AWS CLI to update the stack. The required parameter `--template-body` have been pre-filled for you.
+2. Use the AWS CLI to create the stack. The required parameter `--template-body` have been pre-filled for you.
   :::code{language=shell showLineNumbers=false showCopyAction=false}
-  aws cloudformation update-stack --stack-name cfn-workshop-resources --template-body file://session-manager.yaml --parameters ParameterKey="EnvironmentType",ParameterValue="Dev" --capabilities CAPABILITY_NAMED_IAM
+  aws cloudformation create-stack --stack-name cfn-workshop-session-manager --template-body file://session-manager.yaml --parameters ParameterKey="EnvironmentType",ParameterValue="Dev" --capabilities CAPABILITY_NAMED_IAM
   :::
   :::alert{type="info"}
   For System Manager to work, the instance need to meet following conditions:
@@ -123,21 +123,21 @@ Go to the AWS console and update your stack with a new template.
     \- **Role attached with correct permission.** \
   By changing the environment, instance will be stopped and started again. This will help to start `ssm-agent` which may have timed-out as the role wasn't attached in a previous lab.
   :::
-3. If the `update-stack` command was successfully sent, CloudFormation will return `StackId`.
+3. If the `create-stack` command was successfully sent, CloudFormation will return `StackId`.
   :::code{language=shell showLineNumbers=false showCopyAction=false}
-  "StackId": "arn:aws:cloudformation:us-east-1:123456789012:stack/cfn-workshop-resources/739fafa0-e4d7-11ed-a000-12d9009553ff"
+  "StackId": "arn:aws:cloudformation:us-east-1:123456789012:stack/cfn-workshop-session-manager/739fafa0-e4d7-11ed-a000-12d9009553ff"
   :::
-4. Open the **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** console in a new tab and check if the stack status is **UPDATE_COMPLETE**.
+4. Open the **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** console in a new tab and check if the stack status is **CREATE_COMPLETE**.
 ::::
 
 ::::tab{id="local" label="Local development"}
 1. Open the **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** link in a new tab and log in to your AWS account.
-1. Click on the stack name, for example **cfn-workshop-resources**.
-1. In the top right corner click on **Update**.
-1. In **Prepare template**, choose **Replace current template**.
+1. Choose **Create stack** from the top-right side of the page.
+1. In **Prepare template**, choose **Template is ready**.
 1. In **Template source**, choose **Upload a template file**.
 1. Click on **Choose file** button and navigate to your workshop directory.
 1. Select the file `session-manager.yaml` and click **Next**.
+1. Provide a **Stack name**. For example `cfn-workshop-session-manager`.
 1. For **Amazon Machine Image ID** leave the default value in.
 1. For **EnvironmentType** select the different environment than is listed. For example if you have **Dev** selected, choose **Test** and click **Next**.
 :::alert{type="info"}
@@ -148,8 +148,8 @@ By changing the environment, instance will be stopped and started again. This wi
 :::
 
 1. You can leave **Configure stack options** default, click **Next**.
-1. On the **Review <stack_name>** page, scroll down to the bottom and tick **I acknowledge that AWS CloudFormation might create IAM resources** check box, then click on **Update stack**.
-1. You can click the **refresh** button a few times until you see in the status **UPDATE_COMPLETE**.
+1. On the **Review <stack_name>** page, scroll down to the bottom and tick **I acknowledge that AWS CloudFormation might create IAM resources** check box, then click on **Create stack**.
+1. You can click the **refresh** button a few times until you see in the status **CREATE_COMPLETE**.
 ::::
 :::::
 
