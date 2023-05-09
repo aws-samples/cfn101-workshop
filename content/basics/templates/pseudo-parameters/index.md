@@ -260,7 +260,7 @@ See `code/solutions/pseudo-parameters/pseudo-parameters.yaml` for the full solut
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 cd cfn101-workshop/code/workspace/pseudo-parameters
 :::
-1. Use the AWS CLI to create the stack. The required parameters `--stack-name` and `--template-body` have been pre-filled for you.
+1. Use the AWS CLI to update the stack. The required parameters `--stack-name` and `--template-body` have been pre-filled for you.
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 aws cloudformation update-stack --stack-name cfn-workshop-pseudo-parameters --template-body file://pseudo-parameters.yaml --capabilities CAPABILITY_NAMED_IAM
 :::
@@ -272,7 +272,7 @@ aws cloudformation update-stack --stack-name cfn-workshop-pseudo-parameters --te
 1. Open the **[Amazon S3](https://console.aws.amazon.com/s3)** console and verify your S3 bucket uses the `YOUR_BUCKET_NAME_PREFIX-AWS_REGION-YOUR_ACCOUNT_ID` format.
 ::::
 ::::tab{id="local" label="Local development"}
-1. Click on the stack name, for example **cfn-workshop-pseudo-param**.
+1. Click on the stack name, for example **cfn-workshop-pseudo-parameters**.
 1. In the top right corner click on **Update**.
 1. In **Prepare template**, choose **Template is ready**.
 1. In **Template source**, choose **Upload a template file**.
