@@ -131,7 +131,7 @@ WebsiteURL:
   Description: Application URL
 ```
 
-#### 4. Update the Stack
+#### 4. Create the Stack
 
 Similar to previous labs, update the stack with the updated template. Once CloudFormation completes updating the stack,
 you can then check to see that your script has set up a web server on the EC2 instance.
