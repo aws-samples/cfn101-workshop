@@ -158,17 +158,17 @@ you can then check to see that your script has set up a web server on the EC2 in
 
 ::::tab{id="local" label="Local development"}
 1. Open the **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** link in a new tab and log in to your AWS account.
-1. Click on the stack name, for example **cfn-workshop-ec2**.
-1. In the top right corner click on **Update**.
-1. In **Prepare template**, choose **Replace current template**.
+1. Choose **Create stack** (_With new resources (Standard)_ from the top-right side of the page.
+1. In **Prepare template**, choose **Template is ready**.
 1. In **Template source**, choose **Upload a template file**.
-1. Click on **Choose file** button and navigate to your workshop directory.
+1. Choose the **Choose file** button and navigate to your workshop directory.
 1. Select the file `user-data.yaml` and click **Next**.
+1. Provide a **Stack name**. For example `cfn-workshop-user-data`.
 1. For **Amazon Machine Image ID** leave the default value in.
 1. For **EnvironmentType** leave the selected environment in.
 1. You can leave **Configure stack options** default, click **Next**.
 1. On the **Review <stack_name>** page, scroll down to the bottom and tick **I acknowledge that AWS CloudFormation might create IAM resources** check box, then click on **Submit**.
-1. Wait for stack status to reach the **UPDATE_COMPLETE**. You need to periodically select Refresh to see the latest stack status.
+1. Wait for stack status to reach the **CREATE_COMPLETE**. You need to periodically select Refresh to see the latest stack status.
 ::::
 :::::
 
@@ -179,6 +179,15 @@ In a web browser, enter the `WebsiteURL` (you can get the WebsiteURL from the _O
 You should see a page similar to the picture below:
 
 ![php-page](/static/basics/operations/user-data/php.png)
+
+### Clean up
+
+Follow these steps to clean up created resources:
+
+1. In the **[CloudFormation console](https://console.aws.amazon.com/cloudformation)**, select the stack you have created in this lab. For example `cfn-workshop-user-data`.
+1. In the top right corner, select **Delete**.
+1. In the pop-up window, select **Delete stack**.
+1. Wait for the stack to reach the **DELETE_COMPLETE** status. You need to periodically select **Refresh** to see the latest stack status.
 
 ---
 
