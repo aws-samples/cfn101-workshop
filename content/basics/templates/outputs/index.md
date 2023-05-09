@@ -52,23 +52,24 @@ In this Lab, you will:
         Value: !GetAtt WebServerInstance.PublicDnsName
     ```
 
-1. Update the stack with new template.
+1. Create the stack with new template.
 
 :::::tabs{variant="container"}
+
 ::::tab{id="cloud9" label="Cloud9"}
 1. In the **Cloud9 terminal** navigate to `code/workspace`:
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 cd cfn101-workshop/code/workspace
 :::
-1. Use the AWS CLI to update the stack. The required parameter `--template-body` have been pre-filled for you. Replace the `ParameterValue` **MyAmiId** with  the value you have hardcoded in `resources.yaml` file earlier.
+1. Use the AWS CLI to create the stack. The required parameter `--template-body` have been pre-filled for you. Replace the `ParameterValue` **MyAmiId** with  the value you have hardcoded in `resources.yaml` file earlier.
 :::code{language=shell showLineNumbers=false showCopyAction=false}
-aws cloudformation update-stack --stack-name cfn-workshop-resources --template-body file://outputs.yaml --parameters ParameterKey="AmiID",ParameterValue="MyAmiId"
+aws cloudformation create-stack --stack-name cfn-workshop-outputs --template-body file://outputs.yaml --parameters ParameterKey="AmiID",ParameterValue="MyAmiId"
 :::
-1. If the `update-stack` command was successfully sent, CloudFormation will return `StackId`.
+1. If the `create-stack` command was successfully sent, CloudFormation will return `StackId`.
 :::code{language=shell showLineNumbers=false showCopyAction=false}
-"StackId": "arn:aws:cloudformation:us-east-1:123456789012:stack/cfn-workshop-resources/739fafa0-e4d7-11ed-a000-12d9009553ff"
+"StackId": "arn:aws:cloudformation:us-east-1:123456789012:stack/cfn-workshop-outputs/739fafa0-e4d7-11ed-a000-12d9009553ff"
 :::
- 1. Open the **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** console in a new tab and check if the stack status is **UPDATE_COMPLETE**.
+ 1. Open the **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** console in a new tab and check if the stack status is **CREATE_COMPLETE**.
 ::::
 ::::tab{id="local" label="Local development"}
 1. Open the **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** link in a new tab and log in to your AWS account.
@@ -133,18 +134,18 @@ _Outputs_ section of the template. You should continue using the `outputs.yaml` 
   :::
 1. Use the AWS CLI to update the stack. The required parameter `--template-body` have been pre-filled for you. Replace the `ParameterValue` **MyAmiId** with  the value you have hardcoded in `resources.yaml` file earlier.
   :::code{language=shell showLineNumbers=false showCopyAction=false}
-  aws cloudformation update-stack --stack-name cfn-workshop-resources --template-body file://outputs.yaml --parameters ParameterKey="AmiID",ParameterValue="MyAmiId"
+  aws cloudformation update-stack --stack-name cfn-workshop-outputs --template-body file://outputs.yaml --parameters ParameterKey="AmiID",ParameterValue="MyAmiId"
   :::
 1. If the `update-stack` command was successfully sent, CloudFormation will return `StackId`.
   :::code{language=shell showLineNumbers=false showCopyAction=false}
-  "StackId": "arn:aws:cloudformation:us-east-1:123456789012:stack/cfn-workshop-resources/739fafa0-e4d7-11ed-a000-12d9009553ff"
+  "StackId": "arn:aws:cloudformation:us-east-1:123456789012:stack/cfn-workshop-outputs/739fafa0-e4d7-11ed-a000-12d9009553ff"
   :::
 1. Open the **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** console in a new tab and check if the stack status is **UPDATE_COMPLETE**.
 1.  View the output value on the [AWS CloudFormation console](https://console.aws.amazon.com/cloudformation), in the _Outputs_ tab.
 ::::
 ::::tab{id="local" label="Local development"}
 1. Open the **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** link in a new tab and log in to your AWS account.
-1. Click on the stack name, for example **cfn-workshop-resources**.
+1. Click on the stack name, for example **cfn-workshop-outputs**.
 1. In the top right corner click on **Update**.
 1. In **Prepare template**, choose **Template is ready**.
 1. In **Template source**, choose **Upload a template file**.
