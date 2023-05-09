@@ -111,7 +111,7 @@ Tags:
 
 #### 5. Finally, Deploy the solution
 
-Now that you have added a Mappings section to your template, go to the AWS console and update your CloudFormation Stack.
+Now that you have added a Mappings section to your template, go to the AWS console and create your CloudFormation Stack.
 
 :::::tabs{variant="container"}
 
@@ -120,7 +120,7 @@ Now that you have added a Mappings section to your template, go to the AWS conso
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 cd cfn101-workshop/code/workspace
 :::
-1. Use the AWS CLI to update the stack. The required parameter `--template-body` have been pre-filled for you. Replace the `ParameterValue` **MyAmiId** with  the value you have hardcoded in `resources.yaml` file earlier.
+1. Use the AWS CLI to create the stack. The required parameter `--template-body` have been pre-filled for you. Replace the `ParameterValue` **MyAmiId** with  the value you have hardcoded in `resources.yaml` file earlier.
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 aws cloudformation create-stack --stack-name cfn-workshop-mappings --template-body file://mappings.yaml --parameters ParameterKey="AmiID",ParameterValue="MyAmiId"
 :::
@@ -132,18 +132,16 @@ aws cloudformation create-stack --stack-name cfn-workshop-mappings --template-bo
 ::::
 
 ::::tab{id="local" label="Local development"}
-1. Open the **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** link in a new tab and log in to your AWS account.
-1. Click on the stack name, for example **cfn-workshop-ec2**.
-1. In the top right corner click on **Update**.
-1. In **Prepare template**, choose **Replace current template**.
-1. In **Template source**, choose **Upload a template file**.
-1. Click on **Choose file** button and navigate to your workshop directory.
+1. In the CloudFormation console, select *Create stack With new resources (standard)*.
+1. In **Prepare template**, select **Template is ready**.
+1. In **Template source**, select **Upload a template file**.
 1. Select the file `mappings.yaml` and click **Next**.
+1. Enter a **Stack name**. For example, choose to specify `cfn-workshop-mappings`.
 1. For **Amazon Machine Image ID** leave the default value in.
 1. For **EnvironmentType** select the environment from drop down list, for example **Test** and click **Next**.
 1. You can leave **Configure stack options** default, click **Next**.
-1. On the **Review <stack_name>** page, scroll down to the bottom and click on **Update stack**.
-1. You can click the **refresh** button a few times until you see in the status **UPDATE_COMPLETE**.
+1. On the **Review <stack_name>** page, scroll down to the bottom and click on **Create stack**.
+1. You can click the **refresh** button a few times until you see in the status **CREATE_COMPLETE**.
 ::::
 :::::
 
