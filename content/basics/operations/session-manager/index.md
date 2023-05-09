@@ -102,7 +102,7 @@ WebServerInstance:
 
 ::alert[You can attach the instance profile to the new Amazon EC2 instances at launch time, or to existing Amazon EC2 instances.]{type="info"}
 
-#### 5. Update the Stack
+#### 5. Create the Stack
 
 Go to the AWS console and update your stack with a new template.
 
@@ -132,24 +132,23 @@ Go to the AWS console and update your stack with a new template.
 
 ::::tab{id="local" label="Local development"}
 1. Open the **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** link in a new tab and log in to your AWS account.
-1. Click on the stack name, for example **cfn-workshop-resources**.
-1. In the top right corner click on **Update**.
-1. In **Prepare template**, choose **Replace current template**.
+1. Choose **Create stack** (_With new resources (Standard)_ from the top-right side of the page.
+1. In **Prepare template**, choose **Template is ready**.
 1. In **Template source**, choose **Upload a template file**.
-1. Click on **Choose file** button and navigate to your workshop directory.
+1. Choose the **Choose file** button and navigate to your workshop directory.
 1. Select the file `session-manager.yaml` and click **Next**.
+1. Provide a **Stack name**. For example `cfn-workshop-session-manager`.
 1. For **Amazon Machine Image ID** leave the default value in.
-1. For **EnvironmentType** select the different environment than is listed. For example if you have **Dev** selected, choose **Test** and click **Next**.
+1. For **EnvironmentType** leave the selected environment in.
 :::alert{type="info"}
 For System Manager to work, the instance need to meet following conditions:
   \- **Access to the internet, or a VPC Endpoint.** \
   \- **Role attached with correct permission.** \
 By changing the environment, instance will be stopped and started again. This will help to start `ssm-agent` which may have timed-out as the role wasn't attached in a previous lab.
 :::
-
-1. You can leave **Configure stack options** default, click **Next**.
+1. Choose to accept default values for **Configure stack options**; choose **Next**.
 1. On the **Review <stack_name>** page, scroll down to the bottom and tick **I acknowledge that AWS CloudFormation might create IAM resources** check box, then click on **Update stack**.
-1. You can click the **refresh** button a few times until you see in the status **UPDATE_COMPLETE**.
+1. Use the **refresh** button to update the page as needed, until you see the stack has the **CREATE_COMPLETE** status.
 ::::
 :::::
 
@@ -182,7 +181,17 @@ recommendations and documentation link below for further details.
 Please refer to the [Setting Up AWS Systems Manager](https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-setting-up.html)
 documentation.
 
+### Clean up
+
+Follow these steps to clean up created resources:
+
+1. In the **[CloudFormation console](https://console.aws.amazon.com/cloudformation)**, select the stack you have created in this lab. For example `cfn-workshop-session-manager`.
+1. In the top right corner, select **Delete**.
+1. In the pop-up window, select **Delete stack**.
+1. Wait for the stack to reach the **DELETE_COMPLETE** status. You need to periodically select **Refresh** to see the latest stack status.
+
 ---
+
 ### Conclusion
 
 Congratulations! You have configured Session Manager and now have remote access to your EC2 instance.
