@@ -324,7 +324,7 @@ In the example below, you will use `AvailabilityZone` property and parameter to 
   --parameters ParameterKey=AvailabilityZone,ParameterValue=YOUR-DIFFERENT-AVAILABILITY-ZONE-HERE
   :::
   1. If the `update-stack` command was successfully sent, CloudFormation will return `StackId`.
-  :::code{language=shell showLineNumbers=false showCopyAction=true}
+  :::code{language=shell showLineNumbers=false showCopyAction=false}
   "StackId": "arn:aws:cloudformation:us-east-1:123456789012:stack/cfn-workshop-ec2/96d87030-e809-11ed-a82c-0eb19aaeb30f"
   :::
   1. Open the **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** console in a new tab and wait for stack status to reach **UPDATE_COMPLETE**. You need to periodically select Refresh to see the latest stack status.
