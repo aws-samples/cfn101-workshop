@@ -12,7 +12,7 @@ _Lab Duration: ~10 minutes_
 This lab shows how to use **[Intrinsic Functions](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference.html)** in your template.
 
 Intrinsic functions are built-in functions that help you manage your stacks. Without them, you will be limited to very
-basic templates, similar to the S3 template you have seen in a **[Lab01](../../template-and-stack)**.
+basic templates, similar to the S3 template you have seen in a **[Lab01](../template-and-stack)**.
 
 ### Topics Covered
 
