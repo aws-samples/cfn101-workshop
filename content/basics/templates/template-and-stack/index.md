@@ -132,7 +132,7 @@ Follow these steps to clean up created resources:
 
 1. In the **[CloudFormation console](https://console.aws.amazon.com/cloudformation)**, select the stack you have created in this lab. For example `cfn-workshop-s3`.
 1. In the top right corner, select **Delete**.
-1. In the pop-up window, select **Delete stack**.
+1. In the pop-up window, select **Delete**.
 1. Wait for the stack to reach the **DELETE_COMPLETE** status. You need to periodically select **Refresh** to see the latest stack status.
 
 ---

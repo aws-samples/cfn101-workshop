@@ -181,12 +181,12 @@ aws cloudformation create-stack --stack-name cfn-workshop-pseudo-parameters --te
 ::::tab{id="local" label="Local development"}
 1. In the CloudFormation console, select *Create stack With new resources (standard)*.
 1. In **Prepare template**, select **Template is ready**.
-1. In **Template source**, select **Upload a template file**.
+1. In **Specify template**, select **Upload a template file**.
 1. Choose the `pseudo-parameters.yaml` template.
 1. Enter a **Stack name**. For example, choose to specify `cfn-workshop-pseudo-parameters`.
 1. Accept the **Configure stack options** default value, and choose **Next**.
 1. On the _Review_ page, scroll down to the bottom, and check the box under the following *Capabilities* section: **I acknowledge that AWS CloudFormation might create IAM resources.**
-1. Choose **Create stack**. You can view the progress of the stack being created in the CloudFormation console.
+1. Choose **Submit**. You can view the progress of the stack being created in the CloudFormation console.
 1. Wait until the stack creation is complete. Refresh the view in the console until you see your stack to be in the `CREATE_COMPLETE` status.
 ::::
 :::::
@@ -275,11 +275,11 @@ aws cloudformation update-stack --stack-name cfn-workshop-pseudo-parameters --te
 1. Click on the stack name, for example **cfn-workshop-pseudo-parameters**.
 1. In the top right corner click on **Update**.
 1. In **Prepare template**, choose **Template is ready**.
-1. In **Template source**, choose **Upload a template file**.
+1. In **Specify template**, choose **Upload a template file**.
 1. Click on **Choose file** button and navigate to your workshop directory.
 1. Choose the `pseudo-parameters.yaml` template.
 1. You can leave **Configure stack options** default, click **Next**.
-1. On the **Review <stack_name>** page, scroll down to the bottom and click on **Update stack**.
+1. On the **Review <stack_name>** page, scroll down to the bottom and click on **Submit**.
 1. Wait until the stack creation is complete. Refresh the view in the console until you see your stack to be in the `UPDATE_COMPLETE` status.
 1. Open the **[Amazon S3](https://console.aws.amazon.com/s3)** console and verify your S3 bucket uses the `YOUR_BUCKET_NAME_PREFIX-AWS_REGION-YOUR_ACCOUNT_ID` format.
 ::::
@@ -287,10 +287,13 @@ aws cloudformation update-stack --stack-name cfn-workshop-pseudo-parameters --te
 ::::::
 
 ### Clean up
+
 Follow these steps to clean up created resources:
 
-  * In the CloudFormation console, select the stack you have created in this lab. For example: `cfn-workshop-pseudo-parameters`.
-  * Choose **Delete** to delete the stack you created in this lab, and then **Delete stack** to confirm.
+1. In the **[CloudFormation console](https://console.aws.amazon.com/cloudformation)**, select the stack you have created in this lab. For example `cfn-workshop-pseudo-parameters`.
+1. In the top right corner, select **Delete**.
+1. In the pop-up window, select **Delete**.
+1. Wait for the stack to reach the **DELETE_COMPLETE** status. You need to periodically select **Refresh** to see the latest stack status.
 
 ---
 ### Conclusion

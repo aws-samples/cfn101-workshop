@@ -111,7 +111,7 @@ aws cloudformation create-stack --stack-name cfn-workshop-intrinsic-functions --
 1. For **Type of EC2 Instance** leave the default value in.
 1. For **Amazon Machine Image ID** copy and paste AMI ID you have hardcoded in `resources.yaml` file and click **Next**.
 1. You can leave **Configure stack options** default, click **Next**.
-1. On the **Review <stack_name>** page, scroll down to the bottom and click on **Create stack**.
+1. On the **Review <stack_name>** page, scroll down to the bottom and click on **Submit**.
 1. You can click the **refresh** button a few times until you see in the status **CREATE_COMPLETE**.
 ::::
 :::::
@@ -169,19 +169,29 @@ aws cloudformation update-stack --stack-name cfn-workshop-intrinsic-functions --
 1. Select the stack name, for example **cfn-workshop-intrinsic-functions**.
 1. In the top right corner click on **Update**.
 1. In **Prepare template**, choose **Replace current template**.
-1. In **Template source**, choose **Upload a template file**.
+1. In **Specify template**, choose **Upload a template file**.
 1. Click on **Choose file** button and navigate to your workshop directory.
 1. Select the file `intrinsic-functions.yaml` and click **Next**.
 1. For **Type of EC2 Instance** leave the default value in.
 1. For **Amazon Machine Image ID** copy and paste AMI ID you have hardcoded in `resources.yaml` file and click **Next**.
 1. You can leave **Configure stack options** default, click **Next**.
-1. On the **Review <stack_name>** page, scroll down to the bottom and click on **Update stack**.
+1. On the **Review <stack_name>** page, scroll down to the bottom and click on **Submit**.
 1. You can click the **refresh** button a few times until you see in the status **UPDATE_COMPLETE**.
 ::::
 :::::
 To Verify, Go to the **Tags** tab on EC2 Console, verify that `InstanceType` tag has been created.
 ::::::
 
+### Clean up
+
+Follow these steps to clean up created resources:
+
+1. In the **[CloudFormation console](https://console.aws.amazon.com/cloudformation)**, select the stack you have created in this lab. For example `cfn-workshop-intrinsic-functions`.
+1. In the top right corner, select **Delete**.
+1. In the pop-up window, select **Delete**.
+1. Wait for the stack to reach the **DELETE_COMPLETE** status. You need to periodically select **Refresh** to see the latest stack status.
+
 ---
+
 ### Conclusion
 Congratulations! You now have successfully used intrinsic functions in your template.
