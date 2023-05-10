@@ -86,7 +86,7 @@ In this next step, you will use the AWS CloudFormation Console to create a stack
     :::code{language=shell showLineNumbers=false showCopyAction=true}
     aws cloudformation create-stack \
         --region us-east-1 \
-        --stack-name stack-policy-lab \
+        --stack-name cfn-workshop-stack-policy \
         --template-body file://stack-policy-lab.yaml \
         --stack-policy-body file://policy-body.json \
         --parameters ParameterKey=SNSTopicTagValue,ParameterValue=Topic-Tag-1 \
