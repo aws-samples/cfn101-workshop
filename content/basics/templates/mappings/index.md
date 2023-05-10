@@ -140,7 +140,7 @@ aws cloudformation create-stack --stack-name cfn-workshop-mappings --template-bo
 1. For **Amazon Machine Image ID** leave the default value in.
 1. For **EnvironmentType** select the environment from drop down list, for example **Test** and click **Next**.
 1. You can leave **Configure stack options** default, click **Next**.
-1. On the **Review <stack_name>** page, scroll down to the bottom and click on **Create stack**.
+1. On the **Review <stack_name>** page, scroll down to the bottom and click on **Submit**.
 1. You can click the **refresh** button a few times until you see in the status **CREATE_COMPLETE**.
 ::::
 :::::
@@ -214,14 +214,24 @@ To test that your solution works, Follow below steps:
     1. For **Amazon Machine Image ID** leave the default value in.
     1. For **EnvironmentType** select the environment **Dev** from drop down list and click **Next**.
     1. You can leave **Configure stack options** default, click **Next**.
-    1. On the **Review <stack_name>** page, scroll down to the bottom and click on **Update stack**.
+    1. On the **Review <stack_name>** page, scroll down to the bottom and click on **Submit**.
     1. You can click the **refresh** button a few times until you see in the status **UPDATE_COMPLETE**.
     ::::
   :::::
 
 ::alert[Changing the instance type will cause some downtime as EC2 instance has to be stopped before changing the type.]{type="info"}
 
+### Clean up
+
+Follow these steps to clean up created resources:
+
+1. In the **[CloudFormation console](https://console.aws.amazon.com/cloudformation)**, select the stack you have created in this lab. For example `cfn-workshop-mappings`.
+1. In the top right corner, select **Delete**.
+1. In the pop-up window, select **Delete**.
+1. Wait for the stack to reach the **DELETE_COMPLETE** status. You need to periodically select **Refresh** to see the latest stack status.
+
 ---
+
 ### Conclusion
 
 Great work! You have now successfully learned how to use mappings to create more flexible CloudFormation templates.
