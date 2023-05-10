@@ -143,17 +143,17 @@ you can then check to see that your script has set up a web server on the EC2 in
   :::code{language=shell showLineNumbers=false showCopyAction=true}
   cd cfn101-workshop/code/workspace
   :::
-  1. Use the AWS CLI to update the stack. The required parameters `--stack-name`, `--template-body` and `--capabilities` have been pre-filled for you.
+  1. Use the AWS CLI to create the stack. The required parameters `--stack-name`, `--template-body` and `--capabilities` have been pre-filled for you.
   :::code{language=shell showLineNumbers=false showCopyAction=true}
-  aws cloudformation update-stack --stack-name cfn-workshop-ec2 \
+  aws cloudformation create-stack --stack-name cfn-workshop-user-data \
     --template-body file://user-data.yaml \
     --capabilities CAPABILITY_IAM
   :::
-  1. If the `update-stack` command was successfully sent, CloudFormation will return `StackId`.
-  :::code{language=shell showLineNumbers=false showCopyAction=true}
-  "StackId": "arn:aws:cloudformation:us-east-1:123456789012:stack/cfn-workshop-ec2/96d87030-e809-11ed-a82c-0eb19aaeb30f"
+  1. If the `create-stack` command was successfully sent, CloudFormation will return `StackId`.
+  :::code{language=shell showLineNumbers=false showCopyAction=false}
+  "StackId": "arn:aws:cloudformation:us-east-1:123456789012:stack/cfn-workshop-user-data/96d87030-e809-11ed-a82c-0eb19aaeb30f"
   :::
-  1. Open the **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** console in a new tab and wait for stack status to reach **UPDATE_COMPLETE**. You need to periodically select Refresh to see the latest stack status.
+  1. Open the **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** console in a new tab and wait for stack status to reach **CREATE_COMPLETE**. You need to periodically select Refresh to see the latest stack status.
 ::::
 
 ::::tab{id="local" label="Local development"}
