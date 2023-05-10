@@ -95,7 +95,7 @@ In this next step, you will use the AWS CloudFormation Console to create a stack
     1. CloudFormation returns the following output:
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 {
-"StackId" : "arn:aws:cloudformation:us-east-1:123456789012:stack/changesets-workshop/330b0120-1771-11e4-af37-50ba1b98bea6"
+"StackId" : "arn:aws:cloudformation:us-east-1:123456789012:stack/cfn-workshop-stack-policy/330b0120-1771-11e4-af37-50ba1b98bea6"
 }
 :::
 1. Wait until the `stack-policy-lab` stack is created, by using the CloudFormation console or the [stack-create-complete](https://docs.aws.amazon.com/cli/latest/reference/cloudformation/wait/stack-create-complete.html) wait command of the AWS CLI 
