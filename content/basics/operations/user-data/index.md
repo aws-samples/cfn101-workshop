@@ -133,7 +133,7 @@ WebsiteURL:
 
 #### 4. Create the Stack
 
-Similar to previous labs, update the stack with the updated template. Once CloudFormation completes updating the stack,
+Similar to previous labs, create the stack with the updated template. Once CloudFormation completes creating the stack,
 you can then check to see that your script has set up a web server on the EC2 instance.
 
 :::::tabs{variant="container"}
