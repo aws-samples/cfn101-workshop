@@ -28,32 +28,35 @@ Let’s get started!
 
    :::::tabs{variant="container"}
 	::::tab{id="cloud9" label="Cloud9"}
-    1. Change directory to: `code/workspace/understanding-changesets`.
+	
+    1. Change directory to: `cfn101-workshop/code/workspace/understanding-changesets`.
     1. Open the `bucket.yaml` CloudFormation template in your `Cloud9` editor, and familiarize yourself with the sample template content.
     1. Create a stack by following these steps:
+    
         1. The template requires you to provide a unique value for the `BucketName` input parameter. For more information, see [Bucket naming rules](https://docs.aws.amazon.com/AmazonS3/latest/userguide/bucketnamingrules.html)
         1. Let's create the stack from the template using the following command (the example uses `us-east-1` for the AWS region, change this value as needed):
         :::code{language=shell showLineNumbers=false showCopyAction=true}
         aws cloudformation create-stack \
-            --region us-east-1 \
-            --stack-name changesets-workshop \
-            --template-body file://bucket.yaml \
-            --parameters ParameterKey=BucketName,ParameterValue='TYPE_UNIQUE_BUCKET_NAME-HERE'
+                --region us-east-1 \
+                --stack-name changesets-workshop \
+                --template-body file://bucket.yaml \
+                --parameters ParameterKey=BucketName,ParameterValue='YOUR_UNIQUE_BUCKET_NAME-HERE'
         :::
-    1. CloudFormation returns the following output:
-    :::code{language=shell showLineNumbers=false showCopyAction=true}
-  {
-  "StackId" : "arn:aws:cloudformation:us-east-1:123456789012:stack/changesets-workshop/330b0120-1771-11e4-af37-50ba1b98bea6"
-}
-    :::
-    1. Wait until the `changesets-workshop` stack is created, by using the CloudFormation console or the [stack-create-complete](https://docs.aws.amazon.com/cli/latest/reference/cloudformation/wait/stack-create-complete.html) wait command of the AWS CLI 
-    :::code{language=shell showLineNumbers=false showCopyAction=true}
-    aws cloudformation wait stack-create-complete \
-      --stack-name changesets-workshop \
-    :::
-  ::::
+        1. CloudFormation returns the following output:
+            ```json
+            {
+            "StackId" : "arn:aws:cloudformation:us-east-1:123456789012:stack/changesets-workshop/330b0120-1771-11e4-af37-50ba1b98bea6"
+            }            
+            ```
+        1. Wait until the `changesets-workshop` stack is created, by using the CloudFormation console or the [wait stack-create-complete](https://docs.aws.amazon.com/cli/latest/reference/cloudformation/wait/stack-create-complete.html) AWS CLI command.
+        :::code{language=shell showLineNumbers=false showCopyAction=true}
+        aws cloudformation wait stack-create-complete \
+    	        --stack-name changesets-workshop
+    	  :::
+      ::::
 
-	::::tab{id="local" label="Local development"}  
+::::tab{id="local" label="Local development"}  
+
 1. Change directory to: `code/workspace/understanding-changesets`.
 1. Open the `bucket.yaml` CloudFormation template in your favorite text editor, and familiarize yourself with the sample template content.
 1. Create a stack by following these steps:
@@ -69,11 +72,13 @@ Let’s get started!
 
    ::::
    :::::
+
 ### Lab part 1
 In this part of the lab, you will specify a property, for a given resource type, that requires [no interruption](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-updating-stacks-update-behaviors.html#update-no-interrupt) on stack updates. You will then create a change set to preview the changes, and inspect the output of the change set operation.
 
    :::::tabs{variant="container"}
 	::::tab{id="cloud9" label="Cloud9"}
+	
 Open the `bucket.yaml` CloudFormation template in your `Cloud9` editor, and add `VersioningConfiguration` as shown below. Save the file.
 
 ```yaml
@@ -88,59 +93,24 @@ Next, create your first change set:
 
     1. From Terminal run the following command to **Create change set**, specify a name for the change set for example:`bucket-versioning-update` and provide the `BucketName` parameter that chosen in above example.
     :::code{language=shell showLineNumbers=false showCopyAction=true}
+    
     aws cloudformation create-change-set \
         --stack-name changesets-workshop \
         --change-set-name bucket-versioning-update
         --template-body file://bucket.yaml \
         --parameters ParameterKey=BucketName,ParameterValue='TYPE_UNIQUE_BUCKET_NAME-HERE'
     :::
-    1. CloudFormation returns the following output of the AWS CLI
-    :::code{language=shell showLineNumbers=false showCopyAction=true}
-  {
-  "StackId" : "arn:aws:cloudformation:us-east-1:123456789012:stack/changesets-workshop/330b0120-1771-11e4-af37-50ba1b98bea6",
-  "Id": "arn:aws:cloudformation:us-east-1:123456789012:changeSet/bucket-versioning-update/a470cff7-cb2c-4cba-bf27-2b3b9ccc1333"
-} 
-   :::
-    1. Navigate to the [AWS CloudFormation Console](https://console.aws.amazon.com/cloudformation/).
-    1. From **stacks**, choose **changesets-workshop**.
-    1. From **changesets**, choose **bucket-versioning-update**. 
-    1. Navigate to the **JSON changes** tab for more information, which should look similar to this:
-    
-    ```json
-    [
-      {
-        "resourceChange": {
-          "logicalResourceId": "MyS3Bucket",
-          "action": "Modify",
-          "physicalResourceId": "understanding-changesets-123",
-          "resourceType": "AWS::S3::Bucket",
-          "replacement": "False",
-          "moduleInfo": null,
-          "details": [
-            {
-              "target": {
-                "name": "VersioningConfiguration",
-                "requiresRecreation": "Never",
-                "attribute": "Properties"
-              },
-              "causingEntity": null,
-              "evaluation": "Static",
-              "changeSource": "DirectModification"
-            }
-          ],
-          "changeSetId": null,
-          "scope": [
-            "Properties"
-          ]
-        },
-        "hookInvocationCount": null,
-        "type": "Resource"
-      }
-    ]
-    ```
-  ::::
 
-	::::tab{id="local" label="Local development"}    
+    2. CloudFormation returns the following output of the AWS CLI.
+        ```json
+        {
+        "StackId" : "arn:aws:cloudformation:us-east-1:123456789012:stack/changesets-workshop/330b0120-1771-11e4-af37-50ba1b98bea6",
+        "Id": "arn:aws:cloudformation:us-east-1:123456789012:changeSet/bucket-versioning-update/a470cff7-cb2c-4cba-bf27-2b3b9ccc1333"
+        }
+        ```
+    ::::
+
+::::tab{id="local" label="Local development"}    
 
 Open the `bucket.yaml` CloudFormation template in your favorite text editor, and add `VersioningConfiguration` as shown below. Save the file.
 
@@ -160,7 +130,13 @@ Next, create your first change set:
 3. Choose **Next** again in both the **Specify stack details** and **Configure stack options** pages, and then choose **Create change set**.
 4. Specify a name for the change set, for example: `bucket-versioning-update`, as well as a description, for example: `Enable bucket versioning for MyS3Bucket.`, and choose **Create change set**.
 5. Refresh the page until the status of the change set is `CREATE_COMPLETE`.
-6. At the bottom of the page, you should see a summary of expected changes. Navigate to the **JSON changes** tab for more information, which should look similar to this:
+
+   ::::
+  :::::
+
+1. In the [AWS CloudFormation ](https://console.aws.amazon.com/cloudformation/) console, select the stack you created in this workshop. For example `changesets-workshop`.
+1. From **changesets** tab, choose **bucket-versioning-update**.
+1. Navigate to the **JSON changes** tab for more information, which should look similar to this:
 
 ```json
 [
@@ -194,8 +170,7 @@ Next, create your first change set:
   }
 ]
 ```
-   ::::
-   :::::
+
 
 In the `resourceChange` structure, you can see the logical ID of the resource, the action CloudFormation will take, the Physical ID of the resource, the type of resource, and whether CloudFormation will replace the resource or not. In the `Details` structure, CloudFormation labels this change as a direct modification that will never require the bucket to be recreated (replaced) because updating the [Versioning configuration](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-s3-bucket.html#cfn-s3-bucket-versioningconfiguration) property requires no interruption.
 
@@ -208,67 +183,26 @@ Let’s get started!
 
    :::::tabs{variant="container"}
 	::::tab{id="cloud9" label="Cloud9"}
-  From Terminal run the following command to **Create change set**, Change the value for `BucketName` parameter by specifying a new unique bucket [name](https://docs.aws.amazon.com/AmazonS3/latest/userguide/bucketnamingrules.html), and follow the rest of the process as before to finish creating the change set.
-  :::code{language=shell showLineNumbers=false showCopyAction=true}
-  aws cloudformation create-change-set \
-      --stack-name changesets-workshop \
-      --change-set-name replace-change-set
-      --template-body file://bucket.yaml \
-      --parameters ParameterKey=BucketName,ParameterValue='NEW_UNIQUE_BUCKET_NAME-HERE'
-  :::
-  
-  Here’s what the **JSON changes** for this change set should look like:
 
-```json
-[
-  {
-    "resourceChange": {
-      "logicalResourceId": "MyS3Bucket",
-      "action": "Modify",
-      "physicalResourceId": "understanding-changesets-123",
-      "resourceType": "AWS::S3::Bucket",
-      "replacement": "True",
-      "moduleInfo": null,
-      "details": [
-        {
-          "target": {
-            "name": "BucketName",
-            "requiresRecreation": "Always",
-            "attribute": "Properties"
-          },
-          "causingEntity": null,
-          "evaluation": "Dynamic",
-          "changeSource": "DirectModification"
-        },
-        {
-          "target": {
-            "name": "BucketName",
-            "requiresRecreation": "Always",
-            "attribute": "Properties"
-          },
-          "causingEntity": "BucketName",
-          "evaluation": "Static",
-          "changeSource": "ParameterReference"
-        }
-      ],
-      "changeSetId": null,
-      "scope": [
-        "Properties"
-      ]
-    },
-    "hookInvocationCount": null,
-    "type": "Resource"
-  }
-]
-```  
+1. From Terminal run the following command to **Create change set**, Change the value for `BucketName` parameter by specifying a new unique bucket [name](https://docs.aws.amazon.com/AmazonS3/latest/userguide/bucketnamingrules.html), and follow the rest of the process as before to finish creating the change set.
+
+ :::code{language=shell showLineNumbers=false showCopyAction=true}
+ aws cloudformation create-change-set \
+      --stack-name changesets-workshop \
+      --change-set-name replace-change-set \
+      --template-body file://bucket.yaml \
+      --parameters ParameterKey=BucketName,ParameterValue='YOUR-NEW-UNIQUE-BUCKET-NAME-HERE'
+ :::
 
   ::::
-
 	::::tab{id="local" label="Local development"}
 
     1. In the CloudFormation console, select the `changesets-workshop` stack, and from **Stack actions**, choose **Create change set for current stack**.
     2. From **Prepare template**, choose **Use current template** and choose **Next**.
     3. Change the value for `BucketName` parameter by specifying a new unique bucket [name](https://docs.aws.amazon.com/AmazonS3/latest/userguide/bucketnamingrules.html), and follow the rest of the process as before to finish creating the change set.
+
+   ::::
+   :::::
     
 Here’s what the **JSON changes** for this change set should look like:
 
@@ -314,8 +248,7 @@ Here’s what the **JSON changes** for this change set should look like:
   }
 ]
 ```
-   ::::
-   :::::
+
 
 You can see there are two key differences from the previous example. First, the value for the `replacement` property under the `resourceChange` structure is set to `True`; second, you see two evaluations, `Static` and `Dynamic`, under the `details` structure. Let's talk about these aspects in more detail.
 
@@ -395,10 +328,20 @@ Create a change set with this file, and see if you were able to correctly determ
 ### Cleanup
 
 To clean up resources you created with this lab:
+   :::::tabs{variant="container"}
+	::::tab{id="cloud9" label="Cloud9"}
+	From the terminal execute the following AWS CLI command to delete the stacks you created.
+ :::code{language=shell showLineNumbers=false showCopyAction=true}
+ aws cloudformation delete-stack \
+      --stack-name changesets-workshop
+ :::
+  ::::
+	::::tab{id="local" label="Local development"}  
+  1. From the CloudFormation console, select the stack named `changesets-workshop`.
+  2. Choose **Delete**, and then **Delete Stack** to delete your stack and change sets you created for it.
 
-1. From the CloudFormation console, select the stack named `changesets-workshop`.
-2. Choose **Delete**, and then **Delete Stack** to delete your stack and change sets you created for it.
-
+   ::::
+   :::::
 ---
 
 ### Conclusion
