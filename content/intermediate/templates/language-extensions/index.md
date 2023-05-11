@@ -157,14 +157,14 @@ You will now update your existing stack that you created in Part 1. To do so, fo
 6. On **Configure Stack options**, leave the configuration as it is. Choose **Next**.
 7. On **Review** page, review the contents of the page. At the bottom of the page, choose to acknowledge all the capabilities shown in the **Capabilities and transforms** section.
 8. Choose **Submit**. Refresh the stack creation page until you see the stack in the `UPDATE_COMPLETE` status.
-9. Navigate to [CloudWatch console](https://console.aws.amazon.com/cloudwatch/). From the right navigation panel, choose **Dashboards**, **** and then **Dashboard** from the right navigation panel. You will see the dashboard you just created.
+9. Navigate to the [CloudWatch console](https://console.aws.amazon.com/cloudwatch/). From the right navigation panel, choose **Dashboards**. You should see the dashboard you just created.
 
 
-Congratulations! You have learned how to use `Fn::ToJsonString`  to transform JSON objects into escaped JSON strings as inputs to resource properties.
+Congratulations! You have learned how to use `Fn::ToJsonString` to transform JSON objects into escaped JSON strings as inputs to resource properties.
 
 ### Challenge
 
-In this exercise, you’ll use the knowledge gained from earlier parts of this lab. Your task is to create an [Amazon Simple Storage Service (Amazon S3)](https://aws.amazon.com/s3/) bucket with its deletion policy set to a parameterized value of  `Delete`, and create a CloudWatch dashboard that reflects the number of objects in the bucket. Use the `language-extensions-challenge.yaml` template, and add content to it.
+In this exercise, you’ll use the knowledge gained from earlier parts of this lab. Your task is to create an [Amazon Simple Storage Service (Amazon S3)](https://aws.amazon.com/s3/) bucket with its deletion policy set to a parameterized value of `Delete`, and create a CloudWatch dashboard that reflects the number of objects in the bucket. Use the `language-extensions-challenge.yaml` template, and add content to it.
 
 Refer to the [CloudWatch Dashboard structure](https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/CloudWatch-Dashboard-Body-Structure.html) mentioned in Part 2 of the lab as you describe the dashboard in your CloudFormation template. For the `metrics` field underneath `properties`, use `[[AWS/S3, NumberOfObjects, StorageType, AllStorageTypes, BucketName, !Ref S3Bucket]]` to denote the `NumberOfObjects` metrics in an S3 bucket for your CloudWatch widget. Please note that [S3 storage metrics are reported once per day](https://docs.aws.amazon.com/AmazonS3/latest/userguide/cloudwatch-monitoring.html) at no additional cost, so you may not see them when you are running the lab.
 
@@ -172,10 +172,11 @@ Refer to the [CloudWatch Dashboard structure](https://docs.aws.amazon.com/Amazon
 :::expand{header="Need a hint?"}
 * Recall using the language extension in Part 1 of the lab to use a parameter for the deletion policy.
 * Don’t forget to reference the deletion policy parameter in your S3 bucket resource.
-* Additionally, recall how you added a CloudWatch dashboard earlier, add use the `NumberOfObjects`  metrics for the relevant field.
+* Additionally, recall how you added a CloudWatch dashboard earlier, add use the `NumberOfObjects` metrics for the relevant field.
 :::
 
 :::expand{header="Want to see the solution?"}
+* Add the `Transform: AWS::LanguageExtensions` line to the template like you did in Part 1 of the lab.
 * Edit the `Parameters` section to add the `DeletionPolicyParameter` like you did in Part 1 of the lab.
 * Underneath the `Resources` section for the `S3Bucket` resource, add the `DeletionPolicy` attribute with a reference to the parameter.
 * Underneath the `Resources` section, add the `Dashboard` resource.
