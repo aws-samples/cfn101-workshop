@@ -54,5 +54,5 @@ Resources:
 
 Outputs:
   InstanceId:
-    Description: InstanceId of the newly created EC2 instance
+    Description: The ID of the newly-created EC2 instance.
     Value: !Ref EC2Instance

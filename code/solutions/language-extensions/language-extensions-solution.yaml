@@ -45,5 +45,5 @@ Resources:
 
 Outputs:
   S3Bucket:
-    Description: Bucket Created using this template.
+    Description: The S3 bucket created using this template.
     Value: !Ref S3Bucket
