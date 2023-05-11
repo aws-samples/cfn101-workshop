@@ -216,7 +216,7 @@ Resources:
 3. From **Specify template**, choose **Upload a template file**. Upload the `deletion-policy-lab.yaml` template, and choose **Next**.
 4. Enter a Stack name. For example, specify `cfn-workshop-stack-policy-deletion`. Choose **Next**.
 5. Choose to accept default values on the **Configure stack options page**; scroll to the bottom of the page, and choose **Next**.
-6. In the next page, choose **Create stack**.
+6. In the next page, choose **Submit**.
    ::::
    :::::
 When you use a `Retain` value for the `DeletionPolicy` attribute, you indicate to retain the resource when you remove it from the stack, or when you delete the stack.
