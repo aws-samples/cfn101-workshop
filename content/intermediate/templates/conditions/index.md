@@ -116,7 +116,7 @@ When you create the stack, you will pass `test` as the value for `EnvType`, and 
 cd cfn101-workshop/code/workspace/conditions
 :::
 1. Use the AWS CLI to create the stack. The required parameter `--template-body` have been pre-filled for you.
-:::code{language=shell showLineNumbers=false showCopyAction=false}
+:::code{language=shell showLineNumbers=false showCopyAction=true}
 aws cloudformation create-stack --stack-name cfn-workshop-condition-test --template-body file://condition-resource.yaml --parameters ParameterKey="EnvType",ParameterValue="test"
 :::
 1. If the `create-stack` command was successfully sent, CloudFormation will return `StackId`.
@@ -150,7 +150,7 @@ In the next step, you will create a new stack with the same template. This time,
 cd cfn101-workshop/code/workspace/conditions
 :::
 1. Use the AWS CLI to create the stack. The required parameter `--template-body` have been pre-filled for you.
-:::code{language=shell showLineNumbers=false showCopyAction=false}
+:::code{language=shell showLineNumbers=false showCopyAction=true}
 aws cloudformation create-stack --stack-name cfn-workshop-condition-prod --template-body file://condition-resource.yaml --parameters ParameterKey="EnvType",ParameterValue="prod"
 :::
 1. If the `create-stack` command was successfully sent, CloudFormation will return `StackId`.
@@ -234,7 +234,7 @@ In this section, you will pass `test` as the value for the `EnvType` parameter, 
 cd cfn101-workshop/code/workspace/conditions
 :::
 1. Use the AWS CLI to create the stack. The required parameter `--template-body` have been pre-filled for you.
-:::code{language=shell showLineNumbers=false showCopyAction=false}
+:::code{language=shell showLineNumbers=false showCopyAction=true}
 aws cloudformation create-stack --stack-name cfn-workshop-condition-property-test --template-body file://condition-resource-property.yaml --parameters ParameterKey="EnvType",ParameterValue="test"
 :::
 1. If the `create-stack` command was successfully sent, CloudFormation will return `StackId`.
@@ -298,7 +298,7 @@ Next, navigate to the AWS CloudFormation [console](https://console.aws.amazon.co
   cd cfn101-workshop/code/workspace/conditions
   :::
 1. Use the AWS CLI to update the stack. The required parameter `--template-body` have been pre-filled for you.
-  :::code{language=shell showLineNumbers=false showCopyAction=false}
+  :::code{language=shell showLineNumbers=false showCopyAction=true}
   aws cloudformation update-stack --stack-name cfn-workshop-condition-prod --template-body file://condition-resource.yaml --parameters ParameterKey="EnvType",ParameterValue="prod"
   :::
 1. If the `update-stack` command was successfully sent, CloudFormation will return `StackId`.
