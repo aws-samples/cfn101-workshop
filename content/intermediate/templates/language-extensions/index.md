@@ -9,7 +9,7 @@ _Lab Duration: ~30 minutes_
 
 ### Overview
 
-With the goal of extending the AWS CloudFormation language, the CloudFormation team has been having open discussions with the CloudFormation community, by using an [RFC mechanism](https://github.com/aws-cloudformation/cfn-language-discussion). These discussion have led to the launch of new language extensions for CloudFormation. A language extension is a transform, which is a macro hosted by CloudFormation. In its first release in 2022, three new language extensions were added:
+With the goal of extending the AWS CloudFormation language, the CloudFormation team has been having open discussions with the CloudFormation community, by using an [RFC mechanism](https://github.com/aws-cloudformation/cfn-language-discussion). These discussions have led to the launch of new language extensions for CloudFormation. A language extension is a transform, which is a macro hosted by CloudFormation. In its first release in 2022, three new language extensions were added:
 
 1. JSON string conversion ([Fn::ToJsonString](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference-ToJsonString.html)): converts an object or array to its corresponding JSON string.
 2. Length ([Fn::Length](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference-length.html)): returns the number of elements within an array.
@@ -48,17 +48,15 @@ By default, CloudFormation uses `Delete` as the default value for the `DeletionP
 In this example, your intent is to specify `DeletionPolicy` as `Delete` for your instance in the `Dev` environment; follow steps shown next:
 
 
-1. Open the `language-extensions.yaml` template. Underneath `AWSTemplateFormatVersion: 2010-09-09` add `AWS::LanguageExtensions`  transform :
+1. Open the `language-extensions.yaml` template. Add the `AWS::LanguageExtensions` transform line by copying and pasting the content below _underneath_ the `AWSTemplateFormatVersion: "2010-09-09"` line:
 
 ```yaml
-AWSTemplateFormatVersion: "2010-09-09"
 Transform: AWS::LanguageExtensions
 ```
 
-2. Add a parameter, called for example `DeletionPolicyParameter`, under the `Parameters` section:
+2. Add a parameter, called for example `DeletionPolicyParameter`, by copying and pasting the content below _underneath_ the existing `Parameters` section:
 
 ```yaml
-Parameters:
   DeletionPolicyParameter:
     Type: String
     AllowedValues: [Delete, Retain]
