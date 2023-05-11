@@ -63,7 +63,7 @@ Transform: AWS::LanguageExtensions
     Default: Delete
 ```
 
-3. Underneath the `Resources` section, modify the EC2 instance resource configuration, by adding `DeletionPolicy` at the same level as `Type`, and reference `DeletionPolicyParameter` you specified earlier as a parameter:
+3. Underneath the `Resources` section, modify the EC2 instance resource configuration: add `DeletionPolicy` at the same level as `Type`, and reference the `DeletionPolicyParameter` you added earlier, as shown next:
 
 ```yaml
 Resources:
@@ -89,19 +89,19 @@ You will now create a new stack, using the template you modified, in the `us-eas
 4. Under **Specify template**, select **Template source**, and choose **Upload a template file**. Select **Choose file**, and supply the `language-extensions.yaml` template you updated earlier, and then choose **Next**.
 5. In the **Specify Stack details** page:
     1. Specify a **Stack** name. For example, choose  `language-extensions`.
-    2. Under **Parameters**, you choose the value for `DeletionPolicyParameter `as `Delete` which is set by default; keep the value for `LatestAmiId` as it is. Choose **Next**.
+    2. Under **Parameters**, choose to accept the value for `DeletionPolicyParameter` as `Delete`, which is set as the default value in the template; keep the value for `LatestAmiId` as it is. Choose **Next**.
 6. On **Configure Stack options**, leave the configuration as it is. Choose **Next**.
-7. On the **Review** page, review the contents of the page. At the bottom of the page, choose to acknowledge all the capabilities shown in the **Capabilities and transforms** section. **Choose Submit**.
+7. On the **Review** page, review the contents of the page. At the bottom of the page, choose to acknowledge all the capabilities shown in the **Capabilities and transforms** section. Choose **Submit**.
 8. Refresh the stack creation page until you see the stack to be in the `CREATE_COMPLETE` status.
 
 
-Congratulations! You have learned how to dynamically resolve parameter references for the [DeletionPolicy](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-attribute-deletionpolicy.html) attribute. In the next part, you will learn how to use another language extension: `Fn::ToJsonString`.
+Congratulations! You have learned how to use intrinsic function references for the `DeletionPolicy`attribute; you can also use them with the `UpdateReplacePolicy` attribute as well. In the next part, you will learn how to use another language extension: `Fn::ToJsonString`.
 
 ### Part 2
 
 Now that you have your EC2 instance running, you choose to monitor it by creating an [Amazon CloudWatch dashboard](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch_Dashboards.html) that provides customized views of the metrics and alarms for your AWS resources. You can add metrics such as `CPUUtilization`, `DiskReadOps`, et cetera to a dashboard as a [widget](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/create-and-work-with-widgets.html).
 
-A dashboard body is a string in JSON format: for more information, see [Dashboard Body Structure and Syntax](https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/CloudWatch-Dashboard-Body-Structure.html) . When you describe a CloudWatch dashboard with CloudFormation, you specify a JSON string that contains keys and values, such as:
+A dashboard body is a string in JSON format: for more information, see [Dashboard Body Structure and Syntax](https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/CloudWatch-Dashboard-Body-Structure.html). When you describe a CloudWatch dashboard with CloudFormation, you specify a JSON string that contains keys and values, such as:
 
 ```yaml
 "{\"start\":\"-PT6H\",\"periodOverride\":\"inherit\",[...]}
