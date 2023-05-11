@@ -88,7 +88,7 @@ You will now create a new stack, using the template you modified, in the `us-eas
 3. From **Prerequisite**-**Prepare template**, choose **Template is ready**.
 4. Under **Specify template**, select **Template source**, and choose **Upload a template file**. Select **Choose file**, and supply the `language-extensions.yaml` template you updated earlier, and then choose **Next**.
 5. In the **Specify Stack details** page:
-    1. Specify a **Stack** name. For example, choose  `language-extensions`.
+    1. Specify a **Stack** name. For example, choose `language-extensions`.
     2. Under **Parameters**, choose to accept the value for `DeletionPolicyParameter` as `Delete`, which is set as the default value in the template; keep the value for `LatestAmiId` as it is. Choose **Next**.
 6. On **Configure Stack options**, leave the configuration as it is. Choose **Next**.
 7. On the **Review** page, review the contents of the page. At the bottom of the page, choose to acknowledge all the capabilities shown in the **Capabilities and transforms** section. Choose **Submit**.
@@ -108,7 +108,7 @@ A dashboard body is a string in JSON format: for more information, see [Dashboar
 ```
 
 
-To make it easier to write and consume a dashboard (for example, to avoid escaping inner quotes like  `\"`), and to avoid maintaining a single-line string you can use the `Fn::ToJsonString` language extension to specify a JSON object, which is easier to compose and to maintain. With this language extension, you can specify the structure of CloudWatch dashboard as a JSON object instead, thus simplifying the task.
+To make it easier to write and consume a dashboard (for example, to avoid escaping inner quotes like `\"`), and to avoid maintaining a single-line string you can use the `Fn::ToJsonString` language extension to specify a JSON object, which is easier to compose and to maintain. With this language extension, you can specify the structure of CloudWatch dashboard as a JSON object instead, thus simplifying the task.
 
 `Fn::ToJsonString` allows developers to convert a template block in the form of an object or array into an escaped JSON string. You can then use a newly-converted JSON string as a set of input values to string-type properties for resources that include the CloudWatch dashboard resource type. This simplifies the code in your template, and enhances its readability.
 
@@ -143,7 +143,7 @@ You will now update the `language-extensions.yaml` template to add a CloudWatch 
 ```
 
 
-In the above snippet, note that the `CPUUtilization` metric is reflected underneath the  `properties` section through the `metrics` field. Note also the references to your EC2 instance with `!Ref`, that in this case will return the instance ID, and the reference to the current region with `!Ref AWS::Region`, where you’ll use the `AWS::Region` CloudFormation pseudo parameter to resolve the name of the region where you are creating the stack and the EC2 instance (in this lab, `us-east-1`).
+In the above snippet, note that the `CPUUtilization` metric is reflected underneath the `properties` section through the `metrics` field. Note also the references to your EC2 instance with `!Ref`, that in this case will return the instance ID, and the reference to the current region with `!Ref AWS::Region`, where you’ll use the `AWS::Region` CloudFormation pseudo parameter to resolve the name of the region where you are creating the stack and the EC2 instance (in this lab, `us-east-1`).
 
 Save the template file, and proceed to the next steps.
 
@@ -190,9 +190,9 @@ You will now tear down the resources you created:
 
 1. Navigate to the [AWS CloudFormation Console](https://console.aws.amazon.com/cloudformation/).
 2. On the **Stacks** page in the CloudFormation console, select the stack you created in **Part 1:** `language-extensions`.
-3. In the stack details pane, choose **Delete**.  Select **Delete stack** when prompted.
+3. In the stack details pane, choose **Delete**. Select **Delete stack** when prompted.
 4. On the **Stacks** page in the CloudFormation console, select the stack you created in **Challenge** section: `language-extensions-solution`.
-5. In the stack details pane, choose **Delete**.  Select **Delete stack** when prompted.
+5. In the stack details pane, choose **Delete**. Select **Delete stack** when prompted.
 
 ### Conclusion
 
