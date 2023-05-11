@@ -71,7 +71,7 @@ Use the AWS CloudFormation Console to [create a stack](https://docs.aws.amazon.c
 cd cfn101-workshop/code/workspace/resource-dependencies
 :::
 1. Use the AWS CLI to create the stack. The required parameter `--template-body` have been pre-filled for you.
-:::code{language=shell showLineNumbers=false showCopyAction=false}
+:::code{language=shell showLineNumbers=false showCopyAction=true}
 aws cloudformation create-stack --stack-name cfn-workshop-resource-dependencies --template-body file://resource-dependencies-without-dependson.yaml
 :::
 1. If the `create-stack` command was successfully sent, CloudFormation will return `StackId`.
@@ -206,7 +206,7 @@ Let’s create a stack, and verify the above behavior. Use the AWS CloudFormatio
 cd cfn101-workshop/code/workspace/resource-dependencies
 :::
 1. Use the AWS CLI to create the stack. The required parameter `--template-body` have been pre-filled for you.
-:::code{language=shell showLineNumbers=false showCopyAction=false}
+:::code{language=shell showLineNumbers=false showCopyAction=true}
 aws cloudformation create-stack --stack-name cfn-workshop-resource-dependencies-ref-getatt --template-body file://resource-dependencies-with-intrinsic-functions.yaml
 :::
 1. If the `create-stack` command was successfully sent, CloudFormation will return `StackId`.
@@ -294,7 +294,7 @@ S3Bucket:
   cd cfn101-workshop/code/workspace/resource-dependencies
   :::
 1. Use the AWS CLI to create the stack. The required parameter `--template-body` have been pre-filled for you.
-  :::code{language=shell showLineNumbers=false showCopyAction=false}
+  :::code{language=shell showLineNumbers=false showCopyAction=true}
   aws cloudformation create-stack --stack-name cfn-workshop-resource-dependencies-challenge --template-body file://resource-dependencies-with-intrinsic-functions.yaml
 :::
 1. If the `create-stack` command was successfully sent, CloudFormation will return `StackId`.
