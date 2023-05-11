@@ -62,7 +62,7 @@ In this Lab, you will:
 cd cfn101-workshop/code/workspace
 :::
 1. Use the AWS CLI to create the stack. The required parameter `--template-body` have been pre-filled for you. Replace the `ParameterValue` **MyAmiId** with  the value you have hardcoded in `resources.yaml` file earlier.
-:::code{language=shell showLineNumbers=false showCopyAction=false}
+:::code{language=shell showLineNumbers=false showCopyAction=true}
 aws cloudformation create-stack --stack-name cfn-workshop-outputs --template-body file://outputs.yaml --parameters ParameterKey="AmiID",ParameterValue="MyAmiId"
 :::
 1. If the `create-stack` command was successfully sent, CloudFormation will return `StackId`.
@@ -75,7 +75,7 @@ aws cloudformation create-stack --stack-name cfn-workshop-outputs --template-bod
 1. Open the **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** link in a new tab and log in to your AWS account.
 1. Choose **Create stack** (_With new resources (Standard)_ from the top-right side of the page.
 1. In **Prepare template**, choose **Template is ready**.
-1. In **Template source**, choose **Upload a template file**.
+1. In **Specify template**, choose **Upload a template file**.
 1. Select the **Choose file** button and navigate to your workshop directory.
 1. Select the file `outputs.yaml` and click **Next**.
 1. Provide a **Stack name**. For example `cfn-workshop-outputs`.
@@ -133,7 +133,7 @@ _Outputs_ section of the template. You should continue using the `outputs.yaml` 
   cd cfn101-workshop/code/workspace
   :::
 1. Use the AWS CLI to update the stack. The required parameter `--template-body` have been pre-filled for you. Replace the `ParameterValue` **MyAmiId** with  the value you have hardcoded in `resources.yaml` file earlier.
-  :::code{language=shell showLineNumbers=false showCopyAction=false}
+  :::code{language=shell showLineNumbers=false showCopyAction=true}
   aws cloudformation update-stack --stack-name cfn-workshop-outputs --template-body file://outputs.yaml --parameters ParameterKey="AmiID",ParameterValue="MyAmiId"
   :::
 1. If the `update-stack` command was successfully sent, CloudFormation will return `StackId`.
@@ -148,11 +148,11 @@ _Outputs_ section of the template. You should continue using the `outputs.yaml` 
 1. Click on the stack name, for example **cfn-workshop-outputs**.
 1. In the top right corner click on **Update**.
 1. In **Prepare template**, choose **Template is ready**.
-1. In **Template source**, choose **Upload a template file**.
+1. In **Specify template**, choose **Upload a template file**.
 1. Click on **Choose file** button and navigate to your workshop directory.
 1. Select the file `outputs.yaml` and click **Next**.
 1. You can leave **Configure stack options** default, click **Next**.
-1. On the **Review <stack_name>** page, scroll down to the bottom and click on **Update stack**.
+1. On the **Review <stack_name>** page, scroll down to the bottom and click on **Submit**.
 1. You can click the **refresh** button a few times until you see in the status **UPDATE_COMPLETE**.
 1. View the output value on the [AWS CloudFormation console](https://console.aws.amazon.com/cloudformation), in the _Outputs_ tab.
 ::::
