@@ -138,7 +138,7 @@ aws cloudformation wait stack-create-complete \
 
 ::alert[When you apply a stack policy to a stack, all the resources in that stack are protected by default. Hence, you will need to specify an explicit `Allow` statement in your stack policy to allow updates to all other resources.]
 
-The stack policy you configured above for your `stack-policy-lab` stack denies updates to the resource whose [Logical ID](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/resources-section-structure.html#resources-section-structure-resource-fields) is `SNSTopic`.
+The stack policy you configured above for your `cfn-workshop-stack-policy` stack denies updates to the resource whose [Logical ID](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/resources-section-structure.html#resources-section-structure-resource-fields) is `SNSTopic`.
 
 Let’s now test the stack policy you applied, by updating the stack you created!
 
