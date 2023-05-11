@@ -170,7 +170,7 @@ Let’s now test the stack policy you applied, by updating the stack you created
 
 The stack update will fail. When looking in the **Events** pane for your stack in [AWS CloudFormation Console](https://console.aws.amazon.com/cloudformation/), you will see the `Action denied by stack policy` error, for the resource whose [Logical ID](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/resources-section-structure.html#resources-section-structure-resource-fields) is `SNSTopic`.
 
-Let’s now test the termination protection feature, that you enabled on your `stack-policy-lab` stack:
+Let’s now test the termination protection feature, that you enabled on your `cfn-workshop-stack-policy` stack:
 
 1. Navigate to the [AWS CloudFormation Console](https://console.aws.amazon.com/cloudformation/).
 2. Select the stack named `stack-policy-lab`, and choose **Delete**.
