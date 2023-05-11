@@ -171,5 +171,4 @@ Follow these steps to clean up created resources:
 ---
 
 ### Conclusion
-
 Great work! You have now successfully learned how to use **Outputs** in CloudFormation template.
