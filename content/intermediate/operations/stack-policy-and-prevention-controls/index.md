@@ -204,7 +204,7 @@ Resources:
   Run the following command in the terminal to **Create Stack**:
   :::code{language=shell showLineNumbers=false showCopyAction=true}
   aws cloudformation create-stack \
-      --stack-name deletion-policy-lab \
+      --stack-name cfn-workshop-stack-policy-deletion \
       --templatebody file://deletion-policy-lab.yaml
   :::
   ::::
