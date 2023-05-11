@@ -147,7 +147,7 @@ Let’s now test the stack policy you applied, by updating the stack you created
   Run the following command in the terminal to update the value of `SNSTopicTagValue` from `Topic-Tag-1` to `Topic-Tag-2`
   :::code{language=shell showLineNumbers=false showCopyAction=true}
   aws cloudformation update-stack \
-      --stack-name stack-policy-lab \
+      --stack-name cfn-workshop-stack-policy \
       --use-previous-template \
       --parameters ParameterKey=SNSTopicTagValue,ParameterValue=Topic-Tag-2
   :::
