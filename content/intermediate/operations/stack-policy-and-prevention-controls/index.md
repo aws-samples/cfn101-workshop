@@ -154,7 +154,7 @@ Let’s now test the stack policy you applied, by updating the stack you created
   CloudFormation returns the following output:
   :::code{language=shell showLineNumbers=false showCopyAction=false}
 {
-  "StackId" : "arn:aws:cloudformation:us-east-1:123456789012:stack/changesets-workshop/330b0120-1771-11e4-af37-50ba1b98bea6"
+  "StackId" : "arn:aws:cloudformation:us-east-1:123456789012:stack/cfn-workshop-stack-policy/330b0120-1771-11e4-af37-50ba1b98bea6"
 }
     :::
   ::::
