@@ -118,7 +118,7 @@ For simplicity, in this exercise you’ll add the dashboard to your existing tem
 
 You will now update the `language-extensions.yaml` template to add a CloudWatch dashboard with CPU utilization data of the EC2 instance you created in part 1. To do so, follow steps shown next:
 
-1. Open the `language-extensions.yaml` template. Underneath `Resources` section, add `Dashboard` :
+1. Open the `language-extensions.yaml` template. Underneath `Resources` section, add `Dashboard`:
 
 ```yaml
   Dashboard:
