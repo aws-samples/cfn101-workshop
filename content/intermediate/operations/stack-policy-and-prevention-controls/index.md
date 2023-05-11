@@ -131,7 +131,7 @@ aws cloudformation wait stack-create-complete \
 }
 ```
 
-6. In the next page, choose **Create stack**.
+6. In the next page, choose **Submit**.
 
    ::::
    :::::
