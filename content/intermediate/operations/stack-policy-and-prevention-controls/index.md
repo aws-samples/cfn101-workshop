@@ -109,7 +109,7 @@ aws cloudformation wait stack-create-complete \
 1. Navigate to the [AWS CloudFormation Console](https://console.aws.amazon.com/cloudformation/).
 2. From **Create stack**, choose **With new resources (standard)**.
 3. From **Specify template**, choose **Upload a template file**. Upload the `stack-policy-lab.yaml` template, and choose **Next**.
-4. Enter a Stack name. For example, specify `stack-policy-lab`. In the parameters section, choose to accept the parameter value for `SNSTopicTagValue` as `Topic-Tag-1`. Choose **Next**.
+4. Enter a Stack name. For example, specify `cfn-workshop-stack-policy`. In the parameters section, choose to accept the parameter value for `SNSTopicTagValue` as `Topic-Tag-1`. Choose **Next**.
 5. In **Configure Stack Options** page; under **Stack policy**, choose **Enter stack policy** and paste the following code for the stack policy. Under **Stack creation options**, choose **Activated** for **Termination protection**, and choose **Next**.
 
 ```json
