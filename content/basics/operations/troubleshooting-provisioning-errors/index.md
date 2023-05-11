@@ -93,7 +93,7 @@ aws cloudformation update-stack --stack-name cfn-workshop-troubleshooting-provis
 1. In **Prepare template**, choose **Replace current template**, and choose to upload the template you just updated.
 1. Choose **Next** in the **Parameters** page.
 1. In the **Configure stack options** page, locate the **Stack failure options** section: the **Preserve successfully provisioned resources** option you chose at stack creation should still be selected. Scroll down on the page, and choose **Next**.
-1. Next, choose **Update stack**.
+1. Next, choose **Submit**.
 ::::
 :::::
 
