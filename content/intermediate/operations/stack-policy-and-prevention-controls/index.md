@@ -214,7 +214,7 @@ Resources:
 1. Navigate to the [AWS CloudFormation Console](https://console.aws.amazon.com/cloudformation/).
 2. From **Create stack**, choose **With new resources (standard)**.
 3. From **Specify template**, choose **Upload a template file**. Upload the `deletion-policy-lab.yaml` template, and choose **Next**.
-4. Enter a Stack name. For example, specify `deletion-policy-lab`. Choose **Next**.
+4. Enter a Stack name. For example, specify `cfn-workshop-stack-policy-deletion`. Choose **Next**.
 5. Choose to accept default values on the **Configure stack options page**; scroll to the bottom of the page, and choose **Next**.
 6. In the next page, choose **Create stack**.
    ::::
