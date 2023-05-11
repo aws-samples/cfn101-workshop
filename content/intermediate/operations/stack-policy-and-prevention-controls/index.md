@@ -285,7 +285,7 @@ Great work! You have now learned how to create a stack policy to deny updates fo
 Choose to follow steps shown next to clean up resources you created with this lab:
 
 1. Navigate to the [AWS CloudFormation Console](https://console.aws.amazon.com/cloudformation/).
-2. Select the stack named `stack-policy-lab` and choose **Delete**.
+2. Select the stack named `cfn-workshop-stack-policy` and choose **Delete**.
 3. In the message window, select **Edit termination protection**, and select **Deactivated** for **Termination protection**. Choose **Save**.
 4. Select the stack named `stack-policy-lab` and choose **Delete**, and then choose **Delete stack** to confirm.
 5. Navigate to the [Amazon SNS Console](https://console.aws.amazon.com/sns/), and choose **Topics**. Next, select the topic `Topic-2`, and choose **Delete**. In the message pane, enter `delete me`, and choose **Delete** to confirm.
