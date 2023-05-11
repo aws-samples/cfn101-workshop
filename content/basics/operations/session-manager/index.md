@@ -113,7 +113,7 @@ Go to the AWS console and create the stack with a new template.
   cd cfn101-workshop/code/workspace
   :::
 2. Use the AWS CLI to create the stack. The required parameter `--template-body` have been pre-filled for you.
-  :::code{language=shell showLineNumbers=false showCopyAction=false}
+  :::code{language=shell showLineNumbers=false showCopyAction=true}
   aws cloudformation create-stack --stack-name cfn-workshop-session-manager --template-body file://session-manager.yaml --parameters ParameterKey="EnvironmentType",ParameterValue="Dev" --capabilities CAPABILITY_NAMED_IAM
   :::
   :::alert{type="info"}
@@ -132,7 +132,7 @@ Go to the AWS console and create the stack with a new template.
 
 ::::tab{id="local" label="Local development"}
 1. Open the **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** link in a new tab and log in to your AWS account.
-1. Choose **Create stack** (_With new resources (Standard)_ from the top-right side of the page.
+1. Choose **Create stack** (_With new resources (Standard)_) from the top-right side of the page.
 1. In **Prepare template**, choose **Template is ready**.
 1. In **Template source**, choose **Upload a template file**.
 1. Choose the **Choose file** button and navigate to your workshop directory.
@@ -147,7 +147,7 @@ For System Manager to work, the instance need to meet following conditions:
 By changing the environment, instance will be stopped and started again. This will help to start `ssm-agent` which may have timed-out as the role wasn't attached in a previous lab.
 :::
 1. Choose to accept default values for **Configure stack options**; choose **Next**.
-1. On the **Review <stack_name>** page, scroll down to the bottom and tick **I acknowledge that AWS CloudFormation might create IAM resources** check box, then click on **Update stack**.
+1. On the **Review <stack_name>** page, scroll down to the bottom and tick **I acknowledge that AWS CloudFormation might create IAM resources** check box, then click on **Create stack**.
 1. Use the **refresh** button to update the page as needed, until you see the stack has the **CREATE_COMPLETE** status.
 ::::
 :::::
