@@ -114,7 +114,7 @@ To make it easier to write and consume a dashboard (for example, to avoid escapi
 
 In this part 2 of the lab, you will update the `language-extensions` stack you created earlier, and add a CloudWatch dashboard with the `CPUUtilization` metric for your EC2 instance.
 
-For simplicity, in this exercise you’ll add the dashboard to your existing template, so you can focus on the language extension you’ll use. Normally, you would create a separate template for your dashboards, for considerations on best practices on organizing your stacks by [lifecycle and ownership](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/best-practices.html#organizingstacks): you would, for example, create a separate template to decouple the lifecycle of your CloudWatch dashboard from the lifecycle of your EC2 instance.
+For simplicity, in this exercise you’ll add the dashboard to your existing template, so you can focus on the language extension you’ll use. Normally, you would create a separate template for your dashboards, for considerations on best practices that include organizing your stacks by [lifecycle and ownership](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/best-practices.html#organizingstacks): you would want to, for example, create a separate template to decouple the lifecycle of your CloudWatch dashboard from the lifecycle of your EC2 instance.
 
 You will now update the `language-extensions.yaml` template to add a CloudWatch dashboard with CPU utilization data of the EC2 instance you created in part 1. To do so, follow steps shown next:
 
