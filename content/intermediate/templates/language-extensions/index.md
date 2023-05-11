@@ -180,7 +180,7 @@ Refer to the [CloudWatch Dashboard structure](https://docs.aws.amazon.com/Amazon
 * Edit the `Parameters` section to add the `DeletionPolicyParameter` like you did in Part 1 of the lab.
 * Underneath the `Resources` section for the `S3Bucket` resource, add the `DeletionPolicy` attribute with a reference to the parameter.
 * Underneath the `Resources` section, add the `Dashboard` resource.
-* You can find the full language-extensions-solution in the template `language-extensions-solution.yaml` in the `code/solutions/language-extensions` directory.
+* You can find the full challenge solution in the template called `language-extensions-solution.yaml`, that is in the `code/solutions/language-extensions` directory.
 * Use the updated template, and create a new `language-extensions-solution` stack to create the S3 bucket and the dashboard.
 :::
 
@@ -196,4 +196,4 @@ You will now tear down the resources you created:
 
 ### Conclusion
 
-Great work! You learned how to incorporate `AWS::LanguageExtensions` in your CloudFormation template. Please feel free to leave us your feedback at our [Language Discussion GitHub repository](https://github.com/aws-cloudformation/cfn-language-discussion). We welcome your contributions to RFCs!
+Great work! You learned how to incorporate `AWS::LanguageExtensions` in your CloudFormation templates. Please feel free to provide feedback for RFCs in the [Language Discussion GitHub repository](https://github.com/aws-cloudformation/cfn-language-discussion). We welcome your contributions!
