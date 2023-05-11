@@ -205,7 +205,7 @@ Resources:
   :::code{language=shell showLineNumbers=false showCopyAction=true}
   aws cloudformation create-stack \
       --stack-name cfn-workshop-stack-policy-deletion \
-      --templatebody file://deletion-policy-lab.yaml
+      --template-body file://deletion-policy-lab.yaml
   :::
   ::::
 
