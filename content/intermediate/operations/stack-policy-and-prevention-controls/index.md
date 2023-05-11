@@ -164,7 +164,7 @@ Let’s now test the stack policy you applied, by updating the stack you created
 3. In the next page, choose to accept **Use current template**. Choose **Next**.
 4. In the parameters section, update the value of `SNSTopicTagValue` from `Topic-Tag-1` to `Topic-Tag-2`. Choose **Next**.
 5. Choose to accept default values in the **Configure stack options** page, and choose **Next**.
-6. Choose **Update stack** in the next page.
+6. Choose **Submit** on the next page.
    ::::
    :::::
 
