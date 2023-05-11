@@ -110,7 +110,7 @@ A dashboard body is a string in JSON format: for more information, see [Dashboar
 
 To make it easier to write and consume a dashboard (for example, to avoid escaping inner quotes like  `\"`), and to avoid maintaining a single-line string you can use the `Fn::ToJsonString` language extension to specify a JSON object, which is easier to compose and to maintain. With this language extension, you can specify the structure of CloudWatch dashboard as a JSON object instead, thus simplifying the task.
 
-`Fn::ToJsonString` allows developers to convert a template block in the form of an object or array into an escaped JSON string. This JSON string can then be used as a set of input values to string-type properties for CloudFormation resources. This simplifies the code in your template, and enhances its readability.
+`Fn::ToJsonString` allows developers to convert a template block in the form of an object or array into an escaped JSON string. You can then use a newly-converted JSON string as a set of input values to string-type properties for resources that include the CloudWatch dashboard resource type. This simplifies the code in your template, and enhances its readability.
 
 In this part 2 of the lab, you will update the `language-extensions` stack you created earlier, and add a CloudWatch dashboard with the `CPUUtilization` metric for your EC2 instance.
 
