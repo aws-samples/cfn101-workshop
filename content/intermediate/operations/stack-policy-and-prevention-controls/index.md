@@ -101,7 +101,7 @@ In this next step, you will use the AWS CloudFormation Console to create a stack
 1. Wait until the `cfn-workshop-stack-policy` stack is created, by using the CloudFormation console or the [stack-create-complete](https://docs.aws.amazon.com/cli/latest/reference/cloudformation/wait/stack-create-complete.html) wait command of the AWS CLI 
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 aws cloudformation wait stack-create-complete \
-  --stack-name stack-policy-lab \
+  --stack-name cfn-workshop-stack-policy
 :::
   ::::
 	::::tab{id="local" label="Local development"}  
