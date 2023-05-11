@@ -125,11 +125,11 @@ If you have deleted your default VPC, you can create a new one by following the 
   :::
   1. Use the AWS CLI to create the stack. The required parameters `--stack-name` and `--template-body` have been pre-filled for you.
   :::code{language=shell showLineNumbers=false showCopyAction=true}
-  aws cloudformation create-stack --stack-name cfn-workshop-ec2 --template-body file://resources.yaml
+  aws cloudformation create-stack --stack-name cfn-workshop-resources --template-body file://resources.yaml
   :::
   1. If the `create-stack` command was successfully sent, CloudFormation will return `StackId`.
-  :::code{language=shell showLineNumbers=false showCopyAction=true}
-  "StackId": "arn:aws:cloudformation:us-east-1:123456789012:stack/cfn-workshop-ec2/62df5090-e747-11ed-a22a-0e39ed6c0e49"
+  :::code{language=shell showLineNumbers=false showCopyAction=false}
+  "StackId": "arn:aws:cloudformation:us-east-1:123456789012:stack/cfn-workshop-resources/62df5090-e747-11ed-a22a-0e39ed6c0e49"
   :::
   1. Open the **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** console in a new tab and wait for stack status to reach the **CREATE_COMPLETE** status. You need to periodically select Refresh to see the latest stack status.
   ::::
@@ -138,16 +138,16 @@ If you have deleted your default VPC, you can create a new one by following the 
 1. Open the **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** link in a new tab and log in to your AWS account.
 1. Click on **Create stack** (_With new resources (Standard)_ if you have clicked in the top right corner).
 1. In **Prepare template**, choose **Template is ready**.
-1. In **Template source**, choose **Upload a template file**.
+1. In **Specify template**, choose **Upload a template file**.
 1. Click on **Choose file** button and navigate to your workshop directory.
 1. Select the file `resources.yaml`.
 1. Click **Next**.
-1. Provide a **Stack name**. For example `cfn-workshop-ec2`.
+1. Provide a **Stack name**. For example `cfn-workshop-resources`.
     + The _Stack name_ identifies the stack. Use a name to help you distinguish the purpose of this stack.
     + For **Type of EC2 Instance** select your preferred instance size, for example **t2.micro**.
     + Click **Next**.
 1. You can leave **Configure stack options** default, click **Next**.
-1. On the **Review <stack_name>** page, scroll down to the bottom and click on **Create stack**.
+1. On the **Review <stack_name>** page, scroll down to the bottom and click on **Submit**.
     ::alert[This will create EC2 instance in your account. To check the cost of the deployed stack, click on **Estimate cost** on the review page.]{type="info"}
 1. You can click the **refresh** button a few times until you see in the status **CREATE_COMPLETE**.
 ::::
@@ -176,6 +176,16 @@ aws ssm get-parameters \
 ![ami-id-gif](/static/basics/templates/resources/ami-id.gif)
 ::::
 
+### Clean up
+
+Follow these steps to clean up created resources:
+
+1. In the **[CloudFormation console](https://console.aws.amazon.com/cloudformation)**, select the stack you have created in this lab. For example `cfn-workshop-resources`.
+1. In the top right corner, select **Delete**.
+1. In the pop-up window, select **Delete**.
+1. Wait for the stack to reach the **DELETE_COMPLETE** status. You need to periodically select **Refresh** to see the latest stack status.
+
 ---
+
 ### Conclusion
 Congratulations! You have successfully learned how to deploy an EC2 instance via CloudFormation.
