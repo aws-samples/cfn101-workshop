@@ -81,7 +81,7 @@ Resources:
 
 Save the template file, and proceed to the next steps.
 
-You will now create a new stack, using the template you modified, in the `us-east-1` region.
+You'll now create a new stack, using the template you modified, in the `us-east-1` region.
 
 1. Navigate to the [AWS CloudFormation Console](https://console.aws.amazon.com/cloudformation/).
 2. From the left navigation panel, select the **Stacks** tab. From the right side of the page, choose **Create Stack**, and then choose **With new resources (standard).**
@@ -95,7 +95,7 @@ You will now create a new stack, using the template you modified, in the `us-eas
 8. Refresh the stack creation page until you see the stack to be in the `CREATE_COMPLETE` status.
 
 
-Congratulations! You have learned how to use intrinsic function references for the `DeletionPolicy`attribute; you can also use them with the `UpdateReplacePolicy` attribute as well. In the next part, you will learn how to use another language extension: `Fn::ToJsonString`.
+Congratulations! You have learned how to use intrinsic function references for the `DeletionPolicy` attribute; you can also use them with the `UpdateReplacePolicy` attribute as well. In the next part, you'll learn how to use another language extension: `Fn::ToJsonString`.
 
 ### Part 2
 
