@@ -300,6 +300,7 @@ you can then check to see that your script has set up a web server on the EC2 in
   "StackId": "arn:aws:cloudformation:us-east-1:123456789012:stack/cfn-workshop-helper-scripts/96d87030-e809-11ed-a82c-0eb19aaeb30f"
   :::
   1. Open the **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** console in a new tab and wait for stack status to reach **CREATE_COMPLETE**. You need to periodically select Refresh to see the latest stack status.
+  1. Verify the new instance was deployed and is functional. In a web browser, enter the `WebsiteURL` (you can get the WebsiteURL from the _Outputs_ tab of the CloudFormation console).
 ::::
 
 ::::tab{id="local" label="Local development"}
@@ -314,12 +315,10 @@ you can then check to see that your script has set up a web server on the EC2 in
 1. You can leave **Configure stack options** default, click **Next**.
 1. On the **Review <stack_name>** page, scroll down to the bottom and tick **I acknowledge that AWS CloudFormation might create IAM resources** check box, then click on **Submit**.
 1. Wait for stack status to reach **CREATE_COMPLETE**. You need to periodically select Refresh to see the latest stack status.
+1. Verify the new instance was deployed and is functional. In a web browser, enter the `WebsiteURL` (you can get the WebsiteURL from the _Outputs_ tab of the CloudFormation console).
 ::::
 :::::
 
-5. Verify the new instance was deployed and is functional
-
-In a web browser, enter the `WebsiteURL` (you can get the WebsiteURL from the _Outputs_ tab of the CloudFormation console).
 
 #### Challenge
 
@@ -384,7 +383,7 @@ Add the code below to html `<h2>` tags:
 ::::
 :::::
 
-##### 3. Verify that changes has been deployed successfully
+##### 3. Verify that changes have been deployed successfully
 
 Open a new browser window in private mode and enter the `WebsiteURL` (you can get the WebsiteURL from the _Outputs_ tab of the CloudFormation console).
 You should see the AMI ID added to the page, similar to the picture below.
@@ -397,7 +396,7 @@ Follow these steps to clean up created resources:
 
 1. In the **[CloudFormation console](https://console.aws.amazon.com/cloudformation)**, select the stack you have created in this lab. For example `cfn-workshop-helper-scripts`.
 1. In the top right corner, click on **Delete**.
-1. In the pop-up window click on **Delete stack**.
+1. In the pop-up window click on **Delete**.
 2. Wait for the stack to reach the **DELETE_COMPLETE** status. You need to periodically select Refresh to see the latest stack status.
 
 ---
