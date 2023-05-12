@@ -203,7 +203,7 @@ Please double-check **Parameters** and **Resources** sections are correctly form
 1. You can leave **Configure stack options** default, click **Next**.
 1. On the **Review <stack_name>** page, scroll down to the bottom and tick both **IAM Capabilities** check boxes.
     ![iam-capabilities.png](/static/intermediate/templates/nested-stacks/iam-capabilities.png)
-1. Click on **Create stack**. You can view the progress of Nested stacks being created in CloudFormation console.
+1. Click on **Submit**. You can view the progress of Nested stacks being created in CloudFormation console.
 1. In a few minutes, stacks will be created. Hit the refresh button a few times until you see in the status CREATE_COMPLETE.
 ::::
 :::::
@@ -305,7 +305,7 @@ Update the previously created nested stack with a new template.
 1. In **Template source**, choose **Upload a template file**.
 1. Click on **Choose file** button and navigate to your workshop directory.
 1. Select the `main.yaml` template file and click **Next**.
-1. Follow the wizard, acknowledge IAM capabilities and click on **Update stack**.
+1. Follow the wizard, acknowledge IAM capabilities and click on **Submit**.
 ::::
 :::::
 
@@ -547,7 +547,7 @@ Update the previously created nested stack with a new template.
 1. In **Template source**, choose **Upload a template file**.
 1. Click on **Choose file** button and navigate to your workshop directory.
 1. Select the `main.yaml` template file and click **Next**.
-1. Follow the wizard, acknowledge IAM capabilities and click on **Update stack**.
+1. Follow the wizard, acknowledge IAM capabilities and click on **Submit**.
 
 ::::
 :::::
