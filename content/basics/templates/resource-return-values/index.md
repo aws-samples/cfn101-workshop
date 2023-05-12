@@ -110,7 +110,7 @@ Let’s create a stack using the `resource-return-values.yaml` template, and see
 1. Upload the `resource-return-values.yaml` template, and choose **Next**.
 1. Enter a stack name. For example, `cfn-workshop-resource-return-values`. When ready, choose **Next**.
 1. Choose to accept default values on the **Configure stack options** page; scroll to the bottom of the page, and choose **Next**.
-1. In the review page, scroll to the bottom and choose **Create stack**.
+1. In the review page, scroll to the bottom and choose **Submit**.
 1. Refresh the page until you see the `CREATE_COMPLETE` status for your stack.
 ::::
 :::::
