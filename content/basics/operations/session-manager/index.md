@@ -147,7 +147,7 @@ For System Manager to work, the instance need to meet following conditions:
 By changing the environment, instance will be stopped and started again. This will help to start `ssm-agent` which may have timed-out as the role wasn't attached in a previous lab.
 :::
 1. Choose to accept default values for **Configure stack options**; choose **Next**.
-1. On the **Review <stack_name>** page, scroll down to the bottom and tick **I acknowledge that AWS CloudFormation might create IAM resources** check box, then click on **Create stack**.
+1. On the **Review <stack_name>** page, scroll down to the bottom and tick **I acknowledge that AWS CloudFormation might create IAM resources** check box, then click on **Submit**.
 1. Use the **refresh** button to update the page as needed, until you see the stack has the **CREATE_COMPLETE** status.
 ::::
 :::::
