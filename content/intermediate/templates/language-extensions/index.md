@@ -164,7 +164,7 @@ Congratulations! You have learned how to use `Fn::ToJsonString` to transform JSO
 
 ### Challenge
 
-In this exercise, you’ll use the knowledge gained from earlier parts of this lab. Your task is to create an [Amazon Simple Storage Service (Amazon S3)](https://aws.amazon.com/s3/) bucket with its deletion policy set to a parameterized value of `Delete`, and create a CloudWatch dashboard that reflects the number of objects in the bucket. Use the `language-extensions-challenge.yaml` template, and add content to it.
+In this exercise, you'll use the knowledge gained from earlier parts of this lab. Your task is to create an [Amazon Simple Storage Service (Amazon S3)](https://aws.amazon.com/s3/) bucket with its deletion policy set to a parameterized value of `Delete`, and create a CloudWatch dashboard that reflects the number of objects in the bucket. Use the `language-extensions-challenge.yaml` template, and add content to it.
 
 Refer to the [CloudWatch Dashboard structure](https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/CloudWatch-Dashboard-Body-Structure.html) mentioned in Part 2 of the lab as you describe the dashboard in your CloudFormation template. For the `metrics` field underneath `properties`, use `[[AWS/S3, NumberOfObjects, StorageType, AllStorageTypes, BucketName, !Ref S3Bucket]]` to denote the `NumberOfObjects` metrics in an S3 bucket for your CloudWatch widget. Please note that [S3 storage metrics are reported once per day](https://docs.aws.amazon.com/AmazonS3/latest/userguide/cloudwatch-monitoring.html) at no additional cost, so you may not see them when you are running the lab.
 
@@ -186,7 +186,7 @@ Refer to the [CloudWatch Dashboard structure](https://docs.aws.amazon.com/Amazon
 
 ### Clean up
 
-You will now tear down the resources you created:
+You'll now tear down the resources you created in this lab. Use following steps:
 
 1. Navigate to the [AWS CloudFormation Console](https://console.aws.amazon.com/cloudformation/).
 2. On the **Stacks** page in the CloudFormation console, select the stack you created in **Part 1:** `language-extensions`.
