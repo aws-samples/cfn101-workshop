@@ -147,9 +147,9 @@ You choose to describe two [AWS Systems Manager Parameter Store](https://docs.aw
 
 :::::tabs{variant="container"}
 ::::tab{id="cloud9" label="Cloud9"}
-1. In the **Cloud9 terminal** navigate to `code/workspace/troubleshooting-provisioing-errors`:
+1. In the **Cloud9 terminal** navigate to `code/workspace/troubleshooting-provisioning-errors`:
   :::code{language=shell showLineNumbers=false showCopyAction=true}
-  cd cfn101-workshop/code/workspace/troubleshooting-provisioing-errors
+  cd cfn101-workshop/code/workspace/troubleshooting-provisioning-errors
   :::
 1. Use the AWS CLI to update the stack. The required parameter `--template-body` have been pre-filled for you.
   :::code{language=shell showLineNumbers=false showCopyAction=true}
@@ -169,7 +169,7 @@ You choose to describe two [AWS Systems Manager Parameter Store](https://docs.aw
 1. Click on **Choose file** button and navigate to your workshop directory.
 1. Select the file `sqs-queues.yaml ` and click **Next**.
 1. You can leave **Configure stack options** default, click **Next**.
-1. On the **Review <stack_name>** page, scroll down to the bottom and click on **Update stack**.
+1. On the **Review <stack_name>** page, scroll down to the bottom and click on **Submit**.
 1. You can click the **refresh** button a few times until you see in the status **UPDATE_COMPLETE**.
 ::::
 :::::
@@ -179,7 +179,9 @@ You choose to describe two [AWS Systems Manager Parameter Store](https://docs.aw
 ### Cleanup
 Choose to follow cleanup steps shown next to clean up resources you created with this lab:
 1. Choose the stack you have created on this lab, for example `cfn-workshop-troubleshooting-provisioning-errors`.
-2. Choose **Delete** to delete the stack, and then choose **Delete stack** to confirm.
+2. In the top right corner, select **Delete**.
+3. In the pop-up window, select **Delete**.
+4. Wait for the stack to reach the **DELETE_COMPLETE** status. You need to periodically select **Refresh** to see the latest stack status.
 
 ---
 ### Conclusion
