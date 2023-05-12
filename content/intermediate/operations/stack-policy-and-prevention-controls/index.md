@@ -160,7 +160,7 @@ Let’s now test the stack policy you applied, by updating the stack you created
   ::::
 	::::tab{id="local" label="Local development"}  
 1. Navigate to the [AWS CloudFormation Console](https://console.aws.amazon.com/cloudformation/).
-2. Select the stack named `stack-policy-lab`, and choose **Update**.
+2. Select the stack named `cfn-workshop-stack-policy`, and choose **Update**.
 3. In the next page, choose to accept **Use current template**. Choose **Next**.
 4. In the parameters section, update the value of `SNSTopicTagValue` from `Topic-Tag-1` to `Topic-Tag-2`. Choose **Next**.
 5. Choose to accept default values in the **Configure stack options** page, and choose **Next**.
