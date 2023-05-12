@@ -18,7 +18,7 @@ With the goal of extending the AWS CloudFormation language, the CloudFormation t
 
 For more information, see [Introducing new language extensions in AWS CloudFormation](https://aws.amazon.com/blogs/mt/introducing-new-language-extensions-in-aws-cloudformation/).
 
-In this lab, you will be exploring how you can leverage these language extensions to augment your developer experience.
+In this lab, you'll explore and learn how you can leverage these language extensions to augment your developer experience.
 
 
 ### Topics Covered
