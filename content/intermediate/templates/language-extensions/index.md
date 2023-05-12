@@ -116,7 +116,7 @@ In this part 2 of the lab, you'll update the `language-extensions` stack you cre
 
 For simplicity, in this exercise you'll add the dashboard to your existing template, so you can focus on the language extension you'll use. Normally, you would create a separate template for your dashboards, for considerations on best practices that also include organizing your stacks by [lifecycle and ownership](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/best-practices.html#organizingstacks): you would want to, for example, create a separate template to decouple the lifecycle of your CloudWatch dashboard from the lifecycle of your EC2 instance.
 
-You will now update the `language-extensions.yaml` template to add a CloudWatch dashboard with CPU utilization data of the EC2 instance you created in part 1. To do so, follow steps shown next:
+You'll now update the `language-extensions.yaml` template to add a CloudWatch dashboard with CPU utilization data of the EC2 instance you created in part 1. To do so, follow steps shown next:
 
 1. Open the `language-extensions.yaml` template. Underneath `Resources` section, add `Dashboard`:
 
@@ -143,11 +143,11 @@ You will now update the `language-extensions.yaml` template to add a CloudWatch 
 ```
 
 
-In the above snippet, note that the `CPUUtilization` metric is reflected underneath the `properties` section through the `metrics` field. Note also the references to your EC2 instance with `!Ref`, that in this case will return the instance ID, and the reference to the current region with `!Ref AWS::Region`, where you’ll use the `AWS::Region` CloudFormation pseudo parameter to resolve the name of the region where you are creating the stack and the EC2 instance (in this lab, `us-east-1`).
+In the above snippet, note that the `CPUUtilization` metric is reflected underneath the `properties` section through the `metrics` field. Note also the references to your EC2 instance with `!Ref`, that in this case will return the instance ID, and the reference to the current region with `!Ref AWS::Region`, where you'll use the `AWS::Region` CloudFormation pseudo parameter to resolve the name of the region where you are creating the stack and the EC2 instance (in this lab, `us-east-1`).
 
 Save the template file, and proceed to the next steps.
 
-You will now update your existing stack that you created in Part 1. To do so, follow steps shown next:
+You'll now update your existing stack that you created in Part 1. To do so, follow steps shown next:
 
 1. Navigate to the [AWS CloudFormation Console](https://console.aws.amazon.com/cloudformation/).
 2. From the left navigation panel, select the **Stacks** tab. Select the `language-extensions` stack you created earlier.
