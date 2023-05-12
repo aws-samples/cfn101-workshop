@@ -31,7 +31,7 @@ If you have issues using the Cloud9 environment, please see the [Troubleshooting
 
 ### Install the latest version of AWS CLI
 
-Cloud9 Instance comes pre-installed with AWS CLI version one. For the workshop we require to use AWS CLI version 2.
+Cloud9 Instance comes pre-installed with AWS CLI version 1. For the workshop we require to use AWS CLI version 2.
 To make the migration from version 1 to version 2 easier you can use the script provided.
 
 The script will:
