@@ -87,7 +87,7 @@ aws cloudformation create-stack --stack-name cfn-workshop-resource-dependencies 
 3. Choose the **Template is ready** option. From **Specify template**, choose **Upload a template file**. Upload the `resource-dependencies-without-dependson.yaml` template, and choose **Next**.
 4. Enter a stack name. For example, specify `cfn-workshop-resource-dependencies`. When ready, choose **Next**.
 5. Choose to accept default values on the **Configure stack options** page; scroll to the bottom of the page, and choose **Next**.
-6. In the **Review** page, scroll to the bottom and choose **Create stack**.
+6. In the **Review** page, scroll to the bottom and choose **Submit**.
 ::::
 :::::
 
@@ -223,7 +223,7 @@ aws cloudformation create-stack --stack-name cfn-workshop-resource-dependencies-
 4. Enter a stack name. For example, `cfn-workshop-resource-dependencies-ref-getatt`.
 5. In the **Parameters** section, provide an email address for Amazon SNS topic subscription; when ready, choose **Next**.
 6. Choose to accept default values on the **Configure stack options** page; scroll to the bottom of the page, and choose **Next**.
-7. In the review page, scroll to the bottom and choose **Create stack**.
+7. In the review page, scroll to the bottom and choose **Submit**.
 ::::
 :::::
 
@@ -310,7 +310,7 @@ S3Bucket:
 1. Enter a stack name. For example, `cfn-workshop-resource-dependencies-challenge`.
 1. In the **Parameters** section, provide an email address for Amazon SNS topic subscription; when ready, choose **Next**.
 1. Choose to accept default values on the **Configure stack options** page; scroll to the bottom of the page, and choose **Next**.
-1. In the review page, scroll to the bottom and choose **Create stack**.
+1. In the review page, scroll to the bottom and choose **Submit**.
 ::::
 :::::
 ::::::
