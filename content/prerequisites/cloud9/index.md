@@ -29,6 +29,34 @@ We recommend using **us-east-1 (N. Virginia)** as the _AWS Region_ for the works
 If you have issues using the Cloud9 environment, please see the [Troubleshooting AWS Cloud9](https://docs.aws.amazon.com/cloud9/latest/user-guide/troubleshooting.html) page in the user guide.
 :::
 
+### Install the latest version of AWS CLI
+
+Cloud9 Instance comes pre-installed with AWS CLI version one. For the workshop we require to use AWS CLI version 2.
+To make the migration from version 1 to version 2 easier you can use the script provided.
+
+The script will:
+* Check for system architecture to download correct bundle.
+* Check if the AWS CLI version 1 is installed, and if yes removes it.
+* Installs AWS CLI version 2.
+* Cleans up installation files.
+
+1. In the **Cloud9 terminal** navigate to `cfn101-workshop/code/solutions/cloud9`:
+:::code{language=shell showLineNumbers=false showCopyAction=true}
+cd cfn101-workshop/code/solutions/cloud9
+:::
+1. Make the script executable:
+:::code{language=shell showLineNumbers=false showCopyAction=true}
+chmod +x awscliv2.sh
+:::
+1. Run the script:
+:::code{language=shell showLineNumbers=false showCopyAction=true}
+source awscliv2.sh
+:::
+1. Check that the installation was successful, and you have the latest version of AWS CLI:
+:::code{language=shell showLineNumbers=false showCopyAction=true}
+aws --version
+:::
+
 ### Clone lab resources using `git`
 Clone the repository to your working directory. In the Cloud9 terminal run:
 
