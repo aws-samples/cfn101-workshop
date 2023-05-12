@@ -173,7 +173,7 @@ The stack update will fail. When looking in the **Events** pane for your stack i
 Let’s now test the termination protection feature, that you enabled on your `cfn-workshop-stack-policy` stack:
 
 1. Navigate to the [AWS CloudFormation Console](https://console.aws.amazon.com/cloudformation/).
-2. Select the stack named `stack-policy-lab`, and choose **Delete**.
+2. Select the stack named `cfn-workshop-stack-policy`, and choose **Delete**.
 
 You will observe a message window informing you that **Termination protection** is enabled on the stack, and you will need to disable it before deleting the stack.
 
