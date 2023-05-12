@@ -45,7 +45,7 @@ In part 1 of this lab, you'll use an example CloudFormation template, `language-
 
 By default, CloudFormation uses `Delete` as the default value for the `DeletionPolicy` attribute for resources; exceptions to this are `AWS::RDS::DBCluster` resources, and `AWS::RDS::DBInstance` resources that don't specify the `DBClusterIdentifier` property. If you use the template above for the creation of a stack, upon deletion of the stack itself the EC2 instance will be terminated. One of the common use cases is to retain the resources that are created in production, whilst having the flexibility to discard and recreate test resources, as needed, for development activities: with the `AWS::LanguageExtensions` transform in your template, you can reference the `DeletionPolicy` value you need from a parameter. The language extension you'll use adds the functionality of referencing a value for resource attributes like `DeletionPolicy` and `UpdateReplacePolicy` that natively accept a string value and not a parameter reference.
 
-In this example, your intent is to specify `DeletionPolicy` as `Delete` for your instance in the `Dev` environment; follow steps shown next:
+In this example, your intent is to specify `DeletionPolicy` as `Delete` for your instance in the `DEV` environment; follow steps shown next:
 
 
 1. Open the `language-extensions.yaml` template. Add the `AWS::LanguageExtensions` transform line by copying and pasting the content below _underneath_ the `AWSTemplateFormatVersion: "2010-09-09"` line:
