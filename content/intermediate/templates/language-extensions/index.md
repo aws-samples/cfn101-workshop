@@ -23,7 +23,7 @@ In this lab, you'll explore and learn how you can leverage these language extens
 
 ### Topics Covered
 
-By the end of this lab, you will be able to:
+By the end of this lab, you'll be able to:
 
 * Understand how to incorporate the `AWS::LanguageExtensions` transform in your CloudFormation templates.
 * Use language extensions in your CloudFormation template.
@@ -37,7 +37,7 @@ You can use the default VPC that comes with your AWS account.
 
 ### Part 1
 
-In part 1 of this lab, you will use an example CloudFormation template, `language-extensions.yaml`, to create a stack in the `us-east-1` region. To get started, follow steps shown next:
+In part 1 of this lab, you'll use an example CloudFormation template, `language-extensions.yaml`, to create a stack in the `us-east-1` region. To get started, follow steps shown next:
 
 1. Change directory to the `code/workspace/language-extensions` directory.
 2. Open the `language-extensions.yaml` CloudFormation template in the text editor of your choice.
