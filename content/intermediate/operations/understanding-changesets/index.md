@@ -99,7 +99,7 @@ Next, create your first change set:
     
     aws cloudformation create-change-set \
         --stack-name changesets-workshop \
-        --change-set-name bucket-versioning-update
+        --change-set-name bucket-versioning-update \
         --template-body file://bucket.yaml \
         --parameters ParameterKey=BucketName,ParameterValue='TYPE_UNIQUE_BUCKET_NAME-HERE'
     :::
