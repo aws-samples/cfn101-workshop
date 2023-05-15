@@ -70,7 +70,7 @@ Let’s get started!
     5. Specify a stack name, for example `changesets-workshop`.
     6. Make sure to provide a unique value for the `BucketName` parameter. For more information, see [Bucket naming rules](https://docs.aws.amazon.com/AmazonS3/latest/userguide/bucketnamingrules.html). Choose **Next**.
     7. In the next page, choose to leave all options to default values, and choose **Next**.
-    8. In the review page, choose **Create Stack**.
+    8. In the review page, choose **Submit**.
     9. Refresh the stack creation page until you see your stack in the `CREATE_COMPLETE` status.
 
    ::::
