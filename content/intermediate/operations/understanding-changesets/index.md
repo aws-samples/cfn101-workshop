@@ -41,7 +41,7 @@ Let’s get started!
         :::code{language=shell showLineNumbers=false showCopyAction=true}
         aws cloudformation create-stack \
                 --region us-east-1 \
-                --stack-name changesets-workshop \
+                --stack-name cfn-workshop-understanding-changesets \
                 --template-body file://bucket.yaml \
                 --parameters ParameterKey=BucketName,ParameterValue='YOUR_UNIQUE_BUCKET_NAME-HERE'
         :::
