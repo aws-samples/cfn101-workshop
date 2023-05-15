@@ -41,12 +41,12 @@ In this lab you will learn:
 You need to use the `AWS::CloudFormation::Init` type to include metadata for an Amazon EC2 instance. When your template
 calls the `cfn-init` script, the script will look for resources in metadata section. Let's add the metadata to your template:
 
-```yaml
+:::code{language=yaml showLineNumbers=false showCopyAction=true}
   WebServerInstance:
     Type: AWS::EC2::Instance
     Metadata:
       AWS::CloudFormation::Init:
-```
+:::
 
 #### 2. Configure cfn-init
 The configuration of `cfn-init` is separated into sections. The configuration sections are processed in the following
@@ -69,7 +69,7 @@ Your instance is running Amazon Linux 2, so you will use `yum` package manager t
 
 Add the code from `packages` key to your template.
 
-```yaml
+:::code{language=yaml showLineNumbers=false showCopyAction=true}
 WebServerInstance:
   Type: AWS::EC2::Instance
   Metadata:
@@ -79,7 +79,7 @@ WebServerInstance:
           yum:
             httpd: []
             php: []
-```
+:::
 
 ##### 2. Create `index.php` file
 Use the _files_ key to create files on the EC2 instance. The content can either be a specified inline in the template,
@@ -87,7 +87,7 @@ or as a URL that is retrieved by the instance.
 
 Add the code from `files` key to your template.
 
-```yaml
+:::code{language=yaml showLineNumbers=false showCopyAction=true}
 WebServerInstance:
   Type: AWS::EC2::Instance
   Metadata:
@@ -118,7 +118,7 @@ WebServerInstance:
             mode: 000644
             owner: apache
             group: apache
-```
+:::
 
 ##### 3. Enable and start Apache web server
 
@@ -127,7 +127,7 @@ Linux systems, this key is supported by using the `sysvinit` key.
 
 Add the code from `services` key to your template.
 
-```yaml
+:::code{language=yaml showLineNumbers=false showCopyAction=true}
 WebServerInstance:
   Type: AWS::EC2::Instance
   Metadata:
@@ -142,7 +142,7 @@ WebServerInstance:
             httpd:
               enabled: true
               ensureRunning: true
-```
+:::
 
 ##### 4. Call `cfn-init` script
 
@@ -153,7 +153,7 @@ helper scripts. Then, it will install the files and packages from metadata.
 
 Add the code from `UserData` property to your template.
 
-```yaml
+:::code{language=yaml showLineNumbers=false showCopyAction=true}
 UserData:
   Fn::Base64:
     !Sub |
@@ -162,7 +162,7 @@ UserData:
       yum install -y aws-cfn-bootstrap
       # Call cfn-init script to install files and packages
       /opt/aws/bin/cfn-init -v --stack ${AWS::StackName} --resource WebServerInstance --region ${AWS::Region}
-```
+:::
 
 ::alert[The intrinsic function `!Sub` will dynamically replace values in `${AWS::StackName}` and `${AWS::Region}` variables.]{type="info"}
 
@@ -180,7 +180,7 @@ CloudFormation. (To see this in action, please refer to the exercise section of 
 
 1. Copy the code from both files to your template.
 
-   ```yaml
+   :::code{language=yaml showLineNumbers=false showCopyAction=true}
    WebServerInstance:
      Type: AWS::EC2::Instance
      Metadata:
@@ -209,13 +209,13 @@ CloudFormation. (To see this in action, please refer to the exercise section of 
                  runas=root
            services:
              {...}
-   ```
+   :::
 
 1. Enable and start `cfn-hup` in `services` section of the template.
 
    Add the code from `services` key to your template.
 
-   ```yaml
+   :::code{language=yaml showLineNumbers=false showCopyAction=true}
    WebServerInstance:
      Type: AWS::EC2::Instance
      Metadata:
@@ -241,7 +241,7 @@ CloudFormation. (To see this in action, please refer to the exercise section of 
                  files:
                    - /etc/cfn/cfn-hup.conf
                    - /etc/cfn/hooks.d/cfn-auto-reloader.conf
-   ```
+    :::
 
 #### 4. Configure cfn-signal and CreationPolicy attribute
 Finally, you need a way to instruct AWS CloudFormation to complete stack creation only after all the services
@@ -256,16 +256,16 @@ notify AWS CloudFormation when all the applications are installed and configured
 
 1. Add Creation policy to `WebServerInstance` resource property.
 
-   ```yaml
+    :::code{language=yaml showLineNumbers=false showCopyAction=true}
    CreationPolicy:
      ResourceSignal:
        Count: 1
        Timeout: PT10M
-   ```
+    :::
 
 1. Add the `cfn-signal` to the UserData parameter.
 
-   ```yaml
+    :::code{language=yaml showLineNumbers=false showCopyAction=true}
    UserData:
     Fn::Base64:
       !Sub |
@@ -276,14 +276,13 @@ notify AWS CloudFormation when all the applications are installed and configured
         /opt/aws/bin/cfn-init -v --stack ${AWS::StackName} --resource WebServerInstance --region ${AWS::Region}
         # Call cfn-signal script to send a signal with exit code
         /opt/aws/bin/cfn-signal --exit-code $? --stack ${AWS::StackName} --resource WebServerInstance --region ${AWS::Region}
-   ```
+    :::
 
 #### 5. Create the stack
 Similar to previous labs, create the stack with the updated template. Once CloudFormation completes creating the stack,
 you can then check to see that your script has set up a web server on the EC2 instance.
 
 :::::tabs{variant="container"}
-
 ::::tab{id="cloud9" label="Cloud9"}
   1. In the **Cloud9 terminal** navigate to `code/workspace`:
   :::code{language=shell showLineNumbers=false showCopyAction=true}
@@ -302,7 +301,6 @@ you can then check to see that your script has set up a web server on the EC2 in
   1. Open the **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** console in a new tab and wait for stack status to reach **CREATE_COMPLETE**. You need to periodically select Refresh to see the latest stack status.
   1. Verify the new instance was deployed and is functional. In a web browser, enter the `WebsiteURL` (you can get the WebsiteURL from the _Outputs_ tab of the CloudFormation console).
 ::::
-
 ::::tab{id="local" label="Local development"}
 1. Open the **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** link in a new tab and log in to your AWS account.
 1. In the CloudFormation console, select *Create stack With new resources (standard)*.
@@ -319,7 +317,6 @@ you can then check to see that your script has set up a web server on the EC2 in
 ::::
 :::::
 
-
 #### Challenge
 
 This exercise will demonstrate how `cfn-hup` updates the application when you update the stack. You will update `index.php` file
@@ -331,11 +328,11 @@ Locate the `/var/www/html/index.php` in the _files_ section of the EC2 metadata
 
 Add the code below to the `<\?php {...} ?>` block:
 
-```php
+:::code{language=php showLineNumbers=false showCopyAction=true}
 # Get the instance AMI ID and store it in the $ami_id variable
 $url = "http://169.254.169.254/latest/meta-data/ami-id";
 $ami_id = file_get_contents($url);
-```
+:::
 
 Add the code below to html `<h2>` tags:
 
@@ -348,25 +345,23 @@ Add the code below to html `<h2>` tags:
 `cfn-hup` will detect changes in metadata section, and will automatically deploy the new version, updating the current EC2 instance.
 
 :::::tabs{variant="container"}
-
 ::::tab{id="cloud9" label="Cloud9"}
-  1. In the **Cloud9 terminal** navigate to `code/workspace`:
-  :::code{language=shell showLineNumbers=false showCopyAction=true}
-  cd cfn101-workshop/code/workspace
-  :::
-  1. Use the AWS CLI to update the stack. The required parameters have been pre-filled for you.
-  :::code{language=shell showLineNumbers=false showCopyAction=true}
-  aws cloudformation update-stack --stack-name cfn-workshop-helper-scripts \
-  --template-body file://helper-scripts.yaml \
-  --capabilities CAPABILITY_IAM
-  :::
-  1. If the `update-stack` command was successfully sent, CloudFormation will return `StackId`.
-  :::code{language=shell showLineNumbers=false showCopyAction=false}
-  "StackId": "arn:aws:cloudformation:us-east-1:123456789012:stack/cfn-workshop-helper-scripts/96d87030-e809-11ed-a82c-0eb19aaeb30f"
-  :::
-  1. Open the **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** console in a new tab and wait for stack status to reach **UPDATE_COMPLETE**. You need to periodically select Refresh to see the latest stack status. This should be quick as a new EC2 instance is not being launched.
+1. In the **Cloud9 terminal** navigate to `code/workspace`:
+:::code{language=shell showLineNumbers=false showCopyAction=true}
+cd cfn101-workshop/code/workspace
+:::
+1. Use the AWS CLI to update the stack. The required parameters have been pre-filled for you.
+:::code{language=shell showLineNumbers=false showCopyAction=true}
+aws cloudformation update-stack --stack-name cfn-workshop-helper-scripts \
+--template-body file://helper-scripts.yaml \
+--capabilities CAPABILITY_IAM
+:::
+1. If the `update-stack` command was successfully sent, CloudFormation will return `StackId`.
+:::code{language=shell showLineNumbers=false showCopyAction=false}
+"StackId": "arn:aws:cloudformation:us-east-1:123456789012:stack/cfn-workshop-helper-scripts/96d87030-e809-11ed-a82c-0eb19aaeb30f"
+:::
+1. Open the **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** console in a new tab and wait for stack status to reach **UPDATE_COMPLETE**. You need to periodically select Refresh to see the latest stack status. This should be quick as a new EC2 instance is not being launched.
 ::::
-
 ::::tab{id="local" label="Local development"}
 1. Open the **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** link in a new tab and log in to your AWS account.
 1. Click on the stack name, for example `cfn-workshop-helper-scripts`.
