@@ -341,7 +341,7 @@ To clean up resources you created with this lab:
   ::::
 	::::tab{id="local" label="Local development"}  
   1. From the CloudFormation console, select the stack named `cfn-workshop-understanding-changesets`.
-  2. Choose **Delete**, and then **Delete Stack** to delete your stack and change sets you created for it.
+  2. Choose **Delete**, and then **Delete** to delete your stack and change sets you created for it.
 
    ::::
    :::::
