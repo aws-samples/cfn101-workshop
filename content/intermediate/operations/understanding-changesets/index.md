@@ -46,7 +46,7 @@ Let’s get started!
                 --parameters ParameterKey=BucketName,ParameterValue='YOUR_UNIQUE_BUCKET_NAME-HERE'
         :::
         1. CloudFormation returns the following output:
-            ```json
+           :::code{language=json showLineNumbers=false showCopyAction=false}
             {
             "StackId" : "arn:aws:cloudformation:us-east-1:123456789012:stack/changesets-workshop/330b0120-1771-11e4-af37-50ba1b98bea6"
             }            
