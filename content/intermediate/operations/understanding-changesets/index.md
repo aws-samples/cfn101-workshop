@@ -50,7 +50,7 @@ Let’s get started!
             {
             "StackId" : "arn:aws:cloudformation:us-east-1:123456789012:stack/cfn-workshop-understanding-changesets/330b0120-1771-11e4-af37-50ba1b98bea6"
             }            
-            ```
+            :::
         1. Wait until the `changesets-workshop` stack is created, by using the CloudFormation console or the [wait stack-create-complete](https://docs.aws.amazon.com/cli/latest/reference/cloudformation/wait/stack-create-complete.html) AWS CLI command.
         :::code{language=shell showLineNumbers=false showCopyAction=true}
         aws cloudformation wait stack-create-complete \
