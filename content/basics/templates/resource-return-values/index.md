@@ -43,7 +43,7 @@ The bucket policy in the example shown next denies access to the Amazon S3 bucke
 
 Copy and append the example template snippet shown next to the `resource-return-values.yaml` file:
 
-```yaml
+:::code{language=yaml showLineNumbers=false showCopyAction=true}
 Resources:
   S3Bucket:
     Type: AWS::S3::Bucket
@@ -74,7 +74,7 @@ Outputs:
   S3BucketDomainName:
     Description: IPv4 DNS name of the bucket.
     Value: !GetAtt S3Bucket.DomainName
-```
+:::
 
 There are two resources in the template snippet you pasted into your template: an Amazon S3 [bucket](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-s3-bucket.html) and a bucket [policy](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-s3-policy.html). Note the following:
 
@@ -88,20 +88,19 @@ Let’s create a stack using the `resource-return-values.yaml` template, and see
 :::::tabs{variant="container"}
 ::::tab{id="cloud9" label="Cloud9"}
 1. In the **Cloud9 terminal** navigate to `code/workspace/resource-return-values`:
-  :::code{language=shell showLineNumbers=false showCopyAction=true}
-  cd cfn101-workshop/code/workspace/resource-return-values
-  :::
+:::code{language=shell showLineNumbers=false showCopyAction=true}
+cd cfn101-workshop/code/workspace/resource-return-values
+:::
 1. Use the AWS CLI to create the stack. The required parameter `--template-body` have been pre-filled for you.
-  :::code{language=shell showLineNumbers=false showCopyAction=true}
-  aws cloudformation create-stack --stack-name cfn-workshop-resource-return-values --template-body file://resource-return-values.yaml
-  :::
+:::code{language=shell showLineNumbers=false showCopyAction=true}
+aws cloudformation create-stack --stack-name cfn-workshop-resource-return-values --template-body file://resource-return-values.yaml
+:::
 1. If the `create-stack` command was successfully sent, CloudFormation will return `StackId`.
-  :::code{language=shell showLineNumbers=false showCopyAction=false}
-  "StackId": "arn:aws:cloudformation:us-east-1:123456789012:stack/cfn-workshop-resource-return-values/739fafa0-e4d7-11ed-a000-12d9009553ff"
-  :::
+:::code{language=shell showLineNumbers=false showCopyAction=false}
+"StackId": "arn:aws:cloudformation:us-east-1:123456789012:stack/cfn-workshop-resource-return-values/739fafa0-e4d7-11ed-a000-12d9009553ff"
+:::
 1. Open the **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** console in a new tab and check if the stack status is **CREATE_COMPLETE**.
 ::::
-
 ::::tab{id="local" label="Local development"}
 1. Navigate to the [AWS CloudFormation Console](https://console.aws.amazon.com/cloudformation/).
 1. In the CloudFormation console, select **Create stack With new resources (standard)**.
@@ -143,7 +142,7 @@ When ready, create a new stack, called `resource-return-values-challenge`, with 
 * Reference the Security Group’s logical ID as a list item under the `SecurityGroups` instance resource property, by using `Ref` intrinsic function.
 * Modify the Amazon EC2 instance resource definition as next:
 
-```yaml
+:::code{language=yaml showLineNumbers=false showCopyAction=true}
 Ec2Instance:
   Type: AWS::EC2::Instance
   Properties:
@@ -154,13 +153,13 @@ Ec2Instance:
     Tags:
       - Key: Name
         Value: Resource-return-values-workshop
-```
+:::
 
 * Use `Ref` intrinsic function, and pass the logical ID of the Amazon EC2 instance resource to retrieve the instance ID; similarly, pass the logical ID of the Amazon EC2 instance resource, along with the `PublicIp` attribute to the `Fn::GetAtt` function, to retrieve the public IP of the instance.
 * Pass the logical ID of the security group resource, along with the `GroupId` attribute, to the `Fn::GetAtt` function to retrieve the ID of the security group.
 * Modify the `Outputs` section of the template as shown next:
 
-```yaml
+:::code{language=yaml showLineNumbers=false showCopyAction=true}
 Outputs:
   InstanceID:
     Description: The ID of the launched instance
@@ -173,21 +172,21 @@ Outputs:
   SecurityGroupId:
     Description: ID of the security group created
     Value: !GetAtt InstanceSecurityGroup.GroupId
-```
+:::
 :::::tabs{variant="container"}
 ::::tab{id="cloud9" label="Cloud9"}
 1. In the **Cloud9 terminal** navigate to `code/workspace/resource-return-values`:
-  :::code{language=shell showLineNumbers=false showCopyAction=true}
-  cd cfn101-workshop/code/workspace/resource-return-values
-  :::
+:::code{language=shell showLineNumbers=false showCopyAction=true}
+cd cfn101-workshop/code/workspace/resource-return-values
+:::
 1. Use the AWS CLI to create the stack. The required parameter `--template-body` have been pre-filled for you.
-  :::code{language=shell showLineNumbers=false showCopyAction=true}
-  aws cloudformation create-stack --stack-name cfn-workshop-resource-return-values-challenge --template-body file://resource-return-values-challenge.yaml
-  :::
+:::code{language=shell showLineNumbers=false showCopyAction=true}
+aws cloudformation create-stack --stack-name cfn-workshop-resource-return-values-challenge --template-body file://resource-return-values-challenge.yaml
+:::
 1. If the `create-stack` command was successfully sent, CloudFormation will return `StackId`.
-  :::code{language=shell showLineNumbers=false showCopyAction=false}
-  "StackId": "arn:aws:cloudformation:us-east-1:123456789012:stack/cfn-workshop-resource-return-values-challenge/739fafa0-e4d7-11ed-a000-12d9009553ff"
-  :::
+:::code{language=shell showLineNumbers=false showCopyAction=false}
+"StackId": "arn:aws:cloudformation:us-east-1:123456789012:stack/cfn-workshop-resource-return-values-challenge/739fafa0-e4d7-11ed-a000-12d9009553ff"
+:::
 1. Open the **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** console in a new tab and check if the stack status is **CREATE_COMPLETE**.
 1. View the output value on the [AWS CloudFormation console](https://console.aws.amazon.com/cloudformation), in the _Outputs_ tab.
 ::::
