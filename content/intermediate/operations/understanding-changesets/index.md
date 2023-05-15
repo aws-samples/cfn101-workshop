@@ -117,7 +117,7 @@ Next, create your first change set:
 
 Open the `bucket.yaml` CloudFormation template in your favorite text editor, and add `VersioningConfiguration` as shown below. Save the file.
 
-```yaml
+:::code{language=yaml showLineNumbers=true showCopyAction=true}
 MyS3Bucket:
   Type: AWS::S3::Bucket
   Properties:
