@@ -46,11 +46,11 @@ Let’s get started!
                 --parameters ParameterKey=BucketName,ParameterValue='YOUR_UNIQUE_BUCKET_NAME-HERE'
         :::
         1. CloudFormation returns the following output:
-           :::code{language=json showLineNumbers=false showCopyAction=false}
-            {
-            "StackId" : "arn:aws:cloudformation:us-east-1:123456789012:stack/cfn-workshop-understanding-changesets/330b0120-1771-11e4-af37-50ba1b98bea6"
-            }            
-            :::
+:::code{language=json showLineNumbers=false showCopyAction=false}
+{
+"StackId" : "arn:aws:cloudformation:us-east-1:123456789012:stack/cfn-workshop-understanding-changesets/330b0120-1771-11e4-af37-50ba1b98bea6"
+}            
+:::
         1. Wait until the `cfn-workshop-understanding-changesets` stack is created, by using the CloudFormation console or the [wait stack-create-complete](https://docs.aws.amazon.com/cli/latest/reference/cloudformation/wait/stack-create-complete.html) AWS CLI command.
         :::code{language=shell showLineNumbers=false showCopyAction=true}
         aws cloudformation wait stack-create-complete \
@@ -105,12 +105,12 @@ Next, create your first change set:
     :::
 
     2. CloudFormation returns the following output of the AWS CLI.
-        :::code{language=json showLineNumbers=true showCopyAction=false}
-        {
-        "StackId" : "arn:aws:cloudformation:us-east-1:123456789012:stack/cfn-workshop-understanding-changesets/330b0120-1771-11e4-af37-50ba1b98bea6",
-        "Id": "arn:aws:cloudformation:us-east-1:123456789012:changeSet/bucket-versioning-update/a470cff7-cb2c-4cba-bf27-2b3b9ccc1333"
-        }
-        :::
+:::code{language=json showLineNumbers=true showCopyAction=false}
+{
+"StackId" : "arn:aws:cloudformation:us-east-1:123456789012:stack/cfn-workshop-understanding-changesets/330b0120-1771-11e4-af37-50ba1b98bea6",
+"Id": "arn:aws:cloudformation:us-east-1:123456789012:changeSet/bucket-versioning-update/a470cff7-cb2c-4cba-bf27-2b3b9ccc1333"
+}
+:::
     ::::
 
 ::::tab{id="local" label="Local development"}    
