@@ -200,7 +200,7 @@ Let’s get started!
   ::::
 	::::tab{id="local" label="Local development"}
 
-    1. In the CloudFormation console, select the `changesets-workshop` stack, and from **Stack actions**, choose **Create change set for current stack**.
+    1. In the CloudFormation console, select the `cfn-workshop-understanding-changesets` stack, and from **Stack actions**, choose **Create change set for current stack**.
     2. From **Prepare template**, choose **Use current template** and choose **Next**.
     3. Change the value for `BucketName` parameter by specifying a new unique bucket [name](https://docs.aws.amazon.com/AmazonS3/latest/userguide/bucketnamingrules.html), and follow the rest of the process as before to finish creating the change set.
 
