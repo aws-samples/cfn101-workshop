@@ -69,11 +69,11 @@ In the next step, you will use the AWS CloudFormation Console to create a new st
     :::
     1. Use the AWS CLI to create the stack. The required parameters `--stack-name` and `--template-body` have been pre-filled for you.
     :::code{language=shell showLineNumbers=false showCopyAction=true}
-    aws cloudformation create-stack --stack-name drift-detection-workshop --template-body file://drift-detection-workshop.yaml
+    aws cloudformation create-stack --stack-name cfn-workshop-drift-detection --template-body file://drift-detection-workshop.yaml
     :::
     1. If the `create-stack` command was successfully sent, CloudFormation will return `StackId`.
-    :::code{language=shell showLineNumbers=false showCopyAction=true}
-    "StackId": "arn:aws:cloudformation:us-east-1:123456789012:stack/drift-detection-workshop/739fafa0-e4d7-11ed-a000-12d9009553ff"
+    :::code{language=shell showLineNumbers=false showCopyAction=false}
+    "StackId": "arn:aws:cloudformation:us-east-1:123456789012:stack/cfn-workshop-drift-detection/739fafa0-e4d7-11ed-a000-12d9009553ff"
     :::
     1. Open the **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** console in a new tab and check if the stack status is **CREATE_COMPLETE**.
     ::::
@@ -81,9 +81,9 @@ In the next step, you will use the AWS CloudFormation Console to create a new st
    1. Navigate to the [AWS CloudFormation Console](https://console.aws.amazon.com/cloudformation/).
    1. From **Create stack**, choose **With new resources (standard)**.
    1. From **Specify template**, choose **Upload a template file**. Choose the `drift-detection-workshop.yaml` template mentioned earlier, and then choose **Next**.
-   1. Enter a stack name. For example, specify `drift-detection-workshop`. Choose **Next**.
+   1. Enter a stack name. For example, specify `cfn-workshop-drift-detection`. Choose **Next**.
    1. In **Configure stack options**, choose **Next**.
-   1. Choose **Create stack**.
+   1. Choose **Submit**.
    1. Refresh the stack creation page until you see your stack in the `CREATE_COMPLETE` state.
    ::::
    :::::
@@ -237,19 +237,20 @@ Resources:
     :::
     1. If the `create-stack` command was successfully sent, CloudFormation will return `StackId`.
     :::code{language=shell showLineNumbers=false showCopyAction=true}
-    "StackId": "arn:aws:cloudformation:us-east-1:123456789012:stack/cfn-workshop-s3/739fafa0-e4d7-11ed-a000-12d9009553ff"
+    "StackId": "arn:aws:cloudformation:us-east-1:123456789012:stack/cfn-workshop-drift-detection-challenge/739fafa0-e4d7-11ed-a000-12d9009553ff"
     :::
     1. Open the **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** console in a new tab and check if the stack status is **UPDATE_COMPLETE**.
+    1. Once the stack is created, select the `drift-detection-challenge` stack and choose **Resources**. Take a note of the **Physical ID** for `Instance1`, for example `i-1234567890abcdef0`.
     ::::
     ::::tab{id="local" label="Local Development"}
    1. Log in to the **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** console in a new browser tab.
    1. Navigate to the [AWS CloudFormation Console](https://console.aws.amazon.com/cloudformation/).
    1. From **Create stack**, choose **With new resources (standard)**.
    1. From **Specify template**, choose **Upload a template file**, upload the `drift-detection-challenge.yaml` file and choose **Next**.
-   1. Enter a stack name, for example `drift-detection-challenge` and choose **Next**.
+   1. Enter a stack name, for example `cfn-workshop-drift-detection-challenge` and choose **Next**.
    1. In **Configure Stack Options**, choose **Next**.
-   1. In the next page, choose **Create stack**.
-   1. Once the stack is created, select the `drift-detection-challenge` stack and choose **Resources**. Take a note of the **Physical ID** for `Instance1`, for example `i-1234567890abcdef0`.
+   1. In the next page, choose **Submit**.
+   1. Once the stack is created, select the `cfn-workshop-drift-detection-challenge` stack and choose **Resources**. Take a note of the **Physical ID** for `Instance1`, for example `i-1234567890abcdef0`.
    ::::
    :::::
 
