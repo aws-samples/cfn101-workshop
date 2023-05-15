@@ -36,6 +36,34 @@ Clone the repository to your working directory. In the Cloud9 terminal run:
 git clone https://github.com/aws-samples/cfn101-workshop
 :::
 
+### Install the latest version of AWS CLI
+
+Cloud9 Instance comes pre-installed with [AWS CLI version 1](https://docs.aws.amazon.com/cli/v1/userguide/install-linux-al2017.html). For the workshop we require to use [AWS CLI version 2](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html).
+To make the [migration](https://docs.aws.amazon.com/cli/latest/userguide/cliv2-migration-instructions.html) from version 1 to version 2 easier, you can use the script provided.
+
+The script will:
+* Check for system architecture to download correct bundle.
+* Check if the AWS CLI version 1 is installed, and if yes removes it.
+* Installs AWS CLI version 2.
+* Cleans up installation files.
+
+1. In the **Cloud9 terminal** navigate to `cfn101-workshop/code/solutions/cloud9`:
+:::code{language=shell showLineNumbers=false showCopyAction=true}
+cd cfn101-workshop/code/solutions/cloud9
+:::
+1. Make the script executable:
+:::code{language=shell showLineNumbers=false showCopyAction=true}
+chmod +x awscliv2.sh
+:::
+1. Run the script:
+:::code{language=shell showLineNumbers=false showCopyAction=true}
+source awscliv2.sh
+:::
+1. Check that the installation was successful, and you have the latest version of AWS CLI:
+:::code{language=shell showLineNumbers=false showCopyAction=true}
+aws --version
+:::
+
 ### Open workshop files
 The templates and code you will work on is located in the **code** folder.
 Expand the tree on the left to open the **code** folder:
