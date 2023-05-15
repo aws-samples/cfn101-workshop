@@ -105,7 +105,7 @@ Next, create your first change set:
     :::
 
     2. CloudFormation returns the following output of the AWS CLI.
-        ```json
+        :::code{language=json showLineNumbers=true showCopyAction=false}
         {
         "StackId" : "arn:aws:cloudformation:us-east-1:123456789012:stack/cfn-workshop-understanding-changesets/330b0120-1771-11e4-af37-50ba1b98bea6",
         "Id": "arn:aws:cloudformation:us-east-1:123456789012:changeSet/bucket-versioning-update/a470cff7-cb2c-4cba-bf27-2b3b9ccc1333"
