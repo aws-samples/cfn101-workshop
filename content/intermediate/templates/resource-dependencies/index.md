@@ -209,8 +209,8 @@ cd cfn101-workshop/code/workspace/resource-dependencies
 1. Use the AWS CLI to create the stack. The required parameter `--template-body` have been pre-filled for you.
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 aws cloudformation create-stack --stack-name cfn-workshop-resource-dependencies-ref-getatt \
---template-body file://resource-dependencies-with-intrinsic-functions.yaml --parameters \
-ParameterKey="EmailAddress",ParameterValue="your-email-address-here"
+--template-body file://resource-dependencies-with-intrinsic-functions.yaml \
+--parameters ParameterKey="EmailAddress",ParameterValue="your-email-address-here"
 
 :::
 1. If the `create-stack` command was successfully sent, CloudFormation will return `StackId`.
