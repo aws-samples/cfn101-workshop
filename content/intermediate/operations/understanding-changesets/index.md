@@ -131,7 +131,7 @@ Next, create your first change set:
 1. In the CloudFormation console, select the `cfn-workshop-understanding-changesets` stack, and from **Stack actions**, choose **Create change set for current stack**.
 2. From **Prepare template**, choose **Replace current template**. For **Template source**, choose **Upload a template file**, then select your updated `bucket.yaml` template, and choose **Next**.
 3. Choose **Next** again in both the **Specify stack details** and **Configure stack options** pages, and then choose **Create change set**.
-4. Specify a name for the change set, for example: `bucket-versioning-update`, as well as a description, for example: `Enable bucket versioning for MyS3Bucket.`, and choose **Create change set**.
+4. Specify a name for the change set, for example: `bucket-versioning-update`, as well as a description, for example: `Enable bucket versioning for MyS3Bucket.`, and choose **Submit**.
 5. Refresh the page until the status of the change set is `CREATE_COMPLETE`.
 
    ::::
