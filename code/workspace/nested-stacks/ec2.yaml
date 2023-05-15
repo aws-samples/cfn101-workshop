@@ -32,7 +32,7 @@ Parameters:
 
   # 1. Add VpcId and SubnetId parameter from "1. Prepare the security group resource" here
 
-  # 2. Add WebServerInstanceProfile parameter from "5. Prepare the EC2 template" here
+  # 3. Add WebServerInstanceProfile parameter from "5. Prepare the EC2 template" here
 
 Mappings:
   EnvironmentToInstanceType:
