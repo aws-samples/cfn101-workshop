@@ -28,9 +28,9 @@ In this Lab, you will learn:
 
 ```yaml
 AmiID:
-   Type: AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>
-   Description: The ID of the AMI.
-   Default: '/aws/service/ami-amazon-linux-latest/amzn2-ami-hvm-x86_64-gp2'
+  Type: AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>
+  Description: The ID of the AMI.
+  Default: '/aws/service/ami-amazon-linux-latest/amzn2-ami-hvm-x86_64-gp2'
 ```
 
 Go to the AWS console and create the stack with a new template.
@@ -82,7 +82,7 @@ Follow the steps below to [delete the stacks](https://docs.aws.amazon.com/AWSClo
 
 1. Navigate to the [AWS CloudFormation Console](https://console.aws.amazon.com/cloudformation/).
 2. On the **Stacks** page in the CloudFormation console, select the `cfn-workshop-multi-region-latest-ami` stack.
-3. In the stack details pane, choose **Delete** to delete the stack, and then choose **Delete stack** to confirm.
+3. In the stack details pane, choose **Delete** to delete the stack, and then choose **Delete** to confirm.
 
 ---
 ### Conclusion
