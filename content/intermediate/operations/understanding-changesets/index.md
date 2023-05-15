@@ -84,7 +84,7 @@ In this part of the lab, you will specify a property, for a given resource type,
 	
 Open the `bucket.yaml` CloudFormation template in your `Cloud9` editor, and add `VersioningConfiguration` as shown below. Save the file.
 
-```yaml
+:::code{language=yaml showLineNumbers=true showCopyAction=true}
 MyS3Bucket:
   Type: AWS::S3::Bucket
   Properties:
