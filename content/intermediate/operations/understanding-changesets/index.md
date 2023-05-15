@@ -91,7 +91,7 @@ MyS3Bucket:
     BucketName: !Ref BucketName
     VersioningConfiguration:
       Status: Enabled
-```
+:::
 Next, create your first change set:
 
     1. From Terminal run the following command to **Create change set**, specify a name for the change set for example:`bucket-versioning-update` and provide the `BucketName` parameter that chosen in above example.
