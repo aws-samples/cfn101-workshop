@@ -336,7 +336,7 @@ To clean up resources you created with this lab:
 	From the terminal execute the following AWS CLI command to delete the stacks you created.
  :::code{language=shell showLineNumbers=false showCopyAction=true}
  aws cloudformation delete-stack \
-      --stack-name changesets-workshop
+      --stack-name cfn-workshop-understanding-changesets
  :::
   ::::
 	::::tab{id="local" label="Local development"}  
