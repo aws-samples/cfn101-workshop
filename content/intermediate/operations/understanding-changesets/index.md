@@ -29,7 +29,10 @@ Let’s get started!
    :::::tabs{variant="container"}
 	::::tab{id="cloud9" label="Cloud9"}
 	
-    1. Change directory to: `cfn101-workshop/code/workspace/understanding-changesets`.
+    1. In the **Cloud9 terminal** navigate to `code/workspace/understanding-changesets`:
+    :::code{language=shell showLineNumbers=false showCopyAction=true}
+    cd cfn101-workshop/code/workspace/understanding-changesets
+    :::
     1. Open the `bucket.yaml` CloudFormation template in your `Cloud9` editor, and familiarize yourself with the sample template content.
     1. Create a stack by following these steps:
     
