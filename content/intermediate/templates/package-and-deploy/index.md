@@ -127,7 +127,7 @@ Let's have a look at the newly generated file `infrastructure-packaged.template`
 
 You can notice that the `Code` property has been updated with two new attributes, `S3Bucket` and `S3Key`, lines [12-14].
 
-```yaml {hl_lines=[12,13,14]}
+:::code{language=yaml showLineNumbers=true showCopyAction=true highlightLines=12-14}
 PythonFunction:
   Type: AWS::Lambda::Function
   Properties:
@@ -144,7 +144,7 @@ PythonFunction:
       S3Key: cfn-workshop-package-deploy/1234567890
     TracingConfig:
       Mode: Active
-```
+:::
 
 For completeness let’s also look what’s in the uploaded files. From the listing above we know the bucket and object name to download.
 
