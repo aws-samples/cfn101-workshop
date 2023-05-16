@@ -582,7 +582,7 @@ In the browser window, you should see some instance metadata, similar to the pic
 
 ##### 2. Log in to instance using SSM Session Manager
 
-Verify that you can log in to the instance via **[Session Manager](https://console.aws.amazon.com/systems-manager)** and select your region.
+Verify that you can log in to the instance via **[Session Manager](https://console.aws.amazon.com/systems-manager)**. Select the same region as the instance is deployed in, for example `US East (N. Virginia) us-east-1`.
 
 ### Clean up
 
