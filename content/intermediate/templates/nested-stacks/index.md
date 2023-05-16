@@ -169,7 +169,7 @@ VpcStack:
 
 :::alert{type="info"}
 Please note **YAML** is indention sensitive mark down language. If `cfn-lint` or CloudFormation console reports errors,
-such as `Template format error: [/Resources/VpcStack] resource definition is malformed` \
+such as `Template format error: [/Resources/VpcStack] resource definition is malformed`, \
 please double-check **Parameters** and **Resources** sections are correctly formatted.\
 See the earlier [Linting and Testing](/basics/templates/linting-and-testing) lab to install or for more guidance.
 :::
@@ -185,7 +185,7 @@ See the earlier [Linting and Testing](/basics/templates/linting-and-testing) lab
   :::code{language=shell showLineNumbers=false showCopyAction=true}
   aws ec2 describe-availability-zones --output json --query "AvailabilityZones[*].ZoneName"
   :::
-1. Use the AWS CLI to create the stack. The required parameter `--template-body` have been pre-filled for you. Replace the `ParameterValue` **bucketName** with the value you have written down in [Prepare S3 bucket](#2-prepare-s3-bucket) section. Replace the `ParameterValue` **AZ1** and **AZ2** which you copied in previous step.
+1. Use the AWS CLI to create the stack. The required parameter `--template-body` have been pre-filled for you. Replace the `ParameterValue` **bucketName** with the value you have written down in [Prepare S3 bucket](#2.-prepare-s3-bucket) section. Replace the `ParameterValue` **AZ1** and **AZ2** which you copied in previous step.
   :::code{language=shell showLineNumbers=false showCopyAction=true}
   aws cloudformation create-stack --stack-name cfn-workshop-nested-stacks \
   --template-body file://main.yaml \
@@ -204,9 +204,9 @@ See the earlier [Linting and Testing](/basics/templates/linting-and-testing) lab
 1. In **Prepare template** select **Template is ready**.
 1. In **Template source** select **Upload a template file**.
 1. Choose a file `main.yaml`.
-1. Enter a **Stack name**. For example, cfn-workshop-nested-stacks.
+1. Enter a **Stack name**. For example, `cfn-workshop-nested-stacks`.
 1. For the **AvailabilityZones** parameter, select 2 AZs.
-1. For the **S3BucketName** provide the name of the bucket you have written down in [Prepare S3 bucket](#2-prepare-s3-bucket) section.
+1. For the **S3BucketName** provide the name of the bucket you have written down in [Prepare S3 bucket](#2.-prepare-s3-bucket) section.
 1. You can leave rest of the parameters default and choose **Next**.
 1. You can leave **Configure stack options** default, click **Next**.
 1. On the **Review <stack_name>** page, scroll down to the bottom and tick both **IAM Capabilities** check boxes.
@@ -298,7 +298,7 @@ Update the previously created nested stack with a new template.
   :::code{language=shell showLineNumbers=false showCopyAction=true}
   aws ec2 describe-availability-zones --output json --query "AvailabilityZones[*].ZoneName"
   :::
-1. Use the AWS CLI to update the stack. The required parameter `--template-body` have been pre-filled for you. Replace the `ParameterValue` **bucketName** with the value you have written down in [Prepare S3 bucket](#2-prepare-s3-bucket) section. Replace the `ParameterValue` **AZ1** and **AZ2** which you copied in previous step.
+1. Use the AWS CLI to update the stack. The required parameter `--template-body` have been pre-filled for you. Replace the `ParameterValue` **bucketName** with the value you have written down in [Prepare S3 bucket](#2.-prepare-s3-bucket) section. Replace the `ParameterValue` **AZ1** and **AZ2** which you copied in previous step.
   :::code{language=shell showLineNumbers=false showCopyAction=true}
   aws cloudformation update-stack --stack-name cfn-workshop-nested-stacks \
   --template-body file://main.yaml \
@@ -405,6 +405,7 @@ Before you update your CloudFormation nested stack, there are a couple more thin
      Type: AWS::EC2::SecurityGroup
      Properties:
        GroupDescription: Enable HTTP and HTTPS access
+       SecurityGroupIngress:
          - IpProtocol: tcp
            FromPort: 80
            ToPort: 80
@@ -508,7 +509,7 @@ Outputs:
 ##### 8. Upload the EC2 stack to S3
 Before you can deploy the updated nested stack, you must update the templates in your S3 bucket that are referenced by the parent template, `main.yaml`.
 
-Similar to the [uploading the VPC stack](#3-upload-the-vpc-stack-to-s3) in a previous step, upload the `vpc.yaml`, `ec2.yaml`
+Similar to the [uploading the VPC stack](#3.-upload-the-vpc-stack-to-s3) in a previous step, upload the `vpc.yaml`, `ec2.yaml`
 and `iam.yaml` templates to your S3 bucket.
 
 
@@ -558,7 +559,7 @@ Update the previously created nested stack with a new template.
   :::code{language=json showLineNumbers=false showCopyAction=false}
   "StackId": "arn:aws:cloudformation:us-east-1:123456789012:stack/cfn-workshop-nested-stacks/739fafa0-e4d7-11ed-a000-12d9009553ff"
   :::
-1. Open the **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** console in a new tab and check if the stack status is **CREATE_COMPLETE**.
+1. Open the **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** console in a new tab and check if the stack status is **UPDATE_COMPLETE**.
 ::::
 
 ::::tab{id="local" label="Local development"}
