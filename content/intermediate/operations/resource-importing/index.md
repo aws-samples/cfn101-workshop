@@ -23,7 +23,14 @@ By the end of this lab, you will be able to:
 
 ### Start Lab
 
-* Change directory to `code/workspace/resource-importing`.
+   :::::tabs{variant="container"}
+	::::tab{id="cloud9" label="Cloud9"}
+  In the **Cloud9 terminal** navigate to `cfn101-workshop/code/workspace/resource-importing`.
+  ::::
+	::::tab{id="local" label="Local development"}
+  Change directory to `code/workspace/resource-importing`.
+   ::::
+   ::::: 
 * Open the `resource-importing.yaml` file.
 * Update the content of the template as you follow along steps on this lab.
 
@@ -82,11 +89,11 @@ In this next step, you will use the AWS CloudFormation to [create a stack](https
   }
 ]
   :::
-  1. Let's create a change set of type `IMPORT` to import the resources from the template by using the following AWS CLI command. The template requires you to provide a value for `Topic1Name` input parameter. For Example, Specify a name for the stack `resource-importing` and for the change set `resource-import-change-set` and provide the parameter value for `Topic1Name` to `Topic1`.
+  1. Let's create a change set of type `IMPORT` to import the resources from the template by using the following AWS CLI command. The template requires you to provide a value for `Topic1Name` input parameter. For Example, Specify a name for the stack `resource-importing` and for the change set `cfn-workshop-resource-import-change-set` and provide the parameter value for `Topic1Name` to `Topic1`.
   :::code{language=shell showLineNumbers=false showCopyAction=true}
   aws cloudformation create-change-set \
-    --stack-name resource-importing \
-    --change-set-name resource-import-change-set \
+    --stack-name cfn-workshop-resource-importing \
+    --change-set-name cfn-workshop-resource-import-change-set \
     --change-set-type IMPORT \
     --resources-to-import file://resources-import.txt \
     --template-body file://resource-importing.yaml \
@@ -95,17 +102,19 @@ In this next step, you will use the AWS CloudFormation to [create a stack](https
   1. Review the change set to make sure the correct resources are imported.
   :::code{language=shell showLineNumbers=false showCopyAction=true}
   aws cloudformation describe-change-set \
-    --stack-name resource-importing --change-set-name resource-import-change-set
+    --stack-name cfn-workshop-resource-importing \
+    --change-set-name cfn-workshop-resource-import-change-set
   :::
   1. Execute the change set to import the resources.
   :::code{language=shell showLineNumbers=false showCopyAction=true}
   aws cloudformation execute-change-set \
-    --stack-name resource-importing --change-set-name resource-import-change-set
+    --stack-name cfn-workshop-resource-importing \
+    --change-set-name cfn-workshop-resource-import-change-set
   :::
   1. Wait until the `IMPORT` operation is complete, by using the the [wait stack-import-complete](https://docs.aws.amazon.com/cli/latest/reference/cloudformation/wait/stack-import-complete.html) AWS CLI command.
   :::code{language=shell showLineNumbers=false showCopyAction=true}
   aws cloudformation wait stack-import-complete \
-    --stack-name resource-importing
+    --stack-name cfn-workshop-resource-importing
   :::
 
   ::::
@@ -168,8 +177,8 @@ SNSTopic2:
       1. Let's create a change set of type `IMPORT` to import the resources from the template by using the following AWS CLI command. Specify the  parameter values for `Topic1Name` to `Topic1` and  for `Topic2Name` to `Topic2` as described below.
       :::code{language=shell showLineNumbers=false showCopyAction=true}
       aws cloudformation create-change-set \
-        --stack-name resource-importing \
-        --change-set-name resource-import-change-set \
+        --stack-name cfn-workshop-resource-importing \
+        --change-set-name cfn-workshop-resource-import-change-set \
         --change-set-type IMPORT \
         --resources-to-import file://resources-import.txt \
         --template-body file://resource-importing.yaml \
@@ -178,17 +187,19 @@ SNSTopic2:
       1. Review the change set to make sure the correct resources are imported.
       :::code{language=shell showLineNumbers=false showCopyAction=true}
       aws cloudformation describe-change-set \
-        --stack-name resource-importing --change-set-name resource-import-change-set
+        --stack-name cfn-workshop-resource-importing \
+        --change-set-name cfn-workshop-resource-import-change-set
       :::
       1. Execute the change set to import the resources.
       :::code{language=shell showLineNumbers=false showCopyAction=true}
       aws cloudformation execute-change-set \
-        --stack-name resource-importing --change-set-name resource-import-change-set
+        --stack-name cfn-workshop-resource-importing \
+        --change-set-name cfn-workshop-resource-import-change-set
       :::
       1. Wait until the `IMPORT` operation is complete, by using the the [wait stack-import-complete](https://docs.aws.amazon.com/cli/latest/reference/cloudformation/wait/stack-import-complete.html) AWS CLI command.
       :::code{language=shell showLineNumbers=false showCopyAction=true}
       aws cloudformation wait stack-import-complete \
-        --stack-name resource-importing
+        --stack-name cfn-workshop-resource-importing
       :::
     
     ::::
@@ -234,11 +245,11 @@ SNSTopic1:
 ```
    :::::tabs{variant="container"}
 	::::tab{id="cloud9" label="Cloud9"}
-      1. Let's create the change set of type `UPDATE` to remove the resource `SNSTopic1` from the stack by using the following AWS CLI command. Provide a name for the stack as `resource-importing` and for the change set name use `resource-import-change-set`, Specify the parameter values for `Topic2Name` to `Topic2`.
+      1. Let's create the change set of type `UPDATE` to remove the resource `SNSTopic1` from the stack by using the following AWS CLI command. Provide a name for the stack as `resource-importing` and for the change set name use `cfn-workshop-resource-import-change-set`, Specify the parameter values for `Topic2Name` to `Topic2`.
       :::code{language=shell showLineNumbers=false showCopyAction=true}
       aws cloudformation create-change-set \
-        --stack-name resource-importing \
-        --change-set-name resource-import-change-set \
+        --stack-name cfn-workshop-resource-importing \
+        --change-set-name cfn-workshop-resource-import-change-set \
         --change-set-type UPDATE \
         --template-body file://resource-importing.yaml \
         --parameters ParameterKey=Topic2Name,ParameterValue=Topic2
@@ -246,17 +257,19 @@ SNSTopic1:
       1. Review the change set to make sure the correct resources are removed.
       :::code{language=shell showLineNumbers=false showCopyAction=true}
       aws cloudformation describe-change-set \
-        --stack-name resource-importing --change-set-name resource-import-change-set
+        --stack-name cfn-workshop-resource-importing \
+        --change-set-name cfn-workshop-resource-import-change-set
       :::
       1. Execute the change set to import the resources.
       :::code{language=shell showLineNumbers=false showCopyAction=true}
       aws cloudformation execute-change-set \
-        --stack-name resource-importing --change-set-name resource-import-change-set
+        --stack-name cfn-workshop-resource-importing \
+        --change-set-name cfn-workshop-resource-import-change-set
       :::
       1. Wait until the `UPDATE` operation is complete, by using the the [wait stack-update-complete](https://docs.aws.amazon.com/cli/latest/reference/cloudformation/wait/stack-update-complete.html) AWS CLI command.
       :::code{language=shell showLineNumbers=false showCopyAction=true}
       aws cloudformation wait stack-update-complete \
-        --stack-name resource-importing
+        --stack-name cfn-workshop-resource-importing
       :::
     
     ::::
@@ -306,11 +319,11 @@ Resources:
 ]
   :::
   1. For the [**ResourceIdentifier Value**](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/resource-import.html#resource-import-overview), update the value for the topic ARN you noted after you created `Topic1` from **Lab1**.
-  1. Let's create a change set of type `IMPORT` to import the resources from the template by using the following AWS CLI command. Provide `moving-resources` as name of the stack and for the change set use `moving-resource-change-set`, Specify `Topic1` as parameter value for `Topic1Name`.
+  1. Let's create a change set of type `IMPORT` to import the resources from the template by using the following AWS CLI command. Provide `cfn-workshop-moving-resources` as name of the stack and for the change set use `moving-resource-change-set`, Specify `Topic1` as parameter value for `Topic1Name`.
   :::code{language=shell showLineNumbers=false showCopyAction=true}
   aws cloudformation create-change-set \
-    --stack-name moving-resources \
-    --change-set-name moving-resources-change-set \
+    --stack-name cfn-workshop-moving-resources \
+    --change-set-name cfn-workshop-moving-resources-change-set \
     --change-set-type IMPORT \
     --resources-to-import file://resources-import.txt \
     --template-body file://moving-resources.yaml \
@@ -319,17 +332,19 @@ Resources:
   1. Review the change set to make sure the correct resources are imported.
   :::code{language=shell showLineNumbers=false showCopyAction=true}
   aws cloudformation describe-change-set \
-    --stack-name moving-resources --change-set-name moving-resources-change-set
+    --stack-name cfn-workshop-moving-resources \
+    --change-set-name cfn-workshop-moving-resources-change-set
   :::
   1. Execute the change set to import the resources.
   :::code{language=shell showLineNumbers=false showCopyAction=true}
   aws cloudformation execute-change-set \
-    --stack-name moving-resources --change-set-name moving-resources-change-set
+    --stack-name cfn-workshop-moving-resources \
+    --change-set-name cfn-workshop-moving-resources-change-set
   :::
   1. Wait until the `IMPORT` operation is complete, by using the the [wait stack-import-complete](https://docs.aws.amazon.com/cli/latest/reference/cloudformation/wait/stack-import-complete.html) AWS CLI command.
   :::code{language=shell showLineNumbers=false showCopyAction=true}
   aws cloudformation wait stack-import-complete \
-    --stack-name moving-resources
+    --stack-name cfn-workshop-moving-resources
   :::
 
   ::::
@@ -340,7 +355,7 @@ Resources:
 6. Read the **Import Overview** and choose **Next**.
 7. From **Specify template**, choose **Upload a template file**. Upload the `moving-resources.yaml` template and choose **Next.**
 8. For the [**Identifier Value**](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/resource-import.html#resource-import-overview), specify the topic ARN value you noted after you created `Topic1`.
-9. Enter a **Stack name**. For example, specify `moving-resources`. Make sure you specify `Topic1` for the `Topic1Name` parameter.
+9. Enter a **Stack name**. For example, specify `cfn-workshop-moving-resources`. Make sure you specify `Topic1` for the `Topic1Name` parameter.
 10. Choose **Import Resources** in the next page.
 
 The stack status will show `IMPORT_COMPLETE` once your Amazon SNS topic is successfully imported into your stack.
@@ -406,17 +421,17 @@ Resources:
 ```
    :::::tabs{variant="container"}
 	::::tab{id="cloud9" label="Cloud9"}
-  1. Let's **Create Stack** by using the code below. For example, Specify **Stack Name** as `resource-import-challenge` and `t2.nano` for `InstanceType` parameter.
+  1. Let's **Create Stack** by using the code below. For example, Specify **Stack Name** as `cfn-workshop-resource-import-challenge` and `t2.nano` for `InstanceType` parameter.
   :::code{language=shell showLineNumbers=false showCopyAction=true}
   aws cloudformation create-stack \
-    --stack-name resource-import-challenge \
+    --stack-name cfn-workshop-resource-import-challenge \
     --template-body file://resource-import-challenge.yaml \
     --parameters ParameterKey=InstanceType,ParameterValue=t2.nano  
   :::
   1. Wait until the stack status to `CREATE_COMPLETE` by using the following AWS CLI command
   :::code{language=shell showLineNumbers=false showCopyAction=true}
   aws cloudformation wait stack-create-complete \
-     --stack-name resource-import-challenge
+     --stack-name cfn-workshop-resource-import-challenge
   :::
  ::::
    ::::tab{id="LocalDevelopment" label="LocalDevelopment"}
@@ -424,12 +439,12 @@ Resources:
     1. Navigate to the [AWS CloudFormation Console](https://console.aws.amazon.com/cloudformation/).
     1. From **Create stack**, choose **With new resources (standard)**.
     1. From **Specify template**, choose **Upload a template file**. Upload the `resource-import-challenge.yaml` template and choose **Next**.
-    1. Enter a **Stack name**. For example, specify `resource-import-challenge`. Specify `t2.nano` for `InstanceType`. Choose **Next.**
+    1. Enter a **Stack name**. For example, specify `cfn-workshop-resource-import-challenge`. Specify `t2.nano` for `InstanceType`. Choose **Next.**
     1. In **Configure Stack Options**, choose **Next**.
     1. In the next page, choose **Create Stack**.
   ::::
  :::::
-After the stack is created, select the `resource-import-challenge` stack, and choose **Resources**. Take a note of the **Physical ID** for `Instance`, that uses this format: `i-12345abcd6789`.
+After the stack is created, select the `cfn-workshop-resource-import-challenge` stack, and choose **Resources**. Take a note of the **Physical ID** for `Instance`, that uses this format: `i-12345abcd6789`.
 
 Let’s now reproduce the human error by changing the instance type outside the management purview of your stack. Choose to [Change the instance type of existing EBS-backed instance](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instance-resize.html#change-instance-type-of-ebs-backed-instance) by following the steps below:
 
@@ -453,7 +468,7 @@ Your task is to reconcile the instance type value, that in your stack is current
 2. Update the stack by using the updated `resource-import-challenge.yaml` template without changing parameter values.
     :::code{language=shell showLineNumbers=false showCopyAction=true}
     aws cloudformation update-stack \
-        --stack-name resource-import-challenge \
+        --stack-name cfn-workshop-resource-import-challenge \
         --template-body file://resource-import-challenge.yaml \
         --parameters ParameterKey=InstanceType,ParameterValue=t2.nano  
     :::
@@ -489,7 +504,7 @@ Parameters:
 4. Save the template file. Update the stack again with the updated `resource-import-challenge.yaml` template, which now has no parameters section, and no instance resource definition. This action will remove the instance from the stack, but will not delete it because you previously described and applied the `DeletionPolicy` attribute set to `Retain`.
     :::code{language=shell showLineNumbers=false showCopyAction=true}
     aws cloudformation update-stack \
-        --stack-name resource-import-challenge \
+        --stack-name cfn-workshop-resource-import-challenge \
         --template-body file://resource-import-challenge.yaml
     :::
 1. After this stack update, add the two removed code blocks from Step 3 back to the `resource-import-challenge.yaml` template, and save it.
@@ -508,10 +523,10 @@ Parameters:
   }
       :::  
     
-      1. Update the `resource-import-challenge` Stack to **Import resources** by using the following code. Specify `t2.micro` for the `InstanceType` parameter.
+      1. Update the `cfn-workshop-resource-import-challenge` Stack to **Import resources** by using the following code. Specify `t2.micro` for the `InstanceType` parameter.
       :::code{language=shell showLineNumbers=false showCopyAction=true}
       aws cloudformation create-change-set \
-          --stack-name resource-import-challenge \
+          --stack-name cfn-workshop-resource-import-challenge \
           --change-set-name import-challenge --change-set-type IMPORT \
           --resources-to-import file://resources-import.txt \
           --template-body file://resource-import-challenge.yaml \
@@ -520,17 +535,17 @@ Parameters:
       1. Execute the change set by using the following code
       :::code{language=shell showLineNumbers=false showCopyAction=true}
       aws cloudformation execute-change-set \
-            --stack-name resource-import-challenge \
+            --stack-name cfn-workshop-resource-import-challenge \
             --change-set-name import-challenge --change-set-type IMPORT
       :::
       1. Wait unitl the `IMPORT` operation is complete by using the following AWS CLI command
       :::code{language=shell showLineNumbers=false showCopyAction=true}
       aws cloudformation wait stack-import-complete \
-            --stack-name resource-import-challenge
+            --stack-name cfn-workshop-resource-import-challenge
       :::
     ::::
       ::::tab{id="LocalDevelopment" label="LocalDevelopment"}  
-      1. Select the stack named `resource-import-challenge` and, from **Stack actions**, choose **Import resources into stack**.
+      1. Select the stack named `cfn-workshop-resource-import-challenge` and, from **Stack actions**, choose **Import resources into stack**.
       1. Read the **Import Overview** and choose **Next**.
       1. From **Specify template**, choose **Upload a template file**. Upload your updated `resource-import-challenge.yaml` template, and choose **Next**.
       1. For the [**Identifier Value**](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/resource-import.html#resource-import-overview), specify the instance's **Physical ID**, that you noted earlier as part of this challenge.
@@ -561,24 +576,24 @@ Choose to follow cleanup steps shown next to clean up resources you created with
     1. Update the **Stack** by using the following AWS CLI command
     :::code{language=shell showLineNumbers=false showCopyAction=true}
     aws cloudformation create-change-set \
-          --stack-name resource-importing \
-          --change-set-name resource-import-change-set \
+          --stack-name cfn-workshop-resource-importing \
+          --change-set-name cfn-workshop-resource-import-change-set \
           --change-set-type UPDATE \
           --template-body file://resource-importing.yaml
     :::
     1. Execute the change set to update the stack by using the following AWS CLI command
     :::code{language=shell showLineNumbers=false showCopyAction=true}
     aws cloudformation execute-change-set \
-          --stack-name resource-importing \
-          --change-set-name resource-import-change-set \
+          --stack-name cfn-workshop-resource-importing \
+          --change-set-name cfn-workshop-resource-import-change-set \
     :::
     1. Delete the stack by running the following AWS CLI command
     :::code{language=shell showLineNumbers=false showCopyAction=true}
     aws cloudformation delete-stack \
-          --stack-name resource-importing \
+          --stack-name cfn-workshop-resource-importing \
     :::
-    1. Repeat steps (1-3) above for the stack: `moving-resources`, by updating the `moving-resources.yaml` template to remove the `DeletionPolicy: Retain` line from the `SNSTopic1` resource definition, updating the stack, and deleting it after successful update. Choose to accept the existing parameter value when you update the stack.
-    1. Repeat steps (1-3) above for stack: `resource-import-challenge` by updating the `resource-import-challenge.yaml` template to remove the `DeletionPolicy: Retain` line from the `Instance` resource definition, updating the stack, and deleting it after successful update.  Choose to accept existing parameter values when you update the stack.
+    1. Repeat steps (1-3) above for the stack: `cfn-workshop-moving-resources`, by updating the `moving-resources.yaml` template to remove the `DeletionPolicy: Retain` line from the `SNSTopic1` resource definition, updating the stack, and deleting it after successful update. Choose to accept the existing parameter value when you update the stack.
+    1. Repeat steps (1-3) above for stack: `cfn-workshop-resource-import-challenge` by updating the `resource-import-challenge.yaml` template to remove the `DeletionPolicy: Retain` line from the `Instance` resource definition, updating the stack, and deleting it after successful update.  Choose to accept existing parameter values when you update the stack.
     ::::
       ::::tab{id="LocalDevelopment" label="LocalDevelopment"}  
     1. Navigate to the [AWS CloudFormation Console](https://console.aws.amazon.com/cloudformation/).
@@ -589,7 +604,7 @@ Choose to follow cleanup steps shown next to clean up resources you created with
     1. Choose **Update stack** in the next page.
     1. After your stack update is complete, select the `resource-importing` stack and choose **Delete**.
     1. Repeat steps (2-9) above for the stack: `moving-resources`, by updating the `moving-resources.yaml` template to remove the `DeletionPolicy: Retain` line from the `SNSTopic1` resource definition, updating the stack, and deleting it after successful update. Choose to accept the existing parameter value when you update the stack.
-    1. Repeat steps (2-9) above for stack: `resource-import-challenge` by updating the `resource-import-challenge.yaml` template to remove the `DeletionPolicy: Retain` line from the `Instance` resource definition, updating the stack, and deleting it after successful update.  Choose to accept existing parameter values when you update the stack.
+    1. Repeat steps (2-9) above for stack: `cfn-workshop-resource-import-challenge` by updating the `resource-import-challenge.yaml` template to remove the `DeletionPolicy: Retain` line from the `Instance` resource definition, updating the stack, and deleting it after successful update.  Choose to accept existing parameter values when you update the stack.
       ::::
     :::::
 ### Conclusion
