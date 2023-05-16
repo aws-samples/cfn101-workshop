@@ -91,7 +91,7 @@ Outputs:
   1. In **Prepare template** select **Template is ready**.
   1. In **Template source** select **Upload a template file**.
   1. Choose a file `vpc.yaml`.
-  1. Enter a **stack name**. For example, `cfn-workshop-vpc`.
+  1. Enter a **stack name**. For example, `cfn-workshop-layered-stacks-vpc`.
   1. For the **AvailabilityZones** parameter, select **2 AZs**.
   1. You can leave the rest of the parameters **default**.
   1. Navigate through the wizard leaving everything default.
