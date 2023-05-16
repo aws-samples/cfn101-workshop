@@ -259,7 +259,7 @@ IamStack:
 
 ##### 3. Upload the IAM stack to S3
 
-Similarly to the [VPC stack](#3-upload-the-vpc-stack-to-s3), upload the IAM template to the S3.
+Similarly to the [VPC stack](#3.-upload-the-vpc-stack-to-s3), upload the IAM template to the S3.
 
 :::::tabs{variant="container"}
 ::::tab{id="cloud9" label="Cloud9"}
