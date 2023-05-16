@@ -136,7 +136,7 @@ Outputs:
   1. Enter a **stack name**. For example, `cfn-workshop-layered-stacks-iam`.
   1. Click **Next**.
   1. Navigate through the wizard leaving everything default.
-  1. **Acknowledge IAM capabilities** and click on **Create stack**.
+  1. **Acknowledge IAM capabilities** and click on **Submit**.
    ::::
    :::::  
 #### Create EC2 Layered Stack
