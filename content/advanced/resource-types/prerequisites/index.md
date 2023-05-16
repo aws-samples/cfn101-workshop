@@ -21,7 +21,7 @@ Before proceeding to the next section, choose to install the following prerequis
 
 ::alert[If you already have version 1.0 of the CloudFormation CLI installed, it is recommended to upgrade it to version 2.0, and to upgrade language plugin(s) you use as well. For the upgrade, you can use the `--upgrade` option for the `pip install` command shown previously, and include language plugins you use or plan to use. For more information, see *Upgrading to CFN-CLI 2.0* further down on this [page](https://docs.aws.amazon.com/cloudformation-cli/latest/userguide/what-is-cloudformation-cli.html#resource-type-setup).]{type="info"}
 
-* for the [Example in Python](example-in_python) lab, install following packages that are needed for running unit tests for the sample application:
+* for the [Example in Python](../example-in-python) lab, install following packages that are needed for running unit tests for the sample application:
 
   :::code{language=shell showLineNumbers=false showCopyAction=true}
   pip install pytest-cov cloudformation-cli-python-lib
