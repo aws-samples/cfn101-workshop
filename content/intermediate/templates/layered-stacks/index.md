@@ -232,7 +232,7 @@ WebServerSecurityGroup:
   1. In **Prepare template** select **Template is ready**.
   1. In **Template source** select **Upload a template file**.
   1. Choose a file `ec2.yaml`.
-  1. Enter a **stack name**. For example, `cfn-workshop-ec2`.
+  1. Enter a **stack name**. For example, `cfn-workshop-layered-stacks-ec2`.
   1. You can leave the rest of the parameters **default**.
   1. Navigate through the wizard leaving everything default.
   1. On the **Review page**, scroll down to the bottom and click on **Create stack**.
