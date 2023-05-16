@@ -224,7 +224,7 @@ WebServerSecurityGroup:
   1. Wait until the stack creation is completed by running the following AWS CLI command
   :::code{language=shell showLineNumbers=false showCopyAction=true}
   aws cloudformation wait stack-create-complete \
-    --stack-name cfn-workshop-ec2
+    --stack-name cfn-workshop-layered-stacks-ec2
   :::
   ::::
 	::::tab{id="local" label="Local development"}
