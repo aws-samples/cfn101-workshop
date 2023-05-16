@@ -87,7 +87,7 @@ These parameters need to be added to the main template so that they can be passe
 
 Copy the code below to the **Parameters** section of the `main.yaml` template.
 
-```yaml
+:::code{language=yaml showLineNumbers=true showCopyAction=true}
 AvailabilityZones:
   Type: List<AWS::EC2::AvailabilityZone::Name>
   Description: The list of Availability Zones to use for the subnets in the VPC. Select 2 AZs.
@@ -117,7 +117,7 @@ PublicSubnet2Cidr:
   AllowedPattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/([0-9]|[1-2][0-9]|3[0-2]))$
   ConstraintDescription: CIDR block parameter must be in the form x.x.x.x/16-28
   Default: 10.0.1.0/24
-```
+:::
 
 ##### 2. Create VPC resource in the main template
 In the code below, note that passing parameter values to resources works the same as if using a single standalone template.
@@ -125,7 +125,7 @@ Make sure that parameter name in the main template matches parameter name in the
 
 Add this code in the **Resources** section of the main template (`main.yaml`)
 
-```yaml
+:::code{language=yaml showLineNumbers=true showCopyAction=true}
 VpcStack:
   Type: AWS::CloudFormation::Stack
   Properties:
@@ -140,7 +140,7 @@ VpcStack:
       VPCName: !Ref VPCName
       PublicSubnet1Cidr: !Ref PublicSubnet1Cidr
       PublicSubnet2Cidr: !Ref PublicSubnet2Cidr
-```
+:::
 
 ##### 3. Upload the VPC stack to S3
 
@@ -163,8 +163,6 @@ VpcStack:
 ::::
 :::::
 
-
-
 ##### 4. Deploy VPC Nested Stack
 
 :::alert{type="info"}
@@ -175,7 +173,6 @@ See the earlier [Linting and Testing](/basics/templates/linting-and-testing) lab
 :::
 
 :::::tabs{variant="container"}
-
 ::::tab{id="cloud9" label="Cloud9"}
 1. In the **Cloud9 terminal** navigate to `code/workspace/nested-stacks`:
   :::code{language=shell showLineNumbers=false showCopyAction=true}
@@ -198,7 +195,6 @@ See the earlier [Linting and Testing](/basics/templates/linting-and-testing) lab
   :::
 1. Open the **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** console in a new tab and check if the stack status is **CREATE_COMPLETE**.
 ::::
-
 ::::tab{id="local" label="Local development"}
 1. Navigate to CloudFormation in the console and click **Create stack With new resources (standard)**.
 1. In **Prepare template** select **Template is ready**.
@@ -227,7 +223,7 @@ to access EC2 instance.
 1. Open the `iam.yaml` file.
 1. Copy the code below to the **Resources** section of the template.
 
-```yaml
+:::code{language=yaml showLineNumbers=true showCopyAction=true}
 SSMIAMRole:
   Type: AWS::IAM::Role
   Properties:
@@ -248,19 +244,18 @@ WebServerInstanceProfile:
     Path: /
     Roles:
       - !Ref SSMIAMRole
-```
+:::
 
 ##### 2. Create IAM resource in the main template
 Copy the code below to the **Resources** section of the `main.yaml` template.
 
-```yaml
+:::code{language=yaml showLineNumbers=true showCopyAction=true}
 IamStack:
   Type: AWS::CloudFormation::Stack
   Properties:
     TemplateURL: !Sub https://${S3BucketName}.s3.amazonaws.com/iam.yaml
     TimeoutInMinutes: 10
-```
-
+:::
 
 ##### 3. Upload the IAM stack to S3
 
@@ -311,7 +306,6 @@ Update the previously created nested stack with a new template.
   :::
 1. Open the **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** console in a new tab and check if the stack status is **UPDATE_COMPLETE**.
 ::::
-
 ::::tab{id="local" label="Local development"}
 1. Navigate to Cloudformation service in the AWS console.
 1. Select the **root** stack (it is the one without the **nested** tag associated).
@@ -336,7 +330,7 @@ Similarly to the VPC template, if you look into **Parameters** section of the `e
 
 Add the code below to the **Parameters** section of the `main.yaml` template:
 
-```yaml
+:::code{language=yaml showLineNumbers=true showCopyAction=true}
 EnvironmentType:
   Description: 'Specify the Environment type of the stack.'
   Type: String
@@ -346,26 +340,26 @@ EnvironmentType:
     - Test
     - Prod
   ConstraintDescription: 'Specify either Dev, Test or Prod.'
-```
+:::
 
 ##### 2. Create EC2 resource in the main template
 
 Copy the code below to the **Resources** section of the `main.yaml` template.
 
-```yaml
+:::code{language=yaml showLineNumbers=true showCopyAction=true}
 EC2Stack:
   Type: AWS::CloudFormation::Stack
   Properties:
     TemplateURL: !Sub https://${S3BucketName}.s3.amazonaws.com/ec2.yaml
     TimeoutInMinutes: 20
-```
+:::
 
 ##### 3. Add EnvironmentType to the EC2 stack
 
 As you have added `EnvironmentType` parameter to the template, you need to reference this in `EC2Stack` resource.
 
 Add the `EnvironmentType` to the `Parameters` section of the EC2 stack in the `main.yaml` template, lines [6-7]:
-```yaml {hl_lines=[6,7]}
+:::code{language=yaml showLineNumbers=true showCopyAction=true highlightLines=6-7}
 EC2Stack:
   Type: AWS::CloudFormation::Stack
   Properties:
@@ -373,7 +367,7 @@ EC2Stack:
     TimeoutInMinutes: 20
     Parameters:
       EnvironmentType: !Ref EnvironmentType
-```
+:::
 
 #### 6. Pass variable from another nested stack
 
@@ -387,40 +381,39 @@ Before you update your CloudFormation nested stack, there are a couple more thin
 
 1. Open up `ec2.yaml` file and create two parameters, `VpcId` and `SubnetId` in **Parameters** section of the template.
 
-    ```yaml
-    VpcId:
-      Type: AWS::EC2::VPC::Id
-      Description: 'The VPC ID'
+  :::code{language=yaml showLineNumbers=true showCopyAction=true}
+  VpcId:
+    Type: AWS::EC2::VPC::Id
+    Description: 'The VPC ID'
 
-    SubnetId:
-      Type: AWS::EC2::Subnet::Id
-      Description: 'The Subnet ID'
-    ```
+  SubnetId:
+    Type: AWS::EC2::Subnet::Id
+    Description: 'The Subnet ID'
+  :::
 
 1. Next, locate the `WebServerSecurityGroup` resource.
 1. Add `VpcId` property and reference `VpcId` parameter in the `WebServerSecurityGroup` resource, line [18]. Your security group resource should look like the code below.
-
-   ```yaml {hl_lines=[18]}
-   WebServerSecurityGroup:
-     Type: AWS::EC2::SecurityGroup
-     Properties:
-       GroupDescription: Enable HTTP and HTTPS access
-       SecurityGroupIngress:
-         - IpProtocol: tcp
-           FromPort: 80
-           ToPort: 80
-           CidrIp: 0.0.0.0/0
-       SecurityGroupEgress:
-         - IpProtocol: tcp
-           FromPort: 80
-           ToPort: 80
-           CidrIp: 0.0.0.0/0
-         - IpProtocol: tcp
-           FromPort: 443
-           ToPort: 443
-           CidrIp: 0.0.0.0/0
-       VpcId: !Ref VpcId
-   ```
+  :::code{language=yaml showLineNumbers=true showCopyAction=true highlightLines=18}
+  WebServerSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Enable HTTP and HTTPS access
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 80
+          ToPort: 80
+          CidrIp: 0.0.0.0/0
+      SecurityGroupEgress:
+        - IpProtocol: tcp
+       FromPort: 80
+       ToPort: 80
+       CidrIp: 0.0.0.0/0
+        - IpProtocol: tcp
+       FromPort: 443
+       ToPort: 443
+       CidrIp: 0.0.0.0/0
+      VpcId: !Ref VpcId
+  :::
 
 ##### 2. Prepare the VPC template
 
@@ -430,7 +423,7 @@ Using the intrinsic function `!GetAtt`, CloudFormation can access the value from
 
 Add the code below to the `vpc.yaml` template.
 
-```yaml
+:::code{language=yaml showLineNumbers=true showCopyAction=true}
 Outputs:
   VpcId:
     Value: !Ref VPC
@@ -440,14 +433,14 @@ Outputs:
 
   PublicSubnet2:
     Value: !Ref VPCPublicSubnet2
-```
+:::
 
 ##### 3. Add VpcId and SubnetId to **EC2Stack** stack
 
 Now, you can grab the values from VPC stack and pass them to EC2 stack.
 
 Add `VpcId` and `SubnetId` parameters to the EC2 stack in the `main.yaml` template.
-```yaml {hl_lines=[8,9]}
+:::code{language=yaml showLineNumbers=true showCopyAction=true highlightLines=8-9}
 EC2Stack:
   Type: AWS::CloudFormation::Stack
   Properties:
@@ -457,33 +450,33 @@ EC2Stack:
       EnvironmentType: !Ref EnvironmentType
       VpcId: !GetAtt VpcStack.Outputs.VpcId
       SubnetId: !GetAtt VpcStack.Outputs.PublicSubnet1
-```
+:::
 
 ##### 4. Prepare the IAM template
 
 Open up `iam.yaml` and add the code below.
 
-```yaml
+:::code{language=yaml showLineNumbers=true showCopyAction=true}
 Outputs:
   WebServerInstanceProfile:
     Value: !Ref WebServerInstanceProfile
-```
+:::
 
 ##### 5. Prepare the EC2 template
 
 1. Open up `ec2.yaml`
 1. Create the parameter `WebServerInstanceProfile` in the **Parameters** section of the template.
 
-```yaml
+:::code{language=yaml showLineNumbers=true showCopyAction=true}
 WebServerInstanceProfile:
   Type: String
   Description: 'Instance profile resource ID'
-```
+:::
 
 ##### 6. Add WebServerInstanceProfile to **EC2Stack** stack
 
 Add the `WebServerInstanceProfile` parameter to the EC2 stack in the `main.yaml` template, line[10].
-```yaml {hl_lines=[10]}
+:::code{language=yaml showLineNumbers=true showCopyAction=true highlightLines=10}
 EC2Stack:
   Type: AWS::CloudFormation::Stack
   Properties:
@@ -494,17 +487,17 @@ EC2Stack:
       VpcId: !GetAtt VpcStack.Outputs.VpcId
       SubnetId: !GetAtt VpcStack.Outputs.PublicSubnet1
       WebServerInstanceProfile: !GetAtt IamStack.Outputs.WebServerInstanceProfile
-```
+:::
 
 ##### 7. Output the `WebsiteURL` in the main template
 
 Add the `WebsiteURL` to the `Outputs` section of the `main.yaml` template.
 
-```yaml
+:::code{language=yaml showLineNumbers=true showCopyAction=true}
 Outputs:
   WebsiteURL:
     Value: !GetAtt EC2Stack.Outputs.WebsiteURL
-```
+:::
 
 ##### 8. Upload the EC2 stack to S3
 Before you can deploy the updated nested stack, you must update the templates in your S3 bucket that are referenced by the parent template, `main.yaml`.
@@ -522,8 +515,8 @@ and `iam.yaml` templates to your S3 bucket.
 1. Run the below command to copy the `iam.yaml`, `vpc.yaml` and `ec2.yaml` to S3 bucket. Replace the `bucket-name` with the bucket name from previous step.
   :::code{language=shell showLineNumbers=false showCopyAction=true}
   aws s3 cp iam.yaml s3://{bucket-name}
-  aws s3 cp vpc.yaml s3://{bucket-name}
-  aws s3 cp ec2.yaml s3://{bucket-name}
+aws s3 cp vpc.yaml s3://{bucket-name}
+aws s3 cp ec2.yaml s3://{bucket-name}
   :::
 ::::
 ::::tab{id="local" label="Local development"}
@@ -561,7 +554,6 @@ Update the previously created nested stack with a new template.
   :::
 1. Open the **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** console in a new tab and check if the stack status is **UPDATE_COMPLETE**.
 ::::
-
 ::::tab{id="local" label="Local development"}
 1. Navigate to Cloudformation service in the AWS console.
 1. Select the **root** stack (it is the one without the **nested** tag associated).
@@ -571,7 +563,6 @@ Update the previously created nested stack with a new template.
 1. Click on **Choose file** button and navigate to your workshop directory.
 1. Select the `main.yaml` template file and click **Next**.
 1. Follow the wizard, acknowledge IAM capabilities and click on **Submit**.
-
 ::::
 :::::
 
