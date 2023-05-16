@@ -548,7 +548,7 @@ Update the previously created nested stack with a new template.
   :::code{language=shell showLineNumbers=false showCopyAction=true}
   aws ec2 describe-availability-zones --output json --query "AvailabilityZones[*].ZoneName"
   :::
-1. Use the AWS CLI to update the stack. The required parameter `--template-body` have been pre-filled for you. Replace the `ParameterValue` **bucketName** with the value you have written down in [Prepare S3 bucket](#2-prepare-s3-bucket) section. Replace the `ParameterValue` **AZ1** and **AZ2** which you copied in previous step.
+1. Use the AWS CLI to update the stack. The required parameter `--template-body` have been pre-filled for you. Replace the `ParameterValue` **bucketName** with the value you have written down in [Prepare S3 bucket](#2.-prepare-s3-bucket) section. Replace the `ParameterValue` **AZ1** and **AZ2** which you copied in previous step.
   :::code{language=shell showLineNumbers=false showCopyAction=true}
   aws cloudformation update-stack --stack-name cfn-workshop-nested-stacks \
   --template-body file://main.yaml \
