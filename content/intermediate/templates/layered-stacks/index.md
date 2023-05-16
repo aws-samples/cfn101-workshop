@@ -83,7 +83,7 @@ Outputs:
   1. Wait until the stack creation is completed by running the following AWS CLI command
   :::code{language=shell showLineNumbers=false showCopyAction=true}
   aws cloudformation wait stack-create-complete \
-    --stack-name cfn-workshop-vpc
+    --stack-name cfn-workshop-layered-stacks-vpc
   :::
   ::::
 	::::tab{id="local" label="Local development"}
