@@ -277,7 +277,7 @@ For example, you can not delete the **VPC stack** before you delete **EC2 stack*
 	::::tab{id="local" label="Local development"}
   1. In the **[CloudFormation console](https://console.aws.amazon.com/cloudformation)**, select the **EC2 stack**, for example `cfn-workshop-layered-stacks-ec2`.
   1. In the top right corner, click on **Delete**.
-  1. In the pop-up window click on **Delete stack**.
+  1. In the pop-up window click on **Delete**.
   1. Hit the **refresh** button a few times until you see in the status **DELETE_COMPLETE**.
   1. Now you can delete **IAM** and **VPC** stack in any order as there are no more dependencies.
    ::::
