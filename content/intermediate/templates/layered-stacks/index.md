@@ -72,18 +72,18 @@ Outputs:
 ##### 2. Deploy the VPC Stack
    :::::tabs{variant="container"}
 	::::tab{id="cloud9" label="Cloud9"}
-  1. Change the directory to `cfn101-workshop/code/workspace/layered-stacks`.
+  1. In the **Cloud9 terminal** navigate to `cfn101-workshop/code/workspace/layered-stacks`.
   1. **Create Stack** by using the following AWS CLI command. The template requires you provide the values for `AvailabilityZones` parameter, For example `us-east-1a` and `us-east-1b` are used below. Please select 2 Availability Zone based on your region. 
   :::code{language=shell showLineNumbers=false showCopyAction=true}
   aws cloudformation create-stack \
-    --stack-name cfn-workspace-vpc \
+    --stack-name cfn-workshop-vpc \
     --template-body file://vpc.yaml \
     --parameters ParameterKey=AvailabilityZones,ParameterValue=us-east-1a\\,us-east-1b
   :::
   1. Wait until the stack creation is completed by running the following AWS CLI command
   :::code{language=shell showLineNumbers=false showCopyAction=true}
   aws cloudformation wait stack-create-complete \
-    --stack-name cfn-workspace-vpc
+    --stack-name cfn-workshop-vpc
   :::
   ::::
 	::::tab{id="local" label="Local development"}
@@ -118,14 +118,14 @@ Outputs:
   1. Let's **Create Stack** by using the following AWS CLI command. The template requires you to specify `CAPABILITY_IAM` capability for creating IAM resources.
   :::code{language=shell showLineNumbers=false showCopyAction=true}
   aws cloudformation create-stack \
-    --stack-name cfn-workspace-iam \
+    --stack-name cfn-workshop-iam \
     --template-body file://iam.yaml \
     --capabilities CAPABILITY_IAM
   :::
   1. Wait until the stack creation is completed by running the following AWS CLI command
   :::code{language=shell showLineNumbers=false showCopyAction=true}
   aws cloudformation wait stack-create-complete \
-    --stack-name cfn-workspace-iam
+    --stack-name cfn-workshop-iam
   :::
   ::::
 	::::tab{id="local" label="Local development"}
@@ -218,13 +218,13 @@ WebServerSecurityGroup:
   1. Let's **Create Stack** by using the following AWS CLI command. The template requires you to specify `CAPABILITY_IAM` capability for creating IAM resources.
   :::code{language=shell showLineNumbers=false showCopyAction=true}
   aws cloudformation create-stack \
-    --stack-name cfn-workspace-ec2 \
+    --stack-name cfn-workshop-ec2 \
     --template-body file://ec2.yaml 
   :::
   1. Wait until the stack creation is completed by running the following AWS CLI command
   :::code{language=shell showLineNumbers=false showCopyAction=true}
   aws cloudformation wait stack-create-complete \
-    --stack-name cfn-workspace-ec2
+    --stack-name cfn-workshop-ec2
   :::
   ::::
 	::::tab{id="local" label="Local development"}
@@ -265,12 +265,12 @@ For example, you can not delete the **VPC stack** before you delete **EC2 stack*
   1. **Delete Stack** by running the following AWS CLI command
   :::code{language=shell showLineNumbers=false showCopyAction=true}
   aws cloudformation delete-stack \
-    --stack-name cfn-workspace-ec2
+    --stack-name cfn-workshop-ec2
   :::
   1. Wait until the stack is deleted by using the following AWS CLI command.
   :::code{language=shell showLineNumbers=false showCopyAction=true}
   aws cloudformation wait stack-delete-complete \
-    --stack-name cfn-workspace-ec2
+    --stack-name cfn-workshop-ec2
   :::
   1. Repeat steps (1-2) above for stacks: `cfn-workshop-iam` and `cfn-workshop-vpc2`.
   ::::
