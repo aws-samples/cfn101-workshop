@@ -235,7 +235,7 @@ WebServerSecurityGroup:
   1. Enter a **stack name**. For example, `cfn-workshop-layered-stacks-ec2`.
   1. You can leave the rest of the parameters **default**.
   1. Navigate through the wizard leaving everything default.
-  1. On the **Review page**, scroll down to the bottom and click on **Create stack**.
+  1. On the **Review page**, scroll down to the bottom and click on **Submit**.
    ::::
    :::::    
 #### 7. Test the deployment
