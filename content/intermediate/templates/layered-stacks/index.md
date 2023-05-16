@@ -265,7 +265,7 @@ For example, you can not delete the **VPC stack** before you delete **EC2 stack*
   1. **Delete Stack** by running the following AWS CLI command
   :::code{language=shell showLineNumbers=false showCopyAction=true}
   aws cloudformation delete-stack \
-    --stack-name cfn-workshop-ec2
+    --stack-name cfn-workshop-layered-stacks-ec2
   :::
   1. Wait until the stack is deleted by using the following AWS CLI command.
   :::code{language=shell showLineNumbers=false showCopyAction=true}
