@@ -272,7 +272,7 @@ For example, you can not delete the **VPC stack** before you delete **EC2 stack*
   aws cloudformation wait stack-delete-complete \
     --stack-name cfn-workshop-layered-stacks-ec2
   :::
-  1. Repeat steps (1-2) above for stacks: `cfn-workshop-iam` and `cfn-workshop-vpc2`.
+  1. Repeat steps (1-2) above for stacks: `cfn-workshop-layered-stacks-iam` and `cfn-workshop-layered-stacks-vpc`.
   ::::
 	::::tab{id="local" label="Local development"}
   1. In the **[CloudFormation console](https://console.aws.amazon.com/cloudformation)**, select the **EC2 stack**, for example `cfn-workshop-ec2`.
