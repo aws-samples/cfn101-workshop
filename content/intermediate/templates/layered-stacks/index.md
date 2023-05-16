@@ -133,7 +133,7 @@ Outputs:
   1. In **Prepare template** select **Template is ready**.
   1. In **Template source** select **Upload a template file**.
   1. Choose a file `iam.yaml`.
-  1. Enter a **stack name**. For example, `cfn-workshop-iam`.
+  1. Enter a **stack name**. For example, `cfn-workshop-layered-stacks-iam`.
   1. Click **Next**.
   1. Navigate through the wizard leaving everything default.
   1. **Acknowledge IAM capabilities** and click on **Create stack**.
