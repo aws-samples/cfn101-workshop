@@ -273,7 +273,7 @@ Similarly to the [VPC stack](#3.-upload-the-vpc-stack-to-s3), upload the IAM tem
   :::
 ::::
 ::::tab{id="local" label="Local development"}
-1. Navigate to the [S3 console](https://console.aws.amazon.com/s3/home?region=eu-west-1) and select your bucket.
+1. Navigate to the [S3 console](https://console.aws.amazon.com/s3/home) and select your bucket.
 1. Click on **Upload** button, **Add files**.
 1. Locate the `iam.yaml` file and select it.
 1. Click **Upload** button to upload the file.
