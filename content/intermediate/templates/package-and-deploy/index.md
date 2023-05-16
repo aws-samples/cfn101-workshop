@@ -221,7 +221,7 @@ From within a `code/workspace/package-and-deploy` directory run:
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 aws cloudformation deploy \
     --template-file infrastructure-packaged.template \
-    --stack-name cfn-workshop-lambda \
+    --stack-name cfn-workshop-package-deploy-lambda \
     --region eu-west-1 \
     --capabilities CAPABILITY_IAM
 :::
@@ -301,6 +301,40 @@ more response.json
 :::::
 
 ---
+### Cleanup
+
+Choose to follow cleanup steps shown next to clean up resources you created with this lab:
+
+  :::::tabs{variant="container"}
+    ::::tab{id="cloud9" label="Cloud9"}
+    1. Delete the S3 bucket by using the following AWS CLI command 
+    :::code{language=shell showLineNumbers=false showCopyAction=true}
+    aws s3 rb s3://example-bucket-name --force
+    :::
+    1. Delete the stack by using the following AWS CLI command
+    :::code{language=shell showLineNumbers=false showCopyAction=true}
+    aws cloudformation delete-stack \
+          --stack-name cfn-workshop-package-deploy-lambda
+    :::
+    1. Wait for the Stack deletion to complete by using the following AWS CLI command
+    :::code{language=shell showLineNumbers=false showCopyAction=true}
+    aws cloudformation wait stack-delete-complete \
+        --stack-name cfn-workshop-package-deploy-lambda
+    :::
+    ::::
+    ::::tab{id="LocalDevelopment" label="LocalDevelopment"}
+      1. Navigate to the [AWS S3 Console](https://s3.console.aws.amazon.com/s3/).
+      1. Select the S3 bucket that you have created during this lab, Choose **Empty**.
+      1. Follow the instructions on the console to confirm the deletion of objects in the buckets.
+      1. Now switch back to S3 Console, Select the S3 bucket that you have created during this lab, Choose **Delete**
+      1. Follow the instructions on the console to confirm the deletion of the S3 bucket.
+      1. Navigate to the [AWS CloudFormation Console](https://console.aws.amazon.com/cloudformation/).
+      1. Select the stack named `cfn-workshop-package-deploy-lambda` and choose **Delete**.
+      1. In the pop-up window click on Delete stack.
+      1. You can click the refresh button a few times until you see in the status **DELETE_COMPLETE**.
+    ::::
+  :::::
+
 ### Conclusion
 Congratulations, you have successfully packaged and deployed CloudFormation template using the command line.
 
