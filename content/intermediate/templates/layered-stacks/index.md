@@ -118,7 +118,7 @@ Outputs:
   1. Let's **Create Stack** by using the following AWS CLI command. The template requires you to specify `CAPABILITY_IAM` capability for creating IAM resources.
   :::code{language=shell showLineNumbers=false showCopyAction=true}
   aws cloudformation create-stack \
-    --stack-name cfn-workshop-iam \
+    --stack-name cfn-workshop-layered-stacks-iam \
     --template-body file://iam.yaml \
     --capabilities CAPABILITY_IAM
   :::
