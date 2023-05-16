@@ -18,7 +18,7 @@ By the end of this lab, you will be able to:
 * Compose a *dynamic reference string* to access an external value in your CloudFormation template.
 * Retrieve a specific version, or the *latest* version of a Parameter Store parameter.
 * Retrieve a specific version of a Secrets Manager secret.
-    * Extract a value for a specific key, from a secret that uses a JSON data format.
+* Extract a value for a specific key, from a secret that uses a JSON data format.
 
 ### Start Lab
 
@@ -61,7 +61,7 @@ We recommend using **us-east-1 (N. Virginia)** as the _AWS Region_ for the works
 
 4. Follow steps shown next to create a dynamic reference to your parameter in an EC2 instance you describe in a template:
 
-    1. change directory to `code/workspace/dynamic-references`.
+    1. Change directory to `code/workspace/dynamic-references`.
     2. Open the `ec2-instance.yaml` CloudFormation template in your favorite text editor.
     3. Locate the `AWS::EC2::Instance` resource type block in the template; update the template by appending, to properties in the `Properties` section, the `ImageId` property and a dynamic reference to your parameter:
 
@@ -135,8 +135,8 @@ Let’s get started! Choose to follow steps shown next:
     1. Make sure you are in the `code/workspace/dynamic-references` directory.
     2. Open the `database.yaml` CloudFormation template in your favorite text editor.
     3. Note the following resources in the template:
-        1. the resource of type `AWS::RDS::DBInstance`, with which you describe your Amazon RDS instance. **Note:** for resources of the type `AWS::RDS::DBInstance` that don't specify the `DBClusterIdentifier` property (as in the example for this lab), if a [deletion policy](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-attribute-deletionpolicy.html) is not explicitly defined, the deletion policy defaults to `Snapshot`, and CloudFormation creates a snapshot for the resource before deleting it. In this lab, `DeletionPolicy` for the resource is set to `Delete` to skip snapshot creation on delete.
-        2. the resource of type `AWS::SecretsManager::Secret`, where you will store database connection parameters, as JSON key-value pairs, in a secret named `DatabaseConnParams`:
+        1. The resource of type `AWS::RDS::DBInstance`, with which you describe your Amazon RDS instance. **Note:** for resources of the type `AWS::RDS::DBInstance` that don't specify the `DBClusterIdentifier` property (as in the example for this lab), if a [deletion policy](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-attribute-deletionpolicy.html) is not explicitly defined, the deletion policy defaults to `Snapshot`, and CloudFormation creates a snapshot for the resource before deleting it. In this lab, `DeletionPolicy` for the resource is set to `Delete` to skip snapshot creation on delete.
+        2. The resource of type `AWS::SecretsManager::Secret`, where you will store database connection parameters, as JSON key-value pairs, in a secret named `DatabaseConnParams`:
    ```json
    {
        "RDS_HOSTNAME": "${Database.Endpoint.Address}",
@@ -227,9 +227,9 @@ Let’s get started! Choose to follow steps shown next:
     ::::
     :::::
 
-   In the template you just used, database connection parameters are retrieved during stack runtime using a dynamic string. You retrieved the value for a given key, such as `RDS_HOSTNAME`, with: `'{{resolve\:secretsmanager\:DatabaseConnParams\:SecretString\:RDS_HOSTNAME}}'`, where `DatabaseConnParams` is the secret ID.
+   In the template you just used, database connection parameters are retrieved during stack runtime using a dynamic string. You retrieved the value for a given key, such as `RDS_HOSTNAME`, with: `'{{resolve:secretsmanager:DatabaseConnParams:SecretString:RDS_HOSTNAME}}'`, where `DatabaseConnParams` is the secret ID.
 
-   ::alert[A secret in AWS Secrets Manager has [*versions*](https://docs.aws.amazon.com/secretsmanager/latest/userguide/getting-started.html#term_version) holding copies of the encrypted secret value. When you change the secret value, Secrets Manager creates a new version. A secret always has a version with the staging label `AWSCURRENT`, which is the current secret value. If required, you can modify this string specifying a *version-stage* or *version-id* as such: `'{{resolve\:secretsmanager\:prod-DatabaseConnParams\:SecretString\:RDS_HOSTNAME:<version-stage>:<version-id>}}'`. When you do not specify a version, CloudFormation defaults to resolving the secret associated with the stage `AWSCURRENT`.]{type="info"}
+   ::alert[A secret in AWS Secrets Manager has [*versions*](https://docs.aws.amazon.com/secretsmanager/latest/userguide/getting-started.html#term_version) holding copies of the encrypted secret value. When you change the secret value, Secrets Manager creates a new version. A secret always has a version with the staging label `AWSCURRENT`, which is the current secret value. If required, you can modify this string specifying a *version-stage* or *version-id* as such: `'{{resolve:secretsmanager:prod-DatabaseConnParams:SecretString:RDS_HOSTNAME:<version-stage>:<version-id>}}'`. When you do not specify a version, CloudFormation defaults to resolving the secret associated with the stage `AWSCURRENT`.]{type="info"}
 
 5. When you invoke the example Lambda function you created, the function fetches `RDS_HOSTNAME` and `RDS_PORT` environment variables, and prints out their values. First, locate the Lambda function name by navigating to the _Resources_ tab in the CloudFormation Console: look for the Physical ID of your Lambda function, and note its value. Next, verify you are passing database connection parameters to your Lambda function by invoking it with the following command (replace `YOUR_FUNCTION_NAME` with your Lambda function name and `YOUR_REGION` with the value you need):
    :::code{language=shell showLineNumbers=false showCopyAction=true}
