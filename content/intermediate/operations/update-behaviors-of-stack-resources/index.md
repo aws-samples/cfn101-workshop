@@ -83,8 +83,8 @@ Save your changes to the file. Next, create your stack with the `update-behavior
 :::::
 
 
-
 **Replacement**
+
 So far, you've created an Amazon EC2 instance with your stack. For your instance's [Amazon Machine Image](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/AMIs.html) (AMI), you used the latest `x86-64` Amazon Linux 2 AMI in this lab. Let's now consider a scenario where you have a requirement to use a different AMI for your Amazon EC2 instance. In this lab, you choose to update the CloudFormation stack you created earlier, `cfn-workshop-update-behaviors-of-stack-resources`, and override the parameter value for `LatestAmiId` with `/aws/service/ami-amazon-linux-latest/amzn2-ami-hvm-x86_64-ebs`.
 
 ::alert[When you change a property value for a resource, always look at the value for [Update requires](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-instance.html#cfn-ec2-instance-imageid) for the given resource property in the documentation. In this case, updating the value for the `ImageId` property results in a resource [replacement](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-updating-stacks-update-behaviors.html#update-replacement) behavior.]{type="info"}
