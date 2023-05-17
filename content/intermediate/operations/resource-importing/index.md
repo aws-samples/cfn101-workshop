@@ -769,6 +769,11 @@ Choose to follow cleanup steps shown next to clean up resources you created with
     aws cloudformation wait stack-update-complete \
           --stack-name cfn-workshop-resource-importing
     :::
+    1. Wait until the `UPDATE` operation is complete by using the following AWS CLI command
+    :::code{language=shell showLineNumbers=false showCopyAction=true}
+    aws cloudformation wait stack-update-complete \
+          --stack-name cfn-workshop-resource-importing
+    :::
     1. Delete the stack by running the following AWS CLI command
     :::code{language=shell showLineNumbers=false showCopyAction=true}
     aws cloudformation delete-stack \
