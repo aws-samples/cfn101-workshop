@@ -84,7 +84,7 @@ In this next step, you will use the AWS CloudFormation Console to create a stack
         }
       ]
     }
-    ```
+    :::
     1. The template requires you to provide a value for the `SNSTopicTagValue` input parameter. For example use `Topic-Tag-1`
     1. Let's create the stack from the template using the following command (the example uses `us-east-1` for the AWS region, change this value as needed):
     :::code{language=shell showLineNumbers=false showCopyAction=true}
