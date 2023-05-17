@@ -116,7 +116,7 @@ aws cloudformation wait stack-create-complete \
 4. Enter a Stack name. For example, specify `cfn-workshop-stack-policy`. In the parameters section, choose to accept the parameter value for `SNSTopicTagValue` as `Topic-Tag-1`. Choose **Next**.
 5. In **Configure Stack Options** page; under **Stack policy**, choose **Enter stack policy** and paste the following code for the stack policy. Under **Stack creation options**, choose **Activated** for **Termination protection**, and choose **Next**.
 
-```json
+:::code{language=json showLineNumbers=false showCopyAction=false}
 {
   "Statement" : [
     {
@@ -228,7 +228,7 @@ When you use a `Retain` value for the `DeletionPolicy` attribute, you indicate t
 After the stack is created, let’s now test the `DeletionPolicy` you set on the resource:
 
 1. Navigate to the [AWS CloudFormation Console](https://console.aws.amazon.com/cloudformation/).
-2. Select the stack named `deletion-policy-lab`, and choose **Delete**. Next, choose **Delete stack** to confirm.
+2. Select the stack named `cfn-workshop-deletion-policy`, and choose **Delete**. Next, choose **Delete stack** to confirm.
 
 In the stack events pane, you will observe the resource whose Logical ID is `SNSTopic` skipped the deletion. To confirm the resource was retained, follow the steps below:
 
@@ -256,7 +256,7 @@ You have learned how to create a stack policy to deny updates to a resource base
 
 Create a stack policy that, for `"Effect" : "Deny"`, contains `Action`, `Resource`, and `Condition` blocks specified as shown next:
 
-```json
+:::code{language=json showLineNumbers=false showCopyAction=false}
 {
   "Statement" : [
     {
@@ -278,7 +278,7 @@ Create a stack policy that, for `"Effect" : "Deny"`, contains `Action`, `Resourc
     }
   ]
 }
-```
+:::
 
 :::
 
