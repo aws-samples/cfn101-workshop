@@ -56,7 +56,7 @@ You created the administrator role for StackSets; next, you will create the exec
 5. In **Parameters**, enter the 12-digit account ID for the AWS account you are using for this lab. Choose **Next**.
 6. For **Configure stack options** you may choose to configure tags, as mentioned earlier. For example, enter *Owner* for the tag key, and your email address for the tag value. Accept default values for the other settings in the page. Choose **Next**.
 7. Under **Review**, review the contents of the page. At the bottom of the page, select **I acknowledge that AWS CloudFormation might create IAM resources with custom names**.
-8. Select **Create stack**.
+8. Select **Submit**.
 
 Wait until the stack creation completes with a `CREATE_COMPLETE` **Status**.
 
@@ -71,7 +71,7 @@ In part 1 of this lab, you'll use an example CloudFormation template, `example_n
 To get started, follow steps shown next:
    :::::tabs{variant="container"}
 	::::tab{id="cloud9" label="Cloud9"}
-In the **Cloud9 terminal** navigate to  `cfn-workshop/code/workspace/stacksets`.
+In the **Cloud9 terminal** navigate to  `cfn101-workshop/code/workspace/stacksets`.
   ::::
 	::::tab{id="local" label="Local development"}
 Change directory to the `code/workspace/stacksets` directory.  
@@ -94,7 +94,7 @@ In this next step, you will use the AWS CloudFormation Console to create a stack
     :::code{language=shell showLineNumbers=false showCopyAction=true}
     aws cloudformation create-stack-set \
     --stack-set-name cfn-workshop-network \
-    --template-body file://example-network.yaml
+    --template-body file://example_network.yaml
     :::
     1. Create stack instances to your stackset by using the following AWS CLI command. This command requires you specify the 12-digit AWS Account ID for the account you are using for this Lab. You can find this value by choosing the user/role drop-down menu on the top-right corner.For regions, choose to deploy in US East (N. Virginia) and US West (Oregon).
     :::code{language=shell showLineNumbers=false showCopyAction=true}
@@ -104,16 +104,16 @@ In this next step, you will use the AWS CloudFormation Console to create a stack
     --regions us-east-1 us-west-2
     :::
     1. CloudFormation returns the following output.
-        ```json
+    :::code{language=json showLineNumbers=false showCopyAction=false}
         {
             "OperationId": "d7995c31-83c2-xmpl-a3d4-e9ca2811563f"
         }
-        ```
+    :::
     1. Verify that the stack instances were created successfully. Run `DescribeStackSetOperation` with the `operation-id` that is returned as part of the output of step 3.
     :::code{language=shell showLineNumbers=false showCopyAction=true}
     aws cloudformation describe-stack-set-operation \
     --stack-set-name cfn-workshop-network \
-    --operation-id `operation_ID` 
+    --operation-id operation_ID
     ::: 
     1. Navigate to the [AWS CloudFormation Console](https://console.aws.amazon.com/cloudformation/). From the panel on the left of the page, select the **StackSets** tab.
     1. Select `cfn-workshop-network`,Under **Stack instances**, you should see two stacks deployed. One in `us-east-1` and another in `us-west-2`
@@ -122,7 +122,7 @@ In this next step, you will use the AWS CloudFormation Console to create a stack
     
     1. Navigate to the [AWS CloudFormation Console](https://console.aws.amazon.com/cloudformation/).
     1. From the panel on the left of the page, select the **StackSets** tab. Choose **Create StackSets**.
-    1. In the **Permissions** section: leave the value for **IAM Admin role ARN** empty; set **IAM execution role name** to **AWSCloudFormationStackSetsExecutionRole**.
+    1. In the **Permissions** section: choose **Self-service permissions**; leave the value for **IAM Admin role ARN** empty; set **IAM execution role name** to **AWSCloudFormationStackSetsExecutionRole**.
     1. From the **Prerequisite**-**Prepare template** section, choose **Template is ready**.
     1. Under **Specify template**, select **Template source** and choose **Upload a template file**. Select **Choose file** and supply the CloudFormation template `example_network.yaml` mentioned earlier, and then choose **Next**.
     1. In **Specify StackSet details** page, provide name, description, and set parameters:
@@ -136,7 +136,7 @@ In this next step, you will use the AWS CloudFormation Console to create a stack
     
     ![StackSetsDeploymentOptions](/static/intermediate/operations/stacksets/stacksetsdeploymentoptions.png)
     1. For **Specify regions**, choose to deploy in **US East (N. Virginia)** and **US West (Oregon)**.
-    2. Accept default values for **Deployment options**.
+    2. Accept default values for **Deployment options**, and choose **Next**.
     3. On the **Review** page, review the contents of the page and choose **Submit**.
     4. Refresh the StackSet creation page until you see **CREATE** status as `SUCCEEDED`.
     
@@ -163,7 +163,7 @@ Let’s get started:
 
    :::::tabs{variant="container"}
 	::::tab{id="cloud9" label="Cloud9"}
-In the **Cloud9 terminal** navigate to  `cfn-workshop/code/workspace/stacksets`.
+In the **Cloud9 terminal** navigate to  `cfn101-workshop/code/workspace/stacksets`.
   ::::
 	::::tab{id="local" label="Local development"}
 Change directory to the `code/workspace/stacksets` directory.  
@@ -183,7 +183,7 @@ In this next step, you will use the AWS CloudFormation console to create a stack
     :::code{language=shell showLineNumbers=false showCopyAction=true}
     aws cloudformation create-stack-set \
     --stack-set-name cfn-workshop-security \
-    --template-body file://example-security.yaml
+    --template-body file://example_securitygroup.yaml
     :::
     1. Create stack instances to your stackset by using the following AWS CLI command. This command requires you specify the 12-digit AWS Account ID for the account you are using for this Lab. You can find this value by choosing the user/role drop-down menu on the top-right corner. For regions, choose to deploy in US East (N. Virginia) and US West (Oregon).
     :::code{language=shell showLineNumbers=false showCopyAction=true}
@@ -193,16 +193,16 @@ In this next step, you will use the AWS CloudFormation console to create a stack
     --regions us-east-1 us-west-2
     :::
     1. CloudFormation returns the following output.
-        ```json
+    :::code{language=json showLineNumbers=false showCopyAction=false}
         {
             "OperationId": "d7995c31-83c2-xmpl-a3d4-e9ca2811563f"
         }
-        ```
+    :::
     1. Verify that the stack instances were created successfully. Run `DescribeStackSetOperation` with the `operation-id` that is returned as part of the output of step 3.
     :::code{language=shell showLineNumbers=false showCopyAction=true}
     aws cloudformation describe-stack-set-operation \
     --stack-set-name cfn-workshop-security \
-    --operation-id `operation_ID` 
+    --operation-id operation_ID
     ::: 
     1. Navigate to the [AWS CloudFormation Console](https://console.aws.amazon.com/cloudformation/). From the panel on the left of the page, select the **StackSets** tab.
     1. Select `cfn-workshop-security`,Under **Stack instances**, you should see two stacks deployed. One in `us-east-1` and another in `us-west-2`
@@ -211,11 +211,11 @@ In this next step, you will use the AWS CloudFormation console to create a stack
     
     1. Navigate to the [AWS CloudFormation Console](https://console.aws.amazon.com/cloudformation/).
     2. Select the **StackSets** tab. Choose **Create StackSets**.
-    3. In the **Permissions** section: for **IAM Admin role ARN**, select **IAM role name** from the drop-down menu, and set it to **AWSCloudFormationStackSetAdministrationRole**; set **IAM execution role name** to **AWSCloudFormationStackSetsExecutionRole**.
+    3. In the **Permissions** section: choose **Self-service permissions**; for **IAM Admin role ARN**, select **IAM role name** from the drop-down menu, and set it to **AWSCloudFormationStackSetAdministrationRole**; set **IAM execution role name** to **AWSCloudFormationStackSetsExecutionRole**.
     4. From **Prepare template**, choose **Template is ready**.
     5. For **Template source**, choose **Upload a template file**. Select **Choose file** and supply the CloudFormation template `example_securitygroup.yaml` mentioned earlier, and then choose **Next**.
     6. In **Specify StackSet details** page, provide name, description, and set parameters:
-        1. Specify a **StackSet name**. For example, choose `example-securitygroup-workshop`.
+        1. Specify a **StackSet name**. For example, choose `cfn-workshop-security`.
         2. Provide a **StackSet description**. For example, choose `Provisions a security group, and associates it to the existing VPC`.
         3. Accept default values for **Parameters**. Choose **Next**.
     7. On **Configure StackSet options**, leave **Execution Configuration** as is. Choose **Next**.
@@ -251,12 +251,12 @@ In this exercise, you will use the knowledge gained from earlier parts of this l
 
 ::alert[Note: [Amazon Machine Image (AMI)](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/AMIs.html) resources are unique in each region. To use region-specific AMI IDs, you use the following code snippet in the `Parameters` section of your template to query the ID of the latest AMI for a given region; you also reference `LatestAmiId` in the **Resources** section of your template in `ImageId`.]{type="info"}
 
-```yaml
+:::code{language=yaml showLineNumbers=false showCopyAction=false}
   LatestAmiId:
     Description: The ID of the region-specific Amazon Machine Image to use.
     Type: AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>
     Default: /aws/service/ami-amazon-linux-latest/amzn2-ami-hvm-x86_64-gp2
-```
+:::
 * Edit the `Resources` section of the template to import the value for `SubnetId1` that you exported in Part 1. You can import the parameter of your choice the same way you imported the ID of the VPC, from `example_network.yaml` to `example_securitygroup.yaml`.
 :::
 
@@ -306,6 +306,12 @@ You will now tear down the resources you created. To delete a stack set, you wil
     --stack-set-name cfn-workshop-ec2instance 
     :::
     1. Follow the steps 1-2 for other two stack setrs, and in the following order: `cfn-workshop-security`, and `cfn-workshop-network`.
+    1. Delete the IAM Roles that you created during this lab by running the following AWS CLI command
+    :::code{language=shell showLineNumbers=false showCopyAction=true}
+    aws cloudformation delete-stack \
+    --stack-set-name StackSetAdministratorRole
+    :::
+    1. Repeat the step 4 to **Delete** the execution role stack `StackSetAdministratorRole`.
     ::::
     ::::tab{id="local" label="Local development"}    
     
@@ -317,6 +323,7 @@ You will now tear down the resources you created. To delete a stack set, you wil
     1. Under **Accounts**, select **Deploy stacks in accounts** under **Deployment locations**.
     1. Under **Account numbers** enter the 12-digit AWS account ID for the account you are using for this lab.
     1. For **Specify regions** select **Add all regions**. This will automatically select the AWS Regions that the StackSet deployed stacks into. Choose **Next**.
+    1. On the **Review** page, review the contents of the page, and choose **Submit**.
     1. The **Status** changes to `PENDING`.
     1. Refresh until the **Status** changes to `SUCCEEDED`.
     1. Follow steps 2 through 8 for the other two stack sets, and in the following order: `cfn-workshop-security`, and `cfn-workshop-network`.
@@ -328,11 +335,19 @@ You will now tear down the resources you created. To delete a stack set, you wil
     
     1. Navigate to [AWS CloudFormation StackSets console](https://console.aws.amazon.com/cloudformation/home#/stacksets).
     2. Select the stack set you wish to delete.
-    3. Choose **Actions**, and then **Delete StackSet**.
-    4. Under **Accounts**, select **Deploy stacks in accounts** under **Deployment locations**.
-    5. In the popup that appears, confirm you want to delete this stack set by choosing **Delete StackSet**.
-    6. On refresh, your StackSet should no longer be listed.
-    7. Follow steps 2 through 6 for the two other stack sets.
+    3. Choose **Actions**, and then **Delete**.
+    4. In the popup that appears, confirm you want to delete this stack set by choosing **Delete StackSet**.
+    5. On refresh, your StackSet should no longer be listed.
+    6. Follow steps 2 through 5 for the two other stack sets.
+    
+    **How to delete an AWS CloudFormation stacks**
+    
+    
+    1. Navigate to [AWS CloudFormation Stacks console](https://console.aws.amazon.com/cloudformation/home#/stacks).
+    2. Select the stack `StackSetAdministratorRole`, choose **Delete**.
+    3. In the popup that appears, confirm you want to delete this stack set by choosing **Delete**.
+    4. On refresh, your stack `StackSetAdministratorRole` should no longer be listed.
+    5. Follow steps 2 through 4 for the other stack `StackSetExecutionRole` that you created during this lab .
    ::::
    :::::  
 
