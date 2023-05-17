@@ -19,7 +19,7 @@ Resources:
         - !Sub 'arn:${AWS::Partition}:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole'
       Path: /
 
-  HelloWorldFunction:
+  DatabaseFunction:
     Type: AWS::Lambda::Function
     Properties:
       Role: !GetAtt FunctionExecutionRole.Arn
@@ -28,7 +28,7 @@ Resources:
         Variables:
           RDS_HOSTNAME: '{{resolve:secretsmanager:DatabaseConnParams:SecretString:RDS_HOSTNAME}}'
           RDS_PORT: '{{resolve:secretsmanager:DatabaseConnParams:SecretString:RDS_PORT}}'
-      Runtime: python3.7
+      Runtime: python3.9
       Code:
         ZipFile: |
           import os
