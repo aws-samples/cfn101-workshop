@@ -477,7 +477,63 @@ Resources:
   aws cloudformation wait stack-import-complete \
     --stack-name cfn-workshop-moving-resources
   :::
-
+  1. Verify import complete by using the [describe-stacks](https://docs.aws.amazon.com/cli/latest/reference/cloudformation/describe-stacks.html) AWS CLI command.
+  :::code{language=shell showLineNumbers=false showCopyAction=true}
+  aws cloudformation describe-stacks --stack-name cfn-workshop-moving-resources
+  :::
+  1. If the `describe-stacks` command was successfully sent, CloudFormation will return the stack information with `"StackStatus": "IMPORT_COMPLETE"` on line 17.
+  :::code{language=json showLineNumbers=true showCopyAction=false}
+{
+  "Stacks": [
+    {
+      "StackId": "arn:aws:cloudformation:us-east-1:123456789012:stack/cfn-workshop-moving-resources/70f207d0-f459-11ed-9c39-123ae332d1a1",
+      "StackName": "cfn-workshop-moving-resources",
+      "ChangeSetId": "arn:aws:cloudformation:us-east-1:123456789012:changeSet/cfn-workshop-moving-resources-change-set/695b51cd-6d16-49e8-99f7-7b93a932f1fe",
+      "Description": "AWS CloudFormation workshop - Resource Importing (uksb-1q9p31idr).",
+      "Parameters": [
+        {
+          "ParameterKey": "Topic1Name",
+          "ParameterValue": "Topic1"
+        }
+      ],
+      "CreationTime": "2023-05-17T02:20:50.451000+00:00",
+      "LastUpdatedTime": "2023-05-17T02:21:03.424000+00:00",
+      "RollbackConfiguration": {},
+      "StackStatus": "IMPORT_COMPLETE",
+      "DisableRollback": false,
+      "NotificationARNs": [],
+      "Tags": [],
+      "EnableTerminationProtection": false,
+      "DriftInformation": {
+        "StackDriftStatus": "NOT_CHECKED"
+      }
+    }
+  ]
+}
+      :::
+      1. Verify update complete by using the [describe-stack-resources](https://docs.aws.amazon.com/cli/latest/reference/cloudformation/describe-stack-resources.html) AWS CLI command.
+      :::code{language=shell showLineNumbers=false showCopyAction=true}
+      aws cloudformation describe-stack-resources --stack-name cfn-workshop-moving-resources
+      :::
+      1. If the `describe-stack-resources` command was successfully sent, CloudFormation will return the stack resource information with `SNSTopic1`.
+      :::code{language=json showLineNumbers=true showCopyAction=false}
+{
+  "StackResources": [
+    {
+      "StackName": "cfn-workshop-moving-resources",
+      "StackId": "arn:aws:cloudformation:us-east-1:123456789012:stack/cfn-workshop-moving-resources/70f207d0-f459-11ed-9c39-123ae332d1a1",
+      "LogicalResourceId": "SNSTopic1",
+      "PhysicalResourceId": "arn:aws:sns:us-east-1:123456789012:Topic1.fifo",
+      "ResourceType": "AWS::SNS::Topic",
+      "Timestamp": "2023-05-17T02:21:15.205000+00:00",
+      "ResourceStatus": "UPDATE_COMPLETE",
+      "DriftInformation": {
+        "StackResourceDriftStatus": "NOT_CHECKED"
+      }
+    }
+  ]
+}
+  :::
   ::::
 	::::tab{id="local" label="Local development"}  
 
