@@ -411,7 +411,7 @@ SNSTopic1:
     1. Choose **Replace current template** and upload the `resource-importing.yaml` template. Choose **Next**.
     1. In the parameters section, choose to accept the parameter value for `Topic2Name` as `Topic2`. Choose **Next**.
     1. Choose to accept default values in the **Configure stack options** page, and choose **Next**.
-    1. Choose **Update stack** in the next page.
+    1. Choose **Submit** in the next page.
     1. To confirm the removal of `SNSTopic1` resource from the stack, select the `cfn-workshop-resource-importing` stack and choose **Resources**. You should see only one resource: `SNSTopic2`.
     
    ::::
@@ -437,7 +437,7 @@ Resources:
 :::
    :::::tabs{variant="container"}
 	::::tab{id="cloud9" label="Cloud9"}
-  1. Copy the code below and replace it to the `resource-import.txt` file.
+  1. Copy the code below and replace it to the `resources-import.txt` file.
   :::code{language=json showLineNumbers=false showCopyAction=true}
 [
   {
@@ -731,7 +731,7 @@ Your task is to reconcile the instance type value, that in your stack is current
       ::::
         ::::tab{id="LocalDevelopment" label="LocalDevelopment"}  
         1. Select the stack named `cfn-workshop-resource-import-challenge` and, from **Stack actions**, choose **Import resources into stack**.
-        1. Read the **whatr you'll need** information and choose **Next**.
+        1. Read the **what you'll need** information and choose **Next**.
         1. From **Specify template**, choose **Upload a template file**. Upload your updated `resource-import-challenge.yaml` template, and choose **Next**.
         1. For the [**Identifier Value**](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/resource-import.html#resource-import-overview), specify the instance's **Physical ID**, that you noted earlier as part of this challenge, and choose **Next**
         1. Select `t2.micro` for the instance type parameter: here you are matching the actual instance type configuration setting, that is `t2.micro`, and choose **Next**
