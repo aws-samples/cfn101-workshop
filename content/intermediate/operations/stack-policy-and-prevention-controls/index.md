@@ -228,7 +228,7 @@ When you use a `Retain` value for the `DeletionPolicy` attribute, you indicate t
 After the stack is created, let’s now test the `DeletionPolicy` you set on the resource:
 
 1. Navigate to the [AWS CloudFormation Console](https://console.aws.amazon.com/cloudformation/).
-2. Select the stack named `cfn-workshop-deletion-policy`, and choose **Delete**. Next, choose **Delete stack** to confirm.
+2. Select the stack named `cfn-workshop-deletion-policy`, and choose **Delete**. Next, choose **Delete** to confirm.
 
 In the stack events pane, you will observe the resource whose Logical ID is `SNSTopic` skipped the deletion. To confirm the resource was retained, follow the steps below:
 
