@@ -56,6 +56,11 @@ In this next step, you will use the AWS CloudFormation Console to create a stack
    :::::tabs{variant="container"}
 	::::tab{id="cloud9" label="Cloud9"}
     Create a stack by following these steps:
+    1. In the **Cloud9 terminal** navigate to `code/workspace/stack-policy-and-prevention-controls`:
+    :::code{language=shell showLineNumbers=false showCopyAction=true}
+    cd cfn101-workshop/code/workspace/stack-policy-and-prevention-controls
+    :::
+
     1. Create a new JSON file for the stack policy.
         
         :::code{language=shell showLineNumbers=false showCopyAction=true}
