@@ -97,7 +97,7 @@ In this next step, you will use the AWS CloudFormation Console to create a stack
         --enable-termination-protection
     :::
     1. CloudFormation returns the following output:
-:::code{language=shell showLineNumbers=false showCopyAction=false}
+:::code{language=json showLineNumbers=false showCopyAction=false}
 {
 "StackId" : "arn:aws:cloudformation:us-east-1:123456789012:stack/cfn-workshop-stack-policy/330b0120-1771-11e4-af37-50ba1b98bea6"
 }
