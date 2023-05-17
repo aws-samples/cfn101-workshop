@@ -67,7 +67,7 @@ In this next step, you will use the AWS CloudFormation Console to create a stack
         touch policy-body.json
         :::
     1. Open this file in Cloud9 editor and paste in the following JSON code:
-    ```json
+    :::code{language=json showLineNumbers=true showCopyAction=true}
     {
       "Statement" : [
         {
