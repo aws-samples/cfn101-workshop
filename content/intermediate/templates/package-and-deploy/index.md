@@ -71,7 +71,7 @@ PythonFunction:
 
 #### Package and Upload the artifacts
 
-The `aws cloudformation package` does follow actions:
+The `aws cloudformation package` performs the following actions:
 
 1. ZIPs up the local files.
 1. Uploads them to a designated S3 bucket.
@@ -84,7 +84,7 @@ Decide on the AWS region where you will be deploying your Cloudformation templat
 ::alert[Make sure to replace the name of the bucket after `s3://` with a unique name!]{type="info"}
 
 :::code{language=shell showLineNumbers=false showCopyAction=true}
-aws s3 mb s3://example-bucket-name --region eu-west-1
+aws s3 mb s3://example-bucket-name --region us-east-1
 :::
 
 ##### 2. Install function dependencies
@@ -152,7 +152,7 @@ For completeness let’s also look what’s in the uploaded files. From the list
 aws s3 cp s3://example-bucket-name/cfn-workshop-package-deploy/1234567890 .
 :::
 
-We know that `package` will ZIP files, so even there is no `.zip` extension you can still `unzip` it.
+We know that `package` will generate ZIP files, so even there is no `.zip` extension you can still `unzip` it.
 
 ##### Cloud9/Unix/Linux
 :::code{language=shell showLineNumbers=false showCopyAction=false}
@@ -198,7 +198,7 @@ aws cloudformation validate-template \
 
 If successful, CloudFormation will send you a response with a list of parameters, template description and capabilities.
 
-:::code{language=json showLineNumbers=false showCopyAction=true}
+:::code{language=json showLineNumbers=false showCopyAction=false}
 {
     "Parameters": [],
     "Description": "CFN 201 Workshop - Lab 12 Helper Scripts. ()",
@@ -330,7 +330,7 @@ Choose to follow cleanup steps shown next to clean up resources you created with
       1. Follow the instructions on the console to confirm the deletion of the S3 bucket.
       1. Navigate to the [AWS CloudFormation Console](https://console.aws.amazon.com/cloudformation/).
       1. Select the stack named `cfn-workshop-package-deploy-lambda` and choose **Delete**.
-      1. In the pop-up window click on Delete stack.
+      1. In the pop-up window choose **Delete**.
       1. You can click the refresh button a few times until you see in the status **DELETE_COMPLETE**.
     ::::
   :::::
