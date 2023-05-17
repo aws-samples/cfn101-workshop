@@ -151,26 +151,28 @@ You will now update the template to match the new state of the resource and brin
 3. Save the template file.
 1. It’s now time to update your stack! Follow steps below:
 
-4. Navigate to the [CloudFormation Console](https://console.aws.amazon.com/cloudformation/).
-5. Choose your stack as before.
 
 1. It’s now time to update your stack! Follow steps below:
 
    :::::tabs{variant="container"}
 	::::tab{id="cloud9" label="Cloud9"}
-	1. In the **Cloud9 terminal** navigate to `code/workspace`:
+	1. In the **Cloud9 terminal** ensure your working directory is `code/workspace/drift-detection`:
     :::code{language=shell showLineNumbers=false showCopyAction=true}
-    cd cfn101-workshop/code/workspace
+    cd cfn101-workshop/code/workspace/drift-detection
     :::
     1. Use the AWS CLI to create the stack. The required parameters `--stack-name` and `--template-body` have been pre-filled for you.
     :::code{language=shell showLineNumbers=false showCopyAction=true}
-    aws cloudformation update-stack --stack-name cfn-workshop-s3 --template-body file://template-and-stack.yaml
+    aws cloudformation update-stack --stack-name cfn-workshop-drift-detection --template-body file://template-and-stack.yaml
     :::
     1. If the `create-stack` command was successfully sent, CloudFormation will return `StackId`.
-    :::code{language=shell showLineNumbers=false showCopyAction=true}
-    "StackId": "arn:aws:cloudformation:us-east-1:123456789012:stack/cfn-workshop-s3/739fafa0-e4d7-11ed-a000-12d9009553ff"
+    :::code{language=json showLineNumbers=false showCopyAction=false}
+    "StackId": "arn:aws:cloudformation:us-east-1:123456789012:stack/cfn-workshop-drift-detection/739fafa0-e4d7-11ed-a000-12d9009553ff"
     :::
     1. Open the **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** console in a new tab and check if the stack status is **UPDATE_COMPLETE**.
+ 1. Choose the **Stack info** tab.
+   1. From **Stack actions**, choose **Detect Drift**.
+   1. Wait a few seconds for drift detection to complete.
+   1. You should now see that the drift status is `IN_SYNC`, showing that the template and resource match.
     ::::
     ::::tab{id="local" label="Local Development"}
    1. Log in to the **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** console in a new browser tab.
@@ -182,7 +184,7 @@ You will now update the template to match the new state of the resource and brin
    1. Choose **Next**.
    1. On the stack details page, choose **Next**.
    1. On the stack options page, choose **Next**.
-   1. Choose **Update Stack**.
+   1. Choose **Submit**.
    1. Wait for the stack update to complete. Refresh the page to load the current state.
    1. Choose the **Stack info** tab.
    1. From **Stack actions**, choose **Detect Drift**.
@@ -227,16 +229,16 @@ Resources:
 
    :::::tabs{variant="container"}
 	::::tab{id="cloud9" label="Cloud9"}
-	1. In the **Cloud9 terminal** navigate to `code/workspace`:
+	1. In the **Cloud9 terminal** ensure your working directory is `code/workspace/drift-detection`:
     :::code{language=shell showLineNumbers=false showCopyAction=true}
-    cd cfn101-workshop/code/workspace
+    cd cfn101-workshop/code/workspace/drift-detection
     :::
     1. Use the AWS CLI to create the stack. The required parameters `--stack-name` and `--template-body` have been pre-filled for you.
     :::code{language=shell showLineNumbers=false showCopyAction=true}
-    aws cloudformation update-stack --stack-name cfn-workshop-s3 --template-body file://template-and-stack.yaml
+    aws cloudformation create-stack --stack-name cfn-workshop-drift-detection-challenge --template-body file://drift-detection-challenge.yaml
     :::
     1. If the `create-stack` command was successfully sent, CloudFormation will return `StackId`.
-    :::code{language=shell showLineNumbers=false showCopyAction=true}
+    :::code{language=json showLineNumbers=false showCopyAction=false}
     "StackId": "arn:aws:cloudformation:us-east-1:123456789012:stack/cfn-workshop-drift-detection-challenge/739fafa0-e4d7-11ed-a000-12d9009553ff"
     :::
     1. Open the **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** console in a new tab and check if the stack status is **UPDATE_COMPLETE**.
