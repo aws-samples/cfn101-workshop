@@ -354,10 +354,10 @@ Follow steps shown next to clean up the resources you created in this workshop.
 
 1. Navigate to the CloudFormation Console.
 2. Choose the stack created in the first lab, for example `drift-detection-workshop`.
-3. Choose **Delete**, then choose the **Delete stack**.
+3. Choose **Delete**, then choose the **Delete**.
 4. For the `drift-detection-challenge` stack, edit the template file to change the `DeletionPolicy` to `Delete`.
-5. Update the stack by selecting it, then choosing **Upload**, then **Replace current template** and uploading the updated file. Choose **Next**, then choose **Next**, then choose **Next**, and then choose **Update stack**. Wait for the stack update to complete.
-6. Select the `drift-detection-challenge` stack and choose **Delete**, then choose **Delete stack**.
+5. Update the stack by selecting it, then choosing **Upload**, then **Replace current template** and uploading the updated file. Choose **Next**, then choose **Next**, then choose **Next**, and then choose **Submit**. Wait for the stack update to complete.
+6. Select the `drift-detection-challenge` stack and choose **Delete**, then choose **Delete**.
 
 ### Conclusion
 
