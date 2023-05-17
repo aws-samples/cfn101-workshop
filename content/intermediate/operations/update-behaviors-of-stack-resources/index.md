@@ -63,7 +63,7 @@ Save your changes to the file. Next, create your stack with the `update-behavior
     :::
     1. If the `create-stack` command was successfully sent, CloudFormation will return `StackId`.
     :::code{language=shell showLineNumbers=false showCopyAction=false}
-    "StackId": "arn:aws:cloudformation:us-east-1:123456789012:stack/drift-detection-workshop/739fafa0-e4d7-11ed-a000-12d9009553ff"
+    "StackId": "arn:aws:cloudformation:us-east-1:123456789012:stack/cfn-workshop-update-behaviors-of-stack-resources/739fafa0-e4d7-11ed-a000-12d9009553ff"
     :::
     1. Open the **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** console in a new tab and check if the stack status is **CREATE_COMPLETE**.
 ::::
@@ -126,6 +126,7 @@ While your stack is updating, navigate to the [Amazon EC2 Console](https://conso
 Congratulations! You have learned the **Updates with Some Interruption** behavior.
 
 **Update with No Interruption**
+
 Let’s continue the previous example: your instance is currently using [basic monitoring](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-cloudwatch-new.html), where instance metric data is sent to [Amazon CloudWatch](https://aws.amazon.com/cloudwatch/) in 5-minute periods. Let’s say that you require metric data to be available on 1-minute periods for your workload, and you choose to enable [detailed monitoring](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-cloudwatch-new.html) for your instance.
 
 You then choose to add the `Monitoring` [property](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-instance.html#cfn-ec2-instance-monitoring), set to `true`, for the instance you described in your `update-behaviors-of-stack-resources.yaml` template.
