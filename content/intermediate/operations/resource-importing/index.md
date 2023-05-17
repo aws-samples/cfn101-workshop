@@ -237,7 +237,44 @@ SNSTopic2:
       aws cloudformation wait stack-import-complete \
         --stack-name cfn-workshop-resource-importing
       :::
-    
+          1. Verify import complete by using the [describe-stacks](https://docs.aws.amazon.com/cli/latest/reference/cloudformation/describe-stacks.html) AWS CLI command.
+      :::code{language=shell showLineNumbers=false showCopyAction=true}
+      aws cloudformation describe-stacks --stack-name cfn-workshop-resource-importing
+      :::
+      1. If the `describe-stacks` command was successfully sent, CloudFormation will return the stack information with `"StackStatus": "IMPORT_COMPLETE"` on line 21.
+      :::code{language=json showLineNumbers=true showCopyAction=false}
+      {
+          "Stacks": [
+              {
+                  "StackId": "arn:aws:cloudformation:us-east-1:123456789012:stack/cfn-workshop-resource-importing/43d74040-f44e-11ed-9921-0a4da8431f6d",
+                  "StackName": "cfn-workshop-resource-importing",
+                  "ChangeSetId": "arn:aws:cloudformation:us-east-1:123456789012:changeSet/cfn-workshop-resource-import-change-set/b45266b6-01c9-4c23-99d6-d65731fc575c",
+                  "Description": "AWS CloudFormation workshop - Resource Importing (uksb-1q9p31idr).",
+                  "Parameters": [
+                      {
+                          "ParameterKey": "Topic2Name",
+                          "ParameterValue": "Topic2"
+                      },
+                      {
+                          "ParameterKey": "Topic1Name",
+                          "ParameterValue": "Topic1"
+                      }
+                  ],
+                  "CreationTime": "2023-05-17T01:00:50.284000+00:00",
+                  "LastUpdatedTime": "2023-05-17T01:35:38.408000+00:00",
+                  "RollbackConfiguration": {},
+                  "StackStatus": "IMPORT_COMPLETE",
+                  "DisableRollback": false,
+                  "NotificationARNs": [],
+                  "Tags": [],
+                  "EnableTerminationProtection": false,
+                  "DriftInformation": {
+                      "StackDriftStatus": "NOT_CHECKED"
+                  }
+              }
+          ]
+      }
+      :::
     ::::
 	::::tab{id="local" label="Local development"}  
 
