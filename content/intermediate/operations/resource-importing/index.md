@@ -280,9 +280,9 @@ SNSTopic2:
 
     1. Navigate to the [AWS CloudFormation Console](https://console.aws.amazon.com/cloudformation/).
     1. Select the stack named `cfn-workshop-resource-importing` and, from **Stack actions**, choose **Import resources into stack**.
-    1. Read the **Import Overview** and choose **Next**.
+    1. Read the **What you'll need** information and choose **Next**.
     1. From **Specify template**, choose **Upload a template file**. Upload the `resource-importing.yaml` template you updated with this lab part, and choose **Next**.
-    1. For the [**Identifier Value**](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/resource-import.html#resource-import-overview), specify the topic ARN value you noted after you created `Topic2`.
+    1. For the [**Identifier Value**](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/resource-import.html#resource-import-overview), specify the topic ARN value you noted after you created `Topic2`, and choose **Next**.
     1. For parameters, make sure you specify `Topic1` for `Topic1Name`, and `Topic2` for `Topic2Name`. Choose **Next**.
     1. In the next page, choose **Import resources**.
 
@@ -344,7 +344,6 @@ SNSTopic1:
       aws cloudformation wait stack-update-complete \
         --stack-name cfn-workshop-resource-importing
       :::
-    ```suggestion
       1. Verify update complete by using the [describe-stacks](https://docs.aws.amazon.com/cli/latest/reference/cloudformation/describe-stacks.html) AWS CLI command.
       :::code{language=shell showLineNumbers=false showCopyAction=true}
       aws cloudformation describe-stacks --stack-name cfn-workshop-resource-importing
@@ -731,7 +730,7 @@ Your task is to reconcile the instance type value, that in your stack is current
       ::::
         ::::tab{id="LocalDevelopment" label="LocalDevelopment"}  
         1. Select the stack named `cfn-workshop-resource-import-challenge` and, from **Stack actions**, choose **Import resources into stack**.
-        1. Read the **what you'll need** information and choose **Next**.
+        1. Read the **What you'll need** information and choose **Next**.
         1. From **Specify template**, choose **Upload a template file**. Upload your updated `resource-import-challenge.yaml` template, and choose **Next**.
         1. For the [**Identifier Value**](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/resource-import.html#resource-import-overview), specify the instance's **Physical ID**, that you noted earlier as part of this challenge, and choose **Next**
         1. Select `t2.micro` for the instance type parameter: here you are matching the actual instance type configuration setting, that is `t2.micro`, and choose **Next**
