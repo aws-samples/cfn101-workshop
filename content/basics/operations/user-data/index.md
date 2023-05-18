@@ -150,7 +150,7 @@ you can then check to see that your script has set up a web server on the EC2 in
     --capabilities CAPABILITY_IAM
   :::
   1. If the `create-stack` command was successfully sent, CloudFormation will return `StackId`.
-  :::code{language=shell showLineNumbers=false showCopyAction=false}
+  :::code{language=json showLineNumbers=false showCopyAction=false}
   "StackId": "arn:aws:cloudformation:us-east-1:123456789012:stack/cfn-workshop-user-data/96d87030-e809-11ed-a82c-0eb19aaeb30f"
   :::
   1. Open the **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** console in a new tab and wait for stack status to reach **CREATE_COMPLETE**. You need to periodically select Refresh to see the latest stack status.
@@ -186,7 +186,7 @@ Follow these steps to clean up created resources:
 
 1. In the **[CloudFormation console](https://console.aws.amazon.com/cloudformation)**, select the stack you have created in this lab. For example `cfn-workshop-user-data`.
 1. In the top right corner, select **Delete**.
-1. In the pop-up window, select **Delete stack**.
+1. In the pop-up window, select **Delete**.
 1. Wait for the stack to reach the **DELETE_COMPLETE** status. You need to periodically select **Refresh** to see the latest stack status.
 
 ---
