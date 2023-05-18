@@ -16,10 +16,7 @@ touch use-module.yaml
 :::
 
 
-   :::::tabs{variant="container"}
-	::::tab{id="cloud9" label="Cloud9"}
-
-Copy the code below and save to `use-module.yaml` file
+Open `use-module.yaml` file in your text editor and paste the following CloudFormation YAML:
 
 <!-- vale off -->
 :::code{language=yaml showLineNumbers=false showCopyAction=true}
@@ -33,28 +30,6 @@ Resources:
       VpcCidr: 10.1.0.0/16
 :::
 <!-- vale on -->
-
-  ::::
-
-	::::tab{id="local" label="Local development"}
-
-Open this file in your chosen text editor and paste the following CloudFormation YAML:
-
-<!-- vale off -->
-:::code{language=yaml showLineNumbers=false showCopyAction=true}
-AWSTemplateFormatVersion: 2010-09-09
-
-Resources:
-
-  Vpc:
-    Type: CFNWORKSHOP::EC2::VPC::MODULE
-    Properties:
-      VpcCidr: 10.1.0.0/16
-:::
-<!-- vale on -->
-
-   ::::
-   :::::
 
 That's it. Nice and short isn't it? You can see why modules are going to be so useful.
 
