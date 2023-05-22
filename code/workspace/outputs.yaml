@@ -47,4 +47,4 @@ Resources:
         - Key: Name
           Value: !Join [ '-', [ !Ref EnvironmentType, webserver ] ]
 
-  # Add your code here!
+# Add your code here!
