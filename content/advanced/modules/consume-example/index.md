@@ -15,7 +15,8 @@ Create a new YAML file:
 touch use-module.yaml
 :::
 
-Open this file in your chosen text editor and paste the following CloudFormation YAML:
+
+Open `use-module.yaml` file in your text editor and paste the following CloudFormation YAML:
 
 <!-- vale off -->
 :::code{language=yaml showLineNumbers=false showCopyAction=true}
