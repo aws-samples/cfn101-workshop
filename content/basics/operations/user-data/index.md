@@ -34,16 +34,17 @@ The following diagram provides a high-level overview of the architecture you wil
 
 Begin by creating a Security Group.
 
-```yaml
+:::code{language=yaml showLineNumbers=true showCopyAction=true lineNumberStart=75}
 WebServerSecurityGroup:
   Type: AWS::EC2::SecurityGroup
   Properties:
     GroupDescription: 'Enable HTTP access via port 80'
-```
+:::
+
 As the Apache web server will serve content on port 80, you will need to create an ingress rule `SecurityGroupIngress`
 in the security group to allow access from the Internet.
 
-```yaml
+:::code{language=yaml showLineNumbers=true showCopyAction=true lineNumberStart=79 highlightLines=83-87}
 WebServerSecurityGroup:
   Type: AWS::EC2::SecurityGroup
   Properties:
@@ -53,11 +54,11 @@ WebServerSecurityGroup:
         FromPort: 80
         ToPort: 80
         CidrIp: 0.0.0.0/0
-```
+:::
 
 Finally, associate the security group with the EC2 instance.
 
-```yaml
+:::code{language=yaml showLineNumbers=true showCopyAction=true lineNumberStart=63 highlightLines=69-70}
 WebServerInstance:
   Type: AWS::EC2::Instance
   Properties:
@@ -69,7 +70,7 @@ WebServerInstance:
     Tags:
       - Key: Name
         Value: !Join [ '-', [ !Ref EnvironmentType, webserver ] ]
-```
+:::
 
 :::alert{type="info"}
 The EC2 instance in the CloudFormation stack will be _replaced_ as a result of modifying the _Security Group_ property.
@@ -86,7 +87,7 @@ User data scripts are executed as the **root** user, so there is no need to use 
 **UserData** must be Base64 encoded when passed from CloudFormation to EC2 instance. Use `Fn::Base64` intrinsic function to encode the input string.
 :::
 
-```yaml
+:::code{language=yaml showLineNumbers=true showCopyAction=true lineNumberStart=74}
 UserData:
   Fn::Base64: |
     #!/bin/bash
@@ -119,17 +120,17 @@ UserData:
       </body>
       </html>
     EOF
-```
+:::
 
 #### 3. Add the **WebsiteURL** to CloudFormation _Outputs_
 
 Copy and paste the code below to the _Outputs_ section of the CloudFormation template.
 
-```yaml
+:::code{language=yaml showLineNumbers=true showCopyAction=true lineNumberStart=132}
 WebsiteURL:
   Value: !Sub http://${WebServerEIP}
   Description: Application URL
-```
+:::
 
 #### 4. Create the Stack
 
@@ -137,28 +138,27 @@ Similar to previous labs, create the stack with the updated template. Once Cloud
 you can then check to see that your script has set up a web server on the EC2 instance.
 
 :::::tabs{variant="container"}
-
 ::::tab{id="cloud9" label="Cloud9"}
-  1. In the **Cloud9 terminal** navigate to `code/workspace`:
-  :::code{language=shell showLineNumbers=false showCopyAction=true}
-  cd cfn101-workshop/code/workspace
-  :::
-  1. Use the AWS CLI to create the stack. The required parameters `--stack-name`, `--template-body` and `--capabilities` have been pre-filled for you.
-  :::code{language=shell showLineNumbers=false showCopyAction=true}
-  aws cloudformation create-stack --stack-name cfn-workshop-user-data \
-    --template-body file://user-data.yaml \
-    --capabilities CAPABILITY_IAM
-  :::
-  1. If the `create-stack` command was successfully sent, CloudFormation will return `StackId`.
-  :::code{language=json showLineNumbers=false showCopyAction=false}
-  "StackId": "arn:aws:cloudformation:us-east-1:123456789012:stack/cfn-workshop-user-data/96d87030-e809-11ed-a82c-0eb19aaeb30f"
-  :::
-  1. Open the **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** console in a new tab and wait for stack status to reach **CREATE_COMPLETE**. You need to periodically select Refresh to see the latest stack status.
+1. In the **Cloud9 terminal** navigate to `code/workspace`:
+:::code{language=shell showLineNumbers=false showCopyAction=true}
+cd cfn101-workshop/code/workspace
+:::
+1. Use the AWS CLI to create the stack. The required parameters `--stack-name`, `--template-body` and `--capabilities` have been pre-filled for you.
+:::code{language=shell showLineNumbers=false showCopyAction=true}
+aws cloudformation create-stack \
+--stack-name cfn-workshop-user-data \
+--template-body file://user-data.yaml \
+--capabilities CAPABILITY_IAM
+:::
+1. If the `create-stack` command was successfully sent, CloudFormation will return `StackId`.
+:::code{language=json showLineNumbers=false showCopyAction=false}
+"StackId": "arn:aws:cloudformation:us-east-1:123456789012:stack/cfn-workshop-user-data/96d87030-e809-11ed-a82c-0eb19aaeb30f"
+:::
+1. Open the **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** console in a new tab and wait for stack status to reach **CREATE_COMPLETE**. You need to periodically select Refresh to see the latest stack status.
 ::::
-
 ::::tab{id="local" label="Local development"}
 1. Open the **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** link in a new tab and log in to your AWS account.
-1. Choose **Create stack** (_With new resources (Standard)_ from the top-right side of the page.
+1. Choose **Create stack** _With new resources (Standard)_ from the top-right side of the page.
 1. In **Prepare template**, choose **Template is ready**.
 1. In **Template source**, choose **Upload a template file**.
 1. Choose the **Choose file** button and navigate to your workshop directory.
