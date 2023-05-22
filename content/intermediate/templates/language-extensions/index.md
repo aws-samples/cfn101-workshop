@@ -140,9 +140,9 @@ Now that you have your EC2 instance running, you choose to monitor it by creatin
 
 A dashboard body is a string in JSON format: for more information, see [Dashboard Body Structure and Syntax](https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/CloudWatch-Dashboard-Body-Structure.html). When you describe a CloudWatch dashboard with CloudFormation, you specify a JSON string that contains keys and values, such as:
 
-```yaml
+:::code{language=yaml showLineNumbers=true showCopyAction=true}
 "{\"start\":\"-PT6H\",\"periodOverride\":\"inherit\",[...]}
-```
+:::
 
 
 To make it easier to write and consume a dashboard (for example, to avoid escaping inner quotes like `\"`), and to avoid maintaining a single-line string you can use the `Fn::ToJsonString` language extension to specify a JSON object, which is easier to compose and to maintain. With this language extension, you can specify the structure of a CloudWatch dashboard as a JSON object instead, thus simplifying the task.
@@ -157,7 +157,7 @@ You'll now update the `language-extensions.yaml` template to add a CloudWatch da
 
 1. Open the `language-extensions.yaml` template. Underneath `Resources` section, add `Dashboard`:
 
-```yaml
+:::code{language=yaml showLineNumbers=true showCopyAction=true}
   Dashboard:
     Type: AWS::CloudWatch::Dashboard
     Properties:
@@ -177,7 +177,7 @@ You'll now update the `language-extensions.yaml` template to add a CloudWatch da
                 stat: Average
                 region: !Ref AWS::Region
                 title: EC2 Instance CPU
-```
+:::
 
 
 In the above snippet, note that the `CPUUtilization` metric is reflected underneath the `properties` section through the `metrics` field. Note also the references to your EC2 instance with `!Ref`, that in this case will return the instance ID, and the reference to the current region with `!Ref AWS::Region`, where you'll use the `AWS::Region` CloudFormation pseudo parameter to resolve the name of the region where you are creating the stack and the EC2 instance (in this lab, `us-east-1`).
