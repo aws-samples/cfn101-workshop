@@ -31,16 +31,16 @@ cfn init
 
 You will be prompted to answer some questions. Supply the answers as shown below:
 
-```
+:::code{language=shell showLineNumbers=false showCopyAction=false}
 Initializing new project
 Do you want to develop a new resource(r) or a module(m) or a hook(h)?.
 >> m
 What's the name of your module type?
 (<Organization>::<Service>::<Name>::MODULE)
 >> CFNWORKSHOP::EC2::VPC::MODULE
-Directory  /home/user/cfn101-workshop/module/fragments  Created
-Initialized a new project in /home/user/cfn101-workshop/module
-```
+Directory  /PATH-TO-YOUR-DIRECTORY/cfn101-workshop/module/fragments  Created
+Initialized a new project in /PATH-TO-YOUR-DIRECTORY/cfn101-workshop/module
+:::
 
 Let's take a look at what the command created in the directory structure:
 
@@ -67,10 +67,10 @@ Create a new YAML file for your module within the `fragments` folder:
 touch fragments/module.yaml
 :::
 
-Open this file in your chosen text editor and paste in the following CloudFormation YAML:
+Open `module.yaml` file in your text editor and paste in the following CloudFormation YAML:
 
 <!-- vale off -->
-:::code{language=yaml showLineNumbers=false showCopyAction=true}
+:::code{language=yaml showLineNumbers=true showCopyAction=true}
 AWSTemplateFormatVersion: 2010-09-09
 
 Description: A full VPC Stack
@@ -245,13 +245,13 @@ cfn submit
 
 You will see output as below:
 
-```
+:::code{language=shell showLineNumbers=false showCopyAction=false}
 Module fragment is valid.
 Successfully submitted type. Waiting for registration with token '{token}' to complete.
 Registration complete.
 {'ProgressStatus': 'COMPLETE', 'Description': 'Deployment is currently in DEPLOY_STAGE of status COMPLETED', ...
-...
-```
+...}
+:::
 
 You can now visit the [AWS CloudFormation console](https://console.aws.amazon.com/cloudformation/), and you should be able to see your new module in the `Activated extensions` section of the relevant registry page.
 
