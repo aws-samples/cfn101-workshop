@@ -31,33 +31,16 @@ cfn init
 
 You will be prompted to answer some questions. Supply the answers as shown below:
 
-   :::::tabs{variant="container"}
-	::::tab{id="cloud9" label="Cloud9"}
-  ```
-  Initializing new project
-  Do you want to develop a new resource(r) or a module(m) or a hook(h)?.
-  >> m
-  What's the name of your module type?
-  (<Organization>::<Service>::<Name>::MODULE)
-  >> CFNWORKSHOP::EC2::VPC::MODULE
-  Directory  /home/ec2-user/environment/workshop/cfn101-workshop/module/fragments  Created 
-  Initialized a new project in /home/ec2-user/environment/cfn101-workshop/module
-  ```
-   ::::
-
-	::::tab{id="local" label="Local development"}
-  ```
-  Initializing new project
-  Do you want to develop a new resource(r) or a module(m) or a hook(h)?.
-  >> m
-  What's the name of your module type?
-  (<Organization>::<Service>::<Name>::MODULE)
-  >> CFNWORKSHOP::EC2::VPC::MODULE
-  Directory  /home/user/cfn101-workshop/module/fragments  Created
-  Initialized a new project in /home/user/cfn101-workshop/module
-  ```
-   ::::
-   :::::
+:::code{language=shell showLineNumbers=false showCopyAction=false}
+Initializing new project
+Do you want to develop a new resource(r) or a module(m) or a hook(h)?.
+>> m
+What's the name of your module type?
+(<Organization>::<Service>::<Name>::MODULE)
+>> CFNWORKSHOP::EC2::VPC::MODULE
+Directory  /PATH-TO-YOUR-DIRECTORY/cfn101-workshop/module/fragments  Created
+Initialized a new project in /PATH-TO-YOUR-DIRECTORY/cfn101-workshop/module
+:::
 
 Let's take a look at what the command created in the directory structure:
 
@@ -87,7 +70,7 @@ touch fragments/module.yaml
 Open `module.yaml` file in your text editor and paste in the following CloudFormation YAML:
 
 <!-- vale off -->
-:::code{language=yaml showLineNumbers=false showCopyAction=true}
+:::code{language=yaml showLineNumbers=true showCopyAction=true}
 AWSTemplateFormatVersion: 2010-09-09
 
 Description: A full VPC Stack
@@ -247,7 +230,7 @@ Resources:
       NatGatewayId: !Ref NATGateway2
 :::
 <!-- vale on -->
- 
+
 This CloudFormation template has 23 resources and will be very familiar to anyone that has used CloudFormation to deploy an entire VPC. With so many components it can be hard to ensure that all the VPCs you deploy are done in a standard way and no mistakes or differences are made.
 
 This is a great use case for CloudFormation modules. These resources can be placed in a single module that can be used by many teams as many times as they wish, removing the complexity and chance of error or differences when needed multiple times.
@@ -262,13 +245,13 @@ cfn submit
 
 You will see output as below:
 
-```
+:::code{language=shell showLineNumbers=false showCopyAction=false}
 Module fragment is valid.
 Successfully submitted type. Waiting for registration with token '{token}' to complete.
 Registration complete.
 {'ProgressStatus': 'COMPLETE', 'Description': 'Deployment is currently in DEPLOY_STAGE of status COMPLETED', ...
 ...}
-```
+:::
 
 You can now visit the [AWS CloudFormation console](https://console.aws.amazon.com/cloudformation/), and you should be able to see your new module in the `Activated extensions` section of the relevant registry page.
 
