@@ -27,7 +27,7 @@ To get started, follow these steps:
 
 1. Change directory to the `code/workspace/drift-detection` directory.
 1. Copy the code below, and append it to the `drift-detection-workshop.yaml` file, and save the file:
-:::code{language=yaml showLineNumbers=false showCopyAction=true}
+:::code{language=yaml showLineNumbers=true showCopyAction=true lineNumberStart=5}
 Resources:
   Table1:
     Type: AWS::DynamoDB::Table
@@ -52,6 +52,7 @@ Resources:
     Properties:
       MessageRetentionPeriod: 345600
 :::
+
 1. Familiarise yourself with the example resources in the template:
     1. The DynamoDB [table](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-dynamodb-table.html) has a minimal definition for the `KeySchema` and `AttributeDefinitions` properties in order to be successfully created. You will not be storing data in or retrieving data from the table during the workshop.
     2. The SQS [queue](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-sqs-queue.html) has a `MessageRetentionPeriod` of four days (expressed in seconds). Note that although this value is the [default](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-sqs-queue.html#cfn-sqs-queue-messageretentionperiod), CloudFormation only evaluates drift against properties that you explicitly declare in the template. If you do not include this property, CloudFormation will not report a change to it on the resource later on.
@@ -198,58 +199,58 @@ To begin, follow the steps below:
 
 1. Open the `drift-detection-challenge.yaml` file in your favourite editor.
 1. Add the content below to the `drift-detection-challenge.yaml` template and save the file. This template will launch an [Amazon Elastic Compute Cloud](https://aws.amazon.com/ec2/) (Amazon EC2) instance using the latest Amazon Linux 2 AMI, and configure it to run a script on first boot, which prints `Hello World`.
-   :::code{language=shell showLineNumbers=false showCopyAction=true}
-   Parameters:
-     LatestAmiId:
-       Type: AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>
-       Default: /aws/service/ami-amazon-linux-latest/amzn2-ami-hvm-x86_64-gp2
+:::code{language=yaml showLineNumbers=true showCopyAction=true lineNumberStart=5}
+Parameters:
+  LatestAmiId:
+   Type: AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>
+   Default: /aws/service/ami-amazon-linux-latest/amzn2-ami-hvm-x86_64-gp2
 
-   Resources:
-     Instance1:
-       Type: AWS::EC2::Instance
-       Properties:
-         ImageId: !Ref LatestAmiId
-         InstanceType: t2.micro
-         UserData: !Base64 |
-           #!/usr/bin/env bash
-           echo Hello World
+Resources:
+  Instance1:
+    Type: AWS::EC2::Instance
+    Properties:
+      ImageId: !Ref LatestAmiId
+      InstanceType: t2.micro
+      UserData: !Base64 |
+        #!/usr/bin/env bash
+        echo Hello World
 
-     Bucket1:
-       Type: AWS::S3::Bucket
-   :::
-   :::alert{type="info"}
-   This `UserData` script will only run the first time the instance boots. You can [create a configuration](https://aws.amazon.com/premiumsupport/knowledge-center/execute-user-data-ec2/) which will run a script on every boot, but in order to keep the template complexity low for this workshop, this template just shows simple content.
-   :::
-   :::::tabs{variant="container"}
-   ::::tab{id="cloud9" label="Cloud9"}
-   1. In the **Cloud9 terminal** ensure your working directory is `code/workspace/drift-detection`:
-   :::code{language=shell showLineNumbers=false showCopyAction=true}
-   cd cfn101-workshop/code/workspace/drift-detection
-   :::
-   1. Use the AWS CLI to create the stack. The required parameters `--stack-name` and `--template-body` have been pre-filled for you.
-   :::code{language=shell showLineNumbers=false showCopyAction=true}
-   aws cloudformation create-stack \
+  Bucket1:
+    Type: AWS::S3::Bucket
+:::
+:::alert{type="info"}
+This `UserData` script will only run the first time the instance boots. You can [create a configuration](https://aws.amazon.com/premiumsupport/knowledge-center/execute-user-data-ec2/) which will run a script on every boot, but in order to keep the template complexity low for this workshop, this template just shows simple content.
+:::
+:::::tabs{variant="container"}
+::::tab{id="cloud9" label="Cloud9"}
+1. In the **Cloud9 terminal** ensure your working directory is `code/workspace/drift-detection`:
+:::code{language=shell showLineNumbers=false showCopyAction=true}
+cd cfn101-workshop/code/workspace/drift-detection
+:::
+1. Use the AWS CLI to create the stack. The required parameters `--stack-name` and `--template-body` have been pre-filled for you.
+:::code{language=shell showLineNumbers=false showCopyAction=true}
+aws cloudformation create-stack \
 --stack-name cfn-workshop-drift-detection-challenge \
 --template-body file://drift-detection-challenge.yaml
-   :::
-   1. If the `create-stack` command was successfully sent, CloudFormation will return `StackId`.
-   :::code{language=json showLineNumbers=false showCopyAction=false}
-   "StackId": "arn:aws:cloudformation:us-east-1:123456789012:stack/cfn-workshop-drift-detection-challenge/739fafa0-e4d7-11ed-a000-12d9009553ff"
-   :::
-   1. Open the **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** console in a new tab and check if the stack status is **UPDATE_COMPLETE**.
-   1. Once the stack is created, select the `drift-detection-challenge` stack and choose **Resources**. Take a note of the **Physical ID** for `Instance1`, for example `i-1234567890abcdef0`.
-   ::::
-   ::::tab{id="local" label="Local Development"}
-   1. Log in to the **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** console in a new browser tab.
-   1. Navigate to the [AWS CloudFormation Console](https://console.aws.amazon.com/cloudformation/).
-   1. From **Create stack**, choose **With new resources (standard)**.
-   1. From **Specify template**, choose **Upload a template file**, upload the `drift-detection-challenge.yaml` file and choose **Next**.
-   1. Enter a stack name, for example `cfn-workshop-drift-detection-challenge` and choose **Next**.
-   1. In **Configure Stack Options**, choose **Next**.
-   1. In the next page, choose **Submit**.
-   1. Once the stack is created, select the `cfn-workshop-drift-detection-challenge` stack and choose **Resources**. Take a note of the **Physical ID** for `Instance1`, for example `i-1234567890abcdef0`.
-   ::::
-   :::::
+:::
+1. If the `create-stack` command was successfully sent, CloudFormation will return `StackId`.
+:::code{language=json showLineNumbers=false showCopyAction=false}
+"StackId": "arn:aws:cloudformation:us-east-1:123456789012:stack/cfn-workshop-drift-detection-challenge/739fafa0-e4d7-11ed-a000-12d9009553ff"
+:::
+1. Open the **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** console in a new tab and check if the stack status is **UPDATE_COMPLETE**.
+1. Once the stack is created, select the `drift-detection-challenge` stack and choose **Resources**. Take a note of the **Physical ID** for `Instance1`, for example `i-1234567890abcdef0`.
+::::
+::::tab{id="local" label="Local Development"}
+1. Log in to the **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** console in a new browser tab.
+1. Navigate to the [AWS CloudFormation Console](https://console.aws.amazon.com/cloudformation/).
+1. From **Create stack**, choose **With new resources (standard)**.
+1. From **Specify template**, choose **Upload a template file**, upload the `drift-detection-challenge.yaml` file and choose **Next**.
+1. Enter a stack name, for example `cfn-workshop-drift-detection-challenge` and choose **Next**.
+1. In **Configure Stack Options**, choose **Next**.
+1. In the next page, choose **Submit**.
+1. Once the stack is created, select the `cfn-workshop-drift-detection-challenge` stack and choose **Resources**. Take a note of the **Physical ID** for `Instance1`, for example `i-1234567890abcdef0`.
+::::
+:::::
 
 You will now modify this resource in a similar way to the first lab to introduce drift. This modification causes an interruption, as the `UserData` [property](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-instance.html#cfn-ec2-instance-userdata) you will change requires the instance to be stopped first. You will change the message printed to read: `Hello Universe`.
 
@@ -306,11 +307,23 @@ Your task now is to update the stack with the new state of the resource, without
 :::
 ::::::expand{header="Want to see the solution?"}
 1. Update the `drift-detection-challenge.yaml` template to add a `DeletionPolicy` attribute with a value of `Retain` to the `Instance1` resource. Save the file.
+:::code{language=yaml showLineNumbers=true showCopyAction=true lineNumberStart=10 highlightLines=12}
+Resources:
+  Instance1:
+    DeletionPolicy: Retain
+    Type: AWS::EC2::Instance
+    Properties:
+      ImageId: !Ref LatestAmiId
+      InstanceType: t2.micro
+      UserData: !Base64 |
+        #!/usr/bin/env bash
+        echo Hello World
+:::
 1. Update the stack with the updated `drift-detection-challenge.yaml` template. This tells CloudFormation that when the resource is removed from the template, it should not delete it but just stop managing it.
 1. Once the stack update is complete, edit the template file again to remove the whole resource declaration (you can also choose to comment it out, using the `#` character at the start of each relevant line), and save the file.
 1. Update the stack with the updated template file. CloudFormation will remove the instance from the stack without terminating it.
 1. Edit the template file to restore the resource, and update the UserData to match the change made previously.
-:::code{language=yaml showLineNumbers=false showCopyAction=false}
+:::code{language=yaml showLineNumbers=true showCopyAction=true lineNumberStart=10 highlightLines=19}
 Resources:
   Instance1:
     DeletionPolicy: Retain
