@@ -140,8 +140,12 @@ Now that you have your EC2 instance running, you choose to monitor it by creatin
 
 A dashboard body is a string in JSON format: for more information, see [Dashboard Body Structure and Syntax](https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/CloudWatch-Dashboard-Body-Structure.html). When you describe a CloudWatch dashboard with CloudFormation, you specify a JSON string that contains keys and values, such as:
 
-:::code{language=yaml showLineNumbers=true showCopyAction=true}
-"{\"start\":\"-PT6H\",\"periodOverride\":\"inherit\",[...]}
+:::code{language=json showLineNumbers=true showCopyAction=true}
+{
+    "start":"-PT6H",
+    "periodOverride":"inherit",
+    [...]
+}
 :::
 
 
@@ -217,7 +221,10 @@ aws cloudformation wait stack-update-complete \
 8. Choose **Submit**. Refresh the stack creation page until you see the stack in the `UPDATE_COMPLETE` status.
 ::::
 :::::
-Navigate to the [CloudWatch console](https://console.aws.amazon.com/cloudwatch/). From the right navigation panel, choose **Dashboards**. You should see the dashboard you just created.
+
+* Navigate to the [CloudWatch console](https://console.aws.amazon.com/cloudwatch/). From the right navigation panel, choose **Dashboards**. 
+* Select the **Dashboard** that you have created, From the top-right, choose **Actions**.
+* Select **View/edit source**, you should see `JSON` for the dashboard that matches `YAML` from `language-extensions.yaml`
 
 Congratulations! You have learned how to use `Fn::ToJsonString` to transform JSON objects into escaped JSON strings as inputs to resource properties.
 
@@ -296,10 +303,10 @@ aws cloudformation wait stack-delete-complete \
 ::::
 ::::tab{id="LocalDevelopment" label="Local development"}
 1. Navigate to the [AWS CloudFormation Console](https://console.aws.amazon.com/cloudformation/).
-1. On the **Stacks** page in the CloudFormation console, select the stack you created in **Part 1:** `language-extensions`.
-1. In the stack details pane, choose **Delete**. Select **Delete stack** when prompted.
-1. On the **Stacks** page in the CloudFormation console, select the stack you created in **Challenge** section: `language-extensions-solution`.
-1. In the stack details pane, choose **Delete**. Select **Delete stack** when prompted.
+1. On the **Stacks** page in the CloudFormation console, select the stack you created in **Part 1:** `cfn-workshop-language-extensions`.
+1. In the stack details pane, choose **Delete**. Select **Delete** when prompted.
+1. On the **Stacks** page in the CloudFormation console, select the stack you created in **Challenge** section: `cfn-workshop-language-extensions-solution`.
+1. In the stack details pane, choose **Delete**. Select **Delete** when prompted.
 ::::
 :::::
 ### Conclusion
