@@ -258,9 +258,9 @@ Refer to the [CloudWatch Dashboard structure](https://docs.aws.amazon.com/Amazon
         --capabilities CAPABILITY_AUTO_EXPAND
     1. CloudFormation returns the following output.
     :::code{language=json showLineNumbers=false showCopyAction=false}
-    {
-        "StackId": "arn:aws:cloudformation:us-east-1:123456789012:stack/cfn-workshop-language-extensions-solution/466df9e0-0dff-08e3-8e2f-5088487c4896"
-    }
+{
+    "StackId": "arn:aws:cloudformation:us-east-1:123456789012:stack/cfn-workshop-language-extensions-solution/466df9e0-0dff-08e3-8e2f-5088487c4896"
+}
     :::
     1. Wait until the `CREATE` operation is complete, by using the [wait stack-create-complete](https://docs.aws.amazon.com/cli/latest/reference/cloudformation/wait/stack-create-complete.html) AWS CLI command.
     :::code{language=shell showLineNumbers=false showCopyAction=true}
