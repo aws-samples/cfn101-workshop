@@ -61,7 +61,7 @@ Resources:
    ::::tab{id="cloud9" label="Cloud9"}
    1. In the **Cloud9 terminal** navigate to `cfn101-workshop/code/workspace/drift-detection`:
    :::code{language=shell showLineNumbers=false showCopyAction=true}
-   cd cfn101-workshop/ccode/workspace/drift-detection
+   cd cfn101-workshop/code/workspace/drift-detection
    :::
    1. Create the stack by using the following AWS CLI command. For example use stack name as `cfn-workshop-drift-detection`
    :::code{language=shell showLineNumbers=false showCopyAction=true}
@@ -363,7 +363,6 @@ You will now update the template to match the new state of the resource and brin
    :::  
     ::::
     ::::tab{id="local" label="Local Development"}
-   1. Log in to the **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** console in a new browser tab.
    1. Navigate to the [CloudFormation Console](https://console.aws.amazon.com/cloudformation/).
    1. Choose your stack as before.
    1. Choose **Update**.
@@ -468,7 +467,6 @@ aws cloudformation describe-stack-resources \
 :::
 ::::
 ::::tab{id="local" label="Local Development"}
-1. Log in to the **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** console in a new browser tab.
 1. Navigate to the [AWS CloudFormation Console](https://console.aws.amazon.com/cloudformation/).
 1. From **Create stack**, choose **With new resources (standard)**.
 1. From **Specify template**, choose **Upload a template file**, upload the `drift-detection-challenge.yaml` file and choose **Next**.
@@ -483,7 +481,6 @@ You will now modify this resource in a similar way to the first lab to introduce
 
 1. Navigate to the [Amazon EC2 Console](https://console.aws.amazon.com/ec2/).
 1. Locate the **Instances** section, and select the instance with the ID recorded above.
-1. Choose the **Additional settings** tab.
 1. From **Instance state**, choose **Stop instance**, then choose **Stop**.
 1. Wait for the instance state to change to `Stopped`. Refresh the page if necessary.
 1. Once the Instance state is `Stopped`, select the instance again if necessary, then from **Actions** choose **Instance settings**, then choose **Edit user data**.
@@ -507,7 +504,7 @@ aws cloudformation detect-stack-drift \
 :::
 1. Verify the **Drift Results** by using the following AWS CLI command.
 :::code{language=shell showLineNumbers=false showCopyAction=true}
-aws cloudformation describe-stack-resources \
+aws cloudformation describe-stack-resource-drift \
     --stack-name cfn-workshop-drift-detection-challenge
 :::
 1. The drift details for `Instance1` are shown in the output of `descibe-stack-resource-drifts` under `Property Differences` as highlighted in the below example.
@@ -602,14 +599,14 @@ Resources:
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 aws cloudformation update-stack \
     --stack-name cfn-workshop-drift-detection-challenge \
-    --template-body drift-detection-challenge.yaml
+    --template-body file://drift-detection-challenge.yaml
 :::
 1. Once the stack update is complete, edit the template file again to remove the whole resource declaration (you can also choose to comment it out, using the `#` character at the start of each relevant line), and save the file.
 1. Update the stack with the updated template file. CloudFormation will remove the instance from the stack without terminating it.
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 aws cloudformation update-stack \
     --stack-name cfn-workshop-drift-detection-challenge \
-    --template-body drift-detection-challenge.yaml
+    --template-body file://drift-detection-challenge.yaml
 :::
 1. Edit the template file to restore the resource, and update the UserData to match the change made previously.
 :::code{language=yaml showLineNumbers=true showCopyAction=true lineNumberStart=10 highlightLines=19}
