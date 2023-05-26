@@ -158,7 +158,7 @@ You will now update the template to match the new state of the resource and brin
    :::code{language=shell showLineNumbers=false showCopyAction=true}
    aws cloudformation update-stack \
 --stack-name cfn-workshop-drift-detection \
---template-body file://template-and-stack.yaml
+--template-body file://drift-detection-workshop.yaml
    :::
    1. If the `create-stack` command was successfully sent, CloudFormation will return `StackId`.
    :::code{language=json showLineNumbers=false showCopyAction=false}
@@ -237,7 +237,7 @@ aws cloudformation create-stack \
 :::code{language=json showLineNumbers=false showCopyAction=false}
 "StackId": "arn:aws:cloudformation:us-east-1:123456789012:stack/cfn-workshop-drift-detection-challenge/739fafa0-e4d7-11ed-a000-12d9009553ff"
 :::
-1. Open the **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** console in a new tab and check if the stack status is **UPDATE_COMPLETE**.
+1. Open the **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** console in a new tab and check if the stack status is **CREATE_COMPLETE**.
 1. Once the stack is created, select the `drift-detection-challenge` stack and choose **Resources**. Take a note of the **Physical ID** for `Instance1`, for example `i-1234567890abcdef0`.
 ::::
 ::::tab{id="local" label="Local Development"}
@@ -256,8 +256,7 @@ You will now modify this resource in a similar way to the first lab to introduce
 
 1. Navigate to the [Amazon EC2 Console](https://console.aws.amazon.com/ec2/).
 1. Locate the **Instances** section, and select the instance with the ID recorded above.
-1. Choose the **Additional settings** tab.
-1. From **Instance state**, choose **Stop instance**, then choose **Stop**.
+1. In the top right corner, select **Instance state**, **Stop instance**, and choose **Stop**.
 1. Wait for the instance state to change to `Stopped`. Refresh the page if necessary.
 1. Once the Instance state is `Stopped`, select the instance again if necessary, then from **Actions** choose **Instance settings**, then choose **Edit user data**.
 1. In **New user data**, modify the script to change Hello World to Hello Universe as below:
@@ -306,6 +305,88 @@ Your task now is to update the stack with the new state of the resource, without
 * Refer to the [Resource Importing](/intermediate/operations/resource-importing.html) lab for more guidance.
 :::
 ::::::expand{header="Want to see the solution?"}
+:::::tabs{variant="container"}
+::::tab{id="cloud9" label="Cloud9"}
+1. In the **Cloud9 terminal** navigate to `code/workspace/drift-detection`:
+:::code{language=shell showLineNumbers=false showCopyAction=true}
+cd cfn101-workshop/code/workspace/drift-detection
+:::
+1. Update the `drift-detection-challenge.yaml` template to add a `DeletionPolicy` attribute with a value of `Retain` to the `Instance1` resource. Save the file.
+:::code{language=yaml showLineNumbers=true showCopyAction=true lineNumberStart=10 highlightLines=12}
+Resources:
+  Instance1:
+    DeletionPolicy: Retain
+    Type: AWS::EC2::Instance
+    Properties:
+      ImageId: !Ref LatestAmiId
+      InstanceType: t2.micro
+      UserData: !Base64 |
+        #!/usr/bin/env bash
+        echo Hello Universe
+:::
+1. Use the AWS CLI to update the stack. The required parameters `--stack-name` and `--template-body` have been pre-filled for you.
+:::code{language=shell showLineNumbers=false showCopyAction=true}
+aws cloudformation update-stack \
+--stack-name cfn-workshop-drift-detection-challenge \
+--template-body file://drift-detection-challenge.yaml
+:::
+1. If the `update-stack` command was successfully sent, CloudFormation will return `StackId`.
+:::code{language=shell showLineNumbers=false showCopyAction=false}
+"StackId": "arn:aws:cloudformation:us-east-1:687471791986:stack/cfn-workshop-drift-detection-challenge/37c43bb0-fae7-11ed-9706-0aac74b7aa1f"
+:::
+1. Once the stack update is complete, edit the template file again to remove the whole resource declaration (you can also choose to comment it out, using the `#` character at the start of each relevant line), and save the file.
+:::code{language=yaml showLineNumbers=true showCopyAction=true lineNumberStart=10}
+Resources:
+  # Instance1:
+  #   DeletionPolicy: Retain
+  #   Type: AWS::EC2::Instance
+  #   Properties:
+  #     ImageId: !Ref LatestAmiId
+  #     InstanceType: t2.micro
+  #     UserData: !Base64 |
+  #       #!/usr/bin/env bash
+  #       echo Hello Universe
+:::
+1. Update the stack with the updated template file. CloudFormation will remove the instance from the stack without terminating it.
+:::code{language=shell showLineNumbers=false showCopyAction=true}
+aws cloudformation update-stack \
+--stack-name cfn-workshop-drift-detection-challenge \
+--template-body file://drift-detection-challenge.yaml
+:::
+1. Edit the template file to restore the resource, and update the UserData to match the change made previously.
+:::code{language=yaml showLineNumbers=true showCopyAction=true lineNumberStart=10 highlightLines=19}
+Resources:
+  Instance1:
+    DeletionPolicy: Retain
+    Type: AWS::EC2::Instance
+    Properties:
+      ImageId: !Ref LatestAmiId
+      InstanceType: t2.micro
+      UserData: !Base64 |
+        #!/usr/bin/env bash
+        echo Hello Universe
+:::
+1. Create the S3 bucket. (Please change the `AWS_ACCOUNT_ID` and `AWS_REGION` to match yours).
+:::code{language=shell showLineNumbers=false showCopyAction=false}
+aws s3 mb s3://drift-detection-challenge-AWS_ACCOUNT_ID --region AWS_REGION
+:::
+1. Upload the template to the S3 bucket. (Please change the `AWS_ACCOUNT_ID` to match yours).
+:::code{language=shell showLineNumbers=false showCopyAction=false}
+aws s3 cp drift-detection-challenge.yaml s3://drift-detection-challenge-AWS_ACCOUNT_ID
+:::
+1. Note the URL to the template in the S3 bucket (make sure to replace the bucket name to the one created in step above).
+:::code{language=shell showLineNumbers=false showCopyAction=false}
+aws s3 presign s3://drift-detection-challenge-AWS_ACCOUNT_ID/drift-detection-challenge.yaml | awk '{split($0,a,"\?"); print a[1]}'
+:::
+1. Select the stack in the CloudFormation console, then from **Stack actions** choose **Import resources in to stack**.
+1. Choose **Next**.
+1. Upload the template file.
+1. Enter the physical ID of the instance and choose **Next**.
+1. In **Specify stack options**, choose **Next**.
+1. Choose **Import resources**.
+1. Once the stack operation is complete and the resource is imported, you can run drift detection on the stack to confirm the instance is now in sync with the stack template.
+::::
+::::tab{id="local" label="Local development"}
 1. Update the `drift-detection-challenge.yaml` template to add a `DeletionPolicy` attribute with a value of `Retain` to the `Instance1` resource. Save the file.
 :::code{language=yaml showLineNumbers=true showCopyAction=true lineNumberStart=10 highlightLines=12}
 Resources:
@@ -342,8 +423,9 @@ Resources:
 1. In **Specify stack options**, choose **Next**.
 1. Choose **Import resources**.
 1. Once the stack operation is complete and the resource is imported, you can run drift detection on the stack to confirm the instance is now in sync with the stack template.
+::::
 
-You can find the template for the solution in `code/solutions/drift-detection/drift-detection-workshop.yaml`.
+You can find the template for the solution in `code/solutions/drift-detection/drift-detection-challenge.yaml`.
 
 Well done! You have now learned how to repair drift without impact by deleting and re-importing a resource.
 ::::::
@@ -351,13 +433,53 @@ Well done! You have now learned how to repair drift without impact by deleting a
 ### Cleanup
 
 Follow steps shown next to clean up the resources you created in this workshop.
-
+:::::tabs{variant="container"}
+::::tab{id="cloud9" label="Cloud9"}
+1. Delete the S3 bucket by using the following AWS CLI command
+:::code{language=shell showLineNumbers=false showCopyAction=false}
+aws s3 rb s3://drift-detection-challenge-AWS_ACCOUNT_ID --force
+:::
+1. Delete the `cfn-workshoop-drift-detection-workshop` stack.
+:::code{language=shell showLineNumbers=false showCopyAction=true}
+aws cloudformation delete-stack \
+ --stack-name cfn-workshop-drift-detection-workshop
+:::
+1. For the `cfn-workshop-drift-detection-challenge` stack, edit the template file to change the `DeletionPolicy` to `Delete`.
+:::code{language=yaml showLineNumbers=true showCopyAction=true lineNumberStart=10 highlightLines=12}
+Resources:
+  Instance1:
+    DeletionPolicy: Delete
+    Type: AWS::EC2::Instance
+    Properties:
+      ImageId: !Ref LatestAmiId
+      InstanceType: t2.micro
+      UserData: !Base64 |
+        #!/usr/bin/env bash
+        echo Hello Universe
+:::
+1. Use the AWS CLI to update the stack. The required parameters `--stack-name` and `--template-body` have been pre-filled for you.
+:::code{language=shell showLineNumbers=false showCopyAction=true}
+aws cloudformation update-stack \
+--stack-name cfn-workshop-drift-detection-challenge \
+--template-body file://drift-detection-challenge.yaml
+:::
+1. Once the updating of the stack is complete, go ahead and delete it.
+:::code{language=shell showLineNumbers=false showCopyAction=true}
+aws cloudformation delete-stack \
+--stack-name cfn-workshop-drift-detection-challenge
+:::
+::::
+::::tab{id="local" label="Local development"}
 1. Navigate to the CloudFormation Console.
-2. Choose the stack created in the first lab, for example `drift-detection-workshop`.
-3. Choose **Delete**, then choose the **Delete**.
-4. For the `drift-detection-challenge` stack, edit the template file to change the `DeletionPolicy` to `Delete`.
-5. Update the stack by selecting it, then choosing **Upload**, then **Replace current template** and uploading the updated file. Choose **Next**, then choose **Next**, then choose **Next**, and then choose **Submit**. Wait for the stack update to complete.
-6. Select the `drift-detection-challenge` stack and choose **Delete**, then choose **Delete**.
+1. Choose the stack created in the first lab, for example `drift-detection-workshop`.
+1. Choose **Delete**, then choose the **Delete**.
+1. For the `drift-detection-challenge` stack, edit the template file to change the `DeletionPolicy` to `Delete`.
+1. Update the stack by selecting it, then choosing **Upload**, then **Replace current template** and uploading the updated file. Choose **Next**, then choose **Next**, then choose **Next**, and then choose **Submit**. Wait for the stack update to complete.
+1. Select the `drift-detection-challenge` stack and choose **Delete**, then choose **Delete**.
+::::
+:::::
+
+---
 
 ### Conclusion
 
