@@ -103,18 +103,16 @@ In this step, you will use CloudFormation Drift Detection to identify the change
    1. Run the following AWS CLI command to **Detect Drift** for your stack `cfn-workshop-drift-detection`.
    :::code{language=shell showLineNumbers=false showCopyAction=true}
    aws cloudformation detect-stack-drift \
-        --stack-name cfn-workshop-drift-detection
+--stack-name cfn-workshop-drift-detection
    :::
    1. CloudFormation returns the following output.
    :::code{language=json showLineNumbers=false showCopyAction=true}
-{
   "StackDriftDetectionId": "35768f30-f947-11ed-9dc9-0eb469d3b073"
-}
    :::
    1. Verify the status of drift detection operation with the `stack-drift-detection-id` that is returned as part of the output of step 2.
    :::code{language=shell showLineNumbers=false showCopyAction=true}
    aws cloudformation describe-stack-drift-detection-status \
-        --stack-drift-detection-id stack-drift-detection-id
+--stack-drift-detection-id stack-drift-detection-id
    :::
    1. If the `describe-stack-drift-detect-status` command was successfully sent, CloudFormation wll return the information with `"DetectionStatus":"DETECTION_COMPLETE"` and `"StackDriftStatus":"DRIFTED"`.
    :::code{language=json showLineNumbers=true showCopyAction=false highlightLines=4-5}
@@ -130,7 +128,7 @@ In this step, you will use CloudFormation Drift Detection to identify the change
    1. Run the following command to describe drifted resources.
    :::code{language=shell showLineNumbers=false showCopyAction=true}
    aws cloudformation describe-stack-resource-drifts \
-        --stack-name cfn-workshop-drift-detection
+--stack-name cfn-workshop-drift-detection
    :::
    1. The drift details for `Table1` are shown in the output of `descibe-stack-resource-drifts` under `Property Differences` as highlighted in the below example.
    :::code{language=json showLineNumbers=true showCopyAction=false highlightLines=21-34}
@@ -214,18 +212,16 @@ In this step, you will detect the drift on the Queue resource using CloudFormati
    1. Run the following AWS CLI command to **Detect Drift** for your stack `cfn-workshop-drift-detection`.
    :::code{language=shell showLineNumbers=false showCopyAction=true}
    aws cloudformation detect-stack-drift \
-        --stack-name cfn-workshop-drift-detection
+--stack-name cfn-workshop-drift-detection
    :::
    1. CloudFormation returns the following output.
    :::code{language=json showLineNumbers=false showCopyAction=true}
-{
   "StackDriftDetectionId": "2c320c80-f954-11ed-9e69-0a031a01f375"
-}
    :::
    1. Verify the status of drift detection operation with the `stack-drift-detection-id` that is returned as part of the output of step 2.
    :::code{language=shell showLineNumbers=false showCopyAction=true}
    aws cloudformation describe-stack-drift-detection-status \
-        --stack-drift-detection-id stack-drift-detection-id
+--stack-drift-detection-id stack-drift-detection-id
    :::
    1. If the `describe-stack-drift-detect-status` command was successfully sent, CloudFormation wll return the information with `"DetectionStatus":"DETECTION_COMPLETE"` and `"StackDriftStatus":"DRIFTED"`.
    :::code{language=json showLineNumbers=true showCopyAction=false highlightLines=4-5}
@@ -241,7 +237,7 @@ In this step, you will detect the drift on the Queue resource using CloudFormati
    1. Run the following command to describe drifted resources.
    :::code{language=shell showLineNumbers=false showCopyAction=true}
    aws cloudformation describe-stack-resource-drifts \
-        --stack-name cfn-workshop-drift-detection
+--stack-name cfn-workshop-drift-detection
    :::
    1. The drift details for `Queue1` are shown in the output of `descibe-stack-resource-drifts` under `Property Differences` as highlighted in the below example.
    :::code{language=json showLineNumbers=true showCopyAction=false highlightLines=10-17}
@@ -316,17 +312,17 @@ You will now update the template to match the new state of the resource and brin
    1. Wait for the `UPDATE` operation to complete by running the following AWS CLI command.
    :::code{language=shell showLineNumbers=false showCopyAction=true}
    aws cloudformation wait stack-update-complete \
-        --stack-name cfn-workshop-drift-detection
+--stack-name cfn-workshop-drift-detection
    :::
    1. Run the following AWS CLI command to **Detect Drift** for your stack `cfn-workshop-drift-detection`.
    :::code{language=shell showLineNumbers=false showCopyAction=true}
    aws cloudformation detect-stack-drift \
-        --stack-name cfn-workshop-drift-detection
+--stack-name cfn-workshop-drift-detection
    :::
    1. Run the following command to describe drifted resources.
    :::code{language=shell showLineNumbers=false showCopyAction=true}
    aws cloudformation describe-stack-resource-drifts \
-        --stack-name cfn-workshop-drift-detection
+--stack-name cfn-workshop-drift-detection
    :::
    1. You should now see that the drift status is `IN_SYNC`, showing that the template and resource match.
    :::code{language=json showLineNumbers=true showCopyAction=false highlightLines=11,22}
@@ -417,18 +413,18 @@ cd cfn101-workshop/code/workspace/drift-detection
 1. Use the AWS CLI to create the stack. The required parameters `--stack-name` and `--template-body` have been pre-filled for you.
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 aws cloudformation create-stack \
-    --stack-name cfn-workshop-drift-detection-challenge \
-    --template-body file://drift-detection-challenge.yaml
+--stack-name cfn-workshop-drift-detection-challenge \
+--template-body file://drift-detection-challenge.yaml
 :::
 1. Wait for the `CREATE` operation to complete by using the following AWS CLI command.
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 aws cloudformation wait stack-create-complete \
-    --stack-name cfn-workshop-drift-detection-challenge
+--stack-name cfn-workshop-drift-detection-challenge
 :::
 1. Run the AWS CLI command to get the **Physical ID** for `Instance1`.
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 aws cloudformation describe-stack-resources \
-    --stack-name cfn-workshop-drift-detection-challenge
+--stack-name cfn-workshop-drift-detection-challenge
 :::
 1. CloudFormation returns the following output. Take note of the **Physical ID** for `Instance1` as highlighted in the below example
 :::code{language=json showLineNumbers=true showCopyAction=false highlightLines=19}
@@ -496,12 +492,12 @@ In this step, you will use CloudFormation Drift Detection to identity the change
 1. Let's try to identify the changes to the `Instance1`.
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 aws cloudformation detect-stack-drift \
-    --stack-name cfn-workshop-drift-detection-challenge
+--stack-name cfn-workshop-drift-detection-challenge
 :::
 1. Verify the **Drift Results** by using the following AWS CLI command.
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 aws cloudformation describe-stack-resource-drift \
-    --stack-name cfn-workshop-drift-detection-challenge
+--stack-name cfn-workshop-drift-detection-challenge
 :::
 1. The drift details for `Instance1` are shown in the output of `descibe-stack-resource-drifts` under `Property Differences` as highlighted in the below example.
 :::code{language=json showLineNumbers=true showCopyAction=false highlightLines=21-28}
@@ -594,15 +590,15 @@ Resources:
 1. Update the stack with the updated `drift-detection-challenge.yaml` template. This tells CloudFormation that when the resource is removed from the template, it should not delete it but just stop managing it.
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 aws cloudformation update-stack \
-    --stack-name cfn-workshop-drift-detection-challenge \
-    --template-body file://drift-detection-challenge.yaml
+--stack-name cfn-workshop-drift-detection-challenge \
+--template-body file://drift-detection-challenge.yaml
 :::
 1. Once the stack update is complete, edit the template file again to remove the whole resource declaration (you can also choose to comment it out, using the `#` character at the start of each relevant line), and save the file.
 1. Update the stack with the updated template file. CloudFormation will remove the instance from the stack without terminating it.
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 aws cloudformation update-stack \
-    --stack-name cfn-workshop-drift-detection-challenge \
-    --template-body file://drift-detection-challenge.yaml
+--stack-name cfn-workshop-drift-detection-challenge \
+--template-body file://drift-detection-challenge.yaml
 :::
 1. Edit the template file to restore the resource, and update the UserData to match the change made previously.
 :::code{language=yaml showLineNumbers=true showCopyAction=true lineNumberStart=10 highlightLines=19}
@@ -638,10 +634,10 @@ touch resources-import.txt
 1. Update the `cfn-workshop-drift-detection-challenge` Stack to Import resources by using the following code.
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 aws cloudformation create-change-set \
-    --stack-name cfn-workshop-drift-detection-challenge \
-    --change-set-name drift-challenge --change-set-type IMPORT \
-    --resources-to-import file://resources-import.txt \
-    --template-body file://drift-detection-challenge.yaml
+--stack-name cfn-workshop-drift-detection-challenge \
+--change-set-name drift-challenge --change-set-type IMPORT \
+--resources-to-import file://resources-import.txt \
+--template-body file://drift-detection-challenge.yaml
 :::
 1. Execute the change set by using the following code.
 :::code{language=shell showLineNumbers=false showCopyAction=true}
@@ -657,7 +653,7 @@ aws cloudformation wait stack-import-complete \
 1. Verify the drift detection on the stack `cfn-workshop-drift-detection-challenge`.
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 aws cloudformation detect-stack-drift \
-    --stack-name cfn-workshop-drift-detection-challenge
+--stack-name cfn-workshop-drift-detection-challenge
 :::
 1. The drift details for `Instance1` are shown in the output of `descibe-stack-resource-drifts` to confirm the instance is now in sync with the stack.
 :::code{language=json showLineNumbers=true showCopyAction=false highlightLines=11,22}
@@ -716,7 +712,7 @@ aws s3 rb s3://drift-detection-challenge-AWS_ACCOUNT_ID --force
 1. Delete the `cfn-workshoop-drift-detection-workshop` stack.
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 aws cloudformation delete-stack \
- --stack-name cfn-workshop-drift-detection-workshop
+--stack-name cfn-workshop-drift-detection-workshop
 :::
 1. For the `cfn-workshop-drift-detection-challenge` stack, edit the template file to change the `DeletionPolicy` to `Delete`.
 :::code{language=yaml showLineNumbers=true showCopyAction=true lineNumberStart=10 highlightLines=12}
