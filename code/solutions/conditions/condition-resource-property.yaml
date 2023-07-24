@@ -1,6 +1,6 @@
 AWSTemplateFormatVersion: "2010-09-09"
 
-Description: AWS CloudFormation workshop - Conditions at property level (uksb-1q9p31idr).
+Description: AWS CloudFormation workshop - Conditions at property level (uksb-1q9p31idr) (tag:conditions).
 
 Parameters:
   LatestAmiId:

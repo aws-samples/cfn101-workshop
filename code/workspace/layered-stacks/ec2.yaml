@@ -1,6 +1,6 @@
 AWSTemplateFormatVersion: "2010-09-09"
 
-Description: AWS CloudFormation workshop - Layered stacks - EC2 template (uksb-1q9p31idr).
+Description: AWS CloudFormation workshop - Layered stacks - EC2 template (uksb-1q9p31idr) (tag:layered-stacks).
 
 Metadata:
   AWS::CloudFormation::Interface:

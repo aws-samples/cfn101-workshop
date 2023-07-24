@@ -38,7 +38,7 @@ AWSTemplateFormatVersion: "2010-09-09"
 The _Description_ section enables you to include comments about your template.
 
 :::code{language=yaml showLineNumbers=false showCopyAction=true}
-Description: AWS CloudFormation workshop - Resources (uksb-1q9p31idr).
+Description: AWS CloudFormation workshop - Resources (uksb-1q9p31idr) (tag:resources).
 :::
 
 #### Metadata

@@ -1,6 +1,6 @@
 AWSTemplateFormatVersion: "2010-09-09"
 
-Description: AWS CloudFormation workshop - Resource Return Values Challenge Lab (uksb-1q9p31idr).
+Description: AWS CloudFormation workshop - Resource Return Values Challenge Lab (uksb-1q9p31idr) (tag:resource-return-values).
 
 Parameters:
   LatestAmiId:
