@@ -1,6 +1,6 @@
 AWSTemplateFormatVersion: "2010-09-09"
 
-Description: AWS CloudFormation workshop - Linting and testing - SQS queue template (uksb-1q9p31idr)
+Description: AWS CloudFormation workshop - Linting and testing - SQS queue template (uksb-1q9p31idr) (tag:linting-and-testing).
 
 Resources:
   SqsQueue:

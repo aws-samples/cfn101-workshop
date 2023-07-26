@@ -1,6 +1,6 @@
 AWSTemplateFormatVersion: "2010-09-09"
 
-Description: AWS CloudFormation workshop - Multi region latest AMI (uksb-1q9p31idr).
+Description: AWS CloudFormation workshop - Multi region latest AMI (uksb-1q9p31idr) (tag:multi-region-latest-ami).
 
 Metadata:
   AWS::CloudFormation::Interface:
