@@ -35,7 +35,7 @@ test: $(VENV_NAME)
 	$(VENV_NAME)/bin/pre-commit run --all-files
 
 lint: $(VENV_NAME)
-	$(VENV_NAME)/bin/cfn-lint code/solutions/**/*.yaml --ignore-templates code/solutions/policy-as-code-with-guard/example_bucket_tests.yaml
+	$(VENV_NAME)/bin/cfn-lint
 
 nag:
 	cfn_nag_scan --input-path code/solutions --ignore-fatal

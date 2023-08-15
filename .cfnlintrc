@@ -1,0 +1,10 @@
+templates:
+  - ./code/solutions/**/*.template
+  - ./code/solutions/**/*.yaml
+
+ignore_templates:
+  - ./code/solutions/policy-as-code-with-guard/example_bucket_tests.yaml
+
+ignore_checks:
+  # Supress "This code may only work with `package` cli command as the property <xyz> is a string".
+  - W3002
