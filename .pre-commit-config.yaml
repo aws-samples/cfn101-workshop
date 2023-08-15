@@ -30,43 +30,44 @@ repos:
 
 # CloudFormation
 - repo: https://github.com/aws-cloudformation/cfn-python-lint
-  rev: v0.74.1
+  rev: v0.79.7
   hooks:
   - id: cfn-python-lint
     name: AWS CloudFormation Linter
-    files: solutions/.*\.(yaml)$
+    files: solutions/.*\.(yaml|template)$
     args:
       - --ignore-templates=code/solutions/policy-as-code-with-guard/example_bucket_tests.yaml
 
 - repo: https://github.com/aws-cloudformation/rain
-  rev: v1.2.0
+  rev: v1.4.4
   hooks:
   - id: cfn-format
-    files: solutions/.*\.(yaml)$
+    files: solutions/.*\.(yaml|template)$
     exclude: code/solutions/policy-as-code-with-guard/example_bucket_tests.yaml
 
 # Python
 - repo: https://github.com/pycqa/pylint
-  rev: v2.16.4
+  rev: v3.0.0a6
   hooks:
     - id: pylint
       args:
         - --errors-only
         - --disable=E0401
 
+- repo: https://github.com/psf/black
+  rev: 23.7.0
+  hooks:
+    - id: black
+
 - repo: https://github.com/PyCQA/isort
   rev: 5.12.0
   hooks:
     - id: isort
-
-- repo: https://github.com/psf/black
-  rev: 23.1.0
-  hooks:
-    - id: black
+      args: ["--profile", "black"]
 
 # Shell check
 - repo: https://github.com/shellcheck-py/shellcheck-py
-  rev: v0.9.0.2
+  rev: v0.9.0.5
   hooks:
     - id: shellcheck
       files: solutions/.*\.(sh)$
