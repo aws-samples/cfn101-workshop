@@ -1,0 +1,8 @@
+AWSTemplateFormatVersion: "2010-09-09"
+
+Description: AWS CloudFormation workshop lab for looping over collections (uksb-1q9p31idr) (tag:looping-over-collections).
+
+Transform: AWS::LanguageExtensions
+
+Resources:
+  # TODO: add resources you wish to describe.
