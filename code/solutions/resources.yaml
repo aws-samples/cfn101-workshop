@@ -1,6 +1,6 @@
 AWSTemplateFormatVersion: "2010-09-09"
 
-Description: AWS CloudFormation workshop - Resources (uksb-1q9p31idr).
+Description: AWS CloudFormation workshop - Resources (uksb-1q9p31idr) (tag:resources).
 
 Metadata:
   AWS::CloudFormation::Interface:
@@ -26,5 +26,5 @@ Resources:
   WebServerInstance:
     Type: AWS::EC2::Instance
     Properties:
-      ImageId: ami-00a1270ce1e007c27 # This ImageId will only work in the London region
+      ImageId: ami-02396cdd13e9a1257 # This ImageId will only work in the us-east-1 region
       InstanceType: !Ref InstanceType

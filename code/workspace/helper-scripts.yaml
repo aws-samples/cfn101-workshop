@@ -1,6 +1,6 @@
 AWSTemplateFormatVersion: "2010-09-09"
 
-Description: AWS CloudFormation workshop - Helper scripts (uksb-1q9p31idr).
+Description: AWS CloudFormation workshop - Helper scripts (uksb-1q9p31idr) (tag:helper-scripts).
 
 Metadata:
   AWS::CloudFormation::Interface:
@@ -14,8 +14,6 @@ Metadata:
         default: 'Amazon Machine Image ID'
 
 Parameters:
-  # 11. Add AvailabilityZone parameter from '5. Update the stack' section here
-
   EnvironmentType:
     Description: 'Specify the Environment type of the stack.'
     Type: String
@@ -25,7 +23,6 @@ Parameters:
       - Test
       - Prod
     ConstraintDescription: 'Specify either Dev, Test or Prod.'
-
   AmiID:
     Type: AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>
     Description: 'The ID of the AMI.'
@@ -83,7 +80,6 @@ Resources:
             # 8. Add the code from '3. Configure cfn-hup' section here
 
     Properties:
-      # 12. Add AvailabilityZone property from '5. Update the stack' section here
       IamInstanceProfile: !Ref WebServerInstanceProfile
       ImageId: !Ref AmiID
       InstanceType: !FindInMap [EnvironmentToInstanceType, !Ref EnvironmentType, InstanceType]

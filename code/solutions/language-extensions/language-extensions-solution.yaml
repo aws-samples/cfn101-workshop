@@ -1,0 +1,49 @@
+AWSTemplateFormatVersion: "2010-09-09"
+
+Description: AWS CloudFormation workshop - Language extensions (uksb-1q9p31idr) (tag:language-extensions).
+
+Metadata:
+  cfn-lint:
+    config:
+      ignore_checks:
+        - W3011
+
+Parameters:
+  DeletionPolicyParameter:
+    Type: String
+    AllowedValues: [Delete, Retain, Snapshot]
+    Default: Delete
+
+Transform: AWS::LanguageExtensions
+
+Resources:
+  S3Bucket:
+    DeletionPolicy: !Ref DeletionPolicyParameter
+    Type: AWS::S3::Bucket
+    Properties:
+      VersioningConfiguration:
+        Status: Enabled
+
+  Dashboard:
+    Type: AWS::CloudWatch::Dashboard
+    Properties:
+      DashboardBody:
+        Fn::ToJsonString:
+          start: -PT6H
+          periodOverride: inherit
+          widgets:
+            - type: metric
+              x: 0
+              "y": 7
+              width: 3
+              height: 3
+              properties:
+                metrics: [[AWS/S3, NumberOfObjects, StorageType, AllStorageTypes, BucketName, !Ref S3Bucket]]
+                period: 86400
+                region: !Ref AWS::Region
+                title: S3 objects
+
+Outputs:
+  S3Bucket:
+    Description: The S3 bucket created using this template.
+    Value: !Ref S3Bucket

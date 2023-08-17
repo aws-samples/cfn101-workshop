@@ -7,4 +7,4 @@ weight: 40
 
 **ネストされたスタックや階層化されたスタック**を作成する方法、Lambda 関数を**パッケージ化してデプロイ**する方法等を学びます。
 
-**中級編ワークショップ**の各セクションでは、あなたが書いたルールに従い、JSON や YAML 形式の Policy as Code 検証を行う [AWS CloudFormation Guard](https://github.com/aws-cloudformation/cloudformation-guard) 等のトピックについて学びます。
+**中級編ワークショップ**の各セクションでは、独自で書いたルールに従い、JSON や YAML 形式の Policy as Code 検証を行う [AWS CloudFormation Guard](https://github.com/aws-cloudformation/cloudformation-guard) 等のトピックについて学びます。

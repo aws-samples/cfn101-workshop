@@ -5,18 +5,18 @@ weight: 200
 
 ### 概要
 
-[AWS CloudFormation](https://aws.amazon.com/jp/cloudformation/) を使用して、テンプレートに記述したリソースをプログラム的にプロビジョニングする際、あるリソースが 1 つ以上のリソースに依存する場合があります。例えば、[Amazon Elastic Compute Cloud](https://aws.amazon.com/ec2/) (Amazon EC2) インスタンスは、Amazon EC2 インスタンスに使用するセキュリティグループに依存します。CloudFormation スタックにおいて、EC2 がセキュリティグループを参照するように記述することで、最初にセキュリティグループが作成され、次に Amazon EC2 インスタンスが作成されます。
+[AWS CloudFormation](https://aws.amazon.com/jp/cloudformation/) を使用して、テンプレートに記述したリソースをプログラム的にプロビジョニングする際、あるリソースが 1 つ以上のリソースに依存する場合があります。例えば、[Amazon Elastic Compute Cloud](https://aws.amazon.com/jp/ec2/) (Amazon EC2) インスタンスは、Amazon EC2 インスタンスに使用するセキュリティグループに依存します。CloudFormation スタックにおいて、EC2 がセキュリティグループを参照するように記述することで、最初にセキュリティグループが作成され、次に Amazon EC2 インスタンスが作成されます。
 
 テンプレートで定義したリソース間に依存関係がない場合、CloudFormation はすべてのリソースの作成を並行して開始します。リソースの作成順序を定義、もしくは、[必須](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/aws-attribute-dependson.html#gatewayattachment)である場合、CloudFormation は、一部のリソースを他のリソースよりも先に作成します。
 
-このラボでは、`DependsOn` [属性](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/aws-attribute-dependson.html)を使用して、リソースの作成順序を明示的に定義する方法を学びます。また、`Ref` と`Fn::GetAtt` [組み込み関数](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference.html)を使用して、依存関係が確立されている場合に、CloudFormation に作成順序を処理させる方法も学びます。
+このラボでは、`DependsOn` [属性](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/aws-attribute-dependson.html)を使用して、リソースの作成順序を明示的に定義する方法を学びます。また、`Ref` と `Fn::GetAtt` [組み込み関数](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference.html)を使用して、依存関係が確立されている場合に、CloudFormation に作成順序を処理させる方法も学びます。
 
 ### 対象トピック
 
 このラボを修了すると、次のことができるようになります。
 
-* `dependsOn` [リソース属性](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/aws-attribute-dependson.html)の使い方を理解して、リソースの作成順序を明示的に定義
-* `Ref` と`Fn::GetAtt` [組み込み関数](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference.html)を使用して、リソース間の依存関係を作成
+* `DependsOn` [リソース属性](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/aws-attribute-dependson.html)の使い方を理解して、リソースの作成順序を明示的に定義
+* `Ref` と `Fn::GetAtt` [組み込み関数](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference.html)を使用して、リソース間の依存関係を作成
 
 ### ラボを開始
 
@@ -107,7 +107,7 @@ Resources:
 
 ![resource-dependencies-lab-dependson.png](/static/intermediate/templates/resource-dependencies/resource-dependencies-lab-dependson.ja.png)
 
-次に、新しいスタックのスタックイベントを確認しましょう。テンプレートで説明されている Amazon SNS トピックに `DependsOn` 属性を追加し、その属性の値として Amazon S3 バケットの論理 ID を指定しました。その結果、CloudFormation は、最初に `S3Bucket` リソースを作成し、次に `SNSTopic` リソースを作成しました。スタックを削除する場合、最初に作成されたリソースが最後に削除されることに注意してください。
+次に、新しいスタックのスタックイベントを確認しましょう。テンプレートで説明されている Amazon SNS トピックに `DependsOn` 属性を追加し、その属性の値として Amazon S3 バケットの論理 ID を指定しました。その結果、CloudFormation は、最初に `S3Bucket` リソースを作成し、次に `SNSTopic` リソースを作成しました。スタックを削除する場合、最初に作成されたリソースが最後に削除されることに注目してください。
 
 ::alert[`DependsOn` 属性には文字列または文字列のリストを指定できます。 詳細については、[DependsOn 属性](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/aws-attribute-dependson.html)を参照してください。]{type="info"}
 
@@ -166,21 +166,21 @@ Resources:
 ```
 
 
-テンプレートに貼り付けたテンプレートスニペットには、Amazon SNS [Topic](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/aws-resource-sns-topic.html)、Amazon SNS [Topic Subscription](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/aws-properties-sns-topic-subscription.html)、Amazon EC2 [SecurityGroup](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-security-group.html)、[SecurityGroup Ingress](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-security-group-rule-1.html) の 4 つのリソースがあります。次の点に注意してください。
+テンプレートに貼り付けたテンプレートスニペットには、Amazon SNS [Topic](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/aws-resource-sns-topic.html)、Amazon SNS [Topic Subscription](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/aws-properties-sns-topic-subscription.html)、Amazon EC2 [SecurityGroup](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-security-group.html)、[SecurityGroup Ingress](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-security-group-rule-1.html) の 4 つのリソースがあります。次の点にご注目ください。
 
-* Topic リソースの論理 ID である `SNSTopic` は、`SNSTopicSubscription` リソースの `TopicArn` プロパティの `Ref` で参照されます。`TopicArn` プロパティには、サブスクライブする Topic の [Amazon Resource Name](https://docs.aws.amazon.com/ja_jp/general/latest/gr/aws-arns-and-namespaces.html) (ARN) が必要です。`AWS::SNS::Topic` リソースタイプは、`Ref` 組み込み関数を使用するときに Topic の ARN を返します。詳細については、Amazon SNS Topic [戻り値](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/aws-resource-sns-topic.html#aws-resource-sns-topic-return-values)をご参照ください。つまり、CloudFormation は SNSTopicSubscription の作成を開始する前に `SNSTopicSubscription` の作成が完了するのを待ちます。
+* Topic リソースの論理 ID である `SNSTopic` は、`SNSTopicSubscription` リソースの `TopicArn` プロパティの `Ref` で参照されます。`TopicArn` プロパティには、サブスクライブする Topic の [Amazon Resource Name](https://docs.aws.amazon.com/ja_jp/general/latest/gr/aws-arns-and-namespaces.html) (ARN) が必要です。`AWS::SNS::Topic` リソースタイプは、`Ref` 組み込み関数を使用するときに Topic の ARN を返します。詳細については、Amazon SNS Topic [戻り値](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/aws-resource-sns-topic.html#aws-resource-sns-topic-return-values)をご参照ください。つまり、CloudFormation は SNSTopic の作成を開始する前に `SNSTopicSubscription` の作成が完了するのを待ちます。
 * セキュリティグループリソース `SecurityGroup` の論理 ID は、`SecurityGroupIngress` リソースの `Fn::GetAtt` で参照されます。ここでの目的は、`SecurityGroupIngress` リソースの `GroupId` プロパティに `SecurityGroup` リソースの ID を指定することです。`AWS::EC2::SecurityGroup` リソースタイプは、`Fn::GetAtt` 組み込み関数を使用して `GroupID` 属性を `Fn::GetAtt` に渡すと、セキュリティグループの ID を返します。代わりに `Ref` 関数はリソース ID を返すか、EC2-Classic やデフォルト VPC の場合はリソース名を返します。詳細については、[EC2 セキュリティグループの戻り値](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-security-group.html#aws-properties-ec2-security-group-return-values)をご参照ください。
-* `Security Group` リソースが `CREATE_COMPLETE` ステータスになると、`SecurityGroupIngress` の作成が開始されます。同様に、`SNSTopicSubscription` リソースの作成が開始されます。
-* `SNSTopic` と `SecurityGroup` リソースの間には依存関係がないことにご注意ください。つまり、CloudFormation は両方のリソースの作成を並行して開始します。
+* `SecurityGroup` リソースが `CREATE_COMPLETE` ステータスになると、`SecurityGroupIngress` の作成が開始されます。同様に、`SNSTopicSubscription` リソースの作成が開始されます。
+* `SNSTopic` と `SecurityGroup` リソースの間には依存関係がないことにご注目ください。つまり、CloudFormation は両方のリソースの作成を並行して開始します。
 
 スタックを作成して、上記の動作を確認してみましょう。AWS CloudFormation コンソールにて、`resource-dependency-with-intrinsic-functions.yaml` を使用し、[スタックを作成](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/cfn-console-create-stack.html)します。
 
 
 1. [AWS CloudFormation コンソール](https://console.aws.amazon.com/cloudformation/)に移動します。
-2. **スタックの作成**、**新しいリソースを使用 (標準)** を選択します。
+2. **スタックの作成**、**新しいリソースを使用 (標準)**を選択します。
 3. **テンプレート準備完了**オプションを選択します。**テンプレートを指定**セクションで、**テンプレートファイルのアップロード**を選択します。`resource-dependencies-with-intrinsic-functions.yaml` テンプレートをアップロードし、**次へ**をクリックします。
 4. スタック名を入力します。例えば、`resource-dependencies-lab-ref-getatt` と入力します。準備ができたら、**次へ**をクリックします。
-5. **パラメータ**セクションで、Amazon SNS トピックサブスクリプションの E メールアドレスを入力します。準備ができたら、**次へ**をクリックします。
+5. **パラメータ**セクションで、Amazon SNS トピックサブスクリプションのメールアドレスを入力します。準備ができたら、**次へ**をクリックします。
 6. **スタックオプションの設定**ページはデフォルト値のまま、ページの一番下までスクロールして**次へ**をクリックします。
 7. **レビュー**ページを一番下までスクロールして**送信**をクリックします。
 
@@ -209,7 +209,7 @@ Resources:
 はじめに、`code/workspace/resource-dependencies` ディレクトリにある `resource-dependencies-challenge.yaml` テンプレートを、お好みのコードエディターで開きます。上記の要件例に従い、必要に応じてリソースの依存関係を確立します。準備ができたら、`resource-dependencies-challenge` という名前の新しいスタックを作成し、スタックイベントが、学んできた一連の流れと一致することを確認します。
 
 :::expand{header="ヒントが必要ですか？"}
-* Amazon EC2 インスタンスの `SecurityGroups` [プロパティ](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-security-group.html#aws-properties-ec2-security-group-properties)で、セキュリティグループを[参照](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference.html)する方法を教えてください。
+* Amazon EC2 インスタンスの `SecurityGroups` [プロパティ](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-security-group.html#aws-properties-ec2-security-group-properties)で、セキュリティグループを[参照](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference.html)する方法を確認してください。
 * セキュリティグループを参照するときは、`SecurityGroups` プロパティの値の `Type` が _List of String_ であることにも注意してください。この値を YAML 形式でどのように表現しますか？
 * リソースの作成は別のリソースに従うべきだと[指定](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/aws-attribute-dependson.html)するにはどうすればよいでしょうか。
 :::

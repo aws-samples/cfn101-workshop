@@ -1,12 +1,12 @@
 AWSTemplateFormatVersion: "2010-09-09"
 
-Description: AWS CloudFormation workshop - Nested stacks - Root template (uksb-1q9p31idr).
+Description: AWS CloudFormation workshop - Nested stacks - Root template (uksb-1q9p31idr) (tag:nested-stacks).
 
 Parameters:
   S3BucketName:
     Description: S3 bucket name for the Nested Stacks. S3 bucket name can include numbers, lowercase letters, uppercase letters, and hyphens (-). It cannot start or end with a hyphen (-).
     Type: String
-    AllowedPattern: ^[0-9a-zA-Z]+([0-9a-zA-Z-.]*[0-9a-zA-Z])*$
+    AllowedPattern: ^(?!(^xn--|.+-s3alias$))^[a-z0-9][a-z0-9-]{1,61}[a-z0-9]$
     ConstraintDescription: Bucket name can include numbers, lowercase letters, uppercase letters, periods (.), and hyphens (-). It cannot start or end with a hyphen (-).
 
   AvailabilityZones:

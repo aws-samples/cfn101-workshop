@@ -4,11 +4,11 @@ weight: 300
 ---
 
 ### 概要
-このモジュールでは、CloudFormation テンプレートの[動的な参照](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/dynamic-references.html)を使用して、[AWS Systems Manager](https://docs.aws.amazon.com/ja_jp/systems-manager/latest/userguide/what-is-systems-manager.html) (SSM)、[Paramater Store](https://docs.aws.amazon.com/ja_jp/systems-manager/latest/userguide/systems-manager-parameter-store.html)、[AWS Secrets Manager](https://docs.aws.amazon.com/ja_jp/secretsmanager/latest/userguide/intro.html) を含む AWS サービスに保存されている外部値を参照する方法を学びます。
+このモジュールでは、CloudFormation テンプレートの[動的な参照](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/dynamic-references.html)を使用して、[AWS Systems Manager](https://docs.aws.amazon.com/ja_jp/systems-manager/latest/userguide/what-is-systems-manager.html) (SSM)、[Parameter Store](https://docs.aws.amazon.com/ja_jp/systems-manager/latest/userguide/systems-manager-parameter-store.html)、[AWS Secrets Manager](https://docs.aws.amazon.com/ja_jp/secretsmanager/latest/userguide/intro.html) を含む AWS サービスに保存されている外部値を参照する方法を学びます。
 
  前のセクションで説明したように、CloudFormation テンプレートでは、AWS リソースの[ライフサイクルと所有権](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/best-practices.html) の基準とベストプラクティスを考慮し、一元化された場所に保存されている設定値を参照することもできます。Parameter Store は、構成データ管理のための安全な階層型ストレージを提供します。
 
-また、AWS CloudFormation テンプレート内の機密情報を参照する必要がある場合もあります。[AWS Secrets Manager](https://docs.aws.amazon.com/ja_jp/secretsmanager/latest/userguide/intro.html) を使用すると、データベースやその他のサービスの認証情報をプログラムで安全に暗号化、保存、取得できます。SSM [Secure String パラメータ](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/dynamic-references.html#dynamic-references-ssm-secure-strings)を使用して機密データを保存および参照することもできます。
+また、AWS CloudFormation テンプレートから機密情報を参照する必要がある場合もあります。[AWS Secrets Manager](https://docs.aws.amazon.com/ja_jp/secretsmanager/latest/userguide/intro.html) を使用すると、データベースやその他のサービスの認証情報をプログラムで安全に暗号化、保存、取得できます。SSM [Secure String パラメータ](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/dynamic-references.html#dynamic-references-ssm-secure-strings)を使用して機密データを保存および参照することもできます。
 
 動的参照を使用すると、CloudFormation はスタックおよび [変更セット](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/using-cfn-updating-stacks-changesets.html)操作中に、必要に応じて指定された参照値を取得します。ただし、CloudFormation が実際の参照値を保存することはありません。
 
@@ -47,7 +47,7 @@ weight: 300
 
 ::alert[CloudFormation を使用して、`String` または `StringList` タイプの Paramater Store パラメータを作成可能です。詳細については、[AWS::SSM::Parameter](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/aws-resource-ssm-parameter.html) のドキュメントをご覧ください。]{type="info"}
 
-3. 次に示す手順に従って、テンプレートに記述した EC2 インスタンスのパラメータへの動的参照を作成します。
+3. 次の手順に従って、テンプレートに記述した EC2 インスタンスのパラメータへの動的参照を作成します。
 
     1. `code/workspace/dynamic-references` ディレクトリに移動します。
     2. お好みのテキストエディタで `ec2-instance.yaml` CloudFormation テンプレートを開きます。

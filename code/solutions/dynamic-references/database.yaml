@@ -1,6 +1,6 @@
 AWSTemplateFormatVersion: "2010-09-09"
 
-Description: AWS CloudFormation workshop - Dynamic references - Database template (uksb-1q9p31idr)
+Description: AWS CloudFormation workshop - Dynamic references - Database template (uksb-1q9p31idr) (tag:dynamic-references).
 
 Parameters:
   DBUsername:
@@ -23,6 +23,7 @@ Parameters:
 
 Resources:
   Database:
+    DeletionPolicy: Delete
     Type: AWS::RDS::DBInstance
     Metadata:
       cfn_nag:
@@ -33,7 +34,6 @@ Resources:
       DBInstanceClass: db.t2.micro
       AllocatedStorage: "20"
       Engine: mysql
-      EngineVersion: 8.0.26
       MasterUsername: !Ref DBUsername
       MasterUserPassword: !Ref DBPassword
       PubliclyAccessible: false

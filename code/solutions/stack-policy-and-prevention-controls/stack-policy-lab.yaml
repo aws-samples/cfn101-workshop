@@ -1,6 +1,6 @@
 AWSTemplateFormatVersion: "2010-09-09"
 
-Description: AWS CloudFormation workshop - Stack policy and prevention controls - stack policy (uksb-1q9p31idr).
+Description: AWS CloudFormation workshop - Stack policy and prevention controls - stack policy (uksb-1q9p31idr) (tag:stack-policy).
 
 Metadata:
   cfn-lint:

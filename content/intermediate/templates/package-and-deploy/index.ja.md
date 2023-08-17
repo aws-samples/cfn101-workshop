@@ -9,7 +9,7 @@ weight: 600
 基本編は、非常に簡単な作業でしたが、CloudFormation テンプレートが他のファイルまたはアーティファクトを参照する場合もあります。
 
 例えば、Lambda のソースコードや ZIP ファイル、またはネストされた CloudFormation テンプレートファイルは、アーティファクトです。
-[ネストされたスタックラボ](/intermediate/templates/nested-stacks) で学んだように、 メインの CloudFormation テンプレートをデプロイする前に、これらのファイルが S3 で利用可能になっている必要があります。
+[ネストされたスタックのラボ](/intermediate/templates/nested-stacks)で学んだように、 メインの CloudFormation テンプレートをデプロイする前に、これらのファイルが S3 で利用可能になっている必要があります。
 
 より複雑なスタックのデプロイは多段階のプロセスが必要ですが、AWS CLI には、他のファイルを参照して CloudFormation テンプレートをデプロイする方法が用意されています。
 
@@ -74,7 +74,7 @@ PythonFunction:
 
 ##### 1. S3 バケットの作成
 
-一番最初に、Cloudformation テンプレートをデプロイするAWSリージョンを蹴ってします。Lambda がパッケージ化されたアーティファクトにアクセスできるようにするには、S3 バケットが Lambda と同じリージョンにある必要があります。
+一番最初に、Cloudformation テンプレートをデプロイする AWS リージョンを決定します。Lambda がパッケージ化されたアーティファクトにアクセスできるようにするには、S3 バケットが Lambda と同じリージョンにある必要があります。
 
 ::alert[`s3://` の後のバケット名は必ず一意の名前に置き換えてください！]{type="info"}
 
@@ -85,7 +85,7 @@ aws s3 mb s3://example-bucket-name --region eu-west-1
 ##### 2. インストール機能の依存関係
 
 私たちの関数は外部ライブラリ [pytz](https://pypi.org/project/pytz/) に依存しているため、ローカルにインストールする必要があります。
-ディレクトリに [pip](https://pypi.org/project/pip/) が付いているので、関数コードと一緒にパッケージ化できます。
+関数のパッケージに含むために、[pip](https://pypi.org/project/pip/) でローカルフォルダーにインストールする必要があります。
 
 `code/workspace/package-and-deploy` ディレクトリ内から以下を実行します。
 
@@ -179,8 +179,7 @@ d-----        10/29/2021   4:25 PM                pytz-2021.3.dist-info
 
 CloudFormation テンプレートのデプロイは、テンプレートの構文エラーが原因で失敗することがあります。
 
-[`aws cloudformation validate-template`](https://docs.aws.amazon.com/cli/latest/reference/cloudformation/validate-template.html)
-CloudFormation テンプレートをチェックして、有効な JSON または YAML であることを確認します。これは開発時間を短縮するのに役立ちます。
+[`aws cloudformation validate-template`](https://docs.aws.amazon.com/cli/latest/reference/cloudformation/validate-template.html) で CloudFormation テンプレートをチェックして、有効な JSON または YAML であることを確認します。これは開発時間を短縮するのに役立ちます。
 
 パッケージ化されたテンプレートを検証しましょう。`code/workspace/package-and-deploy` ディレクトリ内で以下を実行します。
 
@@ -220,8 +219,8 @@ aws cloudformation deploy \
 
 ::alert[S3 のアーティファクトを参照するパッケージテンプレート `infrastructure-packaged.template` を利用した点に注意してください。ローカルパスを持つオリジナルのものではありません！]{type="info"}
 
-`—parameter-overrides` オプションを設定してテンプレート内のパラメータを指定することもできます。
-これは `'key=value'` のペアを含む文字列でも、[提供された json ファイル](https://docs.aws.amazon.com/ja_jp/cli/latest/userguide/cli-usage-parameters.html#cli-usage-parameters-json) 経由の文字列でもかまいません。
+`—-parameter-overrides` オプションを設定してテンプレート内のパラメータを指定することもできます。
+`'key=value'` のペアを含む文字列や、[提供された json ファイル](https://docs.aws.amazon.com/ja_jp/cli/latest/userguide/cli-usage-parameters.html#cli-usage-parameters-json) などを用いて指定します。
 
 ##### Capabilities
 
@@ -229,14 +228,14 @@ aws cloudformation deploy \
 アカウントの権限に影響する可能性があり、意図せずに誤って権限を変更しないようにするためです。
 
 CLI を使用する際には、このスタックによって IAM の権限に影響するリソースが作成される可能性があることも確認する必要があります。
-そのためには、前の例で示したように、`—capabilities` フラグを使います。capabilities については、
-[`aws cloudformation deploy` ドキュメント](https://docs.aws.amazon.com/cli/latest/reference/cloudformation/deploy/index.html)をご参照ください。
+そのためには、前の例で示したように、`—-capabilities` フラグを使います。capabilities については、
+[`aws cloudformation deploy` のドキュメント](https://docs.aws.amazon.com/cli/latest/reference/cloudformation/deploy/index.html)をご参照ください。
 
 #### Lambda のテスト
 
 Lambda 関数をテストするには、[aws lambda invoke](https://docs.aws.amazon.com/cli/latest/reference/lambda/invoke.html) コマンドを使用します。
 
-Lambda 関数は、現在の UTC の日付と時刻を決定します。次に、UTC 時刻をペイロードオプションで指定されたタイムゾーンに変換します。
+Lambda 関数は、現在の UTC の日付と時刻を取得します。次に、UTC 時刻をペイロードオプションで指定されたタイムゾーンに変換します。
 
 ターミナルから以下を実行します。
 

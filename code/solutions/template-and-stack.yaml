@@ -1,6 +1,6 @@
 AWSTemplateFormatVersion: "2010-09-09"
 
-Description: AWS CloudFormation workshop - Template and stack (uksb-1q9p31idr).
+Description: AWS CloudFormation workshop - Template and stack (uksb-1q9p31idr) (tag:template-and-stack).
 
 Resources:
   S3Bucket:

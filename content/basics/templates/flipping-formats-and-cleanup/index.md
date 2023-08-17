@@ -3,6 +3,12 @@ title: "Flipping formats and cleanup"
 weight: 1000
 ---
 
+_Lab Duration: ~10 minutes_
+
+_Challenge: ~15 minutes._
+
+---
+
 ### Overview
 You can write AWS CloudFormation [templates](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/template-formats.html) in JSON or YAML formats: you choose either one or the other depending on your preference. For more information, see [AWS CloudFormation template formats](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/template-formats.html).
 

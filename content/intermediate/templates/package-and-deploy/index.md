@@ -3,6 +3,10 @@ title: "Package and deploy"
 weight: 600
 ---
 
+_Lab Duration: ~15 minutes_
+
+---
+
 ### Overview
 
 In the [Basics](/basics) part of this workshop, you have deployed single YAML templates via CloudFormation console.
@@ -44,7 +48,6 @@ cfn101-workshop/code/workspace/package-and-deploy
     └── requirements.txt
 :::
 
-
 #### Reference local files in CloudFormation template
 
 Traditionally you would have to zip up and upload all the lambda sources to S3 first and then in the template refer to these S3 locations. This can be quite cumbersome.
@@ -53,7 +56,7 @@ However, with [aws cloudformation package](https://docs.aws.amazon.com/cli/lates
 
 If you look at `infrastructure.template` snippet, you can see the reference in the `Code` property to the local directory, line [9].
 
-:::code{language=yaml showLineNumbers=true showCopyAction=false}
+:::code{language=yaml showLineNumbers=true showCopyAction=false lineNumberStart=19}
 PythonFunction:
   Type: AWS::Lambda::Function
   Properties:
@@ -62,12 +65,12 @@ PythonFunction:
     Runtime: python3.8
     Role: !GetAtt LambdaBasicExecutionRole.Arn
     Handler: lambda_function.handler
-    Code: lambda/                                 # <<< This is a local directory
+    Code: lambda/ # <<< This is a local directory
 :::
 
 #### Package and Upload the artifacts
 
-The `aws cloudformation package` does follow actions:
+The `aws cloudformation package` performs the following actions:
 
 1. ZIPs up the local files.
 1. Uploads them to a designated S3 bucket.
@@ -80,7 +83,7 @@ Decide on the AWS region where you will be deploying your Cloudformation templat
 ::alert[Make sure to replace the name of the bucket after `s3://` with a unique name!]{type="info"}
 
 :::code{language=shell showLineNumbers=false showCopyAction=true}
-aws s3 mb s3://example-bucket-name --region eu-west-1
+aws s3 mb s3://example-bucket-name --region us-east-1
 :::
 
 ##### 2. Install function dependencies
@@ -94,6 +97,8 @@ From within a `code/workspace/package-and-deploy` directory run:
 pip install pytz --target lambda
 :::
 
+If you have `python 3` installed you may have to use `pip3` instead of `pip` for the above command.
+
 You should see the `pytz` package inside the `lambda/` folder.
 
 ##### 3. Run the `package` command
@@ -102,10 +107,10 @@ From within a `code/workspace/package-and-deploy` directory run:
 
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 aws cloudformation package \
-    --template-file infrastructure.template \
-    --s3-bucket example-bucket-name \
-    --s3-prefix cfn-workshop-package-deploy \
-    --output-template-file infrastructure-packaged.template
+--template-file infrastructure.template \
+--s3-bucket example-bucket-name \
+--s3-prefix cfn-workshop-package-deploy \
+--output-template-file infrastructure-packaged.template
 :::
 
 Let's have a closer look at the individual `package` options you have used in the command above.
@@ -121,7 +126,7 @@ Let's have a look at the newly generated file `infrastructure-packaged.template`
 
 You can notice that the `Code` property has been updated with two new attributes, `S3Bucket` and `S3Key`, lines [12-14].
 
-```yaml {hl_lines=[12,13,14]}
+:::code{language=yaml showLineNumbers=true showCopyAction=true lineNumberStart=16 highlightLines=12-14}
 PythonFunction:
   Type: AWS::Lambda::Function
   Properties:
@@ -136,9 +141,7 @@ PythonFunction:
     Code:
       S3Bucket: example-bucket-name
       S3Key: cfn-workshop-package-deploy/1234567890
-    TracingConfig:
-      Mode: Active
-```
+:::
 
 For completeness let’s also look what’s in the uploaded files. From the listing above we know the bucket and object name to download.
 
@@ -146,9 +149,10 @@ For completeness let’s also look what’s in the uploaded files. From the list
 aws s3 cp s3://example-bucket-name/cfn-workshop-package-deploy/1234567890 .
 :::
 
-We know that `package` will ZIP files, so even there is no `.zip` extension you can still `unzip` it.
+We know that `package` will generate ZIP files, so even there is no `.zip` extension you can still `unzip` it.
 
-##### Unix/Linux
+:::::tabs{variant="container"}
+::::tab{id="shell" label="Cloud9/Unix/Linux"}
 :::code{language=shell showLineNumbers=false showCopyAction=false}
 unzip -l ce6c47b6c84d94bd207cea18e7d93458
 
@@ -159,7 +163,8 @@ Archive:  ce6c47b6c84d94bd207cea18e7d93458
       455  02-12-2020 17:18   lambda_function.py
      4745  02-13-2020 14:36   pytz/tzfile.py
 :::
-##### Powershell
+::::
+::::tab{id="powershell" label="Powershell"}
 :::code{language=powershell showLineNumbers=false showCopyAction=false}
 rename-item ce6c47b6c84d94bd207cea18e7d93458 packagedLambda.zip
 
@@ -175,6 +180,8 @@ d-----        10/29/2021   4:25 PM                pytz-2021.3.dist-info
 -a----        10/29/2021  11:19 AM            475 lambda_function.py
 -a----        10/29/2021  11:19 AM             14 requirements.txt
 :::
+::::
+:::::
 
 ### Validating a template
 
@@ -187,15 +194,15 @@ Let's validate our packaged template. From within a `code/workspace/package-and-
 
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 aws cloudformation validate-template \
-    --template-body file://infrastructure-packaged.template
+--template-body file://infrastructure-packaged.template
 :::
 
 If successful, CloudFormation will send you a response with a list of parameters, template description and capabilities.
 
-:::code{language=json showLineNumbers=false showCopyAction=true}
+:::code{language=json showLineNumbers=false showCopyAction=false}
 {
     "Parameters": [],
-    "Description": "CFN 201 Workshop - Lab 12 Helper Scripts. ()",
+    "Description": "AWS CloudFormation workshop - Package and deploy.",
     "Capabilities": [
         "CAPABILITY_IAM"
     ],
@@ -214,10 +221,10 @@ From within a `code/workspace/package-and-deploy` directory run:
 
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 aws cloudformation deploy \
-    --template-file infrastructure-packaged.template \
-    --stack-name cfn-workshop-lambda \
-    --region eu-west-1 \
-    --capabilities CAPABILITY_IAM
+--template-file infrastructure-packaged.template \
+--stack-name cfn-workshop-package-deploy-lambda \
+--region eu-west-1 \
+--capabilities CAPABILITY_IAM
 :::
 
 ::alert[Note that we used the packaged template `infrastructure-packaged.template` that refers to the artifacts in S3. Not the original one with local paths!]{type="info"}
@@ -243,26 +250,24 @@ The Lambda function will determinate current UTC date and time. Then it will con
 From your terminal run:
 
 :::::tabs{variant="container"}
-
-::::tab{id="sh" label="Unix/Linux"}
+::::tab{id="sh" label="Cloud9/Unix/Linux"}
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 aws lambda invoke \
-    --function-name cfn-workshop-python-function \
-    --payload "{\"time_zone\": \"Europe/London\"}" \
-    response.json
+--function-name cfn-workshop-python-function \
+--payload "{\"time_zone\": \"Europe/London\"}" \
+--cli-binary-format raw-in-base64-out \
+response.json
 :::
 ::::
-
 ::::tab{id="cmd" label="CMD"}
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 aws lambda invoke ^
-    --function-name cfn-workshop-python-function ^
-    --payload "{\"time_zone\": \"Europe/London\"}" ^
-    --cli-binary-format raw-in-base64-out ^
-    response.json
+--function-name cfn-workshop-python-function ^
+--payload "{\"time_zone\": \"Europe/London\"}" ^
+--cli-binary-format raw-in-base64-out ^
+response.json
 :::
 ::::
-
 ::::tab{id="powershell" label="Powershell"}
 :::code{language=powershell showLineNumbers=false showCopyAction=true}
 aws lambda invoke `
@@ -279,13 +284,11 @@ Lambda will be triggered, and the response form Lambda will be saved in `respons
 You can check the result of the file by running command below:
 
 :::::tabs{variant="container"}
-
-::::tab{id="sh" label="Unix/Linux"}
+::::tab{id="sh" label="Cloud9/Unix/Linux"}
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 cat response.json
 :::
 ::::
-
 ::::tab{id="cmd" label="CMD/Powershell"}
 :::code{language=powershell showLineNumbers=false showCopyAction=true}
 more response.json
@@ -294,6 +297,41 @@ more response.json
 :::::
 
 ---
+### Cleanup
+
+Choose to follow cleanup steps shown next to clean up resources you created with this lab:
+:::::tabs{variant="container"}
+::::tab{id="cloud9" label="Cloud9"}
+1. Delete the S3 bucket by using the following AWS CLI command
+:::code{language=shell showLineNumbers=false showCopyAction=true}
+aws s3 rb s3://example-bucket-name --force
+:::
+1. Delete the stack by using the following AWS CLI command
+:::code{language=shell showLineNumbers=false showCopyAction=true}
+aws cloudformation delete-stack \
+ --stack-name cfn-workshop-package-deploy-lambda
+:::
+1. Wait for the Stack deletion to complete by using the following AWS CLI command
+:::code{language=shell showLineNumbers=false showCopyAction=true}
+aws cloudformation wait stack-delete-complete \
+--stack-name cfn-workshop-package-deploy-lambda
+:::
+::::
+::::tab{id="LocalDevelopment" label="LocalDevelopment"}
+1. Navigate to the [AWS S3 Console](https://s3.console.aws.amazon.com/s3/).
+1. Select the S3 bucket that you have created during this lab, Choose **Empty**.
+1. Follow the instructions on the console to confirm the deletion of objects in the buckets.
+1. Now switch back to S3 Console, Select the S3 bucket that you have created during this lab, Choose **Delete**
+1. Follow the instructions on the console to confirm the deletion of the S3 bucket.
+1. Navigate to the [AWS CloudFormation Console](https://console.aws.amazon.com/cloudformation/).
+1. Select the stack named `cfn-workshop-package-deploy-lambda` and choose **Delete**.
+1. In the pop-up window choose **Delete**.
+1. You can click the refresh button a few times until you see in the status **DELETE_COMPLETE**.
+::::
+:::::
+
+---
+
 ### Conclusion
 Congratulations, you have successfully packaged and deployed CloudFormation template using the command line.
 

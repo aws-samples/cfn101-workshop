@@ -3,6 +3,10 @@ title: "Helper scripts"
 weight: 400
 ---
 
+_Lab Duration: ~15 minutes_
+
+---
+
 ### Overview
 In this lab we will look into CloudFormation [Helper Scripts](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/cfn-helper-scripts-reference.html).
 What you have learned in a previous lab is a great starting point. However, as you may notice from your `UserData`
@@ -37,12 +41,12 @@ In this lab you will learn:
 You need to use the `AWS::CloudFormation::Init` type to include metadata for an Amazon EC2 instance. When your template
 calls the `cfn-init` script, the script will look for resources in metadata section. Let's add the metadata to your template:
 
-```yaml
+:::code{language=yaml showLineNumbers=false showCopyAction=true}
   WebServerInstance:
     Type: AWS::EC2::Instance
     Metadata:
       AWS::CloudFormation::Init:
-```
+:::
 
 #### 2. Configure cfn-init
 The configuration of `cfn-init` is separated into sections. The configuration sections are processed in the following
@@ -65,7 +69,7 @@ Your instance is running Amazon Linux 2, so you will use `yum` package manager t
 
 Add the code from `packages` key to your template.
 
-```yaml
+:::code{language=yaml showLineNumbers=false showCopyAction=true}
 WebServerInstance:
   Type: AWS::EC2::Instance
   Metadata:
@@ -75,7 +79,7 @@ WebServerInstance:
           yum:
             httpd: []
             php: []
-```
+:::
 
 ##### 2. Create `index.php` file
 Use the _files_ key to create files on the EC2 instance. The content can either be a specified inline in the template,
@@ -83,7 +87,7 @@ or as a URL that is retrieved by the instance.
 
 Add the code from `files` key to your template.
 
-```yaml
+:::code{language=yaml showLineNumbers=false showCopyAction=true}
 WebServerInstance:
   Type: AWS::EC2::Instance
   Metadata:
@@ -114,7 +118,7 @@ WebServerInstance:
             mode: 000644
             owner: apache
             group: apache
-```
+:::
 
 ##### 3. Enable and start Apache web server
 
@@ -123,7 +127,7 @@ Linux systems, this key is supported by using the `sysvinit` key.
 
 Add the code from `services` key to your template.
 
-```yaml
+:::code{language=yaml showLineNumbers=false showCopyAction=true}
 WebServerInstance:
   Type: AWS::EC2::Instance
   Metadata:
@@ -138,7 +142,7 @@ WebServerInstance:
             httpd:
               enabled: true
               ensureRunning: true
-```
+:::
 
 ##### 4. Call `cfn-init` script
 
@@ -149,7 +153,7 @@ helper scripts. Then, it will install the files and packages from metadata.
 
 Add the code from `UserData` property to your template.
 
-```yaml
+:::code{language=yaml showLineNumbers=false showCopyAction=true}
 UserData:
   Fn::Base64:
     !Sub |
@@ -158,7 +162,7 @@ UserData:
       yum install -y aws-cfn-bootstrap
       # Call cfn-init script to install files and packages
       /opt/aws/bin/cfn-init -v --stack ${AWS::StackName} --resource WebServerInstance --region ${AWS::Region}
-```
+:::
 
 ::alert[The intrinsic function `!Sub` will dynamically replace values in `${AWS::StackName}` and `${AWS::Region}` variables.]{type="info"}
 
@@ -176,7 +180,7 @@ CloudFormation. (To see this in action, please refer to the exercise section of 
 
 1. Copy the code from both files to your template.
 
-   ```yaml
+   :::code{language=yaml showLineNumbers=false showCopyAction=true}
    WebServerInstance:
      Type: AWS::EC2::Instance
      Metadata:
@@ -205,13 +209,13 @@ CloudFormation. (To see this in action, please refer to the exercise section of 
                  runas=root
            services:
              {...}
-   ```
+   :::
 
 1. Enable and start `cfn-hup` in `services` section of the template.
 
    Add the code from `services` key to your template.
 
-   ```yaml
+   :::code{language=yaml showLineNumbers=false showCopyAction=true}
    WebServerInstance:
      Type: AWS::EC2::Instance
      Metadata:
@@ -237,7 +241,7 @@ CloudFormation. (To see this in action, please refer to the exercise section of 
                  files:
                    - /etc/cfn/cfn-hup.conf
                    - /etc/cfn/hooks.d/cfn-auto-reloader.conf
-   ```
+    :::
 
 #### 4. Configure cfn-signal and CreationPolicy attribute
 Finally, you need a way to instruct AWS CloudFormation to complete stack creation only after all the services
@@ -252,16 +256,16 @@ notify AWS CloudFormation when all the applications are installed and configured
 
 1. Add Creation policy to `WebServerInstance` resource property.
 
-   ```yaml
+    :::code{language=yaml showLineNumbers=false showCopyAction=true}
    CreationPolicy:
      ResourceSignal:
        Count: 1
        Timeout: PT10M
-   ```
+    :::
 
 1. Add the `cfn-signal` to the UserData parameter.
 
-   ```yaml
+    :::code{language=yaml showLineNumbers=false showCopyAction=true}
    UserData:
     Fn::Base64:
       !Sub |
@@ -272,62 +276,50 @@ notify AWS CloudFormation when all the applications are installed and configured
         /opt/aws/bin/cfn-init -v --stack ${AWS::StackName} --resource WebServerInstance --region ${AWS::Region}
         # Call cfn-signal script to send a signal with exit code
         /opt/aws/bin/cfn-signal --exit-code $? --stack ${AWS::StackName} --resource WebServerInstance --region ${AWS::Region}
-   ```
+    :::
 
-#### 5. Update the stack
-To update the stack and apply the changes you have made in the `UserData` property, the EC2 instance needs to be replaced.
-You can find the properties which will replace an EC2 instances [here](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-instance.html?shortFooter=true#aws-properties-ec2-instance-properties).
+#### 5. Create the stack
+Similar to previous labs, create the stack with the updated template. Once CloudFormation completes creating the stack,
+you can then check to see that your script has set up a web server on the EC2 instance.
 
-In the example below, you will use `AvailabilityZone` property and parameter to trigger the replacement.
-
-1. Create an `AvailabilityZone` parameter in the template.
-
-   ```yaml
-   Parameters:
-      AvailabilityZone:
-        Type: AWS::EC2::AvailabilityZone::Name
-   ```
-
-1. Create `AvailabilityZone`  in **Properties** section of the EC2 resource and reference the parameter created above.
-
-   ```yaml
-   WebServerInstance:
-     Type: AWS::EC2::Instance
-     Metadata:
-       {..}
-     Properties:
-       AvailabilityZone: !Ref AvailabilityZone
-   ```
-
-1. Check the availability zone of the deployed Web Server instance.
-
-    + Go to the **[Instances](https://console.aws.amazon.com/ec2#instances)** in the EC2 console
-    + Select the `<enviroment-webserver` instance and make a note of the **Availability zone** value. For example `eu-west-2a`.
-
-
+:::::tabs{variant="container"}
+::::tab{id="cloud9" label="Cloud9"}
+  1. In the **Cloud9 terminal** navigate to `code/workspace`:
+  :::code{language=shell showLineNumbers=false showCopyAction=true}
+  cd cfn101-workshop/code/workspace
+  :::
+  1. Use the AWS CLI to create the stack. The required parameters `--stack-name`, `--template-body` and `--capabilities` have been pre-filled for you.
+  :::code{language=shell showLineNumbers=false showCopyAction=true}
+  aws cloudformation create-stack --stack-name cfn-workshop-helper-scripts \
+  --template-body file://helper-scripts.yaml \
+  --capabilities CAPABILITY_IAM
+  :::
+  1. If the `create-stack` command was successfully sent, CloudFormation will return `StackId`.
+  :::code{language=shell showLineNumbers=false showCopyAction=false}
+  "StackId": "arn:aws:cloudformation:us-east-1:123456789012:stack/cfn-workshop-helper-scripts/96d87030-e809-11ed-a82c-0eb19aaeb30f"
+  :::
+  1. Open the **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** console in a new tab and wait for stack status to reach **CREATE_COMPLETE**. You need to periodically select Refresh to see the latest stack status.
+  1. Verify the new instance was deployed and is functional. In a web browser, enter the `WebsiteURL` (you can get the WebsiteURL from the _Outputs_ tab of the CloudFormation console).
+::::
+::::tab{id="local" label="Local development"}
 1. Open the **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** link in a new tab and log in to your AWS account.
-1. Click on the stack name, for example **cfn-workshop-ec2**.
-1. In the top right corner click on **Update**.
-1. In **Prepare template**, choose **Replace current template**.
-1. In **Template source**, choose **Upload a template file**.
-1. Click on **Choose file** button and navigate to your workshop directory.
+1. In the CloudFormation console, select *Create stack With new resources (standard)*.
+1. In **Prepare template**, select **Template is ready**.
+1. In **Template source**, select **Upload a template file**.
 1. Select the file `helper-scripts.yaml` and click **Next**.
+1. Enter a **Stack name**. For example, choose to specify `cfn-workshop-helper-scripts`.
 1. For **Amazon Machine Image ID** leave the default value in.
-1. For **AvailabilityZone** parameter, select the different availability zone than the one you made a note in a step 3, for example **eu-west-2b**.
-        ![az-update](/static/basics/operations/helper-scripts/az-update-1.png)
-1. For **EnvironmentType** leave the selected environment in.
+1. For **EnvironmentType** select the environment from drop down list, for example **Test** and click **Next**.
 1. You can leave **Configure stack options** default, click **Next**.
-1. On the **Review <stack_name>** page, scroll down to the bottom and tick **I acknowledge that AWS CloudFormation might create IAM resources** check box, then click on **Update stack**.
-
-    ::alert[Notice that in **Change set preview**, the _Replacement_ condition of EC2 resource is **True**. Hence, the current EC2 instance will be terminated and replaced with a new one.]{type="info"}
-
-1. You can click the **refresh** button a few times until you see in the status **UPDATE_COMPLETE**.
-
-In a web browser, enter the `WebsiteURL` (you can get the WebsiteURL from the _Outputs_ tab of the CloudFormation console).
+1. On the **Review <stack_name>** page, scroll down to the bottom and tick **I acknowledge that AWS CloudFormation might create IAM resources** check box, then click on **Submit**.
+1. Wait for stack status to reach **CREATE_COMPLETE**. You need to periodically select Refresh to see the latest stack status.
+1. Verify the new instance was deployed and is functional. In a web browser, enter the `WebsiteURL` (you can get the WebsiteURL from the _Outputs_ tab of the CloudFormation console).
+::::
+:::::
 
 #### Challenge
 
-This exercise will demonstrate how `cfn-hup` updates the application when you update the stack. You will update index.php file
+This exercise will demonstrate how `cfn-hup` updates the application when you update the stack. You will update `index.php` file
  to show AMI ID on the page.
 
 ##### 1. Modify `index.php` file
@@ -336,11 +328,11 @@ Locate the `/var/www/html/index.php` in the _files_ section of the EC2 metadata
 
 Add the code below to the `<\?php {...} ?>` block:
 
-```php
+:::code{language=php showLineNumbers=false showCopyAction=true}
 # Get the instance AMI ID and store it in the $ami_id variable
 $url = "http://169.254.169.254/latest/meta-data/ami-id";
 $ami_id = file_get_contents($url);
-```
+:::
 
 Add the code below to html `<h2>` tags:
 
@@ -350,23 +342,43 @@ Add the code below to html `<h2>` tags:
 
 ##### 2. Update the stack with a new template:
 
-`cfn-hup` will detect changes in metadata section, and will automatically deploy the new version.
+`cfn-hup` will detect changes in metadata section, and will automatically deploy the new version, updating the current EC2 instance.
 
+:::::tabs{variant="container"}
+::::tab{id="cloud9" label="Cloud9"}
+1. In the **Cloud9 terminal** navigate to `code/workspace`:
+:::code{language=shell showLineNumbers=false showCopyAction=true}
+cd cfn101-workshop/code/workspace
+:::
+1. Use the AWS CLI to update the stack. The required parameters have been pre-filled for you.
+:::code{language=shell showLineNumbers=false showCopyAction=true}
+aws cloudformation update-stack --stack-name cfn-workshop-helper-scripts \
+--template-body file://helper-scripts.yaml \
+--capabilities CAPABILITY_IAM
+:::
+1. If the `update-stack` command was successfully sent, CloudFormation will return `StackId`.
+:::code{language=shell showLineNumbers=false showCopyAction=false}
+"StackId": "arn:aws:cloudformation:us-east-1:123456789012:stack/cfn-workshop-helper-scripts/96d87030-e809-11ed-a82c-0eb19aaeb30f"
+:::
+1. Open the **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** console in a new tab and wait for stack status to reach **UPDATE_COMPLETE**. You need to periodically select Refresh to see the latest stack status. This should be quick as a new EC2 instance is not being launched.
+::::
+::::tab{id="local" label="Local development"}
 1. Open the **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** link in a new tab and log in to your AWS account.
-1. Click on the stack name, for example **cfn-workshop-ec2**.
+1. Click on the stack name, for example `cfn-workshop-helper-scripts`.
 1. In the top right corner click on **Update**.
 1. In **Prepare template**, choose **Replace current template**.
 1. In **Template source**, choose **Upload a template file**.
 1. Click on **Choose file** button and navigate to your workshop directory.
 1. Select the file `helper-scripts.yaml` and click **Next**.
 1. For **Amazon Machine Image ID** leave the default value in.
-1. For **AvailabilityZone** parameter, leave the selected AZ in.
 1. For **EnvironmentType** leave the selected environment in.
 1. You can leave **Configure stack options** default, click **Next**.
-1. On the **Review <stack_name>** page, scroll down to the bottom and tick **I acknowledge that AWS CloudFormation might create IAM resources** check box, then click on **Update stack**.
-1. You can click the **refresh** button a few times until you see in the status **UPDATE_COMPLETE**.
+1. On the **Review <stack_name>** page, scroll down to the bottom and tick **I acknowledge that AWS CloudFormation might create IAM resources** check box, then click on **Submit**.
+1. Wait for stack status to reach **UPDATE_COMPLETE**. You need to periodically select Refresh to see the latest stack status.
+::::
+:::::
 
-##### 3. Verify that changes has been deployed successfully
+##### 3. Verify that changes have been deployed successfully
 
 Open a new browser window in private mode and enter the `WebsiteURL` (you can get the WebsiteURL from the _Outputs_ tab of the CloudFormation console).
 You should see the AMI ID added to the page, similar to the picture below.
@@ -377,10 +389,10 @@ You should see the AMI ID added to the page, similar to the picture below.
 
 Follow these steps to clean up created resources:
 
-1. In the **[CloudFormation console](https://console.aws.amazon.com/cloudformation)**, select the stack you have created in this lab. For example `cfn-workshop-ec2`.
+1. In the **[CloudFormation console](https://console.aws.amazon.com/cloudformation)**, select the stack you have created in this lab. For example `cfn-workshop-helper-scripts`.
 1. In the top right corner, click on **Delete**.
-1. In the pop-up window click on **Delete stack**.
-1. You can click the **refresh** button a few times until you see in the status **DELETE_COMPLETE**.
+1. In the pop-up window click on **Delete**.
+2. Wait for the stack to reach the **DELETE_COMPLETE** status. You need to periodically select Refresh to see the latest stack status.
 
 ---
 

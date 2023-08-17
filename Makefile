@@ -35,18 +35,19 @@ test: $(VENV_NAME)
 	$(VENV_NAME)/bin/pre-commit run --all-files
 
 lint: $(VENV_NAME)
-	$(VENV_NAME)/bin/cfn-lint code/solutions/**/*.yaml --ignore-templates code/solutions/policy-as-code-with-guard/example_bucket_tests.yaml
+	$(VENV_NAME)/bin/cfn-lint
 
 nag:
 	cfn_nag_scan --input-path code/solutions --ignore-fatal
 
 # Versioning and releases
+.PHONY: version release
 version: $(VENV_NAME)
 	@$(VENV_NAME)/bin/bumpversion $(part)
 
-release:
+release: # run on main branch only
 	@TAG_VERSION=$(shell bumpversion --dry-run --list .bumpversion.cfg | grep current_version | sed s/'^.*='//); \
-		git push origin "v$${TAG_VERSION}" && git push
+		git tag -a "v$${TAG_VERSION}" -m "" && git push origin "v$${TAG_VERSION}"
 
 # Cleanup VirtualEnv
 clean:

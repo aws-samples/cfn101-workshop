@@ -1,5 +1,5 @@
 AWSTemplateFormatVersion: "2010-09-09"
-Description: AWS CloudFormation workshop - Dynamic references - Lambda function (uksb-1q9p31idr)
+Description: AWS CloudFormation workshop - Dynamic references - Lambda function (uksb-1q9p31idr) (tag:dynamic-references).
 Resources:
   FunctionExecutionRole:
     Type: AWS::IAM::Role
@@ -16,13 +16,13 @@ Resources:
       ManagedPolicyArns:
         - !Sub 'arn:${AWS::Partition}:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole'
       Path: /
-  HelloWorldFunction:
+  DatabaseFunction:
     Type: AWS::Lambda::Function
     Properties:
       Role: !GetAtt FunctionExecutionRole.Arn
       Handler: index.handler
       ## Environment Configuration Goes Here
-      Runtime: python3.7
+      Runtime: python3.9
       Code:
         ZipFile: |
           import os

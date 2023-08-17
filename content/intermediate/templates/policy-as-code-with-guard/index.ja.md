@@ -69,7 +69,7 @@ Properties:
     Status: Enabled
 ```
 
-4. ガードルール節の例を作成して、両方のプロパティが期待どおりに説明されていることを確認します。前述と同じディレクトリにある `example_bucket.guard` ファイルを開き、**type ブロック**を作成して、テンプレートに記述した `AWS::S3::Bucket` タイプのリソースの設定を検証します。次に表示されるコンテンツをコピーし、`example_bucket.guard` ファイルにペーストします。
+4. ガードルール節の例を作成して、両方のプロパティが期待どおりに記述されていることを確認します。前述と同じディレクトリにある `example_bucket.guard` ファイルを開き、**type ブロック**を作成して、テンプレートに記述した `AWS::S3::Bucket` タイプのリソースの設定を検証します。次に表示されるコンテンツをコピーし、`example_bucket.guard` ファイルにペーストします。
 
 ```json
 AWS::S3::Bucket {
@@ -317,7 +317,7 @@ Test Case #2
 
 ### チャレンジ
 
-[Amazon S3 バケット](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/aws-properties-s3-bucket.html) の下に[プロパティ](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/aws-properties-s3-bucket.html#aws-properties-s3-bucket-properties) をすべて配置するよう設定します。`PublicAccessBlockConfiguration` を `true` (Boolean) に設定します。
+[Amazon S3 バケット](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/aws-properties-s3-bucket.html) の `PublicAccessBlockConfiguration` の全ての[プロパティ](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/aws-properties-s3-bucket.html#aws-properties-s3-bucket-properties) を `true` (Boolean) に設定します。
 
 タスクは以下のとおりです。
 1. `example_bucket_tests.yaml` ユニットテストファイルの内容に、`true` に設定されたすべての `publicAccessBlockConfiguration` プロパティを含むテスト入力データを提供するときに、これから作成する `validate_bucket_public_access_block_example` という新しいルールを検証するための新しい `input` セクションを追加します。

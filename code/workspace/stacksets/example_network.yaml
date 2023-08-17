@@ -1,0 +1,121 @@
+AWSTemplateFormatVersion: "2010-09-09"
+
+Description: Sample template describing network resources for an example application. (uksb-1q9p31idr)
+
+Parameters:
+  AppVpcCidr:
+    Description: Enter the IP range (CIDR notation) for VPC
+    Type: String
+    Default: 10.0.0.0/16
+
+  AppPublicSubnet1Cidr:
+    Description: Enter the IP range (CIDR notation) for the first public subnet
+    Type: String
+    Default: 10.0.10.0/24
+
+  AppPublicSubnet2Cidr:
+    Description: Enter the IP range (CIDR notation) for the second public subnet
+    Type: String
+    Default: 10.0.20.0/24
+
+  AppNameTagValue:
+    Description: Enter a value for AppNameTagValue
+    Type: String
+    Default: CloudFormationWorkshop
+
+Resources:
+  Vpc:
+    Type: AWS::EC2::VPC
+    Properties:
+      CidrBlock: !Ref AppVpcCidr
+      EnableDnsSupport: true
+      EnableDnsHostnames: true
+      Tags:
+        - Key: CloudFormationLab
+          Value: !Ref AppNameTagValue
+
+  InternetGateway:
+    Type: AWS::EC2::InternetGateway
+    Properties:
+      Tags:
+        - Key: CloudFormationLab
+          Value: !Ref AppNameTagValue
+
+  VpcGatewayAttachment:
+    Type: AWS::EC2::VPCGatewayAttachment
+    Properties:
+      VpcId: !Ref Vpc
+      InternetGatewayId: !Ref InternetGateway
+
+  PublicRouteTable:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId: !Ref Vpc
+      Tags:
+        - Key: Name
+          Value: !Ref AppNameTagValue
+
+  PublicRoute:
+    Type: AWS::EC2::Route
+    DependsOn: VpcGatewayAttachment
+    Properties:
+      RouteTableId: !Ref PublicRouteTable
+      DestinationCidrBlock: 0.0.0.0/0
+      GatewayId: !Ref InternetGateway
+
+  PublicSubnet1:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref Vpc
+      AvailabilityZone: !Select
+        - 0
+        - !GetAZs ''
+      CidrBlock: !Ref AppPublicSubnet1Cidr
+      MapPublicIpOnLaunch: true
+      Tags:
+        - Key: Name
+          Value: !Ref AppNameTagValue
+
+  PublicSubnet2:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref Vpc
+      AvailabilityZone: !Select
+        - 1
+        - !GetAZs ''
+      CidrBlock: !Ref AppPublicSubnet2Cidr
+      MapPublicIpOnLaunch: true
+      Tags:
+        - Key: Name
+          Value: !Ref AppNameTagValue
+
+  PublicSubnet1RouteTableAssociation:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      RouteTableId: !Ref PublicRouteTable
+      SubnetId: !Ref PublicSubnet1
+
+  PublicSubnet2RouteTableAssociation:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      RouteTableId: !Ref PublicRouteTable
+      SubnetId: !Ref PublicSubnet2
+
+Outputs:
+  VpcId:
+    Description: The subnet ID to use for public web servers
+    Value: !Ref Vpc
+    Export:
+      Name: AWS-CloudFormationWorkshop-VpcId
+
+  SubnetId1:
+    Description: The subnet ID to use for public web servers
+    Value: !Ref 'PublicSubnet1'
+    Export:
+      Name: AWS-CloudFormationWorkshop-SubnetId1
+
+  SubnetId2:
+    Description: The subnet ID to use for public web servers
+    Value: !Ref 'PublicSubnet2'
+    Export:
+      Name: AWS-CloudFormationWorkshop-SubnetId2

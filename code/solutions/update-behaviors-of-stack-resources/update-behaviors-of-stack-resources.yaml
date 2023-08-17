@@ -1,6 +1,6 @@
 AWSTemplateFormatVersion: "2010-09-09"
 
-Description: AWS CloudFormation workshop - Update behaviors of stack resources (uksb-1q9p31idr).
+Description: AWS CloudFormation workshop - Update behaviors of stack resources (uksb-1q9p31idr) (tag:update-behaviors-of-stack-resources).
 
 Parameters:
   InstanceType:
