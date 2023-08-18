@@ -34,18 +34,30 @@ repos:
   hooks:
   - id: cfn-python-lint
     name: AWS CloudFormation Linter
-    files: solutions/.*\.(yaml|template)$
+    files: code/solutions/.*\.(ya?ml|template)$
     args:
       - --ignore-templates=code/solutions/policy-as-code-with-guard/example_bucket_tests.yaml
+      - --ignore-templates=code/solutions/linting-and-testing/.taskcat.yml
 
 - repo: https://github.com/aws-cloudformation/rain
   rev: v1.4.4
   hooks:
   - id: cfn-format
-    files: solutions/.*\.(yaml|template)$
-    exclude: code/solutions/policy-as-code-with-guard/example_bucket_tests.yaml
+    files: code/solutions/.*\.(ya?ml|template)$
+    exclude: code/solutions/policy-as-code-with-guard/example_bucket_tests\.yaml|code/solutions/linting-and-testing/\.taskcat\.yml
 
-# Python
+- repo: https://github.com/stelligent/cfn_nag
+  rev: v0.8.10
+  hooks:
+  -   id: cfn-nag
+      entry: cfn_nag
+      language: ruby
+      args:
+        - --ignore-fatal
+      files: code/solutions/.*\.(ya?ml|template)$
+      exclude: code/solutions/looping-over-collections/.*\.yaml
+
+    # Python
 - repo: https://github.com/pycqa/pylint
   rev: v3.0.0a6
   hooks:

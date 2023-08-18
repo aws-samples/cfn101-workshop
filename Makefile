@@ -38,7 +38,7 @@ lint: $(VENV_NAME)
 	$(VENV_NAME)/bin/cfn-lint
 
 nag:
-	cfn_nag_scan --input-path code/solutions --ignore-fatal
+	cfn_nag $(path) --ignore-fatal
 
 # Versioning and releases
 .PHONY: version release
