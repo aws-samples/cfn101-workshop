@@ -156,7 +156,7 @@ Outputs:
 
 1. **[CloudFormation コンソール](https://console.aws.amazon.com/cloudformation)** に移動してください。
 2. CloudFormation コンソールの **スタック**ページで、`resource-return-values` を選択してください。
-3. 詳細ページでスタックを削除するため**削除**を選択し、確認するために**スタックの削除**を選択してください。
+3. 詳細ページでスタックを削除するため **削除** を選択し、ポップアップで **削除** を選択してください。
 4. 同様の手順で　`resource-return-values-challenge` スタックを削除してください。
 
 ---
