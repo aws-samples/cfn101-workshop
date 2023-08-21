@@ -1,0 +1,63 @@
+AWSTemplateFormatVersion: "2010-09-09"
+
+Description: AWS CloudFormation workshop lab for looping over collections (uksb-1q9p31idr) (tag:looping-over-collections).
+
+Mappings:
+  Vpc:
+    Configuration:
+      EnableDnsHostnames: true
+      EnableDnsSupport: true
+      Cidr: 172.31.0.0/16
+
+  SubnetAzIndexes:
+    Public:
+      "1": 0
+      "2": 1
+    Private:
+      "1": 0
+      "2": 1
+
+  SubnetCidrs:
+    Public:
+      "1": 172.31.1.0/24
+      "2": 172.31.2.0/24
+    Private:
+      "1": 172.31.11.0/24
+      "2": 172.31.12.0/24
+
+Transform: AWS::LanguageExtensions
+
+Resources:
+  Vpc:
+    Type: AWS::EC2::VPC
+    Properties:
+      CidrBlock: !FindInMap
+        - Vpc
+        - Configuration
+        - Cidr
+      EnableDnsHostnames: !FindInMap
+        - Vpc
+        - Configuration
+        - EnableDnsHostnames
+      EnableDnsSupport: !FindInMap
+        - Vpc
+        - Configuration
+        - EnableDnsSupport
+      Tags:
+        - Key: Name
+          Value: aws-cloudformation-workshop
+
+  InternetGateway:
+    Type: AWS::EC2::InternetGateway
+    Properties:
+      Tags:
+        - Key: Name
+          Value: aws-cloudformation-workshop
+
+  VpcGatewayAttachment:
+    Type: AWS::EC2::VPCGatewayAttachment
+    Properties:
+      VpcId: !Ref Vpc
+      InternetGatewayId: !Ref InternetGateway
+
+  # TODO: add resources you wish to describe.
