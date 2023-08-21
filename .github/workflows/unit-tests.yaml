@@ -19,6 +19,8 @@ jobs:
         cache: 'pip' # caching pip dependencies
     - run: pip install -r requirements.txt
     - uses: actions/cache@v3
+      env:
+        cache-name: pre-commit
       with:
         path: ~/.cache/pre-commit # caching pre-commit environments
         key: ${{ env.cache-name }}-${{ hashFiles('.pre-commit-config.yaml','~/.cache/pre-commit/*') }}
