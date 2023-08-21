@@ -32,7 +32,7 @@ pre-commit: $(VENV_NAME)
 
 # Tests
 test: $(VENV_NAME)
-	$(VENV_NAME)/bin/pre-commit run --all-files
+	$(VENV_NAME)/bin/pre-commit run --show-diff-on-failure --color=always --all-files
 
 lint: $(VENV_NAME)
 	$(VENV_NAME)/bin/cfn-lint

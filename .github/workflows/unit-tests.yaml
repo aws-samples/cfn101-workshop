@@ -1,4 +1,4 @@
-name: Unit Tests
+name: pre-commit
 on:
   push:
     branches:
@@ -9,27 +9,16 @@ on:
     - edited
     - synchronize
 jobs:
-  unit_tests:
-    name: Unit tests
+  pre-commit:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
-
-    # Cache
-    - uses: actions/cache@v1
+    - uses: actions/checkout@v3
+    - uses: actions/setup-python@v3
       with:
-        path: ~/.cache/pip
-        key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
-        restore-keys: |
-
-    # Setup
-    - name: Set up Python
-      uses: actions/setup-python@v2
+        cache: 'pip'
+    - run: python -m pip install -r requirements.txt
+    - uses: actions/cache@v3
       with:
-        python-version: '3.10' # have to use quotes due to 0 being removed
-    - name: Install python packages
-      run: pip install -Ur requirements.txt
-
-    # Run Tests
-    - name: Run Pre-commit tests
-      run: pre-commit run --all-files
+        path: ~/.cache/pre-commit/
+        key: pre-commit-4|${{ env.pythonLocation }}|${{ hashFiles('.pre-commit-config.yaml') }}
+    - run: pre-commit run --show-diff-on-failure --color=always --all-files
