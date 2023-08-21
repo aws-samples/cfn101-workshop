@@ -23,5 +23,5 @@ jobs:
         cache-name: pre-commit
       with:
         path: ~/.cache/pre-commit # caching pre-commit environments
-        key: ${{ env.cache-name }}-${{ hashFiles('.pre-commit-config.yaml','~/.cache/pre-commit/*') }}
+        key: ${{ env.cache-name }}-${{ hashFiles('.pre-commit-config.yaml','~/.cache/pre-commit/*') }} # the key is to cache both the pre-commit package and dependent hooks
     - run: pre-commit run --show-diff-on-failure --color=always --all-files
