@@ -110,7 +110,7 @@ Resources:
           Value: aws-cloudformation-workshop
 :::
 
-In this lab, you choose to use `Fn::ForEach` to describe the S3 bucket configuration properties only once, by looping over a collection of buckets. This means that, in this case, the initial template you'll use will have less lines of code, thus making it easier to maintain. As a result, you’ll have a template, processed by the `AWS::LanguageExtensions` transform, that will describe content like the above, with three S3 bucket resources having the same properties but different [logical IDs](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/resources-section-structure.html), such as `S3Bucket1`, `S3Bucket2`, and `S3Bucket3`.
+In this lab, you choose to use `Fn::ForEach` to describe the S3 bucket configuration properties only once, by looping over a collection of buckets. This means that, in this case, the initial template you'll use will have fewer lines of code, thus making it easier to maintain. As a result, you’ll have a template, processed by the `AWS::LanguageExtensions` transform, that will describe content like the above, with three S3 bucket resources having the same properties but different [logical IDs](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/resources-section-structure.html), such as `S3Bucket1`, `S3Bucket2`, and `S3Bucket3`.
 
 Let’s get started! Navigate to the `code/workspace/looping-over-collections` directory, and open the `s3-buckets.yaml` file in your favorite text editor.
 
@@ -199,7 +199,7 @@ Steps:
 ::::
 :::::
 
-When stack creation is complete, navigate to the the [AWS CloudFormation Console](https://console.aws.amazon.com/cloudformation/), and locate the `looping-over-collections-s3-buckets` stack. Select the stack, and then select the **Template** pane. Note the following:
+When stack creation is complete, navigate to the [AWS CloudFormation Console](https://console.aws.amazon.com/cloudformation/), and locate the `looping-over-collections-s3-buckets` stack. Select the stack, and then select the **Template** pane. Note the following:
 
 * you should see the initial template you provided, that uses the loop over the collection of buckets you described;
 * choose **View processed template**: you should see the expanded template, that instead of the looping structure shows the three S3 buckets statically described, as a result of the processing. Note that you’ll see the processed configuration in JSON format;
