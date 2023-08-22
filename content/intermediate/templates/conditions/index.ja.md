@@ -43,7 +43,7 @@ CloudFormation は、スタックの作成時またはスタックの更新時�
 
 まず、テンプレートを再利用可能にすることに集中しましょう。テンプレートに、ライフサイクル環境の入力パラメータを含む `Parameters` セクションを追加します。`EnvType` パラメータを呼び出し、使用可能な入力値として `test` と `prod` という2つの環境名の例を記述します。使用する [Amazon Machine Image](https://docs.aws.amazon.com/ja_jp/AWSEC2/latest/UserGuide/AMIs.html) (AMI) の入力パラメータを定義します。この例では、[AWS Systems Manager](https://aws.amazon.com/jp/systems-manager/) [Paramater Store](https://docs.aws.amazon.com/ja_jp/systems-manager/latest/userguide/systems-manager-parameter-store.html) を使用して、使用可能な最新の Amazon Linux AMI を参照し、`LatestAmiId` というパラメータを呼び出しています。
 
-::alert[詳細については、[AWS Systems Manager Parameter Store を使用して最新の Amazon Linux AMI ID を取得する](https://aws.amazon.com/jp/blogs/compute/query-for-the-latest-amazon-linux-ami-ids-using-aws-systems-manager-parameter-store/)をご参照ください。]{type="info"}
+::alert[詳細については、[AWS Systems Manager Parameter Store を使用して最新の Amazon Linux AMI ID を取得する](https://aws.amazon.com/jp/blogs/news/query-for-the-latest-amazon-linux-ami-ids-using-aws-systems-manager-parameter-store/)をご参照ください。]{type="info"}
 
 以下に示すコンテンツをコピーし、`condition-resource.yaml` ファイルに貼り付けます。
 

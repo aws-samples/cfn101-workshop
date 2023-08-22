@@ -74,7 +74,7 @@ PythonFunction:
 
 ##### 1. S3 バケットの作成
 
-一番最初に、Cloudformation テンプレートをデプロイする AWS リージョンを決定します。Lambda がパッケージ化されたアーティファクトにアクセスできるようにするには、S3 バケットが Lambda と同じリージョンにある必要があります。
+一番最初に、CloudFormation テンプレートをデプロイする AWS リージョンを決定します。Lambda がパッケージ化されたアーティファクトにアクセスできるようにするには、S3 バケットが Lambda と同じリージョンにある必要があります。
 
 ::alert[`s3://` の後のバケット名は必ず一意の名前に置き換えてください！]{type="info"}
 
@@ -219,7 +219,7 @@ aws cloudformation deploy \
 
 ::alert[S3 のアーティファクトを参照するパッケージテンプレート `infrastructure-packaged.template` を利用した点に注意してください。ローカルパスを持つオリジナルのものではありません！]{type="info"}
 
-`—-parameter-overrides` オプションを設定してテンプレート内のパラメータを指定することもできます。
+`--parameter-overrides` オプションを設定してテンプレート内のパラメータを指定することもできます。
 `'key=value'` のペアを含む文字列や、[提供された json ファイル](https://docs.aws.amazon.com/ja_jp/cli/latest/userguide/cli-usage-parameters.html#cli-usage-parameters-json) などを用いて指定します。
 
 ##### Capabilities
@@ -228,7 +228,7 @@ aws cloudformation deploy \
 アカウントの権限に影響する可能性があり、意図せずに誤って権限を変更しないようにするためです。
 
 CLI を使用する際には、このスタックによって IAM の権限に影響するリソースが作成される可能性があることも確認する必要があります。
-そのためには、前の例で示したように、`—-capabilities` フラグを使います。capabilities については、
+そのためには、前の例で示したように、`--capabilities` フラグを使います。capabilities については、
 [`aws cloudformation deploy` のドキュメント](https://docs.aws.amazon.com/cli/latest/reference/cloudformation/deploy/index.html)をご参照ください。
 
 #### Lambda のテスト
