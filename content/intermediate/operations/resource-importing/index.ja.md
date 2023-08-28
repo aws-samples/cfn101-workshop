@@ -7,7 +7,7 @@ weight: 400
 
 [AWS CloudFormation](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/Welcome.html) を使用して、コードで記述したインフラストラクチャをプログラムで管理します。例えば、[AWS マネジメントコンソール](https://aws.amazon.com/jp/console/) や [AWS Command Line Interface](https://aws.amazon.com/jp/cli/) (CLI) を使用して AWS アカウントでリソースを作成した場合は、リソースを CloudFormation スタックに[インポート](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/resource-import.html)すると、CloudFormation でリソースのライフサイクルを管理できます。
 
-[スタック間でリソースを移動する](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/refactor-stacks.html) 場合は、インポート機能を使用することもできます。これにより、スタックとリソースを [ライフサイクルと所有権](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/best-practices.html#organizingstacks) 別に整理できます。例えば、[Amazon Elastic Compute Cloud](https://aws.amazon.com/jp/ec2/) (Amazon EC2) セキュリティグループなどのリソースを、セキュリティグループのリソース専用の 1 つのスタック (またはスタック) に再編成します。
+[スタック間でリソースを移動する](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/refactor-stacks.html) 場合は、インポート機能を使用することもできます。これにより、スタックとリソースを [ライフサイクルと所有権](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/best-practices.html#organizingstacks) 別に整理できます。例えば、[Amazon Elastic Compute Cloud](https://aws.amazon.com/jp/ec2/) (Amazon EC2) セキュリティグループなどのリソースを、セキュリティグループのリソース専用の 1 つのスタック (または複数のスタック) に再編成します。
 
 ::alert[インポート操作でサポートされるリソースの詳細については、 [インポートおよびドリフト検出オペレーションをサポートするリソース](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/resource-import-supported-resources.html) をご参照ください。]{type="info"}
 
@@ -16,8 +16,8 @@ weight: 400
 
 このラボを修了すると、次のことができるようになります。
 
-* リソースをスタックにインポートする方法を確認する。
-* リソースインポートのさまざまなユースケースに関する重要な考慮事項を学び、実践する。
+* リソースをスタックにインポートする方法を学びます。
+* リソースインポートのさまざまなユースケースに関する重要な考慮事項を学び、実践します。
 
 
 
@@ -60,13 +60,13 @@ Resources:
 ```
 
 
-::alert[インポート操作を成功させるには、インポートするすべてのリソースにテンプレートに [DeletionPolicy](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/aws-attribute-deletionpolicy.html) 属性が設定されている必要があります。詳しい情報については、[インポートオペレーション中の考慮事項](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/resource-import.html#resource-import-considerations) をご参照ください。]{type="info"}
+::alert[インポート操作を成功させるには、インポートするすべてのリソースのテンプレートの記述に [DeletionPolicy](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/aws-attribute-deletionpolicy.html) 属性が設定されている必要があります。詳しい情報については、[インポートオペレーション中の考慮事項](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/resource-import.html#resource-import-considerations) をご参照ください。]{type="info"}
 
 この次のステップでは、AWS CloudFormation コンソールを使用して、`resource-importing.yaml` テンプレートを使用して [スタックを作成](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/resource-import-new-stack.html) します。
 
 1. [AWS CloudFormation コンソール](https://console.aws.amazon.com/cloudformation/) に移動します。
 2. **スタックの作成**から、**既存のリソースを使用 (リソースをインポート)** を選択します。
-3. **概要をインポート**を読み、**次へ**をクリックします。
+3. **必要なもの**を読み、**次へ**をクリックします。
 4. **テンプレートの指定**セクションで、**テンプレートファイルのアップロード**をクリックします。`resource-importing.yaml` テンプレートをアップロードし、**次へ**をクリックします。
 5. [識別子の値](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/resource-import.html#resource-import-overview) には、`Topic1` を作成した後にメモしたトピック ARN の値を指定します。
 6. **スタックの名前**を入力します。例えば、`resource-importing` と指定します。`Topic1Name` パラメータ値には必ず `Topic1` を指定します。
@@ -104,7 +104,7 @@ SNSTopic2:
 5. 先ほど更新した `resource-importing.yaml` テンプレートには、2 つのパラメータ (`Topic1Name` と `Topic2Name`) と 2 つのリソース (`SNSTopic1` と `SNSTopic2`) が含まれるようになりました。新しいトピックを既存のスタックにインポートしましょう！
 6. [AWS CloudFormation コンソール](https://console.aws.amazon.com/cloudformation/) に移動します。
 7. `resource-importing` という名前のスタックを選択し、**スタックアクション** から**リソースへのスタックのインポート** を選択します。
-8. **概要をインポート**を読み、**次へ**をクリックします。
+8. **必要なもの**を読み、**次へ**をクリックします。
 9. **テンプレートの指定**から、**テンプレートファイルのアップロード**を選択します。このラボパートで更新した `resource-importing.yaml` テンプレートをアップロードし、**次へ**をクリックします。
 10. [識別子の値](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/resource-import.html#resource-import-overview) には、`Topic2` を作成した後に書き留めたトピックの ARN 値を指定します。
 11. パラメータについては、必ず `Topic1Name` に `Topic1` を指定し、`Topic2Name` に `Topic2` を指定します。**次へ**をクリックします。
@@ -200,9 +200,9 @@ aws ec2 describe-instances --instance-ids i-1234567890abcdef0
 
 ### チャレンジ
 
-この演習では、ラボパート1、2、3で得た知識を使用して、提供されたタスクを完了する必要があります。あなたには、CloudFormation テンプレートのリソースの 1 つである EC2 インスタンスに、人為的ミスの結果として CloudFormation の外部で変更されたプロパティ値が存在するという問題を解決する必要があります。この問題のトラブルシューティングと解決を行い、CloudFormation で希望するリソース構成を引き続き維持できるようにします。
+この演習では、ラボパート1、2、3で得た知識を使用して、提供されたタスクを完了する必要があります。CloudFormation テンプレートのリソースの 1 つである EC2 インスタンスに、人為的ミスの結果として CloudFormation の外部で変更されたプロパティ値が存在する問題を解決する必要があります。この問題のトラブルシューティングと解決を行い、CloudFormation で希望するリソース構成を引き続き維持できるようにします。
 
-EC2 インスタンスと Amazon S3 バケットを説明するサンプルテンプレートから始めましょう。
+EC2 インスタンスと Amazon S3 バケットを定義するサンプルテンプレートから始めましょう。
 
 はじめに、以下の手順に従ってください。
 
@@ -237,7 +237,7 @@ Resources:
 ```
 
 4. [AWS CloudFormation コンソール](https://console.aws.amazon.com/cloudformation/) に移動します。
-5. **スタックの作成**から、**既存のリソースを使用 (リソースをインポート)** を選択します。
+5. **スタックの作成**から、**新しいリソースを使用 (標準)** を選択します。
 6. **テンプレートを指定**セクションで、**テンプレートファイルのアップロード**を選択します。`resource-import-challenge.yaml` テンプレートをアップロードし、**次へ**をクリックします。
 7. **スタックの名前**を入力します。例えば、`resource-import-challenge` と指定します。`InstanceType` には `t2.nano` を指定します。[**次へ**]をクリックします。
 8. **スタックオプションの設定**ページはデフォルト値のまま、**次へ**をクリックします。
@@ -265,7 +265,7 @@ Resources:
 1. `resource-import-challenge.yaml` テンプレートを更新します。`Instance` リソースに、値が `Retain` の `DeletionPolicy` 属性を追加し、ファイルを保存します。
 
 2. パラメータ値を変更せずに、更新された `resource-import-challenge.yaml` テンプレートを使用してスタックを更新します。
-3. スタックを更新し、インスタンスの `DeletionPolicy` 属性が `Retain` に設定されたら、`Parameters` セクションにあるインスタンスリソース定義と関連パラメータをテンプレートから削除します。今回の例では、書くべきパラメーターが特に存在しないため、`Parameters` セクション自体を削除します。具体的には、`resource-import-challenge.yaml` テンプレートから次の 2 つのコードブロックを削除します。
+3. スタックを更新し、インスタンスの `DeletionPolicy` 属性が `Retain` に設定されたら、インスタンスリソース定義と Parameters セクションにある関連パラメータをテンプレートから削除します。今回の例では、書くべきパラメーターが特に存在しないため、`Parameters` セクション自体を削除します。具体的には、`resource-import-challenge.yaml` テンプレートから次の 2 つのコードブロックを削除します。
 
 ```yaml
 Parameters:
@@ -297,7 +297,7 @@ Parameters:
 4. テンプレートファイルを保存します。更新された `resource-import-challenge.yaml` テンプレートを使用してスタックを再度更新します。このテンプレートにはパラメータセクションもインスタンスリソース定義もありません。このアクションはスタックからインスタンスを削除しますが、`Retain` に設定された `DeletionPolicy` 属性を記述して適用したため、インスタンスは削除されません。
 5. このスタックの更新後、ステップ 3 で削除した 2 つのコードブロックを `resource-import-challenge.yaml` テンプレートに追加して保存します。
 6. `resource-import-challenge`という名前のスタックを選択し、**スタックアクション**から**スタックへのリソースのインポート**を選択します。
-7. **概要をインポート**を読み、**次へ**を選択してください。
+7. **必要なもの**を読み、**次へ**を選択してください。
 8. **テンプレートを指定**から、**テンプレートファイルのアップロード**を選択します。更新した`resource-import-challenge.yaml` テンプレートをアップロードし、**次へ**をクリックします。
 9. [識別子の値](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/resource-import.html#resource-import-overview) には、このチャレンジの一部として先ほど書き留めたインスタンスの**物理 ID** を指定します。
 10. インスタンスタイプパラメータとして `t2.micro` を選択します。ここでは、実際のインスタンスタイプ設定である `t2.micro` と一致しています。

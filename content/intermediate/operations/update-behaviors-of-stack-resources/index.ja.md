@@ -6,7 +6,7 @@ weight: 100
 ### 概要
 このラボでは、インフラストラクチャの設計および更新への対応方法に関する重要なポイントを学びます。アプリケーションと環境が進化するにつれて、テンプレートに記述されているリソース構成に更新を適用します。
 
-CloudFormation は、提供された更新されたテンプレートと、以前のバージョンのテンプレートで説明したリソース構成との変更を比較することによってリソースを更新します。変更されていないリソース構成は、更新プロセス中も影響を受けません。それ以外の場合、CloudFormation は次のいずれかの[更新動作](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/using-cfn-updating-stacks-update-behaviors.html)を使用します。**中断を伴わない更新**、**一時的な中断を伴う更新**、**置換**の各更新動作は、特定の[リソースタイプ](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/aws-template-resource-type-ref.html)に従い、テンプレートに追加する新しいプロパティや、変更するプロパティ値によって決まります。
+CloudFormation は、変更が適用されたテンプレートと、以前のバージョンのテンプレートで記述したリソース構成との変更を比較することによってリソースを更新します。変更されていないリソース構成は、更新プロセス中も影響を受けません。それ以外の場合、CloudFormation は次のいずれかの[更新動作](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/using-cfn-updating-stacks-update-behaviors.html)を使用します。**中断を伴わない更新**、**一時的な中断を伴う更新**、**置換**の各更新動作は、特定の[リソースタイプ](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/aws-template-resource-type-ref.html)に従い、テンプレートに追加する新しいプロパティや、変更するプロパティ値によって決まります。
 
 ### 対象トピック
 このラボを修了すると、次のことができるようになります。
@@ -16,10 +16,10 @@ CloudFormation は、提供された更新されたテンプレートと、以�
 
 **ラボを開始**
 * `code/workspace/update-behaviors-of-stack-resources` ディレクトリに移動します。
-* お好みのテキストエディタで`update-behaviors-of-stack-resources.yaml` ファイルを開きます。
+* お好みのテキストエディタで `update-behaviors-of-stack-resources.yaml` ファイルを開きます。
 * ラボを進めながら、コンテンツをコピーしてファイルに追加します。
 
-テンプレートに[Amazon Elastic Compute Cloud](https://aws.amazon.com/jp/ec2/)(Amazon EC2) インスタンスを記述することから始めましょう。`update-behaviors-of-stack-resources.yaml` テンプレートの横に表示されている `Paramaters` セクションをコピーして追加します。
+テンプレートに [Amazon Elastic Compute Cloud](https://aws.amazon.com/jp/ec2/)(Amazon EC2) インスタンスを記述することから始めましょう。`update-behaviors-of-stack-resources.yaml` テンプレートに以下の `Paramaters` セクションをコピーして追加します。
 
 ```yaml
 Parameters:
@@ -64,9 +64,9 @@ Resources:
 
 **置換**
 
-ここまで、スタックを使用して Amazon EC2 インスタンスを作成しました。インスタンスの[Amazon Machine Image](https://docs.aws.amazon.com/ja_jp/AWSEC2/latest/UserGuide/AMIs.html) (AMI) には、このラボで最新の `x86-64` Amazon Linux 2 AMI を使用しました。次に、Amazon EC2 インスタンスに別の AMI を使用する必要があるシナリオを考えてみましょう。このラボでは、前に作成した CloudFormation スタック`cfn-workshop-update-behaviors-of-stack-resources` を更新し、`LatestAmiId` のパラメータ値を `/aws/service/ami-amazon-linux-latest/amzn2-ami-hvm-x86_64-ebs` でオーバーライドします。
+ここまで、スタックを使用して Amazon EC2 インスタンスを作成しました。インスタンスの [Amazon Machine Image](https://docs.aws.amazon.com/ja_jp/AWSEC2/latest/UserGuide/AMIs.html) (AMI) には、このラボで最新の `x86-64` Amazon Linux 2 AMI を使用しました。次に、Amazon EC2 インスタンスに別の AMI を使用する必要があるシナリオを考えてみましょう。このラボでは、前に作成した CloudFormation スタック`cfn-workshop-update-behaviors-of-stack-resources` を更新し、`LatestAmiId` のパラメータ値を `/aws/service/ami-amazon-linux-latest/amzn2-ami-hvm-x86_64-ebs` でオーバーライドします。
 
-::alert[リソースのプロパティ値を変更するときは、必ずドキュメント内の特定のリソースプロパティの[ Update requires](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-instance.html#cfn-ec2-instance-imageid)の値を確認してください。この場合、`ImageID` プロパティの値を更新すると、リソース[置換](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/using-cfn-updating-stacks-update-behaviors.html#update-replacement)動作が実行されます。]{type="info"}
+::alert[リソースのプロパティ値を変更するときは、必ずドキュメント内の特定のリソースプロパティの [Update requires](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-instance.html#cfn-ec2-instance-imageid)の値を確認してください。この場合、`ImageID` プロパティの値を更新すると、リソース[置換 (Replacement)](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/using-cfn-updating-stacks-update-behaviors.html#update-replacement) 動作が実行されます。]{type="info"}
 
 いよいよスタックを更新しましょう！[AWS CloudFormation コンソール](https://console.aws.amazon.com/cloudformation/)に移動し、`cfn-workshop-update-behaviors-of-stack-resources` スタックを更新します。
 
@@ -79,7 +79,7 @@ Resources:
 7. **スタックオプションの設定**ページでデフォルト値のまま、**次へ**をクリックします。
 8. **レビュー**ページで一番下までスクロールし、**送信**を選択します。
 
-スタックの更新中に、[Amazon EC2 コンソール](https://console.aws.amazon.com/ec2/)に移動し、**インスタンス**を選択します。新しいインスタンスが起動され、このラボで以前に作成したインスタンスが終了することに気付くでしょう。上記で行った AMI の変更によるスタック更新を実施すると、CloudFormation は最初に新しいインスタンスを作成し、前のインスタンスを削除しました。この例では、**置換**動作を示しています。
+スタックの更新中に、[Amazon EC2 コンソール](https://console.aws.amazon.com/ec2/)に移動し、**インスタンス**を選択します。新しいインスタンスが起動され、このラボで以前に作成したインスタンスが終了することを確認できます。上記で行った AMI の変更によるスタック更新を実施すると、CloudFormation は最初に新しいインスタンスを作成し、前のインスタンスを削除しました。この例では、**置換**動作を示しています。
 
 おめでとうございます！ **置換**動作を学習しました。
 
@@ -87,7 +87,7 @@ Resources:
 **一時的な中断を伴う更新**
 
 
-ワークロードの要件が変わり、CPUとメモリの要件に合わせて新しい[Amazon EC2](https://aws.amazon.com/jp/ec2/instance-types/)インスタンスタイプが必要だと判断した例を見てみましょう。例えば、`cfn-workshop-update-behaviors-of-stack-resources` スタックで管理するインスタンスのタイプを、`t2.micro` から `t2.small` に変更します。
+ワークロードの要件が変わり、CPU とメモリの要件に合わせて新しい [Amazon EC2](https://aws.amazon.com/jp/ec2/instance-types/) インスタンスタイプが必要だと判断した例を見てみましょう。例えば、`cfn-workshop-update-behaviors-of-stack-resources` スタックで管理するインスタンスのタイプを、`t2.micro` から `t2.small` に変更します。
 
 ::alert[インスタンスの `InstanceType` プロパティ値を変更する場合、まず [Update requires](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-instance.html#cfn-ec2-instance-instancetype) で説明されている動作を確認し、スタックを更新するとどうなるのかを理解する必要があります。]{type="info"}
 
@@ -102,7 +102,7 @@ Resources:
 7. **スタックオプションの設定**ページでデフォルト値のまま、**次へ**をクリックします。
 8. **レビュー**ページで一番下までスクロールし、**送信**をクリックします。
 
-スタックの更新中に、[Amazon EC2 コンソール](https://console.aws.amazon.com/ec2/)に移動し、**インスタンス**を選択します。インスタンスは最初に停止されるため、一時的に使用できなくなります。インスタンスタイプが `t2.small` に変更されると、まもなく running ステータスになることに注意してください。この例は、**一時的な中断を伴う更新**の動作を示しています。
+スタックの更新中に、[Amazon EC2 コンソール](https://console.aws.amazon.com/ec2/)に移動し、**インスタンス**を選択します。インスタンスは最初に停止されるため、一時的に使用できなくなります。インスタンスタイプが `t2.small` に変更されると、まもなく running ステータスになることを確認できます。この例は、**一時的な中断を伴う更新**の動作を示しています。
 
 おめでとうございます！**一時的な中断を伴う更新**動作について学習しました。
 
@@ -110,7 +110,7 @@ Resources:
 **中断を伴わない更新**
 
 
-前の例を続けてみましょう。インスタンスは現在、[基本モニタリング](https://docs.aws.amazon.com/ja_jp/AWSEC2/latest/UserGuide/using-cloudwatch-new.html)を使用しており、インスタンスのメトリクスデータが 5分間隔で[Amazon CloudWatch](https://aws.amazon.com/jp/cloudwatch/) に送信されます。ワークロードのメトリクスデータを1分間隔で利用できるようにする必要があり、インスタンスの[詳細モニタリング](https://docs.aws.amazon.com/ja_jp/AWSEC2/latest/UserGuide/using-cloudwatch-new.html)を有効にします。
+前の例を続けてみましょう。インスタンスは現在、[基本モニタリング](https://docs.aws.amazon.com/ja_jp/AWSEC2/latest/UserGuide/using-cloudwatch-new.html)を使用しており、インスタンスのメトリクスデータが 5 分間隔で[Amazon CloudWatch](https://aws.amazon.com/jp/cloudwatch/) に送信されます。ワークロードのメトリクスデータを 1 分間隔で利用できるようにする必要があり、インスタンスの[詳細モニタリング](https://docs.aws.amazon.com/ja_jp/AWSEC2/latest/UserGuide/using-cloudwatch-new.html)を有効にします。
 
 次に、`update-behaviors-of-stack-resources.yaml` テンプレートに記載したインスタンスに `Monitoring` [プロパティ](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-instance.html#cfn-ec2-instance-monitoring)を `true` に設定して追加します。
 
@@ -146,9 +146,9 @@ EC2Instance:
 おめでとうございます！ **中断を伴わない更新**の動作を学習しました。
 
 ### チャレンジ
-このラボで使用したテンプレートの `EC2Instance` の `Name` タグキーの `Value` を更新する任務があります。この情報をインスタンスの`Tags`[プロパティ](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-instance.html#cfn-ec2-instance-tags)に記述します。`update-behaviors-of-stack-resources.yaml`テンプレートで、`Name` タグの `Value` に `cfn-workshop-new-value` を指定します。スタックを更新するときに、3つの更新動作のうちどれが適用されるかわかりますか?
+このラボで使用したテンプレートの `EC2Instance` の `Name` タグキーの `Value` を更新する任務があります。この情報をインスタンスの `Tags` [プロパティ](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-instance.html#cfn-ec2-instance-tags)に記述します。`update-behaviors-of-stack-resources.yaml` テンプレートで、`Name` タグの `Value` に `cfn-workshop-new-value` を指定します。スタックを更新するときに、3つの更新動作のうちどれが適用されるかわかりますか?
 
-::expand[* CloudFormation ドキュメントのどこで、特定のリソースタイプ (この場合は`AWS::EC2:: Instance`[リソース](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-instance.html))について、特定のリソースプロパティの更新動作について知ることができますか？]{header="ヒントが必要ですか？"}
+::expand[* CloudFormation ドキュメントのどこで、特定のリソースタイプ (この場合 `AWS::EC2::Instance` [リソース](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-instance.html))について、特定のリソースプロパティの更新動作について知ることができますか？]{header="ヒントが必要ですか？"}
 
 :::expand{header="解決策を確認しますか？"}
 次に示すように、テンプレートの `Value` 情報を更新します。
@@ -182,8 +182,8 @@ EC2Instance:
 ### クリーンアップ
 次に示す手順に従って、このラボで作成したリソースをクリーンアップしてください。
 
-* CloudFormationコンソールで、このラボで作成した `cfn-workshop-update-behaviors-of-stack-resources` スタックを選択します。
-* **削除**を選択した後、**スタックの削除**を押して確定します。
+* CloudFormation コンソールで、このラボで作成した `cfn-workshop-update-behaviors-of-stack-resources` スタックを選択します。
+* **削除**を選択した後、**削除**を押して確定します。
 
 ---
 

@@ -5,9 +5,9 @@ weight: 500
 
 ### 概要
 
-[AWS CloudFormation](https://aws.amazon.com/jp/cloudformation/) を使用してリソースをプロビジョニングすることを選択した場合、必要に応じて CloudFormation を使用してリソースの設定を長期にわたって維持することになります。その後、そのようなリソースを CloudFormation の範囲外で管理することを選択した場合 (例えば、[AWS マネジメントコンソール](https://aws.amazon.com/jp/console/)、[AWS Command Line Interface](https://aws.amazon.com/jp/cli/) (AWS CLI)、[AWS SDK](https://aws.amazon.com/jp/developer/tools/)、[AWS API](https://docs.aws.amazon.com/general/latest/gr/aws-apis.html))、リソースの設定と CloudFormation の設定と差分ができてしまいます。
+[AWS CloudFormation](https://aws.amazon.com/jp/cloudformation/) を使用してリソースをプロビジョニングすることを選択した場合、必要に応じて CloudFormation を使用してリソースの設定を長期にわたって維持することになります。その後、そのようなリソースを CloudFormation の範囲外で変更した場合 (例えば、[AWS マネジメントコンソール](https://aws.amazon.com/jp/console/)、[AWS Command Line Interface](https://aws.amazon.com/jp/cli/) (AWS CLI)、[AWS SDK](https://aws.amazon.com/jp/developer/tools/)、[AWS API](https://docs.aws.amazon.com/general/latest/gr/aws-apis.html))、リソースの設定と CloudFormation の設定と差分ができてしまいます。
 
-CloudFormation は[ドリフト検出](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/using-cfn-stack-drift.html) を提供しています。これは、リソースの現在の構成と、リソースの作成または更新に使用したテンプレートで宣言した構成との違いに関する情報を提供します。ドリフト検出の結果には、影響を受けるリソースと、現在の状態とテンプレートの違いが表示されます。その後、リソースを元の設定に戻すか、テンプレートと CloudFormation スタックを更新して新しい希望の状態を反映させることができます。
+CloudFormation は[ドリフト検出](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/using-cfn-stack-drift.html) を提供しています。これは、リソースの現在の構成と、リソースの作成または更新に使用したテンプレートで宣言した構成との違いに関する情報を提供します。ドリフト検出の結果には、対象リソースに対して、現在の状態とテンプレートの違いが表示されます。その後、リソースを元の設定に戻すか、テンプレートと CloudFormation スタックを更新して望ましい状態を反映させることができます。
 
 ### 取り上げるトピック
 
@@ -54,7 +54,7 @@ Resources:
       MessageRetentionPeriod: 345600
 ```
 
-3. テンプレート内のリソース例をよく理解してください。
+3. テンプレート内のリソース例をよく確認した上で、実施してください。
     1. DynamoDB [テーブル](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/aws-resource-dynamodb-table.html) には、正常に作成するための `KeySchema` と `AttributeDefinitions` プロパティの最小限の定義があります。ワークショップ中は、テーブルにデータを保存したり、テーブルからデータを取得したりすることはありません。
     2. SQS [キュー](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/aws-resource-sqs-queue.html) の `MessageRetentionPeriod` は 4 日間 (秒単位で表現) です。この値は [デフォルト](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/aws-resource-sqs-queue.html#cfn-sqs-queue-messageretentionperiod) ですが、CloudFormation はテンプレートで明示的に宣言したプロパティに対してのみドリフトを評価することに注意してください。このプロパティを含めない場合、CloudFormation は後でリソースの変更を報告しません。
 
@@ -122,12 +122,12 @@ Resources:
 5. **スタックアクション**から、**ドリフト結果を表示**を選択します。
 6. ドリフトステータスページが表示され、`Queue1` が変更されたことが示されます。
 7. `Queue1` を選択し、**ドリフトの詳細を表示**を選択します。
-8. `Queue1` のドリフトの詳細を確認します。差分が1つあることが確認できます。コンソールで行った変更に応じて、`MessageRetentionPeriod` プロパティが変更されました。
+8. `Queue1` のドリフトの詳細を確認します。差分が 1 つあることが確認できます。コンソールで行った変更に応じて、`MessageRetentionPeriod` プロパティが変更されました。
 
 次に、リソースの新しい状態に合わせてテンプレートを更新し、スタックを同期し直します。
 
 1. お好みのテキストエディターで、ワークショップのテンプレートファイルを開きます。
-2. `Queue1` の `MessageRetentionPeriod` を、前のステップで見たドリフト詳細ページの**現在の値** 列に表示された値と一致するように変更します。テンプレートの `MessageRetentionPeriod` の値を `172800` に設定します。これは `2` 日の秒数です。
+2. `Queue1` の `MessageRetentionPeriod` を、前のステップで見たドリフト詳細ページの**現在の値** 列に表示された値と一致するように変更します。テンプレートの `MessageRetentionPeriod` の値を `172800` に設定します。これは `2` 日間の秒数です。
 3. テンプレートファイルを保存します。
 4. [CloudFormation コンソール](https://console.aws.amazon.com/cloudformation/) に移動します。
 5. 前で実施した操作と同様に、スタックを選択します。
@@ -175,7 +175,7 @@ Resources:
     Type: AWS::S3::Bucket
 ```
 
-::alert[この `UserData` スクリプトは、インスタンスの初回起動時にのみ実行されます。起動のたびにスクリプトを実行することで [設定を作成する](https://repost.aws/ja/knowledge-center/execute-user-data-ec2) のも良いですが、今回のワークショップではテンプレートの複雑さを低く抑えるため、このテンプレートでは簡単な内容だけを紹介します。]
+::alert[この `UserData` スクリプトは、インスタンスの初回起動時にのみ実行されます。起動のたびにスクリプトを実行するために[設定を作成する](https://repost.aws/ja/knowledge-center/execute-user-data-ec2)のも良いですが、今回のワークショップではテンプレートの複雑さを低く抑えるため、このテンプレートでは簡単な内容だけを紹介します。]
 
 1. [AWS CloudFormation コンソール](https://console.aws.amazon.com/cloudformation/) に移動します。
 2. **スタックの作成**から、**新しいリソースを使用 (標準)** を選択します。
@@ -208,7 +208,7 @@ echo Hello Universe
 1. [CloudFormation コンソール](https://console.aws.amazon.com/cloudformation/) に移動します。必要な場合は、**スタック**メニュー項目を選択してください。
 2. 前のステップで作成したスタック (例えば、`drift-detection-challenge`) を選択します。
 3. **スタックアクション**から、**ドリフトの検出**を選択します。
-4.ドリフト検出が完了するまでに少し時間がかかります。**ドリフトステータス** フィールドに `Drifted` と表示されるまで、スタック情報ページを更新します。
+4. ドリフト検出が完了するまでに少し時間がかかります。**ドリフトステータス** フィールドに `Drifted` と表示されるまで、スタック情報ページを更新します。
 5. **スタックアクション**から、**ドリフト結果を表示**を選択します。
 6. ドリフトステータスページが表示され、`Instance1` が変更されたことが示されます。
 7. `Instance1` を選択し、**ドリフトの詳細を表示**を選択します。
@@ -240,9 +240,9 @@ echo Hello World
 
 :::
 
-:::expand{header= "解決策を確認しますか？"}
+:::expand{header="解決策を確認しますか？"}
 
-1. `drift-detection-challenge.yaml` テンプレートを更新して、値が `Retain` の `DeeletionPolicy` 属性を `Instance1` リソースに追加し、ファイルを保存します。
+1. `drift-detection-challenge.yaml` テンプレートを更新して、値が `Retain` の `DeletionPolicy` 属性を `Instance1` リソースに追加し、ファイルを保存します。
 2. 更新された `drift-detection-challenge.yaml` テンプレートでスタックを更新します。これにより、CloudFormation は、テンプレートからリソースを削除しても、そのリソースは削除せず、管理を停止するだけとなります。
 3. スタックの更新が完了したら、テンプレートファイルをもう一度編集して Resources 宣言全体を削除し (関連する各行の先頭にある `#` 文字を使用してコメントアウトしても良いです)、ファイルを保存します。
 4. 更新されたテンプレートファイルでスタックを更新します。CloudFormation はインスタンスを終了せずにスタックから削除します。
@@ -281,11 +281,11 @@ Resources:
 
 1. CloudFormation コンソールに移動します。
 2. 最初のラボで作成したスタック (例えば、`drift-detection-workshop`) を選択します。
-3. **削除**を選択し、**スタックの削除**をクリックします。
+3. **削除**を選択し、**削除**をクリックします。
 4. `drift-detection-challenge` スタックの場合は、テンプレートファイルを編集して `DeletionPolicy` を `Delete` に変更します。
 5. スタックを選択して**更新**を選択します。次に**既存テンプレートを置き換える**を選択し、更新されたファイルをアップロードすることでスタックを更新します。**次へ**を 3 回選択し、最後に**送信**をクリックします。スタックの更新が完了するまでお待ちください。
-6. `drift-detection-challenge` スタックを選択し、**削除**を選択し、**スタックを削除**を選択します。
+6. `drift-detection-challenge` スタックを選択し、**削除**を選択後、**削除**ボタンをクリックします。
 
 ### まとめ
 
-このラボでは、CloudFormation スタックのドリフトを検出して、CloudFormation の外部で変更されたリソースを見つけ、変更の詳細を確認する方法を学びました。リソースがテンプレートと一致するように正しく変更されたことを確認する方法と、リソースの新しい望ましい状態に一致するようにスタックを更新する方法を学びました。最後に、影響を受けたリソースを削除して再インポートすることでドリフトを修正する方法を学びました。
+このラボでは、CloudFormation スタックのドリフトを検出して、CloudFormation の外部で変更されたリソースを見つけ、変更の詳細を確認する方法を学びました。リソースがテンプレートと一致するように正しく変更されたことを確認する方法と、リソースの望ましい状態に一致するようにスタックを更新する方法を学びました。最後に、影響を受けたリソースを削除して再インポートすることでドリフトを修正する方法を学びました。
