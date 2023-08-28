@@ -1,9 +1,9 @@
 ---
-title: "上級"
+title: "上級編"
 weight: 50
 ---
 
-ワークショップの**上級**パートへようこそ。
+ワークショップの**上級編**へようこそ。
 
 このパートでは、開発した拡張機能を使用して [AWS CloudFormation](https://aws.amazon.com/jp/cloudformation/) の作成、プロビジョニング、管理に関する機能を拡張する方法に焦点を当てます。
 

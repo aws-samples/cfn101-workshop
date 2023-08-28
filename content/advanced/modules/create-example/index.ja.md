@@ -5,7 +5,7 @@ weight: 320
 
 ### 概要
 
-このラボでは、AWS アカウントで指定した AWS リージョンの AWS CloudFormation レジストリに、サンプルの CloudFormation モジュールをプライベート拡張で登録する手順を実施します。
+このラボでは、AWS アカウントの、特定の AWS リージョンの AWS CloudFormation レジストリに、サンプルの CloudFormation モジュールをプライベート拡張で登録する手順を実施します。
 
 この例では、デフォルト設定の関連リソースを含む [Amazon Virtual Private Cloud](https://docs.aws.amazon.com/ja_jp/vpc/latest/userguide/what-is-amazon-vpc.html) (Amazon VPC) 全体をデプロイするモジュールを作成します。この例を選定した理由は、VPC のように複雑な設定を中央集権的役割のチームがベストプラクティスな方法で定義し、他のチームが簡単に利用できるようにする方法を示すためです。
 
@@ -14,7 +14,7 @@ weight: 320
 このラボを修了すると、次のことができるようになります。
 
 * モジュールを開発する際に活用すべき重要な概念を理解します。
-* [CloudFormation コマンドラインインターフェイス (CLI)](https://docs.aws.amazon.com/ja_jp/cloudformation-cli/latest/userguide/what-is-cloudformation-cli.html) を使用して新しいプロジェクトを作成し、そのモジュールをプライベート拡張として、AWS アカウント内で指定した AWS リージョンの CloudFormation レジストリに送信します。
+* [CloudFormation Command Line Interface (CLI)](https://docs.aws.amazon.com/ja_jp/cloudformation-cli/latest/userguide/what-is-cloudformation-cli.html) を使用して新しいプロジェクトを作成し、そのモジュールをプライベート拡張として、AWS アカウントの、特定の AWS リージョンの CloudFormation レジストリに送信します。
 * CloudFormation テンプレートでモジュールを使用する方法を理解します。
 
 ### ラボを開始
@@ -52,7 +52,7 @@ cfn init
 rm fragments/sample.json
 :::
 
-CloudFormation モジュールは、このワークショップで既に作成しているものと同様に、標準のCloudFormationテンプレートを使用して作成されます。ただし、モジュールで使用できるテンプレートファイルは 1 つだけで、ネストされたスタックはサポートされていません。詳細については、[モジュール構造](https://docs.aws.amazon.com/ja_jp/cloudformation-cli/latest/userguide/modules-structure.html) ドキュメントの _Creating the module template fragment_ と _Considerations when authoring the template fragment_ をご参照ください。
+CloudFormation モジュールは、このワークショップで既に作成しているものと同様に、標準の CloudFormation テンプレートを使用して作成されます。ただし、モジュールで使用できるテンプレートファイルは 1 つだけで、ネストされたスタックはサポートされていません。詳細については、[モジュール構造](https://docs.aws.amazon.com/ja_jp/cloudformation-cli/latest/userguide/modules-structure.html) ドキュメントの _Creating the module template fragment_ と _Considerations when authoring the template fragment_ をご参照ください。
 
 次の図は、サンプルモジュールに含める VPC リソースを示しています。
 
@@ -64,7 +64,7 @@ CloudFormation モジュールは、このワークショップで既に作成�
 touch fragments/module.yaml
 :::
 
-テキストエディターでこのファイルを開き、以下の CloudFormatoin YAML コードを貼り付けます。
+テキストエディターでこのファイルを開き、以下の CloudFormation YAML コードを貼り付けます。
 
 <!-- vale off -->
 :::code{language=yaml showLineNumbers=false showCopyAction=true}
@@ -75,7 +75,7 @@ Description: A full VPC Stack
 Parameters:
 
   VpcCidr:
-  Type: String
+    Type: String
 
 Resources:
 

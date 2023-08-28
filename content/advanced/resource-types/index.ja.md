@@ -5,14 +5,14 @@ weight: 300
 
 ### はじめに
 
-このパートでは、開発したリソースタイプを使用して [AWS CloudFormation](https://aws.amazon.com/jp/cloudformation/) の作成、プロビジョニング、管理に関する機能を拡張する方法に焦点を当てます。
+この章では、開発したリソースタイプを使用して [AWS CloudFormation](https://aws.amazon.com/jp/cloudformation/) の作成、プロビジョニング、管理に関する機能を拡張する方法に焦点を当てます。
 
 リソースタイプは CloudFormation の第一級オブジェクトです。CloudFormation では、他の AWS リソースを管理するのと同様にリソースを管理できます。リソースタイプのソフトウェア開発ライフサイクル (SDLC) プロセスは次のように要約できます。
 
-1.  リソースタイプの開発とテストに使用する前提条件となるツールをインストールします。
-2.  リソースタイプに合わせたテストの開発と実行を開始します。
-3.  準備ができたら、リソースタイプを [AWS CloudFormation レジストリ](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/registry.html)に送信します。
-4.  CloudFormation を使用してリソースタイプを管理します。他のAWSリソースタイプと同様に、CloudFormation テンプレートにリソースタイプとプロパティを記述します。
+1. リソースタイプの開発とテストに使用する前提条件となるツールをインストールします。
+2. リソースタイプの開発と必要なテストを実施します。
+3. 準備ができたら、リソースタイプを [AWS CloudFormation レジストリ](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/registry.html)に登録します。
+4. CloudFormation を使用してリソースタイプを管理します。他の AWS リソースタイプと同様に、CloudFormation テンプレートにリソースタイプとプロパティを記述します。
 
 ::alert[CloudFormation レジストリでは、リソースタイプをプライベート拡張として登録するか、パブリック拡張として登録するかを選択できます。このラボでは、プライベート拡張の例を取り上げます。]{type="info"}
 

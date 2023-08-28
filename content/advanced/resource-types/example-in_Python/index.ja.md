@@ -5,7 +5,7 @@ weight: 320
 
 ### 概要
 
-このモジュールでは、Python で記述されたサンプルプライベート拡張を AWS アカウントの AWS CloudFormation レジストリに登録する手順を実施します。また、リソースタイプのソースコード実装ロジックの例を確認して、リソースタイプ開発ワークフローの主要な概念を理解します。
+このラボでは、Python で記述されたサンプルプライベート拡張を AWS アカウントの AWS CloudFormation レジストリに登録する手順を実施します。また、リソースタイプのソースコード実装ロジックの例を確認して、リソースタイプ開発ワークフローの主要な概念を理解します。
 
 ### 対象トピック
 
@@ -41,11 +41,11 @@ cd resource-types/awssamples-ec2-importkeypair/python/
 ディレクトリ内のいくつかの要素を見てみましょう。
 
 * `docs/`: リソースタイプのプロパティ用に自動生成された構文情報が含まれます。リソーススキーマファイルを変更するたびに、このディレクトリ内のファイルを含む自動生成コードを `cfn generate` CloudFormation CLI [コマンド](https://docs.aws.amazon.com/ja_jp/cloudformation-cli/latest/userguide/resource-type-cli-generate.html) で更新する必要があります。
-* `inputs/`: リソースタイプ入力プロパティのキー/値データを含むファイルが含まれています。リソースタイプ作成者は、コントラクトテストで使用する入力情報を指定します。*これらのファイルに機密情報を追加しないでください。*詳細については、[Specifying input data for use in contract tests](https://docs.aws.amazon.com/ja_jp/cloudformation-cli/latest/userguide/resource-type-test.html#resource-type-test-input-data) をご参照ください。
-* `awssamples-ec2-importkeypair.json`: 選択したリソースタイプ名にちなんで名付けられた、**リソースのモデルの説明**に使用されるリソーススキーマファイルです。
+* `inputs/`: リソースタイプ入力プロパティのキー/値データを含むファイルが含まれています。リソースタイプ作成者は、コントラクトテストで使用する入力情報を指定します。 *これらのファイルに機密情報を追加しないでください。* 詳細については、[Specifying input data for use in contract tests](https://docs.aws.amazon.com/ja_jp/cloudformation-cli/latest/userguide/resource-type-test.html#resource-type-test-input-data) をご参照ください。
+* `awssamples-ec2-importkeypair.json`: 選択したリソースタイプ名にちなんで名付けられた、**リソースのモデルの定義**に使用されるリソーススキーマファイルです。
 * `src/`: リソースタイプ名にちなんで名付けられたディレクトリが含まれています。中には次のものがあります。
     - `models.py`: スキーマを変更すると、お客様に代わって CloudFormation CLI が管理します。
-    - `handlers.py`: リソースタイプ開発者が CRUDL 実装ロジックのコードを追加する場所です。任意のテキストエディタで `src/handlers.py` ファイルを開き、`create_handler`、`update_handler`、`delete_handler`、`read_handler`、`list_handler` 関数で示されているように**ハンドラーの構造を理解します**。
+    - `handlers.py`: リソースタイプ開発者が CRUDL 実装ロジックのコードを追加する場所です。任意のテキストエディタで `src/handlers.py` ファイルを開き、`create_handler`、`update_handler`、`delete_handler`、`read_handler`、`list_handler` 関数で示されているように**ハンドラーの構造を認識してください**。
 * `resource-role.yaml`: CloudFormation CLI によって管理されるファイルです。このロールには [AWS Identity and Access Management](https://aws.amazon.com/jp/iam/) (IAM) ロールが記述されており、そのロールの `PolicyDocument` には、リソースタイプ開発者がスキーマファイルの `handlers` セクションで示す権限が含まれています。CloudFormation は CRUDL オペレーションの一環として、ユーザーに代わってこのリソースタイプのリソースを管理する役割を引き受けます。
 * `template.yml`: [AWS Serverless Application Model](https://aws.amazon.com/jp/serverless/sam/) (SAM) テンプレートはリソースタイプテストの一部として使用されます。
 
@@ -60,12 +60,12 @@ cd resource-types/awssamples-ec2-importkeypair/python/
 
 [ImportKeyPair](https://docs.aws.amazon.com/ja_jp/AWSEC2/latest/APIReference/API_ImportKeyPair.html) のドキュメントに移動します。*request parameters* と *response elements* を調べて、**スキーマに記述したいプロパティを決定**する必要があります。この場合、*request parameters* には以下を指定する必要があります。
 
-* インポートするキーペアの `KeyName` (*Required: Yes* Requrirementのドキュメントに記載)
+* インポートするキーペアの `KeyName` (ドキュメントに *Required: Yes* と記載)
 * `PublicKeyMaterial` コンテンツ (*Required: Yes*)
 * オプションのタグ設定 (`TagSpecification.N` - *Required: No)*
 
 
-次に、*レスポンス要素*を見てみましょう。リソースを作成すると、`keyFingerprint`を含む他の要素とともに `keyPairId` が返されます。[DeleteKeyPair](https://docs.aws.amazon.com/ja_jp/AWSEC2/latest/APIReference/API_DeleteKeyPair.html) アクションは、`KeyName` を含むパラメータを受け取ります。初期分析を要約してみましょう。
+次に、*レスポンス要素*を見てみましょう。リソースを作成すると、`keyFingerprint` を含む他の要素とともに `keyPairId` が返されます。[DeleteKeyPair](https://docs.aws.amazon.com/ja_jp/AWSEC2/latest/APIReference/API_DeleteKeyPair.html) アクションは、`KeyName` を含むパラメータを受け取ります。一旦、以下にまとめてみましょう。
 
 * `KeyName` と `PublicKeyMaterial` は必須の入力パラメータです。タグ (`TagSpecification.N`) はオプションです。
 * `keyPairId` と `keyFingerprint` はリソースの作成後に使用可能になるため、ユーザーが指定することはできません。
@@ -73,17 +73,17 @@ cd resource-types/awssamples-ec2-importkeypair/python/
 
 上記のプロパティは、CloudFormation がユーザーに代わってリソースを管理するために使用する *create*、*update*、*delete* ハンドラーでの使用に適しています。
 
-他の 2 つのハンドラーには追加のプロパティが必要です。*read* (リソースの現在の状態情報が必要な場合に CloudFormation がスタック更新時に呼び出す) と *list* (特定のタイプの複数のリソースについて概要情報が必要な場合に呼び出される) です。この例では、`keySet` や `KeyType` などの関連するプロパティを探すために、[`DescribeKeyPairs`](https://docs.aws.amazon.com/ja_jp/AWSEC2/latest/APIReference/API_DescribeKeyPairs.html) が適しています。
+他の 2 つのハンドラーには追加のプロパティが必要です。*read* (リソースの現在の状態情報が必要な場合に CloudFormation がスタック更新時に呼び出す) と *list* (特定のタイプの複数のリソースについて概要情報が必要な場合に呼び出される) です。この例では、`keySet` や `keyType` などの関連するプロパティを探すために、[`DescribeKeyPairs`](https://docs.aws.amazon.com/ja_jp/AWSEC2/latest/APIReference/API_DescribeKeyPairs.html) が適しています。
 
 では、上記の結果を `AWSSamples::EC2::ImportKeyPair` リソースタイプのスキーマの例と比較してみましょう。お好きなテキストエディターで `awssamples-ec2-importkeypair.json` ファイルを開くと、以下のことがわかります。
 
-* モデルのプロパティと値の制約については、`properties` セクションで説明しています。
+* モデルのプロパティと値の制約については、`properties` セクションで定義しています。
 * `KeyName`, `PublicKeyMaterial` は `required` となっています。
 * `KeyPairId`、`KeyFingerprint`、`KeyType` (リソース作成後に決定されるプロパティ) は `readOnlyProperties` として指定されます。
 * `KeyPairId` は `primaryIdentifier` として設定されています。
-* `PublicKeyMaterial` は `writeOnlyProperties` で指定されます。機密データ (パスワードなど) を含む値を記述するときには `writeOnlyProperties` がよく使われます。これらの値は *list* や *read* のリクエストでは返されません。`AWSSamples::EC2::ImportKeyPair` の例では、*list* や *read* ハンドラーで使用されている `DescribeKeyPairs` によって公開鍵情報は返されないため、*list* または *read* ハンドラーに NULL 値と一緒に含めても意味がありません。そのため、この例では、プロパティを `writeOnlyProperties` と記述することが適切です。
+* `PublicKeyMaterial` は `writeOnlyProperties` で指定されます。機密データ (パスワードなど) を含む値を記述するときには `writeOnlyProperties` がよく使われます。これらの値は *list* や *read* のリクエストでは返されません。`AWSSamples::EC2::ImportKeyPair` の例では、*list* や *read* ハンドラーで使用されている `DescribeKeyPairs` によって公開鍵情報は返されず、nullになるので、*list* または *read* ハンドラーに含めても意味がありません。そのため、この例では、プロパティを `writeOnlyProperties` と記述することが適切です。
 * `KeyName`、`PublicKeyMaterial` は `createOnlyProperties` として設定されています。そのため、インポートされたキーペアの 2 つの値のいずれかを更新すると、新しい値を持つ新しいリソースが作成され、以前のリソースが削除されます。
-* 必須ではない `Tags` は、スキーマ内の定義間で再利用できるようにするためのベストプラクティスの一環として [`definitions`](https://docs.aws.amazon.com/ja_jp/cloudformation-cli/latest/userguide/resource-type-schema.html#schema-properties-definitions) セクションで説明されています。サンプルスキーマでは、`Tags` は `properties` セクションの `$ref` ポインターで参照します。
+* 必須ではない `Tags` は、スキーマ内の定義間で再利用できるようにするためのベストプラクティスの一環として [`definitions`](https://docs.aws.amazon.com/ja_jp/cloudformation-cli/latest/userguide/resource-type-schema.html#schema-properties-definitions) セクションで定義されています。サンプルスキーマでは、`Tags` は `properties` セクションの `$ref` ポインターで参照します。
 
 スキーマの作成方法とスキーマ要素の詳細については、[Resource type schema](https://docs.aws.amazon.com/ja_jp/cloudformation-cli/latest/userguide/resource-type-schema.html) をご参照ください。
 
@@ -114,7 +114,7 @@ cd resource-types/awssamples-ec2-importkeypair/python/
 先ほどの例で示したようにリソーススキーマをモデル化したら、次のステップはハンドラーでコード実装を開始することです。考慮すべき点は以下のとおりです。
 
 * 特定の CRUDL ハンドラー (*Create*、*Read*、*Update*、*Delete*、*List*) には、次のようなビジネスロジックを実装する必要があります。
-    * 特定のサービス固有の API (*create* ハンドラーの `ImportKeyPair`、`DeleteKeyPair` *delete* ハンドラーのなど) を呼び出します。
+    * 特定のサービス固有の API (*create* ハンドラーは `ImportKeyPair`、*delete* ハンドラーは `DeleteKeyPair`、など) を呼び出します。
 * 特定のハンドラーで呼び出した特定の API から返されたデータを利用します。さらに、
     * すべてのハンドラーは常に `ProgressEvent` を返さなければなりません。その構造の詳細については、[ProgressEvent object schema](https://docs.aws.amazon.com/ja_jp/cloudformation-cli/latest/userguide/resource-type-test-progressevent.html) をご参照ください。
     * エラーがなければ、指定したハンドラーから `status=OperationStatus.SUCCESS` を含む `ProgressEvent` オブジェクトを返します。例: `return ProgressEvent(status=OperationStatus.SUCCESS)`。さらに、ハンドラーが *delete* または *list* でない場合は、リソースのハンドラーコード (API 呼び出しから) で収集したデータを含む、おなじみのオブジェクト (リソースのモデル) を返します。`ResourceModel` *list* ハンドラーでは、単一のモデルではなく、記述しているタイプのリソースごとにモデルのリストを返します。
@@ -142,7 +142,7 @@ cd resource-types/awssamples-ec2-importkeypair/python/
 
 #### ユニットテストの実行
 
-ソフトウェア開発のベストプラクティスの一環として、*unit tests* を作成して、コードが期待どおりに動作するという確信を高めます。[ノート](https://github.com/aws-cloudformation/aws-cloudformation-samples/tree/main/resource-types/awssamples-ec2-importkeypair/python#unit-tests) で説明されているように、`AWSSamples::EC2::ImportKeyPair` サンプルリソースタイプには `src/awssamples_ec2_importkeypair/tests` ディレクトリに単体テストが含まれています。そのディレクトリにある `test_handlers.py` ファイル (先ほど選択したリポジトリのクローン/ダウンロードによりマシン上に存在) を見ると、最初に説明したテストユーティリティ関数と、ファイルの途中あたりに説明されているテストユーティリティ関数が表示されます。このファイルの途中には、ユーティリティ関数を使用して、戻り値の検証や投げられた例外の検証等のテストを実行するユニットテストがあります。EC2 API 呼び出しなどの関数呼び出しを含むオブジェクトは、[unittest.mock](https://docs.python.org/3/library/unittest.mock.html) モックオブジェクトライブラリを利用して、モックオブジェクト呼び出しによるテストで置き換え/パッチされます。
+ソフトウェア開発のベストプラクティスの一環として、*unit tests* を作成して、コードが期待どおりに動作するという確信を高めます。[ノート](https://github.com/aws-cloudformation/aws-cloudformation-samples/tree/main/resource-types/awssamples-ec2-importkeypair/python#unit-tests) で説明されているように、`AWSSamples::EC2::ImportKeyPair` サンプルリソースタイプには `src/awssamples_ec2_importkeypair/tests` ディレクトリに単体テストが含まれています。そのディレクトリにある `test_handlers.py` ファイル (先ほど選択したリポジトリのクローン/ダウンロードによりマシン上に存在) を見ると、最初に説明したテストユーティリティ関数と、ファイルの途中あたりに定義されているテストユーティリティ関数が表示されます。このファイルの途中には、ユーティリティ関数を使用して、戻り値の検証や投げられた例外の検証等のテストを実行するユニットテストがあります。EC2 API 呼び出しなどの関数呼び出しを含むオブジェクトは、[unittest.mock](https://docs.python.org/3/library/unittest.mock.html) モックオブジェクトライブラリを利用して、モックオブジェクト呼び出しによるテストで置き換え/パッチされます。
 
 ユニットテストを実行しましょう！`AWSSamples::EC2::ImportKeyPair` サンプルリソースタイプのルートレベルにあるディレクトリ (つまり `python` ディレクトリ内) にいることと、前トピックの前提条件に従っていることを確認してください。次に、以下のように単体テストを実行します。
 
@@ -154,9 +154,9 @@ pytest --cov src --cov-report term-missing
 
 #### コントラクトテストの実行
 
-このラボの以降のステップでは、`AWSSamples::EC2::ImportKeyPair` サンプルリソースタイプをプライベート拡張としてローカルでテストし、アカウントの CloudFormation レジストリに送信します。
+このラボの以降のステップでは、`AWSSamples::EC2::ImportKeyPair` サンプルリソースタイプをプライベート拡張としてローカルでテストし、アカウントの CloudFormation レジストリに登録します。
 
-リソースタイプを構築するときや、開発プロセスの非常に早い段階でハンドラーのビジネスロジックを実装する際に遵守すべき要件を説明する [Resource type handler contract](https://docs.aws.amazon.com/ja_jp/cloudformation-cli/latest/userguide/resource-type-test-contract.html) を必ず活用する必要があります。ハンドラーコントラクトの強制は、パブリックリソースタイプをレジストリに登録したときに行われますが、その場合はコントラクトテストに合格する必要があります。これは、リソースタイプを利用する外部の顧客に代わって高い品質基準を維持するために重要です。
+リソースタイプを構築するときや、開発プロセスの非常に早い段階でハンドラーのビジネスロジックを実装する際に順守すべき要件を説明する [Resource type handler contract](https://docs.aws.amazon.com/ja_jp/cloudformation-cli/latest/userguide/resource-type-test-contract.html) を必ず活用する必要があります。ハンドラーコントラクトの強制は、パブリックリソースタイプをレジストリに登録したときに行われますが、その場合はコントラクトテストに合格する必要があります。これは、リソースタイプを利用する外部の顧客に代わって高い品質基準を維持するために重要です。
 
 ::alert[パブリックリソースタイプを公開するにはコントラクトテストに合格する必要があり、プライベートリソースタイプを送信した場合は実行されません。ただし、ベスト・プラクティスの一環として、開発プロセスの非常に早い段階でコントラクト・テストの仕様を順守するようにしてください。]{type="info"}
 
@@ -201,9 +201,9 @@ aws cloudformation wait stack-create-complete \
 
 このプロセスが終了すると、コントラクトテストの結果を示す出力が表示されます。次のステップに進みましょう！
 
-#### リソースタイプをプライベート拡張として送信する
+#### リソースタイプをプライベート拡張として登録する
 
-CloudFormation CLI を使用して CloudFormation アカウントのレジストリにリソースを送信してみましょう (この例では、AWS リージョンに `us-east-1` を使用しています)。
+CloudFormation CLI を使用して CloudFormation アカウントのレジストリにリソースを登録してみましょう (この例では、AWS リージョンに `us-east-1` を使用しています)。
 
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 cfn generate && cfn submit --set-default --region us-east-1
@@ -260,7 +260,7 @@ aws cloudformation wait stack-create-complete \
 UUID('OUTPUT EDITED: THIS WILL CONTAIN A UUID4 VALUE')
 ```
 
-* 作成した `example-key-pair-stack` CloudFormation スタックの `Outputs` セクションから: `KeyPairId` の値を使用し、それを JSON ファイルの構造内の `desiredResourceState` キーの下に作成した新しい `KeyPairId` キーに渡します。
+* 作成した `example-key-pair-stack` CloudFormation スタックの `Outputs` セクションから、`KeyPairId` の値を使用し、それを JSON ファイルの構造内の `desiredResourceState` キーの下に作成した新しい `KeyPairId` キーに渡します。
 * 結果のファイル構造は、次の例のようになるはずです。
 
 ```json
@@ -314,4 +314,4 @@ aws cloudformation deregister-type \
 
 ### まとめ
 
-おめでとうございます! Python でのサンプルリソースタイプ実装を順を追って説明し、リソースタイプを作成する際に留意すべき重要な概念、期待される事項、目的を学びました。
+おめでとうございます! Python でのサンプルリソースタイプ実装を一通り実施し、リソースタイプを作成する際に留意すべき重要な概念、期待される事項、目的を学びました。

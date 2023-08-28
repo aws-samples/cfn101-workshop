@@ -5,7 +5,7 @@ weight: 300
 
 ### はじめに
 
-このパートでは、開発したモジュールを使用して [AWS CloudFormtaion](https://aws.amazon.com/jp/cloudformation/) の作成、プロビジョニング、管理に関する機能を拡張する方法に焦点を当てます。
+この章では、開発したモジュールを使用して [AWS CloudFormtaion](https://aws.amazon.com/jp/cloudformation/) の作成、プロビジョニング、管理に関する機能を拡張する方法に焦点を当てます。
 
 これまでは、CloudFormation を使用して AWS が公開しているリソースタイプを使用してアプリケーションを構築する方法を見てきました。このラボでは、[AWS CloudFormation モジュール](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/modules.html)を活用し、同じ AWS アカウントとリージョンを利用するユーザーが何度も使用できる再利用可能なテンプレートスニペットを作成します。
 
@@ -26,7 +26,7 @@ CloudFormation モジュールの一般的な使用例は、企業内での利�
 
 プライベート拡張の詳細については、[CloudFormation でのプライベートエクステンションの使用](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/registry-private.html) をご参照ください。パブリック拡張については、[Publishing extensions to make them available for public use](https://docs.aws.amazon.com/ja_jp/cloudformation-cli/latest/userguide/publish-extension.html) をご参照ください。
 
-::alert[モジュールの使用には追加料金はありません。お支払いいただくのは、モジュールがスタック内で解決するリソース分のみです。]{type="info"}
+::alert[モジュールの使用には追加料金はありません。お支払いいただくのは、モジュールがスタック内で作成するリソース分のみです。]{type="info"}
 
 ::alert[スタックで許可される最大リソース数やテンプレート本体の最大サイズなどの CloudFormation のクォータは、そのテンプレートに含まれるリソースがモジュールからのものであるかどうかにかかわらず、処理されたテンプレートに適用されます。]{type="info"}
 
