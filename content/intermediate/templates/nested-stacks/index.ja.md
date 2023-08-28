@@ -5,41 +5,41 @@ weight: 400
 
 ### 概要
 
-CloudFormationテンプレートは、このワークショップの過程でかなり大きくなりました。
+CloudFormation テンプレートは、このワークショップを進めることでボリュームが多くなりました。
 インフラが拡大するにつれ、それぞれのテンプレートで同じコンポーネントを宣言するパターンが出てくることがあります。
 
-これらの共通コンポーネントを分離して、専用のテンプレートを作成できます。
-その方法は、[**ネストされたスタック**](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-nested-stacks.html)を用いて、様々なテンプレートを組み合わせ、1つの統合されたスタックを作成することができます。
+同じコンポーネントを宣言するケースにおいては、共通コンポーネントを分離して、専用のテンプレートを作成することが可能です。
+具体的には、[**ネストされたスタック**](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/using-cfn-nested-stacks.html)を用いて、様々なテンプレートを組み合わせ、1つの統合されたスタックを作成することができます。
 
 
 例えば、Systems Manager Session Manager によるすべての EC2 インスタンスへのアクセスを有効にしたい場合があります。
-コピーする代わりに同じ IAM ロール設定を貼り付けると、インスタンスの IAM ロールを含む専用テンプレートを作成できます。
-そして、[AWS::CloudFormation::Stack](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-stack.html)リソースを使用して、他のテンプレート内からそのテンプレートを参照するだけです。
+同じ IAM ロール設定をコピー & ペーストする代わりに、インスタンスの IAM ロールを含む専用テンプレートを作成できます。
+そして、[AWS::CloudFormation::Stack](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/aws-properties-stack.html)リソースを使用して、他のテンプレート内からそのテンプレートを参照することができます。
 
 
 ### 取り上げるトピック
 
 このラボでは、以下を作成します。
 
-1. **_root_ スタック**: (第1レベルにある親スタックでもあります)。このルートスタックには、他のすべてのスタックが含まれます。
-2. **VPC スタック**。これには、EC2 インスタンスを配置するシンプルな VPC テンプレートが含まれています。
-3. **IAM インスタンスロールスタック**: これには、EC2 テンプレートから切り離された IAM インスタンスロールテンプレートが含まれています。
-4. **EC2 スタック**: これには、以前の CloudFormation テンプレートで定義した EC2 インスタンスが含まれます。
+1. **_root_ スタック**: (第1レベルにある親スタックでもあります)。root スタックには、他のすべてのスタックが含まれます。
+2. **VPC スタック**: EC2 インスタンスを配置するシンプルな VPC テンプレートが含まれています。
+3. **IAM インスタンスロールスタック**: EC2 テンプレートから切り離された IAM インスタンスロールテンプレートが含まれています。
+4. **EC2 スタック**: 以前の CloudFormation テンプレートで定義した EC2 インスタンスが含まれます。
 
 > ネストされたスタックの最上位レベルと第1レベルの階層
 
 ![nested-stack-hierarchy](/static/intermediate/templates/nested-stacks/nested-stack-hierarchy.ja.png)
 
-> 次の図は、インフラストラクチャの概要を示しています。
+> インフラストラクチャの概要
 
 ![ested-stack-architecture](/static/intermediate/templates/nested-stacks/ns-architecture.png)
 
 ### ラボを開始
 
-1. `code/workspace/nested-stacks`ディレクトリに移動します。
-2. 以下のトピックを読みながら、コードをコピーしてください。
+1. `code/workspace/nested-stacks` ディレクトリに移動します。
+2. 以下のトピックを読みながら、コードをコピーします。
 
-#### 1. ネストされたスタックリソース
+#### 1. ネストされたスタックのリソース
 
 テンプレート内の CloudFormation スタックを参照するには、`AWS::CloudFormation::Stack` リソースを使用します。
 
@@ -61,19 +61,17 @@ Resources:
 
 #### 2. S3 バケットを準備
 
-ローカルマシンから単一のテンプレートをデプロイできますが、ネストされたスタックでは、ネストされたテンプレートを S3 バケットに保存する必要があります。
+単一のテンプレートの場合は、ローカルマシンからデプロイできますが、ネストされたスタックでは、ネストされたテンプレートを S3 バケットに保存する必要があります。
 
 最初のラボで、S3 バケットを作成する簡単な CloudFormation テンプレートを作成しました。作成したバケット名をメモします。
 
-次に例を示します。
+バケット名の例: `cfn-workshop-s3-s3bucket-2cozhsniu50t`
 
-バケット名: `cfn-workshop-s3-s3bucket-2cozhsniu50t`
+S3 バケットをお持ちでない場合は、[テンプレートとスタック](/basics/templates/template-and-stack) ラボに戻って、S3 バケットを作成します。
 
-S3 バケットをお持ちでない場合は、[テンプレートとスタック](/basics/templates/template-and-stack) ラボに戻って作成してください。
+#### 3. ネストされた VPC スタックの作成
 
-#### 3. VPC ネストされたスタックの作成
-
-VPC テンプレートは既に作成されています。タイトルは `vpc.yaml` です。このテンプレートは、2 つのパブリックサブネット、インターネットゲートウェイ、ルートテーブルを含む VPC スタックを作成します。
+VPC テンプレートは既に作成されており、タイトルは `vpc.yaml` です。このテンプレートは、2 つのパブリックサブネット、インターネットゲートウェイ、ルートテーブルを含む VPC スタックを作成することができます。
 
 ##### 1. メインテンプレートで VPC パラメータを作成
 
@@ -116,10 +114,10 @@ PublicSubnet2Cidr:
 ```
 
 ##### 2. メインテンプレートに VPC リソースを作成
-以下のコードでは、リソースにパラメータ値を渡すことが単一のスタンドアロンテンプレートを使用する場合と同じように機能することに注意してください。
+以下のコードでは、単一のスタンドアロンテンプレートを使用する場合と同じように、リソースにパラメータ値を渡すことができます。
 メインテンプレートのパラメータ名が VPC テンプレートのパラメータ名と一致することを確認してください。
 
-このコードをメインテンプレート (`main.yaml`) の**Resources**セクションに追加します
+このコードをメインテンプレート (`main.yaml`) の **Resources** セクションに追加します
 
 ```yaml
 VpcStack:
@@ -145,32 +143,32 @@ VpcStack:
 3. `vpc.yaml` ファイルを選択します。
 4. **アップロード**ボタンをクリックし、ファイルをアップロードします。
 
-##### 4. VPC ネストされたスタックをデプロイ
+##### 4. ネストされた VPC スタックをデプロイ
 
 :::alert{type="info"}
-**YAML** はインデントを区別するマークダウン言語であることに注意してください。`cfn-lint`、または、 CloudFormation コンソールが`Template format error: [/Resources/VpcStack] resource definition is malformed`というエラーを報告した場合、**Parameters** と **Resources** セクションが正しくフォーマットされていることを再確認してください。
+**YAML** はインデントを区別するマークダウン言語であることに注意してください。`cfn-lint`、または、 CloudFormation コンソールが`Template format error: [/Resources/VpcStack] resource definition is malformed` というエラーを報告した場合、**Parameters** と **Resources** セクションが正しくフォーマットされていることを再確認してください。
 :::
 
 1. コンソールで CloudFormation に移動し、**新しいリソースを使用 (標準)** をクリックします。
 2. **テンプレートの準備**セクションで、**テンプレート準備完了**を選択します。
 3. **テンプレートの指定**セクションで、**テンプレートファイルのアップロード**を選択します。
 4. `main.yaml` ファイルを選択します。
-5. **スタック名**を入力します。例えば、`cfn-workshop-nested-stack`と入力します。
-6. **AvaliabilityZone**パラメータには、2 つの AZ を選択します。
+5. **スタック名**を入力します。例えば、`cfn-workshop-nested-stack` と入力します。
+6. **AvaliabilityZone** パラメータには、2 つの AZ を選択します。
 7. **S3BucketName** には、[S3 バケットを準備](#2-prepare-s3-bucket) セクションに書き留めたバケット名を入力します。
 8. 残りのパラメータはデフォルトのままとします。
 9. **スタックオプションの設定**はデフォルトのままにして、**次へ**をクリックします。
-10. **レビュー <stack_name>**ページで一番下までスクロールし、両方の**IAM Capabilities**チェックボックスにチェックを入れます。
+10. **レビュー <stack_name>** ページで一番下までスクロールし、両方の **IAM Capabilities** チェックボックスにチェックを入れます。
     ![iam-capabilities.png](/static/intermediate/templates/nested-stacks/iam-capabilities.ja.png)
 11. **スタックの作成**をクリックします。CloudFormation コンソールで作成中のネストスタックの進行状況を確認できます。
 12. 数分後にスタックが作成されます。`CREATE_COMPLETE` のステータスが表示されるまで、更新ボタンを数回クリックします。
 
-#### 4. IAM ネストされたスタックの作成
+#### 4. ネストされた IAM スタックの作成
 
 ##### 1. IAM ロールテンプレートの準備
 
 **IAM ロール** テンプレートが既に作成されています。タイトルは `iam.yaml` です。
-このテンプレートは、[Session Manager](https://docs.aws.amazon.com/systems-manager/latest/userguide/session-manager.html) がEC2インスタンスにアクセスすることを許可する `AmazonSSMManagedInstanceCore` ポリシーを使用して IAM ロールを作成します。
+このテンプレートは、[Session Manager](https://docs.aws.amazon.com/ja_jp/systems-manager/latest/userguide/session-manager.html) が EC2 インスタンスにアクセスすることを許可する `AmazonSSMManagedInstanceCore` ポリシーを使用して IAM ロールを作成します。
 
 
 1. `iam.yaml` ファイルを開きます。
@@ -200,7 +198,7 @@ WebServerInstanceProfile:
 ```
 
 ##### 2. メインテンプレートに IAM リソースを作成
-以下のコードを `main.yaml` テンプレートの**Resources**セクションにコピーします。
+以下のコードを `main.yaml` テンプレートの **Resources** セクションにコピーします。
 
 ```yaml
 IamStack:
@@ -216,16 +214,16 @@ IamStack:
 [VPC スタック](#3-upload-the-vpc-stack-to-s3) と同様に、IAM テンプレートを S3 にアップロードします。
 
 1. コンソールで S3 バケットに移動して選択します。
-2. **アップロード**ボタン-> **ファイルを追加**をクリックします。
-3. `iam.yaml` ファイルを見つけて選択します。
+2. **アップロード**ボタン -> **ファイルを追加**をクリックします。
+3. `iam.yaml` ファイルを選択します。
 4. **アップロード**ボタンをクリックしてファイルをアップロードします。
 
-##### 4. IAM ネストされたスタックをデプロイ
+##### 4. ネストされた IAM スタックをデプロイ
 
 以前に作成したネストスタックを新しいテンプレートで更新します。
 
 1. AWS コンソールの Cloudformation サービスに移動します。
-2. **root** スタック (**ネストされた** タグが関連付けられていないスタック) を選択します。
+2. **root** スタック (**ネストされた**タグが関連付けられていないスタック) を選択します。
 3. 右上の**更新**をクリックします。
 4. **テンプレートの準備**セクションで、**既存のテンプレートを置き換える**を選択します。
 5. **テンプレートの指定**セクションで、**テンプレートファイルのアップロード**を選択します。
@@ -233,7 +231,7 @@ IamStack:
 7. `main.yaml` テンプレートファイルを選択し、**次へ**をクリックします。
 8. ウィザードに従い、IAM Capabilities を確認し、**送信**をクリックします。
 
-#### 5. EC2 ネストされたスタックの作成
+#### 5. ネストされた EC2 スタックの作成
 
 ##### 1. メインテンプレートで EC2 パラメータを作成する
 
@@ -241,9 +239,9 @@ VPC テンプレートと同様に、`ec2.yaml` テンプレートの **Paramete
 
 * `SubnetId` - このプロパティは VPC スタックが作成されると VPC スタックから渡されます。
 * `EnvironmentType` - このプロパティにはデフォルト値があり、頻繁に変更される可能性があるので、Parameters に追加します。
-* `AmiId` - このプロパティにはデフォルト値があり、メインテンプレートから除外してもかまいません。
+* `AmiId` - このプロパティにはデフォルト値があるため、メインテンプレートから除外してもかまいません。
 
-`main.yaml` テンプレートの**Paramaters**セクションに以下のコードを追加します。
+`main.yaml` テンプレートの **Paramaters** セクションに以下のコードを追加します。
 
 ```yaml
 EnvironmentType:
@@ -259,7 +257,7 @@ EnvironmentType:
 
 ##### 2. メインテンプレートに EC2 リソースを作成
 
-以下のコードを `main.yaml` テンプレートの**Resources**セクションにコピーします。
+以下のコードを `main.yaml` テンプレートの **Resources** セクションにコピーします。
 
 ```yaml
 EC2Stack:
@@ -273,7 +271,7 @@ EC2Stack:
 
 テンプレートに `EnvironmentType` パラメータを追加したので、これを `EC2Stack` リソースで参照する必要があります。
 
-`main.yaml` テンプレートのEC2 スタック[6-7] 行目に、`Parameters` セクションと`EnvironmentType` を追加します。
+`main.yaml` テンプレートのEC2 スタック [6-7] 行目に、`Parameters` セクションと　`EnvironmentType` を追加します。
 ```yaml {hl_lines=[6,7]}
 EC2Stack:
   Type: AWS::CloudFormation::Stack
@@ -288,13 +286,13 @@ EC2Stack:
 
 CloudFormation のネストスタックを更新する前に、やるべきことが他にもいくつかあります。
 
-+ EC2 セキュリティグループを作成する VPC を指定する必要があります。VPC パラメータを指定しないと、セキュリティグループは**デフォルト VPC**に作成されます。
++ EC2 セキュリティグループを作成する VPC を指定する必要があります。VPC パラメータを指定しないと、セキュリティグループは**デフォルト VPC** に作成されます。
 
 + EC2 インスタンスを作成するサブネットを指定する必要があります。
 
 ##### 1. セキュリティグループリソースを準備
 
-1. `ec2.yaml` ファイルを開き、テンプレートの**Parameters**セクションに `VpcId` と `SubnetId` の 2 つのパラメータを作成します。
+1. `ec2.yaml` ファイルを開き、テンプレートの **Parameters** セクションに `VpcId` と `SubnetId` の 2 つのパラメータを作成します。
 
     ```yaml
     VpcId:
@@ -307,7 +305,7 @@ CloudFormation のネストスタックを更新する前に、やるべきこ�
     ```
 
 2. 次に、`WebServerSecurityGroup` リソースを探します。
-3. `WebServerSecurityGroup` リソース[18] 行目に `VpcId` プロパティを追加し、 `VpcId` パラメータを参照します。セキュリティグループリソースは以下のコードのようになっているはずです。
+3. `WebServerSecurityGroup` リソース [18] 行目に `VpcId` プロパティを追加し、 `VpcId` パラメータを参照します。セキュリティグループリソースは以下のコードのようになっているはずです。
 
    ```yaml {hl_lines=[18]}
    WebServerSecurityGroup:
@@ -334,7 +332,7 @@ CloudFormation のネストスタックを更新する前に、やるべきこ�
 
 あるスタックから別のスタックに変数を渡すには、その変数を渡すスタックの値を含む出力を作成する必要があります。
 
-組み込み関数 `!GetAtt`を利用すると、CloudFormationはそのスタックの値にアクセスでき、それをパラメータとして渡します。
+組み込み関数 `!GetAtt` を利用すると、CloudFormation はそのスタックの値にアクセスでき、それをパラメータとして渡します。
 
 以下のコードを `vpc.yaml` テンプレートに追加します。
 
@@ -354,7 +352,7 @@ Outputs:
 
 これで、VPC スタックから値を取得して EC2 スタックに渡すことができます。
 
-`VpcId` と `SubnetId `パラメータを `main.yaml` テンプレートの EC2 スタックに追加します。
+`VpcId` と `SubnetId` パラメータを `main.yaml` テンプレートの EC2 スタックに追加します。
 ```yaml {hl_lines=[8,9]}
 EC2Stack:
   Type: AWS::CloudFormation::Stack
@@ -379,8 +377,8 @@ Outputs:
 
 ##### 5. EC2 テンプレートの準備
 
-1. `ec2.yaml` を開けて
-2. テンプレートの**Parameters**セクションに `WebServerInstanceProfile` パラメータを作成します。
+1. `ec2.yaml` を開きます。
+2. テンプレートの **Parameters** セクションに `WebServerInstanceProfile` パラメータを作成します。
 
 ```yaml
 WebServerInstanceProfile:
@@ -388,9 +386,9 @@ WebServerInstanceProfile:
   Description: 'Instance profile resource ID'
 ```
 
-##### 6. WebServerInstanceProfileを **EC2Stack** スタックに追加
+##### 6. WebServerInstanceProfile を **EC2Stack** スタックに追加
 
-`webServerInstanceProfile` パラメータを `main.yaml` テンプレートの EC2 スタック[10] 行目に追加します。
+`webServerInstanceProfile` パラメータを `main.yaml` テンプレートの EC2 スタック [10] 行目に追加します。
 ```yaml {hl_lines=[10]}
 EC2Stack:
   Type: AWS::CloudFormation::Stack
@@ -404,7 +402,7 @@ EC2Stack:
       WebServerInstanceProfile: !GetAtt IamStack.Outputs.WebServerInstanceProfile
 ```
 
-##### 7. メインテンプレートの `WebsiteURL`を出力する
+##### 7. メインテンプレートの `WebsiteURL` を出力する
 
 `WebsiteURL` を `main.yaml` テンプレートの `Outputs` セクションに追加します。
 
@@ -417,14 +415,14 @@ Outputs:
 ##### 8. EC2 スタックを S3 にアップロード
 更新されたネストスタックをデプロイする前に、親テンプレート `main.yaml` が参照する S3 バケットのテンプレートを更新する必要があります。
 
-前のステップの [VPC スタックのアップロード](#3-upload-the-vpc-stack-to-s3) と同様に、`vpc.yaml`、`ec2.yaml`、 `iam.yaml` テンプレートを S3 バケットにをアップロードします。
+前のステップの [VPC スタックのアップロード](#3-upload-the-vpc-stack-to-s3) と同様に、`vpc.yaml`、`ec2.yaml`、 `iam.yaml` テンプレートを S3 バケットにアップロードします。
 
 1. コンソールで S3 バケットに移動して選択します。
-2. **アップロード**ボタン-> **ファイルの追加**をクリックします。
-3. `vpc.yaml`、`iam.yaml`、`ec2.yaml` ファイルを見つけて選択します。
+2. **アップロード**ボタン -> **ファイルの追加**をクリックします。
+3. `vpc.yaml`、`iam.yaml`、`ec2.yaml` ファイルを選択します。
 4. **アップロード**ボタンをクリックしてファイルをアップロードします。
 
-##### 9. EC2 ネストされたスタックをデプロイ
+##### 9. ネストされた EC2 スタックをデプロイ
 
 以前に作成したネストスタックを新しいテンプレートで更新します。
 
@@ -441,9 +439,9 @@ Outputs:
 
 ##### 1. アプリケーションが正常にデプロイされたことを確認
 
-プライベートモードで新しいブラウザウィンドウを開き、`WebsiteURL`を入力します。
+プライベートモードで新しいブラウザウィンドウを開き、`WebsiteURL` を入力します。
 
-`WebsiteURL`は、CloudFormation コンソールのメインスタックの**出力**タブから取得できます。
+`WebsiteURL` は、CloudFormation コンソールのメインスタックの**出力**タブから取得できます。
 
 ![website-url-output.png](/static/intermediate/templates/nested-stacks/website-url-output.ja.png)
 
@@ -455,13 +453,13 @@ Outputs:
 
 SessionManager 経由でインスタンスにログインできることを確認します。
 
-方法が不明な場合は、[Session Manager](/basics/operations/session-manager#challenge)ラボの指示に従ってください。
+方法が不明な場合は、[Session Manager](/basics/operations/session-manager#challenge) ラボの指示に従ってください。
 
 ### クリーンアップ
 
 作成したリソースをクリーンアップするには、次の手順に従います。
 
-1. **[CloudFormation コンソール](https://console.aws.amazon.com/cloudformation)** で、このラボで作成した**root** スタックを選択します。例えば、`cfn-workshop-nested-stack`を選択します。
+1. **[CloudFormation コンソール](https://console.aws.amazon.com/cloudformation)** で、このラボで作成した **root** スタックを選択します。具体的には、`cfn-workshop-nested-stack` を選択します。
 2. **root** スタックは、すべての **子** スタックの削除を自動的に処理します。
 3. 右上の**削除**をクリックします。
 4. ポップアップウィンドウで、**スタックの削除**をクリックします。

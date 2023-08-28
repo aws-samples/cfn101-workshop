@@ -6,12 +6,12 @@ weight: 600
 ### 概要
 
 このワークショップの [基本](/basics)で、CloudFormation コンソールを介して単一の YAML テンプレートをデプロイしました。
-本作業はmとても簡単な作業でしたが、CloudFormation テンプレートが他のファイルまたはアーティファクトを参照する場合もあります。
+基本編は、非常に簡単な作業でしたが、CloudFormation テンプレートが他のファイルまたはアーティファクトを参照する場合もあります。
 
-例えば、LambdaのソースコードやZIPファイル、またはネストされたCloudFormationテンプレートファイルは、「アーティファクト」です。
-[ネストされたスタックラボ](/intermediate/templates/nested-stacks) で学んだように、 メインの CloudFormation テンプレートをデプロイする前に、これらのファイルが S3 で利用可能になっている必要があります。
+例えば、Lambda のソースコードや ZIP ファイル、またはネストされた CloudFormation テンプレートファイルは、アーティファクトです。
+[ネストされたスタックのラボ](/intermediate/templates/nested-stacks)で学んだように、 メインの CloudFormation テンプレートをデプロイする前に、これらのファイルが S3 で利用可能になっている必要があります。
 
-より複雑なスタックのデプロイは多段階のプロセスですが、AWS CLI には他のファイルを参照する CloudFormation テンプレートをデプロイする方法が用意されています。
+より複雑なスタックのデプロイは多段階のプロセスが必要ですが、AWS CLI には、他のファイルを参照して CloudFormation テンプレートをデプロイする方法が用意されています。
 
 このセクションでは、AWS CLI で CloudFormation テンプレートをパッケージ化、検証、デプロイするために使用する 3 つの主要なコマンドについて説明します。
 
@@ -20,10 +20,10 @@ weight: 600
 ### 取り上げるトピック
 
 このラボを修了すると、次のことができるようになります。
-* テンプレートをいつパッケージ化する必要があるかを確認する
-* `aws cloudformation package`コマンドを使ってテンプレートをパッケージ化する
-* `aws cloudformation validate-template`コマンドを使用して CloudFormation テンプレートを検証する
-* `aws cloudformation deploy`コマンドを使用してテンプレートをデプロイする
+* テンプレートをパッケージ化する必要があるケースを確認
+* `aws cloudformation package` コマンドを使ってテンプレートをパッケージ化
+* `aws cloudformation validate-template` コマンドを使用して CloudFormation テンプレートを検証
+* `aws cloudformation deploy` コマンドを使用してテンプレートをデプロイ
 
 ### ラボを開始
 
@@ -31,9 +31,9 @@ weight: 600
 
 プロジェクトの構成は以下のとおりです。
 
-* インフラストラクチャをスピンアップするための CloudFormation テンプレート。
-* 1 つの Lambda 関数。
-* 関数の依存関係をインストールするための要件ファイル。
+* インフラストラクチャをスピンアップするための CloudFormation テンプレート
+* 1 つの Lambda 関数
+* 関数の依存関係をインストールするための要件ファイル
 
 :::code{language=shell showLineNumbers=false showCopyAction=false}
 cfn101-workshop/code/workspace/package-and-deploy
@@ -46,9 +46,9 @@ cfn101-workshop/code/workspace/package-and-deploy
 
 #### CloudFormation テンプレート内のローカルファイルを参照
 
-従来は、すべての Lambda ソースを圧縮して S3 にアップロードし、次にテンプレートでこれらの S3 ロケーションを参照する必要がありました。これはかなり面倒です。
+従来は、すべての Lambda ソースを圧縮して S3 にアップロードし、次にテンプレートでS3 ロケーションを参照する必要がありました。この作業はかなり面倒です。
 
-ただし、[aws cloudformation package](https://docs.aws.amazon.com/cli/latest/reference/cloudformation/package.html) を使えば、ローカルファイルを直接参照できます。これを利用する方が、従来の方法と比較し、便利です。
+ただし、[aws cloudformation package](https://docs.aws.amazon.com/cli/latest/reference/cloudformation/package.html) を使えば、ローカルファイルを直接参照できます。直接参照の方が、S3を参照する従来の方法と比較し利用が簡単です。
 
 `infrastructure.template` スニペットを見ると、`Code` プロパティのローカルディレクトリの [9] 行目への参照が分かります。
 
@@ -74,7 +74,7 @@ PythonFunction:
 
 ##### 1. S3 バケットの作成
 
-CloudformationテンプレートをデプロイするAWSリージョンを先に決めます。Lambda がパッケージ化されたアーティファクトにアクセスできるようにするには、S3 バケットが Lambda と同じリージョンにある必要があります。
+一番最初に、CloudFormation テンプレートをデプロイする AWS リージョンを決定します。Lambda がパッケージ化されたアーティファクトにアクセスできるようにするには、S3 バケットが Lambda と同じリージョンにある必要があります。
 
 ::alert[`s3://` の後のバケット名は必ず一意の名前に置き換えてください！]{type="info"}
 
@@ -85,9 +85,9 @@ aws s3 mb s3://example-bucket-name --region eu-west-1
 ##### 2. インストール機能の依存関係
 
 私たちの関数は外部ライブラリ [pytz](https://pypi.org/project/pytz/) に依存しているため、ローカルにインストールする必要があります。
-ディレクトリに [pip](https://pypi.org/project/pip/) が付いているので、関数コードと一緒にパッケージ化できます。
+関数のパッケージに含むために、[pip](https://pypi.org/project/pip/) でローカルフォルダーにインストールする必要があります。
 
-`code/workspace/package-and-deploy`ディレクトリ内から以下を実行します。
+`code/workspace/package-and-deploy` ディレクトリ内から以下を実行します。
 
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 pip install pytz --target lambda
@@ -112,13 +112,13 @@ aws cloudformation package \
 * `--template-file` - これは CloudFormation テンプレートが置かれているパス
 * `--s3-bucket` - アーティファクトがアップロードされる S3 バケットの名前
 * `--s3-prefix` - プレフィックス名は S3 バケットのパス名 (フォルダ名)
-* `—output-template-file` - コマンドが出力 AWS CloudFormation テンプレートを書き込むファイルのパス
+* `—output-template-file` - 出力される AWS CloudFormation テンプレートの書き込み先ファイルパス
 
 ##### 4. パッケージファイルを確認する
 
 新しく生成されたファイル `infrastructure-packaged.template` を見てみましょう。
 
-`Code` プロパティが [12-14]行目の`S3Bucket` と `S3Key` の 2 つの新しい属性で更新されていることが分かります。
+`Code` プロパティが [12-14] 行目の `S3Bucket` と `S3Key` の 2 つの新しい属性で更新されていることが分かります。
 
 ```yaml {hl_lines=[12,13,14]}
 PythonFunction:
@@ -179,17 +179,16 @@ d-----        10/29/2021   4:25 PM                pytz-2021.3.dist-info
 
 CloudFormation テンプレートのデプロイは、テンプレートの構文エラーが原因で失敗することがあります。
 
-[`aws cloudformation validate-template`](https://docs.aws.amazon.com/cli/latest/reference/cloudformation/validate-template.html)
-CloudFormation テンプレートをチェックして、有効な JSON または YAML であることを確認します。これは開発時間を短縮するのに役立ちます。
+[`aws cloudformation validate-template`](https://docs.aws.amazon.com/cli/latest/reference/cloudformation/validate-template.html) で CloudFormation テンプレートをチェックして、有効な JSON または YAML であることを確認します。これは開発時間を短縮するのに役立ちます。
 
-パッケージ化されたテンプレートを検証しましょう。`code/workspace/package-and-deploy`ディレクトリ内で以下を実行します。
+パッケージ化されたテンプレートを検証しましょう。`code/workspace/package-and-deploy` ディレクトリ内で以下を実行します。
 
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 aws cloudformation validate-template \
     --template-body file://infrastructure-packaged.template
 :::
 
-成功すると、CloudFormationはパラメータ、テンプレートの説明、機能のリストを含むレスポンスを送信します。
+成功すると、CloudFormation はパラメータ、テンプレートの説明、機能のリストを含むレスポンスを送信します。
 
 :::code{language=json showLineNumbers=false showCopyAction=true}
 {
@@ -218,25 +217,25 @@ aws cloudformation deploy \
     --capabilities CAPABILITY_IAM
 :::
 
-::alert[S3 のアーティファクトを参照するパッケージテンプレート `infrastructure-packaged.template` を使用したことに注意してください。ローカルパスを持つオリジナルのものではありません！]{type="info"}
+::alert[S3 のアーティファクトを参照するパッケージテンプレート `infrastructure-packaged.template` を利用した点に注意してください。ローカルパスを持つオリジナルのものではありません！]{type="info"}
 
-`—parameter-overrides` オプションを設定してテンプレート内のパラメータを指定することもできます。
-これは `'key=value'` のペアを含む文字列でも、[提供された json ファイル](https://docs.aws.amazon.com/cli/latest/userguide/cli-usage-parameters.html#cli-usage-parameters-json) 経由の文字列でもかまいません。
+`--parameter-overrides` オプションを設定してテンプレート内のパラメータを指定することもできます。
+`'key=value'` のペアを含む文字列や、[提供された json ファイル](https://docs.aws.amazon.com/ja_jp/cli/latest/userguide/cli-usage-parameters.html#cli-usage-parameters-json) などを用いて指定します。
 
 ##### Capabilities
 
 コンソールを使用する際に、このテンプレートをデプロイするとリソースが作成される可能性があることを認識する必要があります。
 アカウントの権限に影響する可能性があり、意図せずに誤って権限を変更しないようにするためです。
 
-CLIを使用する際には、このスタックによってIAMの権限に影響するリソースが作成される可能性があることも確認する必要があります。
-そのためには、前の例で示したように、`—capabilities` フラグを使います。capabilitiesについては、
-[`aws cloudformation deploy` ドキュメント](https://docs.aws.amazon.com/cli/latest/reference/cloudformation/deploy/index.html)をご参照ください。
+CLI を使用する際には、このスタックによって IAM の権限に影響するリソースが作成される可能性があることも確認する必要があります。
+そのためには、前の例で示したように、`--capabilities` フラグを使います。capabilities については、
+[`aws cloudformation deploy` のドキュメント](https://docs.aws.amazon.com/cli/latest/reference/cloudformation/deploy/index.html)をご参照ください。
 
 #### Lambda のテスト
 
 Lambda 関数をテストするには、[aws lambda invoke](https://docs.aws.amazon.com/cli/latest/reference/lambda/invoke.html) コマンドを使用します。
 
-Lambda 関数は、現在の UTC の日付と時刻を決定します。次に、UTC 時刻をペイロードオプションで指定されたタイムゾーンに変換します。
+Lambda 関数は、現在の UTC の日付と時刻を取得します。次に、UTC 時刻をペイロードオプションで指定されたタイムゾーンに変換します。
 
 ターミナルから以下を実行します。
 
@@ -273,7 +272,7 @@ aws lambda invoke `
 ::::
 :::::
 
-Lambda がトリガーされ、Lambdaからのレスポンスが `response.json` ファイルに保存されます。
+Lambda がトリガーされ、Lambda からのレスポンスが `response.json` ファイルに保存されます。
 
 以下のコマンドを実行すると、ファイルの結果を確認できます。
 
@@ -297,6 +296,6 @@ more response.json
 
 おめでとうございます。コマンドラインを使用して CloudFormation テンプレートを正常にパッケージ化およびデプロイしました。
 
-* `package` コマンドは、ネストされたスタックなどの機能を使用するテンプレートや他のローカルアセットを参照するテンプレートのデプロイを簡略化します。
+* `package` コマンドは、ネストされたスタック等を使用するテンプレートや、ローカルアセットを参照するテンプレートのデプロイを簡略化します。
 * `validate` コマンドは、エラーをより迅速に検出することでテンプレートの開発をスピードアップできます。
 * `deploy` コマンドを使うと、CloudFormation テンプレートをデプロイすることができます。
