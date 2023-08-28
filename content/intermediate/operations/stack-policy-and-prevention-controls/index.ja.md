@@ -146,7 +146,7 @@ Resources:
 1. [Amazon SNS コンソール](https://console.aws.amazon.com/sns/) に移動し、**トピック** を選択します。
 2. スタックで作成したトピック `Topic-2` がまだ存在していることから、スタックの削除中に削除されなかったことが分かります。
 
-おめでとうございます！ これで、リソースに `DeletionPolicy` リソース属性を定義して、スタックの削除時にその属性を保持する方法を学習しました。詳しい情報については、[`DeletionPolicy` 属性](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/aws-attribute-deletionpolicy.html) と [`DeletionPolicy` オプション](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/aws-attribute-deletionpolicy.html#aws-attribute-deletionpolicy-options)をご参照ください。
+おめでとうございます！ これで、リソースに `DeletionPolicy` リソース属性を定義して、スタックの削除時にそのリソースを保持する方法を学習しました。詳しい情報については、[`DeletionPolicy` 属性](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/aws-attribute-deletionpolicy.html) と [`DeletionPolicy` オプション](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/aws-attribute-deletionpolicy.html#aws-attribute-deletionpolicy-options)をご参照ください。
 
 ::alert[スタックの更新時に、`UpdateReplacePolicy` [属性](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/aws-attribute-updatereplacepolicy.html) を使用して、スタックの更新中にリソースが置き換えられた際、特定のリソースを保持するか、バックアップするかを選択できます。]
 

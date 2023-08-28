@@ -1,5 +1,5 @@
 ---
-title: "中級"
+title: "中級編"
 weight: 40
 ---
 
