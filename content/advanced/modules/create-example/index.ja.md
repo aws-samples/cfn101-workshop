@@ -250,6 +250,6 @@ Registration complete.
 ...
 ```
 
-これで [AWS CloudFormation コンソール](https://console.aws.amazon.com/cloudformation/) にアクセスすると、関連するレジストリページの `Activated extensions` セクションに新しいモジュールが表示されるはずです。
+これで [AWS CloudFormation コンソール](https://console.aws.amazon.com/cloudformation/) にアクセスすると、レジストリのページの `アクティブ化済みの拡張機能` セクションに新しいモジュールが表示されるはずです。
 
-![activated-extensions](/static/advanced/modules/ActivatedExtensions.png)
+![activated-extensions](/static/advanced/modules/ActivatedExtensions.ja.png)

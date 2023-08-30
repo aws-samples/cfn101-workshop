@@ -45,12 +45,12 @@ aws cloudformation deploy --template-file use-module.yaml --stack-name cfn-works
 AWS コンソールを開き、CloudFormation サービスに移動します。作成したスタックを見つけて、`Resources` タブを選択します。
 スタックには 23 個のリソースがあることが示されていることに注目します。
 
-![stack-resources](/static/advanced/modules/StackResources.png)
+![stack-resources](/static/advanced/modules/StackResources.ja.png)
 
 このリソースの数は、スタックの処理済みのテンプレートを見れば説明できます。CloudFormation が実際にデプロイするテンプレートは、モジュールの内容に基づいていることがわかります。
 CloudFormation テンプレートでモジュールが使用されると、モジュールリソースはモジュールテンプレートで定義されたリソースに置き換えられます。
 
-![stack-template](/static/advanced/modules/StackTemplate.png)
+![stack-template](/static/advanced/modules/StackTemplate.ja.png)
 
 ### チャレンジ
 
