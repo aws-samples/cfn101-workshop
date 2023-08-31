@@ -6,7 +6,7 @@ weight: 500
 ### 概要
 CloudFormation テンプレートの開発を繰り返す中で、CloudFormation [スタック](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/stacks.html) を作成することで、テンプレートに記述されているリソースのプロビジョニングを検証できます。テンプレート内のリソースの構成に誤ったプロパティ値を指定した場合、デフォルトではスタックは最後に確認された安定した状態にロールバックし、すべてのスタックのリソースはロールバックされます。
 
-10個のリソースを記述したテンプレートの例からスタックの作成を検証してみましょう。この例では、9つのリソースが正常に作成されますが、10番目のリソースの作成は失敗します。デフォルトでは、正常にプロビジョニングされた 9つのリソースを含め、スタックはロールバックされます。
+10 個のリソースを記述したテンプレートの例からスタックの作成を検証してみましょう。この例では、9 つのリソースが正常に作成されますが、10番目のリソースの作成は失敗します。デフォルトでは、正常にプロビジョニングされた 9 つのリソースを含め、スタックはロールバックされます。
 
 開発サイクルを早めるために、スタックの作成および更新操作、または[変更セット](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/using-cfn-updating-stacks-changesets.html)操作の際に正常にプロビジョニングされたリソースの状態を[保持](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/stack-failure-options.html)することが出来ます。この機能を使用すると、スタックのロールバックが一時停止され、正常にプロビジョニングされたリソースの状態を保持します。その状態で設定のトラブルシューティングと修正ができ、準備ができたらプロビジョニング操作を再開できます。
 
@@ -67,7 +67,7 @@ CloudFormation テンプレートの開発を繰り返す中で、CloudFormation
 ::alert[このラボでは、AWS CloudFormation コンソールを使用してこの機能を学習しました。[AWS コマンドラインインターフェイス](https://docs.aws.amazon.com/ja_jp/cli/latest/userguide/cli-chap-welcome.html) での使用方法については、ドキュメントの [正常にプロビジョニングされたリソースを保持する (AWS CLI)](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/stack-failure-options.html#stack-failure-options-cli) をご参照ください。]{type="info"}
 
 ### チャレンジ
-`sqs-queues.yaml` テンプレートに 2つの [AWS Systems Manager Parameter Store](https://docs.aws.amazon.com/ja_jp/systems-manager/latest/userguide/systems-manager-parameter-store.html) パラメータリソースを追加することとします。パラメータごとに、先に作成したキューの ARN を保存することとします。そのためには、`Fn::GetAtt` [組み込み関数](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference-getatt.html)を使用して、関連する SQS キューリソースの必要な[戻り値](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/aws-resource-sqs-queue.html#aws-resource-sqs-queue-return-values)を取得します。また、各パラメーターの値が ARN であることを検証するために、`AllowedPattern` で定義されている正規表現パターンを定義します。手順は以下の通りです。
+`sqs-queues.yaml` テンプレートに 2 つの [AWS Systems Manager Parameter Store](https://docs.aws.amazon.com/ja_jp/systems-manager/latest/userguide/systems-manager-parameter-store.html) パラメータリソースを追加することとします。パラメータごとに、先に作成したキューの ARN を保存することとします。そのためには、`Fn::GetAtt` [組み込み関数](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference-getatt.html)を使用して、関連する SQS キューリソースの必要な[戻り値](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/aws-resource-sqs-queue.html#aws-resource-sqs-queue-return-values)を取得します。また、各パラメーターの値が ARN であることを検証するために、`AllowedPattern` で定義されている正規表現パターンを定義します。手順は以下の通りです。
 
 * 最初に、次の設定例を `sqs-queues.yaml` テンプレートに追加してください。
 
@@ -92,7 +92,7 @@ CloudFormation テンプレートの開発を繰り返す中で、CloudFormation
 ```
 
 * 変更をファイルに保存します。次に、AWS CloudFormation コンソールを使用して[スタックを更新](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/using-cfn-updating-stacks-direct.html)します。その際、**テンプレートの準備** で **既存テンプレートを置き換える** を選択し、更新したテンプレートをアップロードします。**スタックオプションの設定** ページでは、**正常にプロビジョニングされたリソースの保持** オプションが引き続き選択されているはずです。
-* スタックの更新操作は失敗します。スタックの **リソース** タブを見ると、2つの新しいリソースのうちの 1つが正常に作成され、もう 1つは `CREATE_FAILED` ステータスになっているはずです。
+* スタックの更新操作は失敗します。スタックの **リソース** タブを見ると、2 つの新しいリソースのうちの 1 つが正常に作成され、もう 1 つは `CREATE_FAILED` ステータスになっているはずです。
 * テンプレートに貼り付けたスニペットのエラーをトラブルシューティングして修正します。
 * スタックの更新を再開するした後に、スタックが `UPDATE_COMPLETE` ステータスになり、以前は `CREATE_FAILED` ステータスだったリソースが `CREATE_COMPLETE` ステータスになることを確認します。
 

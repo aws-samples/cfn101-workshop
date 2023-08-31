@@ -21,7 +21,7 @@ Outputs:
       Name: Value to export
 :::
 
-::alert[1つのテンプレートで使用できる出力値の最大数については、[AWS CloudFormation のクォータ](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/cloudformation-limits.html)の出力の欄を参照してください。]{type="info"}
+::alert[1 つのテンプレートで使用できる出力値の最大数については、[AWS CloudFormation のクォータ](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/cloudformation-limits.html)の出力の欄を参照してください。]{type="info"}
 
 ### カバーするトピック
 このラボでは、次のことを実施します。

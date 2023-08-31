@@ -71,7 +71,7 @@ Outputs:
     Value: !GetAtt S3Bucket.DomainName
 ```
 
-テンプレートに貼り付けたテンプレートスニペットには Amazon S3 [バケット](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/aws-properties-s3-bucket.html) とバケット[ポリシー](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/aws-properties-s3-policy.html)の 2つのリソースがあります。次に解説します。
+テンプレートに貼り付けたテンプレートスニペットには Amazon S3 [バケット](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/aws-properties-s3-bucket.html) とバケット[ポリシー](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/aws-properties-s3-policy.html)の 2 つのリソースがあります。次に解説します。
 
 * バケットリソースの[論理 ID](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/resources-section-structure.html#resources-section-structure-resource-fields) （つまり `S3Bucket`） は、`S3BucketPolicy` リソースの `Bucket` プロパティで `Ref` 組み込み関数で参照されています。`Bucket` プロパティはポリシーを適用する Amazon S3 バケットの名前が必要です。バケットリソースの論理 ID を `Ref` 関数で指定した場合、バケットリソースはバケット名を返します。詳細は、Amazon S3 バケットの [戻り値](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/aws-properties-s3-bucket.html#aws-properties-s3-bucket-return-values) を参照してください。
 * `S3BucketPolicy` リソースの `PolicyDocument` プロパティの `Resource` セクションはバケットの  [Amazon リソースネーム](https://docs.aws.amazon.com/ja_jp/IAM/latest/UserGuide/reference-arns.html) (ARN) が必要です。そして、`AWS::S3::Bucket` リソースタイプは、`Fn::GetAtt` 組み込み関数をバケットの論理 ID と `Arn` 属性を使うことでバケットの ARN を返します。

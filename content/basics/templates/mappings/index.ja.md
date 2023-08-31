@@ -9,9 +9,9 @@ weight: 600
 
 ![マッピングセクションの構造図](/static/basics/templates/mappings/mapping.png)
 
-マッピングセクションの簡単な例を以下に紹介します。`AnExampleMapping` という1つのマップが含まれています。\
-`AnExampleMapping` には、`TopLevelKey01`、`TopLevelKey02` と `TopLevelKey03` という 3つのトップレベルキーが含まれています。\
-各トップレベルキーには、1つ以上の `Key: Value` ペアが含まれています。
+マッピングセクションの簡単な例を以下に紹介します。`AnExampleMapping` という 1 つのマップが含まれています。\
+`AnExampleMapping` には、`TopLevelKey01`、`TopLevelKey02` と `TopLevelKey03` という 3 つのトップレベルキーが含まれています。\
+各トップレベルキーには、1 つ以上の `Key: Value` ペアが含まれています。
 
 :::code{language=yaml showLineNumbers=false showCopyAction=false}
 Mappings:
@@ -45,7 +45,7 @@ Mappings:
 
 #### 1. _環境タイプ_ パラメータの追加から始めましょう
 
-このセクションでは、`Test` と `Prod` の 2つの環境を定義します。新しいパラメーター名には `EnvironmentType` を使用します。
+このセクションでは、`Test` と `Prod` の 2 つの環境を定義します。新しいパラメーター名には `EnvironmentType` を使用します。
 
 テンプレートの _Parameters_ セクションで、`InstanceType` パラメータを以下のコードに置き換えてください。`InstanceType` パラメータはもう必要ありません。代わりにマッピングを使用します。
 
@@ -65,7 +65,7 @@ Parameters:
 
 #### 2. 次に、マッピングセクションに _EnvironmentToInstanceType_ を作成します
 
-マップには、環境ごとに 1つずつ、併せて 2つのトップレベルキーを含みます。各トップレベルキーには、`InstanceType` というセカンドレベルキーが 1つ含まれています。
+マップには、環境ごとに 1 つずつ、併せて 2 つのトップレベルキーを含みます。各トップレベルキーには、`InstanceType` というセカンドレベルキーが 1 つ含まれています。
 
 ```yaml
 Mappings:

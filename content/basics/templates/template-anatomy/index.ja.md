@@ -37,11 +37,11 @@ Hooks: 'フックのセット' (任意) # ECS の Blue/Green デプロイに利�
 Outputs: '出力のセット' (任意) # スタックのプロパティで確認できる出力値
 :::
 
-最上位のセクションで唯一必要なのは　**Resources** セクションだけで、少なくとも 1つのリソースの宣言が必要です。これらのセクションの定義については、オンラインの [テンプレートの分析](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/template-anatomy.html) のガイドで確認することができます。
+最上位のセクションで唯一必要なのは　**Resources** セクションだけで、少なくとも 1 つのリソースの宣言が必要です。これらのセクションの定義については、オンラインの [テンプレートの分析](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/template-anatomy.html) のガイドで確認することができます。
 
 ### スタック
 
-スタックは CloudFormation テンプレートをデプロイしたものになります。1つの CloudFormation テンプレートから複数のスタックを作成できます。スタックは一連の AWS リソースの集合を含み、単一のユニットとして管理できます。スタック内のすべてのリソースは、スタックの AWS CloudFormation テンプレートで定義されています。
+スタックは CloudFormation テンプレートをデプロイしたものになります。1 つの CloudFormation テンプレートから複数のスタックを作成できます。スタックは一連の AWS リソースの集合を含み、単一のユニットとして管理できます。スタック内のすべてのリソースは、スタックの AWS CloudFormation テンプレートで定義されています。
 
 AWS CloudFormation は全体としてスタックの作成、更新、削除を行います。
   * 全体としてスタックが作成、または更新できない場合、AWS CloudFormation はロールバックを行い、その操作で作成されたリソースをすべて自動的に削除します。
