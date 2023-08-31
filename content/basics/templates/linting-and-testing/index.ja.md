@@ -6,7 +6,7 @@ weight: 900
 ### 概要
 ソフトウェア開発ライフサイクル (Software Development Life Cycle, SDLC) の早い段階において CloudFormation テンプレートの静的解析 (lint) とテストをしておくことはベストプラクティスです。まず、自身のワークステーションで lint とテストのアクションを実行します。次に、テンプレートの lint とテストをパイプラインの継続的インテグレーション (Continuous Integration, CI) のフェーズに組み込みます。CI フェーズをコードプロモーションの最初の導入口として使うのです。
 
-このラボでは、自身のワークステーションから lint とテストのワークフローを実行する例にフォーカスします。[AWS CloudFormation Resource Specification](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/cfn-resource-specification.html) に対してテンプレートの検証を行う [cfn-lint](https://github.com/aws-cloudformation/cfn-lint) のツールや、指定したリージョンにスタックを作成することでテストを行うことができる [taskcat](https://github.com/aws-ia/taskcat) に慣れるようになります。
+このラボでは、自身のワークステーションから lint とテストのワークフローを実行する例にフォーカスします。[AWS CloudFormation Resource Specification](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/cfn-resource-specification.html) に対してテンプレートの検証を行う [cfn-lint](https://github.com/aws-cloudformation/cfn-lint) のツールや、指定したリージョンにスタックを作成することでテストを行うことができる [taskcat](https://github.com/aws-ia/taskcat) に慣れることができます。
 
 ### カバーするトピック
 このラボの修了でに次のことができるようになります。
@@ -52,7 +52,7 @@ taskcat --version
 このセクションでは、設定の検証を行うために、サンプルの CloudFormation テンプレートに対して `cfn-lint` を実行します。ゴールは、開発ライフサイクルの初期において、[AWS CloudFormation Resource Specification](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/cfn-resource-specification.html) に対してテンプレートの内容の検証を行い、指定した値の妥当性をチェックし、多くのベストプラクティスのチェックに対してテンプレートを検証する機会になります。
 
 1. `code/workspace/linting-and-testing` ディレクトリに移動します。
-2. `vpc-and-security-group.yaml` CloudFormation テンプレートをお好きなエディタで開きます。サンプルテンプレートは例となる VPC と VPC を参照する VPC のセキュリティグループが記述されています。このラボのスコープをシンプルにし、lint のユースケースにフォーカスするため、サンプルのテンプレートは他の VPC 関連のリソース（サブネット、インターネットゲートウェイ、ルートテーブル、ルートリソースなど）の記述をしていません。
+2. `vpc-and-security-group.yaml` CloudFormation テンプレートをお好きなエディタで開きます。サンプルテンプレートには、VPC の例と、その VPC を参照する VPC セキュリティグループの例が記載されています。このラボのスコープをシンプルにし、lint のユースケースにフォーカスするため、サンプルのテンプレートは他の VPC 関連のリソース (サブネット、インターネットゲートウェイ、ルートテーブル、ルートリソースなど) の記述をしていません。
 3. テンプレートに対し、`cfn-lint` を実行します。
 
 :::code{language=shell showLineNumbers=false showCopyAction=true}
@@ -137,7 +137,7 @@ cfn-lint vpc-and-security-group.yaml
 
 次に、`~/.taskcat.yml` 設定ファイルを __プロジェクトのバージョン管理パスの外にあるホームディレクトリ__ に作成します。このファイルには、すべてのプロジェクトについて構成設定を保存するので、バージョンコントロールに追加しません。なぜなら、使用する可能性がある機密値も含まれるからです。__機密値をバージョン管理に保存しないでください__。
 
-::alert[CloudFormation テンプレートから機密値を参照する方法については、[SSM セキュア文字列パラメータ](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/dynamic-references.html#dynamic-references-ssm-secure-strings)と[シークレットマネージャーシークレット](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/dynamic-references.html#dynamic-references-secretsmanager)を参照してください。]{type="info"}
+::alert[CloudFormation テンプレートから機密値を参照する方法については、[SSM Secure String パラメータ](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/dynamic-references.html#dynamic-references-ssm-secure-strings)と [Secrets Manager のシークレット](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/dynamic-references.html#dynamic-references-secretsmanager)を参照してください。]{type="info"}
 
 ::alert[下位のスコープ（たとえば、`tests`）で記述した構成設定の値は、上位のスコープ（`project` や `general` など）よりも [優先](https://aws-ia.github.io/taskcat/docs/usage/GENERAL_USAGE/#precedence) になります。__逆に動作する `parameters` 設定は例外です__。つまり、`general` スコープで設定 `parameters` 設定の値が下位のスコープよりも優先されます。この後に `general` スコープの `parameters` の記述を説明します。]{type="info"}
 
@@ -171,17 +171,17 @@ taskcat test run
 
 `code/solutions/linting-and-testing` パスには、`vpc-and-security-group.yaml`、`.taskcat.yml`、`.gitignore` というワークスペースファイル (必要に応じて更新してください) があります。
 
-> おめでとうございます！`taskcat` を使用して CloudFormation テンプレートのテストを 1つ (または複数) のリージョンで実行しました！
+> おめでとうございます！`taskcat` を使用して CloudFormation テンプレートのテストを 1 つ (または複数) のリージョンで実行しました！
 
 #### テンプレートテスト:ラボリソースのクリーンアップ
 
-[AWS CLI](https://docs.aws.amazon.com/cli/latest/reference/) を使用して、このラボで作成したテスト用のリソースを削除します。まず、次の例のように、`taskcat` がS3バケットにアップロードした *テンプレートファイルオブジェクトを削除します* (注意：`YOUR_ACCOUNT_ID`を自分の値に置き換えてください)。
+[AWS CLI](https://docs.aws.amazon.com/cli/latest/reference/) を使用して、このラボで作成したテスト用のリソースを削除します。まず、次の例のように、`taskcat` が S3 バケットにアップロードした *テンプレートファイルオブジェクトを削除します* (注意 : `YOUR_ACCOUNT_ID` を自分の値に置き換えてください)。
 
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 aws s3api delete-object --bucket tcat-linting-and-testing-workshop-YOUR_ACCOUNT_ID --key linting-and-testing-workshop/vpc-and-security-group.yaml
 :::
 
-`vpc-and-security-group.yaml` と同じディレクトリに、このラボの _Challenge_ セクションで利用する別のテンプレート (`sqs-queue.yaml`) があります。先ほど行ったテスト実行の際に、`taskcat` がこのファイルもバケットにアップロードしてくれました。次の例に示すように、バケットから削除してください (`YOUR_ACCOUNT_ID`を自分の値に置き換えてください)。
+`vpc-and-security-group.yaml` と同じディレクトリに、このラボの _Challenge_ セクションで利用する別のテンプレート (`sqs-queue.yaml`) があります。先ほど行ったテスト実行の際に、`taskcat` がこのファイルもバケットにアップロードしてくれました。次の例に示すように、バケットから削除してください (`YOUR_ACCOUNT_ID` を自分の値に置き換えてください)。
 
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 aws s3api delete-object --bucket tcat-linting-and-testing-workshop-YOUR_ACCOUNT_ID --key linting-and-testing-workshop/sqs-queue.yaml
@@ -202,7 +202,7 @@ rm ~/.taskcat.yml
 
 `AWS::SQS::Queue` [リソースタイプ](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/aws-resource-sqs-queue.html#aws-resource-sqs-queue-properties) を記述したサンプルテンプレートのエラーを発見し修正してください。
 
-* 次のパスのテンプレートファイルを特定してください：`code/workspace/linting-and-testing/sqs-queue.yaml`
+* 次のパスのテンプレートファイルを特定してください : `code/workspace/linting-and-testing/sqs-queue.yaml`
 * `cfn-lint` を使ってテンプレートのエラーを発見してください。
 * 問題を修正し、見つけた問題を修正したことを `cfn-lint` で確認してください。
 
@@ -213,7 +213,7 @@ rm ~/.taskcat.yml
 * SQS キューの[戻り値](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/aws-resource-sqs-queue.html#aws-resource-sqs-queue-return-values) で利用可能な _属性_ 名を確認してください。
 :::
 
-:::expand{header="答えを見ますか？"}
+:::expand{header="解決策を確認しますか？"}
 * `DelaySeconds` に `0` (デフォルト) か `900` を指定してください。
 * テンプレートの SQS リソースプロパティの `Tag` を `Tags` で置き換えてください。
 * キュー名を返すために、`Fn::GetAtt` で指定した属性を `Name` から `QueueName` に置き換えてください。

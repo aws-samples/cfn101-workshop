@@ -49,7 +49,7 @@ weight: 200
 
 ::expand[ [AWS::S3::Bucket](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/aws-properties-s3-bucket.html) リソースの AWS ドキュメントをご確認ください。]{header="ヒントが必要ですか？"}
 
-:::expand{header="答えを見ますか？"}
+:::expand{header="解決策を確認しますか？"}
 1. 次のコードで、テンプレートのコードを置き換えてください。
    ```yaml
    Resources:

@@ -122,7 +122,7 @@ SSM Session Manager を使用してインスタンスにログインし、`curl`
 
 ::expand[ [インスタンスメタデータとユーザーデータ](https://docs.aws.amazon.com/ja_jp/AWSEC2/latest/UserGuide/ec2-instance-metadata.html) に関する AWS ドキュメントを確認してください。]{header="ヒントが必要ですか？"}
 
-:::expand{header="答えを見ますか？"}
+:::expand{header="解決策を確認しますか？"}
 次のコマンドをインスタンスターミナル内に貼り付けます。
 
 ::code[curl http://169.254.169.254/latest/meta-data/ami-id]{language=shell showLineNumbers=false showCopyAction=true}

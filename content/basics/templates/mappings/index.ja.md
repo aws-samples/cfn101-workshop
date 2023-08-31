@@ -133,7 +133,7 @@ Tags:
     * 名前と値のペア `InstanceType: t2.nano` を追加
 :::
 
-:::expand{header="答えを見ますか？"}
+:::expand{header="解決策を確認しますか？"}
 ```yaml
 Parameters:
   EnvironmentType:

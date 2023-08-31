@@ -129,7 +129,7 @@ EC2 リソースタイプの唯一の必須プロパティは _ImageId_ です�
 
 ::expand[[Amazon Web Services ブログ](https://aws.amazon.com/jp/blogs/news/query-for-the-latest-amazon-linux-ami-ids-using-aws-systems-manager-parameter-store/) を確認してみてください。]{header="ヒントが必要ですか？"}
 
-::::expand{header="答えを見ますか？"}
+::::expand{header="解決策を確認しますか？"}
 ターミナルに以下のコードをコピーします。CloudFormation をデプロイするリージョンにあわせて `--region` フラグを変更するようにしてください。
 
 :::code{language=shell showLineNumbers=false showCopyAction=true}

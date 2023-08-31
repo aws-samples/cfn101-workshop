@@ -62,7 +62,7 @@ Outputs:
 
 ::expand[[AWS::EC2::EIP リソース](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/aws-resource-ec2-eip.html) の AWS ドキュメントを確認してください。]{header="ヒントが必要ですか？"}
 
-:::expand{header="答えを見ますか？"}
+:::expand{header="解決策を確認しますか？"}
 ```yaml
 Resources:
   WebServerInstance:

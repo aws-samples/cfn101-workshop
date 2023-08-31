@@ -75,7 +75,7 @@ AWS リソースの管理を容易にするため、任意にメタデータを 
 それでは、スタックを更新しましょう。AWS コンソールを開き、CloudFormation スタックを更新してください。
 
 1. **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** のリンクを新しいタブで開き、必要に応じて AWS アカウントにログインします。
-1. スタック名（例：**cfn-workshop-ec2**）をクリックします。
+1. スタック名 (例：**cfn-workshop-ec2**) をクリックします。
 1. 画面右上の **更新** ボタンをクリックします。
 1. **テンプレートの準備** で、**既存テンプレートを置き換える** を選択します。
 1. **テンプレートの指定** で、 **テンプレートファイルのアップロード** を選びます。
@@ -102,7 +102,7 @@ AWS リソースの管理を容易にするため、任意にメタデータを 
 
 ::expand[**[Fn::Sub](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference-sub.html)** 関数の AWS ドキュメントをご確認ください]{header="ヒントが必要ですか？"}
 
-:::expand{header="答えを見ますか？"}
+:::expand{header="解決策を確認しますか？"}
 1. テンプレートに `InstanceType` タグを追加します。
 
     ```yaml

@@ -112,7 +112,7 @@ Outputs:
 * Amazon EC2 インスタンスの[戻り値](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-instance.html#aws-properties-ec2-instance-return-values) とセキュリティグループの[戻り値](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-security-group.html#aws-properties-ec2-security-group-return-values)を確認し、`Ref` や `Fn::GetAtt` の[組み込み関数](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference.html)でどんな値が返るかを見てください。
 :::
 
-:::expand{header="答えを見ますか？"}
+:::expand{header="解決策を確認しますか？"}
 * `Ref` 組み込み関数を使って、インスタンスリソースの `SecurityGroups` プロパティにセキュリティグループの論理 ID をリストアイテムとして指定してください。
 * Amazon EC2 インスタンスリソースを次の定義のように修正してください。
 

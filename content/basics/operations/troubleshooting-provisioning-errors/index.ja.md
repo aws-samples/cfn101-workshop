@@ -101,7 +101,7 @@ CloudFormation テンプレートの開発を繰り返す中で、CloudFormation
 * この SQS リソースの[ドキュメント ページ](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/aws-resource-sqs-queue.html#aws-resource-sqs-queue-return-values)を開き、SQS キューの ARN を取得するために、`Fn::GetAtt` でどの戻り値を利用すべきかを判断してください。この情報に基づいて、先ほど貼り付けたスニペット内の関連する構成が想定どおりであるかどうかを確認します。
 :::
 
-:::expand{header="答えを見ますか？"}
+:::expand{header="解決策を確認しますか？"}
 * テンプレートの中で、`SourceQueueParameter` リソースの `Value: !GetAtt 'SourceQueue.QueueName'` を `Value: !GetAtt 'SourceQueue.Arn'` に変更してください。
 * 更新されたテンプレートを使用して、[スタックを更新](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/using-cfn-updating-stacks-direct.html)を行ってください。
 * 完全なソリューションを含むテンプレートは、`code/solutions/troubleshooting-provisioning-errors` ディレクトリにあります。
