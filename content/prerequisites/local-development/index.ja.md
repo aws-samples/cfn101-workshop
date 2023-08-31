@@ -36,7 +36,7 @@ Default output format [None]: <空白で大丈夫>
 
 ### `git` を使ってラボのリソースをクローン
 
-リポジトリを作業ディレクトリにクローニングします。
+リポジトリを作業ディレクトリにクローンします。
 
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 git clone https://github.com/aws-samples/cfn101-workshop
@@ -46,14 +46,14 @@ git clone https://github.com/aws-samples/cfn101-workshop
 
 [YAML](https://yaml.org/) の編集をサポートしている任意のコードエディターまたは IDE を使用できますが、このワークショップでは macOS、Linux、および Windows で動作する [Visual Studio Code](https://code.visualstudio.com/) の使用を前提としています。
 
-VS Code をインストールするには、オペレーティングシステムのパッケージマネージャーを使用するか (例 : macOS では `brew cask install visual-studio-code`)、または [VS code の Web サイト](https://code.visualstudio.com/) の説明に従ってインストールしてください。
+VS Code をインストールするには、オペレーティングシステムのパッケージマネージャーを使用するか (例 : macOS では `brew cask install visual-studio-code`)、[VS code の Web サイト](https://code.visualstudio.com/) の説明に従ってインストールしてください。
 
 ### CloudFormation リンター
 
 [AWS CloudFormation Linter](https://github.com/aws-cloudformation/cfn-lint) のインストールをお勧めします。
 [linter](https://en.wikipedia.org/wiki/Lint_(software)) は、CloudFormation テンプレートをデプロイする前に、テンプレートの基本的なエラーを事前に検出してくれます。
 
-Visual Studio Code を使用している場合は、[cfn-lint] (https://marketplace.visualstudio.com/items?itemName=kddejong.vscode-cfn-lint) プラグインをインストールする必要があります。
+Visual Studio Code を使用している場合は、[cfn-lint](https://marketplace.visualstudio.com/items?itemName=kddejong.vscode-cfn-lint) プラグインをインストールする必要があります。
 
 :::alert{type="info"}
 Visual Studio Code の `cfn-lint` プラグインをインストールしても、`cfn-lint` が自動的にインストールされないことにご注意ください。[インストール手順](https://github.com/aws-cloudformation/cfn-lint#install) に従って個別にインストールしてください。
