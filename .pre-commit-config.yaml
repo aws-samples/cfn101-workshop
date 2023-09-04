@@ -29,15 +29,11 @@ repos:
     files: .
 
 # CloudFormation
-- repo: https://github.com/aws-cloudformation/cfn-python-lint
+- repo: https://github.com/aws-cloudformation/cfn-lint
   rev: v0.79.7
   hooks:
-  - id: cfn-python-lint
-    name: AWS CloudFormation Linter
+  - id: cfn-lint-rc
     files: code/solutions/.*\.(ya?ml|template)$
-    args:
-      - --ignore-templates=code/solutions/policy-as-code-with-guard/example_bucket_tests.yaml
-      - --ignore-templates=code/solutions/linting-and-testing/.taskcat.yml
 
 - repo: https://github.com/aws-cloudformation/rain
   rev: v1.4.4
@@ -59,7 +55,7 @@ repos:
 
     # Python
 - repo: https://github.com/pycqa/pylint
-  rev: v3.0.0a6
+  rev: v3.0.0a7
   hooks:
     - id: pylint
       args:
