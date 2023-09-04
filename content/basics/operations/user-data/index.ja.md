@@ -8,11 +8,11 @@ weight: 300
 AWS CloudFormation を使用して、Amazon EC2 インスタンスにアプリケーションを自動的にインストール、設定、および起動できます。そうすることで、直接インスタンスに接続しなくても、デプロイメントの複製や既存のインストールの更新を簡単に行うことができます。時間と労力を大幅に節約できます。
 
 ### カバーするトピック
-このラボでは、**[UserData](https://docs.aws.amazon.com/ja_jp/AWSEC2/latest/UserGuide/user-data.html)** プロパティを使用して、簡単な PHP アプリケーションを含む Apache ウェブサーバーをデプロイします。
+このラボでは、**[UserData](https://docs.aws.amazon.com/ja_jp/AWSEC2/latest/UserGuide/user-data.html)** プロパティを使用して、簡単な PHP アプリケーションを含む Apache Web サーバーをデプロイします。
 
-+ まず、EC2 インスタンスをブートストラップして、ウェブサーバーとコンテンツをインストールします。
++ まず、EC2 インスタンスをブートストラップして、Web サーバーとコンテンツをインストールします。
 + 次に、EC2 **セキュリティグループ** を作成し、ポート 80 でインスタンスへのアクセスを許可します。
-+ 最後に、ウェブサーバーによって提供されるコンテンツを表示します。
++ 最後に、Web サーバーによって提供されるコンテンツを表示します。
 
 次の図は、実装するアーキテクチャの大まかな概要を示しています。
 
@@ -36,7 +36,7 @@ WebServerSecurityGroup:
     GroupDescription: 'Enable HTTP access via port 80'
 ```
 
-Apache ウェブサーバーはポート 80 でコンテンツを提供するので、セキュリティグループの `SecurityGroupIngress` 属性にインターネットからのアクセスを許可するイングレスルールを作成する必要があります。
+Apache Web サーバーはポート 80 でコンテンツを提供するので、セキュリティグループの `SecurityGroupIngress` 属性にインターネットからのアクセスを許可するイングレスルールを作成する必要があります。
 
 ```yaml
 WebServerSecurityGroup:
@@ -67,11 +67,11 @@ WebServerInstance:
 ```
 
 :::alert{type="info"}
-_セキュリティグループ_ プロパティを変更したため、CloudFormation スタックに存在している EC2 インスタンスが _置換_ されます。[こちら](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-instance.html?shortFooter=true#aws-properties-ec2-instance-properties)に EC2 インスタンスの更新時に[置換](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/using-cfn-updating-stacks-update-behaviors.html#update-replacement)が必要になるプロパティを確認できます。
+_セキュリティグループ_ プロパティを変更したため、CloudFormation スタックに存在している EC2 インスタンスが _置換_ されます。[こちら](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-instance.html?shortFooter=true#aws-properties-ec2-instance-properties)で EC2 インスタンスの更新時に[置換](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/using-cfn-updating-stacks-update-behaviors.html#update-replacement)が必要になるプロパティを確認できます。
 :::
 
 
-#### 2. インスタンスに Apache ウェブサーバーをインストール
+#### 2. インスタンスに Apache Web サーバーをインストール
 
 それでは、Apache と PHP アプリケーションをインストールするための bash スクリプトを書いてみましょう。
 
@@ -127,10 +127,10 @@ WebsiteURL:
 
 #### 4. スタックの更新
 
-前のラボと同様に、更新されたテンプレートでスタックを更新します。CloudFormation がスタックの更新を完了すると、スクリプトが EC2 インスタンスにウェブサーバーをセットアップしたことを確認できます。
+前のラボと同様に、更新されたテンプレートでスタックを更新します。CloudFormation がスタックの更新を完了すると、スクリプトが EC2 インスタンスに Web サーバーをセットアップしたことを確認できます。
 
 1. **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** のリンクを新しいタブで開き、必要に応じて AWS アカウントにログインします。
-1. スタック名（例：**cfn-workshop-ec2**）をクリックします。
+1. スタック名 (例: **cfn-workshop-ec2**) をクリックします。
 1. 画面右上の **更新** ボタンをクリックします。
 1. **テンプレートの準備** で、**既存テンプレートを置き換える** を選択します。
 1. **テンプレートの指定** で、 **テンプレートファイルのアップロード** を選びます。
@@ -139,10 +139,10 @@ WebsiteURL:
 1. **Amazon Machine Image ID** はそのままにしてください。
 1. **EnvironmentType** は選択されている環境のままにします。
 1. **スタックオプションの設定** はデフォルトの設定のままとし、**次へ** をクリックします。
-1. **レビュー <スタック名>** ページで、一番下までスクロールし、**AWS CloudFormation が IAM リソースを作成する可能性があることを認識します** チェックボックスをチェックし、**スタックの更新** をクリックします。
+1. **レビュー <スタック名>** ページで、一番下までスクロールし、**AWS CloudFormation によって IAM リソースが作成される場合があることを承認します。** チェックボックスをチェックし、**スタックの更新** をクリックします。
 1. ステータスが **UPDATE_COMPLETE** になるまで、**リフレッシュ** ボタンを数回クリックします。
 
-ウェブブラウザで `WebsiteURL` を入力します (WebsiteURL は CloudFormation コンソールの _Outputs_ タブから取得できます)。
+Web ブラウザで `WebsiteURL` を入力します (WebsiteURL は CloudFormation コンソールの _Outputs_ タブから取得できます)。
 
 ![outputs](/static/basics/operations/user-data/outputs-1.ja.png)
 

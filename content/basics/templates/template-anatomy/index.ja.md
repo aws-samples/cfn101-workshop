@@ -8,7 +8,7 @@ weight: 100
 **AWS CloudFormation テンプレート** は **スタック** を構成する AWS リソースの宣言です。テンプレートは JavaScript Object Notation (JSON) または YAML 形式のテキストファイルとして保存します。一般的なテキストファイルであるため、任意のテキストエディタでの作成や編集、他のソースコードと一緒にバージョン管理システムでの管理などが可能です。
 
 :::alert{type="info"}
-このワークショップでは、サンプルコードとして YAML 形式を使用します。JSON を使う場合には、[形式の差異](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/template-formats.html) があることにご注意ください。
+このワークショップでは、サンプルコードとして YAML 形式を使用します。JSON を使う場合には、[形式による差異](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/template-formats.html) があることにご注意ください。
 :::
 
 次の例では、AWS CloudFormation の YAML のテンプレートの構造と最上位のセクションを紹介します。
@@ -37,7 +37,7 @@ Hooks: 'フックのセット' (任意) # ECS の Blue/Green デプロイに利�
 Outputs: '出力のセット' (任意) # スタックのプロパティで確認できる出力値
 :::
 
-最上位のセクションで唯一必要なのは　**Resources** セクションだけで、少なくとも 1 つのリソースの宣言が必要です。これらのセクションの定義については、オンラインの [テンプレートの分析](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/template-anatomy.html) のガイドで確認することができます。
+最上位のセクションで唯一必要なのは　**Resources** セクションだけで、少なくとも 1 つのリソースの宣言が必要です。これらのセクションの定義については、[テンプレートの分析](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/template-anatomy.html) のガイドで確認することができます。
 
 ### スタック
 

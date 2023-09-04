@@ -21,11 +21,11 @@ weight: 650
 
 ### ラボを開始
 
-このラボでは、以下で説明するAWS クラウドで実行される簡単なウェブアプリケーションのためのインフラストラクチャを作成します。
+このラボでは、以下で説明するAWS クラウドで実行される簡単な Web アプリケーションのためのインフラストラクチャを作成します。
 
 * 特定のリージョン (例: us-east-1) の 2 つの [アベイラビリティーゾーン](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-regions-availability-zones.html) に 2 つのパブリックサブネットと 2 つのプライベートサブネットが存在する[Amazon Virtual Private Cloud](https://aws.amazon.com/vpc/) (Amazon VPC)を作成します。
 
-* 最低 2 つの [Amazon Elastic Compute Cloud](https://aws.amazon.com/ec2/) (Amazon EC2) インスタンス、最大 4 つの [Auto Scaling グループ](https://docs.aws.amazon.com/autoscaling/ec2/userguide/auto-scaling-groups.html) を作成します。インスタンスを 2 つのプライベートサブネットで起動し、簡単なウェブアプリケーションを実行します。
+* 最低 2 つの [Amazon Elastic Compute Cloud](https://aws.amazon.com/ec2/) (Amazon EC2) インスタンス、最大 4 つの [Auto Scaling グループ](https://docs.aws.amazon.com/autoscaling/ec2/userguide/auto-scaling-groups.html) を作成します。インスタンスを 2 つのプライベートサブネットで起動し、簡単な Web アプリケーションを実行します。
 * インターネット向けエンドポイントを持つ [Application Load Balancer](https://aws.amazon.com/elasticloadbalancing/application-load-balancer/) を作成します。このロードバランサーは EC2 インスタンスの前に配置されます。
 * [Amazon Route 53](https://aws.amazon.com/route53/) [ホストゾーン](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/hosted-zones-working-with.html) が1つあり、そこにロードバランサーを指す [エイリアス](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/resource-record-sets-choosing-alias-non-alias.html) レコードを保存します。このサンプルラボの実行中にドメイン名を登録する必要はありません。[プライベートホストゾーン](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/hosted-zones-private.html) を作成して、ホストゾーンが関連付けられた VPC で起動したEC2 インスタンスなどのコンピュートリソースからサンプルアプリケーションに HTTP リクエストを送信できるようにします。そのためには、[AWS Cloud9](https://aws.amazon.com/cloud9/) 環境 (このラボの一部を実行するために使用) を作成し、デプロイするアプリケーションに HTTP リクエストを送信します。
 

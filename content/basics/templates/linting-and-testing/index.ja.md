@@ -139,7 +139,7 @@ cfn-lint vpc-and-security-group.yaml
 
 ::alert[CloudFormation テンプレートから機密値を参照する方法については、[SSM Secure String パラメータ](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/dynamic-references.html#dynamic-references-ssm-secure-strings)と [Secrets Manager のシークレット](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/dynamic-references.html#dynamic-references-secretsmanager)を参照してください。]{type="info"}
 
-::alert[下位のスコープ（たとえば、`tests`）で記述した構成設定の値は、上位のスコープ（`project` や `general` など）よりも [優先](https://aws-ia.github.io/taskcat/docs/usage/GENERAL_USAGE/#precedence) になります。__逆に動作する `parameters` 設定は例外です__。つまり、`general` スコープで設定 `parameters` 設定の値が下位のスコープよりも優先されます。この後に `general` スコープの `parameters` の記述を説明します。]{type="info"}
+::alert[下位のスコープ (たとえば、`tests`) で記述した構成設定の値は、上位のスコープ (`project` や `general` など) よりも [優先](https://aws-ia.github.io/taskcat/docs/usage/GENERAL_USAGE/#precedence) になります。__逆に動作する `parameters` 設定は例外です__。つまり、`general` スコープで設定 `parameters` 設定の値が下位のスコープよりも優先されます。この後に `general` スコープの `parameters` の記述を説明します。]{type="info"}
 
 ホームディレクトリに新しく `~/.taskcat.yml` ファイルを作成します。このファイルには、`taskcat` がテストするテンプレートをアップロードするS3バケットの名前と、`VpcIpV4Cidr` サンプルテンプレートパラメータの `172.16.0.0/16` の値の例を指定します。
 ::: code {language=shell showLineNumbers=False showCopyAction=True}
@@ -175,7 +175,7 @@ taskcat test run
 
 #### テンプレートテスト:ラボリソースのクリーンアップ
 
-[AWS CLI](https://docs.aws.amazon.com/cli/latest/reference/) を使用して、このラボで作成したテスト用のリソースを削除します。まず、次の例のように、`taskcat` が S3 バケットにアップロードした *テンプレートファイルオブジェクトを削除します* (注意 : `YOUR_ACCOUNT_ID` を自分の値に置き換えてください)。
+[AWS CLI](https://docs.aws.amazon.com/cli/latest/reference/) を使用して、このラボで作成したテスト用のリソースを削除します。まず、次の例のように、`taskcat` が S3 バケットにアップロードした *テンプレートファイルオブジェクトを削除します* (注意: `YOUR_ACCOUNT_ID` を自分の値に置き換えてください)。
 
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 aws s3api delete-object --bucket tcat-linting-and-testing-workshop-YOUR_ACCOUNT_ID --key linting-and-testing-workshop/vpc-and-security-group.yaml
@@ -202,7 +202,7 @@ rm ~/.taskcat.yml
 
 `AWS::SQS::Queue` [リソースタイプ](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/aws-resource-sqs-queue.html#aws-resource-sqs-queue-properties) を記述したサンプルテンプレートのエラーを発見し修正してください。
 
-* 次のパスのテンプレートファイルを特定してください : `code/workspace/linting-and-testing/sqs-queue.yaml`
+* 次のパスのテンプレートファイルを特定してください: `code/workspace/linting-and-testing/sqs-queue.yaml`
 * `cfn-lint` を使ってテンプレートのエラーを発見してください。
 * 問題を修正し、見つけた問題を修正したことを `cfn-lint` で確認してください。
 

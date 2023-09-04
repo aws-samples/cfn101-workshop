@@ -5,7 +5,7 @@ weight: 400
 
 ### 概要
 
-このラボでは、CloudFormation [ヘルパースクリプト](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/cfn-helper-scripts-reference.html) について調べます。前のラボで学んだことは素晴らしい出発点です。しかし、`UserData` から気づくかもしれませんが手続き型スクリプトは理想的ではありません。シンプルな PHP アプリケーションをデプロイしたが、ユーザーデータにより複雑なアプリを書こうとすることを想像してみてください。それは非常に難しいでしょう。
+このラボでは、CloudFormation [ヘルパースクリプト](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/cfn-helper-scripts-reference.html) について学習します。前のラボで学んだことは素晴らしい出発点です。しかし、`UserData` から気づくかもしれませんが手続き型スクリプトは理想的ではありません。シンプルな PHP アプリケーションをデプロイしたが、ユーザーデータにより複雑なアプリを書こうとすることを想像してみてください。それは非常に難しいでしょう。
 
 この問題を解決するために、CloudFormation はヘルパースクリプトを提供しています。これらのヘルパースクリプトは、CloudFormation を強化し、ユースケースに合わせて微調整できるようなテンプレートを可能とします。たとえば、インスタンスを作り直さずにアプリケーションを更新することが可能になります。
 
@@ -40,7 +40,7 @@ Amazon EC2 インスタンスのためにメタデータを指定するには、
 
 #### 2. cfn-init の設定
 
-`cfn-init` の設定はいくつかのセクションに分かれています。設定セクションは次の順番に処理されます : packages、groups、users、sources、files、commands、そして services.
+`cfn-init` の設定はいくつかのセクションに分かれています。設定セクションは packages、groups、users、sources、files、commands、services の順番に処理されます。
 
 :::alert{type="info"}
 別の順序が必要な場合は、セクションを異なる設定キーに分けてから、[configset](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/aws-resource-init.html?shortFooter=true#aws-resource-init-configsets) で設定キーの順序を指定します。
@@ -107,7 +107,7 @@ WebServerInstance:
             group: apache
 ```
 
-##### 3. Apache ウェブサーバーを有効にして起動する
+##### 3. Apache Web サーバーを有効にして起動する
 
 `services` キーを使用して、インスタンスの起動時にどのサービスを有効または無効にするかを定義できます。Linux システムの場合は、このキーは `sysvinit` キーを使用することでサポートされます。
 
@@ -260,7 +260,7 @@ UserData:
 
 #### 5. スタックの更新
 スタックを更新して `UserData` プロパティで行った変更を適用するには、EC2 インスタンスを置き換える必要があります。
-[こちら](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-instance.html?shortFooter=true#aws-properties-ec2-instance-properties)に EC2 インスタンスの置き換えをトリガーする属性を確認できます。
+[こちら](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-instance.html?shortFooter=true#aws-properties-ec2-instance-properties)で EC2 インスタンスの置き換えをトリガーする属性を確認できます。
 
 以下の例では、`AvailabilityZone` プロパティのパラメータを使用して置き換えをトリガーします。
 
@@ -283,13 +283,13 @@ UserData:
        AvailabilityZone: !Ref AvailabilityZone
    ```
 
-1. デプロイされているウェブサーバーのインスタンスのアベイラビリティーゾーンを確認します。
+1. デプロイされている Web サーバーのインスタンスのアベイラビリティーゾーンを確認します。
 
     + EC2 コンソールの **[インスタンス](https://console.aws.amazon.com/ec2#instances)** に移動
     + `<enviroment>-webserver` インスタンスを選択し、**アベイラビリティーゾーン** の値を書き留めておきます。たとえば、`eu-west-2a`。
 
 1. **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** のリンクを新しいタブで開き、必要に応じて AWS アカウントにログインします。
-1. スタック名（例：**cfn-workshop-ec2**）をクリックします。
+1. スタック名 (例: **cfn-workshop-ec2**) をクリックします。
 1. 画面右上の **更新** ボタンをクリックします。
 1. **テンプレートの準備** で、**既存テンプレートを置き換える** を選択します。
 1. **テンプレートの指定** で、 **テンプレートファイルのアップロード** を選びます。
@@ -300,13 +300,13 @@ UserData:
         ![az-update](/static/basics/operations/helper-scripts/az-update-1.ja.png)
 1. **EnvironmentType** は選択されている環境のままにします。
 1. **スタックオプションの設定** はデフォルトの設定のままとし、**次へ** をクリックします。
-1. **レビュー <スタック名>** ページで、一番下までスクロールし、**AWS CloudFormation が IAM リソースを作成する可能性があることを認識します** チェックボックスをチェックし、**スタックの更新** をクリックします。
+1. **レビュー <スタック名>** ページで、一番下までスクロールし、**AWS CloudFormation によって IAM リソースが作成される場合があることを承認します。** チェックボックスをチェックし、**スタックの更新** をクリックします。
 
     ::alert[**Change set preview** には、EC2 リソースの _Replacement_ 条件 が **True** になっています。したがって、既存の EC2 インスタンが終了され、新しいインスタンスが作成されます。]{type="info"}
 
 1. ステータスが **UPDATE_COMPLETE** になるまで、**リフレッシュ** ボタンを数回クリックします。
 
-ウェブブラウザで `WebsiteURL` を入力します (WebsiteURL は CloudFormation コンソールの _Outputs_ タブから取得できます)。
+Web ブラウザで `WebsiteURL` を入力します (WebsiteURL は CloudFormation コンソールの _Outputs_ タブから取得できます)。
 
 #### チャレンジ
 
@@ -335,7 +335,7 @@ $ami_id = file_get_contents($url);
 `cfn-hup` はメタデータセクションの変更を検出し、新しいバージョンを自動的にデプロイします。
 
 1. **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** のリンクを新しいタブで開き、必要に応じて AWS アカウントにログインします。
-1. スタック名（例：**cfn-workshop-ec2**）をクリックします。
+1. スタック名 (例: **cfn-workshop-ec2**) をクリックします。
 1. 画面右上の **更新** ボタンをクリックします。
 1. **テンプレートの準備** で、**既存テンプレートを置き換える** を選択します。
 1. **テンプレートの指定** で、 **テンプレートファイルのアップロード** を選びます。
@@ -345,7 +345,7 @@ $ami_id = file_get_contents($url);
 1. **AvailabilityZone** はそのままのアベイラビリティーゾーンにしてください。
 1. **EnvironmentType** は選択されている環境のままにします。
 1. **スタックオプションの設定** はデフォルトの設定のままとし、**次へ** をクリックします。
-1. **レビュー <スタック名>** ページで、一番下までスクロールし、**AWS CloudFormation が IAM リソースを作成する可能性があることを認識します** チェックボックスをチェックし、**スタックの更新** をクリックします。
+1. **レビュー <スタック名>** ページで、一番下までスクロールし、**AWS CloudFormation によって IAM リソースが作成される場合があることを承認します。** チェックボックスをチェックし、**スタックの更新** をクリックします。
 1. ステータスが **UPDATE_COMPLETE** になるまで、**リフレッシュ** ボタンを数回クリックします。
 
 ##### 3. 変更が正常に展開されたことを確認
@@ -361,8 +361,7 @@ $ami_id = file_get_contents($url);
 1. **[CloudFormation コンソール](https://console.aws.amazon.com/cloudformation)** で、このラボで作成したスタックを選択します。たとえば、`cfn-workshop-ec2`。
 1. 右上の **削除** をクリックします。
 1. ポップアップウィンドウで、**削除** をクリックします。
-1. **更新** ボタンを数回クリックして、**DELETE_COMPLETE** というステータスが表示されるまで続けてください。
-
+1. **DELETE_COMPLETE** というステータスが表示されるまで、**更新** ボタンを数回クリックします。
 ---
 ### まとめ
 
