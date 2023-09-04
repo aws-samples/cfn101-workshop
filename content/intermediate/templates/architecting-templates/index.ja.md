@@ -21,23 +21,13 @@ weight: 650
 
 ### ラボを開始
 
-<<<<<<< HEAD
-このラボでは、以下で説明するAWS クラウドで実行される簡単な Web アプリケーションのためのインフラストラクチャを作成します。
-=======
 このラボでは、AWS クラウドで実行される簡単な Web アプリケーションのためのインフラストラクチャを作成します。
->>>>>>> main.ja
 
 * 特定のリージョン (例: us-east-1) の 2 つの[アベイラビリティーゾーン](https://docs.aws.amazon.com/ja_jp/AWSEC2/latest/UserGuide/using-regions-availability-zones.html) に 2 つのパブリックサブネットと 2 つのプライベートサブネットが存在する [Amazon Virtual Private Cloud](https://aws.amazon.com/jp/vpc/) (Amazon VPC)を作成します。
 
-<<<<<<< HEAD
-* 最低 2 つの [Amazon Elastic Compute Cloud](https://aws.amazon.com/ec2/) (Amazon EC2) インスタンス、最大 4 つの [Auto Scaling グループ](https://docs.aws.amazon.com/autoscaling/ec2/userguide/auto-scaling-groups.html) を作成します。インスタンスを 2 つのプライベートサブネットで起動し、簡単な Web アプリケーションを実行します。
-* インターネット向けエンドポイントを持つ [Application Load Balancer](https://aws.amazon.com/elasticloadbalancing/application-load-balancer/) を作成します。このロードバランサーは EC2 インスタンスの前に配置されます。
-* [Amazon Route 53](https://aws.amazon.com/route53/) [ホストゾーン](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/hosted-zones-working-with.html) が1つあり、そこにロードバランサーを指す [エイリアス](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/resource-record-sets-choosing-alias-non-alias.html) レコードを保存します。このサンプルラボの実行中にドメイン名を登録する必要はありません。[プライベートホストゾーン](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/hosted-zones-private.html) を作成して、ホストゾーンが関連付けられた VPC で起動したEC2 インスタンスなどのコンピュートリソースからサンプルアプリケーションに HTTP リクエストを送信できるようにします。そのためには、[AWS Cloud9](https://aws.amazon.com/cloud9/) 環境 (このラボの一部を実行するために使用) を作成し、デプロイするアプリケーションに HTTP リクエストを送信します。
-=======
 * 最低 2 つの [Amazon Elastic Compute Cloud](https://aws.amazon.com/jp/ec2/) (Amazon EC2) インスタンス、最大 4 つの [Auto Scaling グループ](https://docs.aws.amazon.com/ja_jp/autoscaling/ec2/userguide/auto-scaling-groups.html) を作成します。インスタンスを 2 つのプライベートサブネットで起動し、簡単な Web アプリケーションを実行します。
 * インターネット向けエンドポイントを持つ [Application Load Balancer](https://aws.amazon.com/jp/elasticloadbalancing/application-load-balancer/) を作成します。このロードバランサーは EC2 インスタンスの前に配置されます。
 * [Amazon Route 53](https://aws.amazon.com/jp/route53/) [ホストゾーン](https://docs.aws.amazon.com/ja_jp/Route53/latest/DeveloperGuide/hosted-zones-working-with.html) が 1 つあり、そこにロードバランサーを指す [エイリアス](https://docs.aws.amazon.com/ja_jp/Route53/latest/DeveloperGuide/resource-record-sets-choosing-alias-non-alias.html) レコードを保存します。このサンプルラボの実行中にドメイン名を登録する必要はありません。[プライベートホストゾーン](https://docs.aws.amazon.com/ja_jp/Route53/latest/DeveloperGuide/hosted-zones-private.html) を作成して、ホストゾーンが関連付けられた VPC で起動した EC2 インスタンスなどのコンピュートリソースからサンプルアプリケーションに HTTP リクエストを送信できるようにします。そのためには、[AWS Cloud9](https://aws.amazon.com/jp/cloud9/) 環境 (このラボの一部を実行するために使用) を作成し、デプロイするアプリケーションに HTTP リクエストを送信します。
->>>>>>> main.ja
 
 デプロイを始める前に、これから構築するアプリケーションについて考えてみましょう。特に、*ジョブロール*について考えてみてください。例えば、ある会社では、セキュリティ、ネットワーク、アプリケーション、データベースなどに関連する機能を所有するさまざまなチームがあります。すべての機能を 1 つのチームが所有することになったとしても、各テンプレートの各機能をその機能に特化した個人のグループが所有し、マッピングできるようにテンプレートを設計するのがベストプラクティスです。これは、トラブルシューティングや再利用が容易な小さなテンプレートを用意する場合にも役立ちます。このようなテンプレートは、必要に応じてさらに小さなテンプレートに分割できます。また、情報を保持するリソース (データベースなど) と、そのデータを消費するリソース (サーバー群など) を別々のスタックにまとめることも検討できます。これにより、関連するリソースを管理するデータベースチームなど、専任のリソース所有者をマッピングするのに役立つだけでなく、時間の経過に伴うトラブルシューティングやリソースの維持も容易になります。例えば、データベースとアプリケーションスタック全体を同じテンプレートに記述する場合、次に作成するスタックで問題が発生した場合、問題の性質によっては、最悪、スタックを削除して新しいスタックを作成する必要があります。影響範囲を絞り込むだけでなく、別のテンプレートを使用してデータベースを記述すると、後でテンプレートを再利用する可能性も高くなります。
 
