@@ -3,6 +3,7 @@ version: 2.0
 defaultLocaleCode: en
 localeCodes:
 - en
+- ja
 
 params:
   author: AWS
