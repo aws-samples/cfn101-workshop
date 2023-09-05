@@ -1,0 +1,24 @@
+AWSTemplateFormatVersion: "2010-09-09"
+
+Description: AWS CloudFormation workshop - Language extensions (uksb-1q9p31idr) (tag:language-extensions).
+
+Parameters:
+  LatestAmiId:
+    Description: The ID of the region-specific Amazon Machine Image to use.
+    Type: AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>
+    Default: /aws/service/ami-amazon-linux-latest/amzn2-ami-hvm-x86_64-gp2
+
+Resources:
+  EC2Instance:
+    Type: AWS::EC2::Instance
+    Properties:
+      ImageId: !Ref LatestAmiId
+      InstanceType: t2.micro
+      Tags:
+        - Key: Environment
+          Value: DEV
+
+Outputs:
+  InstanceId:
+    Description: The ID of the newly-created EC2 instance.
+    Value: !Ref EC2Instance

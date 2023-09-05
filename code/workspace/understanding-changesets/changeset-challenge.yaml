@@ -1,6 +1,6 @@
 AWSTemplateFormatVersion: "2010-09-09"
 
-Description: AWS CloudFormation workshop - Change sets - Challenge (uksb-1q9p31idr).
+Description: AWS CloudFormation workshop - Change sets - Challenge (uksb-1q9p31idr) (tag:changesets).
 
 Parameters:
   MyQueueName:
@@ -11,6 +11,8 @@ Parameters:
   BucketName:
     Description: Name of the Amazon S3 bucket you wish to create
     Type: String
+    AllowedPattern: ^(?!(^xn--|.+-s3alias$))^[a-z0-9][a-z0-9-]{1,61}[a-z0-9]$
+    ConstraintDescription: Bucket name can include numbers, lowercase letters, uppercase letters, periods (.), and hyphens (-). It cannot start or end with a hyphen (-).
 
 Resources:
   NewS3Bucket:

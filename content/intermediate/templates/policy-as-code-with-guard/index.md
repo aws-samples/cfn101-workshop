@@ -105,7 +105,7 @@ ExampleClauseB
 6. Now that you have taken a closer look at example rule clauses, run the `validate` Guard subcommand by specifying your template with the `-d` (or `--data`) flag, and your rules with `-r` (or `--rules`) as shown next:
 
 :::code{language=shell showLineNumbers=false showCopyAction=true}
-cfn-guard validate -d example_bucket.yaml -r example_bucket.guard
+cfn-guard validate -d example_bucket.yaml -r example_bucket.guard --show-summary pass
 :::
 
 7. You should then get an output similar to the following, that indicates your template passed validation against your rule clauses:

@@ -1,4 +1,4 @@
-name: Unit Tests
+name: pre-commit
 on:
   push:
     branches:
@@ -9,35 +9,19 @@ on:
     - edited
     - synchronize
 jobs:
-  unit_tests:
-    name: Unit tests
+  pre-commit:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
-
-    # Cache
-    - uses: actions/cache@v1
+    - uses: actions/checkout@v3
+    - uses: actions/setup-python@v4
       with:
-        path: ~/.cache/pip
-        key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
-        restore-keys: |
-
-    # Setup
-    - name: Set up Python
-      uses: actions/setup-python@v2
+        python-version: '3.x'
+        cache: 'pip' # caching pip dependencies
+    - run: pip install -r requirements.txt
+    - uses: actions/cache@v3
+      env:
+        cache-name: pre-commit
       with:
-        python-version: '3.10' # have to use quotes due to 0 being removed
-    - name: Install python packages
-      run: pip install -Ur requirements.txt
-    - name: Set up Ruby
-      uses: ruby/setup-ruby@v1
-      with:
-        ruby-version: 3.1
-    - name: Install Ruby gems
-      run: gem install cfn-nag
-
-    # Run Tests
-    - name: CloudFormation lint test
-      run: cfn-lint code/solutions/**/*.yaml --ignore-templates code/solutions/policy-as-code-with-guard/example_bucket_tests.yaml
-    - name: CloudFormation nag test
-      run: cfn_nag_scan --input-path code/solutions --ignore-fatal
+        path: ~/.cache/pre-commit # caching pre-commit environments
+        key: ${{ env.cache-name }}-${{ hashFiles('.pre-commit-config.yaml','~/.cache/pre-commit/*') }} # the key is to cache both the pre-commit package and dependent hooks
+    - run: pre-commit run --show-diff-on-failure --color=always --all-files

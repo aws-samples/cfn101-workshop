@@ -1,6 +1,6 @@
 AWSTemplateFormatVersion: "2010-09-09"
 
-Description: Sample template describing security group resources for an example application. (uksb-1q9p31idr)
+Description: Sample template describing security group resources for an example application. (uksb-1q9p31idr) (tag:architecting-templates).
 
 Parameters:
   AppNameTagValue:

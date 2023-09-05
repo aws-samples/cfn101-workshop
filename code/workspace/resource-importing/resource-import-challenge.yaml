@@ -1,5 +1,11 @@
 AWSTemplateFormatVersion: "2010-09-09"
 
-Description: AWS CloudFormation workshop - Resource Importing (uksb-1q9p31idr).
+Description: AWS CloudFormation workshop - Resource Importing (uksb-1q9p31idr) (tag:resource-importing).
+
+Metadata:
+  cfn-lint:
+    config:
+      ignore_checks:
+        - W3011
 
 # Add your code here!

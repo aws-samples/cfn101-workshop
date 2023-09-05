@@ -3,6 +3,10 @@ title: "Session manager"
 weight: 200
 ---
 
+_Lab Duration: ~15 minutes_
+
+---
+
 ### Overview
 
 [Session Manager](https://docs.aws.amazon.com/systems-manager/latest/userguide/session-manager.html) is a fully managed

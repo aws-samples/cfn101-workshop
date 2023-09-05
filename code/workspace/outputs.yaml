@@ -1,6 +1,6 @@
 AWSTemplateFormatVersion: "2010-09-09"
 
-Description: AWS CloudFormation workshop - Outputs (uksb-1q9p31idr).
+Description: AWS CloudFormation workshop - Outputs (uksb-1q9p31idr) (tag:outputs).
 
 Metadata:
   AWS::CloudFormation::Interface:
@@ -47,4 +47,4 @@ Resources:
         - Key: Name
           Value: !Join [ '-', [ !Ref EnvironmentType, webserver ] ]
 
-  # Add your code here!
+# Add your code here!

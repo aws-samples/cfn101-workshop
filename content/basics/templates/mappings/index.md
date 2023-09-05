@@ -3,6 +3,10 @@ title: "Mappings"
 weight: 600
 ---
 
+_Lab Duration: ~10 minutes_
+
+---
+
 ### Overview
 
 This lab will introduce **[Mappings](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/mappings-section-structure.html)**.
@@ -11,8 +15,8 @@ values which can be then referenced in your template.
 
 ![A diagram of the structure of a mappings section](/static/basics/templates/mappings/mapping.png)
 
-Here is a simplified example of a Mappings section. It contains one Map, `AnExampleMapping`. \
-`AnExampleMapping` contains three top level keys, `TopLevelKey01`, `TopLevelKey02` and `TopLevelKey03`. \
+Here is a simplified example of a Mappings section. It contains one Map, `AnExampleMap`. \
+`AnExampleMap` contains three top level keys, `TopLevelKey01`, `TopLevelKey02` and `TopLevelKey03`. \
 Each top level key contains one or more `Key: Value` pairs.
 
 :::code{language=yaml showLineNumbers=false showCopyAction=false}
@@ -107,20 +111,38 @@ Tags:
 
 #### 5. Finally, Deploy the solution
 
-Now that you have added a Mappings section to your template, go to the AWS console and update your CloudFormation Stack.
+Now that you have added a Mappings section to your template, go to the AWS console and create your CloudFormation Stack.
 
-1. Open the **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** link in a new tab and log in to your AWS account.
-1. Click on the stack name, for example **cfn-workshop-ec2**.
-1. In the top right corner click on **Update**.
-1. In **Prepare template**, choose **Replace current template**.
-1. In **Template source**, choose **Upload a template file**.
-1. Click on **Choose file** button and navigate to your workshop directory.
+:::::tabs{variant="container"}
+::::tab{id="cloud9" label="Cloud9"}
+1. In the **Cloud9 terminal** navigate to `code/workspace`:
+:::code{language=shell showLineNumbers=false showCopyAction=true}
+cd cfn101-workshop/code/workspace
+:::
+1. Use the AWS CLI to create the stack. The required parameter `--template-body` have been pre-filled for you. Replace the `ParameterValue` **MyAmiId** with  the value you have hardcoded in `resources.yaml` file earlier.
+:::code{language=shell showLineNumbers=false showCopyAction=true}
+aws cloudformation create-stack --stack-name cfn-workshop-mappings --template-body file://mappings.yaml --parameters ParameterKey="AmiID",ParameterValue="MyAmiId"
+:::
+1. If the `create-stack` command was successfully sent, CloudFormation will return `StackId`.
+:::code{language=shell showLineNumbers=false showCopyAction=false}
+"StackId": "arn:aws:cloudformation:us-east-1:123456789012:stack/cfn-workshop-mappings/f5a16f40-eb42-11ed-8ce8-1246a18a4ddd"
+:::
+1. Open the **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** console in a new tab and check if the stack status is **CREATE_COMPLETE**.
+::::
+::::tab{id="local" label="Local development"}
+1. In the CloudFormation console, select *Create stack With new resources (standard)*.
+1. In **Prepare template**, select **Template is ready**.
+1. In **Template source**, select **Upload a template file**.
 1. Select the file `mappings.yaml` and click **Next**.
+1. Enter a **Stack name**. For example, choose to specify `cfn-workshop-mappings`.
 1. For **Amazon Machine Image ID** leave the default value in.
 1. For **EnvironmentType** select the environment from drop down list, for example **Test** and click **Next**.
 1. You can leave **Configure stack options** default, click **Next**.
-1. On the **Review <stack_name>** page, scroll down to the bottom and click on **Update stack**.
-1. You can click the **refresh** button a few times until you see in the status **UPDATE_COMPLETE**.
+1. On the **Review <stack_name>** page, scroll down to the bottom and click on **Submit**.
+1. You can click the **refresh** button a few times until you see in the status **CREATE_COMPLETE**.
+::::
+:::::
+
 
 ### Challenge
 
@@ -129,14 +151,14 @@ Add another Environment, `Dev`, to your template. It will need to contain `Dev` 
 Don't forget to add `Dev` to the list of allowed values for the `EnvironmentType` parameter.
 
 :::expand{header="Need a hint?"}
-1. In a _Parameters_ section
-    * Add `Dev` to the `EnvironmentType` AllowedValues list.
-  1. In a `Mappings` section.
-    * Add a top level key of `Dev`.
-    * Add a name-value pair `InstanceType: t2.nano`.
+1. In a `Parameters` section
+   * Add `Dev` to the `EnvironmentType` AllowedValues list.
+1. In a `Mappings` section
+   * Add a top level key of `Dev`.
+   * Add a name-value pair `InstanceType: t2.nano`.
 :::
 
-:::expand{header="Expand to see the solution"}
+::::::expand{header="Expand to see the solution"}
 ```yaml
 Parameters:
   EnvironmentType:
@@ -160,14 +182,54 @@ Mappings:
 ```
 
 See `code/solutions/mappings.yaml` for the full solution.
+
+To test that your solution works, Follow below steps:
+
+:::::tabs{variant="container"}
+::::tab{id="cloud9" label="Cloud9"}
+1. In the **Cloud9 terminal** navigate to `code/workspace`:
+:::code{language=shell showLineNumbers=false showCopyAction=true}
+cd cfn101-workshop/code/workspace
 :::
-
-To test that your solution works, update the stack as you did in step [5. Finally, Deploy the solution](#5-finally-deploy-the-solution)
-and change the `EnvironmentType` to **Dev**.
-
+1. Use the AWS CLI to update the stack. The required parameter `--template-body` have been pre-filled for you. Replace the `ParameterValue` **MyAmiId** with the value you have hardcoded in `resources.yaml` file earlier.
+:::code{language=shell showLineNumbers=false showCopyAction=true}
+aws cloudformation update-stack --stack-name cfn-workshop-mappings --template-body file://mappings.yaml --parameters ParameterKey="AmiID",ParameterValue="MyAmiId" ParameterKey="EnvironmentType",ParameterValue="Dev"
+:::
+1. If the `update-stack` command was successfully sent, CloudFormation will return `StackId`.
+:::code{language=shell showLineNumbers=false showCopyAction=false}
+"StackId": "arn:aws:cloudformation:us-east-1:123456789012:stack/cfn-workshop-mappings/739fafa0-e4d7-11ed-a000-12d9009553ff"
+:::
+1. Open the **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** console in a new tab and check if the stack status is **UPDATE_COMPLETE**.
+::::
+::::tab{id="local" label="Local development"}
+1. Open the **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** link in a new tab and log in to your AWS account.
+1. Click on the stack name, for example **cfn-workshop-ec2**.
+1. In the top right corner click on **Update**.
+1. In **Prepare template**, choose **Replace current template**.
+1. In **Template source**, choose **Upload a template file**.
+1. Click on **Choose file** button and navigate to your workshop directory.
+1. Select the file `mappings.yaml` and click **Next**.
+1. For **Amazon Machine Image ID** leave the default value in.
+1. For **EnvironmentType** select the environment **Dev** from drop down list and click **Next**.
+1. You can leave **Configure stack options** default, click **Next**.
+1. On the **Review <stack_name>** page, scroll down to the bottom and click on **Submit**.
+1. You can click the **refresh** button a few times until you see in the status **UPDATE_COMPLETE**.
+::::
+:::::
 ::alert[Changing the instance type will cause some downtime as EC2 instance has to be stopped before changing the type.]{type="info"}
+::::::
+
+### Clean up
+
+Follow these steps to clean up created resources:
+
+1. In the **[CloudFormation console](https://console.aws.amazon.com/cloudformation)**, select the stack you have created in this lab. For example `cfn-workshop-mappings`.
+1. In the top right corner, select **Delete**.
+1. In the pop-up window, select **Delete**.
+1. Wait for the stack to reach the **DELETE_COMPLETE** status. You need to periodically select **Refresh** to see the latest stack status.
 
 ---
+
 ### Conclusion
 
 Great work! You have now successfully learned how to use mappings to create more flexible CloudFormation templates.

@@ -1,6 +1,6 @@
 AWSTemplateFormatVersion: "2010-09-09"
 
-Description: Sample template describing an AWS::EC2::VPC resource, with two public subnets and 2 private subnets, route tables, and routes to the Internet. (uksb-1q9p31idr)
+Description: Sample template describing an AWS::EC2::VPC resource, with two public subnets and 2 private subnets, route tables, and routes to the Internet. (uksb-1q9p31idr) (tag:architecting-templates).
 
 Parameters:
   AppNameTagValue:

@@ -1,0 +1,153 @@
+AWSTemplateFormatVersion: "2010-09-09"
+
+Description: AWS CloudFormation workshop lab for looping over collections (uksb-1q9p31idr) (tag:looping-over-collections).
+
+Mappings:
+  Vpc:
+    Configuration:
+      EnableDnsHostnames: true
+      EnableDnsSupport: true
+      Cidr: 172.31.0.0/16
+
+  SubnetAzIndexes:
+    Public:
+      "1": 0
+      "2": 1
+    Private:
+      "1": 0
+      "2": 1
+
+  SubnetCidrs:
+    Public:
+      "1": 172.31.1.0/24
+      "2": 172.31.2.0/24
+    Private:
+      "1": 172.31.11.0/24
+      "2": 172.31.12.0/24
+
+Transform: AWS::LanguageExtensions
+
+Resources:
+  Vpc:
+    Type: AWS::EC2::VPC
+    Properties:
+      CidrBlock: !FindInMap
+        - Vpc
+        - Configuration
+        - Cidr
+      EnableDnsHostnames: !FindInMap
+        - Vpc
+        - Configuration
+        - EnableDnsHostnames
+      EnableDnsSupport: !FindInMap
+        - Vpc
+        - Configuration
+        - EnableDnsSupport
+      Tags:
+        - Key: Name
+          Value: aws-cloudformation-workshop
+
+  InternetGateway:
+    Type: AWS::EC2::InternetGateway
+    Properties:
+      Tags:
+        - Key: Name
+          Value: aws-cloudformation-workshop
+
+  VpcGatewayAttachment:
+    Type: AWS::EC2::VPCGatewayAttachment
+    Properties:
+      VpcId: !Ref Vpc
+      InternetGatewayId: !Ref InternetGateway
+
+  Fn::ForEach::SubnetTypes:
+    - SubnetType
+    - [Public, Private]
+    - Fn::ForEach::SubnetNumbers:
+        - SubnetNumber
+        - ["1", "2"]
+        - ${SubnetType}Subnet${SubnetNumber}:
+            Type: AWS::EC2::Subnet
+            Properties:
+              AvailabilityZone: !Select
+                - !FindInMap
+                  - SubnetAzIndexes
+                  - !Ref SubnetType
+                  - !Ref SubnetNumber
+                - !GetAZs ""
+              CidrBlock: !FindInMap
+                - SubnetCidrs
+                - !Ref SubnetType
+                - !Ref SubnetNumber
+              Tags:
+                - Key: Name
+                  Value: aws-cloudformation-workshop
+              VpcId: !Ref Vpc
+          ${SubnetType}RouteTable${SubnetNumber}:
+            Type: AWS::EC2::RouteTable
+            Properties:
+              Tags:
+                - Key: Name
+                  Value: aws-cloudformation-workshop
+              VpcId: !Ref Vpc
+          ${SubnetType}SubnetRouteTableAssociation${SubnetNumber}:
+            Type: AWS::EC2::SubnetRouteTableAssociation
+            Properties:
+              RouteTableId: !Ref
+                Fn::Sub: ${SubnetType}RouteTable${SubnetNumber}
+              SubnetId: !Ref
+                Fn::Sub: ${SubnetType}Subnet${SubnetNumber}
+
+  Fn::ForEach::DefaultRoutesForPublicSubnets:
+    - SubnetNumber
+    - ["1", "2"]
+    - DefaultRouteForPublicSubnet${SubnetNumber}:
+        DependsOn: VpcGatewayAttachment
+        Type: AWS::EC2::Route
+        Properties:
+          RouteTableId: !Ref
+            Fn::Sub: PublicRouteTable${SubnetNumber}
+          DestinationCidrBlock: 0.0.0.0/0
+          GatewayId: !Ref InternetGateway
+
+  Fn::ForEach::NatGateways:
+    - SubnetNumber
+    - ["1", "2"]
+    - Eip${SubnetNumber}:
+        DependsOn: VpcGatewayAttachment
+        Type: AWS::EC2::EIP
+        Properties:
+          Domain: vpc
+      NatGateway${SubnetNumber}:
+        Type: AWS::EC2::NatGateway
+        Properties:
+          AllocationId: !GetAtt
+            - !Sub Eip${SubnetNumber}
+            - AllocationId
+          SubnetId: !Ref
+            Fn::Sub: PublicSubnet${SubnetNumber}
+          Tags:
+            - Key: Name
+              Value: aws-cloudformation-workshop
+      DefaultRouteForPrivateSubnet${SubnetNumber}:
+        Type: AWS::EC2::Route
+        Properties:
+          RouteTableId: !Ref
+            Fn::Sub: PrivateRouteTable${SubnetNumber}
+          DestinationCidrBlock: 0.0.0.0/0
+          NatGatewayId: !Ref
+            Fn::Sub: NatGateway${SubnetNumber}
+
+Outputs:
+  Fn::ForEach::SubnetIdsOutputs:
+    - SubnetType
+    - [Public, Private]
+    - Fn::ForEach::SubnetNumbers:
+        - SubnetNumber
+        - ["1", "2"]
+        - ${SubnetType}Subnet${SubnetNumber}:
+            Description: !Sub 'The ID of ${SubnetType}Subnet${SubnetNumber}.'
+            Export:
+              Name: !Sub ${AWS::AccountId}-${SubnetType}Subnet${SubnetNumber}Id
+            Value: !Ref
+              Fn::Sub: ${SubnetType}Subnet${SubnetNumber}

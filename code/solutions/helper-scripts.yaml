@@ -1,6 +1,6 @@
 AWSTemplateFormatVersion: "2010-09-09"
 
-Description: AWS CloudFormation workshop - Helper scripts (uksb-1q9p31idr).
+Description: AWS CloudFormation workshop - Helper scripts (uksb-1q9p31idr) (tag:helper-scripts).
 
 Metadata:
   AWS::CloudFormation::Interface:
@@ -14,9 +14,6 @@ Metadata:
         default: Amazon Machine Image ID
 
 Parameters:
-  AvailabilityZone:
-    Type: AWS::EC2::AvailabilityZone::Name
-
   EnvironmentType:
     Description: Specify the Environment type of the stack.
     Type: String
@@ -131,7 +128,6 @@ Resources:
                   - /etc/cfn/cfn-hup.conf
                   - /etc/cfn/hooks.d/cfn-auto-reloader.conf
     Properties:
-      AvailabilityZone: !Ref AvailabilityZone
       IamInstanceProfile: !Ref WebServerInstanceProfile
       ImageId: !Ref AmiID
       InstanceType: !FindInMap [EnvironmentToInstanceType, !Ref EnvironmentType, InstanceType]

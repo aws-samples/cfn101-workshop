@@ -1,6 +1,6 @@
 AWSTemplateFormatVersion: "2010-09-09"
 
-Description: AWS CloudFormation workshop - Dynamic references - Lambda memory size (uksb-1q9p31idr)
+Description: AWS CloudFormation workshop - Dynamic references - Lambda memory size (uksb-1q9p31idr) (tag:dynamic-references).
 
 Metadata:
   cfn-lint:
@@ -31,7 +31,7 @@ Resources:
     Properties:
       Role: !GetAtt FunctionExecutionRole.Arn
       Handler: index.handler
-      Runtime: python3.7
+      Runtime: python3.9
       MemorySize: '{{resolve:ssm:/lambda/memory-size:1}}'
       Code:
         ZipFile: |

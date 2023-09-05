@@ -321,7 +321,139 @@ aws cloudformation deregister-type \
     --type RESOURCE
 :::
 
+When you use the `cfn submit` command to register a CloudFormation extension, such as resource types, modules, and hooks, the CFN-CLI creates 2 CloudFormation stacks in your account: one to create the execution role for the extension (such as for a resource type extension, or for a hook extension), and one to store infrastructure components for the extension. The CFN-CLI also sets a termination protection on both stacks. The two stacks are called `awssamples-ec2-importkeypair-role-stack`, that is specific for this lab, and `CloudFormationManagedUploadInfrastructure`, that is used by this lab, and by any other extension you are developing or registering using the CFN-CLI with your account.
 
+Follow steps shown next to delete the `awssamples-ec2-importkeypair-role-stack` stack. First, remove its termination protection:
+
+:::code{language=shell showLineNumbers=false showCopyAction=true}
+aws cloudformation update-termination-protection \
+    --region us-east-1 \
+    --no-enable-termination-protection \
+    --stack-name awssamples-ec2-importkeypair-role-stack
+:::
+
+Next, delete the `awssamples-ec2-importkeypair-role-stack` stack:
+
+:::code{language=shell showLineNumbers=false showCopyAction=true}
+aws cloudformation delete-stack \
+    --region us-east-1 \
+    --stack-name awssamples-ec2-importkeypair-role-stack
+
+aws cloudformation wait stack-delete-complete \
+    --region us-east-1 \
+    --stack-name awssamples-ec2-importkeypair-role-stack
+:::
+
+The other stack, `CloudFormationManagedUploadInfrastructure`, creates a number of resources, that include also an [AWS Key Management Service (AWS KMS)](https://aws.amazon.com/kms/) key, and two Amazon S3 buckets to store data related to CloudFormation extensions registry submissions, including the resource type ZIP archive that the CFN-CLI created and uploaded on your behalf as you went through this lab. To delete this ZIP archive, start with identifying the name of the S3 bucket whole logical ID in the stack is `ArtifactBucket`. Describe the stack resources as follows:
+
+:::code{language=shell showLineNumbers=false showCopyAction=true}
+aws cloudformation describe-stack-resources \
+    --region us-east-1 \
+    --stack-name CloudFormationManagedUploadInfrastructure \
+    --query "StackResources[?LogicalResourceId=='ArtifactBucket'].PhysicalResourceId" \
+    --output text
+:::
+
+The command above should return the `ArtifactBucket` bucket name; for example, `cloudformationmanageduploadinfra-accesslogsbucket-[...omitted...]`; make a note of it. Use the following command to list the bucket content (make sure to replace the bucket name with the one you identified in the previous step):
+
+:::code{language=shell showLineNumbers=false showCopyAction=false}
+aws s3 ls s3://NAME-OF-YOUR-cloudformationmanageduploadinfrast-artifactbucket-[...]
+:::
+
+The command should show the name of the ZIP file containing the resource type information, with the following pattern: `awssamples-ec2-importkeypair-YYYY-MM-DDTHH-MM-SS.zip`.  Make a note of the file name. Since the `ArtifactBucket` bucket has versioning enabled, you'll need to gather information on the version ID of the ZIP file object above (make sure to replace bucket name and file name information as you follow the next example, to reflect your output data):
+
+:::code{language=shell showLineNumbers=false showCopyAction=false}
+aws s3api list-object-versions \
+    --bucket YOUR-cloudformationmanageduploadinfrast-artifactbucket \
+    --prefix awssamples-ec2-importkeypair-YYYY-MM-DDTHH-MM-SS.zip \
+    --query "Versions[*].VersionId" --output text
+:::
+
+This should yield a version ID for that ZIP file in the output, such as `abcdEXAMPLEabcdEXAMPLEabcdEXAMPLE`. Make a note of it, and delete the object version (make sure to replace bucket name, file name, and version ID information in the example to reflect your output data):
+
+:::code{language=shell showLineNumbers=false showCopyAction=false}
+aws s3api delete-object \
+    --bucket YOUR-artifactbucket-name \
+    --key awssamples-ec2-importkeypair-YYYY-MM-DDTHH-MM-SS.zip \
+    --version-id abcdEXAMPLEabcdEXAMPLEabcdEXAMPLE
+:::
+
+If you have performed more than one registry submission for the resource type as part of this lab, you might find in the bucket more object(s), whose name start(s) with `awssamples-ec2-importkeypair-`, and that you would want to remove as well in the same way as shown above.
+
+::alert[The `CloudFormationManagedUploadInfrastructure` stack manages resources used to submit CloudFormation extensions to the registry in your account. **If you are currently using your account to create other CloudFormation extensions, such as other resource types, modules, or hooks, you might find other objects in the S3 bucket(s) managed by the `CloudFormationManagedUploadInfrastructure` stack, that you want to preserve from manual deletion. You would also want to skip the remaining part of this cleanup section**. Otherwise, follow steps shown next.]{type="warning"}
+
+Next, identify the name of the S3 bucket whose logical ID in the stack is `AccessLogsBucket`; describe the stack resources as follows:
+
+:::code{language=shell showLineNumbers=false showCopyAction=true}
+aws cloudformation describe-stack-resources \
+    --region us-east-1 \
+    --stack-name CloudFormationManagedUploadInfrastructure \
+    --query "StackResources[?LogicalResourceId=='AccessLogsBucket'].PhysicalResourceId" \
+    --output text
+:::
+
+The command above should return the `AccessLogsBucket` bucket name; for example, `cloudformationmanageduploadinfra-accesslogsbucket-[...omitted...]`; make a note of it. This bucket might contain objects as part of running this lab; list its content with the following command (make sure to replace the bucket name with the one you identified in the previous step):
+
+:::code{language=shell showLineNumbers=false showCopyAction=false}
+aws s3 ls s3://NAME-OF-YOUR-cloudformationmanageduploadinfra-accesslogsbucket-[...]
+:::
+
+As described on this [page](https://docs.aws.amazon.com/AmazonS3/latest/userguide/ServerLogs.html#how-logs-delivered), Amazon S3 periodically collects and consolidates access logs when you enable server access logging for your bucket (that is, in this case, the bucket for artifacts using the logs bucket), and then uploads the logs to the target logging bucket. If you do not see objects in the logs bucket above at this time, there might be a chance, depending on your case, that logs might be delivered whilst you are attempting to delete the logs bucket later on, if you choose to do so. You cannot delete a bucket with objects in it; if this is the case, you'll get an error when deleting the stack that created the logs bucket: if you choose to delete logs in your logs bucket, use the same process you chose to use above for objects in the artifacts bucket, before (re)attempting to delete the bucket (or the stack that creates it; see steps below for more information).
+
+Before deleting the `CloudFormationManagedUploadInfrastructure` stack, you'll need to update it to disable the `DeletionPolicy: Retain` and `UpdateReplacePolicy: Retain` for both `AccessLogsBucket` and `EncryptionKey`. Retrieve the template for the stack, and save it to the `CloudFormationManagedUploadInfrastructure.template` file on your machine:
+
+:::code{language=shell showLineNumbers=false showCopyAction=true}
+aws cloudformation get-template \
+    --region us-east-1 \
+    --stack-name CloudFormationManagedUploadInfrastructure \
+    --query TemplateBody \
+    --output text > CloudFormationManagedUploadInfrastructure.template
+:::
+
+Open the `CloudFormationManagedUploadInfrastructure.template` file with your text editor, and:
+- replace all occurrences of `DeletionPolicy: Retain` with `DeletionPolicy: Delete`;
+- replace all occurrences of `UpdateReplacePolicy: Retain` with `UpdateReplacePolicy: Delete`.
+
+Save the updated template, and use it to update the stack:
+
+:::code{language=shell showLineNumbers=false showCopyAction=true}
+aws cloudformation update-stack \
+    --region us-east-1 \
+    --stack-name CloudFormationManagedUploadInfrastructure \
+    --template-body file://CloudFormationManagedUploadInfrastructure.template \
+    --capabilities CAPABILITY_IAM
+
+aws cloudformation wait stack-update-complete \
+    --region us-east-1 \
+    --stack-name CloudFormationManagedUploadInfrastructure
+:::
+
+Delete the updated template copy on your machine:
+
+:::code{language=shell showLineNumbers=false showCopyAction=true}
+rm CloudFormationManagedUploadInfrastructure.template
+:::
+
+Remove the termination protection from the `CloudFormationManagedUploadInfrastructure` stack:
+
+:::code{language=shell showLineNumbers=false showCopyAction=true}
+aws cloudformation update-termination-protection \
+    --region us-east-1 \
+    --no-enable-termination-protection \
+    --stack-name CloudFormationManagedUploadInfrastructure
+:::
+
+Delete the `CloudFormationManagedUploadInfrastructure` stack:
+
+:::code{language=shell showLineNumbers=false showCopyAction=true}
+aws cloudformation delete-stack \
+    --region us-east-1 \
+    --stack-name CloudFormationManagedUploadInfrastructure
+
+aws cloudformation wait stack-delete-complete \
+    --region us-east-1 \
+    --stack-name CloudFormationManagedUploadInfrastructure
+:::
 
 ### Conclusion
 

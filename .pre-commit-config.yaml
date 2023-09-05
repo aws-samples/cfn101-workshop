@@ -5,7 +5,7 @@ repos:
 
 # General
 - repo: https://github.com/pre-commit/pre-commit-hooks
-  rev: v4.1.0
+  rev: v4.4.0
   hooks:
   - id: check-case-conflict
   - id: detect-private-key
@@ -29,44 +29,53 @@ repos:
     files: .
 
 # CloudFormation
-- repo: https://github.com/aws-cloudformation/cfn-python-lint
-  rev: v0.58.4
+- repo: https://github.com/aws-cloudformation/cfn-lint
+  rev: v0.79.7
   hooks:
-  - id: cfn-python-lint
-    name: AWS CloudFormation Linter
-    files: solutions/.*\.(yaml)$
-    args:
-      - --ignore-templates=code/solutions/policy-as-code-with-guard/example_bucket_tests.yaml
+  - id: cfn-lint-rc
+    files: code/solutions/.*\.(ya?ml|template)$
 
 - repo: https://github.com/aws-cloudformation/rain
-  rev: v1.2.0
+  rev: v1.4.4
   hooks:
   - id: cfn-format
-    files: solutions/.*\.(yaml)$
-    exclude: code/solutions/policy-as-code-with-guard/example_bucket_tests.yaml
+    files: code/solutions/.*\.(ya?ml|template)$
+    exclude: code/solutions/policy-as-code-with-guard/example_bucket_tests\.yaml|code/solutions/linting-and-testing/\.taskcat\.yml
 
-# Python
+- repo: https://github.com/stelligent/cfn_nag
+  rev: v0.8.10
+  hooks:
+  -   id: cfn-nag
+      entry: cfn_nag
+      language: ruby
+      args:
+        - --ignore-fatal
+      files: code/solutions/.*\.(ya?ml|template)$
+      exclude: code/solutions/looping-over-collections/.*\.yaml
+
+    # Python
 - repo: https://github.com/pycqa/pylint
-  rev: v2.13.4
+  rev: v3.0.0a7
   hooks:
     - id: pylint
       args:
         - --errors-only
         - --disable=E0401
 
-- repo: https://github.com/PyCQA/isort
-  rev: 5.10.1
-  hooks:
-    - id: isort
-
 - repo: https://github.com/psf/black
-  rev: 22.3.0
+  rev: 23.7.0
   hooks:
     - id: black
 
+- repo: https://github.com/PyCQA/isort
+  rev: 5.12.0
+  hooks:
+    - id: isort
+      args: ["--profile", "black"]
+
 # Shell check
 - repo: https://github.com/shellcheck-py/shellcheck-py
-  rev: v0.8.0.4
+  rev: v0.9.0.5
   hooks:
     - id: shellcheck
       files: solutions/.*\.(sh)$

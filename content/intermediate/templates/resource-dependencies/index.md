@@ -3,6 +3,10 @@ title: "Resource Dependencies"
 weight: 200
 ---
 
+_Lab Duration: ~15 minutes_
+
+---
+
 ### Overview
 
 You use [AWS CloudFormation](https://aws.amazon.com/cloudformation/) to programmatically provision resources you describe in your templates. There are cases where a resource depends on one or more resources; for example, an [Amazon Elastic Compute Cloud](https://aws.amazon.com/ec2/) (Amazon EC2) instance depends on a Security Group that you wish to use for your Amazon EC2 instance: you describe both resources in a way that you reference the Security Group in the EC2 instance, so that your CloudFormation stack creates the Security Group first, and your Amazon EC2 instance next.
@@ -59,14 +63,34 @@ Resources:
 
 Use the AWS CloudFormation Console to [create a stack](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/cfn-console-create-stack.html) using the `resource-dependencies-without-dependson.yaml` template:
 
+:::::tabs{variant="container"}
 
+::::tab{id="cloud9" label="Cloud9"}
+1. In the **Cloud9 terminal** navigate to `code/workspace/resource-dependencies`:
+:::code{language=shell showLineNumbers=false showCopyAction=true}
+cd cfn101-workshop/code/workspace/resource-dependencies
+:::
+1. Use the AWS CLI to create the stack. The required parameter `--template-body` have been pre-filled for you.
+:::code{language=shell showLineNumbers=false showCopyAction=true}
+aws cloudformation create-stack --stack-name cfn-workshop-resource-dependencies \
+--template-body file://resource-dependencies-without-dependson.yaml
+:::
+1. If the `create-stack` command was successfully sent, CloudFormation will return `StackId`.
+:::code{language=shell showLineNumbers=false showCopyAction=false}
+"StackId": "arn:aws:cloudformation:us-east-1:123456789012:stack/cfn-workshop-resource-dependencies/739fafa0-e4d7-11ed-a000-12d9009553ff"
+:::
+ 1. Open the **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** console in a new tab and check if the stack status is **CREATE_COMPLETE**.
+::::
+
+::::tab{id="local" label="Local development"}
 1. Navigate to the [AWS CloudFormation Console](https://console.aws.amazon.com/cloudformation/).
 2. From **Create stack**, choose **With new resources (standard)**.
 3. Choose the **Template is ready** option. From **Specify template**, choose **Upload a template file**. Upload the `resource-dependencies-without-dependson.yaml` template, and choose **Next**.
-4. Enter a stack name. For example, specify `resource-dependencies-lab`. When ready, choose **Next**.
+4. Enter a stack name. For example, specify `cfn-workshop-resource-dependencies`. When ready, choose **Next**.
 5. Choose to accept default values on the **Configure stack options** page; scroll to the bottom of the page, and choose **Next**.
-6. In the **Review** page, scroll to the bottom and choose **Create stack**.
-
+6. In the **Review** page, scroll to the bottom and choose **Submit**.
+::::
+:::::
 
 Refresh the page until you see the `CREATE_COMPLETE` status for your stack. Now, let’s review stack events, that should look similar to the image shown next:
 
@@ -101,7 +125,7 @@ Resources:
 ```
 
 
-Follow the same steps as above to create a new stack using the `resource-dependencies-with-dependson.yaml` template file. Make sure to provide a different stack name, for example `resource-dependencies-lab-dependson`, and create the stack.
+Follow the same steps as above to create a new stack using the `resource-dependencies-with-dependson.yaml` template file. Make sure to provide a different stack name, for example `cfn-workshop-resource-dependencies-dependson`, and create the stack.
 
 This time, your stack events should look different:
 
@@ -175,14 +199,37 @@ There are four resources in the template snippet you pasted into your template: 
 
 Let’s create a stack, and verify the above behavior. Use the AWS CloudFormation Console to [create a stack](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/cfn-console-create-stack.html) using the `resource-dependency-with-intrinsic-functions.yaml` template:
 
+:::::tabs{variant="container"}
 
+::::tab{id="cloud9" label="Cloud9"}
+1. In the **Cloud9 terminal** navigate to `code/workspace/resource-dependencies`:
+:::code{language=shell showLineNumbers=false showCopyAction=true}
+cd cfn101-workshop/code/workspace/resource-dependencies
+:::
+1. Use the AWS CLI to create the stack. The required parameter `--template-body` have been pre-filled for you.
+:::code{language=shell showLineNumbers=false showCopyAction=true}
+aws cloudformation create-stack --stack-name cfn-workshop-resource-dependencies-ref-getatt \
+--template-body file://resource-dependencies-with-intrinsic-functions.yaml \
+--parameters ParameterKey="EmailAddress",ParameterValue="your-email-address-here"
+
+:::
+1. If the `create-stack` command was successfully sent, CloudFormation will return `StackId`.
+:::code{language=shell showLineNumbers=false showCopyAction=false}
+"StackId": "arn:aws:cloudformation:us-east-1:123456789012:stack/cfn-workshop-resource-dependencies-ref-getatt/739fafa0-e4d7-11ed-a000-12d9009553ff"
+:::
+1. Open the **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** console in a new tab and check if the stack status is **CREATE_COMPLETE**.
+::::
+
+::::tab{id="local" label="Local development"}
 1. Navigate to the [AWS CloudFormation Console](https://console.aws.amazon.com/cloudformation/).
 2. From **Create stack**, choose **With new resources (standard)**.
 3. Choose the **Template is ready** option. From **Specify template**, choose **Upload a template file**. Upload the `resource-dependencies-with-intrinsic-functions.yaml` template, and choose **Next**.
-4. Enter a stack name. For example, `resource-dependencies-lab-ref-getatt`.
+4. Enter a stack name. For example, `cfn-workshop-resource-dependencies-ref-getatt`.
 5. In the **Parameters** section, provide an email address for Amazon SNS topic subscription; when ready, choose **Next**.
 6. Choose to accept default values on the **Configure stack options** page; scroll to the bottom of the page, and choose **Next**.
-7. In the review page, scroll to the bottom and choose **Create stack**.
+7. In the review page, scroll to the bottom and choose **Submit**.
+::::
+:::::
 
 
 Once the stack is created, your stack events should look like the following:
@@ -214,7 +261,7 @@ To get started, open the `resource-dependencies-challenge.yaml` template, that y
 * How can you [specify](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-attribute-dependson.html) that the creation of a resource should follow another resource?
 :::
 
-:::expand{header="Want to see the solution?"}
+::::::expand{header="Want to see the solution?"}
 * Reference the Security Group's logical ID as a list item under the `SecurityGroups` EC2 instance resource property, by using the `Ref` intrinsic function. CloudFormation should then wait for the Security Group to be created first, and then initiates the Amazon EC2 instance creation.
 * Modify the Amazon EC2 instance resource definition as shown next:
 
@@ -243,9 +290,35 @@ S3Bucket:
       - Key: Name
         Value: Resource-dependencies-workshop
 ```
-:::
 
-Create a new stack, called `resource-dependencies-challenge`, with your updated `resource-dependencies-challenge.yaml` template, and verify stack events are shown as in the sequence mentioned earlier.
+:::::tabs{variant="container"}
+::::tab{id="cloud9" label="Cloud9"}
+1. In the **Cloud9 terminal** navigate to `code/workspace/resource-dependencies`:
+  :::code{language=shell showLineNumbers=false showCopyAction=true}
+  cd cfn101-workshop/code/workspace/resource-dependencies
+  :::
+1. Use the AWS CLI to create the stack. The required parameter `--template-body` have been pre-filled for you.
+  :::code{language=shell showLineNumbers=false showCopyAction=true}
+  aws cloudformation create-stack --stack-name cfn-workshop-resource-dependencies-challenge \
+  --template-body file://resource-dependencies-challenge.yaml
+:::
+1. If the `create-stack` command was successfully sent, CloudFormation will return `StackId`.
+  :::code{language=shell showLineNumbers=false showCopyAction=false}
+  "StackId": "arn:aws:cloudformation:us-east-1:123456789012:stack/cfn-workshop-resource-dependencies-challenge/739fafa0-e4d7-11ed-a000-12d9009553ff"
+:::
+1. Open the **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** console in a new tab and check if the stack status is **CREATE_COMPLETE**.
+::::
+::::tab{id="local" label="Local development"}
+1. Navigate to the [AWS CloudFormation Console](https://console.aws.amazon.com/cloudformation/).
+1. From **Create stack**, choose **With new resources (standard)**.
+1. Choose the **Template is ready** option. From **Specify template**, choose **Upload a template file**. Upload the `resource-dependencies-challenge.yaml` template, and choose **Next**.
+1. Enter a stack name. For example, `cfn-workshop-resource-dependencies-challenge` and choose **Next**.
+1. Choose to accept default values on the **Configure stack options** page; scroll to the bottom of the page, and choose **Next**.
+1. In the review page, scroll to the bottom and choose **Submit**.
+::::
+:::::
+::::::
+
 
 The full solution for this challenge is available in the `code/solutions/resource-dependencies/resource-dependencies-challenge.yaml` template.
 
@@ -254,9 +327,9 @@ The full solution for this challenge is available in the `code/solutions/resourc
 Follow the steps below to [delete the stacks](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/cfn-console-delete-stack.html) you created as a part of this lab:
 
 1. Navigate to the [AWS CloudFormation Console](https://console.aws.amazon.com/cloudformation/).
-2. On the **Stacks** page in the CloudFormation console, select the `resource-dependencies-lab` stack.
+2. On the **Stacks** page in the CloudFormation console, select the `cfn-workshop-resource-dependencies` stack.
 3. In the stack details pane, choose **Delete** to delete the stack, and then choose **Delete stack** to confirm.
-4. Repeat steps above to delete other stacks you created: `resource-dependencies-lab-dependson`, `resource-dependencies-lab-ref-getatt`, and `resource-dependencies-challenge`.
+4. Repeat steps above to delete other stacks you created: `cfn-workshop-resource-dependencies-dependson`, `cfn-workshop-resource-dependencies-ref-getatt`, and `cfn-workshop-resource-dependencies-challenge`.
 
 ---
 ### Conclusion

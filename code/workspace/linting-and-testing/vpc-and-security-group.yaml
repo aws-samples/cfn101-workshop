@@ -1,6 +1,6 @@
 AWSTemplateFormatVersion: "2010-09-09"
 
-Description: AWS CloudFormation workshop - Linting and testing - VPC and Security Group template (uksb-1q9p31idr)
+Description: AWS CloudFormation workshop - Linting and testing - VPC and Security Group template (uksb-1q9p31idr) (tag:linting-and-testing).
 
 Parameters:
   VpcIpv4Cidr:

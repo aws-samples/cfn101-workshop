@@ -1,0 +1,15 @@
+AWSTemplateFormatVersion: "2010-09-09"
+
+Description: AWS CloudFormation workshop - Language extensions (uksb-1q9p31idr) (tag:language-extensions).
+
+Resources:
+  S3Bucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      VersioningConfiguration:
+        Status: Enabled
+
+Outputs:
+  S3Bucket:
+    Description: The S3 bucket created using this template.
+    Value: !Ref S3Bucket

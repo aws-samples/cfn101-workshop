@@ -1,6 +1,6 @@
 AWSTemplateFormatVersion: "2010-09-09"
 
-Description: AWS CloudFormation workshop - Session manager (uksb-1q9p31idr).
+Description: AWS CloudFormation workshop - Session manager (uksb-1q9p31idr) (tag:session-manager).
 
 Metadata:
   AWS::CloudFormation::Interface:
