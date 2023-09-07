@@ -3,6 +3,10 @@ title: "Session Manager"
 weight: 200
 ---
 
+_ラボ実施時間 : 15分程度_
+
+---
+
 ### 概要
 
 [Session Manager](https://docs.aws.amazon.com/ja_jp/systems-manager/latest/userguide/session-manager.html) はインタラクティブなワンクリックのブラウザベースのターミナルまたは AWS CLI を使用して Amazon EC2 インスタンスを管理できる AWS Systems Manager のフルマネージド機能です。
@@ -103,7 +107,7 @@ AWS コンソールに移動し、新しいテンプレートでスタックを�
 1. **テンプレートの準備** で、**既存テンプレートを置き換える** を選択します。
 1. **テンプレートの指定** で、 **テンプレートファイルのアップロード** を選びます。
 1. **ファイルの選択** ボタンをクリックし、作業用ディレクトリに移動します。
-1. ステップ1で作成した `session-manager.yaml` を指定し、**次へ** をクリックします。
+1. `session-manager.yaml` ファイルを指定し、**次へ** をクリックします。
 1. **Amazon Machine Image ID** はそのままにしてください。
 1. **EnvironmentType** には、リストされているものとは異なる環境を選択します。たとえば、**Dev** が選択されている場合は、**Test** を選択し、**次へ** をクリックします。
 :::alert{type="info"}

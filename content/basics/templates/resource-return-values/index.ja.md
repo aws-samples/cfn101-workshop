@@ -3,6 +3,10 @@ title: "戻り値の特定"
 weight: 800
 ---
 
+_ラボ実施時間 : 10分程度_
+
+---
+
 ### 概要
 [AWS CloudFormation](https://aws.amazon.com/jp/cloudformation/) を使って、テンプレートによってリソースをプログラムで表現することができます。そうした場合、リソースを構成するために、同じテンプレートで定義されている特定のリソースの戻り値の参照が必要な場合があります。
 
@@ -17,7 +21,7 @@ weight: 800
 
 戻り値については、リソースタイプ毎に [AWS リソースおよびプロパティタイプのリファレンス](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/aws-template-resource-type-ref.html)に記載されています。任意のリソースタイプをリストから選び、ページの右側の **Return values** から `Ref` や `Fn::GetAtt` の[組み込み関数](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference.html)でどの値が利用可能かを見ることができます。
 
-[Amazon Simple Storage Service](https://aws.amazon.com/jp/s3/) (Amazon S3) バケットのリソースタイプ `AWS::S3::Bucket` を例として見てみましょう。[AWS リソースおよびプロパティタイプのリファレンス](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/aws-template-resource-type-ref.html)のリストから **Amazon S3** を選びます。次のページで **AWS::S3::Bucket** を選び、このリソースタイプのリファレンスドキュメントを見ます。ページ右側の **Return values** から `AWS::S3::Bucket` リソースタイプで使用可能な戻り値を見ることができます。
+[Amazon Simple Storage Service](https://aws.amazon.com/jp/s3/) (Amazon S3) バケットのリソースタイプ `AWS::S3::Bucket` を例として見てみましょう。[AWS リソースおよびプロパティタイプのリファレンス](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/aws-template-resource-type-ref.html)のリストから **Amazon Simple Storage Service** を選びます。次のページで **AWS::S3::Bucket** を選び、このリソースタイプのリファレンスドキュメントを見ます。ページ右側の **Return values** から `AWS::S3::Bucket` リソースタイプで使用可能な戻り値を見ることができます。
 
 ドキュメントにて、`Ref` や `Fn::GetAtt` の組み込み関数を使う場合に、どのような値が利用可能で返ってくるかを確認しましょう。例えば、バケット名を参照したい場合、バケットリソースの `Ref` に [論理 ID](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/resources-section-structure.html) を指定することで参照できます。もしバケットの [Amazon リソースネーム](https://docs.aws.amazon.com/ja_jp/IAM/latest/UserGuide/reference-arns.html) (ARN) を取得したい場合は、`Fn::GetAtt` を `Arn` 属性と一緒にすることで取得できます。
 
@@ -38,7 +42,7 @@ weight: 800
 
 次のサンプルのテンプレートスニペットをコピーして `resource-return-values.yaml` ファイルに追記してください。
 
-```yaml
+:::code{language=yaml showLineNumbers=false showCopyAction=true}
 Resources:
   S3Bucket:
     Type: AWS::S3::Bucket
@@ -69,7 +73,7 @@ Outputs:
   S3BucketDomainName:
     Description: IPv4 DNS name of the bucket.
     Value: !GetAtt S3Bucket.DomainName
-```
+:::
 
 テンプレートに貼り付けたテンプレートスニペットには Amazon S3 [バケット](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/aws-properties-s3-bucket.html) とバケット[ポリシー](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/aws-properties-s3-policy.html)の 2 つのリソースがあります。次に解説します。
 
@@ -80,15 +84,37 @@ Outputs:
 
 それでは、`resource-return-values.yaml` テンプレートを使ってスタックを作成し、ここまで説明してきた動作を実際に見ていきます。
 
-1. **[AWS CloudFormation コンソール](https://console.aws.amazon.com/cloudformation)** に移動します。
-1. **スタックの作成** から、_新しいリソースを使用 (標準)_ をクリックします。
-1. **テンプレートの準備完了** を選びます。**テンプレートの指定** では、**テンプレートファイルのアップロード** を選びます。`resource-return-values.yaml` をアップロードし、**次へ** を選択します。
-1. **スタックの名前** (例: **resource-return-values**) を入力し、準備ができたら **次へ**を選択します。
-1. **スタックオプションの設定** はデフォルトの設定のままとし、ページの下部までスクロールし、**次へ** をクリックします。
-1. **レビュー <スタック名>** のページで、ページの下部までスクロールし、**スタックの作成** をクリックします。
+:::::tabs{variant="container"}
+::::tab{id="cloud9" label="Cloud9"}
+1. **Cloud9 のターミナル** で `code/workspace` に移動します。
+:::code{language=shell showLineNumbers=false showCopyAction=true}
+cd cfn101-workshop/code/workspace/resource-return-values
+:::
+1. AWS CLI でスタックを作成します。必要な `--stack-name`、`--template-body` パラメータがあらかじめ設定されています。
+:::code{language=shell showLineNumbers=false showCopyAction=true}
+aws cloudformation create-stack --stack-name cfn-workshop-resource-return-values --template-body file://resource-return-values.yaml
+:::
+1. `create-stack` コマンドが正常に送信されたら、CloudFormation が `StackId` を返します。
+:::code{language=shell showLineNumbers=false showCopyAction=false}
+"StackId": "arn:aws:cloudformation:us-east-1:123456789012:stack/cfn-workshop-resource-return-values/739fafa0-e4d7-11ed-a000-12d9009553ff"
+:::
+1. **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** のコンソールを新しいタブで開き、スタックが **CREATE_COMPLETE** ステータスになるまで待ちます。必要に応じて、リフレッシュボタンをクリックします。
+::::
+::::tab{id="local" label="ローカル開発"}
+1. **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** のリンクを新しいタブで開き、必要に応じて AWS アカウントにログインします。
+1. 画面右上の **スタックの作成** をクリックし、**新しいリソースを使用 (標準)** をクリックしてください。
+1. **テンプレートの準備** では、**テンプレートの準備完了** を選びます。
+1. **テンプレートの指定** では、**テンプレートファイルのアップロード** を選びます。
+1. **ファイルの選択** をクリックして、作業ディレクトリに移動します。
+1. `resource-return-values.yaml` ファイルを指定し、**次へ** をクリックします。
+1. **スタックの名前** (例: `cfn-workshop-resource-return-values`) を入力し、**次へ** をクリックします。
+1. **スタックオプションの設定** はデフォルトの設定のままとし、**次へ** をクリックします。
+1. **レビュー <スタック名>** のページで、ページの下部までスクロールし、**送信** をクリックします。
+1. スタックが **CREATE_COMPLETE** ステータスになるまで待ちます。必要に応じて、リフレッシュボタンをクリックします。
+::::
+:::::
 
-スタックのステータスが `CREATE_COMPLETE` になるまで、ページをリフレッシュします。それでは、スタックイベントと出力値を見ていきます。スタックイベントは次の画像のようになっているはずです。
-
+それでは、スタックイベントと出力値を見ていきます。スタックイベントは次の画像のようになっているはずです。
 ![resource-return-values.png](/static/basics/templates/resource-return-values/resource-return-values.ja.png)
 
 スタックイベントを見ていると、バケットとバケットポリシーが無事に作られていることがわかります。ここで、スタックの**リソース**タブに移動して `S3Bucket` の物理 ID を見つけ、リンクをクリックしてください。[Amazon S3 コンソール](https://console.aws.amazon.com/s3/)のバケットの詳細ページに移動できます。次に、バケットのページで**アクセス許可**を選び**バケットポリシー**セクションのバケットポリシーを確認してください。バケットポリシーの `Resource` セクションで戻り値がどのように置換されているかを見てください。次に、AWS CloudFormation コンソールのスタックの**出力**タブに移動し、表示されているスタックで作成した Amazon S3 バケットの IPv4 DNS 名を確認してください。
@@ -112,11 +138,11 @@ Outputs:
 * Amazon EC2 インスタンスの[戻り値](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-instance.html#aws-properties-ec2-instance-return-values) とセキュリティグループの[戻り値](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-security-group.html#aws-properties-ec2-security-group-return-values)を確認し、`Ref` や `Fn::GetAtt` の[組み込み関数](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference.html)でどのような値が返るかを見てください。
 :::
 
-:::expand{header="解決策を確認しますか？"}
+::::::expand{header="解決策を確認しますか？"}
 * `Ref` 組み込み関数を使って、インスタンスリソースの `SecurityGroups` プロパティにセキュリティグループの論理 ID をリストアイテムとして指定してください。
 * Amazon EC2 インスタンスリソースを次の定義のように修正してください。
 
-```yaml
+:::code{language=yaml showLineNumbers=false showCopyAction=true}
 Ec2Instance:
   Type: AWS::EC2::Instance
   Properties:
@@ -127,13 +153,13 @@ Ec2Instance:
     Tags:
       - Key: Name
         Value: Resource-return-values-workshop
-```
+:::
 
 * `Ref` 組み込み関数を使い、インスタンス ID を取得するために Amazon EC2 インスタンスリソースの論理 ID を渡してください。同様にインスタンスのパブリック IP を取得するために、Amazon EC2 インスタンスリソースの論理 ID と `PublicIp` 属性を `Fn::GetAtt` 関数に渡します。
 * セキュリティグループの ID を取得するために、セキュリティグループリソースの論理 ID と `GroupId` 属性を `Fn::GetAtt` 関数に渡します。
 * テンプレートの `Outputs` セクションを次のように修正します。
 
-```yaml
+:::code{language=yaml showLineNumbers=false showCopyAction=true}
 Outputs:
   InstanceID:
     Description: The ID of the launched instance
@@ -146,19 +172,52 @@ Outputs:
   SecurityGroupId:
     Description: ID of the security group created
     Value: !GetAtt InstanceSecurityGroup.GroupId
-```
 :::
+:::::tabs{variant="container"}
+::::tab{id="cloud9" label="Cloud9"}
+1. **Cloud9 のターミナル** で `code/workspace/resource-return-values` に移動します。
+:::code{language=shell showLineNumbers=false showCopyAction=true}
+cd cfn101-workshop/code/workspace/resource-return-values
+:::
+1. AWS CLI でスタックを作成します。必要な `--stack-name`、`--template-body` パラメータがあらかじめ設定されています。
+:::code{language=shell showLineNumbers=false showCopyAction=true}
+aws cloudformation create-stack --stack-name cfn-workshop-resource-return-values-challenge --template-body file://resource-return-values-challenge.yaml
+:::
+1. `create-stack` コマンドが正常に送信されたら、CloudFormation が `StackId` を返します。
+:::code{language=shell showLineNumbers=false showCopyAction=false}
+"StackId": "arn:aws:cloudformation:us-east-1:123456789012:stack/cfn-workshop-resource-return-values-challenge/739fafa0-e4d7-11ed-a000-12d9009553ff"
+:::
+1. **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** のコンソールを新しいタブで開き、スタックが **CREATE_COMPLETE** ステータスになるまで待ちます。必要に応じて、リフレッシュボタンをクリックします。
+1. [AWS CloudFormation console](https://console.aws.amazon.com/cloudformation) の _出力_ タブで出力値を確認します。
+::::
+::::tab{id="local" label="ローカル開発"}
+1. **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** のリンクを新しいタブで開き、必要に応じて AWS アカウントにログインします。
+1. 画面右上の **スタックの作成** をクリックし、**新しいリソースを使用 (標準)** をクリックしてください。
+1. **テンプレートの準備** では、**テンプレートの準備完了** を選びます。
+1. **テンプレートの指定** では、**テンプレートファイルのアップロード** を選びます。
+1. **ファイルの選択** をクリックして、作業ディレクトリに移動します。
+1. `resource-return-values-challenge.yaml` ファイルを指定し、**次へ** をクリックします。
+1. **スタックの名前** (例: `cfn-workshop-resource-return-values-challenge`) を入力し、**次へ** をクリックします。
+1. **スタックオプションの設定** はデフォルトの設定のままとし、**次へ** をクリックします。
+1. **レビュー <スタック名>** のページで、ページの下部までスクロールし、**送信** をクリックします。
+1. スタックが **CREATE_COMPLETE** ステータスになるまで待ちます。必要に応じて、リフレッシュボタンをクリックします。
+1. [AWS CloudFormation console](https://console.aws.amazon.com/cloudformation) の _出力_ タブで出力値を確認します。
+::::
+:::::
+::::::
 
 このチャレンジの完全な解答は `code/solutions/resource-return-values/resource-return-values-challenge.yaml` テンプレートにあります。
 
 ### クリーンアップ
+
 次のステップに従って、このラボの各パートで作成した[スタックを削除](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/cfn-console-delete-stack.html)してください。
 
 1. **[CloudFormation コンソール](https://console.aws.amazon.com/cloudformation)** に移動してください。
-2. CloudFormation コンソールの **スタック**ページで、`resource-return-values` を選択してください。
+2. CloudFormation コンソールの **スタック**ページで、`cfn-workshop-resource-return-values` を選択してください。
 3. 詳細ページでスタックを削除するため **削除** を選択し、ポップアップで **削除** を選択してください。
-4. 同様の手順で　`resource-return-values-challenge` スタックを削除してください。
+4. 同様の手順で　`cfn-workshop-resource-return-values-challenge` スタックを削除してください。
 
 ---
+
 ### まとめ
 すばらしいです！これで特定のリソースの戻り値を見つける方法と、それらを他のリソースで `Ref`、`Fn::GetAtt`、`Fn::Sub` の[組み込み関数](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference.html)で使う方法を学びました。

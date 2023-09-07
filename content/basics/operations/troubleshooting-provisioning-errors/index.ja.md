@@ -3,6 +3,10 @@ title: "プロビジョニングエラーのトラブルシューティング"
 weight: 500
 ---
 
+_ラボ実施時間 : 25分程度_
+
+---
+
 ### 概要
 CloudFormation テンプレートの開発を繰り返す中で、CloudFormation [スタック](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/stacks.html) を作成することで、テンプレートに記述されているリソースのプロビジョニングを検証できます。テンプレート内のリソースの構成に誤ったプロパティ値を指定した場合、デフォルトではスタックは最後に確認された安定した状態にロールバックし、すべてのスタックのリソースはロールバックされます。
 
@@ -33,17 +37,39 @@ CloudFormation テンプレートの開発を繰り返す中で、CloudFormation
 
 前述のエラーを含む `sqs-queues.yaml` テンプレートを使用してスタックのロールバックの一時停止機能を利用し、エラーを修正してスタックの作成を完了させます。
 
+
+:::::tabs{variant="container"}
+::::tab{id="cloud9" label="Cloud9"}
+
+
+1. **Cloud9 のターミナル** で `code/workspace/troubleshooting-provisioning-errors` に移動します。
+:::code{language=shell showLineNumbers=false showCopyAction=true}
+cd cfn101-workshop/code/workspace/troubleshooting-provisioning-errors
+:::
+1. AWS CLI でスタックを作成します。必要な `--stack-name`、`--template-body` パラメータがあらかじめ設定されています。
+:::code{language=shell showLineNumbers=false showCopyAction=true}
+aws cloudformation create-stack --stack-name cfn-workshop-troubleshooting-provisioning-errors --template-body file://sqs-queues.yaml --disable-rollback
+:::
+1. `create-stack` コマンドが正常に送信されたら、CloudFormation が `StackId` を返します。
+:::code{language=shell showLineNumbers=false showCopyAction=false}
+"StackId": "arn:aws:cloudformation:us-east-1:123456789012:stack/cfn-workshop-troubleshooting-provisioning-errors/739fafa0-e4d7-11ed-a000-12d9009553ff"
+:::
+1. **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** のコンソールを新しいタブで開き、スタックのステータスが **CREATE_FAILED** ステータスであることを確認します。
+::::
+::::tab{id="local" label="ローカル開発"}
 1. [AWS CloudFormation コンソール](https://console.aws.amazon.com/cloudformation/) に移動し、使用したい [AWS リージョン](https://docs.aws.amazon.com/ja_jp/awsconsolehelpdocs/latest/gsg/select-region.html) を選択します。
 1. 画面の右上の **スタックの作成** プルダウンを開き、**新しいリソースを使用 (標準)** をクリックします。
 1. **テンプレートの準備** では、**テンプレートの準備完了** を選びます。
 1. **テンプレートの指定** では、**テンプレートファイルのアップロード** を選びます。
-1. **ファイルの選択** ボタンをクリックし、作業用ディレクトリに移動します。前述の `sqs-queues.yaml` テンプレートを選択し、**次** を選択します。
-1. スタック名を指定します (例: `troubleshoot-provisioning-errors-workshop`)。同じページで、`QueueNamePrefix` パラメーターのデフォルト値をそのまま使用し、**次** を選択します。
-1. **スタックの失敗オプション** で、**正常にプロビジョニングされたリソースの保持** を選択します。**次** を選択します。
-1. 次ののページで、ページの下部までスクロールし、**スタックの作成** をクリックします。
+1. **ファイルの選択** ボタンをクリックし、作業用ディレクトリに移動します。前述の `sqs-queues.yaml` テンプレートを選択し、**次へ** を選択します。
+1. スタック名を指定します (例: `cfn-workshop-troubleshooting-provisioning-errors`)。同じページで、`QueueNamePrefix` パラメーターのデフォルト値をそのまま使用し、**次へ** を選択します。
+1. **スタックの失敗オプション** で、**正常にプロビジョニングされたリソースの保持** を選択します。**次へ** を選択します。
+1. 次ののページで、ページの下部までスクロールし、**送信** をクリックします。
 1. スタックが `CREATE_FAILED` ステータスになるまで、スタック作成ページを更新します。
+::::
+:::::
 
-前述のエラーが原因で、スタックの作成が失敗しました。リストからスタックの名前を選択します (例: `troubleshoot-provisioning-errors-workshop`)。**リソース** タブで、`DeadLetterQueue` リソースが`CREATE_COMPLETE` ステータスで、`SourceQueue` リソースが `CREATE_FAILED` ステータスの状態を確認出来ます。また、失敗した理ソールの `CREATE_FAILED` メッセージをクリックすると、関連エラーを確認出来ます。
+前述のエラーが原因で、スタックの作成が失敗しました。リストからスタックの名前を選択します (例: `cfn-workshop-troubleshooting-provisioning-errors`)。**リソース** タブで、`DeadLetterQueue` リソースが `CREATE_COMPLETE` ステータスで、`SourceQueue` リソースが `CREATE_FAILED` ステータスの状態を確認出来ます。また、失敗した理ソールの `CREATE_FAILED` メッセージをクリックすると、関連エラーを確認出来ます。
 
 同じスページには、次の図に示すように、次に行うステップを選択できるオプションも表示されます。
 
@@ -51,12 +77,32 @@ CloudFormation テンプレートの開発を繰り返す中で、CloudFormation
 
 目標は、テンプレートのエラーをトラブルシューティングして修正し、プロビジョニングを再開して `SourceQueue` リソースを作成することです。このプロセスの一環として、先に正常に作成された `DeadLetterQueue` の状態を保持します。次のステップ:
 
-1. テキストエディターで `sqs-queues.yaml` テンプレートを開き、`SourceQueue` リソースを探し、`FifoQueue: false` を `FifoQueue: true` に変更します。完了したら、変更を保存します。
+テキストエディターで `sqs-queues.yaml` テンプレートを開き、`SourceQueue` リソースを探し、`FifoQueue: false` を `FifoQueue: true` に変更します。完了したら、変更を保存します。
+
+:::::tabs{variant="container"}
+::::tab{id="cloud9" label="Cloud9"}
+1. **Cloud9 のターミナル** で `code/workspace/troubleshooting-provisioning-errors` に移動します。
+:::code{language=shell showLineNumbers=false showCopyAction=true}
+cd cfn101-workshop/code/workspace/troubleshooting-provisioning-errors
+:::
+1. AWS CLI でスタックを更新します。必要な `--stack-name`、`--template-body` パラメータがあらかじめ設定されています。
+:::code{language=shell showLineNumbers=false showCopyAction=true}
+aws cloudformation update-stack --stack-name cfn-workshop-troubleshooting-provisioning-errors --template-body file://sqs-queues.yaml --disable-rollback
+:::
+1. `update-stack` コマンドが正常に送信されたら、CloudFormation が `StackId` を返します。
+:::code{language=shell showLineNumbers=false showCopyAction=false}
+"StackId": "arn:aws:cloudformation:us-east-1:123456789012:stack/cfn-workshop-troubleshooting-provisioning-errors/739fafa0-e4d7-11ed-a000-12d9009553ff"
+:::
+1. **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** のコンソールを新しいタブで開き、スタックが **UPDATE_COMPLETE** ステータスになるまで待ちます。必要に応じて、リフレッシュボタンをクリックします。
+::::
+::::tab{id="local" label="ローカル開発"}
 1. 前の図に示した **スタックのロールバックが一時停止されました** の枠の中の **更新** ボタンをクリックします。
-1. **テンプレートの準備** で、**既存テンプレートを置き換える** を選択し、更新したテンプレートを設定した上で **次** を選択します。
-1. **パラメータ** ページで **次** を選択します。
+1. **テンプレートの準備** で、**既存テンプレートを置き換える** を選択し、更新したテンプレートを設定した上で **次へ** を選択します。
+1. **パラメータ** ページで **次へ** を選択します。
 1. **スタックオプションの設定** ページで、**スタックの失敗オプション** セクションを探します。スタックの作成時に選択した **正常にプロビジョニングされたリソースの保持** オプションは引き続き選択されているはずです。ページを下にスクロールして、**次へ** を選択します。
 1. 次に、**送信** を選択します。
+::::
+:::::
 
 スタックが `UPDATE_COMPLETE` ステータスになるまでページを更新します。スタックの **リソース** タブでは、`SourceQueue` リソースが `CREATE_COMPLETE` ステータスになっているはずです。
 
@@ -101,16 +147,46 @@ CloudFormation テンプレートの開発を繰り返す中で、CloudFormation
 * この SQS リソースの[ドキュメントページ](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/aws-resource-sqs-queue.html#aws-resource-sqs-queue-return-values)を開き、SQS キューの ARN を取得するために、`Fn::GetAtt` でどの戻り値を利用すべきかを判断してください。この情報に基づいて、先ほど貼り付けたスニペット内の関連する構成が想定どおりであるかどうかを確認します。
 :::
 
-:::expand{header="解決策を確認しますか？"}
+::::::expand{header="解決策を確認しますか？"}
 * テンプレートの中で、`SourceQueueParameter` リソースの `Value: !GetAtt 'SourceQueue.QueueName'` を `Value: !GetAtt 'SourceQueue.Arn'` に変更してください。
-* 更新されたテンプレートを使用して、[スタックの更新](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/using-cfn-updating-stacks-direct.html)を行ってください。
+
+:::::tabs{variant="container"}
+::::tab{id="cloud9" label="Cloud9"}
+1. **Cloud9 のターミナル** で `code/workspace/troubleshooting-provisioning-errors` に移動します。
+  :::code{language=shell showLineNumbers=false showCopyAction=true}
+  cd cfn101-workshop/code/workspace/troubleshooting-provisioning-errors
+  :::
+1. AWS CLI でスタックを更新します。必要な `--stack-name`、`--template-body` パラメータがあらかじめ設定されています。
+  :::code{language=shell showLineNumbers=false showCopyAction=true}
+  aws cloudformation update-stack --stack-name cfn-workshop-troubleshooting-provisioning-errors --template-body file://sqs-queues.yaml --disable-rollback
+  :::
+1. `update-stack` コマンドが正常に送信されたら、CloudFormation が `StackId` を返します。
+  :::code{language=shell showLineNumbers=false showCopyAction=false}
+  "StackId": "arn:aws:cloudformation:us-east-1:123456789012:stack/cfn-workshop-troubleshooting-provisioning-errors/739fafa0-e4d7-11ed-a000-12d9009553ff"
+  :::
+1. **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** のコンソールを新しいタブで開き、スタックが **UPDATE_COMPLETE** ステータスになるまで待ちます。必要に応じて、リフレッシュボタンをクリックします。
+::::
+::::tab{id="local" label="ローカル開発"}
+1. **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** のリンクを新しいタブで開き、必要に応じて AWS アカウントにログインします。
+1. スタック名 (例: `cfn-workshop-troubleshooting-provisioning-errors`) をクリックします。
+1. 画面右上の **更新** ボタンをクリックします。
+1. **テンプレートの準備** で、**既存テンプレートを置き換える** を選択します。
+1. **テンプレートの指定** で、 **テンプレートファイルのアップロード** を選びます。
+1. **ファイルの選択** ボタンをクリックし、作業用ディレクトリに移動します。
+1. `sqs-queues.yaml` ファイルを指定し、**次へ** をクリックします。
+1. **スタックオプションの設定** はデフォルトの設定のままとし、**次へ** をクリックします。
+1. **レビュー <スタック名>** ページで、一番下までスクロールし、**送信** をクリックします。
+1. ステータスが **UPDATE_COMPLETE** ステータスになるまで待ちます。必要に応じて、リフレッシュボタンをクリックします。
+::::
+:::::
 * 完全なソリューションを含むテンプレートは、`code/solutions/troubleshooting-provisioning-errors` ディレクトリにあります。
-:::
+::::::
 
 ### クリーンアップ
 このラボで作成したリソースのクリーンアップを行うために、以下の手順を実施してください。
-1. このラボで作成したスタック (例: `troubleshoot-provisioning-errors-workshop`) を選択します。
-1. **[削除]** を選択してスタックを削除し、ポップアップで **[削除]** を選択して確定します。
+1. このラボで作成したスタック (例: `cfn-workshop-troubleshooting-provisioning-errors`) を選択します。
+1. スタックの詳細には **削除** を選択して、ポップアップで **削除** で確定します。
+1. スタックが **DELETE_COMPLETE** ステータスになるまで待ちます。必要に応じて、リフレッシュボタンをクリックします。
 
 ---
 ### まとめ
