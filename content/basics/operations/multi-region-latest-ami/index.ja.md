@@ -60,7 +60,7 @@ aws cloudformation create-stack --stack-name cfn-workshop-multi-region-latest-am
 1. **Amazon Machine Image ID** には `/aws/service/ami-amazon-linux-latest/amzn2-ami-hvm-x86_64-gp2` をコピーします。
 1. **EnvironmentType** にはドロップダウンから環境の種類を選択します。例えば **Test** を選択して、**次へ** をクリックします。
 1. **スタックオプションの設定** はデフォルトの設定のままとし、**次へ** をクリックします。
-1. **レビュー <スタック名>** のページで、ページの下部までスクロールし、**送信** をクリックします。 
+1. **レビュー <スタック名>** のページで、ページの下部までスクロールし、**送信** をクリックします。
 1. スタックが **CREATE_COMPLETE** ステータスになるまで待ちます。必要に応じて、リフレッシュボタンをクリックします。
 ::::
 :::::
@@ -99,7 +99,7 @@ aws cloudformation create-stack --stack-name cfn-workshop-multi-region-latest-am
 1. **Amazon Machine Image ID** には `/aws/service/ami-amazon-linux-latest/amzn2-ami-hvm-x86_64-gp2` をコピペします。
 1. **EnvironmentType** にはドロップダウンから環境の種類を選択します。例えば **Test** を選択して、**次へ** をクリックします。
 1. **スタックオプションの設定** はデフォルトの設定のままとし、**次へ** をクリックします。
-1. **レビュー <スタック名>** のページで、ページの下部までスクロールし、**送信** をクリックします。 
+1. **レビュー <スタック名>** のページで、ページの下部までスクロールし、**送信** をクリックします。
 1. スタックが **CREATE_COMPLETE** ステータスになるまで待ちます。必要に応じて、リフレッシュボタンをクリックします。
 ::::
 :::::
