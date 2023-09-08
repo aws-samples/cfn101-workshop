@@ -312,6 +312,140 @@ aws cloudformation deregister-type \
     --type RESOURCE
 :::
 
+リソースタイプ、モジュール、フックなどの CloudFormation エクステンションを登録するてめに `cfn submit` コマンドを使用すると、CFN-CLI はご利用の AWS アカウントに 2 つの CloudFormation スタックを作成します。1 つはエクステンション (リソースタイプエクステンションやフックエクステンションのためなど) の実行ロールを作成するのもです。もう 1 つはエクステンションのインフラストラクチャーコンポーネントを持つものです。また、CFN-CLI は両方のスタックに削除保護を設定します。この 2 つのスタックとは、このラボ専用の `awssamples-ec2-importkeypair-role-stack` スタックと、このラボや同じアカウントで CFN-CLI を使用して開発と登録するほかのエクステンションで共通に使用されている `CloudFormationManagedUploadInfrastructure` スタックです。
+
+次に示す手順に沿って、`awssamples-ec2-importkeypair-role-stack` スタックを削除します。まず、削除保護を解除します。
+
+:::code{language=shell showLineNumbers=false showCopyAction=true}
+aws cloudformation update-termination-protection \
+    --region us-east-1 \
+    --no-enable-termination-protection \
+    --stack-name awssamples-ec2-importkeypair-role-stack
+:::
+
+次に `awssamples-ec2-importkeypair-role-stack` スタックを削除します。
+
+:::code{language=shell showLineNumbers=false showCopyAction=true}
+aws cloudformation delete-stack \
+    --region us-east-1 \
+    --stack-name awssamples-ec2-importkeypair-role-stack
+
+aws cloudformation wait stack-delete-complete \
+    --region us-east-1 \
+    --stack-name awssamples-ec2-importkeypair-role-stack
+:::
+
+もう 1 つの `CloudFormationManagedUploadInfrastructure` スタックは、[AWS Key Management Service (AWS KMS)](https://aws.amazon.com/jp/kms/) のキーと 2 つの Amazon S3 バケットなどを作成します。バケットには、このラボを進める際に CFN-CLI がユーザーに代わって作成してアップロードしたリソースタイプの ZIP アーカイブなど、CloudFormation 拡張機能のレジストリに送信ために必要なデータを保持しています。この ZIP アーカイブを削除するには、まず S3 バケットの名前を特定することから始めます。スタック内で `ArtifactBucket` 論理 ID を持つバケットを以下の通りに取得します。
+
+:::code{language=shell showLineNumbers=false showCopyAction=true}
+aws cloudformation describe-stack-resources \
+    --region us-east-1 \
+    --stack-name CloudFormationManagedUploadInfrastructure \
+    --query "StackResources[?LogicalResourceId=='ArtifactBucket'].PhysicalResourceId" \
+    --output text
+:::
+
+このコマンドが `ArtifactBucket` のバケット名を戻します、例えば `cloudformationmanageduploadinfra-accesslogsbucket-[...省略...]`。メモにとってください。以下のコマンドでそのバケットの内容の一覧を取得します。コマンドには、メモにとったバケット名を書き換えてください。
+
+:::code{language=shell showLineNumbers=false showCopyAction=false}
+aws s3 ls s3://NAME-OF-YOUR-cloudformationmanageduploadinfrast-artifactbucket-[...]
+:::
+
+このコマンドでは、リソースタイプの情報を持つ ZIP ファイルを `AWSSamples-EC2-ImportKeypair-YYYY-MM-ddthh-MM-SS.zip` のような形の名前で表示されるはずです。ファイル名をメモします。`ArtifactBucket` バケットはバージョニングが有効になっているため、上記の ZIP ファイルオブジェクトのバージョン ID に関する情報を収集する必要があります。以下のコマンドにメモしたバケット名とファイル名を置き換えて実行します。
+
+:::code{language=shell showLineNumbers=false showCopyAction=false}
+aws s3api list-object-versions \
+    --bucket YOUR-cloudformationmanageduploadinfrast-artifactbucket \
+    --prefix awssamples-ec2-importkeypair-YYYY-MM-DDTHH-MM-SS.zip \
+    --query "Versions[*].VersionId" --output text
+:::
+
+ZIP ファイルのバージョン ID が `abcExampleAbCDExampleABCDExample` のように出力されるはずです。こちらもメモして、以下の通りにオブジェクトのバージョンを削除します。コマンドにメモしたバケット名、ファイル名、バージョン ID 情報を必ず置き換えてください。
+
+:::code{language=shell showLineNumbers=false showCopyAction=false}
+aws s3api delete-object \
+    --bucket YOUR-artifactbucket-name \
+    --key awssamples-ec2-importkeypair-YYYY-MM-DDTHH-MM-SS.zip \
+    --version-id abcdEXAMPLEabcdEXAMPLEabcdEXAMPLE
+:::
+
+このラボでリソースタイプを複数回レジストリに送信した場合、名前が `awssamples-ec2-importkeypair-` で始まるオブジェクトがバケット内に複数見つかる可能性があり、これらも上記と同じ方法で削除する必要があります。
+
+::alert[`CloudFormationManagedUploadInfrastructure` スタックは、CloudFormation 拡張機能をアカウントのレジストリに送信するために使用されるリソースを管理します。**このラボを実施するために使用されているアカウントで、他のリソースタイプ、モジュール、フックなど、他に CloudFormation 拡張機能を作成している場合、`CloudFormationManagedUploadInfrastructure` スタックで管理している S3 バケットに、他のオブジェクトが見つかる場合があります。それらのオブジェクトを削除しない場合は、このクリーンアップセクションの残りの部分もスキップしてください**。他にオブジェクトがなかった場合は、次の手順に進んでください。]{type="warning"}
+
+次は、スタック内の論理 ID が `AccessLogsBucket` である S3 バケットのバケット名を特定します。次のコマンドでリソースから抽出します。
+
+:::code{language=shell showLineNumbers=false showCopyAction=true}
+aws cloudformation describe-stack-resources \
+    --region us-east-1 \
+    --stack-name CloudFormationManagedUploadInfrastructure \
+    --query "StackResources[?LogicalResourceId=='AccessLogsBucket'].PhysicalResourceId" \
+    --output text
+:::
+
+上記のコマンドで `AccessLogsBucket` のバケット名を取得できるはずです。たとえば、`cloudformationmanageduploadinfra-accesslogsbucket-[...省略...]` のような形です。メモをします。このラボの実行の途中でこのバケットにオブジェクトが作成された場合があります。以下のコマンドを使用してその内容の一覧を表示します。コマンドのバケット名はメモしたバケット名で置き換えてください。
+
+:::code{language=shell showLineNumbers=false showCopyAction=false}
+aws s3 ls s3://NAME-OF-YOUR-cloudformationmanageduploadinfra-accesslogsbucket-[...]
+:::
+
+この [ページ](https://docs.aws.amazon.com/ja_jp/AmazonS3/latest/userguide/ServerLogs.html#how-logs-delivered) で説明されているように、サーバーアクセスログを有効にすると Amazon S3 はバケット (この場合はログバケットを使用するアーティファクト用のバケット) のアクセスログを定期的に収集して統合し、そのログをターゲットのロギングバケットにアップロードします。現時点でログバケットにオブジェクトが表示されない場合でも、状況によっては、後でログバケットを削除しようとしたときにログが配信された可能性があります。オブジェクトを含むバケットは削除できません。その場合、ログバケットを作成したスタックを削除するとエラーが発生します。ログバケットのログファイルを削除する場合は、先ほどのアーティファクトバケット内のオブジェクトの対象方法を同様のプロセスを実施します。その後に再度ログバケット (または作成したスタック) の削除を試みことができます。以下の手順で実施できます。
+
+`CloudFormationManagedUploadInfrastructure` スタックを削除する前に、`AccessLogsBucket` と `EncryptionKey` の `DeletionPolicy: Retain` と `UpdateReplacePolicy: Retain` を無効化する必要があります。テンプレートを取得して、`CloudFormationManagedUploadInfrastructure.template` に保存してください。
+
+:::code{language=shell showLineNumbers=false showCopyAction=true}
+aws cloudformation get-template \
+    --region us-east-1 \
+    --stack-name CloudFormationManagedUploadInfrastructure \
+    --query TemplateBody \
+    --output text > CloudFormationManagedUploadInfrastructure.template
+:::
+
+テキストエディタで `CloudFormationManagedUploadInfrastructure.template` を開き、以下の通りに修正します。
+- 全ての `DeletionPolicy: Retain` を `DeletionPolicy: Delete` に書き換えます。
+- 全ての `UpdateReplacePolicy: Retain` を `UpdateReplacePolicy: Delete` に書き換えます。
+
+修正済みテンプレートを保存して、スタックのアップデートに使います。
+
+:::code{language=shell showLineNumbers=false showCopyAction=true}
+aws cloudformation update-stack \
+    --region us-east-1 \
+    --stack-name CloudFormationManagedUploadInfrastructure \
+    --template-body file://CloudFormationManagedUploadInfrastructure.template \
+    --capabilities CAPABILITY_IAM
+
+aws cloudformation wait stack-update-complete \
+    --region us-east-1 \
+    --stack-name CloudFormationManagedUploadInfrastructure
+:::
+
+不要となった修正済みテンプレートファイルを削除します。
+
+:::code{language=shell showLineNumbers=false showCopyAction=true}
+rm CloudFormationManagedUploadInfrastructure.template
+:::
+
+`CloudFormationManagedUploadInfrastructure` スタックの削除保護を解除します。
+
+:::code{language=shell showLineNumbers=false showCopyAction=true}
+aws cloudformation update-termination-protection \
+    --region us-east-1 \
+    --no-enable-termination-protection \
+    --stack-name CloudFormationManagedUploadInfrastructure
+:::
+
+`CloudFormationManagedUploadInfrastructure` スタックを削除します。
+
+:::code{language=shell showLineNumbers=false showCopyAction=true}
+aws cloudformation delete-stack \
+    --region us-east-1 \
+    --stack-name CloudFormationManagedUploadInfrastructure
+
+aws cloudformation wait stack-delete-complete \
+    --region us-east-1 \
+    --stack-name CloudFormationManagedUploadInfrastructure
+:::
+
 ### まとめ
 
 おめでとうございます! Python でのサンプルリソースタイプ実装を一通り実施し、リソースタイプを作成する際に留意すべき重要な概念、期待される事項、目的を学びました。

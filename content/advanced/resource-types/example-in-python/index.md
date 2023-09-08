@@ -344,7 +344,7 @@ aws cloudformation wait stack-delete-complete \
     --stack-name awssamples-ec2-importkeypair-role-stack
 :::
 
-The other stack, `CloudFormationManagedUploadInfrastructure`, creates a number of resources, that include also an [AWS Key Management Service (AWS KMS)](https://aws.amazon.com/kms/) key, and two Amazon S3 buckets to store data related to CloudFormation extensions registry submissions, including the resource type ZIP archive that the CFN-CLI created and uploaded on your behalf as you went through this lab. To delete this ZIP archive, start with identifying the name of the S3 bucket whole logical ID in the stack is `ArtifactBucket`. Describe the stack resources as follows:
+The other stack, `CloudFormationManagedUploadInfrastructure`, creates a number of resources, that include also an [AWS Key Management Service (AWS KMS)](https://aws.amazon.com/kms/) key, and two Amazon S3 buckets to store data related to CloudFormation extensions registry submissions, including the resource type ZIP archive that the CFN-CLI created and uploaded on your behalf as you went through this lab. To delete this ZIP archive, start with identifying the name of the S3 bucket whose logical ID in the stack is `ArtifactBucket`. Describe the stack resources as follows:
 
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 aws cloudformation describe-stack-resources \

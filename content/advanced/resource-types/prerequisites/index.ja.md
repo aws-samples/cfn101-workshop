@@ -22,7 +22,7 @@ weight: 310
 
 ::alert[CloudFormation CLI のバージョン 1.0 がすでにインストールされている場合は、バージョン 2.0 にアップグレードし、使用する言語プラグインもアップグレードすることをお勧めします。アップグレードには、前に示した `pip install` コマンドの `--upgrade` オプションを使用し、使用している、または、使用する予定の言語プラグインを含めることができます。詳細については、[ページ](https://docs.aws.amazon.com/ja_jp/cloudformation-cli/latest/userguide/what-is-cloudformation-cli.html#resource-type-setup) の下部にある *Upgrading to CFN-CLI 2.0* をご参照ください。]{type="info"}
 
-* [Python での実装例](../example-in_python) ラボでは、サンプルアプリケーションのユニットテストを実行するために必要な以下のパッケージをインストールします。
+* [Python での実装例](../example-in-python) ラボでは、サンプルアプリケーションのユニットテストを実行するために必要な以下のパッケージをインストールします。
 
   :::code{language=shell showLineNumbers=false showCopyAction=true}
   pip install pytest-cov cloudformation-cli-python-lib

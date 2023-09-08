@@ -15,7 +15,7 @@ AWS アカウントの、特定の AWS リージョンのプライベートレ�
 touch use-module.yaml
 :::
 
-テキストエディターでこのファイルを開き、以下の CloudFormatoin YAML コードを貼り付けます。
+テキストエディターで `use-module.yaml` を開き、以下の CloudFormation の YAML コードを貼り付けます。
 
 <!-- vale off -->
 :::code{language=yaml showLineNumbers=false showCopyAction=true}
