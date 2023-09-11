@@ -125,9 +125,9 @@ _ラボ実施時間 : 10分程度_
 
 次のステップに従って、作成したリソースを削除してください。
 
-1. **[CloudFormation コンソール](https://console.aws.amazon.com/cloudformation)** で、このラボで作成したスタック (例: `cfn-workshop-template-and-stack`) を選択してください。
-1. 画面の右上から **削除** をクリックしてください。
-1. ポップアップウィンドウで、**削除** をクリックします。
+1. **[CloudFormation コンソール](https://console.aws.amazon.com/cloudformation)** に移動します。
+1. CloudFormation の **スタック** ページで `cfn-workshop-template-and-stack` を選択します。
+1. スタックの詳細で **削除** を選択し、ポップアップ上で **削除** で確定します。
 1. スタックが **DELETE_COMPLETE** ステータスになるまで待ちます。必要に応じて、リフレッシュボタンをクリックします。
 
 ---

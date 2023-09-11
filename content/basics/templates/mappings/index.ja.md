@@ -222,7 +222,7 @@ aws cloudformation update-stack --stack-name cfn-workshop-mappings --template-bo
 
 1. **[CloudFormation コンソール](https://console.aws.amazon.com/cloudformation)** に移動します。
 1. CloudFormation の **スタック** ページで `cfn-workshop-mappings` を選択します。
-1. スタックの詳細には **削除** を選択して、ポップアップで **削除** で確定します。
+1. スタックの詳細で **削除** を選択し、ポップアップ上で **削除** で確定します。
 1. スタックが **DELETE_COMPLETE** ステータスになるまで待ちます。必要に応じて、リフレッシュボタンをクリックします。
 
 ---

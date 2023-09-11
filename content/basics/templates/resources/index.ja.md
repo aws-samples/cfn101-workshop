@@ -101,7 +101,7 @@ EC2 リソースタイプの唯一の必須プロパティは _ImageId_ です�
   ::alert[x86 と Arm アーキテクチャを選択できるリージョンの場合、必ず **64-bit (x86)** AMI ID を使うようにしてください。]{type="info"}
   4. AMI ID が見つかったら、コピーして **ImageId** プロパティに貼り付けます。
 
-::alert[**米国東部 (バージニア北部) リージョン** の場合の解答について `code/solutions/resources.yaml` ファイルで見ることができます。]{type="info"}
+::alert[**米国東部 (バージニア北部) リージョン** の場合の解答を `code/solutions/resources.yaml` ファイルで見ることができます。]{type="info"}
 
 これで EC2 テンプレートをデプロイする準備が整いました。[テンプレートとスタック](../template-and-stack) で実施した時と同様の方法でデプロイを行います。
 
@@ -169,7 +169,7 @@ aws ssm get-parameters \
 
 1. **[CloudFormation コンソール](https://console.aws.amazon.com/cloudformation)** に移動します。
 1. CloudFormation の **スタック** ページで `cfn-workshop-resources` を選択します。
-1. スタックの詳細には **削除** を選択して、ポップアップで **削除** で確定します。
+1. スタックの詳細で **削除** を選択し、ポップアップ上で **削除** で確定します。
 1. スタックが **DELETE_COMPLETE** ステータスになるまで待ちます。必要に応じて、リフレッシュボタンをクリックします。
 
 ---

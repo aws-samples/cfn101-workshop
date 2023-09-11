@@ -75,7 +75,7 @@ aws cloudformation create-stack --stack-name cfn-workshop-multi-region-latest-am
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 cd cfn101-workshop/code/workspace
 :::
-1. AWS CLI でスタックを作成します。必要な `--stack-name`、`--template-body` パラメータがあらかじめ設定されています。`--region` パラメータは最初にスタックを作成したリージョン以外のリージョンを指定します。例えば、最初は `us-east-1` で作成されていたら、 `us-east-2` を指定します。
+1. AWS CLI でスタックを作成します。必要な `--stack-name`、`--template-body` パラメータがあらかじめ設定されています。`--region` パラメータは最初にスタックを作成したリージョン以外のリージョンを指定します。例えば、最初に `us-east-1` で作成されていたら、 `us-east-2` を指定します。
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 aws cloudformation create-stack --stack-name cfn-workshop-multi-region-latest-ami \
 --template-body file://multi-region-latest-ami.yaml \
@@ -104,8 +104,7 @@ aws cloudformation create-stack --stack-name cfn-workshop-multi-region-latest-am
 ::::
 :::::
 :::alert{type="info"}
-AMI ID パラメータを更新する必要がなかったことに注意してください。クラウドフォーメーションとシステムとのインテグレーションを利用することで
-Manager Parameter Store では、テンプレートがより汎用的で再利用可能になりました。
+AMI ID パラメータを更新する必要がなかったことに注意してください。Systems Manager Parameter Store を利用し CloudFormation をインテグレーションすることで、テンプレートがより汎用的で再利用可能になりました。
 :::
 ::::::
 
@@ -114,10 +113,10 @@ Manager Parameter Store では、テンプレートがより汎用的で再利�
 
 1. **[CloudFormation コンソール](https://console.aws.amazon.com/cloudformation)** に移動します。
 1. CloudFormation の **スタック** ページで `cfn-workshop-multi-region-latest-ami` を選択します。
-1. スタックの詳細には **削除** を選択して、ポップアップで **削除** で確定します。
+1. スタックの詳細で **削除** を選択し、ポップアップ上で **削除** で確定します。
 1. CloudFormation のスタックを作成した全てのリージョンで上記の手順を切り返します。
 
 ---
 ### まとめ
 
-おめでとうございます！これで、最新の Amazon Linux AMI を使用するようにテンプレートが正常に更新できました。さらに、テンプレートは、AMI ID パラメータを追加しなくても、どのリージョンにもデプロイできるようになりました。
+おめでとうございます！これで、最新の Amazon Linux AMI を使用するようにテンプレートを正常に更新できました。さらに、テンプレートは、AMI ID パラメータを追加しなくても、どのリージョンにもデプロイできるようになりました。

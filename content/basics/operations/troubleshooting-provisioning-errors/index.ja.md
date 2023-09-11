@@ -64,12 +64,12 @@ aws cloudformation create-stack --stack-name cfn-workshop-troubleshooting-provis
 1. **ファイルの選択** ボタンをクリックし、作業用ディレクトリに移動します。前述の `sqs-queues.yaml` テンプレートを選択し、**次へ** を選択します。
 1. スタック名を指定します (例: `cfn-workshop-troubleshooting-provisioning-errors`)。同じページで、`QueueNamePrefix` パラメーターのデフォルト値をそのまま使用し、**次へ** を選択します。
 1. **スタックの失敗オプション** で、**正常にプロビジョニングされたリソースの保持** を選択します。**次へ** を選択します。
-1. 次ののページで、ページの下部までスクロールし、**送信** をクリックします。
+1. 次のページで、ページの下部までスクロールし、**送信** をクリックします。
 1. スタックが `CREATE_FAILED` ステータスになるまで、スタック作成ページを更新します。
 ::::
 :::::
 
-前述のエラーが原因で、スタックの作成が失敗しました。リストからスタックの名前を選択します (例: `cfn-workshop-troubleshooting-provisioning-errors`)。**リソース** タブで、`DeadLetterQueue` リソースが `CREATE_COMPLETE` ステータスで、`SourceQueue` リソースが `CREATE_FAILED` ステータスの状態を確認出来ます。また、失敗した理ソールの `CREATE_FAILED` メッセージをクリックすると、関連エラーを確認出来ます。
+前述のエラーが原因で、スタックの作成が失敗しました。リストからスタックの名前を選択します (例: `cfn-workshop-troubleshooting-provisioning-errors`)。**リソース** タブで、`DeadLetterQueue` リソースが `CREATE_COMPLETE` ステータスで、`SourceQueue` リソースが `CREATE_FAILED` ステータスの状態を確認出来ます。また、失敗したリソースの `CREATE_FAILED` メッセージをクリックすると、関連エラーを確認出来ます。
 
 同じスページには、次の図に示すように、次に行うステップを選択できるオプションも表示されます。
 
@@ -185,7 +185,7 @@ aws cloudformation update-stack --stack-name cfn-workshop-troubleshooting-provis
 ### クリーンアップ
 このラボで作成したリソースのクリーンアップを行うために、以下の手順を実施してください。
 1. このラボで作成したスタック (例: `cfn-workshop-troubleshooting-provisioning-errors`) を選択します。
-1. スタックの詳細には **削除** を選択して、ポップアップで **削除** で確定します。
+1. スタックの詳細で **削除** を選択し、ポップアップ上で **削除** で確定します。
 1. スタックが **DELETE_COMPLETE** ステータスになるまで待ちます。必要に応じて、リフレッシュボタンをクリックします。
 
 ---

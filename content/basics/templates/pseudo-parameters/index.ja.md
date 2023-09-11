@@ -164,8 +164,7 @@ aws cloudformation create-stack --stack-name cfn-workshop-pseudo-parameters --te
 1. `pseudo-parameters.yaml` を指定し、**次へ** をクリックします。
 1. **スタックの名前** (例: `cfn-workshop-pseudo-parameters`) を入力し、**次へ** をクリックします。
 1. **スタックオプションの設定** はデフォルトの設定のままとし、**次へ** をクリックします。
-1. **レビュー** のページで、ページの下部までスクロールし、*機能* セクションに **AWS CloudFormation によって IAM リソースが作成される場合があることを承認します。** の文言のチェックボックスにチェックを入れます。
-1. **送信** をクリックします。 作成されたスタックの進捗は CloudFormation コンソールで確認できます。
+1. **レビュー <スタック名>** ページで、一番下までスクロールし、**AWS CloudFormation によって IAM リソースが作成される場合があることを承認します。** チェックボックスをチェックし、**送信** をクリックします。
 1. スタックが **CREATE_COMPLETE** ステータスになるまで待ちます。必要に応じて、リフレッシュボタンをクリックします。
 ::::
 ::::::
@@ -245,7 +244,6 @@ aws cloudformation update-stack --stack-name cfn-workshop-pseudo-parameters --te
 "StackId": "arn:aws:cloudformation:us-east-1:123456789012:stack/cfn-workshop-pseudo-parameters/739fafa0-e4d7-11ed-a000-12d9009553ff"
 :::
 1. **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** のコンソールを新しいタブで開き、スタックが **CREATE_COMPLETE** ステータスになるまで待ちます。必要に応じて、リフレッシュボタンをクリックします。
-1. Open the **[Amazon S3](https://console.aws.amazon.com/s3)** console and verify your S3 bucket uses the `YOUR_BUCKET_NAME_PREFIX-AWS_REGION-YOUR_ACCOUNT_ID` format.
 1. **[Amazon S3](https://console.aws.amazon.com/s3)** のコンソールを開いて、バケット名が `YOUR_BUCKET_NAME_PREFIX-AWS_REGION-YOUR_ACCOUNT_ID` の形になっていることを確認します。
 ::::
 ::::tab{id="local" label="ローカル開発"}
@@ -270,7 +268,7 @@ aws cloudformation update-stack --stack-name cfn-workshop-pseudo-parameters --te
 
 1. **[CloudFormation コンソール](https://console.aws.amazon.com/cloudformation)** に移動します。
 1. CloudFormation の **スタック** ページで `cfn-workshop-pseudo-parameters` を選択します。
-1. スタックの詳細には **削除** を選択して、ポップアップで **削除** で確定します。
+1. スタックの詳細で **削除** を選択し、ポップアップ上で **削除** で確定します。
 1. スタックが **DELETE_COMPLETE** ステータスになるまで待ちます。必要に応じて、リフレッシュボタンをクリックします。
 
 ---

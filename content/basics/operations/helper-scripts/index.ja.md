@@ -373,7 +373,7 @@ aws cloudformation update-stack --stack-name cfn-workshop-helper-scripts \
 
 作成したリソースをクリーンアップするには、次の手順を実施します。
 
-1. **[CloudFormation コンソール](https://console.aws.amazon.com/cloudformation)** で、このラボで作成したスタックを選択します。たとえば、`cfn-workshop-helper-scripts`。
+1. **[CloudFormation コンソール](https://console.aws.amazon.com/cloudformation)** で、このラボで作成したスタックを選択します (例: `cfn-workshop-helper-scripts`)。
 1. 右上の **削除** をクリックします。
 1. ポップアップウィンドウで、**削除** をクリックします。
 1. **DELETE_COMPLETE** ステータスになるまで待ちます。必要に応じて、リフレッシュボタンをクリックします。
