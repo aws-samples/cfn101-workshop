@@ -49,14 +49,15 @@ With the strategy shown earlier, you have not only designed your templates by ta
 
 
 
-### Installing prerequisites
+### Prerequisites
 
-Unless you have done this already, make sure you follow prerequisites, and install the following in your own workstation (you'll use Cloud9 later on in this lab, but you'll start with using your workstation first):
+You'll use Cloud9 later on for this lab; first, you'll begin with using your workstation. Start with fetching the CloudFormation Workshop code repository content into your workstation: for this, you can choose between two options:
 
-1. [Get lab resources](/prerequisites/local-development): clone the lab repository. This will clone the repository into a `cfn101-workshop` directory in your workstation.
+- Option 1 (faster, no tools to install in your workstation): navigate to the [CloudFormation Workshop repository page in GitHub](https://github.com/aws-samples/cfn101-workshop); locate the **Code** button, and choose **Download ZIP** from the dropdown menu. This action should result in a `cfn101-workshop-main.zip` file, containing the content of the workshop in the `main` branch of the repository, that you'll download and expand in your workstation in a directory of your choice.
+- Option 2: use [git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git) to clone the CloudFormation Workshop repository. For this, make sure that you have `git` installed in your workstation, or install it with a method of your choice. When ready, follow the **Clone lab resources** section in [Get lab resources](/prerequisites/local-development) to clone the lab repository. This will clone the repository into a `cfn101-workshop` directory in your workstation.
 
 
-Next, change directory to the `cfn101-workshop/code/workspace/architecting-templates` directory of the repository you have cloned. Locate the `base-network.template` file and the `cloud9.template` file: you'll first use them to create the base infrastructure and your Cloud9 environment respectively.
+Next, change directory to the `cfn101-workshop/code/workspace/architecting-templates` directory of the repository that you have either expanded from the ZIP file, or cloned. Locate the `base-network.template` file and the `cloud9.template` file: you'll first use them to create the base infrastructure and your Cloud9 environment respectively.
 
 
 
