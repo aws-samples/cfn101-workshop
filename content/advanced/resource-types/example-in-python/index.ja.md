@@ -312,7 +312,7 @@ aws cloudformation deregister-type \
     --type RESOURCE
 :::
 
-リソースタイプ、モジュール、フックなどの CloudFormation エクステンションを登録するてめに `cfn submit` コマンドを使用すると、CFN-CLI はご利用の AWS アカウントに 2 つの CloudFormation スタックを作成します。1 つはエクステンション (リソースタイプエクステンションやフックエクステンションのためなど) の実行ロールを作成するのもです。もう 1 つはエクステンションのインフラストラクチャーコンポーネントを持つものです。また、CFN-CLI は両方のスタックに削除保護を設定します。この 2 つのスタックとは、このラボ専用の `awssamples-ec2-importkeypair-role-stack` スタックと、このラボや同じアカウントで CFN-CLI を使用して開発と登録するほかのエクステンションで共通に使用されている `CloudFormationManagedUploadInfrastructure` スタックです。
+リソースタイプ、モジュール、フックなどの CloudFormation エクステンションを登録するために `cfn submit` コマンドを使用すると、CFN-CLI はご利用の AWS アカウントに 2 つの CloudFormation スタックを作成します。1 つはエクステンション (リソースタイプエクステンションやフックエクステンションのためなど) の実行ロールを作成するのもです。もう 1 つはエクステンションのインフラストラクチャーコンポーネントを持つものです。また、CFN-CLI は両方のスタックに削除保護を設定します。この 2 つのスタックとは、このラボ専用の `awssamples-ec2-importkeypair-role-stack` スタックと、このラボや、同じアカウントで CFN-CLI を使用し開発や登録をしているその他のエクステンションで共通使用されている `CloudFormationManagedUploadInfrastructure` スタックです。
 
 次に示す手順に沿って、`awssamples-ec2-importkeypair-role-stack` スタックを削除します。まず、削除保護を解除します。
 
@@ -345,13 +345,13 @@ aws cloudformation describe-stack-resources \
     --output text
 :::
 
-このコマンドが `ArtifactBucket` のバケット名を戻します、例えば `cloudformationmanageduploadinfra-accesslogsbucket-[...省略...]`。メモにとってください。以下のコマンドでそのバケットの内容の一覧を取得します。コマンドには、メモにとったバケット名を書き換えてください。
+このコマンドが `ArtifactBucket` のバケット名 (例えば `cloudformationmanageduploadinfra-accesslogsbucket-[...省略...]`) を返します。メモにとってください。以下のコマンドでそのバケットの内容の一覧を取得します。コマンドのパラメータをメモにとったバケット名に書き換えてください。
 
 :::code{language=shell showLineNumbers=false showCopyAction=false}
 aws s3 ls s3://NAME-OF-YOUR-cloudformationmanageduploadinfrast-artifactbucket-[...]
 :::
 
-このコマンドでは、リソースタイプの情報を持つ ZIP ファイルを `AWSSamples-EC2-ImportKeypair-YYYY-MM-ddthh-MM-SS.zip` のような形の名前で表示されるはずです。ファイル名をメモします。`ArtifactBucket` バケットはバージョニングが有効になっているため、上記の ZIP ファイルオブジェクトのバージョン ID に関する情報を収集する必要があります。以下のコマンドにメモしたバケット名とファイル名を置き換えて実行します。
+このコマンドでは、リソースタイプの情報を持つ ZIP ファイルを `AWSSamples-EC2-ImportKeypair-YYYY-MM-ddthh-MM-SS.zip` のような形の名前で表示されるはずです。ファイル名をメモします。`ArtifactBucket` バケットはバージョニングが有効になっているため、上記の ZIP ファイルオブジェクトのバージョン ID に関する情報を収集する必要があります。以下のコマンドのパラメータをメモしたバケット名とファイル名に置き換えて実行します。
 
 :::code{language=shell showLineNumbers=false showCopyAction=false}
 aws s3api list-object-versions \
@@ -389,7 +389,7 @@ aws cloudformation describe-stack-resources \
 aws s3 ls s3://NAME-OF-YOUR-cloudformationmanageduploadinfra-accesslogsbucket-[...]
 :::
 
-この [ページ](https://docs.aws.amazon.com/ja_jp/AmazonS3/latest/userguide/ServerLogs.html#how-logs-delivered) で説明されているように、サーバーアクセスログを有効にすると Amazon S3 はバケット (この場合はログバケットを使用するアーティファクト用のバケット) のアクセスログを定期的に収集して統合し、そのログをターゲットのロギングバケットにアップロードします。現時点でログバケットにオブジェクトが表示されない場合でも、状況によっては、後でログバケットを削除しようとしたときにログが配信された可能性があります。オブジェクトを含むバケットは削除できません。その場合、ログバケットを作成したスタックを削除するとエラーが発生します。ログバケットのログファイルを削除する場合は、先ほどのアーティファクトバケット内のオブジェクトの対象方法を同様のプロセスを実施します。その後に再度ログバケット (または作成したスタック) の削除を試みことができます。以下の手順で実施できます。
+この [ページ](https://docs.aws.amazon.com/ja_jp/AmazonS3/latest/userguide/ServerLogs.html#how-logs-delivered) で説明されているように、サーバーアクセスログを有効にすると Amazon S3 はバケット (この場合はログバケットを使用するアーティファクト用のバケット) のアクセスログを定期的に収集して統合し、そのログをターゲットのロギングバケットにアップロードします。現時点でログバケットにオブジェクトが表示されない場合でも、状況によっては、後でログバケットを削除しようとしたときにログが配信された可能性があります。オブジェクトを含むバケットは削除できません。その場合、ログバケットを作成したスタックを削除するとエラーが発生します。ログバケットのログファイルを削除する場合は、先ほどのアーティファクトバケット内のオブジェクトの対応方法と同様のプロセスを実施します。その後に再度ログバケット (または作成したスタック) の削除を試みことができます。以下の手順で実施できます。
 
 `CloudFormationManagedUploadInfrastructure` スタックを削除する前に、`AccessLogsBucket` と `EncryptionKey` の `DeletionPolicy: Retain` と `UpdateReplacePolicy: Retain` を無効化する必要があります。テンプレートを取得して、`CloudFormationManagedUploadInfrastructure.template` に保存してください。
 
