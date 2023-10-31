@@ -96,7 +96,7 @@ aws cloudformation wait stack-create-complete \
 --stack-name cfn-workshop-language-extensions
 :::
 ::::
-::::tab{id="local" label="Local development"}
+::::tab{id="local" label="ローカル開発"}
 1. Navigate to the [AWS CloudFormation Console](https://console.aws.amazon.com/cloudformation/).
 1. From the left navigation panel, select the **Stacks** tab. From the right side of the page, choose **Create Stack**, and then choose **With new resources (standard).**
 1. From **Prerequisite**-**Prepare template**, choose **Template is ready**.
@@ -184,7 +184,7 @@ aws cloudformation wait stack-update-complete \
 --stack-name cfn-workshop-language-extensions
 :::
 ::::
-::::tab{id="local" label="Local development"}
+::::tab{id="local" label="ローカル開発"}
 1. Navigate to the [AWS CloudFormation Console](https://console.aws.amazon.com/cloudformation/).
 1. From the left navigation panel, select the **Stacks** tab. Select the `cfn-workshop-language-extensions` stack you created earlier.
 1. From the top-right menu, choose **Update**.
@@ -240,7 +240,7 @@ aws cloudformation wait stack-update-complete \
 --stack-name cfn-workshop-language-extensions-solution
 :::
 ::::
-::::tab{id="local" label="Local development"}
+::::tab{id="local" label="ローカル開発"}
 1. Navigate to the [AWS CloudFormation Console](https://console.aws.amazon.com/cloudformation/).
 1. From the left navigation panel, select the **Stacks** tab. From the right side of the page, choose **Create Stack**, and then choose **With new resources (standard).**
 1. From **Prerequisite**-**Prepare template**, choose **Template is ready**.
@@ -272,7 +272,7 @@ aws cloudformation wait stack-delete-complete \
 :::
 1. Repeat steps (1-2) above to delete the stack `cfn-workshop-language-extensions-solution`.
 ::::
-::::tab{id="LocalDevelopment" label="Local development"}
+::::tab{id="LocalDevelopment" label="ローカル開発"}
 1. Navigate to the [AWS CloudFormation Console](https://console.aws.amazon.com/cloudformation/).
 1. On the **Stacks** page in the CloudFormation console, select the stack you created in **Part 1:** `cfn-workshop-language-extensions`.
 1. In the stack details pane, choose **Delete**. Select **Delete** when prompted.

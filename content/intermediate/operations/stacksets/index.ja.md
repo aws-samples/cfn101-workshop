@@ -109,7 +109,7 @@ aws cloudformation describe-stack-set-operation \
 1. Navigate to the [AWS CloudFormation Console](https://console.aws.amazon.com/cloudformation/). From the panel on the left of the page, select the **StackSets** tab.
 1. Select `cfn-workshop-network`,Under **Stack instances**, you should see two stacks deployed. One in `us-east-1` and another in `us-west-2`
 ::::
-::::tab{id="local" label="Local development"}
+::::tab{id="local" label="ローカル開発"}
 1. Navigate to the [AWS CloudFormation Console](https://console.aws.amazon.com/cloudformation/).
 1. From the panel on the left of the page, select the **StackSets** tab. Choose **Create StackSets**.
 1. In the **Permissions** section: choose **Self-service permissions**; leave the value for **IAM Admin role ARN** empty; set **IAM execution role name** to **AWSCloudFormationStackSetsExecutionRole**.
@@ -182,7 +182,7 @@ aws cloudformation describe-stack-set-operation \
 1. Navigate to the [AWS CloudFormation Console](https://console.aws.amazon.com/cloudformation/). From the panel on the left of the page, select the **StackSets** tab.
 1. Select `cfn-workshop-security`,Under **Stack instances**, you should see two stacks deployed. One in `us-east-1` and another in `us-west-2`
 ::::
-::::tab{id="local" label="Local development"}
+::::tab{id="local" label="ローカル開発"}
 1. Navigate to the [AWS CloudFormation Console](https://console.aws.amazon.com/cloudformation/).
 1. Select the **StackSets** tab. Choose **Create StackSets**.
 1. In the **Permissions** section: choose **Self-service permissions**; for **IAM Admin role ARN**, select **IAM role name** from the drop-down menu, and set it to **AWSCloudFormationStackSetAdministrationRole**; set **IAM execution role name** to **AWSCloudFormationStackSetsExecutionRole**.
@@ -255,7 +255,7 @@ aws cloudformation create-stack-instances \
 --operation-preferences RegionConcurrencyType=PARALLEL
 :::
 ::::
-::::tab{id="local" label="Local development"}
+::::tab{id="local" label="ローカル開発"}
 Use the updated template, and create a new `cfn-workshop-ec2instance` stack set to deploy the EC2 instance resources in the 2 regions you chose earlier.  To deploy StackSets operations in parallel, from **Deployment Options** choose **Parallel**. This will deploy StackSets operations in both regions in parallel, thus saving time.
 ::::
 :::::
@@ -288,7 +288,7 @@ aws cloudformation delete-stack \
 :::
 1. Repeat the step 4 to **Delete** the execution role stack `StackSetAdministratorRole`.
 ::::
-::::tab{id="local" label="Local development"}
+::::tab{id="local" label="ローカル開発"}
 
 **How to delete AWS CloudFormation stacks within stack set**
 

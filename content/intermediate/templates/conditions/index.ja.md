@@ -3,6 +3,10 @@ title: "条件"
 weight: 100
 ---
 
+_ラボ実施時間 : 20分程度_
+
+---
+
 ### 概要
 
 [AWS CloudFormation](https://aws.amazon.com/jp/cloudformation/) を使用してインフラストラクチャを記述する場合、CloudFormation テンプレートでリソースとリソースプロパティを宣言します。リソースを作成したり、条件に基づいてリソースプロパティ値を指定するようなユースケースで利用します。
@@ -33,7 +37,7 @@ CloudFormation は、スタックの作成時またはスタックの更新時�
 
 ### ラボを開始
 
-#### **リソースレベルでの条件の定義**
+#### **リソースレベルでの条件の定義** 
 
 * `code/workspace/conditions` ディレクトリに移動します。
 * `condition-resource.yaml` テンプレートを開きます。
@@ -41,7 +45,7 @@ CloudFormation は、スタックの作成時またはスタックの更新時�
 
 それでは、始めましょう！
 
-まず、テンプレートを再利用可能にすることに集中しましょう。テンプレートに、ライフサイクル環境の入力パラメータを含む `Parameters` セクションを追加します。`EnvType` パラメータを呼び出し、使用可能な入力値として `test` と `prod` という2つの環境名の例を記述します。使用する [Amazon Machine Image](https://docs.aws.amazon.com/ja_jp/AWSEC2/latest/UserGuide/AMIs.html) (AMI) の入力パラメータを定義します。この例では、[AWS Systems Manager](https://aws.amazon.com/jp/systems-manager/) [Paramater Store](https://docs.aws.amazon.com/ja_jp/systems-manager/latest/userguide/systems-manager-parameter-store.html) を使用して、使用可能な最新の Amazon Linux AMI を参照し、`LatestAmiId` というパラメータを呼び出しています。
+まず、テンプレートを再利用可能にすることに集中しましょう。テンプレートに、ライフサイクル環境の入力パラメータを含む `Parameters` セクションを追加します。`EnvType` パラメータを呼び出し、使用可能な入力値として `test` と `prod` という 2 つの環境名の例を記述します。使用する [Amazon Machine Image](https://docs.aws.amazon.com/ja_jp/AWSEC2/latest/UserGuide/AMIs.html) (AMI) の入力パラメータを定義します。この例では、[AWS Systems Manager](https://aws.amazon.com/jp/systems-manager/) [Paramater Store](https://docs.aws.amazon.com/ja_jp/systems-manager/latest/userguide/systems-manager-parameter-store.html) を使用して、使用可能な最新の Amazon Linux AMI を参照し、`LatestAmiId` というパラメータを呼び出しています。
 
 ::alert[詳細については、[AWS Systems Manager Parameter Store を使用して最新の Amazon Linux AMI ID を取得する](https://aws.amazon.com/jp/blogs/news/query-for-the-latest-amazon-linux-ami-ids-using-aws-systems-manager-parameter-store/)をご参照ください。]{type="info"}
 
@@ -105,48 +109,90 @@ Resources:
 
 スタックを作成する時に、`test` を `EnvType` の値として渡すと、CloudFormation によって EC2 インスタンスリソースのみがプロビジョニングされることがわかります。更新したテンプレートを保存します。次に、AWS CloudFormation [コンソール](https://console.aws.amazon.com/cloudformation) に移動し、スタックを作成します。
 
-* CloudFormation コンソールで、**スタックの作成**、**新しいリソースを使用 (標準)** を選択します。
-* **テンプレートの準備**セクションで、**テンプレートの準備完了**を選択します。
-* **テンプレートの指定**セクションで、**テンプレートファイルのアップロード**を選択します。
-* `condition-resource.yaml` テンプレートを選択します。
-* **スタックの名前**を入力します。例えば、`cfn-workshop-condition-test` と入力します。
-* `EnvType` パラメータの値として `test` を選択します。**次へ**をクリックします。
-* **スタックオプションの設定**ページはデフォルト値のまま**次へ**をクリックします。
-* レビューページで、**送信**をクリックします。CloudFormation コンソールで作成中のスタックの進行状況を確認できます。
-* スタックの作成が完了するまでお待ちください。スタックのステータスが `CREATE_COMPLETE` になるまで、コンソールのビューを更新します。
+:::::tabs{variant="container"}
+::::tab{id="cloud9" label="Cloud9"}
+1. **Cloud9 ターミナル** で `code/workspace/conditions` ディレクトリに移動します。
+:::code{language=shell showLineNumbers=false showCopyAction=true}
+cd cfn101-workshop/code/workspace/conditions
+:::
+1. AWS CLI を使用してスタックを作成します。必要なパラメータはあらかじめ入力されています。
+:::code{language=shell showLineNumbers=false showCopyAction=true}
+aws cloudformation create-stack --stack-name cfn-workshop-condition-test \
+--template-body file://condition-resource.yaml \
+--parameters ParameterKey="EnvType",ParameterValue="test"
+:::
+1. `create-stack` コマンドが成功すると、CloudFormation は `StackId` を返却します。
+:::code{language=shell showLineNumbers=false showCopyAction=false}
+"StackId": "arn:aws:cloudformation:us-east-1:123456789012:stack/cfn-workshop-condition-test/739fafa0-e4d7-11ed-a000-12d9009553ff"
+:::
+1. **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** コンソールを新しいタブで開き、スタックのステータスが **CREATE_COMPLETE** になっているかどうかを確認します。
+::::
+::::tab{id="local" label="ローカル開発"}
+1. CloudFormation コンソールで、 **スタックの作成** 、 **新しいリソースを使用 (標準)** を選択します。
+1. **テンプレートの準備** セクションで、 **テンプレートの準備完了** を選択します。
+1. **テンプレートの指定** セクションで、 **テンプレートファイルのアップロード** を選択します。
+1. `condition-resource.yaml` テンプレートを選択します。
+1. **スタックの名前** を入力します。例えば、`cfn-workshop-condition-test` と入力します。
+1. `EnvType` パラメータの値として `test` を選択します。 **次へ** をクリックします。
+1. **スタックオプションの設定** ページはデフォルト値のまま **次へ** をクリックします。
+1. レビューページで、 **送信** をクリックします。CloudFormation コンソールで作成中のスタックの進行状況を確認できます。
+1. スタックの作成が完了するまでお待ちください。スタックのステータスが `CREATE_COMPLETE` になるまで、コンソールのビューを更新します。
+::::
+:::::
 
-スタックが `CREATE_COMPLETE` ステータスになったら、スタックの**リソース**タブに移動します。`EnvType` に渡した `test` 値と、テンプレート内の他の2つのリソースに追加して関連付けた条件に基づき作成したロジックをベースに、プロビジョニングされているリソースがEC2インスタンスだけであることを確認します。
+スタックが `CREATE_COMPLETE` ステータスになったら、スタックの **リソース** タブに移動します。`EnvType` に渡した `test` 値と、テンプレート内の他の 2 つのリソースに追加して関連付けた条件に基づき作成したロジックをベースに、プロビジョニングされているリソースが EC2 インスタンスだけであることを確認します。
 
 ![condition-test](/static/intermediate/templates/conditions/condition-test.ja.png)
 
 次のステップでは、同じテンプレートを使用して新しいスタックを作成します。今回は、`envType` パラメータの値として `prod` を渡し、`Volume` と `MountPoint` リソースもプロビジョニングされることを確認します。AWS CloudFormation [コンソール](https://console.aws.amazon.com/cloudformation)に移動し、既存のテンプレートを使用してスタックを作成します。
 
-* CloudFormation コンソールで、**スタックの作成**、**新しいリソースを使用 (標準)** を選択します。
-* **テンプレートの準備**セクションで、**テンプレートの準備完了**を選択します。
-* **テンプレートの指定**セクションで、**テンプレートファイルのアップロード**を選択します。
-* `condition-resource.yaml` テンプレートを選択します。
-* **スタックの名前**を入力します。例えば、`cfn-workshop-condition-prod` と入力します。
-* `EnvType` パラメータの値として `prod` を選択します。**次へ**をクリックします。
-* **スタックオプションの設定**ページはデフォルト値のまま**次へ**をクリックします。
-* レビューページで、**送信**をクリックします。CloudFormation コンソールで作成中のスタックの進行状況を確認できます。
-* スタックの作成が完了するまでお待ちください。スタックのステータスが `CREATE_COMPLETE` になるまで、コンソールのビューを更新します。
+:::::tabs{variant="container"}
+::::tab{id="cloud9" label="Cloud9"}
+1. **Cloud9 ターミナル** で `code/workspace/conditions` ディレクトリに移動します。
+:::code{language=shell showLineNumbers=false showCopyAction=true}
+cd cfn101-workshop/code/workspace/conditions
+:::
+1. AWS CLI を使用してスタックを作成します。必要なパラメータはあらかじめ入力されています。
+:::code{language=shell showLineNumbers=false showCopyAction=true}
+aws cloudformation create-stack --stack-name cfn-workshop-condition-prod \
+--template-body file://condition-resource.yaml \
+--parameters ParameterKey="EnvType",ParameterValue="prod"
+:::
+1. `create-stack` コマンドが成功すると、CloudFormation は `StackId` を返却します。
+:::code{language=shell showLineNumbers=false showCopyAction=false}
+"StackId": "arn:aws:cloudformation:us-east-1:123456789012:stack/cfn-workshop-condition-prod/739fafa0-e4d7-11ed-a000-12d9009553ff"
+:::
+1. **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** コンソールを新しいタブで開き、スタックのステータスが **CREATE_COMPLETE** になっているかどうかを確認します。
+::::
+::::tab{id="local" label="ローカル開発"}
+1. CloudFormation コンソールで、 **スタックの作成** 、 **新しいリソースを使用 (標準)** を選択します。
+1. **テンプレートの準備** セクションで、 **テンプレートの準備完了** を選択します。
+1. **テンプレートの指定** セクションで、 **テンプレートファイルのアップロード** を選択します。
+1. `condition-resource.yaml` テンプレートを選択します。
+1. **スタックの名前** を入力します。例えば、`cfn-workshop-condition-prod` と入力します。
+1. `EnvType` パラメータの値として `prod` を選択します。 **次へ** をクリックします。
+1. **スタックオプションの設定** ページはデフォルト値のまま **次へ** をクリックします。
+1. レビューページで、 **送信** をクリックします。CloudFormation コンソールで作成中のスタックの進行状況を確認できます。
+1. スタックの作成が完了するまでお待ちください。スタックのステータスが `CREATE_COMPLETE` になるまで、コンソールのビューを更新します。
+::::
+:::::
 
-今回は `IsProduction` 条件が満たされます。スタックの**リソース**タブに移動し、EC2インスタンスリソースと共に、`Volume` および `MountPoint` リソースもプロビジョニングされていることを確認します。
+今回は `IsProduction` 条件が満たされます。スタックの **リソース** タブに移動し、EC2 インスタンスリソースと共に、`Volume` および `MountPoint` リソースもプロビジョニングされていることを確認します。
 
 ![condition-prod](/static/intermediate/templates/conditions/condition-prod.ja.png)
 
 おめでとうございます！条件付きでリソースを作成する方法を学びました！
 
 
-#### **プロパティレベルでの条件の定義**
+#### **プロパティレベルでの条件の定義** 
 
 リソースプロパティ値を条件付きで定義するユースケースの例を見てみましょう。例えば、`test` 環境用に `t2.micro` タイプの EC2 インスタンスを作成し、`prod` 環境用に `t2.small` タイプの EC2 インスタンスを作成するとします。`InstanceType` [プロパティ](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-instance.html#cfn-ec2-instance-instancetype)として、リソースプロパティレベルで関連付ける条件を定義します。
 
 まず、条件を設計します。例えば、`EnvType` パラメータの入力パラメータとして `prod` を指定した場合、条件は満たされます。次に、条件を EC2 インスタンスに関連付け、希望する動作を次のように記述します。条件が当てはまる場合、インスタンスはインスタンスタイプとして `t2.small` を使用し、それ以外の場合は `t2.micro` を使用します。次の例で、これがどのように機能するか見てみましょう。
 
 1. `code/workspace/conditions` ディレクトリにいることを確認します。
-2. `condition-resource-property.yaml` ファイルを開きます。
-3. ラボの手順に従ってテンプレートの内容を更新します。
+1. `condition-resource-property.yaml` ファイルを開きます。
+1. ラボの手順に従ってテンプレートの内容を更新します。
 
 それでは、始めましょう！この例では、前の例と同様に、`EnvType` パラメータと `IsProduction` 条件を定義して、渡したパラメータ値に基づいてリソースを作成します。以下に示すコンテンツをコピーし、`condition-resource-property.yaml` ファイルに貼り付けます。
 
@@ -186,17 +232,38 @@ Resources:
 
 このセクションでは、`EnvType` パラメータの値として `test` を指定、EC2 インスタンスのタイプが `t2.micro` であることを確認します。AWS CloudFormation [コンソール](https://console.aws.amazon.com/cloudformation)に移動し、次のテンプレートを使用してスタックを作成します。
 
-* CloudFormation コンソールで、**スタックの作成**、**新しいリソースを使用 (標準)** を選択します。
-* **テンプレートの準備**セクションで、**テンプレートの準備完了**を選択します。
-* **テンプレートの指定**セクションで、**テンプレートファイルのアップロード**を選択します。
-* `condition-resource-property.yaml` テンプレートを選択します。
-* **スタックの名前**を入力します。例えば、`cfn-workshop-condition-property-test` と入力します。
-* `EnvType` パラメータの値として `test` を渡します。**次へ**をクリックします。
-* **スタックオプションの設定**ページはデフォルト値のまま**次へ**をクリックします。
-* レビューページで、**送信**をクリックします。CloudFormation コンソールで作成中のスタックの進行状況を確認できます。
-* スタックの作成が完了するまでお待ちください。スタックのステータスが `CREATE_COMPLETE` になるまで、コンソールのビューを更新します。
+:::::tabs{variant="container"}
+::::tab{id="cloud9" label="Cloud9"}
+1. **Cloud9 ターミナル** で `code/workspace/conditions` ディレクトリに移動します。
+:::code{language=shell showLineNumbers=false showCopyAction=true}
+cd cfn101-workshop/code/workspace/conditions
+:::
+1. AWS CLI を使用してスタックを作成します。必須パラメータはあらかじめ入力されています。
+:::code{language=shell showLineNumbers=false showCopyAction=true}
+aws cloudformation create-stack --stack-name cfn-workshop-condition-property-test \
+--template-body file://condition-resource-property.yaml \
+--parameters ParameterKey="EnvType",ParameterValue="test"
+:::
+1. `create-stack` コマンドが成功すると、CloudFormation は `StackId` を返却します。
+:::code{language=shell showLineNumbers=false showCopyAction=false}
+"StackId": "arn:aws:cloudformation:us-east-1:123456789012:stack/cfn-workshop-condition-property-test/739fafa0-e4d7-11ed-a000-12d9009553ff"
+:::
+1. **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** コンソールを新しいタブで開き、スタックのステータスが **CREATE_COMPLETE** になっているかどうかを確認します。
+::::
+::::tab{id="local" label="ローカル開発"}
+1. CloudFormation コンソールで、 **スタックの作成** 、 **新しいリソースを使用 (標準)** を選択します。
+1. **テンプレートの準備** セクションで、 **テンプレートの準備完了** を選択します。
+1. **テンプレートの指定** セクションで、 **テンプレートファイルのアップロード** を選択します。
+1. `condition-resource-property.yaml` テンプレートを選択します。
+1. **スタックの名前** を入力します。例えば、`cfn-workshop-condition-property-test` と入力します。
+1. `EnvType` パラメータの値として `test` を渡します。 **次へ** をクリックします。
+1. **スタックオプションの設定** ページはデフォルト値のまま **次へ** をクリックします。
+1. レビューページで、 **送信** をクリックします。CloudFormation コンソールで作成中のスタックの進行状況を確認できます。
+1. スタックの作成が完了するまでお待ちください。スタックのステータスが `CREATE_COMPLETE` になるまで、コンソールのビューを更新します。
+::::
+:::::
 
-スタックのステータスが `CREATE_COMPLETE` になったら、スタックの**リソース**タブに移動し、スタックで作成した EC2 インスタンスを探します。
+スタックのステータスが `CREATE_COMPLETE` になったら、スタックの **リソース** タブに移動し、スタックで作成した EC2 インスタンスを探します。
 
 次に、インスタンスタイプが想定通りであることを確認します。インスタンスの物理 ID のリンクをクリックして、Amazon EC2 コンソールでインスタンスを表示します。
 ![condition-test-property](/static/intermediate/templates/conditions/condition-test-property.ja.png)
@@ -208,18 +275,18 @@ Resources:
 
 おめでとうございます！これで、リソースプロパティ値を条件付きで指定する方法がわかりました。
 
-### **チャレンジ**
+### **チャレンジ** 
 
 ここまで、CloudFormation テンプレート内のリソースとプロパティ値で条件を使用する方法を学んできました。このチャレンジでは、`condition-resource.yaml` CloudFormation テンプレートの [Outputs](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/outputs-section-structure.html) セクションに条件付きで出力を作成します。
 
-**タスク:** `condition-resource.yaml` テンプレートに [Outputs](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/outputs-section-structure.html) セクションを記述してください。出力の論理IDとして `VolumeId` を指定し、`Ref` 組み込み関数を使用して [VolumeID を返します](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/aws-resource-ec2-volume.html#aws-resource-ec2-volume-return-values)。このチャレンジのゴールは、`IsProduction` 条件が満たされた場合にのみ出力を作成することです。チャレンジのゴールに向けて、どのようにテンプレートに反映させますか？準備ができたら、更新したテンプレートで既存の `cfn-workshop-condition-prod` スタックを更新し、変更によって期待どおりの出力が作成されたことを確認します。
+**タスク** `condition-resource.yaml` テンプレートに [Outputs](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/outputs-section-structure.html) セクションを記述してください。出力の論理 ID として `VolumeId` を指定し、`Ref` 組み込み関数を使用して [VolumeID を返します](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/aws-resource-ec2-volume.html#aws-resource-ec2-volume-return-values)。このチャレンジのゴールは、`IsProduction` 条件が満たされた場合にのみ出力を作成することです。チャレンジのゴールに向けて、どのようにテンプレートに反映させますか？準備ができたら、更新したテンプレートで既存の `cfn-workshop-condition-prod` スタックを更新し、変更によって期待どおりの出力が作成されたことを確認します。
 
 :::expand{header="ヒントが必要ですか？"}
 * [スタック出力](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/outputs-section-structure.html#outputs-section-structure-examples)のドキュメントを参照し、テンプレートで `VolumeId` 出力を定義してください。
 * [条件](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/conditions-section-structure.html)と[条件の関連付け](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference-conditions.html#associating-a-condition)のドキュメントを確認してください。どのように条件付きで出力を作成しますか？
 :::
 
-:::expand{header="解決策を確認しますか？"}
+::::::expand{header="解決策を確認しますか？"}
 `condition-resource.yaml` ファイルに次の内容を追加します。
 
 ```yaml
@@ -231,19 +298,38 @@ Outputs:
 
 次に、AWS CloudFormation [コンソール](https://console.aws.amazon.com/cloudformation)に移動して、`cfn-workshop-condition-prod` スタックの更新を選択します。
 
-* CloudFormation コンソールで、**更新**をクリックします。
-* **テンプレートの準備**セクションで、**既存のテンプレート置き換える**を選択します。
-* **テンプレートの指定**セクションで、**テンプレートファイルのアップロード**を選択します。
-* `condition-resource.yaml` テンプレートを選択します。
-* `EnvType` は既に `prod` に設定されているはずです。**次へ**をクリックします。
-* **スタックオプションの設定**ページはデフォルト値のまま**次へ**をクリックします。
-* レビューページで、**送信**をクリックします。CloudFormation コンソールで作成中のスタックの進行状況を確認できます。
-* スタックの作成が完了するまでお待ちください。スタックのステータスが `UPDATE_COMPLETE` になるまで、コンソールのビューを更新します。
-
+:::::tabs{variant="container"}
+::::tab{id="cloud9" label="Cloud9"}
+1. **Cloud9 ターミナル** で `code/workspace/conditions` ディレクトリに移動します。
+  :::code{language=shell showLineNumbers=false showCopyAction=true}
+  cd cfn101-workshop/code/workspace/conditions
+  :::
+1. AWS CLI を使用してスタックを更新します。必要なパラメータはあらかじめ入力されています。
+  :::code{language=shell showLineNumbers=false showCopyAction=true}
+  aws cloudformation update-stack --stack-name cfn-workshop-condition-prod \
+--template-body file://condition-resource.yaml \
+--parameters ParameterKey="EnvType",ParameterValue="prod"```
+  :::
+1. `update-stack` コマンドが成功すると、CloudFormation は `StackId` を返却します。
+  :::code{language=shell showLineNumbers=false showCopyAction=false}
+  "StackId": "arn:aws:cloudformation:us-east-1:123456789012:stack/cfn-workshop-condition-prod/739fafa0-e4d7-11ed-a000-12d9009553ff"
+1. **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** コンソールを新しいタブで開き、スタックのステータスが **UPDATE_COMPLETE** になっているかどうかを確認します。
+::::
+::::tab{id="local" label="ローカル開発"}
+1. CloudFormation コンソールで、 **更新** をクリックします。
+1. **テンプレートの準備** セクションで、 **既存のテンプレート置き換える** を選択します。
+1. **テンプレートの指定** セクションで、 **テンプレートファイルのアップロード** を選択します。
+1. `condition-resource.yaml` テンプレートを選択します。
+1. `EnvType` は既に `prod` に設定されているはずです。 **次へ** をクリックします。
+1. **スタックオプションの設定** ページはデフォルト値のまま **次へ** をクリックします。
+1. レビューページで、 **送信** をクリックします。CloudFormation コンソールで作成中のスタックの進行状況を確認できます。
+1. スタックの作成が完了するまでお待ちください。スタックのステータスが `UPDATE_COMPLETE` になるまで、コンソールのビューを更新します。
+::::
+:::::
 
 スタックの`出力`セクションに移動し、`VolumeId` の出力が存在することを確認します。
 ![condition-prod-update](/static/intermediate/templates/conditions/condition-prod-update.ja.png)
-:::
+::::::
 
 解決策は、`code/solutions/conditions/condition-output.yaml` テンプレートファイルでも入手できます。
 
@@ -252,7 +338,7 @@ Outputs:
 次に示す手順に従って、このラボで作成したリソースをクリーンアップしてください。
 
 * CloudFormation コンソールで、このラボで作成した `cfn-workshop-condition-test` スタックを選択します。
-* このラボで作成したスタックの**削除**を選択した後、**スタックの削除**をクリックして確定します。
+* このラボで作成したスタックの **削除** を選択した後、 **スタックの削除** をクリックして確定します。
 
 
 このラボで作成した他のスタック `cfn-workshop-condition-prod`、`cfn-workshop-condition-property-test` に対して、上記と同じクリーンアップ手順を実行します。

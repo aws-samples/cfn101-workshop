@@ -3,6 +3,10 @@ title: "変更セットの理解"
 weight: 200
 ---
 
+_ラボ実施時間 : 20分程度_
+
+---
+
 ### 概要
 [AWS CloudFormation](https://aws.amazon.com/jp/cloudformation/) スタックを更新すると、そのスタック内の 1 つ以上のリソースを目的の新しい状態に更新します。リソースの依存関係、[スタックリソースの更新動作](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/using-cfn-updating-stacks-update-behaviors.html)、またはユーザーエラーなどの要因により、特定の状態と実際の新しい状態との間に違いが生じる可能性があります。
 
@@ -21,44 +25,107 @@ weight: 200
 サンプルテンプレートを使用して、CloudFormation スタックを作成します。次に、このスタックに 2 つの異なる変更セットを作成します。1 つはテンプレートの編集によるもので、もう 1 つはパラメータ値の変更によるものです。
 
 それでは、始めましょう。
+:::::tabs{variant="container"}
+::::tab{id="cloud9" label="Cloud9"}
 
+1. **Cloud9 ターミナル** で `code/workspace/understanding-changesets` ディレクトリに移動します。
+:::code{language=shell showLineNumbers=false showCopyAction=true}
+cd cfn101-workshop/code/workspace/understanding-changesets
+:::
+1. `Cloud9` エディターで `bucket.yaml` CloudFormation テンプレートを開き、サンプルテンプレートの内容をよく理解してください。
+1. 次の手順に従ってスタックを作成します。
+   1. このテンプレートでは、`BucketName` 入力パラメータに一意の値を指定する必要があります。詳細については、 [バケットの名前付け](https://docs.aws.amazon.com/ja_jp/AmazonS3/latest/userguide/bucketnamingrules.html)を参照してください。
+   1. 次のコマンドを使用してテンプレートからスタックを作成しましょう (この例では AWS リージョンに `us-east-1` を使用しています。必要に応じてこの値を変更してください)。
+   :::code{language=shell showLineNumbers=false showCopyAction=true}
+   aws cloudformation create-stack \
+--region us-east-1 \
+--stack-name cfn-workshop-understanding-changesets \
+--template-body file://bucket.yaml \
+--parameters ParameterKey=BucketName,ParameterValue='YOUR_UNIQUE_BUCKET_NAME-HERE'
+   :::
+   1. CloudFormation は次の出力を返します。
+   :::code{language=json showLineNumbers=false showCopyAction=false}
+   "StackId" : "arn:aws:cloudformation:us-east-1:123456789012:stack/cfn-workshop-understanding-changesets/330b0120-1771-11e4-af37-50ba1b98bea6"
+   :::
+   1. CloudFormation コンソールまたは [wait stack-create-complete](https://docs.aws.amazon.com/cli/latest/reference/cloudformation/wait/stack-create-complete.html) コマンドを使用して `cfn-workshop-understanding-changesets` スタックが作成されるまでお待ちください。
+   :::code{language=shell showLineNumbers=false showCopyAction=true}
+   aws cloudformation wait stack-create-complete \
+--stack-name cfn-workshop-understanding-changesets
+   :::
+   ::::
+::::tab{id="local" label="ローカル開発"}
 1. `code/workspace/understanding-changesets` ディレクトリに移動します。
-2. お好みのテキストエディタで `bucket.yaml` CloudFormation テンプレートを開き、サンプルテンプレートの内容をご確認ください。
-3. 以下の手順に従ってスタックを作成します。
+1. お好みのテキストエディタで `bucket.yaml` CloudFormation テンプレートを開き、サンプルテンプレートの内容をご確認ください。
+1. 以下の手順に従ってスタックを作成します。
     1. [AWS CloudFormation コンソール](https://console.aws.amazon.com/cloudformation/) に移動します。
-    2. **スタックの作成**から、**新しいリソースを使用 (標準)** を選択します。
-    3. **テンプレートの準備**セクションで、**テンプレート準備完了**を選択します。
-    4. **テンプレートの指定**セクションで、**テンプレートファイルのアップロード**を選択します。`bucket.yaml` テンプレートファイルを選択し、**次へ**をクリックします。
-    5. スタック名を指定します (例: `changesets-workshop`)。
-    6. `BucketName` パラメータには必ず一意の値を指定します。詳細については、[バケットの名前付け](https://docs.aws.amazon.com/ja_jp/AmazonS3/latest/userguide/bucketnamingrules.html) をご参照ください。**次へ**をクリックします。
-    7. 次のページで、すべてのオプションをデフォルト値のままにし、**次へ**をクリックします。
-    8. レビューページで、**送信**をクリックします。
-    9. スタックのステータスが `CREATE_COMPLETE` になるまで、スタックの作成ページを更新します。
+    1. **スタックの作成** から、 **新しいリソースを使用 (標準)** を選択します。
+    1. **テンプレートの準備** セクションで、 **テンプレート準備完了** を選択します。
+    1. **テンプレートの指定** セクションで、 **テンプレートファイルのアップロード** を選択します。`bucket.yaml` テンプレートファイルを選択し、 **次へ** をクリックします。
+    1. スタック名を指定します (例: `cfn-workshop-understanding-changesets`)。
+    1. `BucketName` パラメータには必ず一意の値を指定します。詳細については、[バケットの名前付け](https://docs.aws.amazon.com/ja_jp/AmazonS3/latest/userguide/bucketnamingrules.html) をご参照ください。 **次へ** をクリックします。
+    1. 次のページで、すべてのオプションをデフォルト値のままにし、 **次へ** をクリックします。
+    1. レビューページで、 **送信** をクリックします。
+    1. スタックのステータスが `CREATE_COMPLETE` になるまで、スタックの作成ページを更新します。
+::::
+:::::
 
 ### ラボパート 1
 ラボのこの部分では、特定のリソースタイプについて、スタックの更新時に [中断を伴わない更新](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/using-cfn-updating-stacks-update-behaviors.html#update-no-interrupt) を必要とするプロパティを指定します。次に、変更セットを作成して変更をプレビューし、変更セット操作の出力を確認します。
 
-お好みのテキストエディタで `bucket.yaml` CloudFormation テンプレートを開き、以下に示すように `VersioningConfiguration` を追加し、ファイルを保存します。
-
-```yaml
+:::::tabs{variant="container"}
+::::tab{id="cloud9" label="Cloud9"}
+`Cloud9` エディタで `bucket.yaml` CloudFormation テンプレートを開き、以下に示すように `VersioningConfiguration` を追加します。ファイルを保存します。
+:::code{language=yaml showLineNumbers=false showCopyAction=true}
 MyS3Bucket:
   Type: AWS::S3::Bucket
   Properties:
     BucketName: !Ref BucketName
     VersioningConfiguration:
       Status: Enabled
-```
+:::
+次に、最初の変更セットを作成します。
+1. ターミナルから以下のコマンドを **変更セットの作成** に対して実行し、変更セットの名前を指定します (例:`bucket-versioning-update`)。次に、上の例で選択した `bucketName` パラメーターを指定します。
+:::code{language=shell showLineNumbers=false showCopyAction=true}
+aws cloudformation create-change-set \
+--stack-name cfn-workshop-understanding-changesets \
+--change-set-name bucket-versioning-update \
+--template-body file://bucket.yaml \
+--parameters ParameterKey=BucketName,ParameterValue='TYPE_UNIQUE_BUCKET_NAME-HERE'
+:::
+1. CloudFormation は AWS CLI の以下の出力を返します。
+:::code{language=json showLineNumbers=false showCopyAction=false}
+"StackId" : "arn:aws:cloudformation:us-east-1:123456789012:stack/cfn-workshop-understanding-changesets/330b0120-1771-11e4-af37-50ba1b98bea6",
+"Id": "arn:aws:cloudformation:us-east-1:123456789012:changeSet/bucket-versioning-update/a470cff7-cb2c-4cba-bf27-2b3b9ccc1333"
+:::
+::::
+::::tab{id="local" label="ローカル開発"}
+
+お好みのテキストエディタで `bucket.yaml` CloudFormation テンプレートを開き、以下に示すように `VersioningConfiguration` を追加し、ファイルを保存します。
+
+:::code{language=yaml showLineNumbers=false showCopyAction=true}
+MyS3Bucket:
+  Type: AWS::S3::Bucket
+  Properties:
+    BucketName: !Ref BucketName
+    VersioningConfiguration:
+      Status: Enabled
+:::
 
 次に、最初の変更セットを作成します。
 
-1. CloudFormation コンソールで `changesets-workshop` スタックを選択し、**スタックアクション** から **既存スタックの変更セットを作成** を選択します。
-2. **テンプレートの準備**セクションで、**既存テンプレートを置き換える**を選択します。**テンプレートの指定**セクションで、**テンプレートファイルのアップロード**を選択し、更新した `bucket.yaml` テンプレートを選択し、**次へ**をクリックします。
-3. **スタックの詳細を指定**ページと**スタックオプションの設定**ページの両方で **次へ**を**選択**し、**変更セットの作成**をクリックします。
-4. 変更セットの名前を指定します (例: `bucket-versioning-update`)。また、`MyS3Bucket のバケットバージョニングを有効にする`などの説明を指定し、**変更セットの作成** をクリックします。
-5. 変更セットのステータスが `CREATE_COMPLETE` になるまでページを更新します。
-6. ページの下部に、予想される変更の概要が表示されます。詳細については **JSON の変更**タブに移動します。以下のようになっているはずです。
+1. CloudFormation コンソールで `cfn-workshop-understanding-changesets` スタックを選択し、 **スタックアクション** から **既存スタックの変更セットを作成** を選択します。
+1. **テンプレートの準備** セクションで、 **既存テンプレートを置き換える** を選択します。 **テンプレートの指定** セクションで、 **テンプレートファイルのアップロード** を選択し、更新した `bucket.yaml` テンプレートを選択し、 **次へ** をクリックします。
+1. **スタックの詳細を指定** ページと **スタックオプションの設定** ページの両方で **次へ** を **選択** し、 **変更セットの作成** をクリックします。
+1. 変更セットの名前を指定します (例: `bucket-versioning-update`)。また、`MyS3Bucket のバケットバージョニングを有効にする`などの説明を指定し、 **送信** をクリックします。
+1. 変更セットのステータスが `CREATE_COMPLETE` になるまでページを更新します。
+::::
+:::::
 
-```json
+1. [AWS CloudFormation](https://console.aws.amazon.com/cloudformation/) コンソールで、このワークショップで作成したスタックを選択します。たとえば、 `cfn-workshop-understanding-changesets` などです。
+1. **変更セット** タブから、 **bucket-versioning-update** を選択します。
+1. **JSON の変更** タブに移動すると詳細が表示されます。このタブは次のようになっているはずです。
+
+:::code{language=json showLineNumbers=false showCopyAction=false}
 [
   {
     "resourceChange": {
@@ -89,7 +156,7 @@ MyS3Bucket:
     "type": "Resource"
   }
 ]
-```
+:::
 
 `resourceChange` 構造では、リソースの論理 ID、CloudFormation が実行するアクション、リソースの物理 ID、リソースのタイプ、および CloudFormation がリソースを置き換えるかどうかが表示されます。`details` 構造では、CloudFormation は、[バージョニング設定](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/aws-properties-s3-bucket.html#aws-properties-s3-bucket-properties)プロパティを更新しても中断を必要としないため、バケットを再作成 (replacement) する必要がない直接的な変更としてラベル付けしています。
 
@@ -100,14 +167,28 @@ MyS3Bucket:
 
 それでは、始めましょう。
 
-1. CloudFormation コンソールで `changesets-workshop` スタックを選択し、**スタックアクション**から**既存スタックの変更セットを作成**を選択します。
-2. **テンプレートの準備**セクションで、**現在のテンプレートの使用**を選択し、**次へ**をクリックします。
-3. 新しい一意の[バケット名](https://docs.aws.amazon.com/ja_jp/AmazonS3/latest/userguide/bucketnamingrules.html)を指定して `BucketName` パラメータの値を変更し、前の手順に従って変更セットの作成を完了します。
+:::::tabs{variant="container"}
+::::tab{id="cloud9" label="Cloud9"}
+1. ターミナルから次のコマンドで **変更セットの作成** を実行し、新しい固有の[バケット名](https://docs.aws.amazon.com/ja_jp/AmazonS3/latest/userguide/bucketnamingrules.html)を指定して `bucketName` パラメータの値を変更し、前と同じように残りのプロセスを実行して変更セットの作成を完了します。
 
-この変更セットの **JSON の変更**は次のようになります。
+:::code{language=shell showLineNumbers=false showCopyAction=true}
+aws cloudformation create-change-set \
+--stack-name cfn-workshop-understanding-changesets \
+--change-set-name replace-change-set \
+--template-body file://bucket.yaml \
+--parameters ParameterKey=BucketName,ParameterValue='YOUR-NEW-UNIQUE-BUCKET-NAME-HERE'
+:::
+::::
+::::tab{id="local" label="ローカル開発"}
+1. CloudFormation コンソールで `cfn-workshop-understanding-changesets` スタックを選択し、 **スタックアクション** から **既存スタックの変更セットを作成** を選択します。
+1. **テンプレートの準備** セクションで、 **現在のテンプレートの使用** を選択し、 **次へ** をクリックします。
+1. 新しい一意の[バケット名](https://docs.aws.amazon.com/ja_jp/AmazonS3/latest/userguide/bucketnamingrules.html)を指定して `BucketName` パラメータの値を変更し、前の手順に従って変更セットの作成を完了します。
+::::
+:::::
 
+この変更セットの **JSON の変更** は次のようになります。
 
-```json
+:::code{language=json showLineNumbers=false showCopyAction=false}
 [
   {
     "resourceChange": {
@@ -148,7 +229,7 @@ MyS3Bucket:
     "type": "Resource"
   }
 ]
-```
+:::
 
 前の例とは 2 つの重要な違いがあることがわかります。まず、`resourceChange` 構造の `replacement` プロパティの値が `True` に設定されています。次に、`detail` 構造の下に `Static` と `Dynamic` の 2 つの評価が表示されます。これらの点について詳しく説明しましょう。
 
@@ -167,16 +248,18 @@ CloudFormation では、変更セットを実行した後に初めて値を決�
 ### チャレンジ
 お好みのテキストエディタで、`code/workspace/understanding-changesets` ディレクトリにある `changeset-challenge.yaml` という名前のテンプレートファイルを開きます。このファイルは、以前に使用した `bucket.yaml` テンプレートの修正版です。`MyS3Bucket` ではなく `NewS3Bucket` の Amazon S3 バケットリソースの論理 ID を書き留めてください。テンプレートには、`MySqsQueue` 論理 ID を持つ [Amazon Simple Queue Service](https://aws.amazon.com/jp/sqs/) (SQS) [queue](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/aws-resource-sqs-queue.html#aws-resource-sqs-queue-properties) という新しいリソースも記述されていることに注意してください。
 
-`changeset-challenge.yaml` ファイルを使用して `changesets-workshop` スタックの新しい変更セットを作成したらどうなると思いますか? リソースはいくつ追加されますか？ リソースは削除されますか? 変更セットの **JSON の変更**からキューの物理 ID を取得できますか?
+`changeset-challenge.yaml` ファイルを使用して `cfn-workshop-understanding-changesets` スタックの新しい変更セットを作成したらどうなると思いますか? リソースはいくつ追加されますか？ リソースは削除されますか? 変更セットの **JSON の変更** からキューの物理 ID を取得できますか?
 
 このファイルを使用して変更セットを作成し、提案された変更を正しく判断できたかどうかを確認してください。
 
-:::expand[* テンプレート内のリソースの論理 ID を変更し、更新したテンプレートでスタックを更新すると、CloudFormation はリソースを置き換えようとします。]{header="ヒントが必要ですか？"}
+:::expand{header="ヒントが必要ですか？"}
+テンプレート内のリソースの論理 ID を変更し、更新したテンプレートでスタックを更新すると、CloudFormation はリソースを置き換えようとします。
 :::
-:::expand{header= "解決策を確認しますか？"}
-* CloudFormation は、新しい `MySqsQueue` キューリソースを追加することに加えて、`NewS3Bucket` 論理 ID を使用して新しいバケットを作成し、`MyS3Bucket` を削除しようとします。新しいリソースの物理 ID は作成されるまで使用できません。**JSON の変更**は次のようになるはずです。
 
-```json
+::::expand{header= "解決策を確認しますか？"}
+* CloudFormation は、新しい `MySqsQueue` キューリソースを追加することに加えて、`NewS3Bucket` 論理 ID を使用して新しいバケットを作成し、`MyS3Bucket` を削除しようとします。新しいリソースの物理 ID は作成されるまで使用できません。 **JSON の変更** は次のようになるはずです。
+
+:::code{language=json showLineNumbers=false showCopyAction=false}
 [
   {
     "resourceChange": {
@@ -224,14 +307,26 @@ CloudFormation では、変更セットを実行した後に初めて値を決�
     "type": "Resource"
   }
 ]
-```
 :::
+::::
+
 ### クリーンアップ
 
 このラボで作成したリソースをクリーンアップするには
 
-1. CloudFormation コンソールから、`changesets-workshop` という名前のスタックを選択します。
-2. **削除**を選択し、次に**削除**を選択してスタックと、スタック用に作成した変更セットを削除します。
+:::::tabs{variant="container"}
+::::tab{id="cloud9" label="Cloud9"}
+ターミナルから次の AWS CLI コマンドを実行して、作成したスタックを削除します。
+:::code{language=shell showLineNumbers=false showCopyAction=true}
+aws cloudformation delete-stack \
+--stack-name cfn-workshop-understanding-changesets
+:::
+::::
+::::tab{id="local" label="ローカル開発"}
+1. CloudFormation コンソールから、`cfn-workshop-understanding-changesets` という名前のスタックを選択します。
+1. **削除** を選択し、次に **削除** を選択してスタックと、スタック用に作成した変更セットを削除します。
+::::
+:::::
 
 ---
 

@@ -184,7 +184,7 @@ aws cloudformation wait stack-create-complete \
 :::
 
 ::::
-::::tab{id="local" label="Local development"}
+::::tab{id="local" label="ローカル開発"}
 Steps:
 
 1. Navigate to the [AWS CloudFormation Console](https://console.aws.amazon.com/cloudformation/).
@@ -363,7 +363,7 @@ aws cloudformation wait stack-create-complete \
 :::
 
 ::::
-::::tab{id="local" label="Local development"}
+::::tab{id="local" label="ローカル開発"}
 Steps:
 
 1. Navigate to the [AWS CloudFormation Console](https://console.aws.amazon.com/cloudformation/).
@@ -448,7 +448,7 @@ aws cloudformation wait stack-update-complete \
 :::
 
 ::::
-::::tab{id="local" label="Local development"}
+::::tab{id="local" label="ローカル開発"}
 Steps:
 
 1. Navigate to the [AWS CloudFormation Console](https://console.aws.amazon.com/cloudformation/).
@@ -508,7 +508,7 @@ aws cloudformation wait stack-delete-complete \
 :::
 
 ::::
-::::tab{id="local" label="Local development"}
+::::tab{id="local" label="ローカル開発"}
 Steps:
 
 1. Navigate to the [AWS CloudFormation Console](https://console.aws.amazon.com/cloudformation/).

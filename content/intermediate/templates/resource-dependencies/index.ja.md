@@ -3,6 +3,10 @@ title: "リソース依存関係"
 weight: 200
 ---
 
+_ラボ実施時間 : 15分程度_
+
+---
+
 ### 概要
 
 [AWS CloudFormation](https://aws.amazon.com/jp/cloudformation/) を使用して、テンプレートに記述したリソースをプログラム的にプロビジョニングする際、あるリソースが 1 つ以上のリソースに依存する場合があります。例えば、[Amazon Elastic Compute Cloud](https://aws.amazon.com/jp/ec2/) (Amazon EC2) インスタンスは、Amazon EC2 インスタンスに使用するセキュリティグループに依存します。CloudFormation スタックにおいて、EC2 がセキュリティグループを参照するように記述することで、最初にセキュリティグループが作成され、次に Amazon EC2 インスタンスが作成されます。
@@ -34,9 +38,9 @@ weight: 200
 
 リソース間に依存関係がない場合に、CloudFormation がリソースの作成順序をどのように処理するかを見てみましょう。
 
-次に示すテンプレートの抜粋にある 2 つのリソースに注目してください。1 つは [Amazon Simple Storage Service](https://aws.amazon.com/jp/s3/) (Amazon S3) [Buket](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/aws-properties-s3-bucket.html)、もう1つは [Amazon Simple Notification Service](https://aws.amazon.com/jp/sns/) (Amazon SNS) [Topic](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/aws-resource-sns-topic.html) です。両方のリソースには、相互に依存関係が定義されていません。
+次に示すテンプレートの抜粋にある 2 つのリソースに注目してください。1 つは [Amazon Simple Storage Service](https://aws.amazon.com/jp/s3/) (Amazon S3) [Buket](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/aws-properties-s3-bucket.html)、もう 1 つは [Amazon Simple Notification Service](https://aws.amazon.com/jp/sns/) (Amazon SNS) [Topic](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/aws-resource-sns-topic.html) です。両方のリソースには、相互に依存関係が定義されていません。
 
-::alert[次の例には、Amazon S3バケットのための `BucketName` [プロパティ](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/aws-properties-s3-bucket.html#aws-properties-s3-bucket-properties)とAmazon SNSトピックのための `TopicName` [プロパティ](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/aws-resource-sns-topic.html#aws-resource-sns-topic-properties)は含まれていません。どちらの場合も、CloudFormation は指定されたリソースに一意の名前を生成します。]{type="info"}
+::alert[次の例には、Amazon S3 バケットのための `BucketName` [プロパティ](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/aws-properties-s3-bucket.html#aws-properties-s3-bucket-properties)と Amazon SNS トピックのための `TopicName` [プロパティ](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/aws-resource-sns-topic.html#aws-resource-sns-topic-properties)は含まれていません。どちらの場合も、CloudFormation は指定されたリソースに一意の名前を生成します。]{type="info"}
 
 `resource-dependencies-without-dependson.yaml` ファイルに、以下のコンテンツをコピーし追加します。次に、スタックを作成し、スタックイベントを確認してリソースが作成される順序を確認します。
 
@@ -59,20 +63,40 @@ Resources:
 
 AWS CloudFormation コンソールにて、`resource-dependencies-without-dependson.yaml` を使用し、[スタックを作成](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/cfn-console-create-stack.html)します。
 
+:::::tabs{variant="container"}
 
+::::tab{id="cloud9" label="Cloud9"}
+1. **Cloud9 ターミナル** で `code/workspace/resource-dependencies` ディレクトリに移動します。
+:::code{language=shell showLineNumbers=false showCopyAction=true}
+cd cfn101-workshop/code/workspace/resource-dependencies
+:::
+1. AWS CLI を使用してスタックを作成します。必須パラメータ `--stack-name` と `--template-body` はあらかじめ入力されています。
+:::code{language=shell showLineNumbers=false showCopyAction=true}
+aws cloudformation create-stack --stack-name cfn-workshop-resource-dependencies \
+--template-body file://resource-dependencies-without-dependson.yaml
+:::
+1. `create-stack` コマンドが成功すると、CloudFormation は `StackId` を返却します。
+:::code{language=shell showLineNumbers=false showCopyAction=false}
+"StackId": "arn:aws:cloudformation:us-east-1:123456789012:stack/cfn-workshop-resource-dependencies/739fafa0-e4d7-11ed-a000-12d9009553ff"
+:::
+ 1. **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** コンソールを新しいタブで開き、スタックのステータスが **CREATE_COMPLETE** になっているかどうかを確認します。
+::::
+
+::::tab{id="local" label="ローカル開発"}
 1. [AWS CloudFormation コンソール](https://console.aws.amazon.com/cloudformation/)に移動します。
-2. **スタックの作成**、**新しいリソースを使用 (標準)** を選択します。
-3. **テンプレート準備完了**オプションを選択します。**テンプレートの指定**セクションで、**テンプレートファイルのアップロード**を選択します。`resource-dependencies-without-dependson.yaml` テンプレートをアップロードし、**次へ**をクリックします。
-4. スタック名を入力します。例えば、`resource-dependencies-lab` と入力します。準備ができたら、**次へ**をクリックします。
-5. **スタックオプションの設定**ページはデフォルト値のまま、ページの一番下までスクロールして**次へ**をクリックします。
-6. **レビュー**ページを一番下までスクロールして**送信**をクリックします。
-
+1. **スタックの作成** 、 **新しいリソースを使用 (標準)** を選択します。
+1. **テンプレート準備完了** オプションを選択します。 **テンプレートの指定** セクションで、 **テンプレートファイルのアップロード** を選択します。`resource-dependencies-without-dependson.yaml` テンプレートをアップロードし、 **次へ** をクリックします。
+1. スタック名を入力します。例えば、`resource-dependencies-lab` と入力します。準備ができたら、 **次へ** をクリックします。
+1. **スタックオプションの設定** ページはデフォルト値のまま、ページの一番下までスクロールして **次へ** をクリックします。
+1. **レビュー** ページを一番下までスクロールして **送信** をクリックします。
+::::
+:::::
 
 スタックの `CREATE_COMPLETE` ステータスが表示されるまでページを更新します。それでは、スタックイベントを確認しましょう。次に示す画像のようになるはずです。
 
 ![resource-dependencies-lab.png](/static/intermediate/templates/resource-dependencies/resource-dependencies-lab.ja.png)
 
-スタックイベントを見ると、`SNSTopic` リソースと `S3Bucket` リソースの作成が同時に開始されたことがわかります。2つのリソース間には依存関係がないため、CloudFormation は両方のリソースの作成を並行して開始しました。
+スタックイベントを見ると、`SNSTopic` リソースと `S3Bucket` リソースの作成が同時に開始されたことがわかります。2 つのリソース間には依存関係がないため、CloudFormation は両方のリソースの作成を並行して開始しました。
 
 ここで、最初に Amazon S3 バケットを作成し、バケットが正常に作成されて初めて Amazon SNS トピックの作成を開始するシナリオを考えてみましょう。シナリオを実現するために、`DependsOn` 属性の使用が役立ちます。`DependsOn` を使用して `SNStopic` リソースの依存関係を明示的に定義し、`DependsOn` 属性の値として Amazon S3 バケットリソースの論理 ID (例では、`S3Bucket` を指定) を使用します。`DependsOn` を利用すると、CloudFormation は S3 バケットの作成が完了するのを待ってから、トピックの作成を開始します。それでは、見てみましょう！
 
@@ -101,7 +125,7 @@ Resources:
 ```
 
 
-上記と同じ手順に従って、`resource-dependencies-with-dependson.yaml` テンプレートファイルを使用して新しいスタックを作成します。その際、別のスタック名 (例: `resource-dependencies-lab-dependson`) を指定し、スタックを作成します。
+上記と同じ手順に従って、`resource-dependencies-with-dependson.yaml` テンプレートファイルを使用して新しいスタックを作成します。その際、別のスタック名 (例: `cfn-workshop-resource-dependencies-dependson`) を指定し、スタックを作成します。
 
 前回とは、スタックイベントが違って見えるはずです。
 
@@ -175,21 +199,43 @@ Resources:
 
 スタックを作成して、上記の動作を確認してみましょう。AWS CloudFormation コンソールにて、`resource-dependency-with-intrinsic-functions.yaml` を使用し、[スタックを作成](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/cfn-console-create-stack.html)します。
 
+:::::tabs{variant="container"}
 
+::::tab{id="cloud9" label="Cloud9"}
+1. **Cloud9 ターミナル** で `code/workspace/resource-dependencies` ディレクトリに移動します。
+:::code{language=shell showLineNumbers=false showCopyAction=true}
+cd cfn101-workshop/code/workspace/resource-dependencies
+:::
+1. AWS CLI を使用してスタックを作成します。必須パラメータ `--stack-name` と `--template-body` はあらかじめ入力されています。
+:::code{language=shell showLineNumbers=false showCopyAction=true}
+aws cloudformation create-stack --stack-name cfn-workshop-resource-dependencies-ref-getatt \
+--template-body file://resource-dependencies-with-intrinsic-functions.yaml \
+--parameters ParameterKey="EmailAddress",ParameterValue="your-email-address-here"
+
+:::
+1. `create-stack` コマンドが成功すると、CloudFormation は `StackId` を返却します。
+:::code{language=shell showLineNumbers=false showCopyAction=false}
+"StackId": "arn:aws:cloudformation:us-east-1:123456789012:stack/cfn-workshop-resource-dependencies-ref-getatt/739fafa0-e4d7-11ed-a000-12d9009553ff"
+:::
+1. **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** コンソールを新しいタブで開き、スタックのステータスが **CREATE_COMPLETE** になっているかどうかを確認します。
+::::
+
+::::tab{id="local" label="ローカル開発"}
 1. [AWS CloudFormation コンソール](https://console.aws.amazon.com/cloudformation/)に移動します。
-2. **スタックの作成**、**新しいリソースを使用 (標準)**を選択します。
-3. **テンプレート準備完了**オプションを選択します。**テンプレートを指定**セクションで、**テンプレートファイルのアップロード**を選択します。`resource-dependencies-with-intrinsic-functions.yaml` テンプレートをアップロードし、**次へ**をクリックします。
-4. スタック名を入力します。例えば、`resource-dependencies-lab-ref-getatt` と入力します。準備ができたら、**次へ**をクリックします。
-5. **パラメータ**セクションで、Amazon SNS トピックサブスクリプションのメールアドレスを入力します。準備ができたら、**次へ**をクリックします。
-6. **スタックオプションの設定**ページはデフォルト値のまま、ページの一番下までスクロールして**次へ**をクリックします。
-7. **レビュー**ページを一番下までスクロールして**送信**をクリックします。
-
+1. **スタックの作成** 、 **新しいリソースを使用 (標準)** を選択します。
+1. **テンプレート準備完了** オプションを選択します。 **テンプレートを指定** セクションで、 **テンプレートファイルのアップロード** を選択します。`resource-dependencies-with-intrinsic-functions.yaml` テンプレートをアップロードし、 **次へ** をクリックします。
+1. スタック名を入力します。例えば、`cfn-workshop-resource-dependencies-ref-getatt` と入力します。準備ができたら、 **次へ** をクリックします。
+1. **パラメータ** セクションで、Amazon SNS トピックサブスクリプションのメールアドレスを入力します。準備ができたら、 **次へ** をクリックします。
+1. **スタックオプションの設定** ページはデフォルト値のまま、ページの一番下までスクロールして **次へ** をクリックします。
+1. **レビュー** ページを一番下までスクロールして **送信** をクリックします。
+::::
+:::::
 
 スタックが作成されると、スタックのイベントは次のようになります。
 
 ![resource-dependencies-lab-ref-getatt.png](/static/intermediate/templates/resource-dependencies/resource-dependencies-lab-ref-getatt.ja.png)
 
-`resource-dependencies-lab-ref-getatt` スタックのスタックイベントを確認しましょう。`SNSTopic` リソースと `SecurityGroup` リソースの作成は、両方のリソースには相互に依存関係がないことから、並行して開始されます。また、`SecurityGroupIngress` リソースの作成は `SecurityGroup` リソースが `CREATE_COMPLETE` ステータスになった後にのみ開始され、`SNSTopicSubscription` の作成は、`SNSTopic` リソースが正常に作成された後に開始されます。
+`cfn-workshop-resource-dependencies-ref-getatt` スタックのスタックイベントを確認しましょう。`SNSTopic` リソースと `SecurityGroup` リソースの作成は、両方のリソースには相互に依存関係がないことから、並行して開始されます。また、`SecurityGroupIngress` リソースの作成は `SecurityGroup` リソースが `CREATE_COMPLETE` ステータスになった後にのみ開始され、`SNSTopicSubscription` の作成は、`SNSTopic` リソースが正常に作成された後に開始されます。
 
 スタックを削除すると、CloudFormation は作成順序が逆になります。この場合、`SNSTopicSubscription` と `SecurityGroupIngress` リソースが最初に削除され、続いて `SecurityGroup` と `SNSTopic` が削除されます。
 
@@ -206,7 +252,7 @@ Resources:
 * セキュリティグループが `CREATE_COMPLETE` としてマークされると、Amazon EC2 インスタンスリソースの作成が開始されます。
 * Amazon EC2 インスタンスが正常に作成されると、CloudFormation は Amazon S3 バケットの作成を開始します。
 
-はじめに、`code/workspace/resource-dependencies` ディレクトリにある `resource-dependencies-challenge.yaml` テンプレートを、お好みのコードエディターで開きます。上記の要件例に従い、必要に応じてリソースの依存関係を確立します。準備ができたら、`resource-dependencies-challenge` という名前の新しいスタックを作成し、スタックイベントが、学んできた一連の流れと一致することを確認します。
+はじめに、`code/workspace/resource-dependencies` ディレクトリにある `resource-dependencies-challenge.yaml` テンプレートを、お好みのコードエディターで開きます。上記の要件例に従い、必要に応じてリソースの依存関係を確立します。準備ができたら、`cfn-workshop-resource-dependencies-challenge` という名前の新しいスタックを作成し、スタックイベントが、学んできた一連の流れと一致することを確認します。
 
 :::expand{header="ヒントが必要ですか？"}
 * Amazon EC2 インスタンスの `SecurityGroups` [プロパティ](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-security-group.html#aws-properties-ec2-security-group-properties)で、セキュリティグループを[参照](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference.html)する方法を確認してください。
@@ -214,7 +260,7 @@ Resources:
 * リソースの作成は別のリソースに従うべきだと[指定](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/aws-attribute-dependson.html)するにはどうすればよいでしょうか。
 :::
 
-:::expand{header="解決策を確認しますか？"}
+::::::expand{header="解決策を確認しますか？"}
 * `Ref` 組み込み関数を使用して、セキュリティグループの論理 ID を `SecurityGroups` EC2 インスタンスリソースプロパティのリスト項目として参照します。その後、CloudFormation は最初にセキュリティグループが作成されるのを待ってから、Amazon EC2 インスタンスの作成を開始する必要があります。
 * Amazon EC2 インスタンスリソース定義を次に示すように変更します。
 
@@ -231,7 +277,7 @@ Ec2Instance:
         Value: Resource-dependencies-workshop
 ```
 
-* Amazon EC2 インスタンスとAmazon S3 バケットリソースの間には依存関係がないため、Amazon S3 バケットリソースの `DependsOn` 属性を使用し、Amazon EC2 インスタンスの論理 ID を `DependsOn` 属性の値として指定します。
+* Amazon EC2 インスタンスと Amazon S3 バケットリソースの間には依存関係がないため、Amazon S3 バケットリソースの `DependsOn` 属性を使用し、Amazon EC2 インスタンスの論理 ID を `DependsOn` 属性の値として指定します。
 * 次に示すように、Amazon S3 バケットリソースの `DependsOn` 属性を追加します。
 
 ```yaml
@@ -243,9 +289,34 @@ S3Bucket:
       - Key: Name
         Value: Resource-dependencies-workshop
 ```
-:::
 
-更新した`resource-dependencies-challenge.yaml` テンプレートを使用して、`resource-dependencies-challenge` という名前の新しいスタックを作成し、スタックイベントが前述の順序で表示されることを確認します。
+:::::tabs{variant="container"}
+::::tab{id="cloud9" label="Cloud9"}
+1. **Cloud9 ターミナル** で `code/workspace/resource-dependencies` ディレクトリに移動します。
+:::code{language=shell showLineNumbers=false showCopyAction=true}
+cd cfn101-workshop/code/workspace/resource-dependencies
+:::
+1. AWS CLI を使用してスタックを作成します。必須パラメータ `--template-body` はあらかじめ入力されています。
+  :::code{language=shell showLineNumbers=false showCopyAction=true}
+  aws cloudformation create-stack --stack-name cfn-workshop-resource-dependencies-challenge \
+  --template-body file://resource-dependencies-challenge.yaml
+:::
+1. `create-stack` コマンドが成功すると、CloudFormation は `StackId` を返却します。
+:::code{language=shell showLineNumbers=false showCopyAction=false}
+"StackId": "arn:aws:cloudformation:us-east-1:123456789012:stack/cfn-workshop-resource-dependencies-ref-getatt/739fafa0-e4d7-11ed-a000-12d9009553ff"
+:::
+1. **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** コンソールを新しいタブで開き、スタックのステータスが **CREATE_COMPLETE** になっているかどうかを確認します。
+::::
+::::tab{id="local" label="ローカル開発"}
+1. [AWS CloudFormation Console](https://console.aws.amazon.com/cloudformation/) に移動します。
+1. **スタックの作成** から、 **新規リソースを使用(標準)** を選択します。
+1. **テンプレートの準備完了** オプションを選択します。 **テンプレートを指定** から、 **テンプレートファイルをアップロード** を選択します。`resource-dependencies-challenge.yaml` テンプレートをアップロードし、 **次へ** を選択します。
+1. スタック名を入力します。たとえば、 `cfn-workshop-resource-dependencies-challenge` と入力し、 **次へ** を選択します。
+1. **スタックオプションの設定** ページでデフォルト値をそのまま使用することを選択し、ページの一番下までスクロールして、 **次へ** を選択します。
+1. レビューページの一番下までスクロールし、 **送信** を選択します。
+::::
+:::::
+::::::
 
 この課題の解決策は、`code/solutions/resource-dependencies/resource-dependencies-challenge.yaml` テンプレートの中にあります。
 
@@ -254,9 +325,9 @@ S3Bucket:
 以下の手順に従って、このラボで作成した[スタックを削除](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/cfn-console-delete-stack.html)します。
 
 1. [AWS CloudFormation コンソール](https://console.aws.amazon.com/cloudformation/)に移動します。
-2. CloudFormation コンソールのスタックページで、`resource-dependencies-lab` スタックを選択します。
-3. スタックの詳細ペインで、**削除**を選択した後、**スタックの削除**を押して確定します。
-4. 上記の手順を繰り返して、作成した他のスタック `resource-dependencies-lab-dependson`、`resource-dependencies-lab-ref-getatt`、`resource-dependencies-challenge` を削除します。
+1. CloudFormation コンソールのスタックページで、`cfn-workshop-resource-dependencies` スタックを選択します。
+1. スタックの詳細ペインで、 **削除** を選択した後、 **スタックの削除** を押して確定します。
+1. 上記の手順を繰り返して、作成した他のスタック `cfn-workshop-resource-dependencies-dependson`、`cfn-workshop-resource-dependencies-ref-getatt`、`cfn-workshop-resource-dependencies-challenge` を削除します。
 
 ---
 ### まとめ

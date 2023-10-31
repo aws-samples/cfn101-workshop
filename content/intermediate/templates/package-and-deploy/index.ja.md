@@ -3,6 +3,10 @@ title: "パッケージ化とデプロイ"
 weight: 600
 ---
 
+_ラボ実施時間 : 15分程度_
+
+---
+
 ### 概要
 
 このワークショップの [基本](/basics)で、CloudFormation コンソールを介して単一の YAML テンプレートをデプロイしました。
@@ -43,16 +47,15 @@ cfn101-workshop/code/workspace/package-and-deploy
     └── requirements.txt
 :::
 
-
 #### CloudFormation テンプレート内のローカルファイルを参照
 
-従来は、すべての Lambda ソースを圧縮して S3 にアップロードし、次にテンプレートでS3 ロケーションを参照する必要がありました。この作業はかなり面倒です。
+従来は、すべての Lambda ソースを圧縮して S3 にアップロードし、次にテンプレートで S3 ロケーションを参照する必要がありました。この作業はかなり面倒です。
 
-ただし、[aws cloudformation package](https://docs.aws.amazon.com/cli/latest/reference/cloudformation/package.html) を使えば、ローカルファイルを直接参照できます。直接参照の方が、S3を参照する従来の方法と比較し利用が簡単です。
+ただし、[aws cloudformation package](https://docs.aws.amazon.com/cli/latest/reference/cloudformation/package.html) を使えば、ローカルファイルを直接参照できます。直接参照の方が、S3 を参照する従来の方法と比較し利用が簡単です。
 
 `infrastructure.template` スニペットを見ると、`Code` プロパティのローカルディレクトリの [9] 行目への参照が分かります。
 
-:::code{language=yaml showLineNumbers=true showCopyAction=false}
+:::code{language=yaml showLineNumbers=true showCopyAction=false lineNumberStart=19}
 PythonFunction:
   Type: AWS::Lambda::Function
   Properties:
@@ -61,7 +64,7 @@ PythonFunction:
     Runtime: python3.8
     Role: !GetAtt LambdaBasicExecutionRole.Arn
     Handler: lambda_function.handler
-    Code: lambda/                                 # <<< This is a local directory
+    Code: lambda/ # <<< This is a local directory
 :::
 
 #### アーティファクトをパッケージ化してアップロード
@@ -69,8 +72,8 @@ PythonFunction:
 `aws cloudformation package` は以下のアクションを実行します。
 
 1. ローカルファイルを ZIP で圧縮します。
-2. 指定された S3 バケットにアップロードします。
-3. ローカルパスが S3 URI に置き換えられた新しいテンプレートを生成します。
+1. 指定された S3 バケットにアップロードします。
+1. ローカルパスが S3 URI に置き換えられた新しいテンプレートを生成します。
 
 ##### 1. S3 バケットの作成
 
@@ -79,7 +82,7 @@ PythonFunction:
 ::alert[`s3://` の後のバケット名は必ず一意の名前に置き換えてください！]{type="info"}
 
 :::code{language=shell showLineNumbers=false showCopyAction=true}
-aws s3 mb s3://example-bucket-name --region eu-west-1
+aws s3 mb s3://example-bucket-name --region us-east-1
 :::
 
 ##### 2. インストール機能の依存関係
@@ -93,6 +96,8 @@ aws s3 mb s3://example-bucket-name --region eu-west-1
 pip install pytz --target lambda
 :::
 
+`python 3` がお使いの場合は、上記のコマンドで `pip` の代わりに `pip3` を使う必要があるかもしれません。
+
 `lambda/` フォルダの中に `pytz` パッケージがあるはずです。
 
 ##### 3. `package` コマンドの実行
@@ -101,10 +106,10 @@ pip install pytz --target lambda
 
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 aws cloudformation package \
-    --template-file infrastructure.template \
-    --s3-bucket example-bucket-name \
-    --s3-prefix cfn-workshop-package-deploy \
-    --output-template-file infrastructure-packaged.template
+--template-file infrastructure.template \
+--s3-bucket example-bucket-name \
+--s3-prefix cfn-workshop-package-deploy \
+--output-template-file infrastructure-packaged.template
 :::
 
 上記のコマンドで使った個々の `package` オプションを詳しく見てみましょう。
@@ -120,7 +125,7 @@ aws cloudformation package \
 
 `Code` プロパティが [12-14] 行目の `S3Bucket` と `S3Key` の 2 つの新しい属性で更新されていることが分かります。
 
-```yaml {hl_lines=[12,13,14]}
+:::code{language=yaml showLineNumbers=true showCopyAction=true lineNumberStart=16 highlightLines=12-14}
 PythonFunction:
   Type: AWS::Lambda::Function
   Properties:
@@ -135,9 +140,7 @@ PythonFunction:
     Code:
       S3Bucket: example-bucket-name
       S3Key: cfn-workshop-package-deploy/1234567890
-    TracingConfig:
-      Mode: Active
-```
+:::
 
 アップロードされたファイルの内容も見てみましょう。上記のリストから、ダウンロードするバケットとオブジェクト名が判明しています。
 
@@ -145,9 +148,10 @@ PythonFunction:
 aws s3 cp s3://example-bucket-name/cfn-workshop-package-deploy/1234567890 .
 :::
 
-`package` はファイルを圧縮することがわかっているので、`.zip` 拡張子がなくても `unzip` できます。
+`package` はファイルを ZIP 形式で圧縮することがわかっているので `.zip` 拡張子がなくても `unzip` できます。
 
-##### Unix/Linux
+:::::tabs{variant="container"}
+::::tab{id="shell" label="Cloud9/Unix/Linux"}
 :::code{language=shell showLineNumbers=false showCopyAction=false}
 unzip -l ce6c47b6c84d94bd207cea18e7d93458
 
@@ -158,7 +162,8 @@ Archive:  ce6c47b6c84d94bd207cea18e7d93458
       455  02-12-2020 17:18   lambda_function.py
      4745  02-13-2020 14:36   pytz/tzfile.py
 :::
-##### Powershell
+::::
+::::tab{id="powershell" label="Powershell"}
 :::code{language=powershell showLineNumbers=false showCopyAction=false}
 rename-item ce6c47b6c84d94bd207cea18e7d93458 packagedLambda.zip
 
@@ -174,6 +179,8 @@ d-----        10/29/2021   4:25 PM                pytz-2021.3.dist-info
 -a----        10/29/2021  11:19 AM            475 lambda_function.py
 -a----        10/29/2021  11:19 AM             14 requirements.txt
 :::
+::::
+:::::
 
 ### テンプレートの検証
 
@@ -190,10 +197,10 @@ aws cloudformation validate-template \
 
 成功すると、CloudFormation はパラメータ、テンプレートの説明、機能のリストを含むレスポンスを送信します。
 
-:::code{language=json showLineNumbers=false showCopyAction=true}
+:::code{language=json showLineNumbers=false showCopyAction=false}
 {
     "Parameters": [],
-    "Description": "CFN 201 Workshop - Lab 12 Helper Scripts. ()",
+    "Description": "AWS CloudFormation workshop - Package and deploy.",
     "Capabilities": [
         "CAPABILITY_IAM"
     ],
@@ -211,10 +218,10 @@ aws cloudformation validate-template \
 
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 aws cloudformation deploy \
-    --template-file infrastructure-packaged.template \
-    --stack-name cfn-workshop-lambda \
-    --region eu-west-1 \
-    --capabilities CAPABILITY_IAM
+--template-file infrastructure-packaged.template \
+--stack-name cfn-workshop-package-deploy-lambda \
+--region eu-west-1 \
+--capabilities CAPABILITY_IAM
 :::
 
 ::alert[S3 のアーティファクトを参照するパッケージテンプレート `infrastructure-packaged.template` を利用した点に注意してください。ローカルパスを持つオリジナルのものではありません！]{type="info"}
@@ -240,27 +247,24 @@ Lambda 関数は、現在の UTC の日付と時刻を取得します。次に�
 ターミナルから以下を実行します。
 
 :::::tabs{variant="container"}
-
-::::tab{id="sh" label="Unix/Linux"}
+::::tab{id="sh" label="Cloud9/Unix/Linux"}
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 aws lambda invoke \
-    --function-name cfn-workshop-python-function \
-    --payload "{\"time_zone\": \"Asia/Tokyo\"}" \
-    --cli-binary-format raw-in-base64-out \
-    response.json
+--function-name cfn-workshop-python-function \
+--payload "{\"time_zone\": \"Asia/Tokyo\"}" \
+--cli-binary-format raw-in-base64-out \
+response.json
 :::
 ::::
-
 ::::tab{id="cmd" label="CMD"}
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 aws lambda invoke ^
-    --function-name cfn-workshop-python-function ^
-    --payload "{\"time_zone\": \"Asia/Tokyo\"}" ^
-    --cli-binary-format raw-in-base64-out ^
-    response.json
+--function-name cfn-workshop-python-function ^
+--payload "{\"time_zone\": \"Asia/Tokyo\"}" ^
+--cli-binary-format raw-in-base64-out ^
+response.json
 :::
 ::::
-
 ::::tab{id="powershell" label="Powershell"}
 :::code{language=powershell showLineNumbers=false showCopyAction=true}
 aws lambda invoke `
@@ -278,7 +282,7 @@ Lambda がトリガーされ、Lambda からのレスポンスが `response.json
 
 :::::tabs{variant="container"}
 
-::::tab{id="sh" label="Unix/Linux"}
+::::tab{id="sh" label="Cloud9/Unix/Linux"}
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 cat response.json
 :::
@@ -292,6 +296,42 @@ more response.json
 :::::
 
 ---
+
+### クリーンアップ
+
+次の手順に従ってこのラボで作成したリソースをクリーンアップしてください。
+:::::tabs{variant="container"}
+::::tab{id="cloud9" label="Cloud9"}
+1. 次の AWS CLI コマンドを使用して S3 バケットを削除します。
+:::code{language=shell showLineNumbers=false showCopyAction=true}
+aws s3 rb s3://example-bucket-name --force
+:::
+1. 次の AWS CLI コマンドを使用してスタックを削除します。
+:::code{language=shell showLineNumbers=false showCopyAction=true}
+aws cloudformation delete-stack \
+ --stack-name cfn-workshop-package-deploy-lambda
+:::
+1. 次の AWS CLI コマンドを使用して、スタックの削除が完了するのを待ちます。
+:::code{language=shell showLineNumbers=false showCopyAction=true}
+aws cloudformation wait stack-delete-complete \
+--stack-name cfn-workshop-package-deploy-lambda
+:::
+::::
+::::tab{id="LocalDevelopment" label="ローカル開発"}
+1. [AWS S3 コンソール](https://s3.console.aws.amazon.com/s3/)に移動します。
+1. このラボで作成した S3 バケットを選択し、 **空にする** を選択します。
+1. コンソールの指示に従って、バケット内のオブジェクトの削除を確認します。
+1. 次に S3 コンソールに戻り、このラボで作成した S3 バケットを選択し、 **削除** を選択します
+1. コンソールの指示に従って、S3 バケットの削除を確認します。
+1. [AWS CloudFormation コンソール](https://console.aws.amazon.com/cloudformation/)に移動します。
+1. `cfn-workshop-package-deploy-lambda` という名前のスタックを選択し、 **削除** を選択します。
+1. ポップアップウィンドウで、 **削除** を選択します。
+1. **DELETE_COMPLETE** というステータスが表示されるまで、画面を更新します。
+::::
+:::::
+
+---
+
 ### まとめ
 
 おめでとうございます。コマンドラインを使用して CloudFormation テンプレートを正常にパッケージ化およびデプロイしました。
