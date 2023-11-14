@@ -1,5 +1,5 @@
 ---
-title: "Layered stacks"
+title: "Cross-stack references"
 weight: 500
 ---
 
@@ -15,11 +15,9 @@ this gives us the ability to create templates that can be re-used. However, what
 For example, you may have plans for many workloads deployed with many templates but every EC2 instance is expected to
 enable Systems Manager Session Manager access to every EC2 Instance. Similarly, you may wish to deploy a VPC via one
 stack and then use it with multiple future stacks and workloads. Achieving this one-many relationship is not possible
-in a Nested Stack scenario. This is where Layered Stacks come in.
+in a Nested Stack scenario. This is where cross-stack references come in.
 
-We use **[Exports](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-stack-exports.html)** to create
-global variables that can be **[Imported](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference-importvalue.html)**
-into any CloudFormation stack.
+We use **[Exports](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-stack-exports.html)** to create variables that can be **[Imported](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference-importvalue.html)** into any CloudFormation stack in the same AWS account and region.
 
 ### Topics Covered
 In this lab, you will build:
@@ -28,24 +26,24 @@ In this lab, you will build:
 1. **The IAM instance** role stack. This contains the same IAM instance role used in the previous lab but with Export added to the Outputs.
 1. **The EC2 stack.** This contains the EC2 instance you have defined in previous labs but will make use of the Fn::ImportValue function.
 
-Here is a diagram showing the hierarchy of layered stacks.
+Here is a diagram showing the hierarchy of cross-stack references.
 
-![layered-stack-hierarchy.png](/static/intermediate/templates/layered-stacks/layered-stack-hierarchy.png)
+![cross-stacks-hierarchy.png](/static/intermediate/templates/cross-stacks/cross-stack-hierarchy.png)
 
 This diagram represents the high-level overview of the infrastructure that will be deployed:
 
-![layered-stack-hierarchy.png](/static/intermediate/templates/layered-stacks/ls-architecture.png)
+![ls-architecture.png](/static/intermediate/templates/cross-stacks/ls-architecture.png)
 
 ### Start Lab
 
-You will find the working files in `code/workspace/layered-stacks`. In the rest of this lab, you should add your code to the templates here. The solution can be found in the `code/solutions/layered-stacks` folder. You can reference these against your code.
+You will find the working files in `code/workspace/cross-stacks`. In the rest of this lab, you should add your code to the templates here. The solution can be found in the `code/solutions/cross-stacks` folder. You can reference these against your code.
 
 #### Create VPC Stack
 The VPC template has been created for you. It is titled `vpc.yaml`. This template will create VPC stack with 2 Public Subnets, an Internet Gateway, and Route tables.
 
 ##### 1. Prepare the VPC template
 
-::alert[All the files referenced in this lab can be found within `code/workspace/layered-stacks`]{type="info"}
+::alert[All the files referenced in this lab can be found within `code/workspace/cross-stacks`]{type="info"}
 
 If you look in the file `vpc.yaml` file, you will notice that there are some outputs in the **Outputs** section of the template. You will now add exports to each of these so that we can consume them from other CloudFormation stacks.
 
@@ -72,18 +70,18 @@ Outputs:
 ##### 2. Deploy the VPC Stack
 :::::tabs{variant="container"}
 ::::tab{id="cloud9" label="Cloud9"}
-1. In the **Cloud9 terminal** navigate to `cfn101-workshop/code/workspace/layered-stacks`.
+1. In the **Cloud9 terminal** navigate to `cfn101-workshop/code/workspace/cross-stacks`.
 1. **Create Stack** by using the following AWS CLI command. The template requires you provide the values for `AvailabilityZones` parameter, For example `us-east-1a` and `us-east-1b` are used below. Please select 2 Availability Zone based on your region.
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 aws cloudformation create-stack \
---stack-name cfn-workshop-layered-stacks-vpc \
+--stack-name cfn-workshop-cross-stackss-vpc \
 --template-body file://vpc.yaml \
 --parameters ParameterKey=AvailabilityZones,ParameterValue=us-east-1a\\,us-east-1b
 :::
 1. Wait until the stack creation is completed by running the following AWS CLI command
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 aws cloudformation wait stack-create-complete \
---stack-name cfn-workshop-layered-stacks-vpc
+--stack-name cfn-workshop-cross-stacks-vpc
 :::
 ::::
 ::::tab{id="local" label="Local development"}
@@ -91,7 +89,7 @@ aws cloudformation wait stack-create-complete \
 1. In **Prepare template** select **Template is ready**.
 1. In **Template source** select **Upload a template file**.
 1. Choose a file `vpc.yaml`.
-1. Enter a **stack name**. For example, `cfn-workshop-layered-stacks-vpc`.
+1. Enter a **stack name**. For example, `cfn-workshop-cross-stacks-vpc`.
 1. For the **AvailabilityZones** parameter, select **2 AZs**.
 1. You can leave the rest of the parameters **default**.
 1. Navigate through the wizard leaving everything default.
@@ -119,14 +117,14 @@ aws cloudformation wait stack-create-complete \
 1. Let's **Create Stack** by using the following AWS CLI command. The template requires you to specify `CAPABILITY_IAM` capability for creating IAM resources.
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 aws cloudformation create-stack \
---stack-name cfn-workshop-layered-stacks-iam \
+--stack-name cfn-workshop-cross-stacks-iam \
 --template-body file://iam.yaml \
 --capabilities CAPABILITY_IAM
 :::
 1. Wait until the stack creation is completed by running the following AWS CLI command
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 aws cloudformation wait stack-create-complete \
---stack-name cfn-workshop-layered-stacks-iam
+--stack-name cfn-workshop-cross-stacks-iam
 :::
 ::::
 ::::tab{id="local" label="Local development"}
@@ -134,17 +132,17 @@ aws cloudformation wait stack-create-complete \
 1. In **Prepare template** select **Template is ready**.
 1. In **Template source** select **Upload a template file**.
 1. Choose a file `iam.yaml`.
-1. Enter a **stack name**. For example, `cfn-workshop-layered-stacks-iam`.
+1. Enter a **stack name**. For example, `cfn-workshop-cross-stacks-iam`.
 1. Click **Next**.
 1. Navigate through the wizard leaving everything default.
 1. **Acknowledge IAM capabilities** and click on **Submit**.
 ::::
 :::::
 
-#### Create EC2 Layered Stack
+#### Create EC2 Cross-stack
 
 ##### 1. Prepare the EC2 template
-The concept of the **Layered Stack** is to use intrinsic functions to import previously exported values instead of using
+The concept of the **Cross Stack** is to use intrinsic functions to import previously exported values instead of using
 **Parameters**. Therefore, the first change to make to the `ec2.yaml` is to remove the parameters that will no longer be used;
 `SubnetId`, `VpcId`, and `WebServerInstanceProfile`.
 
@@ -220,13 +218,13 @@ WebServerSecurityGroup:
 1. Let's **Create Stack** by using the following AWS CLI command. The template requires you to specify `CAPABILITY_IAM` capability for creating IAM resources.
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 aws cloudformation create-stack \
---stack-name cfn-workshop-layered-stacks-ec2 \
+--stack-name cfn-workshop-cross-stacks-ec2 \
 --template-body file://ec2.yaml
 :::
 1. Wait until the stack creation is completed by running the following AWS CLI command
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 aws cloudformation wait stack-create-complete \
---stack-name cfn-workshop-layered-stacks-ec2
+--stack-name cfn-workshop-cross-stacks-ec2
 :::
 ::::
 ::::tab{id="local" label="Local development"}
@@ -234,7 +232,7 @@ aws cloudformation wait stack-create-complete \
 1. In **Prepare template** select **Template is ready**.
 1. In **Template source** select **Upload a template file**.
 1. Choose a file `ec2.yaml`.
-1. Enter a **stack name**. For example, `cfn-workshop-layered-stacks-ec2`.
+1. Enter a **stack name**. For example, `cfn-workshop-cross-stacks-ec2`.
 1. You can leave the rest of the parameters **default**.
 1. Navigate through the wizard leaving everything default.
 1. On the **Review page**, scroll down to the bottom and click on **Submit**.
@@ -248,7 +246,7 @@ aws cloudformation wait stack-create-complete \
 Open a new browser window in private mode and enter the `WebsiteURL` (you can get the WebsiteURL from the **Outputs** tab of the EC2 stack in the CloudFormation console).
 You should see some instance metadata, similar to the picture below.
 
-![ami-id](/static/intermediate/templates/layered-stacks/ami-id-1.png)
+![ami-id](/static/intermediate/templates/cross-stacks/ami-id-1.png)
 
 ##### 2. Log in to the instance using SSM Session Manager
 
@@ -262,23 +260,23 @@ If you not sure how to do that, follow the instructions from the [Session Manage
 
 For example, you can not delete the **VPC stack** before you delete **EC2 stack**. You get following error message:
 
-![delete-export-before-import.png](/static/intermediate/templates/layered-stacks/delete-export-before-import.png)
+![delete-export-before-import.png](/static/intermediate/templates/cross-stacks/delete-export-before-import.png)
 :::::tabs{variant="container"}
 ::::tab{id="cloud9" label="Cloud9"}
 1. **Delete Stack** by running the following AWS CLI command
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 aws cloudformation delete-stack \
---stack-name cfn-workshop-layered-stacks-ec2
+--stack-name cfn-workshop-cross-stacks-ec2
 :::
 1. Wait until the stack is deleted by using the following AWS CLI command.
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 aws cloudformation wait stack-delete-complete \
---stack-name cfn-workshop-layered-stacks-ec2
+--stack-name cfn-workshop-cross-stacks-ec2
 :::
-1. Repeat steps (1-2) above for stacks: `cfn-workshop-layered-stacks-iam` and `cfn-workshop-layered-stacks-vpc`.
+1. Repeat steps (1-2) above for stacks: `cfn-workshop-cross-stacks-iam` and `cfn-workshop-cross-stacks-vpc`.
 ::::
 ::::tab{id="local" label="Local development"}
-1. In the **[CloudFormation console](https://console.aws.amazon.com/cloudformation)**, select the **EC2 stack**, for example `cfn-workshop-layered-stacks-ec2`.
+1. In the **[CloudFormation console](https://console.aws.amazon.com/cloudformation)**, select the **EC2 stack**, for example `cfn-workshop-cross-stacks-ec2`.
 1. In the top right corner, click on **Delete**.
 1. In the pop-up window click on **Delete**.
 1. Hit the **refresh** button a few times until you see in the status **DELETE_COMPLETE**.
@@ -289,7 +287,7 @@ aws cloudformation wait stack-delete-complete \
 ---
 
 ### Conclusion
-**Layered stacks** allow you to create resources that can be used again and again in multiple stacks. All the stack needs
+**Cross-stack references** allow you to create resources that can be used again and again in multiple stacks. All the stack needs
 to know is the **Export** name used. They allow the separation of roles and responsibilities. For example, a network team
 could create and supply an approved VPC design as a template. You deploy it as a stack and then just reference the Exports
 as needed. Similarly, a security team could do the same for IAM roles or EC2 security groups.

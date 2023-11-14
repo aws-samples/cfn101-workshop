@@ -1,33 +1,49 @@
 AWSTemplateFormatVersion: "2010-09-09"
 
-Description: AWS CloudFormation workshop - Layered stacks - EC2 template (uksb-1q9p31idr) (tag:layered-stacks).
+Description: AWS CloudFormation workshop - Cross-stack references - EC2 template (uksb-1q9p31idr) (tag:layered-stacks).
 
 Metadata:
   AWS::CloudFormation::Interface:
     ParameterGroups:
       - Label:
-          default: Amazon EC2 Configuration
+          default: 'Amazon EC2 Configuration'
         Parameters:
           - AmiID
+
     ParameterLabels:
       AmiID:
-        default: Amazon Machine Image ID
+        default: 'Amazon Machine Image ID'
 
 Parameters:
   EnvironmentType:
-    Description: Specify the Environment type of the stack.
+    Description: 'Specify the Environment type of the stack.'
     Type: String
+    Default: Test
     AllowedValues:
       - Dev
       - Test
       - Prod
-    Default: Test
-    ConstraintDescription: Specify either Dev, Test or Prod.
+    ConstraintDescription: 'Specify either Dev, Test or Prod.'
 
   AmiID:
-    Description: The ID of the AMI.
     Type: AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>
+    Description: 'The ID of the AMI.'
     Default: /aws/service/ami-amazon-linux-latest/amzn2-ami-hvm-x86_64-gp2
+
+  # 1. remove VpcId parameter.
+  VpcId:
+    Type: AWS::EC2::VPC::Id
+    Description: 'The VPC ID'
+
+  # 2. remove SubnetID parameter.
+  SubnetId:
+    Type: AWS::EC2::Subnet::Id
+    Description: 'The Subnet ID'
+
+  # 3. remove WebServerInstanceProfile parameter.
+  WebServerInstanceProfile:
+    Type: String
+    Description: 'Instance profile resource ID'
 
 Mappings:
   EnvironmentToInstanceType:
@@ -40,10 +56,6 @@ Mappings:
 
 Resources:
   WebServerInstance:
-    CreationPolicy:
-      ResourceSignal:
-        Count: 1
-        Timeout: PT10M
     Type: AWS::EC2::Instance
     Metadata:
       AWS::CloudFormation::Init:
@@ -107,17 +119,18 @@ Resources:
                   - /etc/cfn/cfn-hup.conf
                   - /etc/cfn/hooks.d/cfn-auto-reloader.conf
     Properties:
-      SubnetId: !ImportValue cfn-workshop-PublicSubnet1
-      IamInstanceProfile: !ImportValue cfn-workshop-WebServerInstanceProfile
+      SubnetId: # <<< import the PublicSubnet1 exported value from the vpc stack
+      IamInstanceProfile: # <<< import the WebServerInstanceProfile exported value from the iam stack
       ImageId: !Ref AmiID
       InstanceType: !FindInMap [EnvironmentToInstanceType, !Ref EnvironmentType, InstanceType]
       SecurityGroupIds:
         - !Ref WebServerSecurityGroup
       Tags:
         - Key: Name
-          Value: !Join [' ', [!Ref EnvironmentType, Web Server]]
-      UserData: !Base64
-        Fn::Sub: |
+          Value: !Join [ ' ', [ !Ref EnvironmentType, Web Server ] ]
+      UserData:
+        Fn::Base64:
+          !Sub |
           #!/bin/bash -xe
           # Update aws-cfn-bootstrap to the latest
           yum install -y aws-cfn-bootstrap
@@ -125,6 +138,10 @@ Resources:
           /opt/aws/bin/cfn-init -v --stack ${AWS::StackName} --resource WebServerInstance --region ${AWS::Region}
           # Call cfn-signal script to send a signal with exit code
           /opt/aws/bin/cfn-signal --exit-code $? --stack ${AWS::StackName} --resource WebServerInstance --region ${AWS::Region}
+    CreationPolicy:
+      ResourceSignal:
+        Count: 1
+        Timeout: PT10M
 
   WebServerSecurityGroup:
     Type: AWS::EC2::SecurityGroup
@@ -144,7 +161,7 @@ Resources:
           FromPort: 443
           ToPort: 443
           CidrIp: 0.0.0.0/0
-      VpcId: !ImportValue cfn-workshop-VpcId
+      VpcId: # <<< import the VpcId exported value from the vpc stack
 
   WebServerEIP:
     Type: AWS::EC2::EIP
@@ -154,13 +171,13 @@ Resources:
 
 Outputs:
   WebServerPublicDNS:
-    Description: Public DNS of EC2 instance
+    Description: 'Public DNS of EC2 instance'
     Value: !GetAtt WebServerInstance.PublicDnsName
 
   WebServerElasticIP:
-    Description: Elastic IP assigned to EC2
+    Description: 'Elastic IP assigned to EC2'
     Value: !Ref WebServerEIP
 
   WebsiteURL:
-    Description: Application URL
     Value: !Sub http://${WebServerEIP}
+    Description: Application URL
