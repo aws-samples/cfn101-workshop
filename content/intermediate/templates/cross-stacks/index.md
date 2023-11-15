@@ -74,7 +74,7 @@ Outputs:
 1. **Create Stack** by using the following AWS CLI command. The template requires you provide the values for `AvailabilityZones` parameter, For example `us-east-1a` and `us-east-1b` are used below. Please select 2 Availability Zone based on your region.
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 aws cloudformation create-stack \
---stack-name cfn-workshop-cross-stackss-vpc \
+--stack-name cfn-workshop-cross-stacks-vpc \
 --template-body file://vpc.yaml \
 --parameters ParameterKey=AvailabilityZones,ParameterValue=us-east-1a\\,us-east-1b
 :::
