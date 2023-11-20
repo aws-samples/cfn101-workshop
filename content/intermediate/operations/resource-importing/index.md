@@ -66,7 +66,7 @@ In this next step, you will use the AWS CloudFormation to [create a stack](https
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 touch resources-import.txt
 :::
-1. Copy and Paste the below code to the `resources-import` text file, Save it. For the [**ResourceIdentifier Value**](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/resource-import.html#resource-import-overview), update the value for the topic ARN you noted after you created `Topic1`.
+1. Copy and Paste the below code to the `resources-import.txt` text file, Save it. For the [**ResourceIdentifier Value**](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/resource-import.html#resource-import-overview), update the value for the topic ARN you noted after you created `Topic1`.
 :::code{language=json showLineNumbers=false showCopyAction=true}
 [
   {
@@ -181,7 +181,7 @@ SNSTopic2:
 1. The `resource-importing.yaml` template you just updated will now include 2 parameters (`Topic1Name` and `Topic2Name`), and 2 resources (`SNSTopic1` and `SNSTopic2`). Let’s import the new topic into the existing stack!
    :::::tabs{variant="container"}
    ::::tab{id="cloud9" label="Cloud9"}
-   1. Copy the below code and update it to the `resource-import` text file. For the [**ResourceIdentifier Value**](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/resource-import.html#resource-import-overview), update the value for the topic ARN you noted after you created `Topic2`.
+   1. Copy the below code and update it to the `resource-import.txt` text file. For the [**ResourceIdentifier Value**](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/resource-import.html#resource-import-overview), update the value for the topic ARN you noted after you created `Topic2`.
    :::code{language=json showLineNumbers=false showCopyAction=true}
    [
   {
@@ -595,7 +595,7 @@ aws cloudformation wait stack-create-complete \
 1. Navigate to the [AWS CloudFormation Console](https://console.aws.amazon.com/cloudformation/).
 1. From **Create stack**, choose **With new resources (standard)**.
 1. From **Specify template**, choose **Upload a template file**. Upload the `resource-import-challenge.yaml` template and choose **Next**.
-1. Enter a **Stack name**. For example, specify `cfn-workshop-resource-import-challenge`. Specify `t2.nano` for `InstanceType`. Choose **Next.**
+1. Enter a **Stack name**. For example, specify `cfn-workshop-resource-import-challenge`. Specify `t2.nano` for `InstanceType`. Choose **Next**.
 1. In **Configure Stack Options**, choose **Next**.
 1. In the next page, choose **Submit**.
 ::::
@@ -621,7 +621,7 @@ Your task is to reconcile the instance type value, that in your stack is current
 Think about a way to use concepts you learned in Lab part 3.
 :::
 
-:::expand{header="Want to see the solution?"}
+:::::::expand{header="Want to see the solution?"}
 1. Update the `resource-import-challenge.yaml` template: add a `DeletionPolicy` attribute, with a value of `Retain`, to the `Instance` resource. Save the file.
 1. Update the stack by using the updated `resource-import-challenge.yaml` template without changing parameter values.
 :::code{language=shell showLineNumbers=false showCopyAction=true}
@@ -667,7 +667,7 @@ aws cloudformation update-stack \
 1. Let's **Import the Resources to  the Stack**
    :::::tabs{variant="container"}
    ::::tab{id="cloud9" label="Cloud9"}
-   1. Copy the code below and replace the `resources-import.txt` For the [**Identifier Value**](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/resource-import.html#resource-import-overview), specify the instance's **Physical ID**, that you noted earlier as part of this challenge.
+   1. Copy the code below and replace the `resources-import.txt`. For the [**Identifier Value**](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/resource-import.html#resource-import-overview), specify the instance's **Physical ID**, that you noted earlier as part of this challenge.
    :::code{language=json showLineNumbers=false showCopyAction=true}
    [
   {
@@ -711,6 +711,7 @@ aws cloudformation update-stack \
    :::::
 
 You can find the template for the solution in the `code/solutions/resource-importing/resource-import-challenge-solution.yaml` example template.
+:::::::
 
 Great work! You have now learned how to match the CloudFormation stack configuration with the actual configuration on the resource when there is an out-of-band change.
 
@@ -734,11 +735,6 @@ Choose to follow cleanup steps shown next to clean up resources you created with
    aws cloudformation update-stack \
 --stack-name cfn-workshop-resource-importing \
 --template-body file://resource-importing.yaml
-   :::
-   1. Wait until the `UPDATE` operation is complete by using the following AWS CLI command
-   :::code{language=shell showLineNumbers=false showCopyAction=true}
-   aws cloudformation wait stack-update-complete \
---stack-name cfn-workshop-resource-importing
    :::
    1. Wait until the `UPDATE` operation is complete by using the following AWS CLI command
    :::code{language=shell showLineNumbers=false showCopyAction=true}

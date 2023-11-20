@@ -538,7 +538,7 @@ aws cloudformation describe-stack-resource-drift \
 ::::
 ::::tab{id="local" label="Local Development"}
 1. Navigate to the [CloudFormation Console](https://console.aws.amazon.com/cloudformation/). If necessary, choose the **Stacks** menu item to see your Stacks.
-1. Choose your stack created in the earlier steps (for example, `drift-detection-challenge`).
+1. Choose your stack created in the earlier steps (for example, `cfn-workshop-drift-detection-challenge`).
 1. From **Stack actions**, choose **Detect Drift**.
 1. Drift detection takes a few moments to complete. Refresh the stack info page until the **Drift status** field shows `Drifted`.
 1. From **Stack actions**, choose **View drift results**.
@@ -619,7 +619,7 @@ Resources:
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 touch resources-import.txt
 :::
-1. Copy the code below and replace the `resources-import.txt` For the [**Identifier Value**](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/resource-import.html#resource-import-overview), specify the instance's **Physical ID**, that you noted earlier as part of this challenge.
+1. Copy the code below and replace the `resources-import.txt`. For the [**Identifier Value**](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/resource-import.html#resource-import-overview), specify the instance's **Physical ID**, that you noted earlier as part of this challenge.
 :::code{language=json showLineNumbers=false showCopyAction=true}
 [
   {
@@ -741,11 +741,11 @@ aws cloudformation delete-stack \
 ::::
 ::::tab{id="local" label="Local development"}
 1. Navigate to the CloudFormation Console.
-1. Choose the stack created in the first lab, for example `drift-detection-workshop`.
+1. Choose the stack created in the first lab, for example `cfn-workshop-drift-detection-workshop`.
 1. Choose **Delete**, then choose the **Delete**.
-1. For the `drift-detection-challenge` stack, edit the template file to change the `DeletionPolicy` to `Delete`.
+1. For the `cfn-workshop-drift-detection-challenge` stack, edit the template file to change the `DeletionPolicy` to `Delete`.
 1. Update the stack by selecting it, then choosing **Upload**, then **Replace current template** and uploading the updated file. Choose **Next**, then choose **Next**, then choose **Next**, and then choose **Submit**. Wait for the stack update to complete.
-1. Select the `drift-detection-challenge` stack and choose **Delete**, then choose **Delete**.
+1. Select the `cfn-workshop-drift-detection-challenge` stack and choose **Delete**, then choose **Delete**.
 ::::
 :::::
 

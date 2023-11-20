@@ -24,7 +24,7 @@ By the end of this lab, you will be able to:
 
 ### Start Lab
 
-### Prerequisites
+#### Prerequisites
 
 Specific permissions are required by AWS CloudFormation StackSets to deploy stacks in multiple AWS accounts - and across multiple AWS Regions. You will need an administrator role to perform StackSets operations, and an execution role to deploy the actual stacks in target account(s). These roles require specific naming conventions: **AWSCloudFormationStackSetAdministrationRole** for the administrator role, and **AWSCloudFormationStackSetExecutionRole** for the execution role. StackSets execution will fail if these roles are missing.
 
@@ -109,10 +109,10 @@ aws cloudformation describe-stack-set-operation \
 ::::
 ::::tab{id="local" label="Local development"}
 1. Navigate to the [AWS CloudFormation Console](https://console.aws.amazon.com/cloudformation/).
-1. From the panel on the left of the page, select the **StackSets** tab. Choose **Create StackSets**.
-1. In the **Permissions** section: choose **Self-service permissions**; leave the value for **IAM Admin role ARN** empty; set **IAM execution role name** to **AWSCloudFormationStackSetsExecutionRole**.
-1. From the **Prerequisite**-**Prepare template** section, choose **Template is ready**.
-1. Under **Specify template**, select **Template source** and choose **Upload a template file**. Select **Choose file** and supply the CloudFormation template `example_network.yaml` mentioned earlier, and then choose **Next**.
+1. From the panel on the left of the page, select the **StackSets** tab. Choose **Create StackSet**.
+1. In the **Permissions** section; leave the value for **IAM Admin role ARN** empty; set **IAM execution role name** to **AWSCloudFormationStackSetExecutionRole**.
+1. From the **Prerequisite - Prepare template** section, choose **Template is ready**.
+1. In **Specify template** section, under **Template source** choose **Upload a template file**. Select **Choose file** and supply the CloudFormation template `example_network.yaml` mentioned earlier, and then choose **Next**.
 1. In **Specify StackSet details** page, provide name, description, and set parameters:
     1. Specify a **StackSet** name. For example, choose `cfn-workshop-network`.
     2. Provide a **StackSet description**. For example, choose `Provisions VPC, internet gateway, two public subnets, and two routes to the Internet`.
@@ -182,8 +182,8 @@ aws cloudformation describe-stack-set-operation \
 ::::
 ::::tab{id="local" label="Local development"}
 1. Navigate to the [AWS CloudFormation Console](https://console.aws.amazon.com/cloudformation/).
-1. Select the **StackSets** tab. Choose **Create StackSets**.
-1. In the **Permissions** section: choose **Self-service permissions**; for **IAM Admin role ARN**, select **IAM role name** from the drop-down menu, and set it to **AWSCloudFormationStackSetAdministrationRole**; set **IAM execution role name** to **AWSCloudFormationStackSetsExecutionRole**.
+1. Select the **StackSets** tab. Choose **Create StackSet**.
+1. In the **Permissions** section: for **IAM Admin role ARN**, select **IAM role name** from the drop-down menu, and set it to **AWSCloudFormationStackSetAdministrationRole**; set **IAM execution role name** to **AWSCloudFormationStackSetExecutionRole**.
 1. From **Prepare template**, choose **Template is ready**.
 1. For **Template source**, choose **Upload a template file**. Select **Choose file** and supply the CloudFormation template `example_securitygroup.yaml` mentioned earlier, and then choose **Next**.
 1. In **Specify StackSet details** page, provide name, description, and set parameters:
@@ -192,14 +192,13 @@ aws cloudformation describe-stack-set-operation \
    1. Accept default values for **Parameters**. Choose **Next**.
 1. On **Configure StackSet options**, leave **Execution Configuration** as is. Choose **Next**.
 1. In **Set deployment options** page, in **Add stacks to stack set** section, choose to **Deploy new stacks**.
-   1. Under **Accounts**, choose **Deploy stacks in accounts** option.
-   1. From **Add stacks to stackset**, choose **Deploy new stacks**.
-   1. In the **Account numbers** text box, enter the 12-digit AWS account ID for the account you are using for this lab.
-   1. For **Specify regions**, choose to deploy in **US East (N. Virginia)** and **US West (Oregon)**.
-   1. Accept default values for **Deployment options**. Ensure **Maximum concurrent accounts** is set to **1**, **Failure tolerance** to **0** and **Region Concurrency** to **Sequential**. Choose **Next**.
-   1. On the **Review** page, review the contents of the page, and choose **Submit**.
-   1.  Refresh the StackSet creation page until you see the **Status** of the **CREATE** operation as `SUCCEEDED`.
-   1.  Under **Stack instances**, you should see two stacks deployed. One in `us-east-1` and another in `us-west-2`.
+1. Under **Accounts**, choose **Deploy stacks in accounts** option.
+1. In the **Account numbers** text box, enter the 12-digit AWS account ID for the account you are using for this lab.
+1. For **Specify regions**, choose to deploy in **US East (N. Virginia)** and **US West (Oregon)**.
+1. Accept default values for **Deployment options**. Ensure **Maximum concurrent accounts** is set to **1**, **Failure tolerance** to **0** and **Region Concurrency** to **Sequential**. Choose **Next**.
+1. On the **Review** page, review the contents of the page, and choose **Submit**.
+1.  Refresh the StackSet creation page until you see the **Status** of the **CREATE** operation as `SUCCEEDED`.
+1.  Under **Stack instances**, you should see two stacks deployed. One in `us-east-1` and another in `us-west-2`.
 ::::
 :::::
 
@@ -211,7 +210,7 @@ Congratulations! You have learned how export an output value from a stack set in
 
 ### Challenge
 
-In this exercise, you will use the knowledge gained from earlier parts of this lab. Your task is to create a new `cfn-workshop-ec2instance` stack set that will provision an [Amazon Elastic Compute Cloud (Amazon EC2)](https://docs.aws.amazon.com/ec2/?id=docs_gateway) instance in the existing VPC, and attach the security group you created earlier. Your task is also to update the `example_ec2instance.yaml` template to import the value for `SubnetId1` that you exported as part of Part 1 of this lab. When you create the stack set, choose to deploy StackSets operations in **Parallel**. The architecture diagram highlighting the EC2 instance you will describe as part of this challenge is shown next:
+In this exercise, you will use the knowledge gained from earlier parts of this lab. Your task is to create a new `cfn-workshop-ec2instance` stack set that will provision an [Amazon Elastic Compute Cloud (Amazon EC2)](https://docs.aws.amazon.com/ec2/) instance in the existing VPC, and attach the security group you created earlier. Your task is also to update the `example_ec2instance.yaml` template to import the value for `SubnetId1` that you exported as part of Part 1 of this lab. When you create the stack set, choose to deploy StackSets operations in **Parallel**. The architecture diagram highlighting the EC2 instance you will describe as part of this challenge is shown next:
 
 ![StackSetsEc2instance](/static/intermediate/operations/stacksets/stacksetsec2instance.png)
 
@@ -244,7 +243,7 @@ aws cloudformation create-stack-set \
 --stack-set-name cfn-workshop-ec2instance \
 --template-body file://example_ec2instance.yaml
 :::
-1. Create stack instances to your stackset by using the following AWS CLI command. To deploy StackSets operations in parallel, choose **Parallel** for `RegionalConcurrencyType` from `--operation-preferrences`.
+1. Create stack instances to your stackset by using the following AWS CLI command. To deploy StackSets operations in parallel, choose **Parallel** for `RegionConcurrencyType` from `--operation-preferences`.
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 aws cloudformation create-stack-instances \
 --stack-set-name cfn-workshop-ec2instance \
@@ -261,11 +260,11 @@ Use the updated template, and create a new `cfn-workshop-ec2instance` stack set 
 
 ### Cleanup
 
-You will now tear down the resources you created. To delete a stack set, you will first delete its stack set instances, and then delete the empty stack set.
+You will now tear down the resources you created. To delete a stack set, you will first delete its stack instances, and then delete the empty stack set.
 
 :::::tabs{variant="container"}
 ::::tab{id="cloud9" label="Cloud9"}
-1. Delete the **StackSet** Instances before you delete the StackSets from AWS CLI.
+1. Delete the stack instances from the **StackSet** before you delete the StackSets from AWS CLI.
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 aws cloudformation delete-stack-instances \
 --stack-set-name cfn-workshop-ec2instance \
@@ -324,4 +323,4 @@ Now that you have deleted stacks within each StackSet, you will now choose to de
 
 ### Conclusion
 
-Great work! You learned how you can use CloudFormation StackSets to deploy templates in multiple AWS Regions using a single operation, and how to export output parameters from one stack set instance and import them into another stack set instance.
+Great work! You learned how you can use CloudFormation StackSets to deploy templates in multiple AWS Regions using a single operation, and how to export output parameters from one stack set stack instance and import them into another stack set stack instance.

@@ -47,7 +47,7 @@ By default, CloudFormation uses `Delete` as the default value for the `DeletionP
 
 In this example, your intent is to specify `DeletionPolicy` as `Delete` for your instance in the `DEV` environment; follow steps shown next:
 
-
+1. Navigate to the `code/workspace/language-extensions` directory.
 1. Open the `language-extensions.yaml` template. Add the `AWS::LanguageExtensions` transform line by copying and pasting the content below _underneath_ the `AWSTemplateFormatVersion: "2010-09-09"` line:
 :::code{language=yaml showLineNumbers=true showCopyAction=true lineNumberStart=3}
 Transform: AWS::LanguageExtensions
@@ -97,7 +97,7 @@ aws cloudformation wait stack-create-complete \
 ::::tab{id="local" label="Local development"}
 1. Navigate to the [AWS CloudFormation Console](https://console.aws.amazon.com/cloudformation/).
 1. From the left navigation panel, select the **Stacks** tab. From the right side of the page, choose **Create Stack**, and then choose **With new resources (standard).**
-1. From **Prerequisite**-**Prepare template**, choose **Template is ready**.
+1. From **Prerequisite - Prepare template**, choose **Template is ready**.
 1. Under **Specify template**, select **Template source**, and choose **Upload a template file**. Select **Choose file**, and supply the `language-extensions.yaml` template you updated earlier, and then choose **Next**.
 1. In the **Specify Stack details** page:
     1. Specify a **Stack** name. For example, choose `cfn-workshop-language-extensions`.
@@ -194,7 +194,7 @@ aws cloudformation wait stack-update-complete \
 ::::
 :::::
 
-* Navigate to the [CloudWatch console](https://console.aws.amazon.com/cloudwatch/). From the right navigation panel, choose **Dashboards**.
+* Navigate to the [CloudWatch console](https://console.aws.amazon.com/cloudwatch/). From the left navigation panel, choose **Dashboards**.
 * Select the **Dashboard** that you have created, From the top-right, choose **Actions**.
 * Select **View/edit source**, you should see `JSON` for the dashboard that matches `YAML` from `language-extensions.yaml`
 
@@ -241,7 +241,7 @@ aws cloudformation wait stack-update-complete \
 ::::tab{id="local" label="Local development"}
 1. Navigate to the [AWS CloudFormation Console](https://console.aws.amazon.com/cloudformation/).
 1. From the left navigation panel, select the **Stacks** tab. From the right side of the page, choose **Create Stack**, and then choose **With new resources (standard).**
-1. From **Prerequisite**-**Prepare template**, choose **Template is ready**.
+1. From **Prerequisite - Prepare template**, choose **Template is ready**.
 1. Under **Specify template**, select **Template source**, and choose **Upload a template file**. Select **Choose file**, and supply the `language-extensions-challenge.yaml` template you updated earlier, and then choose **Next**.
 1. In the **Specify Stack details** page:
    1. Specify a **Stack** name. For example, choose `cfn-workshop-language-extensions-solution`.
@@ -272,9 +272,9 @@ aws cloudformation wait stack-delete-complete \
 ::::
 ::::tab{id="LocalDevelopment" label="Local development"}
 1. Navigate to the [AWS CloudFormation Console](https://console.aws.amazon.com/cloudformation/).
-1. On the **Stacks** page in the CloudFormation console, select the stack you created in **Part 1:** `cfn-workshop-language-extensions`.
+1. On the **Stacks** page in the CloudFormation console, select the stack you created in Part 1: `cfn-workshop-language-extensions`.
 1. In the stack details pane, choose **Delete**. Select **Delete** when prompted.
-1. On the **Stacks** page in the CloudFormation console, select the stack you created in **Challenge** section: `cfn-workshop-language-extensions-solution`.
+1. On the **Stacks** page in the CloudFormation console, select the stack you created in Challenge section: `cfn-workshop-language-extensions-solution`.
 1. In the stack details pane, choose **Delete**. Select **Delete** when prompted.
 ::::
 :::::
