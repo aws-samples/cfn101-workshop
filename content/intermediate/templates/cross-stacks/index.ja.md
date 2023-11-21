@@ -24,22 +24,22 @@ weight: 500
 
 > 階層化されたスタックの階層を示す図
 
-![layered-stack-hierarchy.png](/static/intermediate/templates/layered-stacks/layered-stack-hierarchy.ja.png)
+![cross-stack-hierarchy.png](/static/intermediate/templates/cross-stacks/cross-stack-hierarchy.ja.png)
 
 > 導入されるインフラストラクチャの概要
 
-![layered-stack-hierarchy.png](/static/intermediate/templates/layered-stacks/ls-architecture.png)
+![ls-architecture.png](/static/intermediate/templates/cross-stacks/ls-architecture.png)
 
 ### ラボを開始
 
-作業ファイルは `code/workspace/layered-stacks` にあります。このラボの残りの部分では、テンプレートにコードを追加する必要があります。なお、解決策は `code/solutions/layered-stacks` フォルダにありますので、こちらを参照することも可能です。
+作業ファイルは `code/workspace/cross-stacks` にあります。このラボの残りの部分では、テンプレートにコードを追加する必要があります。なお、解決策は `code/solutions/cross-stacks` フォルダにありますので、こちらを参照することも可能です。
 
 #### VPC スタックの作成
 VPC テンプレートは既に作成されており、タイトルは `vpc.yaml` です。このテンプレートは、2 つのパブリックサブネット、1 つのインターネットゲートウェイ、および、ルートテーブルを含む VPC スタックを作成することができます。
 
 ##### 1. VPC テンプレートの準備
 
-::alert[このラボで参照されているファイルはすべて `code/workspace/layered-stacks` 内にあります。]{type="info"}
+::alert[このラボで参照されているファイルはすべて `code/workspace/cross-stacks` 内にあります。]{type="info"}
 
 `vpc.yaml` ファイルを見ると、テンプレートの **Outputs** セクションにいくつかの出力があることがわかります。次に、Export を追加して、他の CloudFormation スタックから使用できるようにします。
 
@@ -192,7 +192,7 @@ WebServerSecurityGroup:
 プライベートモードで新しいブラウザウィンドウを開き、`websiteURL` を入力します (WebsiteURL は CloudFormation コンソールの EC2 スタックの**出力**タブから取得できます)。
 下の図のような、いくつかのインスタンスメタデータが表示されます。
 
-![ami-id](/static/intermediate/templates/layered-stacks/ami-id-1.ja.png)
+![ami-id](/static/intermediate/templates/cross-stacks/ami-id-1.ja.png)
 
 ##### 2.SSM Session Manager を使用してインスタンスにログイン
 
@@ -206,7 +206,7 @@ Session Manager を使用してインスタンスにログインできること�
 
 例えば、**EC2 スタック**を削除する前に **VPC スタック**を削除することはできません。次のエラーメッセージが表示されます。
 
-![delete-export-before-import.png](/static/intermediate/templates/layered-stacks/delete-export-before-import.ja.png)
+![delete-export-before-import.png](/static/intermediate/templates/cross-stacks/delete-export-before-import.ja.png)
 
 1. [CloudFormation コンソール](https://console.aws.amazon.com/cloudformation) で、**EC2 スタック** を選択します (例: `cfn-workshop-ec2`)。
 2. 右上の**削除**をクリックします。
