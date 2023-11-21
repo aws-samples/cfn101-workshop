@@ -37,7 +37,7 @@ CloudFormation は、スタックの作成時またはスタックの更新時�
 
 ### ラボを開始
 
-#### **リソースレベルでの条件の定義** 
+#### **リソースレベルでの条件の定義**
 
 * `code/workspace/conditions` ディレクトリに移動します。
 * `condition-resource.yaml` テンプレートを開きます。
@@ -184,7 +184,7 @@ aws cloudformation create-stack --stack-name cfn-workshop-condition-prod \
 おめでとうございます！条件付きでリソースを作成する方法を学びました！
 
 
-#### **プロパティレベルでの条件の定義** 
+#### **プロパティレベルでの条件の定義**
 
 リソースプロパティ値を条件付きで定義するユースケースの例を見てみましょう。例えば、`test` 環境用に `t2.micro` タイプの EC2 インスタンスを作成し、`prod` 環境用に `t2.small` タイプの EC2 インスタンスを作成するとします。`InstanceType` [プロパティ](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-instance.html#cfn-ec2-instance-instancetype)として、リソースプロパティレベルで関連付ける条件を定義します。
 
@@ -275,7 +275,7 @@ aws cloudformation create-stack --stack-name cfn-workshop-condition-property-tes
 
 おめでとうございます！これで、リソースプロパティ値を条件付きで指定する方法がわかりました。
 
-### **チャレンジ** 
+### **チャレンジ**
 
 ここまで、CloudFormation テンプレート内のリソースとプロパティ値で条件を使用する方法を学んできました。このチャレンジでは、`condition-resource.yaml` CloudFormation テンプレートの [Outputs](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/outputs-section-structure.html) セクションに条件付きで出力を作成します。
 

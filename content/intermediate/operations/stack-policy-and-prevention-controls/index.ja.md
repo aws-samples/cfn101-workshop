@@ -21,7 +21,7 @@ weight: 300
 * `stack-policy-lab.yaml` ファイルを開きます。
 * このラボの手順に従って、テンプレートのコンテンツを更新します。
 
-### **ラボパート 1 - スタックポリシーと削除保護** 
+### **ラボパート 1 - スタックポリシーと削除保護**
 
 [スタックポリシー](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/protect-stack-resources.html) は、スタックリソースの更新操作を定義および制御するためにスタック上にセットアップする JSON 形式のドキュメントです。[削除保護](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/using-cfn-protect-stacks.html) は、スタックが削除されないようにするためにスタック上で有効にするスタックオプションです。
 
@@ -173,7 +173,7 @@ CloudFormation は次の結果を返却します。
 おめでとうございます！ これで、CloudFormation スタック内のリソースの更新操作を定義し、スタックが削除されないようにする方法を学習しました。
 
 
-### **ラボパート 2 - DeletionPolicy** 
+### **ラボパート 2 - DeletionPolicy**
 
 [DeletionPolicy](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/aws-attribute-deletionpolicy.html) は、スタックからリソースを削除する場合やスタック自体を削除する場合に、スタック内のリソースを保持 (場合によってはバックアップ) するように設定する CloudFormation リソース属性です。デフォルトでは、リソースに `DeletionPolicy` が設定されていない場合、またはその値が `Delete` に設定されている場合、CloudFormation はスタックの削除時にリソースを削除します。
 

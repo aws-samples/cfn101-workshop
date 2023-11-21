@@ -14,7 +14,7 @@ CloudFormation は、変更が適用されたテンプレートと、以前の�
 * スタックリソースの更新動作を学びます。
 * 更新動作がプロビジョニングされたスタックリソースにどのように影響するかについての重要な考慮事項について学びます。
 
-**ラボを開始** 
+**ラボを開始**
 * `code/workspace/update-behaviors-of-stack-resources` ディレクトリに移動します。
 * お好みのテキストエディタで `update-behaviors-of-stack-resources.yaml` ファイルを開きます。
 * ラボを進めながら、コンテンツをコピーしてファイルに追加します。
@@ -81,7 +81,7 @@ aws cloudformation create-stack --stack-name cfn-workshop-update-behaviors-of-st
 ::::
 :::::
 
-**置換** 
+**置換**
 
 ここまで、スタックを使用して Amazon EC2 インスタンスを作成しました。インスタンスの [Amazon Machine Image](https://docs.aws.amazon.com/ja_jp/AWSEC2/latest/UserGuide/AMIs.html) (AMI) には、このラボで最新の `x86-64` Amazon Linux 2 AMI を使用しました。次に、Amazon EC2 インスタンスに別の AMI を使用する必要があるシナリオを考えてみましょう。このラボでは、前に作成した CloudFormation スタック `cfn-workshop-update-behaviors-of-stack-resources` を更新し、`LatestAmiId` のパラメータ値を `/aws/service/ami-amazon-linux-latest/amzn2-ami-hvm-x86_64-ebs` でオーバーライドします。
 
@@ -103,7 +103,7 @@ aws cloudformation create-stack --stack-name cfn-workshop-update-behaviors-of-st
 おめでとうございます！ **置換** 動作を学習しました。
 
 
-**一時的な中断を伴う更新** 
+**一時的な中断を伴う更新**
 
 
 ワークロードの要件が変わり、CPU とメモリの要件に合わせて新しい [Amazon EC2](https://aws.amazon.com/jp/ec2/instance-types/) インスタンスタイプが必要だと判断した例を見てみましょう。例えば、`cfn-workshop-update-behaviors-of-stack-resources` スタックで管理するインスタンスのタイプを、`t2.micro` から `t2.small` に変更します。
@@ -128,7 +128,7 @@ aws cloudformation create-stack --stack-name cfn-workshop-update-behaviors-of-st
 おめでとうございます！ **一時的な中断を伴う更新** 動作について学習しました。
 
 
-**中断を伴わない更新** 
+**中断を伴わない更新**
 
 前の例を続けてみましょう。インスタンスは現在、[基本モニタリング](https://docs.aws.amazon.com/ja_jp/AWSEC2/latest/UserGuide/using-cloudwatch-new.html)を使用しており、インスタンスのメトリクスデータが 5 分間隔で[Amazon CloudWatch](https://aws.amazon.com/jp/cloudwatch/) に送信されます。ワークロードのメトリクスデータを 1 分間隔で利用できるようにする必要があり、インスタンスの[詳細モニタリング](https://docs.aws.amazon.com/ja_jp/AWSEC2/latest/UserGuide/using-cloudwatch-new.html)を有効にします。
 
