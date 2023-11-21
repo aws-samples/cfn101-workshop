@@ -1,37 +1,37 @@
 AWSTemplateFormatVersion: "2010-09-09"
 
-Description: AWS CloudFormation workshop - Layered stacks - VPC template (uksb-1q9p31idr) (tag:layered-stacks).
+Description: AWS CloudFormation workshop - Cross-stack references - VPC template (uksb-1q9p31idr) (tag:layered-stacks).
 
 Parameters:
   AvailabilityZones:
-    Type: List<AWS::EC2::AvailabilityZone::Name>
     Description: The list of Availability Zones to use for the subnets in the VPC.
+    Type: List<AWS::EC2::AvailabilityZone::Name>
 
   VPCName:
-    Type: String
     Description: The name of the VPC.
+    Type: String
     Default: cfn-workshop-vpc
 
   VPCCidr:
-    Type: String
     Description: The CIDR block for the VPC.
+    Type: String
+    Default: 10.0.0.0/16
     AllowedPattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/([0-9]|[1-2][0-9]|3[0-2]))$
     ConstraintDescription: CIDR block parameter must be in the form x.x.x.x/16-28
-    Default: 10.0.0.0/16
 
   PublicSubnet1Cidr:
-    Type: String
     Description: The CIDR block for the public subnet located in Availability Zone 1.
+    Type: String
+    Default: 10.0.0.0/24
     AllowedPattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/([0-9]|[1-2][0-9]|3[0-2]))$
     ConstraintDescription: CIDR block parameter must be in the form x.x.x.x/16-28
-    Default: 10.0.0.0/24
 
   PublicSubnet2Cidr:
-    Type: String
     Description: The CIDR block for the public subnet located in Availability Zone 2.
+    Type: String
+    Default: 10.0.1.0/24
     AllowedPattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/([0-9]|[1-2][0-9]|3[0-2]))$
     ConstraintDescription: CIDR block parameter must be in the form x.x.x.x/16-28
-    Default: 10.0.1.0/24
 
 Resources:
   VPC:
@@ -69,21 +69,17 @@ Resources:
   VPCPublicSubnet1RouteTableAssociation:
     Type: AWS::EC2::SubnetRouteTableAssociation
     Properties:
-      RouteTableId:
-        Ref: VPCPublicSubnet1RouteTable
-      SubnetId:
-        Ref: VPCPublicSubnet1
+      RouteTableId: !Ref VPCPublicSubnet1RouteTable
+      SubnetId: !Ref VPCPublicSubnet1
 
   VPCPublicSubnet1DefaultRoute:
     Type: AWS::EC2::Route
-    Properties:
-      RouteTableId:
-        Ref: VPCPublicSubnet1RouteTable
-      DestinationCidrBlock: 0.0.0.0/0
-      GatewayId:
-        Ref: VPCIGW
     DependsOn:
       - VPCGW
+    Properties:
+      RouteTableId: !Ref VPCPublicSubnet1RouteTable
+      DestinationCidrBlock: 0.0.0.0/0
+      GatewayId: !Ref VPCIGW
 
   VPCPublicSubnet2:
     Type: AWS::EC2::Subnet
@@ -109,19 +105,17 @@ Resources:
   VPCPublicSubnet2RouteTableAssociation:
     Type: AWS::EC2::SubnetRouteTableAssociation
     Properties:
-      RouteTableId:
-        Ref: VPCPublicSubnet2RouteTable
-      SubnetId:
-        Ref: VPCPublicSubnet2
+      RouteTableId: !Ref VPCPublicSubnet2RouteTable
+      SubnetId: !Ref VPCPublicSubnet2
 
   VPCPublicSubnet2DefaultRoute:
     Type: AWS::EC2::Route
+    DependsOn:
+      - VPCGW
     Properties:
       RouteTableId: !Ref VPCPublicSubnet2RouteTable
       DestinationCidrBlock: 0.0.0.0/0
       GatewayId: !Ref VPCIGW
-    DependsOn:
-      - VPCGW
 
   VPCIGW:
     Type: AWS::EC2::InternetGateway
@@ -133,20 +127,21 @@ Resources:
   VPCGW:
     Type: AWS::EC2::VPCGatewayAttachment
     Properties:
-      VpcId:
-        Ref: VPC
-      InternetGatewayId:
-        Ref: VPCIGW
+      VpcId: !Ref VPC
+      InternetGatewayId: !Ref VPCIGW
 
 Outputs:
   VpcId:
     Value: !Ref VPC
-    # 1. Add the code from "1. Prepare the VPC template" here
+    Export:
+      Name: cfn-workshop-VpcId
 
   PublicSubnet1:
     Value: !Ref VPCPublicSubnet1
-    # 2. Add the code from "1. Prepare the VPC template" here
+    Export:
+      Name: cfn-workshop-PublicSubnet1
 
   PublicSubnet2:
     Value: !Ref VPCPublicSubnet2
-    # 3. Add the code from "1. Prepare the VPC template" here
+    Export:
+      Name: cfn-workshop-PublicSubnet2
