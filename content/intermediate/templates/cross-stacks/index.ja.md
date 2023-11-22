@@ -1,5 +1,5 @@
 ---
-title: "階層化されたスタック"
+title: "クロススタック参照"
 weight: 500
 ---
 
@@ -14,10 +14,10 @@ _ラボ実施時間 : 25分程度_
 例えば、多数のテンプレートを使用して多数のワークロードをデプロイする計画があったとします。すべての EC2 インスタンスが Systems Manager Session Manager によるすべての EC2 インスタンスへのアクセスを有効にする必要があります。
 同様に、1 つのスタックで VPC をデプロイし、それを将来、複数のスタックやワークロードで使用したい場合があります。
 このような一対多の関係は、ネストされたスタックのシナリオでは実現できません。
-ここで階層化されたスタックの出番です。
+ここでクロススタック参照の出番です。
 
 
-私たちは [Export](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/using-cfn-stack-exports.html) を使用し、任意の CloudFormation スタックに [Import](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference-importvalue.html) できるグローバル変数を作成します。
+私たちは [Export](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/using-cfn-stack-exports.html) を使用し、同じ AWS アカウントと同じリージョンの任意の CloudFormation スタックに [Import](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference-importvalue.html) できるグローバル変数を作成します。
 
 ### 取り上げるトピック
 このラボでは、以下を作成します。
@@ -26,7 +26,7 @@ _ラボ実施時間 : 25分程度_
 1. **IAM インスタンスロールスタック** : 前のラボで使用したのと同じ IAM インスタンスロールが含まれていますが、出力に Export が追加されています。
 1. **EC2 スタック** : 前のラボで定義した EC2 インスタンスが含まれていますが、ここでは Fn::ImportValue 関数を使用します。
 
-> 階層化されたスタックの階層を示す図
+> クロススタック参照の関係を示す図
 
 ![cross-stack-hierarchy.png](/static/intermediate/templates/cross-stacks/cross-stack-hierarchy.ja.png)
 
@@ -71,18 +71,18 @@ Outputs:
 
 :::::tabs{variant="container"}
 ::::tab{id="cloud9" label="Cloud9"}
-1. **Cloud9 ターミナル** で `cfn101-workshop/code/workspace/layered-stacks` ディレクトリに移動します。
+1. **Cloud9 ターミナル** で `cfn101-workshop/code/workspace/cross-stacks` ディレクトリに移動します。
 1. **スタックを作成** は、次の AWS CLI コマンドを使用して行います。このテンプレートでは、 `AvailabilityZones` パラメータの値を指定する必要があります。たとえば、 `us-east-1a` と `us-east-1b` は以下で使用されます。利用しているリージョンの 2 つのアベイラビリティーゾーンを選択してください。
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 aws cloudformation create-stack \
---stack-name cfn-workshop-layered-stacks-vpc \
+--stack-name cfn-workshop-cross-stacks-vpc \
 --template-body file://vpc.yaml \
 --parameters ParameterKey=AvailabilityZones,ParameterValue=us-east-1a\\,us-east-1b
 :::
 1. 次の AWS CLI コマンドを実行して、スタックの作成が完了するまで待ちます。
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 aws cloudformation wait stack-create-complete \
---stack-name cfn-workshop-layered-stacks-vpc
+--stack-name cfn-workshop-cross-stacks-vpc
 :::
 ::::
 ::::tab{id="local" label="ローカル開発"}
@@ -90,7 +90,7 @@ aws cloudformation wait stack-create-complete \
 1. **テンプレートの準備** セクションで、 **テンプレート準備完了** を選択します。
 1. **テンプレートの指定** セクションで、 **テンプレートファイルのアップロード** を選択します。
 1. `vpc.yaml` ファイルを選択します。
-1. **スタック名** を入力します。例えば、`cfn-workshop-layered-stacks-vpc` と入力します。
+1. **スタック名** を入力します。例えば、`cfn-workshop-cross-stacks-vpc` と入力します。
 1. **AvaliabilityZone** パラメータには、 **2 つの AZ** を選択します。
 1. 残りのパラメータは **デフォルト** のままとします。
 1. すべてデフォルトのままウィザード内を移動します。
@@ -117,14 +117,14 @@ aws cloudformation wait stack-create-complete \
 1. 次の AWS CLI コマンドを使用して、 **スタックを作成** してみましょう。このテンプレートでは、IAM リソースを作成するための `CAPABILITY_IAM` 機能を指定する必要があります。
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 aws cloudformation create-stack \
---stack-name cfn-workshop-layered-stacks-iam \
+--stack-name cfn-workshop-cross-stacks-iam \
 --template-body file://iam.yaml \
 --capabilities CAPABILITY_IAM
 :::
 1. 次の AWS CLI コマンドを実行して、スタックの作成が完了するまで待ちます。
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 aws cloudformation wait stack-create-complete \
---stack-name cfn-workshop-layered-stacks-iam
+--stack-name cfn-workshop-cross-stacks-iam
 :::
 ::::
 ::::tab{id="local" label="ローカル開発"}
@@ -132,17 +132,17 @@ aws cloudformation wait stack-create-complete \
 1. **テンプレートの準備** セクションで、 **テンプレート準備完了** を選択します。
 1. **テンプレートの指定** セクションで、 **テンプレートファイルのアップロード** を選択します。
 1. `iam.yaml` ファイルを選択します。
-1. **スタック名** を入力します。例えば、`cfn-workshop-layered-stacks-iam` と入力します。
+1. **スタック名** を入力します。例えば、`cfn-workshop-cross-stacks-iam` と入力します。
 1. **次へ** をクリックします。
 1. すべてデフォルトのままウィザード内を移動します。
 1. **Acknowledge IAM capabilities** をクリックし、 **送信** をクリックします。
 ::::
 :::::
 
-#### EC2 階層化されたスタックの作成
+#### EC2 クロススタックの作成
 
 ##### 1. EC2 テンプレートの準備
-**階層化された Stack** のコンセプトは、 **Paramaters** を使用する代わりに、組み込み関数を使用して、以前にエクスポートされた値をインポートすることです。
+**クロススタック** のコンセプトは、 **Paramaters** を使用する代わりに、組み込み関数を使用して、以前にエクスポートされた値をインポートすることです。
 従って、`ec2.yaml` に最初に加えるべき変更は、今後使用されなくなる `SubnetId`、`VpcID`、`WebServerInstanceProfile` のパラメータを削除することです。
 
 
@@ -220,13 +220,13 @@ WebServerSecurityGroup:
 1. 次の AWS CLI コマンドを使用して、 **スタックを作成** してみましょう。このテンプレートでは、IAM リソースを作成するための `CAPABILITY_IAM` 機能を指定する必要があります。
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 aws cloudformation create-stack \
---stack-name cfn-workshop-layered-stacks-ec2 \
+--stack-name cfn-workshop-cross-stacks-ec2 \
 --template-body file://ec2.yaml
 :::
 1. 次の AWS CLI コマンドを実行して、スタックの作成が完了するまで待ちます。
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 aws cloudformation wait stack-create-complete \
---stack-name cfn-workshop-layered-stacks-ec2
+--stack-name cfn-workshop-cross-stacks-ec2
 :::
 ::::
 ::::tab{id="local" label="ローカル開発"}
@@ -234,7 +234,7 @@ aws cloudformation wait stack-create-complete \
 1. **テンプレートの準備** セクションで、 **テンプレート準備完了** を選択します。
 1. **テンプレートの指定** セクションで、 **テンプレートファイルのアップロード** を選択します。
 1. `ec2.yaml` ファイルを選択します。
-1. **スタック名** を入力します。例えば、`cfn-workshop-layered-stacks-ec2`と入力します。
+1. **スタック名** を入力します。例えば、`cfn-workshop-cross-stacks-ec2`と入力します。
 1. 残りのパラメータは **デフォルト** のままとします。
 1. すべてデフォルトのままウィザード内を移動します。
 1. **レビュー** ページで一番下までスクロールし、 **送信** をクリックします。
@@ -262,23 +262,23 @@ Session Manager を使用してインスタンスにログインできること�
 
 例えば、 **EC2 スタック** を削除する前に **VPC スタック** を削除することはできません。次のエラーメッセージが表示されます。
 
-![delete-export-before-import.png](/static/intermediate/templates/layered-stacks/delete-export-before-import.ja.png)
+![delete-export-before-import.png](/static/intermediate/templates/cross-stacks/delete-export-before-import.ja.png)
 :::::tabs{variant="container"}
 ::::tab{id="cloud9" label="Cloud9"}
 1. **スタックを削除** するために次の AWS CLI コマンドを実行してください
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 aws cloudformation delete-stack \
---stack-name cfn-workshop-layered-stacks-ec2
+--stack-name cfn-workshop-cross-stacks-ec2
 :::
 1. 次の AWS CLI コマンドを使用して、スタックが削除されるまで待ちます。
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 aws cloudformation wait stack-delete-complete \
---stack-name cfn-workshop-layered-stacks-ec2
+--stack-name cfn-workshop-cross-stacks-ec2
 :::
-1. `cfn-workshop-layered-stacks-iam` と `cfn-workshop-layered-stacks-vpc` スタックについて、上記のステップ (1-2) を繰り返します。
+1. `cfn-workshop-cross-stacks-iam` と `cfn-workshop-cross-stacks-vpc` スタックについて、上記のステップ (1-2) を繰り返します。
 ::::
 ::::tab{id="local" label="ローカル開発"}
-1. [CloudFormation コンソール](https://console.aws.amazon.com/cloudformation) で、 **EC2 スタック** を選択します (例: `cfn-workshop-layered-stacks-ec2`)。
+1. [CloudFormation コンソール](https://console.aws.amazon.com/cloudformation) で、 **EC2 スタック** を選択します (例: `cfn-workshop-cross-stacks-ec2`)。
 1. 右上の **削除** をクリックします。
 1. ポップアップウィンドウで、 **スタックの削除** をクリックします。
 1. **DELETE_COMPLETE** のステータスが表示されるまで、 **更新** ボタンを数回クリックします。
@@ -288,4 +288,4 @@ aws cloudformation wait stack-delete-complete \
 
 ---
 ### まとめ
-**階層化されたスタック** では、複数のスタックで繰り返し使用できるリソースを作成できます。利用する全てのスタックで、 **Export** で指定した名前を知る必要があります。この機能を利用することで、役割と責任を分けることができます。例えば、ネットワークチームは、承認された VPC デザインをテンプレートとして作成して提供できます。必要に応じて、VPC スタックの Export を参照すれば良いです。同様に、セキュリティチームは IAM ロールや EC2 セキュリティグループについても同じ操作を行うことができます。
+**クロススタック参照** では、複数のスタックで繰り返し使用できるリソースを作成できます。利用する全てのスタックで、 **Export** で指定した名前を知る必要があります。この機能を利用することで、役割と責任を分けることができます。例えば、ネットワークチームは、承認された VPC デザインをテンプレートとして作成して提供できます。必要に応じて、VPC スタックの Export を参照すれば良いです。同様に、セキュリティチームは IAM ロールや EC2 セキュリティグループについても同じ操作を行うことができます。
