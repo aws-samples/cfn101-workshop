@@ -1,228 +1,225 @@
 ---
-title: "Orchestrating with StackSets"
+title: "スタックセットによるオーケストレーション"
 weight: 700
 ---
 
-::alert[日本語翻訳準備中]{type="info"}
-
-_Lab Duration: ~45 minutes_
+_ラボ実施時間 : 45分程度_
 
 ---
 
-### Overview
+### 概要
 
-You can deploy the same infrastructure in multiple AWS [Regions](https://aws.amazon.com/about-aws/global-infrastructure/regions_az/) and/or multiple AWS accounts using [AWS CloudFormation StackSets](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/what-is-cfnstacksets.html). With CloudFormation StackSets, you can create, update, or delete stacks across multiple accounts and AWS regions with a single operation. From an administrator account, you can define and manage a CloudFormation template, and use the template as a basis for provisioning stacks into target accounts or regions of your choice. You can also share parameters between stack sets by [exporting and importing output values](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference-importvalue.html), and establish dependencies in your stack sets.
+[AWS CloudFormation StackSets](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/what-is-cfnstacksets.html) を使用して、同じインフラストラクチャを複数の AWS [リージョン](https://aws.amazon.com/jp/about-aws/global-infrastructure/regions_az/)または複数の AWS アカウントにデプロイできます。CloudFormation StackSets を使用すると、1 回の操作で複数のアカウントや AWS リージョンにまたがるスタックを作成、更新、削除できます。管理アカウントから CloudFormation テンプレートを定義および管理し、そのテンプレートを基にして任意のターゲットアカウントまたはリージョンにスタックをプロビジョニングできます。[出力値のエクスポートとインポート](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference-importvalue.html)によってスタックセットの間でパラメータを共有したり、スタックセットに依存関係を設定したりすることもできます。
 
-Although you can use StackSets to deploy across multiple AWS accounts and regions, in this lab you will focus on learning how to deploy across regions using one account. An architecture diagram of the target state is shown next:
+StackSets を使用して複数の AWS アカウントやリージョンにデプロイすることもできますが、このラボでは、1 つのアカウントを使用して複数のリージョンにデプロイする方法を学習することに重点を置きます。最終的な状態のアーキテクチャ図を以下に示します。
 
 ![StackSetsOverview](/static/intermediate/operations/stacksets/stacksetsoverview.png)
 
-### Topics Covered
+### 取り上げるトピック
 
-By the end of this lab, you will be able to:
+このラボを修了すると、次のことができるようになります。
 
-* Leverage CloudFormation StackSets to provision resources in one account and across multiple regions using a single operation.
-* Understand how you can export output parameters from a stack set instance, and import them into another stack set instance.
+* CloudFormation StackSets を活用して、1 つのアカウントでリソースをプロビジョニングし、1 回の操作で複数のリージョンにまたがってリソースをプロビジョニングします。
+* スタックセットのインスタンスから出力パラメータをエクスポートし、別のスタックセットのインスタンスにインポートする方法を理解します。
 
-### Start Lab
+### ラボを開始
 
-### Prerequisites
+#### 事前準備
 
-Specific permissions are required by AWS CloudFormation StackSets to deploy stacks in multiple AWS accounts - and across multiple AWS Regions. You will need an administrator role to perform StackSets operations, and an execution role to deploy the actual stacks in target account(s). These roles require specific naming conventions: **AWSCloudFormationStackSetAdministrationRole** for the administrator role, and **AWSCloudFormationStackSetExecutionRole** for the execution role. StackSets execution will fail if these roles are missing.
+AWS CloudFormation StackSets が複数の AWS アカウントにスタックをデプロイしたり、複数の AWS リージョンにスタックをデプロイしたりするには、特定の権限が必要です。StackSets の操作を実行するには管理ロールが必要で、ターゲットアカウントに実際のスタックをデプロイするには実行ロールが必要です。これらのロールには特定の命名規則が必要です。管理者ロールには**AWSCloudFormationStackSetAdministrationRole**、実行ロールには**AWSCloudFormationStackSetExecutionRole** となります。これらのロールがないと、StackSets の実行は失敗します。
 
-::alert[Note that, on cross-account deployments, the **AWSCloudFormationStackSetAdministrationRole** should be created in the account where you are creating the stack set (the Administrator account). The **AWSCloudFormationStackSetExecutionRole** should be created in each target account where you wish to deploy the stack. Learn more about [granting self-managed permissions](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-prereqs-self-managed.html) for CloudFormation StackSets. If your accounts are managed using AWS Organizations, you can [enable trusted access](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-orgs-enable-trusted-access.html), and CloudFormation will take care of provisioning all the necessary roles across the accounts.]{type="info"}
+::alert[クロスアカウントデプロイでは、スタックセットを作成するアカウント(管理アカウント)に**AWSCloudFormationStackSetAdministrationRole** を作成する必要があることに注意してください。**AWSCloudFormationStackSetExecutionRole** は、スタックをデプロイしたい各ターゲットアカウントで作成する必要があります。CloudFormation スタックセットの[セルフマネージド型のアクセス許可を付与する](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/stacksets-prereqs-self-managed.html) で詳細をご覧ください。アカウントが AWS Organizations を使用して管理されている場合は、[信頼できるアクセスを有効にする](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/stacksets-orgs-activate-trusted-access.html)を実行すると、CloudFormation が全てのアカウントに必要なロールのプロビジョニングを行います。]{type="info"}
 
-To get started with this lab, use CloudFormation to create the administrator and execution roles:
+このラボを開始するには、CloudFormation を使用して管理者ロールと実行者ロールを作成します。
 
-1.  Download the administrator role CloudFormation template: https://s3.amazonaws.com/cloudformation-stackset-sample-templates-us-east-1/AWSCloudFormationStackSetAdministrationRole.yml
-2. Navigate to the [AWS CloudFormation console](https://console.aws.amazon.com/cloudformation), and make sure you are in the **US East (N. Virginia)** region.
-3. Choose **Create Stack**, and select **With new resources**.
-4. Leave the **Prepare template** setting as is.
-    1. For **Template source**, select **Upload a template file**.
-    2. Select **Choose file**, and supply the CloudFormation template you downloaded: *AWSCloudFormationStackSetAdministrationRole.yml*. Choose **Next**.
-5. For **Stack name**, use `StackSetAdministratorRole`. Choose **Next**.
-6. In **Configure stack options** you may choose to configure tags, which are key-value pairs, that can help you identify your stacks and the resources they create. For example, enter *Owner* in the left column which is the tag key, and your email address in the right column which is the tag value. Accept default values for the other settings in the page. Choose **Next**.
-7. Under **Review,** review the contents of the page. At the bottom of the page, select **I acknowledge that AWS CloudFormation might create IAM resources with custom names**.
-8.  Choose **Submit**.
+1. 管理者ロール CloudFormation テンプレートをダウンロードします: https://s3.amazonaws.com/cloudformation-stackset-sample-templates-us-east-1/AWSCloudFormationStackSetAdministrationRole.yml
+2. [AWS CloudFormation コンソール](https://console.aws.amazon.com/cloudformation) に移動し、**米国東部 (バージニア北部)** リージョンにいることを確認します。
+3. **スタックの作成** を選択し、**新しいリソースを使用 (標準)** を選択します。
+4. **テンプレートを作成** 設定は以下のように設定します。
+    1. **テンプレートソース** では、**テンプレートファイルをアップロード** を選択します。
+    2. **ファイルを選択**を選択し、ダウンロードした CloudFormation テンプレート (*AWSCloudFormationStackSetAdministrationRole.yml*)を指定します。**次へ** を選択します。
+5. **スタック名** には、`StackSetAdministratorRole` を使用してください。**次へ** を選択します。
+6. **スタックオプションの設定** では、キーとバリューのペアであるタグを設定できます。タグは、スタックとスタックによって作成されるリソースを識別するのに役立ちます。例えば、左側の列にタグキーである *Owner* を入力し、右側の列にタグ値である電子メールアドレスを入力します。ページの他の設定はデフォルト値をそのまま使用します。**次へ** を選択します。
+7. **レビュー** でページの内容を確認します。ページの下部で、**AWS CloudFormation によって IAM リソースがカスタム名で作成される場合があることを承認します。** にチェックを入れます。
+8. **送信** を選択します。
 
-Wait until the stack creation completes with a `CREATE_COMPLETE` **Status**.
+スタックの作成の **ステータス** が `CREATE_COMPLETE` になるまで待ってください。
 
-You created the administrator role for StackSets; next, you will create the execution role.
+StackSets の管理者ロールを作成しました。次に実行ロールを作成します。
 
-1. Download the execution role CloudFormation template: https://s3.amazonaws.com/cloudformation-stackset-sample-templates-us-east-1/AWSCloudFormationStackSetExecutionRole.yml
-2. In the [AWS CloudFormation console](https://console.aws.amazon.com/cloudformation), select **Create Stack** and choose **With new resources**.
-3. Leave the **Prepare template** setting as is.
-    1. For **Template source**, select **Upload a template file**.
-    2. Select **Choose file**, and supply the CloudFormation template you downloaded: *AWSCloudFormationStackSetExecutionRole.yml*. Choose **Next**.
-4. In the **Specify stack details** page: for **Stack name**, use `StackSetExecutionRole`.
-5. In **Parameters**, enter the 12-digit account ID for the AWS account you are using for this lab. Choose **Next**.
-6. For **Configure stack options** you may choose to configure tags, as mentioned earlier. For example, enter *Owner* for the tag key, and your email address for the tag value. Accept default values for the other settings in the page. Choose **Next**.
-7. Under **Review**, review the contents of the page. At the bottom of the page, select **I acknowledge that AWS CloudFormation might create IAM resources with custom names**.
-8. Select **Submit**.
+1. 実行ロール CloudFormation テンプレートをダウンロードします: https://s3.amazonaws.com/cloudformation-stackset-sample-templates-us-east-1/AWSCloudFormationStackSetExecutionRole.yml
+2. [AWS CloudFormation コンソール](https://console.aws.amazon.com/cloudformation)で、**スタックの作成** を選択し、**新しいリソースを使用 (標準)** を選択します。
+3. **テンプレートを作成** 設定は、以下のように設定します。
+    1. **テンプレートソース** では、**テンプレートファイルをアップロード** を選択します。
+    2. **ファイルを選択** を選択し、ダウンロードした CloudFormation テンプレート (*AWSCloudFormationStackSetExecutionRole.yml*) を指定します。**次へ** を選択します。
+4. **スタックの詳細を指定** ページで、**スタック名** には `StackSetExecutionRole` を使用してください。
+5. **パラメータ** に、このラボで使用している AWS アカウントの 12 桁のアカウント ID を入力します。**次へ** を選択します。
+6. **スタックオプションの設定** では、前述のようにタグを設定することができます。例えば、タグキーには *Owner* と入力し、タグ値にはメールアドレスを入力します。ページの他の設定はデフォルト値をそのまま使用します。**次へ** を選択します。
+7. **レビュー** で、ページの内容を確認します。ページの下部で、**AWS CloudFormation によって IAM リソースがカスタム名で作成される場合があることを承認します。** を選択します。
+8. **送信** を選択します。
 
-Wait until the stack creation completes with a `CREATE_COMPLETE` **Status**.
+スタックの作成の **ステータス** が `CREATE_COMPLETE` になるまで待ってください。
 
-Now that you created necessary permissions, you will proceed with Part 1 of the lab.
+必要な権限を作成したので、ラボのパート 1 に進みます。
 
-#### Part 1
+#### ラボパート 1
 
-In part 1 of this lab, you'll use an example CloudFormation template, `example_network.yaml`, to create stacks in two Regions of the same account using StackSets. In part 2 of this lab, you'll use another example CloudFormation template, `example_securitygroup.yaml`, and create a security group for each network you created with the previous stack set. The architecture diagram of resources you'll describe with `example_network.yaml` is shown next:
+このラボのパート 1 では、サンプルの CloudFormation テンプレート `example_network.yaml` を使用して、StackSets 機能で同じアカウントの 2 つのリージョンにスタックを作成します。このラボのパート 2 では、別のサンプル CloudFormation テンプレート `example_securitygroup.yaml` を使用して、前のスタックセットで作成したネットワークごとにセキュリティグループを作成します。`example_network.yaml` で記述するリソースのアーキテクチャ図を以下に示します。
 
 ![StackSetsNetworkStack](/static/intermediate/operations/stacksets/stacksetsnetworkstack.png)
 
-To get started, follow steps shown next:
+開始するには、以下の手順に従ってく進んでださい。
 
-1. Navigate to the `code/workspace/stacksets` directory.
-1. Open the `example_network.yaml` CloudFormation template in the text editor of your choice.
-1. Familiarize with the configuration for the example resources in the template. In the example, your intents are to:
-   1. create an [Amazon Virtual Private Cloud](https://aws.amazon.com/vpc/), Internet Gateway, two public subnets, route table, and two routes to the Internet: you will choose to deploy these resources in multiple regions using a single create operation via CloudFormation StackSets;
-   1. [export](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-stack-exports.html) the VPC ID and Subnet IDs outputs. Exports are region-specific.
+1. `code/workspace/stacksets` ディレクトリに移動します。
+2. お好みのテキストエディターで `example_network.yaml` CloudFormation テンプレートを開きます。
+3. テンプレート内のサンプルリソースの設定を確認しておいてください。この例では以下のことを意図しています。
+   1. [Amazon Virtual Private Cloud](https://aws.amazon.com/jp/vpc/)、インターネットゲートウェイ、2 つのパブリックサブネット、ルートテーブル、およびインターネットへの 2 つのルートを作成します。CloudFormation StackSets で 1 回の作成オペレーションで、これらのリソースを複数のリージョンにデプロイできるようにします。
+   2. VPC ID とサブネット ID を[エクスポート](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/using-cfn-stack-exports.html)に出力します。エクスポートはリージョンによって異なります。
 
-You will use the `example_network.yaml` template, that contains the network resources mentioned earlier, to deploy the template in two regions (`us-east-1` and `us-west-2`) of the same account.
+前述のネットワークリソースを含む `example_network.yaml` テンプレートを使用して、同じアカウントの 2 つのリージョン(`us-east-1` と `us-west-2`)　にテンプレートをデプロイします。
 
-In this next step, you will use the AWS CloudFormation Console to create a stack set from the `example_network.yaml` template:
+次のステップでは、AWS CloudFormation コンソールを使用して　`example_network.yaml` テンプレートからスタックセットを作成します。
 :::::tabs{variant="container"}
 ::::tab{id="cloud9" label="Cloud9"}
-1. Let's **Create StackSets** by using the following AWS CLI command.
+1. 次の AWS CLI コマンドを使用して、**Create StackSet** をしてみましょう。
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 aws cloudformation create-stack-set \
 --stack-set-name cfn-workshop-network \
 --template-body file://example_network.yaml
 :::
-1. Create stack instances to your stackset by using the following AWS CLI command. This command requires you specify the 12-digit AWS Account ID for the account you are using for this Lab. You can find this value by choosing the user/role drop-down menu in the top-right corner.For regions, choose to deploy in US East (N. Virginia) and US West (Oregon).
+1. 次の AWS CLI コマンドを使用して、スタックセットにスタックインスタンスを作成します。このコマンドでは、このラボで使用するアカウントの 12 桁の AWS アカウント ID を指定する必要があります。AWS アカウント ID は、画面の右上の ユーザ/ロール ドロップダウンメニューを選択すると確認できます。リージョンには、米国東部 (バージニア北部) と米国西部 (オレゴン) の両方にデプロイすることを選択します。
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 aws cloudformation create-stack-instances \
 --stack-set-name cfn-workshop-network \
 --accounts 123456789012 \
 --regions us-east-1 us-west-2
 :::
-1. CloudFormation returns the following output.
+1. CloudFormation は次の出力を返却します。
 :::code{language=json showLineNumbers=false showCopyAction=false}
 "OperationId": "d7995c31-83c2-xmpl-a3d4-e9ca2811563f"
 :::
-1. Verify that the stack instances were created successfully. Run `DescribeStackSetOperation` with the `operation-id` that is returned as part of the output of step 3.
+1. スタックインスタンスが正常に作成されたことを確認します。ステップ 3 の出力の一部として返された `operation-id` を使用して `DescribeStackSetOperation` を実行します。
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 aws cloudformation describe-stack-set-operation \
 --stack-set-name cfn-workshop-network \
 --operation-id operation_ID
 :::
-1. Navigate to the [AWS CloudFormation Console](https://console.aws.amazon.com/cloudformation/). From the panel on the left of the page, select the **StackSets** tab.
-1. Select `cfn-workshop-network`,Under **Stack instances**, you should see two stacks deployed. One in `us-east-1` and another in `us-west-2`
+1. [AWS CloudFormation コンソール](https://console.aws.amazon.com/cloudformation/) に移動します。ページの左側にあるパネルから、**StackSets** タブを選択します。
+1. `cfn-workshop-network` を選択すると、**スタックインスタンス** の下に 2 つのスタックがデプロイされているはずです。1 つは `us-east-1` にあり、もう 1 つは `us-west-2` にあります。
 ::::
-::::tab{id="local" label="Local development"}
-1. Navigate to the [AWS CloudFormation Console](https://console.aws.amazon.com/cloudformation/).
-1. From the panel on the left of the page, select the **StackSets** tab. Choose **Create StackSets**.
-1. In the **Permissions** section: choose **Self-service permissions**; leave the value for **IAM Admin role ARN** empty; set **IAM execution role name** to **AWSCloudFormationStackSetsExecutionRole**.
-1. From the **Prerequisite**-**Prepare template** section, choose **Template is ready**.
-1. Under **Specify template**, select **Template source** and choose **Upload a template file**. Select **Choose file** and supply the CloudFormation template `example_network.yaml` mentioned earlier, and then choose **Next**.
-1. In **Specify StackSet details** page, provide name, description, and set parameters:
-    1. Specify a **StackSet** name. For example, choose `cfn-workshop-network`.
-    2. Provide a **StackSet description**. For example, choose `Provisions VPC, internet gateway, two public subnets, and two routes to the Internet`.
-    3. Accept default values for **Parameters**. Choose **Next**.
-1. On **Configure StackSet options**, leave **Execution configuration** as is. Choose **Next**.
-1. In **Set deployment options** page, in **Add stacks to stack set** section, choose to **Deploy new stacks**.
-1. Under **Accounts**, choose **Deploy stacks in accounts**.
-1. In the **Account numbers** text box, enter the 12-digit AWS account ID for the account you are using for this lab. You can find this value by choosing the user/role drop-down menu in the top-right corner.
-![StackSetsDeploymentOptions](/static/intermediate/operations/stacksets/stacksetsdeploymentoptions.png)
-1. For **Specify regions**, choose to deploy in **US East (N. Virginia)** and **US West (Oregon)**.
-1. Accept default values for **Deployment options**, and choose **Next**.
-1. On the **Review** page, review the contents of the page and choose **Submit**.
-1. Refresh the StackSet creation page until you see **CREATE** status as `SUCCEEDED`.
-![StackSetCompletion](/static/intermediate/operations/stacksets/createstacksetcompletion.png)
-1. Under **Stack instances**, you should see two stacks deployed. One in `us-east-1` and another in `us-west-2`.
-![StackInstances](/static/intermediate/operations/stacksets/stackinstances.png)
+::::tab{id="local" label="ローカル開発"}
+1. [AWS CloudFormation コンソール](https://console.aws.amazon.com/cloudformation/) に移動します。
+1. ページの左側のパネルから、**StackSets** タブを選択します。**StackSet の作成** を選択します。
+1. **アクセス許可** セクションで、**IAM 管理ロール ARN** の値は空白のままにし、**IAM 実行ロール名** を**AWSCloudFormationStackSetExecutionRole** に設定します。
+1. **前提条件 - テンプレートの準備** セクションから、**テンプレートの準備完了** を選択します。
+1. **テンプレートを指定** セクションで、**テンプレートソース** で **テンプレートファイルのアップロード** を選択します。**ファイル名の選択** を選択し、前述の CloudFormation テンプレート `example_network.yaml` を指定して、**次へ** を選択します。
+1. **StackSet の詳細を指定** ページで、名前、説明、設定パラメータを指定します。
+    1. **StackSet 名** を指定します。例えば、`cfn-workshop-network` を入力します。
+    1. **StackSet の説明**を入力します。例えば、`Provisions VPC, internet gateway, two public subnets, and two routes to the Internet` を入力します。
+    1. **パラメータ** はデフォルト値をそのまま使用してください。**次へ** を選択します。
+1. **StackSet オプションの設定** では、**実行設定** はそのままにします。**次へ** を選択します。
+1. **デプロイオプションの設定** ページの **スタックセットにスタックを追加** セクションで、**新しいスタックのデプロイ** を選択します。
+1. **アカウント** で、**スタックをアカウントにデプロイ** を選択します。
+1. **アカウント番号** テキストボックスに、このラボで使用しているアカウントの 12 桁のアカウント ID を入力します。この値は、画面の右上にある ユーザ/ロール ドロップダウンメニューを選択すると確認できます。
+![StackSetsDeploymentOptions](/static/intermediate/operations/stacksets/stacksetsdeploymentoptions.ja.png)
+1. **リージョンの指定** では、**米国東部 (バージニア北部)** と **米国西部 (オレゴン)** にデプロイすることを選択します。
+1. **デプロイオプション** はデフォルト値をそのまま使用し、**次へ** を選択します。
+1. **レビュー** ページで、ページの内容を確認し、**送信** を選択します。
+1. **CREATE** ステータスが `SUCCEEDED` になるまで StackSet 作成ページを更新します。
+![StackSetCompletion](/static/intermediate/operations/stacksets/createstacksetcompletion.ja.png)
+1. **スタックインスタンス** タブで、2 つのスタックがデプロイされているはずです。1 つは `us-east-1` にあり、もう 1 つは `us-west-2` にあります。
+![StackInstances](/static/intermediate/operations/stacksets/stackinstances.ja.png)
 ::::
 :::::
-Navigate to **Exports**. You should see 3 exports named `AWS-CloudFormationWorkshop-SubnetId1`, `AWS-CloudFormationWorkshop-SubnetId2,` and `AWS-CloudFormationWorkshop-VpcId`. These exports are created in each region where you deployed your stack sets (`us-east-1` and `us-west-2`).
+左のパネルで **エクスポート** を選択します。`AWS-CloudFormationWorkshop-SubnetId1`、`AWS-CloudFormationWorkshop-SubnetId2`、`AWS-CloudFormationWOrkshop-VPCID` という名前の 3 つのエクスポートが表示されるはずです。これらのエクスポートは、スタックセットをデプロイした各リージョン (`us-east-1` と `us-west-2`) で作成されます。
 
-![StackSetExports](/static/intermediate/operations/stacksets/exports.png)
+![StackSetExports](/static/intermediate/operations/stacksets/exports.ja.png)
 
-Congratulations! You have deployed your infrastructure to multiple AWS Regions using a single operation.
+おめでとうございます! 1 回のオペレーションでインフラストラクチャを複数のリージョンにデプロイできました。
 
-#### Part 2
+#### ラボパート 2
 
-In this part of the lab, you will use a new CloudFormation template, `example_securitygroup.yaml`, describing a security group that you will associate to the VPC you created earlier in a given region. You will also export the output for the **Security Group ID**, so that you can consume it later in the *Challenge* portion of this workshop lab. The architecture diagram highlighting the security group resource you will describe with the `example_securitygroup.yaml` template is shown next:
+ラボのこのパートでは、新しい CloudFormation テンプレート `example_securitygroup.yaml` を使用して、特定のリージョンで以前作成した VPC に関連付けるセキュリティグループを記述します。また、**セキュリティグループ ID** の出力をエクスポートして、このワークショップラボの *チャレンジ* の部分で後で使用できるようにします。`example_securitygroup.yaml` テンプレートで記述するセキュリティグループリソースを表現したアーキテクチャ図を以下に示します。
 
 ![StackSetsSecurityGroup](/static/intermediate/operations/stacksets/stacksetsecuritygroup.png)
 
-Let’s get started:
+それでは、始めましょう。
 
-1. Navigate to the `code/workspace/stacksets` directory.
-1. Open the `example_securitygroup.yaml` template in your favorite text editor.
-1. Familiarize with the configuration for the example security group in the template. In the example, your intents are to:
-    1. create a security group for the VPC you created earlier in each of the two regions with a single create operation using CloudFormation StackSets. You will reference the VPC ID using the `Fn::ImportValue` [intrinsic function](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference-importvalue.html);
-    2. export the `SecurityGroupId` output. Exports are region-specific
+1. `code/workspace/stacksets` ディレクトリに移動します。
+2. `example_securitygroup.yaml` テンプレートをお好みのテキストエディタで開きます。
+3. テンプレート内のサンプルセキュリティグループの設定を確認してください。この例では、以下のことを意図しています。
+    1. CloudFormation StackSets を使用して 1 回の作成操作で、2 つのリージョンのそれぞれで先に作成した VPC にセキュリティグループを作成します。VPC ID は `Fn::ImportValue` [組み込み関数](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference-importvalue.html) を使用して参照します。
+    2. `SecurityGroupID` の出力をエクスポートします。エクスポートはリージョンによって異なります。
 
-In this next step, you will use the AWS CloudFormation console to create a stack set from the `example_securitygroup.yaml` template:
+次のステップでは、AWS CloudFormation コンソールを使用して `example_securitygroup.yaml` テンプレートからスタックセットを作成します。
 :::::tabs{variant="container"}
 ::::tab{id="cloud9" label="Cloud9"}
-1. Let's **Create StackSets** by using the following AWS CLI command.
+1. 次の AWS CLI コマンドを使用して、**Create StackSet** を実行しましょう。
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 aws cloudformation create-stack-set \
 --stack-set-name cfn-workshop-security \
 --template-body file://example_securitygroup.yaml
 :::
-1. Create stack instances to your stackset by using the following AWS CLI command. This command requires you specify the 12-digit AWS Account ID for the account you are using for this Lab. You can find this value by choosing the user/role drop-down menu in the top-right corner. For regions, choose to deploy in US East (N. Virginia) and US West (Oregon).
+1. 次の AWS CLI コマンドを使用して、スタックセットにスタックインスタンスを作成します。このコマンドでは、ラボで使用するアカウントの 12 桁の AWS アカウント ID を指定する必要があります。この値は、画面の右上にある ユーザー/ロール ドロップダウンメニューを選択すると確認できます。リージョンの場合には、米国東部 (バージニア北部) と米国西部 (オレゴン) の両方にデプロイすることを選択します。
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 aws cloudformation create-stack-instances \
 --stack-set-name cfn-workshop-security \
 --accounts 123456789012 \
 --regions us-east-1 us-west-2
 :::
-1. CloudFormation returns the following output.
+1. CloudFormation は次の出力を返却します。
 :::code{language=json showLineNumbers=false showCopyAction=false}
 "OperationId": "d7995c31-83c2-xmpl-a3d4-e9ca2811563f"
 :::
-1. Verify that the stack instances were created successfully. Run `DescribeStackSetOperation` with the `operation-id` that is returned as part of the output of step 3.
+1. スタックインスタンスが正常に作成されたことを確認します。ステップ 3 の出力の一部として返却された `operation-id` を使用して `DescribeStackSetOperation` を実行します。
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 aws cloudformation describe-stack-set-operation \
 --stack-set-name cfn-workshop-security \
 --operation-id operation_ID
 :::
-1. Navigate to the [AWS CloudFormation Console](https://console.aws.amazon.com/cloudformation/). From the panel on the left of the page, select the **StackSets** tab.
-1. Select `cfn-workshop-security`,Under **Stack instances**, you should see two stacks deployed. One in `us-east-1` and another in `us-west-2`
+1. [AWS CloudFormation コンソール](https://console.aws.amazon.com/cloudformation/) に移動します。左側のパネルから、**StackSets** を選択します。
+2. `cfn-workshop-security` を選択すると、**スタックインスタンス** の下に 2 つのスタックがデプロイされているはずです。1 つは `us-east-1` にあり、もう 1 つは `us-west-2` にあります。
 ::::
-::::tab{id="local" label="Local development"}
-1. Navigate to the [AWS CloudFormation Console](https://console.aws.amazon.com/cloudformation/).
-1. Select the **StackSets** tab. Choose **Create StackSets**.
-1. In the **Permissions** section: choose **Self-service permissions**; for **IAM Admin role ARN**, select **IAM role name** from the drop-down menu, and set it to **AWSCloudFormationStackSetAdministrationRole**; set **IAM execution role name** to **AWSCloudFormationStackSetsExecutionRole**.
-1. From **Prepare template**, choose **Template is ready**.
-1. For **Template source**, choose **Upload a template file**. Select **Choose file** and supply the CloudFormation template `example_securitygroup.yaml` mentioned earlier, and then choose **Next**.
-1. In **Specify StackSet details** page, provide name, description, and set parameters:
-   1. Specify a **StackSet name**. For example, choose `cfn-workshop-security`.
-   1. Provide a **StackSet description**. For example, choose `Provisions a security group, and associates it to the existing VPC`.
-   1. Accept default values for **Parameters**. Choose **Next**.
-1. On **Configure StackSet options**, leave **Execution Configuration** as is. Choose **Next**.
-1. In **Set deployment options** page, in **Add stacks to stack set** section, choose to **Deploy new stacks**.
-   1. Under **Accounts**, choose **Deploy stacks in accounts** option.
-   1. From **Add stacks to stackset**, choose **Deploy new stacks**.
-   1. In the **Account numbers** text box, enter the 12-digit AWS account ID for the account you are using for this lab.
-   1. For **Specify regions**, choose to deploy in **US East (N. Virginia)** and **US West (Oregon)**.
-   1. Accept default values for **Deployment options**. Ensure **Maximum concurrent accounts** is set to **1**, **Failure tolerance** to **0** and **Region Concurrency** to **Sequential**. Choose **Next**.
-   1. On the **Review** page, review the contents of the page, and choose **Submit**.
-   1.  Refresh the StackSet creation page until you see the **Status** of the **CREATE** operation as `SUCCEEDED`.
-   1.  Under **Stack instances**, you should see two stacks deployed. One in `us-east-1` and another in `us-west-2`.
+::::tab{id="local" label="ローカル開発"}
+1. [AWS CloudFormation コンソール](https://console.aws.amazon.com/cloudformation/) に移動します。
+1. ページの左側のパネルから、**StackSets** タブを選択します。**StackSet の作成** を選択します。
+1. **アクセス許可** セクションで、**IAM 管理ロール ARN** 配下には、ドロップダウンから **IAM ロール名** を選択し、隣のドロップダウンから **AWSCloudFormationStackSetAdministrationRole** を選択します。**IAM 実行ロール名** を **AWSCloudFormationStackSetExecutionRole** に設定します。
+1. **前提条件 - テンプレートの準備** セクションから、**テンプレートの準備完了** を選択します。
+1. **テンプレートを指定** セクションで、**テンプレートソース** で **テンプレートファイルのアップロード** を選択します。**ファイル名の選択** を選択し、前述の CloudFormation テンプレート `example_securitygroup.yaml `を指定して、**次へ** を選択します。
+1. **StackSet の詳細を指定** ページで、名前、説明、設定パラメータを指定します。
+   1. **StackSet 名**を指定します。例えば、`cfn-workshop-security`を選択します。
+   1. **StackSet の説明**を入力します。例えば、`Provisions a security group, and associates it to the existing VPC` を入力します。
+   1. **パラメータ** はデフォルト値をそのまま使用してください。**次へ** を選択します。
+1. **StackSet オプションの設定** では、**実行設定** はそのままにします。**次へ** を選択します。
+1. **デプロイオプションの設定** ページの **スタックセットにスタックを追加** セクションで、**新しいスタックのデプロイ** を選択します。
+1. **アカウント** で、**アカウントにスタックをデプロイ** オプションを選択します。
+1. **アカウント番号** テキストボックスに、このラボで使用しているアカウントの 12 桁の AWS アカウント ID を入力します。
+1. **リージョンの指定** では、**米国東部 (バージニア北部)** と **米国西部 (オレゴン)** にデプロイすることを選択します。
+1. **デプロイオプション** はデフォルト値をそのまま使用します。**同時アカウントの最大数** は **1** で、**障害耐性** は **0** で、**リージョンの同時実行** を **順次** であることを確認してください。**次へ** を選択します。
+1. **レビュー** ページで、内容を確認し、**送信** を選択します。
+1. **CREATE** ステータスが `SUCCEEDED` になるまで StackSet 作成ページを更新します。
+1. **スタックインスタンス** タブで、2 つのスタックがデプロイされているはずです。1 つは `us-east-1` にあり、もう 1 つは `us-west-2` にあります。
 ::::
 :::::
 
-Navigate to **Exports**. You should see a new export named `AWS-CloudFormationWorkshop-SecurityGroupId`.
+左のパネルで **エクスポート** に移動します。「AWS-CloudFormationWorkshop-SecurityGroupId」という名前の新しいエクスポートが表示されるはずです。
 
-![StackSetsSecurityGroupExports](/static/intermediate/operations/stacksets/exportssecuritygroup.png)
+![StackSetsSecurityGroupExports](/static/intermediate/operations/stacksets/exportssecuritygroup.ja.png)
 
-Congratulations! You have learned how export an output value from a stack set instance, and import it into another stack set instance.
+おめでとうございます!スタックセットインスタンスから出力値をエクスポートし、別のスタックセットインスタンスにインポートする方法を学びました。
 
-### Challenge
+### チャレンジ
 
-In this exercise, you will use the knowledge gained from earlier parts of this lab. Your task is to create a new `cfn-workshop-ec2instance` stack set that will provision an [Amazon Elastic Compute Cloud (Amazon EC2)](https://docs.aws.amazon.com/ec2/?id=docs_gateway) instance in the existing VPC, and attach the security group you created earlier. Your task is also to update the `example_ec2instance.yaml` template to import the value for `SubnetId1` that you exported as part of Part 1 of this lab. When you create the stack set, choose to deploy StackSets operations in **Parallel**. The architecture diagram highlighting the EC2 instance you will describe as part of this challenge is shown next:
+この演習では、ラボの前半で得た知識を使用します。あなたのタスクは、既存の VPC に [Amazon Elastic Compute Cloud (Amazon EC2)](https://docs.aws.amazon.com/ja_jp/ec2/) インスタンスをプロビジョニングする新しい `cfn-workshop-ec2instance` スタックセットを作成し、先ほど作成したセキュリティグループをアタッチすることです。また、このラボのパート 1 でエクスポートした `SubnetId1` の値をインポートするように `example_ec2instance.yaml` テンプレートを更新することも課題です。スタックセットを作成する時は、StackSets オペレーションを **並行** にデプロイするようにしてください。このチャレンジで定義する EC2 インスタンスを表すアーキテクチャ図を以下に示します。
 
 ![StackSetsEc2instance](/static/intermediate/operations/stacksets/stacksetsec2instance.png)
 
-::::expand{header="Need a hint?"}
-* Make sure you are in the directory named `code/workspace/stacksets`.
-* Open the `example_ec2instance.yaml` CloudFormation template in the text editor of your choice.
+::::expand{header="ヒントが必要ですか？"}
+* `code/workspace/stacksets` ディレクトリに移動していることを確認してください。
+* お好みのテキストエディターで `example_ec2instance.yaml` CloudFormation テンプレートを開きます。
 
 :::alert{type="info"}
-[Amazon Machine Image (AMI)](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/AMIs.html) resources are unique in each region. To use region-specific AMI IDs, you use the following code snippet in the `Parameters` section of your template to query the ID of the latest AMI for a given region; you also reference `LatestAmiId` in the **Resources** section of your template in `ImageId`.
+[Amazon Machine Image (AMI)](https://docs.aws.amazon.com/ja_jp/AWSEC2/latest/UserGuide/AMIs.html) リソースはリージョンごとに異なります。リージョン固有の AMI ID を使用するには、テンプレートの `Parameter` セクションにある次のコードスニペットを使用して、特定のリージョンの最新の AMI ID を取得します。また、テンプレートの **Resources** セクションで `ImageId` で `LatestAmId` を参照します。
 :::
 :::code{language=yaml showLineNumbers=false showCopyAction=false}
 LatestAmiId:
@@ -230,23 +227,23 @@ LatestAmiId:
   Type: AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>
   Default: /aws/service/ami-amazon-linux-latest/amzn2-ami-hvm-x86_64-gp2
 :::
-* Edit the `Resources` section of the template to import the value for `SubnetId1` that you exported in Part 1. You can import the parameter of your choice the same way you imported the ID of the VPC, from `example_network.yaml` to `example_securitygroup.yaml`.
+* テンプレートの `Resources` セクションを編集して、第 1 回でエクスポートした `SubnetId1` の値をインポートします。VPC ID をインポートしたのと同じ方法で、`example_network.yaml` から `example_securitygroup.yaml` に任意のパラメータをインポートできます。
 ::::
 
-::::::expand{header="Want to see the solution?"}
-You can find the full solution in the `code/solutions/stacksets/example_ec2instance.yaml` template.
+::::::expand{header="解決策を確認しますか？"}
+ソリューションの全文は `code/solutions/stacksets/example_ec2instance.yaml` テンプレートにあります。
 
-Append the following to the EC2 instance properties: `SubnetId: !ImportValue AWS-CloudFormationWorkshop-SubnetId1`.
+EC2 インスタンスのプロパティにこのコードを追加します: `SubnetId: !ImportValue AWS-CloudFormationWorkshop-SubnetId1`
 :::::tabs{variant="container"}
 ::::tab{id="cloud9" label="Cloud9"}
-1. Change the directory to `cfn101-workshop/code/solutions/stacksets`.
-1. Use the updated template, and create a new **StackSet** using the following AWS CLI command.
+1. ディレクトリを `cfn101-workshop/code/solutions/stacksets` に変更します。
+2. 更新したテンプレートを使用し、次の AWS CLI コマンドを使用して新しい **StackSet** を作成します。
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 aws cloudformation create-stack-set \
 --stack-set-name cfn-workshop-ec2instance \
 --template-body file://example_ec2instance.yaml
 :::
-1. Create stack instances to your stackset by using the following AWS CLI command. To deploy StackSets operations in parallel, choose **Parallel** for `RegionalConcurrencyType` from `--operation-preferrences`.
+1. 次の AWS CLI コマンドを使用して、スタックセットにスタックインスタンスを作成します。StackSet のオペレーションを並行してデプロイするには、`--operation-preferences` の `RegionConcurrencyType` を **PARALLEL** に指定します。
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 aws cloudformation create-stack-instances \
 --stack-set-name cfn-workshop-ec2instance \
@@ -255,19 +252,19 @@ aws cloudformation create-stack-instances \
 --operation-preferences RegionConcurrencyType=PARALLEL
 :::
 ::::
-::::tab{id="local" label="Local development"}
-Use the updated template, and create a new `cfn-workshop-ec2instance` stack set to deploy the EC2 instance resources in the 2 regions you chose earlier.  To deploy StackSets operations in parallel, from **Deployment Options** choose **Parallel**. This will deploy StackSets operations in both regions in parallel, thus saving time.
+::::tab{id="local" label="ローカル開発"}
+更新したテンプレートを使用して、新しい `cfn-workshop-ec2instance` スタックセットを作成して、先に選択した 2 つのリージョンに EC2 インスタンスリソースをデプロイします。StackSets のオペレーションを並行してデプロイするには、**リージョンの同時実行** を **並行** に設定します。これにより、StackSets のオペレーションを両方のリージョンに並行してデプロイできるため、時間を節約できます。
 ::::
 :::::
 ::::::
 
-### Cleanup
+### クリーンアップ
 
-You will now tear down the resources you created. To delete a stack set, you will first delete its stack set instances, and then delete the empty stack set.
+最後に、作成したリソースを削除します。スタックセットを削除するには、まずスタックインスタンスを削除し、次に空のスタックセットを削除します。
 
 :::::tabs{variant="container"}
 ::::tab{id="cloud9" label="Cloud9"}
-1. Delete the **StackSet** Instances before you delete the StackSets from AWS CLI.
+1. AWS CLI からスタックセットを削除する前に、**StackSet** のスタックインスタンスを削除してください。
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 aws cloudformation delete-stack-instances \
 --stack-set-name cfn-workshop-ec2instance \
@@ -275,55 +272,55 @@ aws cloudformation delete-stack-instances \
 --regions us-east-1 us-west-2 \
 --no-retain-stacks
 :::
-1. Wait for `DELETE-STACK-INSTANCE` operation to complete and run the following command to delete the **StackSets**
+1. `DELETE-STACK-INSTANCE` 操作が完了するのを待ってから、次のコマンドを実行して **StackSet** を削除します
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 aws cloudformation delete-stack-set \
 --stack-set-name cfn-workshop-ec2instance
 :::
-1. Follow the steps 1-2 for other two stack sets, and in the following order: `cfn-workshop-security`, and `cfn-workshop-network`.
-1. Delete the IAM Roles that you created during this lab by running the following AWS CLI command
+1. 他の 2 つのスタックセットについては、`cfn-workshop-security` と `cfn-workshop-network` の順序で、ステップ 1 〜 2 を実行します。
+1. 次の AWS CLI コマンドを実行して、このラボで作成した IAM ロールを削除します。
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 aws cloudformation delete-stack \
 --stack-set-name StackSetAdministratorRole
 :::
-1. Repeat the step 4 to **Delete** the execution role stack `StackSetAdministratorRole`.
+1. ステップ 4 を繰り返して、実行ロールスタック `StackSetAdministratorRole` を **削除** します。
 ::::
-::::tab{id="local" label="Local development"}
+::::tab{id="local" label="ローカル開発"}
 
-**How to delete AWS CloudFormation stacks within stack set**
+**スタックセット内の AWS CloudFormation スタックを削除する方法**
 
-1. Navigate to the [AWS CloudFormation StackSets console.](https://console.aws.amazon.com/cloudformation/home#/stacksets)
-1. Select the CloudFormation stack set you want to delete the stacks from. Choose the last stack set you created, i.e., `cfn-workshop-ec2instance`.
-1. From top-right section of the page, select **Actions**, and choose **Delete stacks from StackSet**.
-1. Under **Accounts**, select **Deploy stacks in accounts** under **Deployment locations**.
-1. Under **Account numbers** enter the 12-digit AWS account ID for the account you are using for this lab.
-1. For **Specify regions** select **Add all regions**. This will automatically select the AWS Regions that the StackSet deployed stacks into. Choose **Next**.
-1. On the **Review** page, review the contents of the page, and choose **Submit**.
-1. The **Status** changes to `PENDING`.
-1. Refresh until the **Status** changes to `SUCCEEDED`.
-1. Follow steps 2 through 8 for the other two stack sets, and in the following order: `cfn-workshop-security`, and `cfn-workshop-network`.
+1. [AWS CloudFormation コンソール](https://console.aws.amazon.com/cloudformation/) に移動します。
+2. 削除したいスタックから CloudFormation スタックセットを選択します。最後に作成したスタックセット、つまり `cfn-workshop-ec2instance` を選択します。
+3. ページの右上のセクションから**アクション**を選択し、**StackSet からスタックを削除**を選択します。
+4. **アカウント**で、**デプロイロケーション**で**アカウントにスタックをデプロイ**を選択します。
+5. **アカウント番号**に、このラボで使用しているアカウントの 12 桁の AWS アカウント IDを入力します。
+6. **リージョンを指定**では、**全てのリージョンを追加**を選択します。これにより、StackSet がデプロイされた AWS リージョンが自動的に選択されます。 **次へ**を選択します。
+7. **レビュー**ページで、ページの内容を確認し、**送信**を選択します。
+8. **ステータス**が `Pending`に変わります。
+9. **ステータス**が `SUCCEEDED` になるまで更新します。
+10. 他の 2 つのスタックセットについては、`cfn-workshop-security` と `cfn-workshop-network` の順番で、ステップ 2 〜 8 を実行します。
 
-Now that you have deleted stacks within each StackSet, you will now choose to delete the empty StackSet.
+各 StackSet 内のスタックを削除したので、次は空の StackSet を削除することを選択します。
 
-**How to delete an AWS CloudFormation stack set**
+**AWS CloudFormation スタックセットを削除する方法**
 
-1. Navigate to [AWS CloudFormation StackSets console](https://console.aws.amazon.com/cloudformation/home#/stacksets).
-1. Select the stack set you wish to delete.
-1. Choose **Actions**, and then **Delete**.
-1. In the popup that appears, confirm you want to delete this stack set by choosing **Delete StackSet**.
-1. On refresh, your StackSet should no longer be listed.
-1. Follow steps 2 through 5 for the two other stack sets.
+1. [AWS CloudFormation StackSets コンソール](https://console.aws.amazon.com/cloudformation/home#/stacksets) に移動します。
+2. 削除するスタックセットを選択します。
+3. **アクション** を選択し、**StackSet の削除** を選択します。
+4. 表示されるポップアップで、**削除** を選択して、このスタックセットの削除を確定します。
+5. 画面を更新すると、StackSet は表示されなくなります。
+6. 他の 2 つのスタックセットについては、ステップ 2 〜 5 を実行します。
 
-**How to delete an AWS CloudFormation stacks**
+**AWS CloudFormation スタックを削除する方法**
 
-1. Navigate to [AWS CloudFormation Stacks console](https://console.aws.amazon.com/cloudformation/home#/stacks).
-1. Select the stack `StackSetAdministratorRole`, choose **Delete**.
-1. In the popup that appears, confirm you want to delete this stack set by choosing **Delete**.
-1. On refresh, your stack `StackSetAdministratorRole` should no longer be listed.
-1. Follow steps 2 through 4 for the other stack `StackSetExecutionRole` that you created during this lab .
+1. [AWS CloudFormation スタック コンソール](https://console.aws.amazon.com/cloudformation/home#/stacksets) に移動します。
+2. スタック `StackSetAdministratorRole` を選択し、**削除** を選択します。
+3. 示されるポップアップで、**削除** を選択してこのスタックの削除を確定します。
+4. 画面を更新すると、スタック `StackSetAdministratorRole` は表示されなくなります。
+5. このラボで作成したもう 1 つの `StackSetExecutionRole` スタックに対しても、ステップ 2 ～ 4 を実行します。
 ::::
 :::::
 
-### Conclusion
+### まとめ
 
-Great work! You learned how you can use CloudFormation StackSets to deploy templates in multiple AWS Regions using a single operation, and how to export output parameters from one stack set instance and import them into another stack set instance.
+CloudFormation StackSets を使用して 1 回のオペレーションで複数の AWS リージョンにテンプレートをデプロイする方法と、あるスタックセットのスタックインスタンスから出力パラメータをエクスポートして別のスタックセットのスタックインスタンスにインポートする方法を学びました。

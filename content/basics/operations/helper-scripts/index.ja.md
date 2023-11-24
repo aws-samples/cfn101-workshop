@@ -3,6 +3,10 @@ title: "ヘルパースクリプト"
 weight: 400
 ---
 
+_ラボ実施時間 : 15分程度_
+
+---
+
 ### 概要
 
 このラボでは、CloudFormation [ヘルパースクリプト](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/cfn-helper-scripts-reference.html) について学習します。前のラボで学んだことは素晴らしい出発点です。しかし、`UserData` から気づくかもしれませんが手続き型スクリプトは理想的ではありません。シンプルな PHP アプリケーションをデプロイしたが、ユーザーデータにより複雑なアプリを書こうとすることを想像してみてください。それは非常に難しいでしょう。
@@ -31,12 +35,12 @@ weight: 400
 
 Amazon EC2 インスタンスのためにメタデータを指定するには、`AWS::CloudFormation::Init` タイプを使用する必要があります。テンプレートが `cfn-init` スクリプトを実行すると、スクリプトはメタデータセクション内のリソースを検索します。テンプレートにメタデータを追加しましょう。
 
-```yaml
+:::code{language=yaml showLineNumbers=false showCopyAction=true}
   WebServerInstance:
     Type: AWS::EC2::Instance
     Metadata:
       AWS::CloudFormation::Init:
-```
+:::
 
 #### 2. cfn-init の設定
 
@@ -56,7 +60,7 @@ Amazon EC2 インスタンスのためにメタデータを指定するには、
 
 `packages` キーのコードをテンプレートに追加します。
 
-```yaml
+:::code{language=yaml showLineNumbers=false showCopyAction=true}
 WebServerInstance:
   Type: AWS::EC2::Instance
   Metadata:
@@ -65,8 +69,7 @@ WebServerInstance:
         packages:
           yum:
             httpd: []
-            php: []
-```
+:::
 
 ##### 2. `index.php` ファイルの作成
 
@@ -74,7 +77,7 @@ WebServerInstance:
 
 `files` キーのコードをテンプレートに追加します。
 
-```yaml
+:::code{language=yaml showLineNumbers=false showCopyAction=true}
 WebServerInstance:
   Type: AWS::EC2::Instance
   Metadata:
@@ -105,7 +108,7 @@ WebServerInstance:
             mode: 000644
             owner: apache
             group: apache
-```
+:::
 
 ##### 3. Apache Web サーバーを有効にして起動する
 
@@ -113,7 +116,7 @@ WebServerInstance:
 
 `services` キーのコードをテンプレートに追加します。
 
-```yaml
+:::code{language=yaml showLineNumbers=false showCopyAction=true}
 WebServerInstance:
   Type: AWS::EC2::Instance
   Metadata:
@@ -128,7 +131,7 @@ WebServerInstance:
             httpd:
               enabled: true
               ensureRunning: true
-```
+:::
 
 ##### 4. `cfn-init` スクリプトの実行
 
@@ -138,7 +141,7 @@ WebServerInstance:
 
 `UserData` プロパティのコードをテンプレートに追加します。
 
-```yaml
+:::code{language=yaml showLineNumbers=false showCopyAction=true}
 UserData:
   Fn::Base64:
     !Sub |
@@ -147,7 +150,7 @@ UserData:
       yum install -y aws-cfn-bootstrap
       # Call cfn-init script to install files and packages
       /opt/aws/bin/cfn-init -v --stack ${AWS::StackName} --resource WebServerInstance --region ${AWS::Region}
-```
+:::
 
 ::alert[`!Sub` 組み込み関数は `${AWS::StackName}` と `${AWS::Region}` 変数の値を動的に置き換えます。]{type="info"}
 
@@ -162,7 +165,7 @@ UserData:
 
 1. 両方のファイルのコードをテンプレートにコピーします。
 
-   ```yaml
+   :::code{language=yaml showLineNumbers=false showCopyAction=true}
    WebServerInstance:
      Type: AWS::EC2::Instance
      Metadata:
@@ -191,13 +194,13 @@ UserData:
                  runas=root
            services:
              {...}
-   ```
+   :::
 
 1. テンプレートの `services` セクションで `cfn-hup` を有効にして起動します。
 
    `services` キーのコードをテンプレートに追加します。
 
-   ```yaml
+   :::code{language=yaml showLineNumbers=false showCopyAction=true}
    WebServerInstance:
      Type: AWS::EC2::Instance
      Metadata:
@@ -223,7 +226,7 @@ UserData:
                  files:
                    - /etc/cfn/cfn-hup.conf
                    - /etc/cfn/hooks.d/cfn-auto-reloader.conf
-   ```
+   :::
 
 #### 4. cfn-signal　の設定と CreationPolicy 属性の追加
 
@@ -236,16 +239,16 @@ UserData:
 
 1. `WebServerInstance` リソースに `CreationPolicy` プロパティを追加します。
 
-   ```yaml
+   :::code{language=yaml showLineNumbers=false showCopyAction=true}
    CreationPolicy:
      ResourceSignal:
        Count: 1
        Timeout: PT10M
-   ```
+   :::
 
 1. `cfn-signal` を UserData パラメータに追加します。
 
-   ```yaml
+   :::code{language=yaml showLineNumbers=false showCopyAction=true}
    UserData:
     Fn::Base64:
       !Sub |
@@ -256,61 +259,50 @@ UserData:
         /opt/aws/bin/cfn-init -v --stack ${AWS::StackName} --resource WebServerInstance --region ${AWS::Region}
         # Call cfn-signal script to send a signal with exit code
         /opt/aws/bin/cfn-signal --exit-code $? --stack ${AWS::StackName} --resource WebServerInstance --region ${AWS::Region}
-   ```
+   :::
 
-#### 5. スタックの更新
+#### 5. スタックの作成
 スタックを更新して `UserData` プロパティで行った変更を適用するには、EC2 インスタンスを置き換える必要があります。
 [こちら](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-instance.html?shortFooter=true#aws-properties-ec2-instance-properties)で EC2 インスタンスの置き換えをトリガーする属性を確認できます。
 
-以下の例では、`AvailabilityZone` プロパティのパラメータを使用して置き換えをトリガーします。
-
-1. テンプレートに `AvailabilityZone` パラメータを追加します。
-
-   ```yaml
-   Parameters:
-      AvailabilityZone:
-        Type: AWS::EC2::AvailabilityZone::Name
-   ```
-
-1. EC2 リソースの **Properties** セクションに `AvailabilityZone` を追加し、上記で作成したパラメータを参照させます。
-
-   ```yaml
-   WebServerInstance:
-     Type: AWS::EC2::Instance
-     Metadata:
-       {..}
-     Properties:
-       AvailabilityZone: !Ref AvailabilityZone
-   ```
-
-1. デプロイされている Web サーバーのインスタンスのアベイラビリティーゾーンを確認します。
-
-    + EC2 コンソールの **[インスタンス](https://console.aws.amazon.com/ec2#instances)** に移動
-    + `<enviroment>-webserver` インスタンスを選択し、**アベイラビリティーゾーン** の値を書き留めておきます。たとえば、`eu-west-2a`。
-
+:::::tabs{variant="container"}
+::::tab{id="cloud9" label="Cloud9"}
+1. **Cloud9 のターミナル** で `code/workspace` に移動します。
+:::code{language=shell showLineNumbers=false showCopyAction=true}
+cd cfn101-workshop/code/workspace
+:::
+1. AWS CLI でスタックを作成します。必要な `--stack-name`、`--template-body`、`--capabilities` パラメータがあらかじめ設定されています。
+:::code{language=shell showLineNumbers=false showCopyAction=true}
+aws cloudformation create-stack --stack-name cfn-workshop-helper-scripts \
+--template-body file://helper-scripts.yaml \
+--capabilities CAPABILITY_IAM
+:::
+1. `create-stack` コマンドが正常に送信されたら、CloudFormation が `StackId` を返します。
+:::code{language=shell showLineNumbers=false showCopyAction=false}
+"StackId": "arn:aws:cloudformation:us-east-1:123456789012:stack/cfn-workshop-helper-scripts/96d87030-e809-11ed-a82c-0eb19aaeb30f"
+:::
+1. **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** のコンソールを新しいタブで開き、スタックが **CREATE_COMPLETE** ステータスになるまで待ちます。必要に応じて、リフレッシュボタンをクリックします。
+1. インスタンスが正常に作成されたことを確認するために、Web ブラウザで `WebsiteURL` を入力します (WebsiteURL は CloudFormation コンソールの _Outputs_ タブから取得できます)。
+::::
+::::tab{id="local" label="ローカル開発"}
 1. **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** のリンクを新しいタブで開き、必要に応じて AWS アカウントにログインします。
-1. スタック名 (例: **cfn-workshop-ec2**) をクリックします。
-1. 画面右上の **更新** ボタンをクリックします。
-1. **テンプレートの準備** で、**既存テンプレートを置き換える** を選択します。
-1. **テンプレートの指定** で、 **テンプレートファイルのアップロード** を選びます。
-1. **ファイルの選択** ボタンをクリックし、作業用ディレクトリに移動します。
-1. ステップ1で作成した `helper-scripts.yaml` を指定し、**次へ** をクリックします。
+1. 画面右上の **スタックの作成** をクリックし、**新しいリソースを使用 (標準)** をクリックしてください。
+1. **テンプレートの準備** では、**テンプレートの準備完了** を選びます。
+1. **テンプレートの指定** では、**テンプレートファイルのアップロード** を選びます。
+1. `helper-scripts.yaml` ファイルを指定し、**次へ** をクリックします。
+1. **スタックの名前** (例: `cfn-workshop-helper-scripts`) を入力し、**次へ** をクリックします。
 1. **Amazon Machine Image ID** はそのままにしてください。
-1. **AvailabilityZone** にはステップ 3 でメモを取ったアベイラビリティーゾーン以外のものを選択してください。例えば **eu-west-2b**。
-        ![az-update](/static/basics/operations/helper-scripts/az-update-1.ja.png)
-1. **EnvironmentType** は選択されている環境のままにします。
+1. **EnvironmentType** にはドロップダウンから環境の種類を選択します。例えば **Test** を選択して、**次へ** をクリックします。
 1. **スタックオプションの設定** はデフォルトの設定のままとし、**次へ** をクリックします。
-1. **レビュー <スタック名>** ページで、一番下までスクロールし、**AWS CloudFormation によって IAM リソースが作成される場合があることを承認します。** チェックボックスをチェックし、**スタックの更新** をクリックします。
-
-    ::alert[**Change set preview** には、EC2 リソースの _Replacement_ 条件 が **True** になっています。したがって、既存の EC2 インスタンが終了され、新しいインスタンスが作成されます。]{type="info"}
-
-1. ステータスが **UPDATE_COMPLETE** になるまで、**リフレッシュ** ボタンを数回クリックします。
-
-Web ブラウザで `WebsiteURL` を入力します (WebsiteURL は CloudFormation コンソールの _Outputs_ タブから取得できます)。
+1. **レビュー <スタック名>** のページで、ページの下部までスクロールし、**AWS CloudFormation によって IAM リソースが作成される場合があることを承認します。** の文言のチェックボックスにチェックを入れます。**送信** をクリックします。
+1. スタックが **CREATE_COMPLETE** ステータスになるまで待ちます。必要に応じて、リフレッシュボタンをクリックします。
+1. インスタンスが正常に作成されたことを確認するために、Web ブラウザで `WebsiteURL` を入力します (WebsiteURL は CloudFormation コンソールの _Outputs_ タブから取得できます)。
+::::
+:::::
 
 #### チャレンジ
 
-このチャレンジでは、スタックを更新したときに `cfn-hup` がアプリケーションを更新する方法を証明します。AMI ID を表示するように index.php ファイルを更新します。
+このチャレンジでは、スタックを更新したときに `cfn-hup` がアプリケーションを更新する方法を証明します。AMI ID を表示するように `index.php` ファイルを更新します。
 
 ##### 1. `index.php` ファイルの変更
 
@@ -318,11 +310,11 @@ EC2 メタデータの _files_ セクションにある `/var/www/html/index.php
 
 以下のコードを `<\?php {...} ?>` ブロックに追加します。
 
-```php
+:::code{language=php showLineNumbers=false showCopyAction=true}
 # Get the instance AMI ID and store it in the $ami_id variable
 $url = "http://169.254.169.254/latest/meta-data/ami-id";
 $ami_id = file_get_contents($url);
-```
+:::
 
 以下のコードを html `<h2>` タグに追加してください。
 
@@ -332,21 +324,44 @@ $ami_id = file_get_contents($url);
 
 ##### 2. 新しいテンプレートでスタックを更新
 
-`cfn-hup` はメタデータセクションの変更を検出し、新しいバージョンを自動的にデプロイします。
+`cfn-hup` はメタデータセクションの変更を検出し、新しいバージョンを自動的にデプロイし、既存のインスタンスを更新します。
 
+:::::tabs{variant="container"}
+::::tab{id="cloud9" label="Cloud9"}
+1. **Cloud9 のターミナル** で `code/workspace` に移動します。
+:::code{language=shell showLineNumbers=false showCopyAction=true}
+cd cfn101-workshop/code/workspace
+:::
+1. AWS CLI でスタックを更新します。必要な `--stack-name`、`--template-body`、`--capabilities` パラメータがあらかじめ設定されています。
+:::code{language=shell showLineNumbers=false showCopyAction=true}
+aws cloudformation update-stack --stack-name cfn-workshop-helper-scripts \
+--template-body file://helper-scripts.yaml \
+--capabilities CAPABILITY_IAM
+:::
+1. `update-stack` コマンドが正常に送信されたら、CloudFormation が `StackId` を返します。
+:::code{language=shell showLineNumbers=false showCopyAction=false}
+"StackId": "arn:aws:cloudformation:us-east-1:123456789012:stack/cfn-workshop-helper-scripts/96d87030-e809-11ed-a82c-0eb19aaeb30f"
+:::
+1. **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** のコンソールを新しいタブで開き、スタックが **CREATE_COMPLETE** ステータスになるまで待ちます。必要に応じて、リフレッシュボタンをクリックします。新しい EC2 インスタンスが作成されないので、すぐ終わるはずです。
+:::code{language=shell showLineNumbers=false showCopyAction=false}
+"StackId": "arn:aws:cloudformation:us-east-1:123456789012:stack/cfn-workshop-helper-scripts/96d87030-e809-11ed-a82c-0eb19aaeb30f"
+:::
+::::
+::::tab{id="local" label="ローカル開発"}
 1. **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** のリンクを新しいタブで開き、必要に応じて AWS アカウントにログインします。
-1. スタック名 (例: **cfn-workshop-ec2**) をクリックします。
+1. スタック名 (例: `cfn-workshop-helper-scripts`) をクリックします。
 1. 画面右上の **更新** ボタンをクリックします。
 1. **テンプレートの準備** で、**既存テンプレートを置き換える** を選択します。
 1. **テンプレートの指定** で、 **テンプレートファイルのアップロード** を選びます。
 1. **ファイルの選択** ボタンをクリックし、作業用ディレクトリに移動します。
-1. ステップ1で作成した `helper-scripts.yaml` を指定し、**次へ** をクリックします。
+1. `helper-scripts.yaml` ファイルを指定し、**次へ** をクリックします。
 1. **Amazon Machine Image ID** はそのままにしてください。
-1. **AvailabilityZone** はそのままのアベイラビリティーゾーンにしてください。
 1. **EnvironmentType** は選択されている環境のままにします。
 1. **スタックオプションの設定** はデフォルトの設定のままとし、**次へ** をクリックします。
-1. **レビュー <スタック名>** ページで、一番下までスクロールし、**AWS CloudFormation によって IAM リソースが作成される場合があることを承認します。** チェックボックスをチェックし、**スタックの更新** をクリックします。
-1. ステータスが **UPDATE_COMPLETE** になるまで、**リフレッシュ** ボタンを数回クリックします。
+1. **レビュー <スタック名>** ページで、一番下までスクロールし、**AWS CloudFormation によって IAM リソースが作成される場合があることを承認します。** チェックボックスをチェックし、**送信** をクリックします。
+1. ステータスが **UPDATE_COMPLETE** ステータスになるまで待ちます。必要に応じて、リフレッシュボタンをクリックします。
+::::
+:::::
 
 ##### 3. 変更が正常に展開されたことを確認
 
@@ -358,10 +373,10 @@ $ami_id = file_get_contents($url);
 
 作成したリソースをクリーンアップするには、次の手順を実施します。
 
-1. **[CloudFormation コンソール](https://console.aws.amazon.com/cloudformation)** で、このラボで作成したスタックを選択します。たとえば、`cfn-workshop-ec2`。
+1. **[CloudFormation コンソール](https://console.aws.amazon.com/cloudformation)** で、このラボで作成したスタックを選択します (例: `cfn-workshop-helper-scripts`)。
 1. 右上の **削除** をクリックします。
 1. ポップアップウィンドウで、**削除** をクリックします。
-1. **DELETE_COMPLETE** というステータスが表示されるまで、**更新** ボタンを数回クリックします。
+1. **DELETE_COMPLETE** ステータスになるまで待ちます。必要に応じて、リフレッシュボタンをクリックします。
 ---
 ### まとめ
 

@@ -50,17 +50,15 @@ weight: 650
 
 
 
-### 前提条件のインストール
+### 前提条件
 
-まだ、以下の手順が実行できていない場合、前提条件に従い、次のものを自分のワークステーションにインストールします (Cloud9 はこのラボで後ほど使用しますが、最初にワークステーションを使用することから始めます)。
+このラボでは後で Cloud9 を使用しますが、最初はワークステーションで作業します。まず、CloudFormation Workshop コードリポジトリのコンテンツをワークステーションに取り込みます。そのためには、次の 2 つのオプションから選択できます。
 
-1. [Git をインストール](/prerequisites/git)。
-2. [ラボリソースを取得](/prerequisites/lab-resources): ラボリポジトリのクローンを作成します。本作業を実施すると、リポジトリがワークステーションの `cfn101-workshop` ディレクトリにクローンされます。
-
-
-次に、クローンを作成したリポジトリの `cfn101-workshop/code/workspace/architecting-templates` ディレクトリに移動します。まずは、`base-network.template` ファイルと `cloud9.template` ファイルを使用して、ベースインフラストラクチャと Cloud9 環境をそれぞれ作成します。
+- オプション 1 (簡単、ワークステーションにツールをインストールする必要がない): [GitHub の CloudFormation Workshop リポジトリページ](https://github.com/aws-samples/cfn101-workshop) を開き、 **Code** ボタンを探して、ドロップダウンメニューから **Download ZIP** を選択します。このアクションにより、リポジトリの `main` ブランチにあるワークショップの内容を含む `cfn101-workshop-main.zip` ファイルが作成されます。このファイルをダウンロードしてワークステーションの任意のディレクトリに展開します。
+- オプション 2: [git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git) を使用して CloudFormation Workshop リポジトリのクローンを作成します。そのためには、ワークステーションに `git` がインストールされていることを確認するか、任意の方法でインストールしてください。準備ができたら、[ローカル開発の設定](/prerequisites/local-development) の **git を使ってラボのリソースをクローン** セクションに従って、ラボリポジトリをクローンしてください。これにより、リポジトリがワークステーションの `cfn101-workshop` ディレクトリにクローンされます。
 
 
+次に、ZIP ファイルから展開した、またはクローンしたリポジトリの `cfn101-workshop/code/workspace/architecting-templates` ディレクトリを開きます。`base-network.template` ファイルと `cloud9.template` ファイルを見つけます。まず、これらを使用してベースインフラストラクチャと Cloud9 環境をそれぞれ作成します。
 
 ### VPC スタックの作成
 
@@ -69,13 +67,13 @@ weight: 650
 `base-network.template` ファイルを使用して新しいスタックを作成します。
 
 1. [AWS CloudFormation コンソール](https://console.aws.amazon.com/cloudformation/) に移動します。
-2. ページ上部のリージョンセレクターから、*バージニア北部* (`us-east-1`) などのリージョンを選択します。
-3. **スタックの作成**から、**新しいリソースを使用 (標準)** を選択します。
-4. **テンプレートの準備**セクションで、**テンプレート準備完了**を選択します。
-5. **テンプレートの指定**セクションで、**テンプレートファイルのアップロード**を選択します。前述の `base-network.template` ファイルを選択し、**次へ** をクリックします。
-6. スタック名を指定します。例えば、`cloudformation-workshop-dev-base-network` と入力します。デフォルトのパラメータ値のまま、**次へ** をクリックします。
-7. 次のページで、**次へ**をクリックします。
-8. 次のページで、**送信**をクリックします。
+1. ページ上部のリージョンセレクターから、*バージニア北部* (`us-east-1`) などのリージョンを選択します。
+1. **スタックの作成** から、 **新しいリソースを使用 (標準)** を選択します。
+1. **テンプレートの準備** セクションで、 **テンプレート準備完了** を選択します。
+1. **テンプレートの指定** セクションで、 **テンプレートファイルのアップロード** を選択します。前述の `base-network.template` ファイルを選択し、 **次へ** をクリックします。
+1. スタック名を指定します。例えば、`cloudformation-workshop-dev-base-network` と入力します。デフォルトのパラメータ値のまま、 **次へ** をクリックします。
+1. 次のページで、 **次へ** をクリックします。
+1. 次のページで、 **送信** をクリックします。
 
 スタックの作成が開始されます。最後に、スタックのステータスが `CREATE_COMPLETE` になります。スタックの作成が進むにつれて、ワークステーションの任意のテキストエディタで `base-network.template` ファイルを開きます。次の点を確認してください。
 
@@ -91,14 +89,14 @@ weight: 650
 Cloud9 の環境を作ってみましょう！ [AWS CloudFormation コンソール](https://console.aws.amazon.com/cloudformation/) を使用します。
 
 1. 先ほど選択したリージョンと同一のリージョン (*バージニア北部* (`us-east-1`)など) であることを確認してください。
-2. **スタックの作成**から、**新しいリソースを使用 (標準)** を選択します。
-3. **テンプレートの準備**セクションで、**テンプレート準備完了**を選択します。
-4.  **テンプレートの指定**セクションで、**テンプレートファイルのアップロード**を選択します。`cloud9.template` ファイルを選択し、**次へ**をクリックします。
-5. スタック名を指定します。例えば、`cloudformation-workshop-dev-cloud9` と入力します。デフォルトのパラメータ値のまま、**次へ** をクリックします。
-6. 次のページで、**次へ**をクリックします。
-7. 次のページで、**送信**をクリックします。
-8. スタックのステータスが `CREATE_COMPLETE` になるまで、スタックの作成ページを更新します。名前のプレフィックスが `aws-cloud9-aws-cloudformation-workshop-` となっている別のスタックも作成されることに注意してください。このスタックは、Cloud9 環境のセキュリティグループと EC2 インスタンスを作成します。
-9. 準備ができたら、Cloud9 環境を開きます。[AWS Cloud9 コンソール](https://console.aws.amazon.com/cloud9/home) に移動し、`aws-cloudformation-workshop` 環境を見つけて、**Open IDE** を選択します。これで、環境が別のウィンドウで開かれるはずです。
+1. **スタックの作成** から、 **新しいリソースを使用 (標準)** を選択します。
+1. **テンプレートの準備** セクションで、 **テンプレート準備完了** を選択します。
+1.  **テンプレートの指定** セクションで、 **テンプレートファイルのアップロード** を選択します。`cloud9.template` ファイルを選択し、 **次へ** をクリックします。
+1. スタック名を指定します。例えば、`cloudformation-workshop-dev-cloud9` と入力します。デフォルトのパラメータ値のまま、 **次へ** をクリックします。
+1. 次のページで、 **次へ** をクリックします。
+1. 次のページで、 **送信** をクリックします。
+1. スタックのステータスが `CREATE_COMPLETE` になるまで、スタックの作成ページを更新します。名前のプレフィックスが `aws-cloud9-aws-cloudformation-workshop-` となっている別のスタックも作成されることに注意してください。このスタックは、Cloud9 環境のセキュリティグループと EC2 インスタンスを作成します。
+1. 準備ができたら、Cloud9 環境を開きます。[AWS Cloud9 コンソール](https://console.aws.amazon.com/cloud9/home) に移動し、`aws-cloudformation-workshop` 環境を見つけて、 **Open IDE** を選択します。これで、環境が別のウィンドウで開かれるはずです。
 
 
 
@@ -155,7 +153,7 @@ cd cfn101-workshop/code/workspace/architecting-templates/
 cfn-lint *.template
 :::
 
-上記のコマンドの出力は表示されないはずです。つまり、エラーがないということを示しています。このコマンドを実行することで、テンプレートが前述のリソースタイプの仕様に準拠していることを確認できました。このラボでは、テンプレートアーキテクチャの例を示すことと、ワークスペースを準備するという2つの理由のために、VPC と Cloud9 環境のリソースをデプロイしました。ベストプラクティスの一環として、リソースをデプロイしたり、テンプレートをリポジトリに追加したりする前に `cfn-lint` を実行して、プロセスの早い段階で変更を加えます。
+上記のコマンドの出力は表示されないはずです。つまり、エラーがないということを示しています。このコマンドを実行することで、テンプレートが前述のリソースタイプの仕様に準拠していることを確認できました。このラボでは、テンプレートアーキテクチャの例を示すことと、ワークスペースを準備するという 2 つの理由のために、VPC と Cloud9 環境のリソースをデプロイしました。ベストプラクティスの一環として、リソースをデプロイしたり、テンプレートをリポジトリに追加したりする前に `cfn-lint` を実行して、プロセスの早い段階で変更を加えます。
 
 `cfn-lint` の機能の例を説明するために、Cloud9 の左側にある *Environment* ナビゲーションタブを使用して `aws-cloudformation-workshop -> cfn101-workshop-> code -> workspace -> architecting-templates` ディレクトリの `hosted-zone.template` ファイルを開きます。 `Name: !Ref 'HostedZoneName'` の行を、一時的に `Names: !Ref 'HostedZoneName'` に変更します (`Name` プロパティを一時的に `Names` に変更します)。次に、先ほど行ったように `cfn-lint` を実行すると、次のようなエラーが表示されるはずです。
 
@@ -201,7 +199,7 @@ aws cloudformation wait stack-create-complete \
     --region us-east-1
 :::
 
-スタックの作成が完了すると、Route 53 のプライベートホストゾーンが作成されます。スタックの作成に使用したデフォルトのテンプレートパラメータを見てください。ホストゾーンの名前は `my-example-domain.com` です。[Route 53 Console](https://console.aws.amazon.com/route53/home) に移動し、**ホストゾーン**から、作成したホストゾーンを選択すると、詳細ページに `NS` と `SOA` の 2 つの DNS レコードタイプが既にあることがわかります。後で CloudFormation を使用してロードバランサー用のエイリアスレコードを作成します。そのレコードも詳細ページに表示されるはずです。
+スタックの作成が完了すると、Route 53 のプライベートホストゾーンが作成されます。スタックの作成に使用したデフォルトのテンプレートパラメータを見てください。ホストゾーンの名前は `my-example-domain.com` です。[Route 53 Console](https://console.aws.amazon.com/route53/home) に移動し、 **ホストゾーン** から、作成したホストゾーンを選択すると、詳細ページに `NS` と `SOA` の 2 つの DNS レコードタイプが既にあることがわかります。後で CloudFormation を使用してロードバランサー用のエイリアスレコードを作成します。そのレコードも詳細ページに表示されるはずです。
 
 
 
@@ -295,7 +293,7 @@ curl http://my-example-domain.com
 
 この課題では、再利用とモジュール性に関連する主要な概念を思い出して適用し、それらをデプロイメントのオーケストレーションの観点から拡張します。あなたは、（Cloud9 のワークスペースにある）`application.template` ファイルを `application-blue-green.template` という名前の新しいファイルにコピーし、この新しいファイルを更新して、blue / green のデプロイパターンのコンテキストで 2 つのスタックで使用できるようにします。[Amazon Route 53 DNS ルーティングの更新](https://docs.aws.amazon.com/ja_jp/whitepapers/latest/blue-green-deployments/update-dns-routing-with-amazon-route-53.html)をご参照ください。このチャレンジの要件は次の通りでです。
 
-* 2つのスタックを用意します。作成した既存の `cloudformation-workshop-dev-application` を更新し、`cloudformation-workshop-dev-application-v2` という名前の新しいスタックを作成して、それぞれ `Hello world!` の代わりに `Blue` と `Green` を出力として表示します。両方のスタックをそれぞれ *Blue* と *Green* と呼び、両方のスタックに新しい `application-blue-green.template` ファイルを使用します。
+* 2 つのスタックを用意します。作成した既存の `cloudformation-workshop-dev-application` を更新し、`cloudformation-workshop-dev-application-v2` という名前の新しいスタックを作成して、それぞれ `Hello world!` の代わりに `Blue` と `Green` を出力として表示します。両方のスタックをそれぞれ *Blue* と *Green* と呼び、両方のスタックに新しい `application-blue-green.template` ファイルを使用します。
 * 各スタックは、前に使用したものと同じ `名前` (ホストゾーン名) を持つ新しいエイリアスレコードを作成する必要があります。ただし、これらのレコードは両方とも [加重セット](https://docs.aws.amazon.com/ja_jp/Route53/latest/DeveloperGuide/resource-record-sets-values-weighted.html#rrsets-values-weighted-weight) である必要があります。これにより、Route 53 は、[特定のリソースの合計に対する重みの比率](https://docs.aws.amazon.com/ja_jp/Route53/latest/DeveloperGuide/routing-policy-weighted.html) に基づいてユーザーが発行したクエリに応答します。最初に、 *Blue* スタックに重み `255` (大きい重み) を割り当て、*Green* スタックに重み `1` (少ない重み) を割り当てます。この方法では、*Blue* は最初にトラフィックの 255 / 256、*Green* はトラフィックの 1 / 256 に割り当てられます。
 * 必ず、テンプレート内の _set identifier_ を更新し、同じテンプレートを使用する 2 つのスタックで値が一意となるようにします。
 
@@ -391,9 +389,9 @@ curl http://my-example-domain.com
 ワークステーションの CloudFormation コンソールに移動します。このラボで作成したスタックを次の順序で削除します。クロススタック参照を使用していくつかのスタックを参照しているため、値をエクスポートするスタックが利用側スタックで使用されている場合は削除できない点に注意してください。
 
 1. `cloudformation-workshop-dev-application-v2` と `cloudformation-workshop-dev-application` は互いに依存していないため、それぞれが削除されるのを待たずに削除可能です。両方のスタックが削除されたら、次のステップに進みます。
-2. `cloudformation-workshop-dev-security-groups` と `cloudformation-workshop-dev-hosted-zone` は、それぞれが削除されるのを待たずに削除可能です。次のステップに進みます。
-3. `cloudformation-workshop-dev-cloud9` を削除します。このスタックを削除すると、開始した削除アクションによって、名前が `aws-cloud9-aws-cloudformation-workshop-` で始まるスタックも削除されます。両方のスタックが削除されたら、最後のステップに進みます。
-4. `cloudformation-workshop-dev-base-network` スタックを削除します。
+1. `cloudformation-workshop-dev-security-groups` と `cloudformation-workshop-dev-hosted-zone` は、それぞれが削除されるのを待たずに削除可能です。次のステップに進みます。
+1. `cloudformation-workshop-dev-cloud9` を削除します。このスタックを削除すると、開始した削除アクションによって、名前が `aws-cloud9-aws-cloudformation-workshop-` で始まるスタックも削除されます。両方のスタックが削除されたら、最後のステップに進みます。
+1. `cloudformation-workshop-dev-base-network` スタックを削除します。
 
 
 ### まとめ

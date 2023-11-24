@@ -31,14 +31,16 @@ cfn init
 
 いくつかの質問に対し、回答を入力します。
 
-    Initializing new project
-    Do you want to develop a new resource(r) or a module(m) or a hook(h)?.
-    >> m
-    What's the name of your module type?
-    (<Organization>::<Service>::<Name>::MODULE)
-    >> CFNWORKSHOP::EC2::VPC::MODULE
-    Directory  /home/user/cfn101-workshop/module/fragments  Created
-    Initialized a new project in /home/user/cfn101-workshop/module
+:::code{language=shell showLineNumbers=false showCopyAction=false}
+Initializing new project
+Do you want to develop a new resource(r) or a module(m) or a hook(h)?.
+>> m
+What's the name of your module type?
+(<Organization>::<Service>::<Name>::MODULE)
+>> CFNWORKSHOP::EC2::VPC::MODULE
+Directory  /PATH-TO-YOUR-DIRECTORY/cfn101-workshop/module/fragments  Created
+Initialized a new project in /PATH-TO-YOUR-DIRECTORY/cfn101-workshop/module
+:::
 
 コマンドを実行することで、ディレクトリ内に何が作成されたのかを見てみましょう。
 
@@ -64,10 +66,10 @@ CloudFormation モジュールは、このワークショップで既に作成�
 touch fragments/module.yaml
 :::
 
-テキストエディターでこのファイルを開き、以下の CloudFormation YAML コードを貼り付けます。
+テキストエディターで `module.yaml` を開き、以下の CloudFormation YAML コードを貼り付けます。
 
 <!-- vale off -->
-:::code{language=yaml showLineNumbers=false showCopyAction=true}
+:::code{language=yaml showLineNumbers=true showCopyAction=true}
 AWSTemplateFormatVersion: 2010-09-09
 
 Description: A full VPC Stack
@@ -242,13 +244,13 @@ cfn submit
 
 次のような出力が表示されます。
 
-```
+:::code{language=shell showLineNumbers=false showCopyAction=false}
 Module fragment is valid.
 Successfully submitted type. Waiting for registration with token '{token}' to complete.
 Registration complete.
 {'ProgressStatus': 'COMPLETE', 'Description': 'Deployment is currently in DEPLOY_STAGE of status COMPLETED', ...
-...
-```
+...}
+:::
 
 これで [AWS CloudFormation コンソール](https://console.aws.amazon.com/cloudformation/) にアクセスすると、レジストリのページの `アクティブ化済みの拡張機能` セクションに新しいモジュールが表示されるはずです。
 

@@ -1,37 +1,35 @@
 ---
-title: "Looping over collections with Fn::ForEach"
+title: "Fn::ForEach を使用してコレクションをループオーバする"
 weight: 641
 ---
 
-::alert[日本語翻訳準備中]{type="info"}
-
-_Lab Duration: ~45 minutes_
+_ラボ実施時間 : 45分程度_
 
 ---
 
-### Overview
+### 概要
 
-When you describe infrastructure with code, there are use cases where the code you write describes resources that share the same configuration, or that contains some differences that could be managed with mechanisms like variables. As the number of such resources and relevant properties grow, the code you write grows as well, thus making it not easy to maintain over time, and prone to human errors.
+インフラストラクチャをコードで記述する場合、記述するコードが同じ構成を共有するリソースや、変数などのメカニズムで管理できるいくつかの相違点を含むリソースを記述するケースがあります。このようなリソースや関連するプロパティの数が増えるにつれて、記述するコードも増えるため、長期にわたる保守が容易ではなくヒューマンエラーも発生しやすくなります。
 
-In the [Language extensions](../language-extensions) lab, you’ve used the `AWS::LanguageExtensions` [transform](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/transform-aws-languageextensions.html) to leverage a number of functions that extend the [AWS CloudFormation](https://aws.amazon.com/cloudformation/) language: such functions are the result of feedback that the CloudFormation team receives from the community via open discussions driven by an [RFC mechanism](https://github.com/aws-cloudformation/cfn-language-discussion). One of these functions is the `Fn::ForEach` [intrinsic function](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference-foreach.html), that you’ll learn how to use in this lab. This intrinsic function allows you to describe resources, that share the same/similar configuration, with dynamic iterations that you use to map resource configurations to loop-like structures.
+[言語拡張](../language-extensions) ラボでは、`AWS::LanguageExtensions` [変換](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/transform-aws-languageextensions.html) を使用して [AWS CloudFormation](https://aws.amazon.com/cloudformation/) 言語を拡張するいくつかの関数を活用しました。このような関数は、CloudFormation チームが [RFC](https://github.com/aws-cloudformation/cfn-language-discussion) によって推進されるオープンディスカッションを通じてコミュニティから受け取ったフィードバックから生まれています。これらの関数の 1 つは、`Fn::ForEach` [組み込み関数](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference-foreach.html)であり、このラボではその使用方法を学習します。この組み込み関数を使用すると、リソース構成をループ状の構造にマッピングするために使用する動的な反復処理を使用して、同じもしくは類似した構成を共有するリソースを記述できます。
 
-### Topics Covered
+### 取り上げるトピック
 
-By the end of this lab, you will be able to:
+このラボを修了すると、次のことができるようになります。
 
-* Identify example use cases where you can simplify and reduce statically-described code, for resources that share the same/similar configuration, using `Fn::ForEach`.
-* Describe, with code, the desired state of resources by using `Fn::ForEach` to loop over collections.
-*  Discover, for applicable use cases, how you can use `Fn::ForEach` to have fewer lines of code, thus leading to code that is easier to maintain, and less prone to human errors.
+* 同じもしくは類似した設定を共有するリソースについて、`Fn::ForEach` を使用して、静的に記述されたコードを簡略化および削除できるユースケースの例を特定できるようになります。
+* `Fn::ForEach` を使用してコレクションをループさせて、リソースの状態をコードで記述できるようになります。
+* 該当するユースケースについて、`Fn::ForEach` を使用してコードの行数を減らし、保守が容易でヒューマンエラーを起こしにくいコードを作成することができます。
 
-### Start lab
+### ラボを開始
 
-### Lab part 1: basic looping over a collection for S3 buckets
+### ラボパート 1: S3 バケットのコレクションの基本的なループ処理
 
-Let’s start with an example use case: you’re tasked with describing 3 [Amazon Simple Storage Service (Amazon S3)](https://aws.amazon.com/s3/) buckets that will have a number of configuration properties in common, for example [bucket encryption](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-s3-bucket-bucketencryption.html) set to use [AWS Key Management Service (AWS KMS)](https://aws.amazon.com/kms/), [lifecycle configuration](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-s3-bucket-lifecycleconfig.html) set to transition to the `GLACIER` [storage class](https://aws.amazon.com/s3/storage-classes/) after 30 days and to expire objects after 1 year, `PublicAccessBlockConfiguration` [properties](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-s3-bucket-publicaccessblockconfiguration.html) set to `true`, and tags set to use `aws-cloudformation-workshop` as the tag value for the `Name` tag key.
+ユースケースの例から始めましょう。多くの共通の設定プロパティを持つ 3 つの[Amazon Simple Storage Service (Amazon S3)](https://aws.amazon.com/s3/) バケットを定義する必要があります。例えば、[バケットの暗号化](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/aws-properties-s3-bucket-bucketencryption.html)が[AWS Key Management Service (AWS KMS)](https://aws.amazon.com/kms/)、[ライフサイクル設定](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/aws-properties-s3-bucket-lifecycleconfig.html)は 30 日後に `GLACIER` [ストレージクラス](https://aws.amazon.com/jp/s3/storage-classes/)に移行し、1 年後にオブジェクトの有効期限が切れるように設定し、`PublicAccessBlockConfiguration` [プロパティ](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/aws-properties-s3-bucket-publicaccessblockconfiguration.html) を `true` に設定し、タグは `Name` タグキーの値として `aws-cloudformation-workshop` を使用するように設定します。
 
-S3 buckets you’re tasked to describe with code share the same properties in this use case. While you certainly can describe all of them with three discrete code blocks, in this lab you choose to use `Fn::ForEach` to reduce the code size and relative complexity, so that you describe all the three buckets once with a single, iterative structure. This also has the benefit of having code that is easier to maintain, and it helps with reducing human errors as well.
+コードに記述する必要がある S3 バケットは、このユースケースでは同じプロパティを共有します。これら全てを 3 つの個別のコードブロックで記述することもできますが、このラボでは、`Fn::ForEach` を使用してコードサイズと相対的な複雑さを軽減し、3 つのバケット全てを 1 つの反復構造で一度に記述できます。よって、保守が容易なコードになるという利点もあり、ヒューマンエラーを減らすのにも有効です。
 
-If you were to describe the three S3 buckets above *without* `Fn::ForEach`, the resulting template would be something like the following one, shown here as an example:
+上記の 3 つのバケットを `Fn::ForEach` なしで記述すると、結果として下記のようなテンプレートとなります。例として次に示します。
 
 :::code{language=yaml showLineNumbers=false showCopyAction=false}
 AWSTemplateFormatVersion: "2010-09-09"
@@ -112,13 +110,14 @@ Resources:
           Value: aws-cloudformation-workshop
 :::
 
-In this lab, you choose to use `Fn::ForEach` to describe the S3 bucket configuration properties only once, by looping over a collection of buckets. This means that, in this case, the initial template you'll use will have fewer lines of code, thus making it easier to maintain. As a result, you’ll have a template, processed by the `AWS::LanguageExtensions` transform, that will describe content like the above, with three S3 bucket resources having the same properties but different [logical IDs](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/resources-section-structure.html), such as `S3Bucket1`, `S3Bucket2`, and `S3Bucket3`.
+このラボでは、`Fn::ForEach` を使用してバケットのコレクションをループすることで S3 バケットの設定プロパティを一度だけ記述することになります。つまりこの場合、最初に使用するテンプレートのコード行数が少なくなるため、保守が容易になります。
+`AWS::LanguageExtensions` トランスフォームによってテンプレートが処理され、その結果には `S3Bucket1`、`S3Bucket2`、`S3Bucket3` など、プロパティは同じで [論理 ID](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/resources-section-structure.html) が異なる 3 つのバケットリソースを含む上記のようなテンプレートが作成されます。
 
-Let’s get started! Navigate to the `code/workspace/looping-over-collections` directory, and open the `s3-buckets.yaml` file in your favorite text editor.
+それでは、始めましょう! `code/workspace/looping-over-collections` ディレクトリに移動し、お好みのテキストエディタで `s3-buckets.yaml` ファイルを開きます。
 
-::alert[Note the `Transform: AWS::LanguageExtensions` line, that is already present in the `s3-buckets.yaml` template you just opened (you've already used this transform in the [Language extensions](../language-extensions) lab). This line activates the language extension [transform](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/transform-aws-languageextensions.html), that is *required* in order to use the `Fn::ForEach` intrinsic function.]{type="warning"}
+::alert[先ほど開いた `s3-buckets.yaml` テンプレートですでに存在する `Transform::AWS::LanguageExtensions` 行を削除しないように注意してください。このトランスフォームは　[言語拡張](../language-extensions)　ラボで既に使用しています。この行は言語拡張 [変換](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/transform-aws-languageextensions.html) を有効にします。`Fn::ForEach` 組み込み関数を使うために *必須* です。]{type="warning"}
 
-With the `s3-buckets.yaml` file opened in your text editor, remove the TODO reminder line that is commented out, and append the code shown next to the `Resources` section (indentation matters - make sure the leading character of the `Fn::ForEach::S3Buckets` line starts at column number `2` in your editor):
+テキストエディタで `s3-buckets.yaml` ファイルを開いた状態で、コメントアウトされている TODO リマインダー行を削除し、以下のソースコードを `Resources` セクションに追加します。インデントは重要です。`Fn::ForEach::S3Buckets` 行の先頭の文字がエディターの列番号 `2` から始まることを確認してください。
 
 :::code{language=yaml showLineNumbers=true showCopyAction=true lineNumberStart=8}
   Fn::ForEach::S3Buckets:
@@ -149,23 +148,23 @@ With the `s3-buckets.yaml` file opened in your text editor, remove the TODO remi
               Value: aws-cloudformation-workshop
 :::
 
-Save the updated file to disk. Looking at the code you just pasted, you note that the content starting from the `Type: AWS::S3::Bucket` line is something you’ve seen in the example at the beginning of this lab: it is the same set of properties that all the three S3 buckets have in common. Let’s look into the lines that are above `Type: AWS::S3::Bucket` to understand how `Fn::ForEach` works!
+更新したファイルを保存します。貼り付けたコードを見ると、このラボの最初の例で見た `Type: AWS::S3::Bucket` 行から始める内容は、3 つの S3 バケット全てに共通するプロパティのセットであることがわかります。`Fn::ForEach` の仕組みを理解するために、`Type: AWS::S3::Bucket` の上にある行を見てみましょう!
 
-In this example, you want to iterate over a three-element collection, that is composed of the three S3 buckets. You choose to create this collection as `[S3Bucket1, S3Bucket2, S3Bucket3]`, and use each of the elements, that are denoted by the `S3BucketLogicalId` identifier described above the collection itself. In this example, you described the collection as an array, but you could also have used a reference to a template [parameter](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/parameters-section-structure.html) of type  `CommaDelimitedList`.
+この例では、3 つの S3 バケットで構成される 3 つの要素のコレクションを繰り返し処理する必要があります。このコレクションを `[S3Buckets1, S3Bucket2, S3Bucket3]` として作成し、コレクション自体の上に記述した `S3BucketLogicalId` 識別子で示される各要素を使用することを選択します。この例では、コレクションを配列として記述しましたが、`CommaDelimitedList` 型のテンプレート[パラメータ](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/parameters-section-structure.html)への参照を使用することもできます。
 
-On the top of the code you pasted, you note the `Fn::ForEach::S3Buckets:` line, that describes the intent of using `Fn::ForEach` to iterate over a collection. The rightmost part of the line, `S3Buckets`, indicates the name you choose for the loop. When you create a loop, make sure you indicate a name that is unique within the template: do not choose a name used for another loop in the template, and that you used or plan to use for the logical ID of a resource in the same template.
+貼り付けたコードの一番上にある`Fn::ForEach::S3Buckets` 行に注目してください。この行には、`Fn::ForEach` を使用してコレクションを反復処理する旨が記述されています。行の右端の `S3Buckets` は、ループに選択する名前を示しています。ループを作成するときは、必ずテンプレート内で一位の名前を指定してください。テンプレート内の別のループに使用している名前や、同じテンプレート内のリソースの論理 ID に使用した、または使用する予定の名前は選択しないでください。
 
-The line right above `Type: AWS::S3::Bucket`, that is `${S3BucketLogicalId}:`, denotes the `OutputKey` content that you’ll find in the template that will be transformed. In this case, the value of `OutputKey` will be the logical ID of each of the 3 S3 buckets: `S3Bucket1` in the first loop iteration, `S3Bucket2` in the second, and `S3Bucket3` in the third.
+`Type: AWS::S3::Bucket` のすぐ上の行、つまり `${S3BucketLogicalId}` は、変換されるテンプレートにある `OutputKey` コンテンツを示しています。この場合、`OutputKey` の値は 3 つの S3 バケットそれぞれの論理 ID になります。最初の反復ループでは `S3Bucket1`、2 番目の反復ループでは`S3Bucket2`、3 番目の反復ループでは `S3Bucket3` になります。
 
-The lines starting with `Type: AWS::S3::Bucket` and below, in the example, constitute the `OutputValue` that will be replicated for each `OutputKey` in the processed template. These lines contain the common configuration that will be applied to the three S3 bucket resources with the logical IDs mentioned in the previous paragraph.
+この例では、`Type: AWS::S3::Bucket` で始まる行とそれ以下の行は、処理されたテンプレート内の `OutputKey` ごとに複製される `OutputValue` を構成します。これらの行には、前の段落で記述した論理 ID を持つ 3 つの S3 バケットリソースに適用される共通の設定が含まれています。
 
-::alert[CloudFormation uses service quotas that are applied to the processed template. For more information on CloudFormation service quotas, see [AWS CloudFormation quotas](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/cloudformation-limits.html) in the CloudFormation User Guide.]{type="warning"}
+::alert[CloudFormation では、処理されたテンプレートにサービスクォータを適用しす。CloudFormation サービスクォータの詳細については、CloudFormation ユーザガイドの [AWS CloudFormation のクォータ](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/cloudformation-limits.html) を参照してください。]{type="warning"}
 
-It’s now time to create a new CloudFormation stack, to see how your three S3 buckets will be provisioned by looping over the collection you described above! You'll create a new stack in the `us-east-1` region.
+これで新しい CloudFormation スタックを作成し、上で記述したコレクションをループして 3 つの S3 バケットがどのようにプロビジョニングされるかを確認します。`us-east-1` リージョンに新しいスタックを作成します。
 
 :::::tabs{variant="container"}
 ::::tab{id="cloud9" label="Cloud9"}
-Run the following AWS CLI command:
+次の AWS CLI コマンドを実行します。
 
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 aws cloudformation create-stack \
@@ -175,7 +174,7 @@ aws cloudformation create-stack \
 --capabilities CAPABILITY_AUTO_EXPAND
 :::
 
-The command above should return the ID of the stack you are creating. Wait until the stack is in the `CREATE_COMPLETE` status by using the [wait stack-create-complete](https://docs.aws.amazon.com/cli/latest/reference/cloudformation/wait/stack-create-complete.html) AWS CLI command:
+上記のコマンドは、作成しているスタック ID を返すはずです。[wait stack-create-complete](https://docs.aws.amazon.com/cli/latest/reference/cloudformation/wait/stack-create-complete.html) AWS CLI コマンドを作成して、スタックが `CREATE_COMPLETE` ステータスになるまで待ちます。
 
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 aws cloudformation wait stack-create-complete \
@@ -184,44 +183,44 @@ aws cloudformation wait stack-create-complete \
 :::
 
 ::::
-::::tab{id="local" label="Local development"}
-Steps:
+::::tab{id="local" label="ローカル開発"}
+手順
 
-1. Navigate to the [AWS CloudFormation Console](https://console.aws.amazon.com/cloudformation/).
-1. Make sure you are in the **US East (N. Virginia)** region.
-1. From the left navigation panel, select the **Stacks** tab.
-1. From the right side of the page, choose **Create Stack**, and then choose **With new resources (standard).**
-1. From **Prerequisite**-**Prepare template**, choose **Template is ready**.
-1. Under **Specify template**, select **Template source**, and choose **Upload a template file**.
-1. Select **Choose file**, and provide the `s3-buckets.yaml` template you updated earlier. Choose **Next**.
-1. In the **Specify Stack details** page, specify a **Stack** name: `looping-over-collections-s3-buckets`. Choose **Next**.
-1. On **Configure Stack options**, leave the configuration as it is. Choose **Next**.
-1. On the **Review** page, review the contents of the page. At the bottom of the page, choose to acknowledge all the capabilities shown in the **Capabilities and transforms** section. Choose **Submit**.
-1. Refresh the stack creation page until you see the stack to be in the `CREATE_COMPLETE` status.
+1. [AWS CloudFormation コンソール](https://console.aws.amazon.com/cloudformation/) に移動します。
+2. **米国東部 (バージニア北部)** リージョンにいることを確認してください。
+3. 左のナビゲーションパネルから、**スタック** を選択します。
+4. ページの右側から、**スタックの作成**　を選択し、**新しいリソースを使用 (標準)** を選択します。
+5. **前提条件 - テンプレートの準備** から、**テンプレートの準備完了** を選択します。
+6. **テンプレートの指定** セクションで、**テンプレートソース** で、**テンプレートファイルのアップロード** を選択します。
+7. **ファイルの選択** を選択し、更新した `s3-buckets.yaml` テンプレートを指定します。**次へ**　を選択します。
+8. **スタックの詳細を指定** ページで、**スタック名** に `looping-over-collections-s3-buckets` と入力します。**次へ** を選択します。
+9. **スタックオプションの設定** では、設定をそのままにしておきます。**次へ** を選択します。
+10. **レビュー** ページで、ページの内容を確認します。ページの下部で、**機能と変換** セクションに表示されている機能をすべて承認するように選択してください。**送信** を選択します。
+11. スタックが `CREATE_COMPLETE` ステータスになるまで、スタック作成ページを更新します。
 ::::
 :::::
 
-When stack creation is complete, navigate to the [AWS CloudFormation Console](https://console.aws.amazon.com/cloudformation/), and locate the `looping-over-collections-s3-buckets` stack. Select the stack, and then select the **Template** pane. Note the following:
+スタックの作成が完了したら、[AWS CloudFormation コンソール](https://console.aws.amazon.com/cloudformation/) に移動し、`looping-over-collections-s3-buckets` スタックを探します。スタックを選択し、次に **テンプレート** タブを選択します。次の点に確認してください。
 
-* you should see the initial template you provided, that uses the loop over the collection of buckets you described;
-* choose **View processed template**: you should see the expanded template, that instead of the looping structure shows the three S3 buckets statically described, as a result of the processing. Note that you’ll see the processed configuration in JSON format;
-* navigate to the **Resources** tab, and note the 3, newly-created S3 buckets whose logical IDs should be `S3Bucket1`, `S3Bucket2`, and `S3Bucket3`.
+* 指定した最初のテンプレートが表示されます。記述したバケットのコレクションに対してループを使用するものです。
+* **処理されたテンプレートの表示** を選択します。展開されたテンプレートが表示され、処理の結果として、ループ構造の代わりに静的に記述された 3 つの S3 バケットが表示されます。処理された設定は JSON 形式で表示されることにご注意ください。
+* **リソース** タブに移動し、論理 ID が `S3Bucket1`、`S3Bucket2`、`S3Bucket3` であるはずの 3 つの新しく作成された S3 バケットを確認できます。
 
-Congratulations! You have completed the first part of this lab, and have learned the basics of `Fn::ForEach`. In the next part, you’ll go over a new example with more moving parts.
+おめでとうございます！このラボの最初の部分を終了し、`Fn::ForEach` の基本を学習しました。次のパートでは可動部分を増やした新しい例を見ていきます。
 
-### Lab part 2: inner loops for VPC-related resources
+### ラボパート 2: VPC 関連リソースの内部ループ
 
-In this part of the lab, you’ll learn how to nest `Fn::ForEach` looping structures, when needed. Recall the usage of `Fn::ForEach` above: you pass the following parameters to the intrinsic function, right below the definition of the unique loop:
+ラボのこのパートでは、`Fn::ForEach` ループ構造をネストする方法を学びます。前回の `Fn::ForEach` の使い方を思い出してください。ユニークループの定義のすぐ下にある組み込み関数に以下のパラメータを渡します。
 
 * `Identifier`
 * `Collection`
 * `OutputKey`
 
-In the previous example, you have used `${S3BucketLogicalId}:` as the `OutputKey` for the logical ID of each bucket you wanted to create. In this example, you’ll use another `Fn::ForEach` loop instead for the `OutputKey`, to drive an inner looping logic for a new use case: the creation of resources related to an [Amazon Virtual Private Cloud (Amazon VPC)](https://aws.amazon.com/vpc/) resource.
+前の例では、作成したい各バケットの論理 ID の `OutputKey` として `${S3BucketLogicalID}:` を使用しました。今回の例では、`OutputKey` の代わりに別の `Fn::ForEach` ループを使用して、[Amazon Virtual Private Cloud (Amazon VPC)](https://aws.amazon.com/jp/vpc/) リソースに関連するリソースの作成のための内部ループロジックを駆動します。
 
-Let’s get started! Make sure you are in the `code/workspace/looping-over-collections` directory, and open the `vpc.yaml` file in your favorite text editor. Note the `Transform: AWS::LanguageExtensions` line in the code, that is *required* for the `Fn::ForEach` intrinsic function you’ll use next. The template already describes a VPC [resource](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ec2-vpc.html), an `InternetGateway` [resource](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ec2-internetgateway.html), and a `VPCGatewayAttachment` [resource](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ec2-vpc-gateway-attachment.html) without the use of `Fn::ForEach`, because you’re defining such resources only once in the template. In the template, you can also find a `Mappings` [section](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/mappings-section-structure.html) with a number of settings for the VPC and VPC-related resources that you’ll use next.
+それでは、始めましょう！`code/workspace/looping-over-collections` ディレクトリにいることを確認し、お好みのテキストエディタで `vpc.yaml` ファイルを開きます。コード内の `Transform: AWS::LanguageExtensions` 行に注意してください。この行は次に使用する `Fn::ForEach` 組み込み関数に *必須* です。テンプレートには既に `VPC` [リソース](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/aws-resource-ec2-vpc.html)、`InternetGateway` [リソース](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/aws-resource-ec2-internetgateway.html)、および `VpcGatewayAttachment` [リソース](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/aws-resource-ec2-vpc-gateway-attachment.html) が記述されていますが、`Fn::ForEach` は使用していません。なぜなら、このようなリソースはテンプレート内で一度しか定義していないからです。テンプレートには、次に使用する VPC と VPC 関連リソースの様々な設定が含まれている `Mappings` [セクション](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/mappings-section-structure.html) もあります。
 
-Remove the TODO reminder line in the file you just opened, and append the code shown next, to start describing public and private subnets. Make sure the level of indentation is the same as for the `VpcGatewayAttachment` resource declaration (that is, starting at column `2`):
+開いたファイルの TODO リマインダー行を削除し、次のコードを追加して、パブリックサブネットとプライベートサブネットの記述を開始します。インデントのレベルが `VpcGatewayAttachment` リソース宣言と同じ(つまり、列 `2` から始まる) ことに注意してください。
 
 :::code{language=yaml showLineNumbers=true showCopyAction=true lineNumberStart=63}
   Fn::ForEach::SubnetTypes:
@@ -249,19 +248,19 @@ Remove the TODO reminder line in the file you just opened, and append the code s
               VpcId: !Ref Vpc
 :::
 
-The code you added above shows the intent of describing two public subnets, and two private subnets for a total of 4 `AWS::EC2::Subnet` resources.
+上で追加したコードは、合計 4 つの `AWS::EC2::Subnet` リソースについて、2 つのパブリックサブネットと 2 つのプライベートサブネットを記述する意図を示しています。
 
-With the first `Fn::ForEach::SubnetTypes` loop, you iterate over the collection of subnet types (public and private), and with the second, inner loop (that you are using here as your `OutputKey`), you iterate through each subnet (subnet 1 and subnet 2, using the strings `["1", "2"]` in the collection), of a specific type (public, private).
+最初の `Fn::ForEach::SubnetTypes` ループでは、サブネットタイプ (Public と Private) のコレクションを反復処理し、2 番目の内部ループ (ここでは `OutputKey` として使用している) では、特定のタイプの各サブネット (サブネット 1 とサブネット 2、コレクション内の文字列 `["1", "2"]`) を反復処理します。
 
-::alert[The numbers `1` and `2`, that are elements of the `["1", "2"]` example collection, are represented here as quoted because a collection must be a list of strings.]{type="warning"}
+::alert[`["1", "2"]` サンプルコレクションの要素である数値 `1` と `2` は、引用符で囲んで表現しています。コレクションは文字列のリストでなければならないからです。]{type="warning"}
 
-In the `OutputKey` section of the inner loop, `${SubnetType}Subnet${SubnetNumber}`, you compose the name of the logical ID of each resource that, respectively, will be `PublicSubnet1`, `PublicSubnet2`, `PrivateSubnet1`, and `PrivateSubnet2` as both outer and inner loops iterate through the collections (`[Public, Private]`, and `["1", "2"]`) that you defined in the loops.
+内部ループ `${SubnetType}Subnet${SubnetNumber}` の `OutputKey` セクションで、各リソースの論理 ID の名前を作成します。各リソースの論理 ID の名前は、外部ループと内部ループの両方がコレクションを反復処理するため、それぞれのループで定義したコレクション (`[Public, Private]` と `["1", "2"]`) を繰り返し、リソースの論理 ID が `PublicSubnet1`、`PublicSubnet2`、`PrivateSubnet1`、`PrivateSubnet2` になります。
 
-In each inner loop iteration, besides the four logical IDs above, each resource will have its properties configured to pull CIDR addressing information from the `SubnetCidrs` mapping via the `Fn::FindInMap` [intrinsic function](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference-findinmap.html), as well as the indexes to use when selecting Availability Zones for subnets with the `Fn::GetAZs` [intrinsic function](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference-getavailabilityzones.html). The intent with the configuration used for the indexes in the `SubnetAzIndexes` mapping is to create public and private subnets with ID 1 in the same Availability Zone, and public and private subnets with ID 2 in a different Availability Zone: the reason behind this choice is to optimize Availability Zone-related traffic, so to have resources for a private subnet in the same Availability Zone as the NAT gateway, that you associate to the relevant public subnet (for example, to have `PrivateSubnet1` use the NAT gateway target that is associated to `PublicSubnet1`). For more information, see [NAT gateways](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-nat-gateway.html) in the Amazon VPC User Guide.
+内部ループの各反復では、上記の 4 つの論理 ID の他に、`Fn::FindInMap` [組み込み関数](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference-findinmap.html) を使って各リソースのプロパティが設定されます。`SubnetCIDRS` マッピングから CIDR アドレス情報を取得し、`Fn::GetAZs` [組み込み関数](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference-getavailabilityzones.html) でサブネットのアベイラビリティーゾーンを選択するためのインデックスを取得します。`SubnetAZIndexes` マッピングのインデックスに使用される目的は、同じアベイラビリティゾーンに ID 1 のパブリックサブネットとプライベートサブネットを作成し、ID 2 のパブリックサブネットとプライベートサブネットを別のアベイラビリティゾーンに作成することです。この選択の理由は、アベイラビリティーゾーン内のトラフィックを最適化し、プライベートサブネットのリソースを NAT ゲートウェイと同じアベイラビリティーゾーンに配置し、関連するパブリックサブネットに合わせます。(例えば、`PrivateSubnet1` に `PublicSubnet1` に関連付けられた NAT ゲートウェイターゲットを使用させる場合などです。) 詳細については、Amazon VPC ユーザガイドの [NAT ゲートウェイ](https://docs.aws.amazon.com/ja_jp/vpc/latest/userguide/vpc-nat-gateway.html) を参照してください。
 
-Other properties, for subnets, that will be replicated over inner loop iterations also include `Tags` and `VpcId`.
+内部ループの繰り返しで複製されるサブネットのその他のプロパティには、`Tags` と `VpcId` があります。
 
-Let’s continue to describe other resources you’ll need: this time, you want to describe two public and two private route tables, and then associate such route tables to the relevant subnets you defined above. Add the following code to the existing inner loop (make sure the indentation is correct: the column where `${SubnetType}RouteTable${SubnetNumber}` starts must be the same as where `${SubnetType}Subnet${SubnetNumber}` above starts, which is column `10`):
+他に必要なリソースを定義していきましょう。今回は、2 つのパブリックルートテーブルと 2 つのプライベートルートテーブルを定義し、そのルートテーブルを上記で定義したサブネットに関連付けます。既存の内部ループに次のコードを追加します。(インデントが正しいことに注意してください。`${SubnetType}routeTable${SubnetNumber}` の列は、上記の `${SubnetType}Subnet${SubnetNumber}` の列と同じく、`10` 列目とでなければなりません。)
 
 :::code{language=yaml showLineNumbers=true showCopyAction=true lineNumberStart=86}
           ${SubnetType}RouteTable${SubnetNumber}:
@@ -280,11 +279,11 @@ Let’s continue to describe other resources you’ll need: this time, you want 
                 Fn::Sub: ${SubnetType}Subnet${SubnetNumber}
 :::
 
-With the above, you create four route tables (two public, and two private) with the first block and, with the second block, you associate them to the relevant subnets you’re defining within the same inner loop iterations.
+上記では、最初のブロックで 4 つのルートテーブル (2 つはパブリック、2 つはプライベート) を作成し、2 番目のブロックでは、同じ反復ループ内で定義しているサブネットに関連付けます。
 
-Now that you have the subnets you need for this lab’s example use case, and that each subnet has a route table associated to it, it’s time to add default routes to all IPv4 destinations (`0.0.0.0/0`) that are assumed to be a requirement in your example use case as well. Now, while the `0.0.0.0/0` CIDR is going to be the same for routes you’ll assign to both public and private subnets, public routes will need the `InternetGateway` you created earlier as a target, whereas private subnets will need a Network Address Translation (NAT) mechanism instead. You then choose to describe public and private routes with two separate, new loop iterations to decouple public from private routes in specialized business logic for each type.
+これで、このラボのサンプルユースケースに必要なサブネットが用意され、各サブネットにルートテーブルが関連付けられました。次は、このサンプルユースケースの要件であると想定されるすべての IPv4 宛先 (`0.0.0.0/0`) へのデフォルトルートを追加します。これで、`0.0.0.0/0` CIDR はパブリックサブネットとプライベートサブネットの両方に割り当てるルートは同じですが、パブリックサブネットのルートには先に作成した `InternetGateway` がターゲットになり、プライベートサブネットのルートには代わりにネットワークアドレス変換 (NAT) の仕組みが必要になります。次に、パブリックルートとプライベートルートの 2 つの別々の新しいループイテレーションで記述し、それぞれのタイプに特化したビジネスロジックでパブリックルートとプライベートルートを分けます。
 
-Let’s start with creating routes for public subnets first, that we’ll add to the public route tables you described earlier; here, you create a new loop that you’ll indent 2 columns to the right (that is, column number `2`); add the content below to the `vpc.yaml` file:
+まずは、パブリックサブネット用のルートを作成し、先ほど定義したパブリックルートテーブルに追加します。ここでは、右に 2 列 (つまり、列番号 `2`) をインデントする新しいループを作成し、以下の内容を `vpc.yaml` ファイルに追加します。
 
 :::code{language=yaml showLineNumbers=true showCopyAction=true lineNumberStart=101}
   Fn::ForEach::DefaultRoutesForPublicSubnets:
@@ -300,11 +299,11 @@ Let’s start with creating routes for public subnets first, that we’ll add to
           GatewayId: !Ref InternetGateway
 :::
 
-With the new loop above, you described 2 `AWS::EC2::Route` resources for public subnets - that is, each is configured to be a default route with the `InternetGateway` (that is already described in the template you're using for this lab) as a target.
+上記の新しいループでは、パブリックサブネット用の 2 つの `AWS::EC2::Route` リソースについて記述しました。つまり、それぞれが `InternetGateway` (このラボで使用しているテンプレートですでに定義されています) をターゲットとするデフォルトルートとして設定されています。　
 
-::alert[The `AWS::EC2::Route` resources described above use the `DependsOn` attribute to add an explicit dependency on the VPC gateway attachment. The same is also true for `AWS::EC2::EIP` resources you'll define next. See [When a DependsOn attribute is required](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-attribute-dependson.html#gatewayattachment) to learn more on why these resources need `DependsOn` in the current context.]{type="warning"}
+::alert[上記の `AWS::EC2::Route` リソースは `dependsOn` 属性を使用して VPC ゲートウェイアタッチメントへの明示的な依存関係を追加します。次に定義する `AWS::EC2::EIP` リソースについても同じです。現在のコンテキストでこれらのリソースに `DependsOn` が必要な理由について詳しくは、[DependsOn 属性が必須の場合](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/aws-attribute-dependson.html#gatewayattachment) を参照してください]{type="warning"}
 
-You’ll now need to set up routes for private subnets. For this, you choose to create a new loop where you describe 2 `AWS::EC2::EIP` [resources](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ec2-eip.html), that you’ll use for 2 `AWS::EC2::NatGateway` resources you’ll define in this new loop as well later on. You’ll also describe two routes for private subnets that will have each NAT gateway as a target, respectively. Add the following code for the new loop to the template:
+次に、プライベートサブネットのルートを設定する必要があります。そのためには、2 つの `AWS::EC2::EIP` [リソース](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/aws-resource-ec2-eip.html) を記述する新しいループを作成します。このループは、後でこの新しいループで定義する 2 つの `AWS::EC2::NATGateway` リソースに使用します。また、各 NAT ゲートウェイをそれぞれターゲットとするプライベートサブネットの 2 つのルートについても記述します。新しいループの次のコードをテンプレートに追加します。
 
 :::code{language=yaml showLineNumbers=true showCopyAction=true lineNumberStart=113}
   Fn::ForEach::NatGateways:
@@ -336,15 +335,15 @@ You’ll now need to set up routes for private subnets. For this, you choose to 
             Fn::Sub: NatGateway${SubnetNumber}
 :::
 
-In the code above, note the logical IDs for the two elastic IP resources you’re creating (`Eip${SubnetNumber}`), the logical IDs for the two NAT gateways (`NatGateway${SubnetNumber}`), and the logical IDs for the two routes for private subnets (`DefaultRouteForPrivateSubnet${SubnetNumber}`).
+上記のコードでは、作成している 2 つの elastic IP リソースの論理 ID (`Eip${SubnetNumber}`)、2 つの NAT ゲートウェイの論理 ID (`NATGateway${SubnetNumber}`)、およびプライベートサブネットの 2 つのルートの論理 ID (`defaultRouteForPrivateSubnet${SubnetNumber}`) をご確認ください。
 
-Moreover, note the `AllocationId` [property](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ec2-natgateway.html#cfn-ec2-natgateway-allocationid) of the NAT gateway resource: when you describe this property, you use the `Fn::GetAtt` [intrinsic function](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference-getatt.html) to consume the allocation ID of the relevant elastic IP resource, by passing the logical ID of the elastic IP resource as well. In the example above, you first use the `Fn::Sub` [intrinsic function](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference-sub.html) to compose the logical ID of each elastic IP resource (`!Sub Eip${SubnetNumber}`), and then you use the `Ref` [intrinsic function](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference-ref.html) to pass the composed logical ID as a reference for the relevant resource described in the template (in this case, described as part of a looping iteration). The `RouteTableId` property for `AWS::EC2::Route` resources uses a similar logic (`Fn::Sub: PrivateRouteTable${SubnetNumber}`) when composing the logical ID of the route table. The same also holds true for the `SubnetId` property of the `AWS::EC2::NatGateway` resource.
+さらに、NAT ゲートウェイリソースの `allocationId` [property](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/aws-resource-ec2-natgateway.html#cfn-ec2-natgateway-allocationid) にも注目してください。このプロパティを記述するときは、`Fn::GetAtt` [組み込み関数](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference-getatt.html) を使用して、elastic IP リソースの論理 ID も渡すことにより、関連する elastic IP リソースの割り当て ID を使用します。上の例では、最初に `Fn::Sub` [組み込み関数](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference-sub.html) を使用して、各 elastic IP リソース (`!Sub Eip${SubnetNumber}`) の論理 ID を作成します。次に `Ref` [組み込み関数](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference-ref.html) を使用して、形成された論理 ID をテンプレートに記述されている関連リソースへの参照として渡します (この場合は、反復ループの一部として記述されます)。`AWS::EC2::Route` リソースの `RouteTableId` プロパティは、ルートテーブルの論理 ID を形成する際に同様のロジック (`Fn::Sub::PrivateRouteTable${SubnetNumber}`) を使用します。`AWS::EC2::NATGateway` リソースの `SubnetId` プロパティも同じです。
 
-It’s now time to provision the infrastructure for the VPC-related resources you described with code! Save the `vpc.yaml` file with all the changes you’ve been applying along this part of the lab, and follow the indications below to create a new stack, called `looping-over-collections-vpc`, using the `vpc.yaml` file. You'll create the new stack in the `us-east-1` region.
+さて、コードで記述した VPC 関連リソースのインフラストラクチャをプロビジョニングしましょう！ラボのこの部分で行ってきたすべての変更を含む `vpc.yaml` ファイルを保存し、以下の手順に沿って `vpc.yaml` ファイルを使用して `looping-over-collections-vpc` という名前の新しいスタックを作成します。新しいスタックは `us-east-1` リージョンに作成します。
 
 :::::tabs{variant="container"}
 ::::tab{id="cloud9" label="Cloud9"}
-Run the following AWS CLI command:
+次の AWS CLI コマンドを実行します。
 
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 aws cloudformation create-stack \
@@ -354,7 +353,7 @@ aws cloudformation create-stack \
 --capabilities CAPABILITY_AUTO_EXPAND
 :::
 
-The command above should return the ID of the stack you are creating. Wait until the stack is in the `CREATE_COMPLETE` status by using the [wait stack-create-complete](https://docs.aws.amazon.com/cli/latest/reference/cloudformation/wait/stack-create-complete.html) AWS CLI command:
+上記のコマンドは、作成しているスタックの ID を返すはずです。[wait stack-create-complete](https://docs.aws.amazon.com/cli/latest/reference/cloudformation/wait/stack-create-complete.html) AWS CLI コマンドを使用して、スタックが `CREATE_COMPLETE` ステータスになるまで待ちます。
 
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 aws cloudformation wait stack-create-complete \
@@ -363,51 +362,51 @@ aws cloudformation wait stack-create-complete \
 :::
 
 ::::
-::::tab{id="local" label="Local development"}
-Steps:
+::::tab{id="local" label="ローカル開発"}
+手順
 
-1. Navigate to the [AWS CloudFormation Console](https://console.aws.amazon.com/cloudformation/).
-1. Make sure you are in the **US East (N. Virginia)** region.
-1. From the left navigation panel, select the **Stacks** tab.
-1. From the right side of the page, choose **Create Stack**, and then choose **With new resources (standard).**
-1. From **Prerequisite**-**Prepare template**, choose **Template is ready**.
-1. Under **Specify template**, select **Template source**, and choose **Upload a template file**.
-1. Select **Choose file**, and provide the `vpc.yaml` template you updated earlier. Choose **Next**.
-1. In the **Specify Stack details** page, specify a **Stack** name: `looping-over-collections-vpc`. Choose **Next**.
-1. On **Configure Stack options**, leave the configuration as it is. Choose **Next**.
-1. On the **Review** page, review the contents of the page. At the bottom of the page, choose to acknowledge all the capabilities shown in the **Capabilities and transforms** section. Choose **Submit**.
-1. Refresh the stack creation page until you see the stack to be in the `CREATE_COMPLETE` status.
+1. [AWS CloudFormation コンソール](https://console.aws.amazon.com/cloudformation/) に移動します。
+2. **米国東部 (バージニア北部)** リージョンにいることを確認してください。
+3. 左側のナビゲーションパネルから、**スタック** を選択します。
+4. ページの右側から、**スタックの作成** を選択し、**新しいリソースを使用 (標準)** を選択します。
+5. **前提条件 - テンプレートの準備** から、**テンプレートの準備完了** を選択します。
+6. **テンプレートの指定** セクションで、**テンプレートソース** で **テンプレートファイルのアップロード** を選択します。
+7. **ファイルの選択** を選択し、前に更新した `vpc.yaml` テンプレートを指定します。**次へ** を選択します。
+8. **スタックの詳細を指定** ページで、**スタック名** を `looping-over-collections-vpc` と指定します。**次へ** を選択します。
+9. **スタックオプションの設定** では、設定をそのままにしておきます。**次へ** を選択します。
+10. **レビュー** ページで、ページの内容を確認します。ページの下部で、**機能と変換** セクションに表示されている機能をすべて承認するように選択してください。**送信** を選択します。
+11. スタックが `CREATE_COMPLETE` ステータスになるまで、スタック作成ページを更新します。
 ::::
 :::::
 
-Once you created the new stack with the method of your choice, continue to follow directions you found in part 1 of the lab to navigate to the **Template** and **Resources** sections, this time for the `looping-over-collections-vpc` stack: compare the template you provided with the processed one, to see how the code maintainability has improved with the method of looping over collections.
+上記のどちらかの方法で新しいスタックを作成したら、引き続きラボのパート 1 で説明したと同様に、`looping-over-collections-vpc` スタックの **テンプレート** タブと **リソース** タブに移動します。送信したテンプレートを処理済みのテンプレートを比較し、コレクションをループする方法によってコードの保守性がどのように向上したかを確認します。
 
-Congratulations! You completed the second part of the lab, and learned how to use inner loops when needed in more complex use cases.
+おめでとうございます！ラボのパート 2 を終了し、より複雑なユースケースが必要な時にインナーループを使用する方法を学びました。
 
-### Challenge
+### チャレンジ
 
-In this challenge, you’re tasked with adding the IDs of public and private subnets to the `Outputs` [section](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/outputs-section-structure.html) of the `vpc.yaml` file, using `Fn::ForEach`. Requirements for outputs are:
+このチャレンジでは、`Fn::ForEach` を使用して `vpc.yaml` ファイルの `Outputs` [セクション](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/outputs-section-structure.html) にパブリックサブネットとプライベートサブネットの ID を追加する必要があります。出力の要件は以下のとおりです。
 
-* add the `Outputs` section in the `vpc.yaml` template;
-* add a meaningful description for each output, so that it will contain text composed such as:
+* `vpc.yaml` テンプレートに `Outputs` セクションを追加してください。
+* 出力をわかりやすくするために、各出力のコメントに以下のような説明を入れてください。
     * `The ID of PublicSubnet1.`
     * `The ID of PublicSubnet2.`
     * `The ID of PrivateSubnet1.`
     * `The ID of PrivateSubnet2.`
-* Add the `Value` for each output, as a reference to the relevant subnet ID.
-* Add the `Export` [name](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-stack-exports.html) for each output, so that you can [consume](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference-importvalue.html) it from other stacks in the future. Create the name of each export using this pattern: `YOUR_AWS_ACCOUNT_ID-SUBNET_TYPESubnetSUBNET_NUMBERId`; example for the first public subnet: `111122223333-PublicSubnet1Id`.
+* 関連するサブネット ID への参照として、各出力に `Value` を追加します。
+* 出力ごとに `Export` と [Name](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/using-cfn-stack-exports.html) を追加して、将来的に他のスタックから [インポート](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference-importvalue.html) できるようにします。`YOUR_AWS_ACCOUNT_ID-SUBNET_TYPESubnetSUBNET_NUMBERId` のように各エクスポートの名前を作成します。例えば最初のサブネットが `111122223333-PublicSubnet1ID` のようになります。
 
-:::expand{header="Need a hint?"}
-* Use the same outer + inner loops logic you followed to create the two public and the two private subnets, and apply it to content you'll write underneath the `Outputs` section.
-* Make sure you recall how to describe the [structure](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/outputs-section-structure.html) of an output when you build the looping logic for your outputs.
-* When you describe the `Value` of each output, you’ll need to reference the logical ID of a subnet, but you need to compose it first using `Fn::Sub`. Look at the example pattern you used for composing the referenced value for `RouteTableId` in the inner loop you used to describe `AWS::EC2::Route` resources, or the `SubnetId` property of the `AWS::EC2::NatGateway` resource.
-* Is there a [pseudo parameter](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/pseudo-parameter-reference.html) you can use to return the ID of the current AWS account you're using?
+:::expand{header="ヒントが必要ですか？"}
+* 同じ外部 + 内部ループロジックを使用して 2 つのパブリックサブネットと 2 つのプライベートサブネットを作成したように、`Outputs` セクションに記述するコンテンツに再利用します。
+* 出力のループロジックを構築するときは、出力の [構造](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/outputs-section-structure.html) の記述方法を思い出してください。
+* 各出力の `Value` を記述するときは、サブネットの論理 ID を参照する必要がありますが、まず `Fn::Sub` を使用してサブネットの論理 ID を作成する必要があります。`AWS::EC2::Route` リソースの記述に使用した内部ループで `RouteTableId` の参照値を作成するために使用したサンプルパターン、または `AWS::EC2::NatGateway` リソースの `SubnetId` プロパティをご確認ください。
+* 現在使用している AWS アカウントの ID を返すのに使用できる [擬似パラメータ](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/pseudo-parameter-reference.html) はありそうですか？
 :::
 
-::::::expand{header="Want to see the solution?"}
-The complete solution is available in the `vpc.yaml` file, that you can find on the `code/solutions/looping-over-collections` directory.
+::::::expand{header="解決策を確認しますか？"}
+ソリューションの一式はこのファイルは `code/solutions/looping-over-collections` ディレクトリにある `vpc.yaml` ファイルにあります。
 
-Append the following content to the `vpc.yaml` file:
+次の内容を `vpc.yaml` ファイルに追加します。
 
 :::code{language=yaml showLineNumbers=true showCopyAction=true lineNumberStart=141}
 Outputs:
@@ -425,11 +424,11 @@ Outputs:
               Fn::Sub: ${SubnetType}Subnet${SubnetNumber}
 :::
 
-Next, update the existing `looping-over-collections-vpc` stack with the updated template containing the `Outputs` information below.
+次に、既存の `looping-over-collections-vpc` スタックを以下の `Outputs` 情報を含むテンプレートで更新します。
 
 :::::tabs{variant="container"}
 ::::tab{id="cloud9" label="Cloud9"}
-Run the following AWS CLI command:
+次の AWS CLI コマンドを実行します。
 
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 aws cloudformation update-stack \
@@ -439,7 +438,7 @@ aws cloudformation update-stack \
 --capabilities CAPABILITY_AUTO_EXPAND
 :::
 
-Wait until the stack is in the `UPDATE_COMPLETE` status by using the [wait stack-update-complete](https://docs.aws.amazon.com/cli/latest/reference/cloudformation/wait/stack-update-complete.html) AWS CLI command:
+[wait stack-update-complete](https://docs.aws.amazon.com/cli/latest/reference/cloudformation/wait/stack-update-complete.html) AWS CLI コマンドを使用して、スタックが `UPDATE_COMPLETE` ステータスになるまで待ちます。
 
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 aws cloudformation wait stack-update-complete \
@@ -448,34 +447,34 @@ aws cloudformation wait stack-update-complete \
 :::
 
 ::::
-::::tab{id="local" label="Local development"}
-Steps:
+::::tab{id="local" label="ローカル開発"}
+手順
 
-1. Navigate to the [AWS CloudFormation Console](https://console.aws.amazon.com/cloudformation/).
-1. Make sure you are in the **US East (N. Virginia)** region.
-1. From the left navigation panel, select the **Stacks** tab.
-1. Choose the existing `looping-over-collections-vpc` stack from the list of stacks.
-1. From the right side of the page, choose **Update Stack**.
-1. From **Prerequisite**-**Prepare template**, choose **Replace current template**.
-1. Under **Specify template**, select **Template source**, and choose **Upload a template file**.
-1. Select **Choose file**, and provide the `vpc.yaml` template you updated earlier. Choose **Next**.
-1. In the **Specify Stack details** page, choose **Next**.
-1. On **Configure Stack options**, leave the configuration as it is. Choose **Next**.
-1. On the **Review** page, review the contents of the page. At the bottom of the page, choose to acknowledge all the capabilities shown in the **Capabilities and transforms** section. Choose **Submit**.
-1. Refresh the stack creation page until you see the stack to be in the `CREATE_COMPLETE` status.
+1. [AWS CloudFormation コンソール](https://console.aws.amazon.com/cloudformation/) に移動します。
+2. **米国東部 (バージニア北部)** リージョンにいることを確認してください。
+3. 左側のナビゲーションパネルから、**スタック** を選択します。
+4. スタックのリストから既存の `looping-over-collections-vpc` スタックを選択します。
+5. ページの右側から、**更新** を選択します。
+6. **前提条件 - テンプレートの準備** から、**既存テンプレートを置き換える** を選択します。
+7. **テンプレートの指定** セクションで、**テンプレートソース** で、**テンプレートファイルのアップロード** を選択します。
+8. **ファイルの選択** を選択し、更新した `vpc.yaml` テンプレートを指定します。**次へ** を選択します。
+9. **スタックの詳細を指定** ページで、**次へ** を選択します。
+10. **スタックオプションの設定** では、設定をそのままにしておきます。**次へ** を選択します。
+11. **レビュー** ページで、ページの内容を確認します。ページの下部で、**機能と変換** セクションに表示されている機能をすべて承認するように選択してください。**送信** を選択します。
+12. スタックが `UPDATE_COMPLETE` ステータスになるまで、スタック作成ページを更新します。
 ::::
 :::::
 
-When the stack update is complete, you should be able to see the outputs in the `Outputs` pane for the stack in the CloudFormation console.
+スタックの更新が完了すると、CloudFormation コンソールのスタックの `出力` タブに出力が表示されるはずです。
 ::::::
 
-### Clean up
+### クリーンアップ
 
-You'll now delete the resources you created as part of this lab. Use the following steps:
+次に、このラボで作成したリソースを削除します。以下の手順を実行してください。
 
 :::::tabs{variant="container"}
 ::::tab{id="cloud9" label="Cloud9"}
-Delete the `looping-over-collections-s3-buckets` stack, by running the following AWS CLI command:
+次の AWS CLI コマンドを実行して、`looping-over-collections-s3-buckets` スタックを削除します。
 
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 aws cloudformation delete-stack \
@@ -483,7 +482,7 @@ aws cloudformation delete-stack \
 --stack-name looping-over-collections-s3-buckets
 :::
 
-Wait until the `DELETE` operation is complete, by using the [wait stack-delete-complete](https://docs.aws.amazon.com/cli/latest/reference/cloudformation/wait/stack-delete-complete.html) AWS CLI command:
+[wait stack-delete-complete](https://docs.aws.amazon.com/cli/latest/reference/cloudformation/wait/stack-delete-complete.html) AWS CLI コマンドを使用して、`DELETE` 操作が完了するまでお待ちください。
 
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 aws cloudformation wait stack-delete-complete \
@@ -491,7 +490,7 @@ aws cloudformation wait stack-delete-complete \
 --stack-name looping-over-collections-s3-buckets
 :::
 
-When done, repeat the steps above to delete the `looping-over-collections-vpc` stack:
+完了したら、上記の手順を繰り返して `looping-over-collections-vpc` スタックを削除します。
 
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 aws cloudformation delete-stack \
@@ -499,7 +498,7 @@ aws cloudformation delete-stack \
 --stack-name looping-over-collections-vpc
 :::
 
-Wait until the `DELETE` operation is complete, by using the [wait stack-delete-complete](https://docs.aws.amazon.com/cli/latest/reference/cloudformation/wait/stack-delete-complete.html) AWS CLI command:
+[wait stack-delete-complete](https://docs.aws.amazon.com/cli/latest/reference/cloudformation/wait/stack-delete-complete.html) AWS CLI コマンドを使用して、`DELETE` 操作が完了するまでお待ちください。
 
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 aws cloudformation wait stack-delete-complete \
@@ -508,18 +507,18 @@ aws cloudformation wait stack-delete-complete \
 :::
 
 ::::
-::::tab{id="local" label="Local development"}
-Steps:
+::::tab{id="local" label="ローカル"}
+手順
 
-1. Navigate to the [AWS CloudFormation Console](https://console.aws.amazon.com/cloudformation/).
-1. Make sure you are in the **US East (N. Virginia)** region.
-1. From the **Stacks** page, select the `looping-over-collections-s3-buckets` stack.
-1. In the stack details pane, choose **Delete**. Select **Delete** when prompted.
-1. From the **Stacks** page, select the `looping-over-collections-vpc` stack.
-1. In the stack details pane, choose **Delete**. Select **Delete** when prompted.
+1. [AWS CloudFormation コンソール](https://console.aws.amazon.com/cloudformation/)に移動します。
+2. **米国東部 (バージニア北部)** リージョンにいることを確認してください。
+3. **スタック** ページから、`looping-over-collections-s3-buckets` スタックを選択します。
+4. スタックの詳細ペインで、**削除** を選択します。プロンプトが表示されたら、**削除** を選択します。
+5. **スタック** ページから `looping-over-collections-vpc` スタックを選択します。
+6. スタックの詳細ペインで、**削除** を選択します。プロンプトが表示されたら、**削除** を選択します
 ::::
 :::::
 
-### Conclusion
+### まとめ
 
-Great work! You learned how to loop over collections using the `Fn::ForEach` intrinsic function and the `AWS::LanguageExtensions` transform. For more information, see [Fn::ForEach](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference-foreach.html) in the AWS CloudFormation User Guide, and the [Exploring Fn::ForEach and Fn::FindInMap enhancements in AWS CloudFormation](https://aws.amazon.com/blogs/devops/exploring-fnforeach-and-fnfindinmap-enhancements-in-aws-cloudformation/) blog post. We welcome your contributions to RFCs and your feedback in our [cfn-language-discussion](https://github.com/aws-cloudformation/cfn-language-discussion) GitHub repository!
+`Fn::ForEach` 組み込み関数と `AWS::LanguageExtensions` トランスフォームを使ってコレクションをループさせる方法を学びました。詳細については、AWS CloudFormation ユーザガイドの [Fn::ForEach](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference-foreach.html) と、[Exploring Fn::ForEach and Fn::FindInMap enhancements in AWS CloudFormation](https://aws.amazon.com/jp/blogs/devops/exploring-fnforeach-and-fnfindinmap-enhancements-in-aws-cloudformation/) を参照してください。[cfn-language-discussion](https://github.com/aws-cloudformation/cfn-language-discussion) GitHub リポジトリで RFC への貢献やフィードバックを歓迎します!

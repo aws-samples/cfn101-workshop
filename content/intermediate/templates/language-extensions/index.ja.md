@@ -1,67 +1,65 @@
 ---
-title: "Language extensions"
+title: "言語拡張"
 weight: 640
 ---
 
-::alert[日本語翻訳準備中]{type="info"}
-
-_Lab Duration: ~30 minutes_
+_ラボ実施時間 : 30分程度_
 
 ---
 
-### Overview
+### 概要
 
-With the goal of extending the AWS CloudFormation language, the CloudFormation team has been having open discussions with the CloudFormation community, by using an [RFC mechanism](https://github.com/aws-cloudformation/cfn-language-discussion). These discussions have led to the launch of new language extensions for CloudFormation. A language extension is a transform, which is a macro hosted by CloudFormation. In its first release in 2022, three new language extensions were added:
+AWS CloudFormation 言語を拡張することを目指して、CloudFormation チームは [RFC](https://github.com/aws-cloudformation/cfn-language-discussion) を通じてして CloudFormation コミュニティとオープンな議論を交わしてきました。これらの議論の結果、CloudFormation のための新しい言語拡張がリリースされました。リリースされた新しい言語拡張は変換機能で CloudFormation によって実行されるマクロです。2022 年の初期リリースでは、3 つの新しい言語拡張が追加されました。
 
-1. JSON string conversion ([Fn::ToJsonString](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference-ToJsonString.html)): converts an object or array to its corresponding JSON string.
-2. Length ([Fn::Length](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference-length.html)): returns the number of elements within an array.
-3. [Intrinsic functions and pseudo-parameter references](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/function-refs-in-policy-attributes.html): allow the user to define the `DeletionPolicy` and `UpdateReplacePolicy` [resource attributes](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-product-attribute-reference.html) whose values can be referenced by parameters, for example.
-
-
-For more information, see [Introducing new language extensions in AWS CloudFormation](https://aws.amazon.com/blogs/mt/introducing-new-language-extensions-in-aws-cloudformation/).
-
-In this lab, you'll explore and learn how you can leverage these language extensions to augment your developer experience.
+1. JSON 文字列変換([Fn::ToJsonString](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference-ToJsonString.html)): オブジェクトまたは配列を対応する JSON 文字列に変化します。
+2. Length([Fn::Length](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference-length.html)): 配列内の要素数を返却します。
+3. [組み込み関数と擬似パラメータのリファレンス](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/function-refs-in-policy-attributes.html): ユーザが定義した `DeletionPolicy` と `UpdateReplacePolicy` [リソース属性](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/aws-product-attribute-reference.html) の値をパラメータなどから取得できるようにします。
 
 
-### Topics Covered
+詳細については、[Introducing new language extensions in AWS CloudFormation](https://aws.amazon.com/blogs/mt/introducing-new-language-extensions-in-aws-cloudformation/) をご参照ください。
 
-By the end of this lab, you'll be able to:
-
-* Understand how to incorporate the `AWS::LanguageExtensions` transform in your CloudFormation templates.
-* Use language extensions in your CloudFormation template.
-
-### Start Lab
-
-### Prerequisites
-
-You can use the default VPC that comes with your AWS account.
+このラボでは、 これらの言語拡張を活用してどのように開発者体験を向上させるのかを探り、学習します。
 
 
-### Part 1
+### 取り上げるトピック
 
-In part 1 of this lab, you'll use an example CloudFormation template, `language-extensions.yaml`, to create a stack in the `us-east-1` region. To get started, follow steps shown next:
+このラボを修了すると、次のことができるようになります。
 
-1. Navigate to `code/workspace/language-extensions` directory.
-1. Open the `language-extensions.yaml` CloudFormation template in your own text editor.
-1. Familiarize with the configuration of resources in the template. This template creates an [Amazon Elastic Compute Cloud (Amazon EC2)](https://aws.amazon.com/ec2/) instance tagged as a `DEV` environment resource. Note that, up to this point, the template does not specify a `DeletionPolicy` [attribute](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-attribute-deletionpolicy.html) for the EC2 instance.
+* `AWS::LanguageExtensions` トランスフォームを CloudFormation テンプレートに組み込む方法の理解
+* CloudFormation テンプレートでの言語拡張の使用
 
-By default, CloudFormation uses `Delete` as the default value for the `DeletionPolicy` attribute for resources; exceptions to this are `AWS::RDS::DBCluster` resources, and `AWS::RDS::DBInstance` resources that don't specify the `DBClusterIdentifier` property. If you use the template above for the creation of a stack, upon deletion of the stack itself the EC2 instance will be terminated. One of the common use cases is to retain the resources that are created in production, whilst having the flexibility to discard and recreate test resources, as needed, for development activities: with the `AWS::LanguageExtensions` transform in your template, you can reference the `DeletionPolicy` value you need from a parameter. The language extension you'll use adds the functionality of referencing a value for resource attributes like `DeletionPolicy` and `UpdateReplacePolicy` that natively accept a string value and not a parameter reference.
+### ラボを開始
 
-In this example, your intent is to specify `DeletionPolicy` as `Delete` for your instance in the `DEV` environment; follow steps shown next:
+### 事前準備
+
+AWS アカウントに付属するデフォルト VPC を使用できる状態にあります。
 
 
-1. Open the `language-extensions.yaml` template. Add the `AWS::LanguageExtensions` transform line by copying and pasting the content below _underneath_ the `AWSTemplateFormatVersion: "2010-09-09"` line:
+### ラボパート 1
+
+このラボのパート 1 では、サンプルの CloudFormation テンプレート `language-extentions.yaml` を使用して、`us-east-1` リージョンにスタックを作成します。開始するには、以下に示すステップに進んでください。
+
+1. `code/workspace/language-extensions` のディレクトリに移動します。
+2. ご自身のエディターで `language-extensions.yaml` の CloudFormation テンプレートを開きます。
+3. テンプレート内のリソースの設定を確認します。このテンプレートは `Dev` 環境リソースとしてタグづけされた [Amazon Elastic Compute Cloud (Amazon EC2)](https://aws.amazon.com/ec2/) インスタンスを作成します。この時点のテンプレートでは EC2 インスタンスの `DeletionPolicy` [属性](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/aws-attribute-deletionpolicy.html) が指定されていないことに注目してください。
+
+デフォルトでは、CloudFormation はリソースの `DeletionPolicy` 属性のデフォルト値として `Delete` を使用します。ただし、 `AWS::RDS::DBCluster` リソースと、`DBClusterIdentifier` プロパティを指定しない `AWS::RDS::DBInstance` リソースは例外です。上記のテンプレートを使用してスタックを作成した場合、スタック自体を削除すると EC2 インスタンスは終了します。一般的な使用例の 1 つは、本番環境で作成されたリソースを保持しながら、必要に応じてテストリソースを柔軟に破棄して開発アクティビティ用に再作成することです。テンプレートの `AWS::LanguageExtensions` トランスフォームを使用すると、必要な `DeletionPolicy` の値をパラメータから参照できます。`DeletionPolicy` や `UpdateReplacePolicy` のようなリソース属性は通常は文字列の指定が必要ですが、言語拡張を使用すると値をパラメータから参照する機能が追加されます。
+
+この例では、`DEV` 環境のインスタンスの `DeletionPolicy` を `Delete` として指定することを意図しています。次の手順に進んでください。
+
+1. `code/workspace/language-extensions` ディレクトリに移動します。
+1. `language-extensions.yaml` テンプレートを開きます。`AWS::LanguageExtensions` のトランスフォーマ行を追加するには、`AWSTemlateFormatVersion: "2010-09-09"` の行の下に、以下のコンテンツをコピーして貼り付けます。
 :::code{language=yaml showLineNumbers=true showCopyAction=true lineNumberStart=3}
 Transform: AWS::LanguageExtensions
 :::
-1. Add a parameter, called for example `DeletionPolicyParameter`, by copying and pasting the content below _underneath_ the existing `Parameters` section:
+1. 既存の `Parameters` セクションの配下に、例えば `DeletionPolicyParameter` という名前のパラメータを次のコードのように追加します。
 :::code{language=yaml showLineNumbers=true showCopyAction=true lineNumberStart=13}
 DeletionPolicyParameter:
   Type: String
   AllowedValues: [Delete, Retain]
   Default: Delete
 :::
-1. Underneath the `Resources` section, modify the EC2 instance resource configuration: add `DeletionPolicy` at the same level as `Type`, and reference the `DeletionPolicyParameter` you added earlier, as shown next:
+1. `Resource` セクションの配下にある EC2 インスタンスのリソース設定を変更します。`Type` プロパティと同じレベルに `DeletionPolicy` を追加し、先ほど設定した `DeletionPolicyParameter` を参照させます。
 :::code{language=yaml showLineNumbers=true showCopyAction=true lineNumberStart=18 highlightLines=20}
 Resources:
   EC2Instance:
@@ -75,48 +73,48 @@ Resources:
           Value: DEV
 :::
 
-Save the template file, and proceed to the next steps.
+テンプレートファイルを保存し、次の手順に進みます。
 
-You'll now create a new stack, using the template you modified, in the `us-east-1` region.
+次に、変更したテンプレートを使用して `us-east-1` リージョンに新しいスタックを作成します。
 :::::tabs{variant="container"}
 ::::tab{id="cloud9" label="Cloud9"}
-1. Let's create a stack by running the following AWS CLI command.
+1. 次の AWS CLI コマンドを実行してスタックを作成します。
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 aws cloudformation create-stack \
 --stack-name cfn-workshop-language-extensions \
 --template-body file://language-extensions.yaml \
 --capabilities CAPABILITY_AUTO_EXPAND
-1. CloudFormation returns the following output.
+1. CloudFormation は次のアウトプットを返却します。
 :::code{language=json showLineNumbers=false showCopyAction=false}
 "StackId": "arn:aws:cloudformation:us-east-1:123456789012:stack/cfn-workshop-language-extensions/466df9e0-0dff-08e3-8e2f-5088487c4896"
 :::
-1. Wait until the `CREATE` operation is complete, by using the [wait stack-create-complete](https://docs.aws.amazon.com/cli/latest/reference/cloudformation/wait/stack-create-complete.html) AWS CLI command.
+1. [wait stack-create-complete] (https://docs.aws.amazon.com/cli/latest/reference/cloudformation/wait/stack-create-complete.html) AWS CLI コマンドを使用して、`CREATE` 操作が完了するまでお待ちください。
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 aws cloudformation wait stack-create-complete \
 --stack-name cfn-workshop-language-extensions
 :::
 ::::
-::::tab{id="local" label="Local development"}
-1. Navigate to the [AWS CloudFormation Console](https://console.aws.amazon.com/cloudformation/).
-1. From the left navigation panel, select the **Stacks** tab. From the right side of the page, choose **Create Stack**, and then choose **With new resources (standard).**
-1. From **Prerequisite**-**Prepare template**, choose **Template is ready**.
-1. Under **Specify template**, select **Template source**, and choose **Upload a template file**. Select **Choose file**, and supply the `language-extensions.yaml` template you updated earlier, and then choose **Next**.
-1. In the **Specify Stack details** page:
-    1. Specify a **Stack** name. For example, choose `cfn-workshop-language-extensions`.
-    1. Under **Parameters**, choose to accept the value for `DeletionPolicyParameter` as `Delete`, which is set as the default value in the template; keep the value for `LatestAmiId` as it is. Choose **Next**.
-1. On **Configure Stack options**, leave the configuration as it is. Choose **Next**.
-1. On the **Review** page, review the contents of the page. At the bottom of the page, choose to acknowledge all the capabilities shown in the **Capabilities and transforms** section. Choose **Submit**.
-1. Refresh the stack creation page until you see the stack to be in the `CREATE_COMPLETE` status.
+::::tab{id="local" label="ローカル開発"}
+1. [AWS CloudFormation コンソール] (https://console.aws.amazon.com/cloudformation/) に移動します。
+1. 左側のナビゲーションパネルから **スタック** を選択します。ページの右側から **スタックの作成** を選択し、**新しいリソースを使用 (標準)** を選択します。
+1. **前提条件 - テンプレートの準備** から **テンプレートの準備完了** を選択します。
+1. **テンプレートの指定** セクションで、**テンプレートソース** で **テンプレートファイルのアップロード** を選択します。**ファイルの選択** を選択し、更新した `language-extentions.yaml` テンプレートを指定して、**次へ** を選択します。
+1. **スタック詳細を指定** のページで
+    1. **スタック名** を指定します。例えば `cfn-workshop-language-extensions` を入力します。
+    1. **パラメータ** で、テンプレートのデフォルト値として設定されている `DeletionPolicyParameter` の値に `Delete` を選択し、`LatestAmiId` の値をそのままにしておきます。**次へ** を選択します。
+1. **スタックオプションの設定** では、設定をそのままにしておきます。**次へ** を選択します。
+1. **レビュー** ページで、設定内容を確認します。ページの下部に **機能と変換** セクションに表示されている機能をすべて承認するように選択してください。**送信** を選択します。
+1. スタックが `CREATE_COMPLETE` ステータスになるまで、スタック作成ページを更新します。
 ::::
 :::::
 
-Congratulations! You have learned how to use intrinsic function references for the `DeletionPolicy` attribute; you can also use them with the `UpdateReplacePolicy` attribute as well. In the next part, you'll learn how to use another language extension: `Fn::ToJsonString`.
+おめでとうございます！これで `DeletionPolicy` 属性用の組み込み関数リファレンスを使用する方法を学びました。`UpdateReplacePolicy` 属性と一緒に使用することもできます。次のパートでは、`Fn::ToJsonString` という別の言語拡張の使い方を学びます。
 
-### Part 2
+### ラボパート 2
 
-Now that you have your EC2 instance running, you choose to monitor it by creating an [Amazon CloudWatch dashboard](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch_Dashboards.html) that provides customized views of the metrics and alarms for your AWS resources. You can add metrics such as `CPUUtilization`, `DiskReadOps`, etc. to a dashboard as a [widget](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/create-and-work-with-widgets.html).
+EC2 インスタンスを実行できたので、AWS リソースのメトリクスとアラームをカスタマイズして表示する [Amazon CloudWatch ダッシュボード](https://docs.aws.amazon.com/ja_jp/AmazonCloudWatch/latest/monitoring/CloudWatch_Dashboards.html) を作成してモニタリングすることとします。`CPUUtilization` や `DiskReadOps` などのメトリクスを [ウィジェット](https://docs.aws.amazon.com/ja_jp/AmazonCloudWatch/latest/monitoring/create-and-work-with-widgets.html) としてダッシュボードに追加できます。
 
-A dashboard body is a string in JSON format: for more information, see [Dashboard Body Structure and Syntax](https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/CloudWatch-Dashboard-Body-Structure.html). When you describe a CloudWatch dashboard with CloudFormation, you specify a JSON string that contains keys and values, such as:
+ダッシュボード本文は JSON 形式の文字列です。詳細については、[ダッシュボード本体の構造と構文](https://docs.aws.amazon.com/ja_jp/AmazonCloudWatch/latest/APIReference/CloudWatch-Dashboard-Body-Structure.html)を参照してください。CloudFormation を使用して CloudWatch ダッシュボードを記述する時は、次のようなキーとバリューを含む JSON 文字列を指定します。
 
 :::code{language=json showLineNumbers=true showCopyAction=false}
 {
@@ -127,17 +125,17 @@ A dashboard body is a string in JSON format: for more information, see [Dashboar
 :::
 
 
-To make it easier to write and consume a dashboard (for example, to avoid escaping inner quotes like `\"`), and to avoid maintaining a single-line string you can use the `Fn::ToJsonString` language extension to specify a JSON object, which is easier to compose and to maintain. With this language extension, you can specify the structure of a CloudWatch dashboard as a JSON object instead, thus simplifying the task.
+ダッシュボード作成と利用をより簡単にするため (例えば、`\"` のような内部引用符のエスケープを避けるため)、また一行の文字列を保持しないようにするには、`Fn::ToJsonString` 言語拡張を使用して JSON オブジェクトを指定できます。これにより作成と管理が容易になります。この言語拡張機能を使用すると、代わりに CloudWatch ダッシュボードの構造を JSON オブジェクトとして指定できるためタスクが簡単になります。
 
-`Fn::ToJsonString` allows developers to convert a template block in the form of an object or array into an escaped JSON string. You can then use a newly-converted JSON string as a set of input values to string-type properties for resources that include the CloudWatch dashboard resource type. This simplifies the code in your template, and enhances its readability.
+`Fn::ToJsonString` を使用すると、開発者はオブジェクトまたは配列形式のテンプレートブロックをエスケープされた JSON 文字列に変換できます。その後、新たに変換された JSON 文字列を CloudWatch ダッシュボードリソースタイプを含むリソースの文字列型プロパティへの入力値として使用できます。これにより、テンプレート内のコードが簡略化され、読みやすくなります。
 
-In this part 2 of the lab, you'll update the `language-extensions` stack you created earlier, and add a CloudWatch dashboard with the `CPUUtilization` metric for your EC2 instance.
+ラボのこのパート 2 では、前に作成した `language-extensions` スタックを更新し、 EC2 インスタンスの `CPUUtilization` メトリクスを含む CloudWatch ダッシュボードを追加します。
 
-For simplicity, in this exercise you'll add the dashboard to your existing template, so you can focus on the language extension you'll use. Normally, you would create a separate template for your dashboards, for considerations on best practices that also include organizing your stacks by [lifecycle and ownership](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/best-practices.html#organizingstacks): you would want to, for example, create a separate template to decouple the lifecycle of your CloudWatch dashboard from the lifecycle of your EC2 instance.
+作業をシンプルにするため、この演習ではダッシュボードを既存のテンプレートに追加して、使用する言語拡張機能に焦点を当てれるようにします。通常、[ライフサイクルと所有権](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/best-practices.html#organizingstacks)によるスタックの整理を含むベストプラクティスを考慮して、ダッシュボード用に別のテンプレートを作成します。例えば、CloudWatch ダッシュボードのライフサイクルを EC2 インスタンスのライフサイクルから切り離すために、別のテンプレートを作成したいと考えることがあると思います。
 
-You'll now update the `language-extensions.yaml` template to add a CloudWatch dashboard with CPU utilization data of the EC2 instance you created in part 1. To do so, follow steps shown next:
+`language-extensions.yaml` テンプレートを更新して、パート 1 で作成した EC2 インスタンスの CPU 使用率データを含む CloudWatch ダッシュボードを追加します。そのためには以下のステップに沿って実施します。
 
-1. Open the `language-extensions.yaml` template. Underneath `Resources` section, add `Dashboard`:
+1. `language-extensions.yaml` テンプレートを開きます。`Resources` セクション配下に `Dashboard` を追加します。
 
 :::code{language=yaml showLineNumbers=true showCopyAction=true lineNumberStart=29}
 Dashboard:
@@ -161,128 +159,128 @@ Dashboard:
               title: EC2 Instance CPU
 :::
 
-In the above snippet, note that the `CPUUtilization` metric is reflected underneath the `properties` section through the `metrics` field. Note also the references to your EC2 instance with `!Ref`, that in this case will return the instance ID, and the reference to the current region with `!Ref AWS::Region`, where you'll use the `AWS::Region` CloudFormation pseudo parameter to resolve the name of the region where you are creating the stack and the EC2 instance (in this lab, `us-east-1`).
+上記のスニペットでは、`CPUUtilization` メトリックが `properties` セクション配下に `metrics` フィールドを介して反映されていることを注目してください。EC2 インスタンスの参照のための `!Ref` を利用し、インスタンス ID を取得しています。また、現在のリージョンを参照するには `!Ref AWS::Region` を使用しています。`AWS::Region` CloudFormation 擬似パラメータを使用して、スタックと EC2 インスタンスを作成するリージョンの名前で取得します。(このラボでは `us-east-1`)
 
-Save the template file, and proceed to the next steps.
+テンプレートファイルを保存し、次の手順に進みます。
 
-You'll now update your existing stack that you created in Part 1. To do so, follow steps shown next:
+パート 1 で作成した既存のスタックを更新します。そのためには、以下に示す手順を実施します。
 :::::tabs{variant="container"}
 ::::tab{id="cloud9" label="Cloud9"}
-1. Update the stack `cfn-workshop-language-extensions` by running the following AWS CLI command.
+1. 次の AWS CLI コマンドを実行して、スタック `cfn-workshop-language-extensions` を更新します。
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 aws cloudformation update-stack \
 --stack-name cfn-workshop-language-extensions \
 --template-body file://language-extensions.yaml \
 --capabilities CAPABILITY_AUTO_EXPAND
-1. CloudFormation returns the following output.
+1. CloudFormation は次の出力を返却します。
 :::code{language=json showLineNumbers=false showCopyAction=false}
     "StackId": "arn:aws:cloudformation:us-east-1:123456789012:stack/cfn-workshop-language-extensions/466df9e0-0dff-08e3-8e2f-5088487c4896"
 :::
-1. Wait until the `UPDATE` operation is complete, by using the [wait stack-update-complete](https://docs.aws.amazon.com/cli/latest/reference/cloudformation/wait/stack-update-complete.html) AWS CLI command.
+1. [wait stack-update-complete](https://docs.aws.amazon.com/cli/latest/reference/cloudformation/wait/stack-update-complete.html) AWS CLI コマンドを使用して `UPDATE` 操作が完了するまで待ちます。
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 aws cloudformation wait stack-update-complete \
 --stack-name cfn-workshop-language-extensions
 :::
 ::::
-::::tab{id="local" label="Local development"}
-1. Navigate to the [AWS CloudFormation Console](https://console.aws.amazon.com/cloudformation/).
-1. From the left navigation panel, select the **Stacks** tab. Select the `cfn-workshop-language-extensions` stack you created earlier.
-1. From the top-right menu, choose **Update**.
-1. Under **Prerequisite - Prepare template,** select **Replace current template** and choose **Upload a template file**. Select **Choose file**, and supply the `language-extensions.yaml` template you updated earlier, and then choose **Next**.
-1. On **Specify Stack details** page, leave the configuration as it is. Choose **Next**.
-1. On **Configure Stack options**, leave the configuration as it is. Choose **Next**.
-1. On **Review** page, review the contents of the page. At the bottom of the page, choose to acknowledge all the capabilities shown in the **Capabilities and transforms** section.
-1. Choose **Submit**. Refresh the stack creation page until you see the stack in the `UPDATE_COMPLETE` status.
+::::tab{id="local" label="ローカル開発"}
+1. [AWS CloudFormation コンソール](https://console.aws.amazon.com/cloudformation/) に移動します。
+1. 左側のナビゲーションパネルから、**スタック** を選択します。前に作成した `cfn-workshop-language-extensions` スタックを選択します。
+1. 右上のメニューから **更新** を選択します。
+1. **前提条件 - テンプレートの準備**で、**既存テンプレートを置き換える** を選択し、**テンプレートファイルのアップロード**を選択します。**ファイルの選択** を選択し、更新した `language-extensions.yaml` テンプレートを指定して **次へ** を選択します。
+1. **スタックの詳細を指定** ページでは、設定をそのままにしておきます。 **次へ** を選択します。
+1. **スタックオプションの設定** では、設定をデフォルトのままにしておきます。**次へ** を選択します。
+1. **レビュー** ページで、ページの内容を確認します。ページの下部で、**機能と変換** セクションに表示されている機能をすべて承認するように選択してください。
+1. **送信** を選択します。スタックのステータスが `UPDATE_COMPLETE` になるまでスタック作成ページを更新します。
 ::::
 :::::
 
-* Navigate to the [CloudWatch console](https://console.aws.amazon.com/cloudwatch/). From the right navigation panel, choose **Dashboards**.
-* Select the **Dashboard** that you have created, From the top-right, choose **Actions**.
-* Select **View/edit source**, you should see `JSON` for the dashboard that matches `YAML` from `language-extensions.yaml`
+* [CloudWatch コンソール](https://console.aws.amazon.com/cloudwatch/)に移動します。左側のナビゲーションパネルから、**ダッシュボード** を選択します。
+* 作成した **ダッシュボード** を選択し、右上から **アクション** を選択します。
+* **ソースを表示 / 編集** を選択すると、`language-extensions.yaml` の `YAML` と同等の `JSON` がダッシュボードに表示されるはずです。
 
-Congratulations! You have learned how to use `Fn::ToJsonString` to transform JSON objects into escaped JSON strings as inputs to resource properties.
+おめでとうございます！`Fn::ToJsonString` を使用して JSON オブジェクトをリソースプロパティへの入力としてエスケープされた JSON 文字列に変換する方法を学習しました。
 
-### Challenge
+### チャレンジ
 
-In this exercise, you'll use the knowledge gained from earlier parts of this lab. Your task is to create an [Amazon Simple Storage Service (Amazon S3)](https://aws.amazon.com/s3/) bucket with its deletion policy set to a parameterized value of `Delete`, and create a CloudWatch dashboard that reflects the number of objects in the bucket. Use the `language-extensions-challenge.yaml` template, and add content to it.
+この演習では、このラボで得た知識を使用します。あなたのタスクは、削除ポリシーを `Delete` というパラメータ値に設定した [Amazon Simple Storage Service (Amazon S3)](https://aws.amazon.com/s3/) バケットを作成し、バケット内のオブジェクト数を反映する CloudWatch ダッシュボードを作成することです。`language-extensions-challenge.yaml` テンプレートを使用して、コンテンツを追加してください。
 
-Refer to the [CloudWatch Dashboard structure](https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/CloudWatch-Dashboard-Body-Structure.html) mentioned in Part 2 of the lab as you describe the dashboard in your CloudFormation template. For the `metrics` field underneath `properties`, use `[[AWS/S3, NumberOfObjects, StorageType, AllStorageTypes, BucketName, !Ref S3Bucket]]` to denote the `NumberOfObjects` metrics in an S3 bucket for your CloudWatch widget. Please note that [S3 storage metrics are reported once per day](https://docs.aws.amazon.com/AmazonS3/latest/userguide/cloudwatch-monitoring.html) at no additional cost, so you may not see them when you are running the lab.
+CloudFormation テンプレートでダッシュボードを記述する時には、ラボのパート 2 で記述した [CloudWatch ダッシュボード構造](https://docs.aws.amazon.com/ja_jp/AmazonCloudWatch/latest/APIReference/CloudWatch-Dashboard-Body-Structure.html)を参照してください。`properties` 配下の `metrics` フィールドには、`[[AWS/S3, NumberOfObjects, StorageType, AllStorageTypes, BucketName, !Ref S3Bucket]]` を使用してください。[S3 ストレージメトリクスは 1 日に 1 回報告されます](https://docs.aws.amazon.com/ja_jp/AmazonS3/latest/userguide/cloudwatch-monitoring.html)。追加料金は発生しないため、ラボを実行しているときには表示されない場合があることにご注意ください。
 
 
-:::expand{header="Need a hint?"}
-* Recall using the language extension in Part 1 of the lab to use a parameter for the deletion policy.
-* Don’t forget to reference the deletion policy parameter in your S3 bucket resource.
-* Additionally, recall how you added a CloudWatch dashboard earlier, add use the `NumberOfObjects` metrics for the relevant field.
+:::expand{header="ヒントが必要ですか？"}
+* ラボのパート 1 で説明した言語拡張を使用して、削除ポリシーのパラメータを使用したことを思い返してください。
+* S3 バケットリソースの削除ポリシーパラメータを参照することを忘れないでください。
+* さらに、以前 CloudWatch ダッシュボードを追加した方法を思い出してください。関連フィールドに `NumberOfObjects` メトリクスを使用することを追加してください。
 :::
 
-::::::expand{header="Want to see the solution?"}
-* Add the `Transform: AWS::LanguageExtensions` line to the template like you did in Part 1 of the lab.
-* Edit the `Parameters` section to add the `DeletionPolicyParameter` like you did in Part 1 of the lab.
-* Underneath the `Resources` section for the `S3Bucket` resource, add the `DeletionPolicy` attribute with a reference to the parameter.
-* Underneath the `Resources` section, add the `Dashboard` resource.
-* You can find the full challenge solution in the template called `language-extensions-solution.yaml`, that is in the `code/solutions/language-extensions` directory.
+::::::expand{header="解決策を確認しますか？"}
+* ラボのパート 1 で行ったように、テンプレートの `Transform: AWS::LanguageExtensions` の行を追加します。
+* ラボのパート 1 で行ったように、`Parameters` セクションを編集して `DeletionPolicyParameter` を追加します。
+* `S3Bucket` リソースの `Resources` セクション配下に、パラメータへの参照を含む `DeletionPolicy` 属性を追加します。
+* `Resource` セクション配下に、`Dashboard` リソースを追加します。
+* チャレンジソリューションの全文は、`code/solutions/language-extensions` ディレクトリにある `language-extensions-solutions.yaml` というテンプレートにあります。
 
 :::::tabs{variant="container"}
 ::::tab{id="cloud9" label="Cloud9"}
-1. Let's create the stack by running the following AWS CLI command.
+1. 次の AWS CLI コマンドを実行してスタックを作成しましょう。
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 aws cloudformation create-stack \
 --stack-name cfn-workshop-language-extensions-solution \
 --template-body file://language-extensions-challenge.yaml \
 --capabilities CAPABILITY_AUTO_EXPAND
-1. CloudFormation returns the following output.
+1. CloudFormation は次の出力を返却します。
 :::code{language=json showLineNumbers=false showCopyAction=false}
 "StackId": "arn:aws:cloudformation:us-east-1:123456789012:stack/cfn-workshop-language-extensions-solution/466df9e0-0dff-08e3-8e2f-5088487c4896"
 :::
-1. Wait until the `CREATE` operation is complete, by using the [wait stack-create-complete](https://docs.aws.amazon.com/cli/latest/reference/cloudformation/wait/stack-create-complete.html) AWS CLI command.
+1. [wait stack-create-complete](https://docs.aws.amazon.com/cli/latest/reference/cloudformation/wait/stack-create-complete.html) AWS CLI コマンドを使用して、`CREATE` 操作が完了するまで待ちます。
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 aws cloudformation wait stack-update-complete \
 --stack-name cfn-workshop-language-extensions-solution
 :::
 ::::
-::::tab{id="local" label="Local development"}
-1. Navigate to the [AWS CloudFormation Console](https://console.aws.amazon.com/cloudformation/).
-1. From the left navigation panel, select the **Stacks** tab. From the right side of the page, choose **Create Stack**, and then choose **With new resources (standard).**
-1. From **Prerequisite**-**Prepare template**, choose **Template is ready**.
-1. Under **Specify template**, select **Template source**, and choose **Upload a template file**. Select **Choose file**, and supply the `language-extensions-challenge.yaml` template you updated earlier, and then choose **Next**.
-1. In the **Specify Stack details** page:
-   1. Specify a **Stack** name. For example, choose `cfn-workshop-language-extensions-solution`.
-   1. Under **Parameters**, choose to accept the value for `DeletionPolicyParameter` as `Delete`, which is set as the default value in the template, Choose **Next**.
-1. On **Configure Stack options**, leave the configuration as it is. Choose **Next**.
-1. On the **Review** page, review the contents of the page. At the bottom of the page, choose to acknowledge all the capabilities shown in the **Capabilities and transforms** section. Choose **Submit**.
-1. Refresh the stack creation page until you see the stack to be in the `CREATE_COMPLETE` status.
+::::tab{id="local" label="ローカル開発"}
+1. [AWS CloudFormation コンソール](https://console.aws.amazon.com/cloudformation/)に移動します。
+2. 左側のナビゲーションパネルから、**スタック** を選択します。ページの右側から、**スタックの作成** を選択し、**新しいリソースを使用 (標準)** を選択します。
+3. **前提条件 - テンプレートの準備** から、**テンプレートの準備完了** を選択します。
+4. **テンプレートの指定** セクションで、**テンプレートソース** で **テンプレートファイルのアップロード** を選択します。**ファイルの選択** を選択し、先ほど更新した `language-extensions-challenge.yaml` テンプレートを指定して、**次へ**　を選択します。
+5. **スタックの詳細を指定**ページで
+   1. **スタック**名を指定します。例えば、`cfn-workshop-language-extensions-solution` を選択します。
+   2. **パラメータ** で、テンプレートのデフォルト値として設定されている `DeletionPolicyParameter` の値が `Delete` であることを確認し、**次へ** を選択します。
+6. **スタックオプションの設定** では、設定をそのままにしておきます。**次へ** を選択します。
+7. **レビュー** ページで、ページの内容を確認します。ページの下部で、**機能と変換** セクションに表示されている機能をすべて承認するように設定してください。**送信** を選択します。
+8. スタックが `CREATE_COMPLETE` ステータスになるまで、スタック作成ページを更新します。
 ::::
 :::::
 ::::::
 
-### Clean up
+### クリーンアップ
 
-You'll now tear down the resources you created in this lab. Use following steps:
+このラボで作成したリソースを削除します。以下の手順を実行してください。
 :::::tabs{variant="container"}
 ::::tab{id="cloud9" label="Cloud9"}
-1. Delete the stack `cfn-workshop-language-extensions` by running the following AWS CLI command.
+1. 次の AWS CLI コマンドを実行して、スタック `cfn-workshop-language-extensions` を削除します。
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 aws cloudformation delete-stack \
 --stack-name cfn-workshop-language-extensions
 :::
-1. Wait until the `DELETE` operation is complete, by using the [wait stack-delete-complete](https://docs.aws.amazon.com/cli/latest/reference/cloudformation/wait/stack-delete-complete.html) AWS CLI command.
+1. [wait stack-delete-complete](https://docs.aws.amazon.com/cli/latest/reference/cloudformation/wait/stack-delete-complete.html) AWS CLI コマンドを使用して、`DELETE` 操作が完了するまで待ちます。
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 aws cloudformation wait stack-delete-complete \
 --stack-name cfn-workshop-language-extensions
 :::
-1. Repeat steps (1-2) above to delete the stack `cfn-workshop-language-extensions-solution`.
+1. 上記のステップ (1-2) を繰り返して、スタック `cfn-workshop-language-extensions-solution` を削除します。
 ::::
-::::tab{id="LocalDevelopment" label="Local development"}
-1. Navigate to the [AWS CloudFormation Console](https://console.aws.amazon.com/cloudformation/).
-1. On the **Stacks** page in the CloudFormation console, select the stack you created in **Part 1:** `cfn-workshop-language-extensions`.
-1. In the stack details pane, choose **Delete**. Select **Delete** when prompted.
-1. On the **Stacks** page in the CloudFormation console, select the stack you created in **Challenge** section: `cfn-workshop-language-extensions-solution`.
-1. In the stack details pane, choose **Delete**. Select **Delete** when prompted.
+::::tab{id="LocalDevelopment" label="ローカル開発"}
+1. [AWS CloudFormaiton コンソール](https://console.aws.amazon.com/cloudformation/)に移動します。
+1. CloudForamtion コンソールの **スタック** ページで、パート 1 で作成した `cfn-workshop-language-extensions` スタックを選択します。
+1. スタックの詳細ペインで、**削除**　を選択します。プロンプトが表示されたら、**削除** を選択します。
+1. CloudFormation コンソールの　**スタック**　ページで、チャレンジセクションで作成した `cfn-workshop-language-extensions-solution` スタックを選択します。
+1. スタックの詳細ペインで、**削除**　を選択します。プロンプトが表示されたら、**削除**　を選択します。
 ::::
 :::::
 
 ---
 
-### Conclusion
+### まとめ
 
-Great work! You learned how to incorporate `AWS::LanguageExtensions` in your CloudFormation templates. Please feel free to provide feedback for RFCs in the [Language Discussion GitHub repository](https://github.com/aws-cloudformation/cfn-language-discussion). We welcome your contributions!
+`AWS::LanguageExtensions` を CloudFormation テンプレートに組み込む方法を学びました。 RFC に関するフィードバックは [Language Discussion GitHub repository](https://github.com/aws-cloudformation/cfn-language-discussion) にお気軽にお寄せください。皆さんのコントリビューションをお待ちしています！

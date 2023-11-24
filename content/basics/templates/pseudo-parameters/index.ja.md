@@ -3,8 +3,12 @@ title: "擬似パラメータ"
 weight: 500
 ---
 
+_ラボ実施時間 : 15分程度_
+
+---
+
 ### 概要
-このラボでは、[擬似パラメータ](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/pseudo-parameter-reference.html)を使って再利用可能なテンプレートの作り方について学びます。
+このラボでは、**[擬似パラメータ](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/pseudo-parameter-reference.html)** を使って再利用可能なテンプレートの作り方について学びます。
 
 ### カバーされるトピック
 このラボの完了までに次のことができるようになります。
@@ -113,7 +117,7 @@ DemoRole:
 
 `DemoRole` の `Policies` セクションを特定し、`Resouce: *` を含むすべての行を次で置き換えてください。
 ```yaml
-              Resource: !Sub 'arn:${AWS::Partition}:ssm:${AWS::Region}:${AWS::AccountId}:parameter/${BasicParameter}'
+Resource: !Sub 'arn:${AWS::Partition}:ssm:${AWS::Region}:${AWS::AccountId}:parameter/${BasicParameter}'
 ```
 
 最後に、`pseudo-parameters.yaml` テンプレートファイルの `Resources` セクションに以下のサンプルスニペットを追加します。このスニペットは、上記で定義した IAM ロールを使って、定義したばかりの SSM パラメータの読み取り権限を持つ Lambda 関数を定義しています。この Lambda 関数は `dbUsername` という SSM パラメータにアクセスできるかをテストするために、Lambda 関数を実行します。
@@ -127,25 +131,45 @@ DemoLambdaFunction:
     Code:
       ZipFile: |
         import boto3
-
         client = boto3.client('ssm')
-
 
         def lambda_handler(event, context):
             response = client.get_parameter(Name='dbUsername')
             print(f'SSM dbUsername parameter value: {response["Parameter"]["Value"]}')
 ```
 上記の内容を使って、テンプレートを更新してください。次に [AWS CloudFormation コンソール](https://console.aws.amazon.com/cloudformation) を開き、このテンプレートを使ってスタックを作成してください。
-* 画面右上の **スタックの作成** をクリックし、_新しいリソースを使用 (標準)_ をクリックしてください。
-* **テンプレートの準備** では、**テンプレートの準備完了** を選びます。
-* **テンプレートの指定** では、**テンプレートファイルのアップロード** を選びます。
-* **ファイルの選択** ボタンをクリックし、作業用ディレクトリに移動します。
-* `pseudo-parameters.yaml` を指定し、**次へ** をクリックします。
-* **スタックの名前** (例: **cfn-workshop-pseudo-parameters**) を入力し、**次へ** をクリックします。
-* **スタックオプションの設定** はデフォルトの設定のままとし、**次へ** をクリックします。
-* **レビュー** のページで、ページの下部までスクロールし、*機能* セクションに **AWS CloudFormation によって IAM リソースが作成される場合があることを承認します。** の文言のチェックボックスにチェックを入れます。
-* **送信** をクリックします。 作成されたスタックの進捗は CloudFormation コンソールで確認できます。
-* スタックの作成が完了するまで待ってください。ステータスが `CREATE_COMPLETE` になるまでコンソールの表示を更新してください。
+
+:::::tabs{variant="container"}
+::::tab{id="cloud9" label="Cloud9"}
+1. **Cloud9 のターミナル** で `code/workspace/pseudo-parameters` に移動します。
+:::code{language=shell showLineNumbers=false showCopyAction=true}
+cd cfn101-workshop/code/workspace/pseudo-parameters
+:::
+1. AWS CLI でスタックを作成します。必要な `--stack-name`、`--template-body`、`--capabilities` パラメータがあらかじめ設定されています。
+:::code{language=shell showLineNumbers=false showCopyAction=true}
+aws cloudformation create-stack --stack-name cfn-workshop-pseudo-parameters --template-body file://pseudo-parameters.yaml --capabilities CAPABILITY_NAMED_IAM
+:::
+1. `create-stack` コマンドが正常に送信されたら、CloudFormation が `StackId` を返します。
+:::code{language=shell showLineNumbers=false showCopyAction=false}
+"StackId": "arn:aws:cloudformation:us-east-1:123456789012:stack/cfn-workshop-pseudo-parameters/739fafa0-e4d7-11ed-a000-12d9009553ff"
+:::
+1. **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** のコンソールを新しいタブで開き、スタックが **CREATE_COMPLETE** ステータスになるまで待ちます。必要に応じて、リフレッシュボタンをクリックします。
+::::
+::::tab{id="local" label="ローカル開発"}
+1. **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** のリンクを新しいタブで開き、必要に応じて AWS アカウントにログインします。
+1. 画面右上の **スタックの作成** をクリックし、**新しいリソースを使用 (標準)** をクリックしてください。
+1. **テンプレートの準備** では、**テンプレートの準備完了** を選びます。
+1. **テンプレートの指定** では、**テンプレートファイルのアップロード** を選びます。
+1. **ファイルの選択** ボタンをクリックし、作業用ディレクトリに移動します。
+1. `pseudo-parameters.yaml` を指定し、**次へ** をクリックします。
+1. **スタックの名前** (例: `cfn-workshop-pseudo-parameters`) を入力し、**次へ** をクリックします。
+1. **スタックオプションの設定** はデフォルトの設定のままとし、**次へ** をクリックします。
+1. **レビュー <スタック名>** ページで、一番下までスクロールし、**AWS CloudFormation によって IAM リソースが作成される場合があることを承認します。** チェックボックスをチェックし、**送信** をクリックします。
+1. スタックが **CREATE_COMPLETE** ステータスになるまで待ちます。必要に応じて、リフレッシュボタンをクリックします。
+::::
+::::::
+
+CloudFormation コンソールのスタック画面で、リソースタブで作成されたリソースを確認できます。
 
 ![resources-png](/static/basics/templates/pseudo-parameters/resources.ja.png)
 
@@ -183,17 +207,16 @@ Lambda 関数の実行後、**実行結果**の下の _詳細_ を開くと、**
 - バケット名を組み立てるときは、このラボで `!Sub` 組み込み関数で擬似パラメータを参照したように、テンプレートパラメータを参照します。例えば、テンプレートパラメータが `S3BucketNamePrefix` の場合、`!Sub '${S3BucketNamePrefix}'` となるように `!Sub` 組み込み関数で参照します。
 :::
 
-:::expand{header="解決策を確認しますか？"}
+::::::expand{header="解決策を確認しますか？"}
 まず、_Parameters_ セクションに S3 バケットプレフィックスとして使うテンプレートパラメータ `S3BucketNamePrefix` を追加します。
 
 ```yaml
 S3BucketNamePrefix:
   Description: The prefix to use for your S3 bucket
   Type: String
-  Default: my-demo-bucket
-  AllowedPattern: ^[0-9a-zA-Z]+([0-9a-zA-Z-]*[0-9a-zA-Z])*$
+  Default: cfn-workshop
+  AllowedPattern: ^(?!(^xn--|.$))^[a-z0-9][a-z0-9-]{1,61}[a-z0-9]$
   ConstraintDescription: Bucket name prefix can include numbers, lowercase letters, uppercase letters, and hyphens (-). It cannot start or end with a hyphen (-).
-  MinLength: 3
 ```
 
 そして、`DemoBucket` リソースをテンプレートの _Resources_ セクションに追加します。
@@ -205,16 +228,50 @@ DemoBucket:
     BucketName: !Sub '${S3BucketNamePrefix}-${AWS::Region}-${AWS::AccountId}'
 ```
 完成した解答コードは、`code/solutions/pseudo-parameters/pseudo-parameters.yaml` を見てください。
-:::
 
-動作が期待通りになることを確認するために、解答をテストしてください。まず、先程作成した[スタックの更新](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/using-cfn-updating-stacks-direct.html)をします。スタック更新の際に内容を変更したテンプレートを選択します。スタックの更新が成功するまでしばらく待ち、S3 バケットが `YOUR_BUCKET_NAME_PREFIX-AWS_REGION-YOUR_ACCOUNT_ID` の形式を使っていることを確認してください。
+:::::tabs{variant="container"}
+::::tab{id="cloud9" label="Cloud9"}
+1. **Cloud9 のターミナル** で `code/workspace/pseudo-parameters` に移動します。
+:::code{language=shell showLineNumbers=false showCopyAction=true}
+cd cfn101-workshop/code/workspace/pseudo-parameters
+:::
+1. AWS CLI でスタックを更新します。必要な `--stack-name`、`--template-body`、`--capabilities` パラメータがあらかじめ設定されています。
+:::code{language=shell showLineNumbers=false showCopyAction=true}
+aws cloudformation update-stack --stack-name cfn-workshop-pseudo-parameters --template-body file://pseudo-parameters.yaml --capabilities CAPABILITY_NAMED_IAM
+:::
+1. `update-stack` コマンドが正常に送信されたら、CloudFormation が `StackId` を返します。
+:::code{language=shell showLineNumbers=false showCopyAction=false}
+"StackId": "arn:aws:cloudformation:us-east-1:123456789012:stack/cfn-workshop-pseudo-parameters/739fafa0-e4d7-11ed-a000-12d9009553ff"
+:::
+1. **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** のコンソールを新しいタブで開き、スタックが **CREATE_COMPLETE** ステータスになるまで待ちます。必要に応じて、リフレッシュボタンをクリックします。
+1. **[Amazon S3](https://console.aws.amazon.com/s3)** のコンソールを開いて、バケット名が `YOUR_BUCKET_NAME_PREFIX-AWS_REGION-YOUR_ACCOUNT_ID` の形になっていることを確認します。
+::::
+::::tab{id="local" label="ローカル開発"}
+1. **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** のリンクを新しいタブで開き、必要に応じて AWS アカウントにログインします。
+1. スタック名 (例: `cfn-workshop-pseudo-parameters`) をクリックします。
+1. 画面右上の **更新** ボタンをクリックします。
+1. **テンプレートの準備** で、**既存テンプレートを置き換える** を選択します。
+1. **テンプレートの指定** で、 **テンプレートファイルのアップロード** を選びます。
+1. **ファイルの選択** をクリックし、作業用ディレクトリに移動します。
+1. `pseudo-parameters.yaml` を指定し、**次へ** をクリックします。
+1. **スタックオプションの設定** はデフォルトの設定のままとし、**次へ** をクリックします。
+1. **レビュー <スタック名>** ページで、一番下までスクロールし、**AWS CloudFormation によって IAM リソースが作成される場合があることを承認します。** チェックボックスをチェックし、**送信** をクリックします。
+1. スタックが **UPDATE_COMPLETE** ステータスになるまで待ちます。必要に応じて、リフレッシュボタンをクリックします。
+1. **[Amazon S3](https://console.aws.amazon.com/s3)** のコンソールを開いて、バケット名が `YOUR_BUCKET_NAME_PREFIX-AWS_REGION-YOUR_ACCOUNT_ID` の形になっていることを確認します。
+::::
+:::::
+::::::
 
 ### クリーンアップ
+
 次のステップに従って、作成したリソースを削除してください。
 
-  * **[CloudFormation コンソール](https://console.aws.amazon.com/cloudformation)** で、このラボで作成したスタック (例: `cfn-workshop-pseudo-parameters`) を選択してください。
-  * ラボで作ったスタックを削除するため **削除** をクリックし、ポップアップで **削除** をクリックしてください。
+1. **[CloudFormation コンソール](https://console.aws.amazon.com/cloudformation)** に移動します。
+1. CloudFormation の **スタック** ページで `cfn-workshop-pseudo-parameters` を選択します。
+1. スタックの詳細で **削除** を選択し、ポップアップ上で **削除** で確定します。
+1. スタックが **DELETE_COMPLETE** ステータスになるまで待ちます。必要に応じて、リフレッシュボタンをクリックします。
 
 ---
+
 ### まとめ
 すばらしいです！これでより再利用可能な CloudFormation テンプレートを作るために擬似パラメータの使い方について学びました。より詳しい情報については、[擬似パラメータ](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/pseudo-parameter-reference.html)を参照してください。

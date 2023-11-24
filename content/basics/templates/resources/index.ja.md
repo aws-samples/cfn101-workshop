@@ -3,6 +3,10 @@ title: "リソース"
 weight: 300
 ---
 
+_ラボ実施時間 : 10分程度_
+
+---
+
 ### 概要
 
 このラボでは、CloudFormation の最上位の要素 (形式バージョン、説明、メタデータ、パラメータ、リソース) について学んでいきます。
@@ -33,7 +37,7 @@ AWSTemplateFormatVersion: "2010-09-09"
 _Description_ セクションには、テンプレートに関するコメントを含めることができます。
 
 :::code{language=yaml showLineNumbers=false showCopyAction=true}
-Description: AWS CloudFormation workshop - Resources (uksb-1q9p31idr).
+Description: AWS CloudFormation workshop - Resources (uksb-1q9p31idr) (tag:resources).
 :::
 
 #### メタデータ
@@ -93,39 +97,57 @@ EC2 リソースタイプの唯一の必須プロパティは _ImageId_ です�
 
   1. **[AWS EC2 console](https://console.aws.amazon.com/ec2)** を開きます。
   2. **インスタンス** -> **インスタンスを起動** をクリックします。
-  3. **Amazon Linux 2 AMI** `ami-xxxxxxxxx` の ID をコピーします。
-  ::alert[x86 と Arm アーキテクチャを選択できるリージョンの場合、必ず **(x86)** AMI ID を使うようにしてください。]{type="info"}
+  3. **Amazon Linux 2023 AMI** `ami-xxxxxxxxx` の ID をコピーします。
+  ::alert[x86 と Arm アーキテクチャを選択できるリージョンの場合、必ず **64-bit (x86)** AMI ID を使うようにしてください。]{type="info"}
   4. AMI ID が見つかったら、コピーして **ImageId** プロパティに貼り付けます。
 
-::alert[**London Region** の場合の解答について `code/solutions/resources.yaml` ファイルで見ることができます。]{type="info"}
+::alert[**米国東部 (バージニア北部) リージョン** の場合の解答を `code/solutions/resources.yaml` ファイルで見ることができます。]{type="info"}
 
-これで EC2 テンプレートをデプロイする準備が整いました。AWS コンソールに戻り、[Template and Stack](../templates/template-and-stack) で実施した時と同様の方法でデプロイを行います。
+これで EC2 テンプレートをデプロイする準備が整いました。[テンプレートとスタック](../template-and-stack) で実施した時と同様の方法でデプロイを行います。
 
 :::alert{type="warning"}
 これ以降のラボを実施するためには、CloudFormation をデプロイするリージョンに **デフォルト VPC** が必要です。もしデフォルト VPC を削除していた場合、**[デフォルトの VPC を作成する](https://docs.aws.amazon.com/ja_jp/vpc/latest/userguide/default-vpc.html#create-default-vpc)** の AWS ドキュメントに沿って新しいデフォルト VPC を作成できます。
 :::
 
-1. **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** リンクを新しいタブで開き、必要に応じて AWS アカウントにログインします。
-1. 画面の右上の **スタックの作成** プルダウンを開き、_新しいリソースを使用 (標準)_ をクリックします。
+:::::tabs{variant="container"}
+::::tab{id="cloud9" label="Cloud9"}
+1. **Cloud9 のターミナル** で `code/workspace` に移動します。
+:::code{language=shell showLineNumbers=false showCopyAction=true}
+cd cfn101-workshop/code/workspace
+:::
+1. AWS CLI でスタックを作成します。必要な `--stack-name`、`--template-body` パラメータがあらかじめ設定されています。
+:::code{language=shell showLineNumbers=false showCopyAction=true}
+aws cloudformation create-stack --stack-name cfn-workshop-resources --template-body file://resources.yaml
+:::
+1. `create-stack` コマンドが正常に送信されたら、CloudFormation が `StackId` を返します。
+:::code{language=shell showLineNumbers=false showCopyAction=false}
+"StackId": "arn:aws:cloudformation:us-east-1:123456789012:stack/cfn-workshop-resources/62df5090-e747-11ed-a22a-0e39ed6c0e49"
+:::
+1. **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** のコンソールを新しいタブで開き、スタックが **CREATE_COMPLETE** ステータスになるまで待ちます。必要に応じて、リフレッシュボタンをクリックします。
+::::
+
+::::tab{id="local" label="ローカル開発"}
+1. **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** のリンクを新しいタブで開き、必要に応じて AWS アカウントにログインします。
+1. 画面右上の **スタックの作成** をクリックし、**新しいリソースを使用 (標準)** をクリックしてください。
 1. **テンプレートの準備** では、**テンプレートの準備完了** を選びます。
 1. **テンプレートの指定** では、**テンプレートファイルのアップロード** を選びます。
-1. **ファイルの選択** ボタンをクリックし、作業用ディレクトリに移動します。
-1. ステップ1で作成した `resources.yaml` を指定します。
-1. **次へ** をクリックします。
-1. **スタックの名前** (例: **cfn-workshop-ec2**) を入力します。
+1. **ファイルの選択** をクリックして、作業ディレクトリに移動します。
+1. `resources.yaml` ファイルを指定し、**次へ** をクリックします。
+1. **スタックの名前** (例: `cfn-workshop-resources`) を入力します。
     + _スタックの名前_ はスタックを識別します。スタックの目的がわかるような名前を使ってください。
-    + **Type of EC2 Instance** には、お好みのインスタンスサイズ (例: **t2.micro**) を選択してください。
-    + **次へ** をクリックします。
+1. **Type of EC2 Instance** には、お好みのインスタンスサイズ (例: **t2.micro**) を選択し、**次へ** をクリックします。
 1. **スタックオプションの設定** はデフォルトの設定のままとし、**次へ** をクリックします。
-1. **レビュー <スタック名>** のページで、ページの下部までスクロールし、**スタックの作成** をクリックします。
+1. **レビュー <スタック名>** のページで、ページの下部までスクロールし、**送信** をクリックします。
     ::alert[これによりお使いのアカウントに EC2 インスタンスが作成されます。デプロイされたスタックのコストを確認するためには、レビューページの **予想コスト** をクリックして、ご確認ください。]{type="info"}
-1. ステータスが **CREATE_COMPLETE** になるまで、**リフレッシュ** ボタンを数回クリックします。
+1. スタックが **CREATE_COMPLETE** ステータスになるまで待ちます。必要に応じて、リフレッシュボタンをクリックします。
+::::
+:::::
 
 ### チャレンジ
 
 この練習問題では、AWS CLI を使って、AWS Systems Manager パラメータストアから最新の Amazon Linux AMI ID を取得します。
 
-::alert[このチャレンジを完了するには、設定が完了された [AWS CLI](../../../prerequisites/awscli) が必要です。]{type="info"}
+::alert[このチャレンジを完了するには、[AWS CLI](../../../prerequisites/local-development) が完了していることをご確認ください。Cloud9 環境には最初からインストールされています。]{type="info"}
 
 ::expand[[Amazon Web Services ブログ](https://aws.amazon.com/jp/blogs/news/query-for-the-latest-amazon-linux-ami-ids-using-aws-systems-manager-parameter-store/) を確認してみてください。]{header="ヒントが必要ですか？"}
 
@@ -136,13 +158,21 @@ EC2 リソースタイプの唯一の必須プロパティは _ImageId_ です�
 aws ssm get-parameters \
     --names /aws/service/ami-amazon-linux-latest/amzn2-ami-hvm-x86_64-gp2 \
     --query "Parameters[].Value" \
-    --region eu-west-2 \
+    --region us-east-1 \
     --output text
 :::
-
-![ami-id-gif](/static/basics/templates/resources/ami-id.gif)
 ::::
 
+### クリーンアップ
+
+以下の手順で作成したリソースの削除を行います。
+
+1. **[CloudFormation コンソール](https://console.aws.amazon.com/cloudformation)** に移動します。
+1. CloudFormation の **スタック** ページで `cfn-workshop-resources` を選択します。
+1. スタックの詳細で **削除** を選択し、ポップアップ上で **削除** で確定します。
+1. スタックが **DELETE_COMPLETE** ステータスになるまで待ちます。必要に応じて、リフレッシュボタンをクリックします。
+
 ---
+
 ### まとめ
 おめでとうございます！これで無事に CloudFormation を使って EC2 インスタンスをデプロイする方法について学習できました。

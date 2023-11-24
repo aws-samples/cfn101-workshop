@@ -3,6 +3,12 @@ title: "フォーマット変換とクリーンアップ"
 weight: 1000
 ---
 
+_ラボ実施時間 : 10分程度_
+
+_チャレンジ : 15分程度_
+
+---
+
 ### 概要
 AWS CloudFormation [テンプレート](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/template-formats.html) は JSON 形式または YAML 形式で記述できます。好みに応じてどちらかを選択できます。詳細については、[AWS CloudFormation テンプレート形式](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/template-formats.html) を参照してください。
 
