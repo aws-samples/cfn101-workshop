@@ -322,8 +322,7 @@ Next, navigate to the AWS CloudFormation [console](https://console.aws.amazon.co
 1. `EnvType` should already be set to `prod`. Choose **Next**.
 1. Choose to accept default values in the **Configure stack options** page. Choose **Next**.
 1. Choose **Submit**. You can view the progress of the stack being created in the CloudFormation console.
-1. Wait until the stack creation is complete. Refresh the view in the console until you see your stack to be in the
-  `UPDATE_COMPLETE` status.
+1. Wait until the stack creation is complete. Refresh the view in the console until you see your stack to be in the `UPDATE_COMPLETE` status.
 ::::
 :::::
 

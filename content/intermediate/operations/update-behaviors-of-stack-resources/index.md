@@ -151,7 +151,7 @@ Save your changes to the file. Next, update your stack:
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 cd code/workspace/update-behaviors-of-stack-resources
 :::
-1. Use the AWS CLI to create the stack. The required parameters `--stack-name` and `--template-body` have been pre-filled for you.
+1. Use the AWS CLI to update the stack. The required parameters `--stack-name` and `--template-body` have been pre-filled for you.
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 aws cloudformation update-stack --stack-name update-behaviors-of-stack-resources --template-body file://update-behaviors-of-stack-resources.yaml
 :::
@@ -159,7 +159,7 @@ aws cloudformation update-stack --stack-name update-behaviors-of-stack-resources
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 "StackId": "arn:aws:cloudformation:us-east-1:123456789012:stack/drift-detection-workshop/739fafa0-e4d7-11ed-a000-12d9009553ff"
 :::
-1. Open the **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** console in a new tab and check if the stack status is **CREATE_COMPLETE**.
+1. Open the **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** console in a new tab and check if the stack status is **UPDATE_COMPLETE**.
 ::::
 ::::tab{id="local" label="Local development"}
 1. Navigate to the [AWS CloudFormation Console](https://console.aws.amazon.com/cloudformation/).
@@ -208,7 +208,7 @@ Update your stack:
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 cd code/workspace/update-behaviors-of-stack-resources
 :::
-1. Use the AWS CLI to create the stack. The required parameters `--stack-name` and `--template-body` have been pre-filled for you.
+1. Use the AWS CLI to update the stack. The required parameters `--stack-name` and `--template-body` have been pre-filled for you.
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 aws cloudformation update-stack --stack-name update-behaviors-of-stack-resources --template-body file://update-behaviors-of-stack-resources.yaml
 :::
@@ -216,7 +216,7 @@ aws cloudformation update-stack --stack-name update-behaviors-of-stack-resources
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 "StackId": "arn:aws:cloudformation:us-east-1:123456789012:stack/drift-detection-workshop/739fafa0-e4d7-11ed-a000-12d9009553ff"
 :::
-1. Open the **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** console in a new tab and check if the stack status is **CREATE_COMPLETE**.
+1. Open the **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** console in a new tab and check if the stack status is **UPDATE_COMPLETE**.
 ::::
 ::::tab{id="local" label="Local development"}
 1. Navigate to the [AWS CloudFormation Console](https://console.aws.amazon.com/cloudformation/).

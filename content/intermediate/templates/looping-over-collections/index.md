@@ -368,7 +368,7 @@ Steps:
 1. Make sure you are in the **US East (N. Virginia)** region.
 1. From the left navigation panel, select the **Stacks** tab.
 1. From the right side of the page, choose **Create Stack**, and then choose **With new resources (standard).**
-1. From **Prerequisite**-**Prepare template**, choose **Template is ready**.
+1. From **Prerequisite - Prepare template**, choose **Template is ready**.
 1. Under **Specify template**, select **Template source**, and choose **Upload a template file**.
 1. Select **Choose file**, and provide the `vpc.yaml` template you updated earlier. Choose **Next**.
 1. In the **Specify Stack details** page, specify a **Stack** name: `looping-over-collections-vpc`. Choose **Next**.
@@ -454,13 +454,13 @@ Steps:
 1. From the left navigation panel, select the **Stacks** tab.
 1. Choose the existing `looping-over-collections-vpc` stack from the list of stacks.
 1. From the right side of the page, choose **Update Stack**.
-1. From **Prerequisite**-**Prepare template**, choose **Replace current template**.
+1. From **Prerequisite - Prepare template**, choose **Replace current template**.
 1. Under **Specify template**, select **Template source**, and choose **Upload a template file**.
 1. Select **Choose file**, and provide the `vpc.yaml` template you updated earlier. Choose **Next**.
 1. In the **Specify Stack details** page, choose **Next**.
 1. On **Configure Stack options**, leave the configuration as it is. Choose **Next**.
 1. On the **Review** page, review the contents of the page. At the bottom of the page, choose to acknowledge all the capabilities shown in the **Capabilities and transforms** section. Choose **Submit**.
-1. Refresh the stack creation page until you see the stack to be in the `CREATE_COMPLETE` status.
+1. Refresh the stack creation page until you see the stack to be in the `UPDATE_COMPLETE` status.
 ::::
 :::::
 
