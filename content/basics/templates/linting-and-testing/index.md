@@ -37,13 +37,13 @@ cfn-lint --version
 
 #### Prerequisites for testing
 
-[Install](https://aws-ia.github.io/taskcat/docs/INSTALLATION.html) `taskcat` with `pip`:
+[Install](https://aws-ia.github.io/taskcat/docs/INSTALLATION/) `taskcat` with `pip`:
 
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 pip install taskcat
 :::
 
-::alert[As per this [note](https://aws-ia.github.io/taskcat/docs/INSTALLATION.html#windows), `taskcat` is not supported on Windows. If you are using Windows 10, follow instructions on this [page](https://aws-ia.github.io/taskcat/docs/INSTALLATION.html#windows) to install `taskcat` inside a [Windows Subsystem for Linux](https://docs.microsoft.com/en-us/windows/wsl/about) (WSL) environment.]{type="info"}
+::alert[As per this [note](https://aws-ia.github.io/taskcat/docs/INSTALLATION/#windows), `taskcat` is not supported on Windows. If you are using Windows 10, follow instructions on this [page](https://aws-ia.github.io/taskcat/docs/INSTALLATION/#windows) to install `taskcat` inside a [Windows Subsystem for Linux](https://learn.microsoft.com/en-us/windows/wsl/about) (WSL) environment.]{type="info"}
 
 After you have completed the installation, verify you can run `taskcat`:
 :::code{language=shell showLineNumbers=false showCopyAction=true}
@@ -120,12 +120,12 @@ cfn-lint vpc-and-security-group.yaml
 > Congratulations! You have run the `cfn-lint` tool against your template, and you found and fixed an error detected by the tool!
 
 #### Template testing
-You will now use `taskcat` to test your template by creating stacks off of it, in AWS regions you choose. You can describe test configuration values you wish to use with `taskcat` by using [config files](https://aws-ia.github.io/taskcat/docs/usage/GENERAL_USAGE.html#config-files), whose configuration properties you have the choice to specify:
+You will now use `taskcat` to test your template by creating stacks off of it, in AWS regions you choose. You can describe test configuration values you wish to use with `taskcat` by using [config files](https://aws-ia.github.io/taskcat/docs/usage/GENERAL_USAGE/#config-files), whose configuration properties you have the choice to specify:
 
-* **[general](https://aws-ia.github.io/taskcat/docs/schema/taskcat_schema.html#general) scope:** a global scope for all of your projects. For this use case, you create a `~/.taskcat.yml` file in your home directory;
-* **[project](https://aws-ia.github.io/taskcat/docs/schema/taskcat_schema.html#project)-specific scope:** you create a `.taskcat.yml` configuration file in your project's root directory. You can also use [tests](https://aws-ia.github.io/taskcat/docs/schema/taskcat_schema.html#tests) configuration directives at the project-level scope.
+* **[general](https://aws-ia.github.io/taskcat/docs/schema/taskcat_schema/#general) scope:** a global scope for all of your projects. For this use case, you create a `~/.taskcat.yml` file in your home directory;
+* **[project](https://aws-ia.github.io/taskcat/docs/schema/taskcat_schema/#project)-specific scope:** you create a `.taskcat.yml` configuration file in your project's root directory. You can also use [tests](https://aws-ia.github.io/taskcat/docs/schema/taskcat_schema/#tests) configuration directives at the project-level scope.
 
-Start with configuring _project_ and _tests_ scopes in the `.taskcat.yml` file located in the `code/workspace/linting-and-testing` directory. Open this file with your favorite test editor, and specify name(s) of AWS [regions](https://aws-ia.github.io/taskcat/docs/schema/taskcat_schema.html#project_regions) where you want to test your `vpc-and-security-group.yaml` template, as shown in the file excerpt below:
+Start with configuring _project_ and _tests_ scopes in the `.taskcat.yml` file located in the `code/workspace/linting-and-testing` directory. Open this file with your favorite test editor, and specify name(s) of AWS [regions](https://aws-ia.github.io/taskcat/docs/schema/taskcat_schema/#project_regions) where you want to test your `vpc-and-security-group.yaml` template, as shown in the file excerpt below:
 
 :::code{language=shell showLineNumbers=false showCopyAction=false}
 [...]
@@ -137,13 +137,13 @@ Start with configuring _project_ and _tests_ scopes in the `.taskcat.yml` file l
 
 When done, save the file with your changes.
 
-::alert[As part of [requirements](https://aws-ia.github.io/taskcat/docs/INSTALLATION.html#requirements) for `taskcat`, you will need Docker if you are building AWS Lambda functions with a `Dockerfile`. You will not need this functionality for this lab, and this functionality has been disabled with the `package_lambda` configuration [setting](https://aws-ia.github.io/taskcat/docs/schema/taskcat_schema.html#project_package_lambda) set to `false` in the `.taskcat.yml` file.]{type="info"}
+::alert[As part of [requirements](https://aws-ia.github.io/taskcat/docs/INSTALLATION/#requirements) for `taskcat`, you will need Docker if you are building AWS Lambda functions with a `Dockerfile`. You will not need this functionality for this lab, and this functionality has been disabled with the `package_lambda` configuration [setting](https://aws-ia.github.io/taskcat/docs/schema/taskcat_schema/#project_package_lambda) set to `false` in the `.taskcat.yml` file.]{type="info"}
 
 Next, you will create a `~/.taskcat.yml` configuration file __in your home directory, that is outside your projects' version control path__. In this file you will store, for all of your projects, configuration settings that you do not want to add to version control. This also includes any sensitive values you might have: __do not store sensitive values in version control__.
 
 ::alert[For information on how to reference sensitive values from your CloudFormation templates, see [SSM secure string parameters](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/dynamic-references.html#dynamic-references-ssm-secure-strings) and [Secrets Manager secrets](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/dynamic-references.html#dynamic-references-secretsmanager).]{type="info"}
 
-::alert[Values you pass to a given configuration setting you describe at a more specific scope (for example, in `tests`) will take [precedence](https://aws-ia.github.io/taskcat/docs/usage/GENERAL_USAGE.html#precedence) over less specific scopes (such as `project` and `general`), __with the exception to the `parameters` setting that works the opposite way__ (that is, a `parameters` setting you describe in the `general` scope will have precedence over more specific scopes). You will see how `parameters` is described in a `general` section next.]{type="info"}
+::alert[Values you pass to a given configuration setting you describe at a more specific scope (for example, in `tests`) will take [precedence](https://aws-ia.github.io/taskcat/docs/usage/GENERAL_USAGE/#precedence) over less specific scopes (such as `project` and `general`), __with the exception to the `parameters` setting that works the opposite way__ (that is, a `parameters` setting you describe in the `general` scope will have precedence over more specific scopes). You will see how `parameters` is described in a `general` section next.]{type="info"}
 
 **Create a new** `~/.taskcat.yml` file in your home directory. In this file, you will specify the name of your S3 bucket into which `taskcat` will upload your template to be tested, and an example value of `172.16.0.0/16` for the `VpcIpv4Cidr` example template parameter.
 :::code{language=shell showLineNumbers=false showCopyAction=true}
@@ -204,7 +204,7 @@ rm ~/.taskcat.yml
 
 ### Challenge
 
-Find and fix errors in an example template that describes an `AWS::SQS::Queue` [resource type](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-sqs-queues.html):
+Find and fix errors in an example template that describes an `AWS::SQS::Queue` [resource type](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-sqs-queue.html):
 
 * locate the template file available at this path: `code/workspace/linting-and-testing/sqs-queue.yaml`;
 * use `cfn-lint` to find errors in the template;
@@ -212,9 +212,9 @@ Find and fix errors in an example template that describes an `AWS::SQS::Queue` [
 
 :::expand{header="Need a hint?"}
 * From the `code/workspace/linting-and-testing` directory, run `cfn-lint sqs-queue.yaml` to find errors in the example template;
-* refer to the `cfn-lint` command output, and to the SQS resource’s documentation [page](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-sqs-queues.html#aws-sqs-queue-delayseconds) for values you can specify for the `DelaySeconds` property;
-* see names for available SQS queue [properties](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-sqs-queues.html#aws-properties-sqs-queues-properties);
-* see names of available _attributes_ for SQS queue [return values](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-sqs-queues.html#aws-properties-sqs-queues-return-values).
+* refer to the `cfn-lint` command output, and to the SQS resource’s documentation [page](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-sqs-queue.html#cfn-sqs-queue-delayseconds) for values you can specify for the `DelaySeconds` property;
+* see names for available SQS queue [properties](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-sqs-queue.html#aws-resource-sqs-queue-properties);
+* see names of available _attributes_ for SQS queue [return values](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-sqs-queue.html#aws-resource-sqs-queue-return-values).
 :::
 
 :::expand{header="Want to see the solution?"}
