@@ -122,8 +122,8 @@ cfn-lint vpc-and-security-group.yaml
 #### Template testing
 You will now use `taskcat` to test your template by creating stacks off of it, in AWS regions you choose. You can describe test configuration values you wish to use with `taskcat` by using [config files](https://aws-ia.github.io/taskcat/docs/usage/GENERAL_USAGE.html#config-files), whose configuration properties you have the choice to specify:
 
-* **[general](https://aws-ia.github.io/taskcat/docs/schema/taskcat_schema.html#general) scope:** a global scope for all of your projects. For this use case, you create a `~/.taskcat.yml` file in your home directory;
-* **[project](https://aws-ia.github.io/taskcat/docs/schema/taskcat_schema.html#project)-specific scope:** you create a `.taskcat.yml` configuration file in your project's root directory. You can also use [tests](https://aws-ia.github.io/taskcat/docs/schema/taskcat_schema.html#tests) configuration directives at the project-level scope.
+* **[general](https://aws-ia.github.io/taskcat/docs/schema/taskcat_schema/) scope:** a global scope for all of your projects. For this use case, you create a `~/.taskcat.yml` file in your home directory;
+* **[project](https://aws-ia.github.io/taskcat/docs/schema/taskcat_schema/)-specific scope:** you create a `.taskcat.yml` configuration file in your project's root directory. You can also use [tests](https://aws-ia.github.io/taskcat/docs/schema/taskcat_schema/) configuration directives at the project-level scope.
 
 Start with configuring _project_ and _tests_ scopes in the `.taskcat.yml` file located in the `code/workspace/linting-and-testing` directory. Open this file with your favorite test editor, and specify name(s) of AWS [regions](https://aws-ia.github.io/taskcat/docs/schema/taskcat_schema.html#project_regions) where you want to test your `vpc-and-security-group.yaml` template, as shown in the file excerpt below:
 
