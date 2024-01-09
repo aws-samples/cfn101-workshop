@@ -38,13 +38,13 @@ cfn-lint --version
 
 #### テストの前提条件
 
-`pip` で `taskcat` を [インストール](https://aws-ia.github.io/taskcat/docs/INSTALLATION.html)します。
+`pip` で `taskcat` を [インストール](https://aws-ia.github.io/taskcat/docs/INSTALLATION/)します。
 
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 pip install taskcat
 :::
 
-::alert[この [note](https://aws-ia.github.io/taskcat/docs/INSTALLATION.html#windows) によると、`taskcat` は Windows ではサポートされていません。Windows 10 を使用している場合は、この [ページ](https://aws-ia.github.io/taskcat/docs/INSTALLATION.html#windows) の指示に従って、[Windows Subsystem for Linux](https://docs.microsoft.com/en-us/windows/wsl/about) (WSL) 環境内に `taskcat` をインストールしてください。]{type="info"}
+::alert[この [note](https://aws-ia.github.io/taskcat/docs/INSTALLATION/#windows) によると、`taskcat` は Windows ではサポートされていません。Windows 10 を使用している場合は、この [ページ](https://aws-ia.github.io/taskcat/docs/INSTALLATION/#windows) の指示に従って、[Windows Subsystem for Linux](https://learn.microsoft.com/ja-jp/windows/wsl/about) (WSL) 環境内に `taskcat` をインストールしてください。]{type="info"}
 
 インストールが完了したら、`taskcat` を実行できることを確認します。
 :::code{language=shell showLineNumbers=false showCopyAction=true}
@@ -124,8 +124,8 @@ cfn-lint vpc-and-security-group.yaml
 
 `taskcat` を使用して、指定する AWS リージョンでテンプレートからスタックを作成し、テンプレートをテストします。`taskcat` で使いたいテスト設定値は [config files](https://aws-ia.github.io/taskcat/docs/usage/GENERAL_USAGE/#config-files) を使って記述できます。その設定プロパティは以下の通りに指定できます。
 
-* **[general](https://aws-ia.github.io/taskcat/docs/usage/GENERAL_USAGE/#global-config) スコープ:** すべてのプロジェクトを対象としたグローバルスコープ。このユースケースでは、ホームディレクトリに `~/.taskcat.yml` ファイルを作成します。
-* **[project](https://aws-ia.github.io/taskcat/docs/usage/GENERAL_USAGE/#project-config) スコープ:** プロジェクトのルートディレクトリに `.taskcat.yml` 設定ファイルを作成します。プロジェクトレベルのスコープで [tests](https://aws-ia.github.io/taskcat/docs/schema/taskcat_schema/#tests) 設定ディレクティブを使用することもできます。
+* **[general](https://aws-ia.github.io/taskcat/docs/schema/taskcat_schema/#general) スコープ:** すべてのプロジェクトを対象としたグローバルスコープ。このユースケースでは、ホームディレクトリに `~/.taskcat.yml` ファイルを作成します。
+* **[project](https://aws-ia.github.io/taskcat/docs/schema/taskcat_schema/#project) スコープ:** プロジェクトのルートディレクトリに `.taskcat.yml` 設定ファイルを作成します。プロジェクトレベルのスコープで [tests](https://aws-ia.github.io/taskcat/docs/schema/taskcat_schema/#tests) 設定ディレクティブを使用することもできます。
 
 まず、`code/workspace/linting-and-testing` ディレクトリにある `.taskcat.yml` ファイルで _project_ と _tests_ のスコープを設定します。このファイルをお好みのテキストエディターで開き、以下のファイルの抜粋のように、`vpc-and-security-group.yaml` テンプレートをテストしたい AWS [regions](https://aws-ia.github.io/taskcat/docs/schema/taskcat_schema/#project_regions) の名前を指定します。
 
@@ -206,7 +206,7 @@ rm ~/.taskcat.yml
 
 ### チャレンジ
 
-`AWS::SQS::Queue` [リソースタイプ](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/aws-resource-sqs-queue.html#aws-resource-sqs-queue-properties) を記述したサンプルテンプレートのエラーを発見し修正してください。
+`AWS::SQS::Queue` [リソースタイプ](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/aws-resource-sqs-queue.html) を記述したサンプルテンプレートのエラーを発見し修正してください。
 
 * 次のパスのテンプレートファイルを特定してください: `code/workspace/linting-and-testing/sqs-queue.yaml`
 * `cfn-lint` を使ってテンプレートのエラーを発見してください。
