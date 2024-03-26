@@ -6,7 +6,7 @@ weight: 300
 _Setup Duration: ~15 minutes_
 
 :::alert{type="info"}
-This is only required if you are not using Cloud9 IDE for the workshop.
+This is only required if you are not using Cloud9 IDE for the workshop. Else you can skip to the [Default VPC](https://catalog.workshops.aws/cfn101/en-US/prerequisites/default-vpc) section
 :::
 
 Local development for this workshop requires a number of development tools. Please install and verify these are installed correctly before proceeding with the workshop.
@@ -40,8 +40,7 @@ Default output format [None]: <leave blank>
 Clone the repository to your working directory:
 
 :::code{language=shell showLineNumbers=false showCopyAction=true}
-git clone https://github.com/aws-samples/cfn101-workshop
-:::
+git clone https://github.com/aws-samples/cfn101-workshop:::
 
 ### Install Code Editor
 
