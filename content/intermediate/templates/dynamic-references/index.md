@@ -83,8 +83,8 @@ With the dynamic reference above, you describe the intent of resolving the `LATE
    1. Use the AWS CLI to create the stack. The required parameters `--stack-name` and `--template-body` have been pre-filled for you.
    :::code{language=shell showLineNumbers=false showCopyAction=true}
    aws cloudformation create-stack \
---stack-name cfn-workshop-dynamic-references-ec2 \
---template-body file://ec2-instance.yaml
+    --stack-name cfn-workshop-dynamic-references-ec2 \
+    --template-body file://ec2-instance.yaml
    :::
    1. If the `create-stack` command was successfully sent, CloudFormation will return `StackId`.
    :::code{language=shell showLineNumbers=false showCopyAction=false}
@@ -137,11 +137,11 @@ Let’s get started! Choose to follow steps shown next:
        1. The resource of type `AWS::SecretsManager::Secret`, where you will store database connection parameters, as JSON key-value pairs, in a secret named `DatabaseConnParams`:
        :::code{language=json showLineNumbers=true showCopyAction=false lineNumberStart=47}
        {
-  "RDS_HOSTNAME": "${Database.Endpoint.Address}",
-  "RDS_PORT": "${Database.Endpoint.Port}",
-  "RDS_USERNAME": "${DBUsername}",
-  "RDS_PASSWORD": "${DBPassword}"
-}
+          "RDS_HOSTNAME": "${Database.Endpoint.Address}",
+          "RDS_PORT": "${Database.Endpoint.Port}",
+          "RDS_USERNAME": "${DBUsername}",
+          "RDS_PASSWORD": "${DBPassword}"
+       }
        :::
 2. To deploy the Database stack, follow the steps below:
    :::::tabs{variant="container"}
@@ -153,10 +153,10 @@ Let’s get started! Choose to follow steps shown next:
    1. Use the AWS CLI to create the stack. The required parameters `--stack-name` and `--template-body` have been pre-filled for you. Enter your values for the `DBUsername` and `DBPassword` parameters.
    :::code{language=shell showLineNumbers=false showCopyAction=true}
    aws cloudformation create-stack \
---stack-name cfn-workshop-dynamic-references-database \
---template-body file://database.yaml \
---parameters ParameterKey=DBUsername,ParameterValue='admin' \
-ParameterKey=DBPassword,ParameterValue='wjznf74irj831o9'
+    --stack-name cfn-workshop-dynamic-references-database \
+    --template-body file://database.yaml \
+    --parameters ParameterKey=DBUsername,ParameterValue='admin' \
+    ParameterKey=DBPassword,ParameterValue='wjznf74irj831o9'
    :::
    1. If the `create-stack` command was successfully sent, CloudFormation will return `StackId`.
    :::code{language=shell showLineNumbers=false showCopyAction=false}
@@ -187,9 +187,9 @@ ParameterKey=DBPassword,ParameterValue='wjznf74irj831o9'
     3. The template describes an `AWS::Lambda::Function` resource type; update the template by appending the `Properties` section with the `Environment` property, with variables using dynamic references to the AWS Secret Manager secret you created earlier:
     :::code{language=yaml showLineNumbers=false showCopyAction=true}
     Environment:
-  Variables:
-    RDS_HOSTNAME: '{{resolve:secretsmanager:DatabaseConnParams:SecretString:RDS_HOSTNAME}}'
-    RDS_PORT: '{{resolve:secretsmanager:DatabaseConnParams:SecretString:RDS_PORT}}'
+      Variables:
+        RDS_HOSTNAME: '{{resolve:secretsmanager:DatabaseConnParams:SecretString:RDS_HOSTNAME}}'
+        RDS_PORT: '{{resolve:secretsmanager:DatabaseConnParams:SecretString:RDS_PORT}}'
     :::
 4. To Deploy the Lambda stack, follow the steps below:
    :::::tabs{variant="container"}
@@ -201,9 +201,9 @@ ParameterKey=DBPassword,ParameterValue='wjznf74irj831o9'
    1. Use the AWS CLI to create the stack. The required parameters `--stack-name`, `--template-body` and `--capabilities` have been pre-filled for you.
    :::code{language=shell showLineNumbers=false showCopyAction=true}
    aws cloudformation create-stack \
---stack-name cfn-workshop-dynamic-references-lambda \
---template-body file://lambda-function.yaml \
---capabilities CAPABILITY_IAM
+    --stack-name cfn-workshop-dynamic-references-lambda \
+    --template-body file://lambda-function.yaml \
+    --capabilities CAPABILITY_IAM
    :::
    1. If the `create-stack` command was successfully sent, CloudFormation will return `StackId`.
    :::code{language=shell showLineNumbers=false showCopyAction=false}
