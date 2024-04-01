@@ -308,7 +308,7 @@ Outputs:
   :::code{language=shell showLineNumbers=false showCopyAction=true}
   aws cloudformation update-stack --stack-name cfn-workshop-condition-prod \
 --template-body file://condition-resource.yaml \
---parameters ParameterKey="EnvType",ParameterValue="prod"```
+--parameters ParameterKey="EnvType",ParameterValue="prod"
   :::
 1. `update-stack` コマンドが成功すると、CloudFormation は `StackId` を返却します。
   :::code{language=shell showLineNumbers=false showCopyAction=false}
