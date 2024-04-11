@@ -150,7 +150,7 @@ Let’s get started! Choose to follow steps shown next:
    :::code{language=shell showLineNumbers=false showCopyAction=true}
    cd cfn101-workshop/code/workspace/dynamic-references
    :::
-   1. Use the AWS CLI to create the stack. The required parameters `--stack-name` and `--template-body` have been pre-filled for you. Enter your values for the `DBUsername` and `DBPassword` parameters.
+   1. Use the AWS CLI to create the stack. The required parameters `--stack-name` and `--template-body` have been pre-filled for you. Enter the `DBUsername` and `DBPassword` from the CloudFormation template file into the command parameters.
    :::code{language=shell showLineNumbers=false showCopyAction=true}
    aws cloudformation create-stack \
     --stack-name cfn-workshop-dynamic-references-database \
