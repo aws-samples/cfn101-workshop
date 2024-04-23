@@ -40,7 +40,8 @@ Default output format [None]: <leave blank>
 Clone the repository to your working directory:
 
 :::code{language=shell showLineNumbers=false showCopyAction=true}
-git clone https://github.com/aws-samples/cfn101-workshop:::
+git clone https://github.com/aws-samples/cfn101-workshop
+:::
 
 ### Install Code Editor
 

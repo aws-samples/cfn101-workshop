@@ -25,12 +25,14 @@ Your first step is to use the [CloudFormation Command Line Interface (CLI)](http
 
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 mkdir example-hook
-cd example-hook:::
+cd example-hook
+:::
 
 Next, use the CloudFormation CLI to create a new project for your hook; you'll be asked a number of questions - for that, you'll follow through next on this lab:
 
 :::code{language=shell showLineNumbers=false showCopyAction=true}
-cfn init:::
+cfn init
+:::
 
 When prompted:
 

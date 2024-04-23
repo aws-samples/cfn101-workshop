@@ -58,35 +58,6 @@ your template more flexible. Let's convert `AmiID` to variable and pass it to re
           InstanceType: !Ref InstanceType
     ```
 
-#### Ref vs Fn::Sub
-
-The intrinsic function Ref returns the value of the specified parameter or resource. When you are declaring a resource in a template and you need to specify another template resource by name, you can use the Ref to refer to that other resource. In general, Ref returns the name of the resource.
-
-Syntax for JSON template
-```
-{ "Ref" : "logicalName" }
-```
-Syntax for YAML template
-```
-Ref: logicalName
-```
-Syntax for the short form:
-```
-!Ref logicalName
-```
-The intrinsic function Fn::Sub substitutes variables in an input string with values that you specify. In your templates, you can use this function to construct commands or outputs that include values that aren't available until you create or update a stack.
-
-Syntax for JSON template
-```
-{ "Fn::Sub" : [ String, { Var1Name: Var1Value, Var2Name: Var2Value } ] }
-```
-Syntax for YAML template
-```
-Fn::Sub:
-  - String
-  - Var1Name: Var1Value
-    Var2Name: Var2Value
-```
 #### Fn::Join
 
 To help you manage your AWS resources, you can optionally assign your own metadata to each resource in the form
@@ -210,6 +181,28 @@ aws cloudformation update-stack --stack-name cfn-workshop-intrinsic-functions --
 :::::
 To Verify, Go to the **Tags** tab on EC2 Console, verify that `InstanceType` tag has been created.
 ::::::
+
+**Comparison between Ref and Fn::Sub**
+
+The intrinsic function Ref returns the value of the specified parameter or resource. When you are declaring a resource in a template and you need to specify another template resource by name, you can use the Ref to refer to that other resource. In general, Ref returns the name of the resource.
+
+Syntax for YAML template
+```
+Ref: logicalName
+```
+Syntax for the short form:
+```
+!Ref logicalName
+```
+The intrinsic function Fn::Sub substitutes variables in an input string with values that you specify. In your templates, you can use this function to construct commands or outputs that include values that aren't available until you create or update a stack.
+
+Syntax for YAML template
+```
+Fn::Sub:
+  - String
+  - Var1Name: Var1Value
+    Var2Name: Var2Value
+```
 
 ### Clean up
 

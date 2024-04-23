@@ -33,7 +33,8 @@ If you have issues using the Cloud9 environment, please see the [Troubleshooting
 Clone the repository to your working directory. In the Cloud9 terminal run:
 
 :::code{language=shell showLineNumbers=false showCopyAction=true}
-git clone https://github.com/aws-samples/cfn101-workshop:::
+git clone https://github.com/aws-samples/cfn101-workshop
+:::
 
 ### Install the latest version of AWS CLI
 
@@ -48,16 +49,20 @@ The script will:
 
 1. In the **Cloud9 terminal** navigate to `cfn101-workshop/code/solutions/cloud9`:
 :::code{language=shell showLineNumbers=false showCopyAction=true}
-cd cfn101-workshop/code/solutions/cloud9:::
+cd cfn101-workshop/code/solutions/cloud9
+:::
 1. Make the script executable:
 :::code{language=shell showLineNumbers=false showCopyAction=true}
-chmod +x awscliv2.sh:::
+chmod +x awscliv2.sh
+:::
 1. Run the script:
 :::code{language=shell showLineNumbers=false showCopyAction=true}
-source awscliv2.sh:::
+source awscliv2.sh
+:::
 1. Check that the installation was successful, and you have the latest version of AWS CLI:
 :::code{language=shell showLineNumbers=false showCopyAction=true}
-aws --version:::
+aws --version
+:::
 
 ### Open workshop files
 The templates and code you will work on is located in the **code** folder.
