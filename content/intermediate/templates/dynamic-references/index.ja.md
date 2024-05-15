@@ -84,8 +84,8 @@ aws ssm put-parameter \
    2. AWS CLI を使用してスタックを作成します。必須パラメータ `--stack-name` と `--template-body` はあらかじめ入力されています。
    :::code{language=shell showLineNumbers=false showCopyAction=true}
    aws cloudformation create-stack \
---stack-name cfn-workshop-dynamic-references-ec2 \
---template-body file://ec2-instance.yaml
+    --stack-name cfn-workshop-dynamic-references-ec2 \
+    --template-body file://ec2-instance.yaml
    :::
    1. `create-stack` コマンドが成功すると、CloudFormation は `StackId` を返却します。
    :::code{language=shell showLineNumbers=false showCopyAction=false}
@@ -140,11 +140,11 @@ aws ec2 describe-instances \
         1. `AWS::SecretsManager::Secret` タイプのリソース。データベース接続パラメータを JSON キーと値のペアとして、`DatabaseConnParams` という名前のシークレットに保存します。
        :::code{language=json showLineNumbers=true showCopyAction=false lineNumberStart=47}
        {
-  "RDS_HOSTNAME": "${Database.Endpoint.Address}",
-  "RDS_PORT": "${Database.Endpoint.Port}",
-  "RDS_USERNAME": "${DBUsername}",
-  "RDS_PASSWORD": "${DBPassword}"
-}
+          "RDS_HOSTNAME": "${Database.Endpoint.Address}",
+          "RDS_PORT": "${Database.Endpoint.Port}",
+          "RDS_USERNAME": "${DBUsername}",
+          "RDS_PASSWORD": "${DBPassword}"
+        }
        :::
 2. データベーススタックをデプロイするには、以下の手順に従います。
    :::::tabs{variant="container"}
@@ -156,10 +156,10 @@ aws ec2 describe-instances \
    1. AWS CLI を使用してスタックを作成します。必須パラメータ `--stack-name` と `--template-body` はあらかじめ入力されています。`DBUsername` パラメータと `DBPassword` パラメータの値を入力します。
    :::code{language=shell showLineNumbers=false showCopyAction=true}
    aws cloudformation create-stack \
---stack-name cfn-workshop-dynamic-references-database \
---template-body file://database.yaml \
---parameters ParameterKey=DBUsername,ParameterValue='admin' \
-ParameterKey=DBPassword,ParameterValue='wjznf74irj831o9'
+    --stack-name cfn-workshop-dynamic-references-database \
+    --template-body file://database.yaml \
+    --parameters ParameterKey=DBUsername,ParameterValue='admin' \
+    ParameterKey=DBPassword,ParameterValue='wjznf74irj831o9'
    :::
    1. `create-stack` コマンドが成功すると、CloudFormation は `StackId` を返却します。
    :::code{language=shell showLineNumbers=false showCopyAction=false}
@@ -190,9 +190,9 @@ ParameterKey=DBPassword,ParameterValue='wjznf74irj831o9'
     1. テンプレートには `AWS::Lambda::Function` リソースタイプが記述されています。`Properties` セクションに `Environment` プロパティを追加し、先ほど作成した AWS Secret Manager シークレットへの動的参照を使用する変数を追加してテンプレートを更新します。
     :::code{language=yaml showLineNumbers=false showCopyAction=true}
     Environment:
-  Variables:
-    RDS_HOSTNAME: '{{resolve:secretsmanager:DatabaseConnParams:SecretString:RDS_HOSTNAME}}'
-    RDS_PORT: '{{resolve:secretsmanager:DatabaseConnParams:SecretString:RDS_PORT}}'
+      Variables:
+        RDS_HOSTNAME: '{{resolve:secretsmanager:DatabaseConnParams:SecretString:RDS_HOSTNAME}}'
+        RDS_PORT: '{{resolve:secretsmanager:DatabaseConnParams:SecretString:RDS_PORT}}'
     :::
 1. Lambda スタックをデプロイするには、以下の手順に従います。
    :::::tabs{variant="container"}
@@ -204,9 +204,9 @@ ParameterKey=DBPassword,ParameterValue='wjznf74irj831o9'
    1. AWS CLI を使用してスタックを作成します。必須パラメータ `--stack-name` と `--template-body` と `--capabilities` はあらかじめ入力されています。
    :::code{language=shell showLineNumbers=false showCopyAction=true}
    aws cloudformation create-stack \
---stack-name cfn-workshop-dynamic-references-lambda \
---template-body file://lambda-function.yaml \
---capabilities CAPABILITY_IAM
+    --stack-name cfn-workshop-dynamic-references-lambda \
+    --template-body file://lambda-function.yaml \
+    --capabilities CAPABILITY_IAM
    :::
    1. `create-stack` コマンドが成功すると、CloudFormation は `StackId` を返却します。
    :::code{language=shell showLineNumbers=false showCopyAction=false}
