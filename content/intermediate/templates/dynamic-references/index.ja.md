@@ -53,7 +53,7 @@ aws ssm put-parameter \
  --region YOUR_REGION
 :::
 
-::alert[CloudFormation を使用して、`String` または `StringList` タイプの Paramater Store パラメータを作成可能です。詳細については、[AWS::SSM::Parameter](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/aws-resource-ssm-parameter.html) のドキュメントをご覧ください。]{type="info"}
+::alert[CloudFormation を使用して、`String` または `StringList` タイプの Parameter Store パラメータを作成可能です。詳細については、[AWS::SSM::Parameter](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/aws-resource-ssm-parameter.html) のドキュメントをご覧ください。]{type="info"}
 
 3. `put-parameter` コマンドが成功すると、SSM は `Version` と `Tier` を返します。
 :::code{language=json showLineNumbers=false showCopyAction=false}
