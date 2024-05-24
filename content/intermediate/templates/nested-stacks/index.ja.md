@@ -196,7 +196,7 @@ VpcStack:
 1. **テンプレートの指定** セクションで、 **テンプレートファイルのアップロード** を選択します。
 1. `main.yaml` ファイルを選択します。
 1. **スタック名** を入力します。例えば、`cfn-workshop-nested-stack` と入力します。
-1. **AvaliabilityZone** パラメータには、2 つの AZ を選択します。
+1. **AvailabilityZone** パラメータには、2 つの AZ を選択します。
 1. **S3BucketName** には、[S3 バケットを準備](#2.-s3) セクションに書き留めたバケット名を入力します。
 1. 残りのパラメータはデフォルトのままとします。
 1. **スタックオプションの設定** はデフォルトのままにして、 **次へ** をクリックします。
@@ -323,7 +323,7 @@ VPC テンプレートと同様に、`ec2.yaml` テンプレートの **Paramete
 * `EnvironmentType` - このプロパティにはデフォルト値があり、頻繁に変更される可能性があるので、Parameters に追加します。
 * `AmiId` - このプロパティにはデフォルト値があるため、メインテンプレートから除外してもかまいません。
 
-`main.yaml` テンプレートの **Paramaters** セクションに以下のコードを追加します。
+`main.yaml` テンプレートの **Parameters** セクションに以下のコードを追加します。
 
 :::code{language=yaml showLineNumbers=true showCopyAction=true}
 EnvironmentType:

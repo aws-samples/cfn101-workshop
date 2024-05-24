@@ -26,7 +26,7 @@ _ラボ実施時間 : 30分程度_
 
 ### ラボを開始
 
-#### Paramater Store の動的リファレンス
+#### Parameter Store の動的リファレンス
 開発チームにライフサイクル環境を提供する必要があるシナリオを考えてみましょう。このプラクティスには、多くの場合、最新のオペレーティングシステムアップデート、セキュリティの強化要件、必要なサードパーティのソフトウェアエージェントを含むカスタム [Amazon Machine Images](https://docs.aws.amazon.com/ja_jp/AWSEC2/latest/UserGuide/AMIs.html) (AMI) の構築と配布が含まれます。
 
 あなた (または組織のチーム) がカスタム AMI を作成したら、Parameter Store を使用して AMI の識別子を保存することができます。これにより、EC2 インスタンスを起動するときに使用する AMI をプログラムで指定しやすくなり、設定ミスの可能性が低くなります。
@@ -53,7 +53,7 @@ aws ssm put-parameter \
  --region YOUR_REGION
 :::
 
-::alert[CloudFormation を使用して、`String` または `StringList` タイプの Paramater Store パラメータを作成可能です。詳細については、[AWS::SSM::Parameter](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/aws-resource-ssm-parameter.html) のドキュメントをご覧ください。]{type="info"}
+::alert[CloudFormation を使用して、`String` または `StringList` タイプの Parameter Store パラメータを作成可能です。詳細については、[AWS::SSM::Parameter](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/aws-resource-ssm-parameter.html) のドキュメントをご覧ください。]{type="info"}
 
 3. `put-parameter` コマンドが成功すると、SSM は `Version` と `Tier` を返します。
 :::code{language=json showLineNumbers=false showCopyAction=false}
@@ -253,7 +253,7 @@ output.json の内容が出力されます。
 ### チャレンジ
 この演習では、*動的参照*についての理解を深めます。
 
-AWS Lambda では、`MemorySize` [プロパティ](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/aws-resource-lambda-function.html#cfn-lambda-function-memorysize)で、[関数](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/aws-resource-lambda-function.html)のメモリ構成をサポートします。ここでのタスクは、AWS CLI で Paramater Store パラメータを作成することです。ここで、`Lambda_memory_size.yaml` テンプレートに記述する Lambda 関数に使用するメモリサイズを設定します。次に、作成したパラメーターのバージョン `1` への動的参照を作成し、テンプレートを使用してスタックを作成してビルドした内容が機能することを確認します。`cfn-workshop-dynamic-references-lambda-memory` スタックを呼び出します。Parameter Store パラメータは、スタックの作成時に選択したものと同じ AWS リージョンに作成します。
+AWS Lambda では、`MemorySize` [プロパティ](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/aws-resource-lambda-function.html#cfn-lambda-function-memorysize)で、[関数](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/aws-resource-lambda-function.html)のメモリ構成をサポートします。ここでのタスクは、AWS CLI で Parameter Store パラメータを作成することです。ここで、`Lambda_memory_size.yaml` テンプレートに記述する Lambda 関数に使用するメモリサイズを設定します。次に、作成したパラメーターのバージョン `1` への動的参照を作成し、テンプレートを使用してスタックを作成してビルドした内容が機能することを確認します。`cfn-workshop-dynamic-references-lambda-memory` スタックを呼び出します。Parameter Store パラメータは、スタックの作成時に選択したものと同じ AWS リージョンに作成します。
 
 :::expand{header= "ヒントが必要ですか？"}
 1. CloudFormation [ユーザーガイド](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/aws-resource-lambda-function.html#cfn-lambda-function-memorysize) を参照し、Lambda 関数の `MemorySize` 設定を指定する方法を理解してください。
