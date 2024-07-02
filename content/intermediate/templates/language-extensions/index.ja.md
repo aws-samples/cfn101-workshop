@@ -271,8 +271,8 @@ aws cloudformation wait stack-delete-complete \
 1. 上記のステップ (1-2) を繰り返して、スタック `cfn-workshop-language-extensions-solution` を削除します。
 ::::
 ::::tab{id="LocalDevelopment" label="ローカル開発"}
-1. [AWS CloudFormaiton コンソール](https://console.aws.amazon.com/cloudformation/)に移動します。
-1. CloudForamtion コンソールの **スタック** ページで、パート 1 で作成した `cfn-workshop-language-extensions` スタックを選択します。
+1. [AWS CloudFormation コンソール](https://console.aws.amazon.com/cloudformation/)に移動します。
+1. CloudFormation コンソールの **スタック** ページで、パート 1 で作成した `cfn-workshop-language-extensions` スタックを選択します。
 1. スタックの詳細ペインで、**削除**　を選択します。プロンプトが表示されたら、**削除** を選択します。
 1. CloudFormation コンソールの　**スタック**　ページで、チャレンジセクションで作成した `cfn-workshop-language-extensions-solution` スタックを選択します。
 1. スタックの詳細ペインで、**削除**　を選択します。プロンプトが表示されたら、**削除**　を選択します。

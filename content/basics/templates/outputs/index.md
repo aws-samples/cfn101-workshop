@@ -73,7 +73,7 @@ aws cloudformation create-stack --stack-name cfn-workshop-outputs --template-bod
 ::::
 ::::tab{id="local" label="Local development"}
 1. Open the **[AWS CloudFormation](https://console.aws.amazon.com/cloudformation)** link in a new tab and log in to your AWS account.
-1. Choose **Create stack** (_With new resources (Standard)_ from the top-right side of the page.
+1. Choose **Create stack** (_With new resources (Standard)_) from the top-right side of the page.
 1. In **Prepare template**, choose **Template is ready**.
 1. In **Specify template**, choose **Upload a template file**.
 1. Select the **Choose file** button and navigate to your workshop directory.

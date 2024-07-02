@@ -307,7 +307,7 @@ Next, navigate to the AWS CloudFormation [console](https://console.aws.amazon.co
   :::code{language=shell showLineNumbers=false showCopyAction=true}
   aws cloudformation update-stack --stack-name cfn-workshop-condition-prod \
 --template-body file://condition-resource.yaml \
---parameters ParameterKey="EnvType",ParameterValue="prod"```
+--parameters ParameterKey="EnvType",ParameterValue="prod"
   :::
 1. If the `update-stack` command was successfully sent, CloudFormation will return `StackId`.
   :::code{language=shell showLineNumbers=false showCopyAction=false}

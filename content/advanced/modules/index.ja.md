@@ -5,7 +5,7 @@ weight: 300
 
 ### はじめに
 
-この章では、開発したモジュールを使用して [AWS CloudFormtaion](https://aws.amazon.com/jp/cloudformation/) の作成、プロビジョニング、管理に関する機能を拡張する方法に焦点を当てます。
+この章では、開発したモジュールを使用して [AWS CloudFormation](https://aws.amazon.com/jp/cloudformation/) の作成、プロビジョニング、管理に関する機能を拡張する方法に焦点を当てます。
 
 これまでは、CloudFormation を使用して AWS が公開しているリソースタイプを使用してアプリケーションを構築する方法を見てきました。このラボでは、[AWS CloudFormation モジュール](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/modules.html)を活用し、同じ AWS アカウントとリージョンを利用するユーザーが何度も使用できる再利用可能なテンプレートスニペットを作成します。
 
@@ -15,7 +15,7 @@ CloudFormation モジュールの一般的な使用例は、企業内での利�
 
 1. モジュールの開発とテストの利用に必要なツールをインストールします。
 2. モジュールの開発を開始します。
-3. 準備ができたら、モジュールを [AWS CloudFormtaion レジストリ](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/registry.html) に送信します。
+3. 準備ができたら、モジュールを [AWS CloudFormation レジストリ](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/registry.html) に送信します。
 4. CloudFormation を使用してモジュールを管理します。他の AWS リソースタイプと同様に、CloudFormation テンプレートにモジュールとそのプロパティを記述します。
 
 ::alert[モジュールを CloudFormation レジストリにプライベート拡張として登録するか、パブリック拡張として登録するかを選択できます。このラボでは、プライベート拡張の例を取り上げます。]{type="info"}
