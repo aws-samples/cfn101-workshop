@@ -127,7 +127,7 @@ DemoLambdaFunction:
   Properties:
     Handler: index.lambda_handler
     Role: !GetAtt DemoRole.Arn
-    Runtime: python3.8
+    Runtime: python3.12
     Code:
       ZipFile: |
         import boto3
