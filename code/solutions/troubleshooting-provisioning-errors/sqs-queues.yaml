@@ -12,7 +12,7 @@ Resources:
     Type: AWS::SQS::Queue
     Properties:
       FifoQueue: true
-      QueueName: !Sub '${QueueNamePrefix}-dead-letter.fifo'
+      QueueName: !Sub ${QueueNamePrefix}-dead-letter.fifo
 
   SourceQueue:
     Type: AWS::SQS::Queue
@@ -21,7 +21,7 @@ Resources:
       RedrivePolicy:
         deadLetterTargetArn: !GetAtt DeadLetterQueue.Arn
         maxReceiveCount: 5
-      QueueName: !Sub '${QueueNamePrefix}-source.fifo'
+      QueueName: !Sub ${QueueNamePrefix}-source.fifo
 
   DeadLetterQueueParameter:
     Type: AWS::SSM::Parameter

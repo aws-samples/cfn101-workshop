@@ -22,7 +22,7 @@ Resources:
             Effect: Deny
             Resource:
               - !GetAtt S3Bucket.Arn
-              - !Sub '${S3Bucket.Arn}/*'
+              - !Sub ${S3Bucket.Arn}/*
             Principal: '*'
             Condition:
               Bool:

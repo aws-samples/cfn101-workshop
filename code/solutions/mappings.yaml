@@ -42,7 +42,13 @@ Resources:
     Type: AWS::EC2::Instance
     Properties:
       ImageId: !Ref AmiID
-      InstanceType: !FindInMap [EnvironmentToInstanceType, !Ref EnvironmentType, InstanceType]
+      InstanceType: !FindInMap
+        - EnvironmentToInstanceType
+        - !Ref EnvironmentType
+        - InstanceType
       Tags:
         - Key: Name
-          Value: !Join ['-', [!Ref EnvironmentType, webserver]]
+          Value: !Join
+            - '-'
+            - - !Ref EnvironmentType
+              - webserver

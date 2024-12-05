@@ -7,7 +7,9 @@ Transform: AWS::LanguageExtensions
 Resources:
   Fn::ForEach::S3Buckets:
     - S3BucketLogicalId
-    - [S3Bucket1, S3Bucket2, S3Bucket3]
+    - - S3Bucket1
+      - S3Bucket2
+      - S3Bucket3
     - ${S3BucketLogicalId}:
         Type: AWS::S3::Bucket
         Properties:

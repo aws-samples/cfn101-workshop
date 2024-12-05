@@ -11,7 +11,9 @@ Metadata:
 Parameters:
   DeletionPolicyParameter:
     Type: String
-    AllowedValues: [Delete, Retain]
+    AllowedValues:
+      - Delete
+      - Retain
     Default: Delete
 
   LatestAmiId:

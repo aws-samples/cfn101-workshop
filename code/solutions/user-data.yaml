@@ -65,12 +65,18 @@ Resources:
     Properties:
       IamInstanceProfile: !Ref WebServerInstanceProfile
       ImageId: !Ref AmiID
-      InstanceType: !FindInMap [EnvironmentToInstanceType, !Ref EnvironmentType, InstanceType]
+      InstanceType: !FindInMap
+        - EnvironmentToInstanceType
+        - !Ref EnvironmentType
+        - InstanceType
       SecurityGroupIds:
         - !Ref WebServerSecurityGroup
       Tags:
         - Key: Name
-          Value: !Join ['-', [!Ref EnvironmentType, webserver]]
+          Value: !Join
+            - '-'
+            - - !Ref EnvironmentType
+              - webserver
       UserData: !Base64 |
         #!/bin/bash
         yum update -y

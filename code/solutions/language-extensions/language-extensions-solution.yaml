@@ -11,7 +11,10 @@ Metadata:
 Parameters:
   DeletionPolicyParameter:
     Type: String
-    AllowedValues: [Delete, Retain, Snapshot]
+    AllowedValues:
+      - Delete
+      - Retain
+      - Snapshot
     Default: Delete
 
 Transform: AWS::LanguageExtensions
@@ -34,11 +37,17 @@ Resources:
           widgets:
             - type: metric
               x: 0
-              "y": 7
+              y: 7
               width: 3
               height: 3
               properties:
-                metrics: [[AWS/S3, NumberOfObjects, StorageType, AllStorageTypes, BucketName, !Ref S3Bucket]]
+                metrics:
+                  - - AWS/S3
+                    - NumberOfObjects
+                    - StorageType
+                    - AllStorageTypes
+                    - BucketName
+                    - !Ref S3Bucket
                 period: 86400
                 region: !Ref AWS::Region
                 title: S3 objects

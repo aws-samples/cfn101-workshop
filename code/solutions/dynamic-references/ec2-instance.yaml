@@ -6,6 +6,9 @@ Resources:
   Instance:
     Type: AWS::EC2::Instance
     Properties:
-      AvailabilityZone: !Select ["0", !GetAZs ""]
+      AvailabilityZone: !Select
+        - 0
+        - !GetAZs
+          Ref: AWS::Region
       InstanceType: t2.micro
       ImageId: '{{resolve:ssm:/golden-images/amazon-linux-2}}'

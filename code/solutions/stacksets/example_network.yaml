@@ -69,7 +69,8 @@ Resources:
       VpcId: !Ref Vpc
       AvailabilityZone: !Select
         - 0
-        - !GetAZs ''
+        - !GetAZs
+          Ref: AWS::Region
       CidrBlock: !Ref AppPublicSubnet1Cidr
       MapPublicIpOnLaunch: true
       Tags:
@@ -82,7 +83,8 @@ Resources:
       VpcId: !Ref Vpc
       AvailabilityZone: !Select
         - 1
-        - !GetAZs ''
+        - !GetAZs
+          Ref: AWS::Region
       CidrBlock: !Ref AppPublicSubnet2Cidr
       MapPublicIpOnLaunch: true
       Tags:
@@ -110,12 +112,12 @@ Outputs:
 
   SubnetId1:
     Description: The subnet ID to use for public web servers
-    Value: !Ref 'PublicSubnet1'
+    Value: !Ref PublicSubnet1
     Export:
       Name: AWS-CloudFormationWorkshop-SubnetId1
 
   SubnetId2:
     Description: The subnet ID to use for public web servers
-    Value: !Ref 'PublicSubnet2'
+    Value: !Ref PublicSubnet2
     Export:
       Name: AWS-CloudFormationWorkshop-SubnetId2

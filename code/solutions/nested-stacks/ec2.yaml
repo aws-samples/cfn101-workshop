@@ -122,12 +122,18 @@ Resources:
       SubnetId: !Ref SubnetId
       IamInstanceProfile: !Ref WebServerInstanceProfile
       ImageId: !Ref AmiID
-      InstanceType: !FindInMap [EnvironmentToInstanceType, !Ref EnvironmentType, InstanceType]
+      InstanceType: !FindInMap
+        - EnvironmentToInstanceType
+        - !Ref EnvironmentType
+        - InstanceType
       SecurityGroupIds:
         - !Ref WebServerSecurityGroup
       Tags:
         - Key: Name
-          Value: !Join [' ', [!Ref EnvironmentType, Web Server]]
+          Value: !Join
+            - ' '
+            - - !Ref EnvironmentType
+              - Web Server
       UserData: !Base64
         Fn::Sub: |
           #!/bin/bash -xe
