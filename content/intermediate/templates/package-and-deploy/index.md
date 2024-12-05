@@ -62,7 +62,7 @@ PythonFunction:
   Properties:
     FunctionName: cfn-workshop-python-function
     Description: Python Function to return specific TimeZone time
-    Runtime: python3.8
+    Runtime: python3.12
     Role: !GetAtt LambdaBasicExecutionRole.Arn
     Handler: lambda_function.handler
     Code: lambda/ # <<< This is a local directory
@@ -132,7 +132,7 @@ PythonFunction:
   Properties:
     FunctionName: cfn-workshop-python-function
     Description: Python Function to return specific TimeZone time
-    Runtime: python3.8
+    Runtime: python3.12
     Role:
       Fn::GetAtt:
       - LambdaBasicExecutionRole
