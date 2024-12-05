@@ -30,6 +30,10 @@ Resources:
         rules_to_suppress:
           - id: F80
           - id: F27
+      cfn-lint:
+        config:
+          ignore_checks:
+            - W1011
     Properties:
       DBInstanceClass: db.t3.micro
       AllocatedStorage: "20"

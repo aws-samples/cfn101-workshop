@@ -5,7 +5,7 @@ repos:
 
 # General
 - repo: https://github.com/pre-commit/pre-commit-hooks
-  rev: v4.4.0
+  rev: v5.0.0
   hooks:
   - id: check-case-conflict
   - id: detect-private-key
@@ -30,13 +30,13 @@ repos:
 
 # CloudFormation
 - repo: https://github.com/aws-cloudformation/cfn-lint
-  rev: v0.79.7
+  rev: v1.20.2
   hooks:
   - id: cfn-lint-rc
     files: code/solutions/.*\.(ya?ml|template)$
 
 - repo: https://github.com/aws-cloudformation/rain
-  rev: v1.4.4
+  rev: v1.19.0
   hooks:
   - id: cfn-format
     files: code/solutions/.*\.(ya?ml|template)$
@@ -55,7 +55,7 @@ repos:
 
     # Python
 - repo: https://github.com/pycqa/pylint
-  rev: v3.0.0a7
+  rev: v3.3.2
   hooks:
     - id: pylint
       args:
@@ -63,19 +63,19 @@ repos:
         - --disable=E0401
 
 - repo: https://github.com/psf/black
-  rev: 23.7.0
+  rev: 24.10.0
   hooks:
     - id: black
 
 - repo: https://github.com/PyCQA/isort
-  rev: 5.12.0
+  rev: 5.13.2
   hooks:
     - id: isort
       args: ["--profile", "black"]
 
 # Shell check
 - repo: https://github.com/shellcheck-py/shellcheck-py
-  rev: v0.9.0.5
+  rev: v0.10.0.1
   hooks:
     - id: shellcheck
       files: solutions/.*\.(sh)$

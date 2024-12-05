@@ -7,8 +7,7 @@ Resources:
     Type: AWS::EC2::SecurityGroup
     Properties:
       GroupDescription: Allow http to client host
-      VpcId: !ImportValue
-        Fn::Sub: AWS-CloudFormationWorkshop-VpcId
+      VpcId: !ImportValue AWS-CloudFormationWorkshop-VpcId
       SecurityGroupIngress:
         - IpProtocol: tcp
           FromPort: 80
@@ -23,6 +22,6 @@ Resources:
 Outputs:
   SecurityGroupId:
     Description: The security group ID to use to attach to instances.
-    Value: !Ref 'InstanceSecurityGroup'
+    Value: !Ref InstanceSecurityGroup
     Export:
       Name: AWS-CloudFormationWorkshop-SecurityGroupId

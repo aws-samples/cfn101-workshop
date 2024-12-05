@@ -50,7 +50,9 @@ Resources:
     Properties:
       CidrBlock: !Ref PublicSubnet1Cidr
       VpcId: !Ref VPC
-      AvailabilityZone: !Select [0, !Ref AvailabilityZones]
+      AvailabilityZone: !Select
+        - 0
+        - !Ref AvailabilityZones
       MapPublicIpOnLaunch: true
       Tags:
         - Key: Name
@@ -86,7 +88,9 @@ Resources:
     Properties:
       CidrBlock: !Ref PublicSubnet2Cidr
       VpcId: !Ref VPC
-      AvailabilityZone: !Select [1, !Ref AvailabilityZones]
+      AvailabilityZone: !Select
+        - 1
+        - !Ref AvailabilityZones
       MapPublicIpOnLaunch: true
       Tags:
         - Key: Name

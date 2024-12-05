@@ -62,10 +62,12 @@ Resources:
 
   Fn::ForEach::SubnetTypes:
     - SubnetType
-    - [Public, Private]
+    - - Public
+      - Private
     - Fn::ForEach::SubnetNumbers:
         - SubnetNumber
-        - ["1", "2"]
+        - - "1"
+          - "2"
         - ${SubnetType}Subnet${SubnetNumber}:
             Type: AWS::EC2::Subnet
             Properties:
@@ -74,7 +76,7 @@ Resources:
                   - SubnetAzIndexes
                   - !Ref SubnetType
                   - !Ref SubnetNumber
-                - !GetAZs ""
+                - !GetAZs
               CidrBlock: !FindInMap
                 - SubnetCidrs
                 - !Ref SubnetType
@@ -100,7 +102,8 @@ Resources:
 
   Fn::ForEach::DefaultRoutesForPublicSubnets:
     - SubnetNumber
-    - ["1", "2"]
+    - - "1"
+      - "2"
     - DefaultRouteForPublicSubnet${SubnetNumber}:
         DependsOn: VpcGatewayAttachment
         Type: AWS::EC2::Route
@@ -112,7 +115,8 @@ Resources:
 
   Fn::ForEach::NatGateways:
     - SubnetNumber
-    - ["1", "2"]
+    - - "1"
+      - "2"
     - Eip${SubnetNumber}:
         DependsOn: VpcGatewayAttachment
         Type: AWS::EC2::EIP
@@ -141,12 +145,14 @@ Resources:
 Outputs:
   Fn::ForEach::SubnetIdsOutputs:
     - SubnetType
-    - [Public, Private]
+    - - Public
+      - Private
     - Fn::ForEach::SubnetNumbers:
         - SubnetNumber
-        - ["1", "2"]
+        - - "1"
+          - "2"
         - ${SubnetType}Subnet${SubnetNumber}:
-            Description: !Sub 'The ID of ${SubnetType}Subnet${SubnetNumber}.'
+            Description: !Sub The ID of ${SubnetType}Subnet${SubnetNumber}.
             Export:
               Name: !Sub ${AWS::AccountId}-${SubnetType}Subnet${SubnetNumber}Id
             Value: !Ref

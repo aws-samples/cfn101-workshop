@@ -45,14 +45,14 @@ Resources:
             Statement:
               - Effect: Allow
                 Action: ssm:GetParameter
-                Resource: !Sub 'arn:${AWS::Partition}:ssm:${AWS::Region}:${AWS::AccountId}:parameter/${BasicParameter}'
+                Resource: !Sub arn:${AWS::Partition}:ssm:${AWS::Region}:${AWS::AccountId}:parameter/${BasicParameter}
 
   DemoLambdaFunction:
     Type: AWS::Lambda::Function
     Properties:
       Handler: index.lambda_handler
       Role: !GetAtt DemoRole.Arn
-      Runtime: python3.8
+      Runtime: python3.12
       Code:
         ZipFile: |
           import boto3
@@ -64,4 +64,4 @@ Resources:
   DemoBucket:
     Type: AWS::S3::Bucket
     Properties:
-      BucketName: !Sub '${S3BucketNamePrefix}-${AWS::Region}-${AWS::AccountId}'
+      BucketName: !Sub ${S3BucketNamePrefix}-${AWS::Region}-${AWS::AccountId}

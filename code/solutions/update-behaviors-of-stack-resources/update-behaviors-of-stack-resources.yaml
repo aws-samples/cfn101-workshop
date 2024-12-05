@@ -6,7 +6,10 @@ Parameters:
   InstanceType:
     Description: WebServer EC2 instance type
     Type: String
-    AllowedValues: [t2.micro, t2.small, t2.medium]
+    AllowedValues:
+      - t2.micro
+      - t2.small
+      - t2.medium
     Default: t2.micro
     ConstraintDescription: must be a valid EC2 instance type.
 

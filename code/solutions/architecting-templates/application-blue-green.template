@@ -99,22 +99,22 @@ Resources:
     Properties:
       DesiredCapacity: 2
       LaunchTemplate:
-        LaunchTemplateId: !Ref 'LaunchTemplate'
+        LaunchTemplateId: !Ref LaunchTemplate
         Version: !GetAtt LaunchTemplate.LatestVersionNumber
       MaxSize: 4
       MinSize: 2
       Tags:
         - Key: Name
           PropagateAtLaunch: true
-          Value: !Ref 'NameTagValue'
+          Value: !Ref NameTagValue
         - Key: AppName
           PropagateAtLaunch: true
-          Value: !Ref 'AppNameTagValue'
+          Value: !Ref AppNameTagValue
         - Key: Env
           PropagateAtLaunch: true
-          Value: !Ref 'Env'
+          Value: !Ref Env
       TargetGroupARNs:
-        - !Ref 'TargetGroup'
+        - !Ref TargetGroup
       VPCZoneIdentifier:
         - !ImportValue
           Fn::Sub: ${NetworkStackName}-PrivateSubnet1Id
@@ -126,9 +126,9 @@ Resources:
     Properties:
       DefaultActions:
         - Order: 1
-          TargetGroupArn: !Ref 'TargetGroup'
+          TargetGroupArn: !Ref TargetGroup
           Type: forward
-      LoadBalancerArn: !Ref 'LoadBalancer'
+      LoadBalancerArn: !Ref LoadBalancer
       Port: 80
       Protocol: HTTP
 
@@ -188,8 +188,8 @@ Resources:
                 ensureRunning: true
     Properties:
       LaunchTemplateData:
-        ImageId: !Ref 'LatestAmiId'
-        InstanceType: !Ref 'InstanceType'
+        ImageId: !Ref LatestAmiId
+        InstanceType: !Ref InstanceType
         SecurityGroupIds:
           - !ImportValue
             Fn::Sub: ${SecurityGroupStackName}-AppInstancesSecurityGroupId
@@ -203,11 +203,11 @@ Resources:
         - ResourceType: launch-template
           Tags:
             - Key: Name
-              Value: !Ref 'NameTagValue'
+              Value: !Ref NameTagValue
             - Key: AppName
-              Value: !Ref 'AppNameTagValue'
+              Value: !Ref AppNameTagValue
             - Key: Env
-              Value: !Ref 'Env'
+              Value: !Ref Env
 
   LoadBalancer:
     Type: AWS::ElasticLoadBalancingV2::LoadBalancer
@@ -224,11 +224,11 @@ Resources:
           Fn::Sub: ${NetworkStackName}-PublicSubnet2Id
       Tags:
         - Key: Name
-          Value: !Ref 'NameTagValue'
+          Value: !Ref NameTagValue
         - Key: AppName
-          Value: !Ref 'AppNameTagValue'
+          Value: !Ref AppNameTagValue
         - Key: Env
-          Value: !Ref 'Env'
+          Value: !Ref Env
       Type: application
 
   RecordSet:
@@ -242,9 +242,9 @@ Resources:
         Fn::Sub: ${HostedZoneStackName}-HostedZoneId
       Name: !ImportValue
         Fn::Sub: ${HostedZoneStackName}-HostedZoneName
-      SetIdentifier: !Sub '${AppNameTagValue} application managed with the ${AWS::StackName} stack.'
+      SetIdentifier: !Sub ${AppNameTagValue} application managed with the ${AWS::StackName} stack.
       Type: A
-      Weight: !Ref 'RecordSetWeight'
+      Weight: !Ref RecordSetWeight
 
   TargetGroup:
     Type: AWS::ElasticLoadBalancingV2::TargetGroup
@@ -259,11 +259,11 @@ Resources:
       Protocol: HTTP
       Tags:
         - Key: Name
-          Value: !Ref 'NameTagValue'
+          Value: !Ref NameTagValue
         - Key: AppName
-          Value: !Ref 'AppNameTagValue'
+          Value: !Ref AppNameTagValue
         - Key: Env
-          Value: !Ref 'Env'
+          Value: !Ref Env
       TargetType: instance
       UnhealthyThresholdCount: 2
       VpcId: !ImportValue
@@ -272,4 +272,4 @@ Resources:
 Outputs:
   AppUrl:
     Description: URL of the sample app.
-    Value: !Sub 'http://${LoadBalancer.DNSName}'
+    Value: !Sub http://${LoadBalancer.DNSName}

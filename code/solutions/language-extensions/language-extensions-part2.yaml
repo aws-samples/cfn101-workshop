@@ -11,7 +11,9 @@ Metadata:
 Parameters:
   DeletionPolicyParameter:
     Type: String
-    AllowedValues: [Delete, Retain]
+    AllowedValues:
+      - Delete
+      - Retain
     Default: Delete
 
   LatestAmiId:
@@ -32,11 +34,15 @@ Resources:
           widgets:
             - type: metric
               x: 0
-              "y": 7
+              y: 7
               width: 3
               height: 3
               properties:
-                metrics: [[AWS/EC2, CPUUtilization, InstanceId, !Ref EC2Instance]]
+                metrics:
+                  - - AWS/EC2
+                    - CPUUtilization
+                    - InstanceId
+                    - !Ref EC2Instance
                 period: 300
                 stat: Average
                 region: !Ref AWS::Region
