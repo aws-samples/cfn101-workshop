@@ -11,8 +11,7 @@ This part of the workshop focuses on how you can extend creation, provisioning, 
 
 With the examples above using an S3 bucket, when you model your hook you choose to target the `AWS::S3::Bucket` resource type. When you then create or update a stack with a template that describes an S3 bucket, your hook gets invoked before CloudFormation attempts to create or update the bucket. When invoked, your hook validates that -for example- the versioning property for your bucket is set to the `Enabled` `Status`. If you were to have 2 S3 buckets in your template, each bucket would cause an instance of the hook getting invoked (in this example, you'll have 2 hook invocations, one for each bucket).
 
-A hook can encompass one or more resource type target for a given invocation point (such as, pre-create, pre-update, and pre-delete -
- that is, before you create, update, or delete a CloudFormation stack).
+You can specify the target of your hooks invocations: resource, stack, change set, and/or Cloud Control API operations.
 
 There are two discrete workflows for hooks, each one for a specific user persona/team of a given company:
 
@@ -23,24 +22,8 @@ In this lab, you'll start with the first workflow to build and test a sample hoo
 
 The Software Development Life Cycle (SDLC) process of a hook, that is part of the first workflow, can be described as follows:
 
-- install prerequisite tools you will use for development and testing of your hook;
-- develop and run tests for your hook;
-- when ready, submit the hook to the [AWS CloudFormation registry](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/registry.html) as a private extension for a given AWS account and region;
-- manage the configuration of your hook: you describe the behavior of the hook (for example, whether to invoke the hook for stacks in your account in a given region, whether compliance validation errors yield to denying the provisioning of the non-compliant resource, or simply to a warning);
-- if your hook needs user input configuration (that is, if the author of the hook has designed configuration values to be user-configurable), you'd configure the hook according to your needs.
+* develop and activate your hook, using Lambda hook, Guard hook, and/or custom hook;
+* manage the configuration of your hook: you describe the behavior of the hook (for example, whether to invoke the hook for stacks in your account in a given region, whether compliance validation errors yield to denying the provisioning of the non-compliant resource, or simply to a warning);
+* see the result of your hook evaluation
 
-::alert[You have the choice to register your hook as a private or as a public extension in the CloudFormation registry: this lab covers private extension examples.]{type="info"}
-
-When you submit a private extension (such as a module, a resource type, or a hook), you make it available in the CloudFormation registry in your AWS account for a given AWS region: private extensions give you the ability to test the behavior of your resource type in a sandbox environment, such as in an AWS account you own, and that you use for testing/experimentation. Another use case for having a private extension is for validation logic that is company-specific or proprietary.
-
-For more information on private extensions, see [Using private extensions in CloudFormation](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/registry-register.html). For more information on public extensions, see [Publishing extensions to make them available for public use](https://docs.aws.amazon.com/cloudformation-cli/latest/userguide/publish-extension.html).
-
-::alert[Please refer to [AWS CloudFormation pricing](https://aws.amazon.com/cloudformation/pricing/) for information on charges to your account when you use hooks.]{type="info"}
-
-
-### Key concepts
-
-Key concepts for developing a hook include:
-
-* [model](https://docs.aws.amazon.com/cloudformation-cli/latest/hooks-userguide/hooks-model.html): a document where you describe which resource type (or types) you wish to trigger a hook invocation, and at which lifecycle phase (pre-create, pre-update, or pre-delete). Moreover, if you plan to make AWS API calls from your hook to make additional validation checks, you can also specify the relevant permissions you need in the model;
-* [handlers](https://docs.aws.amazon.com/cloudformation-cli/latest/hooks-userguide/hooks-model.html#model-hook-project-add-handler): the invocation points for your hook: at least one of `preCreate`, `preUpdate`, or `preDelete` is required.
+Please refer to AWS CloudFormation pricing for information on charges to your account when you use hooks.

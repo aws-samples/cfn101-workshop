@@ -4,8 +4,23 @@ weight: 420
 ---
 
 ### Overview
+::alert[You have the choice to register your hook as a private or as a public extension in the CloudFormation registry: this lab covers private extension examples.]{type="info"}
 
-In this lab, you'll follow steps to build and submit a sample hook, that you'll write in Python, to the AWS CloudFormation registry in your AWS account for a given AWS region as a private extension. You'll also navigate through the example source code implementation logic for the hook, to understand key concepts and best practices.
+When you submit a private extension (such as a module, a resource type, or a hook), you make it available in the CloudFormation registry in your AWS account for a given AWS region: private extensions give you the ability to test the behavior of your resource type in a sandbox environment, such as in an AWS account you own, and that you use for testing/experimentation. Another use case for having a private extension is for validation logic that is company-specific or proprietary.
+
+For more information on private extensions, see [Using private extensions in CloudFormation](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/registry-register.html). For more information on public extensions, see [Publishing extensions to make them available for public use](https://docs.aws.amazon.com/cloudformation-cli/latest/userguide/publish-extension.html).
+
+::alert[Please refer to [AWS CloudFormation pricing](https://aws.amazon.com/cloudformation/pricing/) for information on charges to your account when you use hooks.]{type="info"}
+
+
+### Key concepts
+
+Key concepts for developing a hook include:
+
+* [model](https://docs.aws.amazon.com/cloudformation-cli/latest/hooks-userguide/hooks-model.html): a document where you describe which resource type (or types) you wish to trigger a hook invocation, and at which lifecycle phase (pre-create, pre-update, or pre-delete). Moreover, if you plan to make AWS API calls from your hook to make additional validation checks, you can also specify the relevant permissions you need in the model;
+* [handlers](https://docs.aws.amazon.com/cloudformation-cli/latest/hooks-userguide/hooks-model.html#model-hook-project-add-handler): the invocation points for your hook: at least one of `preCreate`, `preUpdate`, or `preDelete` is required.
+
+In this lab, you'll follow steps to build and submit a custom hook, that you'll write in Python, to the AWS CloudFormation registry in your AWS account for a given AWS region as a private extension. You'll also navigate through the example source code implementation logic for the hook, to understand key concepts and best practices.
 
 
 ### Topics Covered
