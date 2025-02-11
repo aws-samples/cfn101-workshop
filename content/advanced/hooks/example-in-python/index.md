@@ -1,5 +1,5 @@
 ---
-title: "Example in Python"
+title: "Custom Hooks"
 weight: 420
 ---
 
