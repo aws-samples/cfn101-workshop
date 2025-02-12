@@ -1,8 +1,20 @@
 ---
-title: "Deploy Lambda functions for Hook"
+title: "Deploy Lambda function for Hook"
 weight: 510
 ---
 
-### Introduction
+### Review Lambda Function
 
-Deploy Lambda functions for Hook
+Instructions to navigate to the fucntion code
+
+#### Request input
+
+#### Response
+
+#### Stack Resource Evaluation
+
+### Deploy Lambda Fucntion
+
+Deployment Instructions
+
+Test Lambda Function
