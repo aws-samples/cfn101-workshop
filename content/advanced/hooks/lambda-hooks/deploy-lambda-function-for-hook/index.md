@@ -216,48 +216,7 @@ Now, lets review how Lambda function needs to respond back to communicate reques
    ![lambda-deploy.png](/static/advanced/hook/lambda-deploy.png "lambda-deploy")
 3. The function is now live and ready to be tested.
 
-### Cloudformation Hook Role Access
-
-For Cloudformation Hook to access both DynamoDB and this lambda function we need to create a role for cloudformation hook to assume, deploy the following **hook-role.yaml** content and replace **<lambda arn>** with your lambda ARN:
-
-```
-AWSTemplateFormatVersion: '2010-09-09'
-Description: 'IAM roles for DynamoDB Configuration Hook'
-
-Resources:
-  HookExecutionRole:
-    Type: 'AWS::IAM::Role'
-    Properties:
-      AssumeRolePolicyDocument:
-        Version: '2012-10-17'
-        Statement:
-          - Effect: Allow
-            Principal:
-              Service: hooks.cloudformation.amazonaws.com
-            Action: 'sts:AssumeRole'
-      ManagedPolicyArns:
-        - 'arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole'
-      Policies:
-        - PolicyName: DynamoDBHookPolicy
-          PolicyDocument:
-            Version: '2012-10-17'
-            Statement:
-              - Effect: Allow
-                Action:
-                  - 'dynamodb:DescribeTable'
-                  - 'dynamodb:ListTables'
-                Resource: '*'
-        - PolicyName: InvokeHookFunction
-          PolicyDocument:
-            Version: '2012-10-17'
-            Statement:
-              - Effect: Allow
-                Action:
-                  - 'lambda:InvokeFunction'
-                Resource: '<lambda arn>'
-```
-
-#### Optional: Test Lambda Function
+#### **Step 4: Optional: Test Lambda Function**
 
 How to test Lambda function? create sample payload for testing.
 
