@@ -1,10 +1,6 @@
 ---
 title: "Activate a Lambda Hook"
-<<<<<<< Updated upstream
 weight: 530
-=======
-weight: 500
->>>>>>> Stashed changes
 ---
 
 ### Introduction

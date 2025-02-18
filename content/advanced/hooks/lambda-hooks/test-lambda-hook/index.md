@@ -2,12 +2,6 @@
 title: "Test Lambda Hook"
 weight: 540
 ---
-
-<<<<<<< Updated upstream
-### Introduction
-
-Test Scenarios and instructions
-=======
 ### **Introduction**
 
 Now that we have deployed the **DynamoDBConfigValidationHook**, we need to test it to ensure it correctly validates DynamoDB configurations before CloudFormation provisions resources.
@@ -142,4 +136,3 @@ aws cloudformation delete-stack --stack-name YourStackName
 ---
 
 **Congratulations! You have successfully tested and validated your Lambda Hook for DynamoDB configurations.**
->>>>>>> Stashed changes
