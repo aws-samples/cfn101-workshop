@@ -1,6 +1,10 @@
 ---
 title: "Prepare to create a Lambda Hook"
+<<<<<<< Updated upstream
 weight: 520
+=======
+weight: 510
+>>>>>>> Stashed changes
 ---
 
 ### **Introduction**
@@ -79,6 +83,11 @@ Resources:
                 Resource: "<lambda arn>" # Replace this with the actual Lambda ARN
 ```
 
+<<<<<<< Updated upstream
+=======
+::alert[If you've cloned our repo then you can also find this yaml file in our _cfn101-workshop/code/workspace/hooks/hook-role.yaml_ folder.]{type="info"}
+
+>>>>>>> Stashed changes
 #### ** Deploy the Hook Role via AWS Console**
 
 1. **Open AWS CloudFormation Console**:
@@ -128,15 +137,27 @@ Resources:
 
    ![hook-detail.png](/static/advanced/hook/hook-detail.png "hook-detail")
 
+<<<<<<< Updated upstream
 #### ** Review and Create Hook**
+=======
+#### **Review and Create Hook**
+>>>>>>> Stashed changes
 
 1. Click **Next**.
 2. Review the settings.
 3. Click **Create** to register the Hook.
+<<<<<<< Updated upstream
 
 ---
 
 ### **Attaching the Hook to a CloudFormation Stack**
+=======
+   ![hook-review.png](/static/advanced/hook/hook-review.png "hook-review")
+
+---
+
+### **Optional: Attaching the Hook to an existing CloudFormation Stack**
+>>>>>>> Stashed changes
 
 1. Open the **AWS CloudFormation Console**.
 2. Select the **stack** to which the Hook should be applied.
