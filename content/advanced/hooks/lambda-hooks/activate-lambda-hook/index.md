@@ -1,6 +1,6 @@
 ---
 title: "Activate a Lambda Hook"
-weight: 500
+weight: 530
 ---
 
 ### Introduction

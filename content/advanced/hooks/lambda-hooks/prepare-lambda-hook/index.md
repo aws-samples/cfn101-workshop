@@ -1,6 +1,6 @@
 ---
 title: "Prepare to create a Lambda Hook"
-weight: 510
+weight: 520
 ---
 
 ### **Introduction**
