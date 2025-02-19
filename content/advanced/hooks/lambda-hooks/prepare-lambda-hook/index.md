@@ -36,11 +36,17 @@ Since the Lambda function **DynamoDBConfigValidationHook** has already been depl
 
 ### **Step 2: CloudFormation Hook Role Access**
 
-For the CloudFormation Hook to access **both DynamoDB and the Lambda function**, we must create a role that **CloudFormation Hooks** can assume.
+To enable the **CloudFormation Hook** to validate **DynamoDB configurations** by invoking the Lambda function, we must create an IAM role that CloudFormation Hooks can assume. This role ensures that the hook has the necessary permissions to:
 
-#### ** Deploy the Hook Execution Role**
+1. **Access DynamoDB**: The hook needs permission to check the table configurations, such as whether Point-In-Time Recovery is enabled.
+2. **Invoke the Lambda Function**: The hook calls the Lambda function, which performs validation checks on the DynamoDB configuration.
 
-1. **Replace `<lambda arn>` with the copied ARN** in the following **hook-role.yaml** file:
+By defining a dedicated **IAM role**, we ensure that CloudFormation Hooks can securely perform these operations without requiring excessive permissions across AWS services.
+
+#### **Deploy the Hook Execution Role**
+
+1. Copy the **Amazon Resource Name (ARN) of your Lambda function** from the AWS Management Console.
+2. **Replace `<lambda arn>` with the copied ARN** in the following **hook-role.yaml** file:
 
 ```yaml
 AWSTemplateFormatVersion: "2010-09-09"
@@ -79,9 +85,11 @@ Resources:
                 Resource: "<lambda arn>" # Replace this with the actual Lambda ARN
 ```
 
+3.  Deploy the IAM role using AWS CloudFormation, which grants necessary permissions to the hook.
+
 ::alert[If you've cloned our repo then you can also find this yaml file in our _cfn101-workshop/code/workspace/hooks/hook-role.yaml_ folder.]{type="info"}
 
-#### ** Deploy the Hook Role via AWS Console**
+#### **3.Deploy the Hook Role via AWS Console**
 
 1. **Open AWS CloudFormation Console**:
 
@@ -107,42 +115,9 @@ Resources:
 
 5. **Wait for Deployment Completion**:
    - Navigate to the **Resources** tab.
-   - Look for `HookExecutionRole` and **copy its Physical ID**.
+   - Look for `HookExecutionRole` and **copy its Physical ID** for later use.
+6. **Activate the Lambda Hook**:
+   - Now all the preapration is done.
+   - The Lambda we created is now ready and we need to activate the lambda hook so we can test the Lambda Hook in next section.
 
 ---
-
-### **Step 3: Using AWS Console to Create a Lambda Hook**
-
-#### **Open AWS CloudFormation Hooks**
-
-1. Open **AWS CloudFormation Console**.
-2. Navigate to the **Hooks** section.
-3. Click **Create Hook**.
-
-#### **Configure Hook Settings**
-
-1. **Hook Name** – `DynamoDBConfigValidationHook`
-2. **Lambda Function ARN** – Enter the **ARN copied earlier**.
-3. **Hook Targets** – Select **Resources**, which evaluates CloudFormation resource changes during a stack update.
-4. **Hook Actions** – Select **Create, Update, and Delete** to ensure enforcement at all lifecycle stages.
-5. **Hook Mode** – Set to **Fail**, stopping the provisioning operation when a validation check fails.
-6. **Execution Role** – Choose **Existing Execution Role** and select the **HookExecutionRole** created earlier.
-
-   ![hook-detail.png](/static/advanced/hook/hook-detail.png "hook-detail")
-
-#### **Review and Create Hook**
-
-1. Click **Next**.
-2. Review the settings.
-3. Click **Create** to register the Hook.
-   ![hook-review.png](/static/advanced/hook/hook-review.png "hook-review")
-
----
-
-### **Optional: Attaching the Hook to an existing CloudFormation Stack**
-
-1. Open the **AWS CloudFormation Console**.
-2. Select the **stack** to which the Hook should be applied.
-3. Click **Update**.
-4. Under **Hooks**, select `DynamoDBConfigValidationHook`.
-5. Save and update the stack.

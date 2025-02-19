@@ -3,15 +3,26 @@ title: "Deploy Lambda function for Hook"
 weight: 510
 ---
 
-### Review Lambda Function
+### Deploy Lambda Function
 
-To navigate to the Lambda function code:
+#### **Step 1: Open AWS Lambda Console**
 
-1. Open the **AWS Lambda Console**.
-2. Locate the function deployed for the hook (e.g., `DynamoDBConfigValidationHook`).
-3. Click on the function to view its implementation.
+1. Go to [AWS Lambda Console](https://console.aws.amazon.com/lambda).
+2. Click on **Create function**.
+3. Under **Choose a function type**, select **Author from scratch**.
 
-Now, let's do a quick overview of the Lambda function implementation.
+#### **Step 2: Configure Function Settings**
+
+1. **Function name**: Enter a name (e.g., `DynamoDBConfigValidationHook`).
+2. **Runtime**: Select `Python 3.13`.
+3. **Execution role**:
+   - Choose **Create a new role with basic Lambda permissions** which is the default option for execution role.
+     ![lambda-creation.png](/static/advanced/hook/lambda-creation.png "lambda-creation")
+4. **Click on Creat function**
+
+#### **Step 3: Deploy the Lambda Code**
+
+1. Paste in below lambda code:
 
 ```python
 # Lambda function for evaluating DynamoDB table compliance
@@ -37,20 +48,10 @@ def validate_dynamodb_table(table_config):
     if read_capacity > 20 or write_capacity > 20:
         validation_errors.append("ReadCapacityUnits and WriteCapacityUnits must not exceed 20.")
 
-    # Check Global Secondary Indexes
-    gsi = table_config.get('GlobalSecondaryIndexes', [])
-    if not gsi:
-        validation_errors.append("At least one Global Secondary Index (GSI) must be defined.")
-
     # Check Point-In-Time Recovery
     point_in_time_recovery = table_config.get('PointInTimeRecoverySpecification', {}).get('PointInTimeRecoveryEnabled', False)
     if not point_in_time_recovery:
         validation_errors.append("PointInTimeRecoverySpecification must be enabled.")
-
-    # Check Billing Mode
-    billing_mode = table_config.get('BillingMode', '')
-    if billing_mode != "PAY_PER_REQUEST":
-        validation_errors.append("BillingMode must be set to PAY_PER_REQUEST.")
 
     return validation_errors
 
@@ -125,16 +126,31 @@ def lambda_handler(event, context):
 
 ```
 
-#### Stack Resource Evaluation
+2. Click on the **Depoly** button.
+   ![lambda-deploy.png](/static/advanced/hook/lambda-deploy.png "lambda-deploy")
+3. The function is now live and ready to be tested.
+
+#### Step 4: (Optional) Review Lambda Function
+
+Before we dive into mock testing the lambda function let's review what this lambda function is doing.
+
+To navigate to the Lambda function code:
+
+1. Open the **AWS Lambda Console**.
+2. Locate the function deployed for the hook (e.g., `DynamoDBConfigValidationHook`).
+3. Click on the function to view its implementation.
+
+Now, let's do a quick overview of the Lambda function implementation. There are plenty comments in the lambda code explaining each line of the code, take a look at them if you have time.
+
+##### Stack Resource Evaluation
 
 The function evaluates:
 
 - **Read and Write Capacity** (should not exceed 20).
-- **Global Secondary Indexes** (must have at least one).
 - **Point-In-Time Recovery** (must be enabled).
 - **Billing Mode** (must be PAY_PER_REQUEST).
 
-#### Request Input
+##### Request Input
 
 Here is an example input for the request:
 
@@ -167,11 +183,32 @@ Here is an example input for the request:
 }
 ```
 
-#### Response
+##### Response
 
 Now, lets review how Lambda function needs to respond back to communicate request sucess or failure.
 
-##### Example of a Successful Response
+##### Response Attributes Explanation
+
+**hookStatus**: Represents the overall validation status. Possible values include:
+
+- "SUCCESS": Indicates that the validation checks have passed.
+- "FAILED": Indicates that the validation checks have failed.
+
+**message**: Provides a human-readable explanation of the validation result.
+
+- In a success response, it confirms that the configuration meets the required standards.
+- In a failure response, it specifies the issue that caused the validation failure.
+
+**clientRequestToken**: A unique identifier associated with the request, which helps track validation attempts.
+
+**errorCode** (only in failure responses): Provides a specific error code related to the validation failure.
+
+- "NonCompliant": Indicates that the DynamoDB configuration does not meet compliance requirements.
+- "InvalidRequest": This means needed input from the hook event did not include attributes like `requestData,targetModel or targetType`
+
+###### Example of a Successful Response
+
+If the DynamoDB configuration has passed all validation checks, including Check Point-In-Time Recovery and Check Read and Write Capacity, the Lambda function returns the following response:
 
 ```json
 {
@@ -183,6 +220,8 @@ Now, lets review how Lambda function needs to respond back to communicate reques
 
 ##### Example of a Failed Response
 
+If the DynamoDB configuration does not have the Check Point-In-Time Recovery feature enabled, the validation will fail, and the Lambda function will return a response similar to this:
+
 ```json
 {
   "hookStatus": "FAILED",
@@ -192,33 +231,11 @@ Now, lets review how Lambda function needs to respond back to communicate reques
 }
 ```
 
-### Deploy Lambda Function
+This response indicates that the configuration is non-compliant and requires corrective action to pass the validation checks.
 
-#### **Step 1: Open AWS Lambda Console**
+#### **Step 5: Optional: Mock Test Lambda Function**
 
-1. Go to [AWS Lambda Console](https://console.aws.amazon.com/lambda).
-2. Click on **Create function**.
-3. Under **Choose a function type**, select **Author from scratch**.
-
-#### **Step 2: Configure Function Settings**
-
-1. **Function name**: Enter a name (e.g., `DynamoDBConfigValidationHook`).
-2. **Runtime**: Select `Python 3.13`.
-3. **Execution role**:
-   - Choose **Create a new role with basic Lambda permissions** which is the default option for execution role.
-     ![lambda-creation.png](/static/advanced/hook/lambda-creation.png "lambda-creation")
-4. **Click on Creat function**
-
-#### **Step 3: Deploy the Lambda Code**
-
-1. Paste in the above lambda code.
-2. Click on the **Depoly** button.
-   ![lambda-deploy.png](/static/advanced/hook/lambda-deploy.png "lambda-deploy")
-3. The function is now live and ready to be tested.
-
-#### **Step 4: Optional: Test Lambda Function**
-
-How to test Lambda function? create sample payload for testing.
+If you are wondering that how will we test the Lambda function? create sample payload for testing.
 
 1. Create Test Event Create a new test event in the Lambda console with this sample payload:
 
@@ -230,24 +247,9 @@ How to test Lambda function? create sample payload for testing.
     "targetModel": {
       "resourceProperties": {
         "TableName": "TestTable",
-        "BillingMode": "PAY_PER_REQUEST",
         "PointInTimeRecoverySpecification": {
           "PointInTimeRecoveryEnabled": true
         },
-        "GlobalSecondaryIndexes": [
-          {
-            "IndexName": "TestGSI",
-            "KeySchema": [
-              {
-                "AttributeName": "GSIKey",
-                "KeyType": "HASH"
-              }
-            ],
-            "Projection": {
-              "ProjectionType": "ALL"
-            }
-          }
-        ],
         "ProvisionedThroughput": {
           "ReadCapacityUnits": 5,
           "WriteCapacityUnits": 5
@@ -259,11 +261,26 @@ How to test Lambda function? create sample payload for testing.
 }
 ```
 
+Create a test event just like this one below with the above JSON text:
 ![lambda-test.png](/static/advanced/hook/lambda-test.png "lambda-test")
 
-2. Click on the test button to test this hook, you will see something similar to this:
-   ![lambda-test-success.png](/static/advanced/hook/lambda-test-success.png "lambda-test-success")
+2. Click on the test button to test this hook, you will see the lambda return something similar to this:
 
-3. Try play with the event to see the test fail, like this:
-   ![lambda-test-fail.png](/static/advanced/hook/lambda-test-fail.png "lambda-test-fail")
+   ```JSON
+   {
+   "hookStatus": "SUCCESS",
+   "message": "DynamoDB configuration validation successful",
+   "clientRequestToken": "test-token-123"
+   }
+   ```
+
+3. Try play with the event to see the test fail with this output which has multiple failed checks, like this:
+   ```JSON
+   {
+   "hookStatus": "FAILED",
+   "errorCode": "NonCompliant",
+   "message": "DynamoDB configuration validation failed: ReadCapacityUnits and WriteCapacityUnits must not exceed 20., PointInTimeRecoverySpecification must be enabled.",
+   "clientRequestToken": "test-token-123"
+   }
+   ```
 4. Now you will have a good idea of how lambda work for a Cloudformation hook.
