@@ -37,5 +37,5 @@ When you activate a Lambda Hook, CloudFormation creates an entry in your account
 4. Then wait for a few seconds for the Hook to be created.
    ![hook-activate-after-creation.png](/static/advanced/hook/hook-activate-after-creation.png "hook-activate-after-creation")
 
-TODO:Add Clouser text 2/3 lines
+TODO jjlei:Add Clouser text 2/3 lines
 ---

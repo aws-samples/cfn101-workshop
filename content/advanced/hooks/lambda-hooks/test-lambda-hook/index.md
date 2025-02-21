@@ -17,6 +17,7 @@ We will test the hook with two diffrent CloudFormation stacks.
 Locate and open the `noncompliant-ddb.yaml` file.
 The CloudFormation template in this file **violates several validation rules** that the Lambda Hook is currently validating.
 
+TODO jjlei: update noncompliant-ddb.yaml to sync with below cfn
 ```
 AWSTemplateFormatVersion: '2010-09-09'
 Resources:
@@ -33,7 +34,7 @@ Resources:
       ProvisionedThroughput:
         ReadCapacityUnits: 25  # Exceeds allowed limit
         WriteCapacityUnits: 10
-      GlobalSecondaryIndexes: []  # No GSI defined
+      GlobalSecondaryIndexes: []
       PointInTimeRecoverySpecification:
         PointInTimeRecoveryEnabled: false  # Must be enabled
       BillingMode: "PROVISIONED"  # Must be PAY_PER_REQUEST
@@ -52,7 +53,7 @@ aws cloudformation wait stack-create-complete \
     --stack-name ddb-noncompliant-stack \
     --region us-east-1
 ```
-**TODO: Verify Below what is the output of wait command**
+**TODO jjlei: Verify Below what is the output of wait command**
 
 In this case, since stack contains DynamoDB defination which is non compliant as per validation logic in the Lambda Hook, the stack will fail to create as hook return an error. The previous `wait` command returns back to the shell with a `StackCreateComplete` failed error.
 
@@ -116,7 +117,7 @@ aws cloudformation wait stack-create-complete \
     --stack-name ddb-compliant-stack \
     --region us-east-1
 ```
-**TODO: Verify Below what is the output of wait command**
+**TODO jjlei: Verify Below what is the output of wait command**
 
 The `ddb-compliant-stack` passes all the validation checks from Lambda Hook and stack is executed sucessfully and previous`wait` command returns back to shell with a `StackCreateComplete` status.
 
@@ -147,16 +148,16 @@ To analyze validation logs, follow these steps:
 3. Locate **`/aws/lambda/DynamoDBConfigValidationHook`**.
 4. Review log messages to confirm validation checks and errors.
 ---
-**TODO: Add screenshots for CW Logs**
+**TODO jjlei: Add screenshots for CW Logs**
 
+TODO: dessumi move this to cleanup section
 ### Clean Up Resources
 
 After testing, you can delete the test resources.
-
 #### Using AWS CLI**
 
 Run the following command to delete a specific stack:
-**TODO:add commands for each Stack deletion**
+**TODO dessumi:add commands for each Stack deletion**
 ```
 aws cloudformation delete-stack --stack-name YourStackName
 ```
@@ -164,8 +165,8 @@ aws cloudformation delete-stack --stack-name YourStackName
 
 - Verify that the **Lambda function, IAM roles, and log groups** are deleted if they are no longer needed.
 
-**TODO:Add deregistring the Hook steps**
-**TODO:add undeploy Lambds function steps**
+**TODO dessumi:Add deregistring the Hook steps**
+**TODO dessumi:add undeploy Lambds function steps**
 ---
 
 **Congratulations! You have successfully tested and validated your Lambda Hook for DynamoDB configurations.**

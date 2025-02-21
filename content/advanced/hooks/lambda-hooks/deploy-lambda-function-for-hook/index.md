@@ -4,8 +4,8 @@ weight: 510
 ---
 
 ### Deploy Lambda Function
-TODO: add intro text
-TODO: Add intructions how to access lambda code
+TODO jjlei: add intro text
+TODO jjlei: Add intructions how to access lambda code (cd to correct directory from cloned git code etc)
 #### **Step 1: Open AWS Lambda Console**
 
 1. Go to [AWS Lambda Console](https://console.aws.amazon.com/lambda).
