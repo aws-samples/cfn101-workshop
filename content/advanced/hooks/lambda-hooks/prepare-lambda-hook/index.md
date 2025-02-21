@@ -4,8 +4,10 @@ weight: 510
 ---
 
 ### **Introduction**
+TODO: Need to Reword and focus should be on prep work
+Queston : The user or role that creates the Hook must have sufficient permissions to activate Hooks???
 
-To implement a **Lambda Hook** for validating **DynamoDB configurations**, we need to complete the following steps:
+Before you create a **Lambda Hook** for validating **DynamoDB configurations**, we need to complete the following steps to create an execution role with IAM permissions and a trust policy to allow CloudFormation to invoke a Lambda Hook.
 
 1. **Retrieve the Lambda Function ARN** – This ARN is required to configure the Hook Execution Role.
 2. **Deploy the CloudFormation Hook Execution Role** – This role allows CloudFormation Hooks to assume permissions for invoking Lambda and reading DynamoDB configurations.
@@ -116,6 +118,8 @@ Resources:
 5. **Wait for Deployment Completion**:
    - Navigate to the **Resources** tab.
    - Look for `HookExecutionRole` and **copy its Physical ID** for later use.
+
+TODO:Activate the Lambda Hook ? is this part of step 6 or next section.
 6. **Activate the Lambda Hook**:
    - Now all the preapration is done.
    - The Lambda we created is now ready and we need to activate the lambda hook so we can test the Lambda Hook in next section.

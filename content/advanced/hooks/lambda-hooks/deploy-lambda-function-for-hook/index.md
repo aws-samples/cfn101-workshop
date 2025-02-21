@@ -4,7 +4,8 @@ weight: 510
 ---
 
 ### Deploy Lambda Function
-
+TODO: add intro text
+TODO: Add intructions how to access lambda code
 #### **Step 1: Open AWS Lambda Console**
 
 1. Go to [AWS Lambda Console](https://console.aws.amazon.com/lambda).
@@ -130,9 +131,9 @@ def lambda_handler(event, context):
    ![lambda-deploy.png](/static/advanced/hook/lambda-deploy.png "lambda-deploy")
 3. The function is now live and ready to be tested.
 
-#### Step 4: (Optional) Review Lambda Function
+#### Step 4: Review Lambda Function
 
-Before we dive into mock testing the lambda function let's review what this lambda function is doing.
+Before we dive into  testing the lambda function let's review what this lambda function is doing.
 
 To navigate to the Lambda function code:
 
@@ -144,7 +145,7 @@ Now, let's do a quick overview of the Lambda function implementation. There are 
 
 ##### Stack Resource Evaluation
 
-The function evaluates:
+The function evaluates below deployment configurations for Amazon DynamoDB:
 
 - **Read and Write Capacity** (should not exceed 20).
 - **Point-In-Time Recovery** (must be enabled).
@@ -237,7 +238,7 @@ This response indicates that the configuration is non-compliant and requires cor
 
 If you are wondering that how will we test the Lambda function? create sample payload for testing.
 
-1. Create Test Event Create a new test event in the Lambda console with this sample payload:
+Create Test Event Create a new test event in the Lambda console with this sample payload:
 
 ```json
 {
@@ -264,7 +265,7 @@ If you are wondering that how will we test the Lambda function? create sample pa
 Create a test event just like this one below with the above JSON text:
 ![lambda-test.png](/static/advanced/hook/lambda-test.png "lambda-test")
 
-2. Click on the test button to test this hook, you will see the lambda return something similar to this:
+Click on the test button to test this hook, you will see the lambda return something similar to this:
 
    ```JSON
    {
@@ -274,7 +275,7 @@ Create a test event just like this one below with the above JSON text:
    }
    ```
 
-3. Try play with the event to see the test fail with this output which has multiple failed checks, like this:
+Update the test event with `ReadCapacityUnits` value to more than 20, `PointInTimeRecoveryEnabled` value to `False`  and test again. In this case, lambda fucntion validation fails for multiple checks and lambda fucntion response will be similar to this:
    ```JSON
    {
    "hookStatus": "FAILED",
@@ -283,4 +284,4 @@ Create a test event just like this one below with the above JSON text:
    "clientRequestToken": "test-token-123"
    }
    ```
-4. Now you will have a good idea of how lambda work for a Cloudformation hook.
+Now lambda fucntion has deployed and validated, lets focus on using this lambda function to confgiure lambda hook.
