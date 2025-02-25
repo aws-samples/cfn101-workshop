@@ -118,9 +118,8 @@ Resources:
    - Navigate to the **Resources** tab.
    - Look for `HookExecutionRole` and **copy its Physical ID** for later use.
 
-TODO dessumi add transition statment.
-6. **Activate the Lambda Hook**:
-   - Now all the preapration is done.
-   - The Lambda we created is now ready and we need to activate the lambda hook so we can test the Lambda Hook in next section.
+Now, all the preapration is done. The Lambda we created is now ready and we need to activate the lambda hook.
+
+Choose **Next** to continue!
 
 ---

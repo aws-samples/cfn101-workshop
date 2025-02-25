@@ -5,10 +5,9 @@ weight: 550
 
 ### Introduction
 
-TODO: dessumi move this to cleanup section
 ### Clean Up Resources
 
-After testing, you can delete the test resources.
+After testing is completed, you can delete the resources we created during this Lab.
 #### Using AWS CLI**
 
 Run the following command to delete a specific stack:
