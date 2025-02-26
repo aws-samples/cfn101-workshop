@@ -4,8 +4,21 @@ weight: 510
 ---
 
 ### Deploy Lambda Function
-TODO jjlei: add intro text
-TODO jjlei: Add intructions how to access lambda code (cd to correct directory from cloned git code etc)
+
+To ensure that our AWS Lambda Hook is functional, we need to deploy the Lambda function that will validate the DynamoDB configurations. This function will check attributes such as read/write capacity and point-in-time recovery before a CloudFormation stack is created or updated.
+
+This guide will walk you through deploying the Lambda function manually via the AWS Console.
+
+Before deploying, ensure you have access to the Lambda function code, you could achieve that by the using following commands in your terminal:
+
+```sh
+# clone our repo if you have not already done so.
+git clone https://github.com/aws-samples/cfn101-workshop.git
+
+# Navigate to the directory where the Lambda function is stored
+cd cfn101-workshop/code/workspace/hooks/lambda_hook
+```
+
 #### **Step 1: Open AWS Lambda Console**
 
 1. Go to [AWS Lambda Console](https://console.aws.amazon.com/lambda).
@@ -133,7 +146,7 @@ def lambda_handler(event, context):
 
 #### Step 4: Review Lambda Function
 
-Before we dive into  testing the lambda function let's review what this lambda function is doing.
+Before we dive into testing the lambda function let's review what this lambda function is doing.
 
 To navigate to the Lambda function code:
 
@@ -267,21 +280,23 @@ Create a test event just like this one below with the above JSON text:
 
 Click on the test button to test this hook, you will see the lambda return something similar to this:
 
-   ```JSON
-   {
-   "hookStatus": "SUCCESS",
-   "message": "DynamoDB configuration validation successful",
-   "clientRequestToken": "test-token-123"
-   }
-   ```
+```JSON
+{
+"hookStatus": "SUCCESS",
+"message": "DynamoDB configuration validation successful",
+"clientRequestToken": "test-token-123"
+}
+```
 
-Update the test event with `ReadCapacityUnits` value to more than 20, `PointInTimeRecoveryEnabled` value to `False`  and test again. In this case, lambda fucntion validation fails for multiple checks and lambda fucntion response will be similar to this:
-   ```JSON
-   {
-   "hookStatus": "FAILED",
-   "errorCode": "NonCompliant",
-   "message": "DynamoDB configuration validation failed: ReadCapacityUnits and WriteCapacityUnits must not exceed 20., PointInTimeRecoverySpecification must be enabled.",
-   "clientRequestToken": "test-token-123"
-   }
-   ```
+Update the test event with `ReadCapacityUnits` value to more than 20, `PointInTimeRecoveryEnabled` value to `False` and test again. In this case, lambda fucntion validation fails for multiple checks and lambda fucntion response will be similar to this:
+
+```JSON
+{
+"hookStatus": "FAILED",
+"errorCode": "NonCompliant",
+"message": "DynamoDB configuration validation failed: ReadCapacityUnits and WriteCapacityUnits must not exceed 20., PointInTimeRecoverySpecification must be enabled.",
+"clientRequestToken": "test-token-123"
+}
+```
+
 Now lambda fucntion has deployed and validated, lets focus on using this lambda function to confgiure lambda hook.
