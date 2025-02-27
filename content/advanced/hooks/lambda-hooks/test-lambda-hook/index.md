@@ -45,12 +45,13 @@ Resources:
 
 Next, from the directory where the file above is, use the AWS CLI to create a stack, in the us-east-1 region, with that template:
 
-```
+:::code{language=shell showLineNumbers=false showCopyAction=true}
+
 aws cloudformation create-stack \
     --stack-name ddb-noncompliant-stack \
     --template-body file://noncompliant-ddb.yaml \
     --region us-east-1
-```
+:::
 
 The cloudformation `create-stack` command will return an output in JSON format like this:
 
@@ -62,11 +63,11 @@ The cloudformation `create-stack` command will return an output in JSON format l
 
 Then let's wait for the deployment of the stack to be completed by the following command:
 
-```
+:::code{language=shell showLineNumbers=false showCopyAction=true}
 aws cloudformation wait stack-create-complete \
     --stack-name ddb-noncompliant-stack \
     --region us-east-1
-```
+:::
 
 Use the following command to wait for stack creation completion:
 
@@ -100,8 +101,6 @@ Here is an example of the `HOOK_COMPLETE_FAILED` status:
 Locate and open the `compliant-ddb.yaml` file.
 The CloudFormation template in this file **meets all the required compliance checks** that the Lambda Hook is currently validating.
 
-**TODO: Update stack with comments for validation compliance**
-
 ```
 AWSTemplateFormatVersion: '2010-09-09'
 Resources:
@@ -130,20 +129,20 @@ Resources:
 
 Next, from the directory where the file above is, use the AWS CLI to create a stack, in the us-east-1 region, with that template:
 
-```
+:::code{language=shell showLineNumbers=false showCopyAction=true}
 aws cloudformation create-stack \
     --stack-name ddb-compliant-stack \
     --template-body file://compliant-ddb.yaml \
     --region us-east-1
-```
+:::
 
 Next, just like for the non-compliant stack deployment, wait for the stack creation to complete:
 
-```
+:::code{language=shell showLineNumbers=false showCopyAction=true}
 aws cloudformation wait stack-create-complete \
     --stack-name ddb-compliant-stack \
     --region us-east-1
-```
+:::
 
 Unlike the non-compliant stack, this command will not output any message upon successful completion. To confirm that the stack was created successfully, navigate to the **AWS CloudFormation Console** and review the results.
 
@@ -179,47 +178,5 @@ To analyze validation logs, follow these steps:
 
 - In contrast, the screenshot below illustrates **an example log of a failed stack** creation due to non-compliance with the validation rules enforced by the Lambda Hook:
   ![cloudwatch-hook-fail.png](/static/advanced/hook/cloudwatch-hook-fail.png "non Compliant Hook Logs")
-
-### Clean Up Resources
-
-After testing, you can delete the test resources.
-
-#### Using AWS CLI
-
-Run the following commands to delete the test CloudFormation stacks:
-
-```
-aws cloudformation delete-stack --stack-name ddb-noncompliant-stack --region us-east-1
-
-aws cloudformation delete-stack --stack-name ddb-compliant-stack --region us-east-1
-```
-
-#### **Ensure Complete Cleanup**
-
-- Verify that the **Lambda function, IAM roles(deployed using hook-role.yaml file)** are deleted if they are no longer needed.
-
-### **Disable the Hook in the Management Console**
-
-To disable a Hook in your account
-
-1. Sign in to the AWS Management Console and open the AWS [CloudFormation console](https://console.aws.amazon.com/cloudformation).
-
-2. On the navigation bar at the top of the screen, choose the AWS Region where the Hook is located.
-
-3. From the navigation pane, choose **Hooks**.
-
-4. Choose the name of the Hook you want to **disable**.
-
-5. On the Hook details page, to the right of the Hook's name, choose the Disable button.
-
-6. When prompted for confirmation, choose **Disable Hook**.
-
-To remove the lambda function using the AWS Console:
-
-1. Open the [AWS Lambda Console](https://console.aws.amazon.com/lambda).
-2. Find `DynamoDBConfigValidationHook` and click on the function.
-3. Click **Delete** from the **Actions** drop-down menu.
-
----
 
 **Congratulations! You have successfully tested and validated your Lambda Hook for DynamoDB configurations.**
