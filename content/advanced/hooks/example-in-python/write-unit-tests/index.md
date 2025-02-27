@@ -1,6 +1,6 @@
 ---
 title: "Write unit tests"
-weight: 450
+weight: 650
 ---
 
 You've written code to implement the business logic of your hook. As part of software development best practices, you'll now write unit tests to verify that key pieces of your hook work as you expect, thus increasing your level of confidence on your code's functional aspects.

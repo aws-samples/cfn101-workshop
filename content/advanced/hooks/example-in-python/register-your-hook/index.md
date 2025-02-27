@@ -1,6 +1,6 @@
 ---
 title: "Register your hook"
-weight: 470
+weight: 670
 ---
 
 For you to use your hook with CloudFormation, you first need to submit it to the registry as a private extension. You can, subsequently, also choose to make your hook public, but we'll not cover this in this lab.

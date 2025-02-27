@@ -1,6 +1,6 @@
 ---
 title: "Write code"
-weight: 440
+weight: 640
 ---
 
 When you used the CloudFormation CLI to generate the project for your hook, it also created some files and directories in the `src/` directory. You'll next focus on inspecting and editing the content of the `handlers.py` file in the `src/examplecompany_s3_versioningenabled/` directory, to add the business logic for the proactive control you're implementing with your hook.

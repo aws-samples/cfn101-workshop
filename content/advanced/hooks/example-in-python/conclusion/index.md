@@ -1,6 +1,6 @@
 ---
 title: "Conclusion"
-weight: 499
+weight: 699
 ---
 
 Congratulations! You have built and tested a sample hook in Python! You've learned key concepts, expectations and objectives for you to keep in mind when writing your proactive validation controls with Hooks.
