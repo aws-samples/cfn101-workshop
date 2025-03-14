@@ -32,7 +32,7 @@ cd cfn101-workshop/code/workspace/hooks/lambda_hook
 3. **Execution role**:
    - Choose **Create a new role with basic Lambda permissions** which is the default option for execution role.
      ![lambda-creation.png](/static/advanced/hook/lambda-creation.png "lambda-creation")
-4. **Click on Creat function**
+4. **Click on Create function**
 
 #### **Step 3: Deploy the Lambda Code**
 
@@ -140,7 +140,7 @@ def lambda_handler(event, context):
 
 ```
 
-2. Click on the **Depoly** button.
+2. Click on the **Deploy** button.
    ![lambda-deploy.png](/static/advanced/hook/lambda-deploy.png "lambda-deploy")
 3. The function is now live and ready to be tested.
 
@@ -247,11 +247,15 @@ If the DynamoDB configuration does not have the Check Point-In-Time Recovery fea
 
 This response indicates that the configuration is non-compliant and requires corrective action to pass the validation checks.
 
-#### **Step 5: Optional: Mock Test Lambda Function**
+#### **Step 5(Optional): Mock Test Lambda Function**
 
-If you are wondering that how will we test the Lambda function? create sample payload for testing.
+Before integrating the Lambda function with CloudFormation hooks, it's helpful to test it independently. This step allows you to simulate how the hook will utilize the Lambda function during actual CloudFormation deployments.
 
-Create Test Event Create a new test event in the Lambda console with this sample payload:
+Let's create a test event to mock the hook's behavior:
+
+1. Navigate to the Lambda console and select the function we've created ealier in step 3.
+2. Click on the "Test" tab
+3. Create a new test event with this sample payload:
 
 ```json
 {
@@ -275,9 +279,12 @@ Create Test Event Create a new test event in the Lambda console with this sample
 }
 ```
 
-Create a test event just like this one below with the above JSON text:
+Create a test event like this one below with the above JSON text:
 ![lambda-test.png](/static/advanced/hook/lambda-test.png "lambda-test")
 
+##### Test Scenario 1: Compliant Configuration
+
+When you execute the test with the above payload, you should receive a successful response:
 Click on the test button to test this hook, you will see the lambda return something similar to this:
 
 ```JSON
@@ -288,7 +295,13 @@ Click on the test button to test this hook, you will see the lambda return somet
 }
 ```
 
-Update the test event with `ReadCapacityUnits` value to more than 20, `PointInTimeRecoveryEnabled` value to `False` and test again. In this case, lambda fucntion validation fails for multiple checks and lambda fucntion response will be similar to this:
+##### Test Scenario 2: Non-Compliant Configuration
+
+Modify the test event with these changes:
+
+- Update the test event with `ReadCapacityUnits` value to more than 20,
+- `PointInTimeRecoveryEnabled` value to `False`
+  and test again, with our non-compliant input, the Lambda function should return a failure response like below:
 
 ```JSON
 {
@@ -299,4 +312,6 @@ Update the test event with `ReadCapacityUnits` value to more than 20, `PointInTi
 }
 ```
 
-Now lambda fucntion has deployed and validated, lets focus on using this lambda function to confgiure lambda hook.
+These test scenarios demonstrate how the Lambda function validates DynamoDB table configurations before actual deployment. This pre-deployment validation helps ensure that your DynamoDB tables meet the required security and operational standards.
+
+Congrats on reaching this point! Now that we've verified the Lambda function works as expected, let's proceed to configuring the CloudFormation hook to use this Lambda function we've deployed.

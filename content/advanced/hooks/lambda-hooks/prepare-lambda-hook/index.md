@@ -4,6 +4,7 @@ weight: 510
 ---
 
 ### **Introduction**
+
 Queston : The user or role that creates the Hook must have sufficient permissions to activate Hooks??? update Workshop Studio persmission model contentspec.yaml.
 
 Before you create a **Lambda Hook** for validating **DynamoDB configurations**, we need to complete the following steps to create an execution role with IAM permissions and a trust policy to allow CloudFormation to invoke a Lambda Hook.
@@ -67,15 +68,6 @@ Resources:
       ManagedPolicyArns:
         - "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
       Policies:
-        - PolicyName: DynamoDBHookPolicy
-          PolicyDocument:
-            Version: "2012-10-17"
-            Statement:
-              - Effect: Allow
-                Action:
-                  - "dynamodb:DescribeTable"
-                  - "dynamodb:ListTables"
-                Resource: "*"
         - PolicyName: InvokeHookFunction
           PolicyDocument:
             Version: "2012-10-17"
@@ -118,7 +110,7 @@ Resources:
    - Navigate to the **Resources** tab.
    - Look for `HookExecutionRole` and **copy its Physical ID** for later use.
 
-Now, all the preapration is done. The Lambda we created is now ready and we need to activate the lambda hook.
+Now, all the preparation is done. The Lambda we created is now ready and we need to activate the Lambda hook.
 
 Choose **Next** to continue!
 

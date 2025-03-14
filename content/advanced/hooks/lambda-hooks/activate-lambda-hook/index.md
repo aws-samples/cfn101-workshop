@@ -15,22 +15,33 @@ When you activate a Lambda Hook, CloudFormation creates an entry in your account
 
 1. Open **AWS CloudFormation Console**.
 2. Navigate to the **Hooks** section.
-3. Click **Create Hook**.
+3. Click on **With Lambda** option in the **Create a Hook** dropdown list.
 
 ##### **Configure Hook Settings**
 
 ![hook-detail.png](/static/advanced/hook/hook-detail.png "hook-detail")
+Use the following parameters when configuing the lambda hook:
 
 1. **Hook Name** – `DynamoDBConfigValidationHook`
 2. **Lambda Function ARN** – Enter the **ARN copied earlier**.
-3. **Hook Targets** – Select **Resources**, which evaluates CloudFormation resource changes during a stack update.
-4. **Hook Actions** – Select **Create** to ensure enforcement on new cloudformation stacks to be created.
-5. **Hook Mode** – Set to **Fail**, stopping the provisioning operation when a validation check fails.
-6. **Execution Role** – Choose **Existing Execution Role** and select the **HookExecutionRole** created earlier.
-7. **Hook filters** We will add `AWS::DynamoDB::Table` to filter the hook to just check for the creations of DynamoDB tables.
-   ![hook-filters.png](/static/advanced/hook/hook-filters.png "hook-filters")
+3. **Hook Targets** – Select **Resources**.
+   ::alert[We choose **Resources** as the target because our Lambda function is designed to evaluate individual CloudFormation resources (specifically DynamoDB tables) rather than the entire template. This approach aligns with our Lambda function's logic, which examines specific properties of DynamoDB table resources like ***PointInTimeRecoveryEnabled*** and ***ProvisionedThroughput***. When the hook is triggered for each relevant resource during stack operations, it ensures granular validation of these individual resource configurations.]{type="info"}
+4. **Hook Actions** – Select **Create**.
+   ::alert[This implements evaluation during CloudFormation **CREATE** operation]{type="info"}
+5. **Hook Mode** – Set to **Fail**.
+   ::alert[With Hook Mode being Warn the hook will only emit a warning message when a hook fails, without stopping the provisioning operation. While with Fail mode the hook will stop the provisioning operation when a Hook fails.]{type="info"}
+6. **Execution Role** – Choose **Existing Execution Role** and select the **HookExecutionRole** created earlier in the **Prepare to create a Lambda Hook** section.
 
-::alert[With Hook Mode being Warn the hook will only emit a warning message when a hook fails, without stopping the provisioning operation. While with Fail mode the hook will stop the provisioning operation when a Hook fails.]{type="info"}
+::alert[You can find more information about the other configuration parameters on the [AWS document page](https://docs.aws.amazon.com/cloudformation-cli/latest/hooks-userguide/lambda-hooks-activate-hooks.html)]{type="info"}
+Then click on **Next**.
+
+##### **Apply Hook filters**
+
+For **Hook filters** we will add **`AWS::DynamoDB::Table`** to filter the hook to just check for the creations of DynamoDB tables.
+
+![hook-filters.png](/static/advanced/hook/hook-filters.png "hook-filters")
+
+We will use the default options for the other configurations here so there is no need to update them.
 
 ##### **Review and Create Hook**
 
