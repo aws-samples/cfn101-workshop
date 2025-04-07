@@ -279,7 +279,13 @@ Let's create a test event to mock the hook's behavior:
 }
 ```
 
-Create a test event like this one below with the above JSON text:
+##### To create a test event in the AWS Management Console, please follow these steps:
+
+1. Go to the Lambda we've created ealier, click on the blue **Test** button to create a test event.
+2. A dropdown will appear, click on the **Create a new test event**, then give the test event a name of your choice. (in the example below we've named it **_mytestevent_**)
+3. Paste the above event JSON into the **Event JSON** box.
+4. Save the test and then invoke it to test the lambda.
+
 ![lambda-test.png](/static/advanced/hook/lambda-test.png "lambda-test")
 
 ##### Test Scenario 1: Compliant Configuration

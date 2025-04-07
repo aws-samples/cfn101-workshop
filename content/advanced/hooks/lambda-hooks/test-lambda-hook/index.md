@@ -70,6 +70,15 @@ aws cloudformation describe-stack-events \
  --region us-east-1
 :::
 
+##### Checking for Hook Status Messages
+
+When executing the above command, you need to look for the HookStatus field in the response. Initially, you might see `"HOOK_IN_PROGRESS"` status, which means the hook is still evaluating the template.
+
+You should continue running the command repeatedly (every few seconds) until you see either:
+
+- "HookStatus": **_"HOOK_COMPLETE_FAILED"_** (for non-compliant templates)
+- "HookStatus": **_"HOOK_COMPLETE_SUCCEEDED"_** (for compliant templates)
+
 Since the stack contains a DynamoDB definition that is non-compliant according to the validation logic in the Lambda Hook, the stack will fail to create. The `describe-stack-events` command will show the hook evaluation results similar to the following:
 
 ```json
@@ -182,6 +191,13 @@ aws cloudformation describe-stack-events \
  --region us-east-1
 :::
 
+##### Checking for Hook Status Messages
+
+As with the non-compliant stack, you need to run the describe-stack-events command repeatedly until you see the final hook status:
+
+- If you initially see the only event with "HookStatus": `"HOOK_IN_PROGRESS"`, wait a few seconds and run the command again
+- Continue checking until you see "HookStatus": "HOOK_COMPLETE_SUCCEEDED", which indicates the hook validation passed.
+
 For a compliant stack, you should see events similar to this:
 
 ```json
@@ -221,7 +237,7 @@ For a compliant stack, you should see events similar to this:
 
 Unlike the non-compliant stack, these stack events for the compli show the compliant stack show the successful progression of the compliant stack deployment:
 
-1. The hook begins its evaluation (HOOK_IN_PROGRESS) during the PRE_PROVISION phase
+1. The hook begins its evaluation (`"HOOK_IN_PROGRESS"`) during the PRE_PROVISION phase
 2. The hook then completes successfully (HOOK_COMPLETE_SUCCEEDED), confirming that:
    - The DynamoDB table configuration meets all compliance requirements
    - The hook validation allows the stack creation to proceed
@@ -263,7 +279,6 @@ To analyze validation logs, follow these steps:
 
 - In contrast, the screenshot below illustrates **an example log of a failed stack** creation due to non-compliance with the validation rules enforced by the Lambda Hook:
   ![cloudwatch-hook-fail.png](/static/advanced/hook/cloudwatch-hook-fail.png "non Compliant Hook Logs")
-::alert[In CloudWatch Logs console, you can search log messages with specifc message text shown in the screenshot.]{type="info"}
-
+  ::alert[In CloudWatch Logs console, you can search log messages with specifc message text shown in the screenshot.]{type="info"}
 
 **Congratulations! You have successfully tested and validated your Lambda Hook for DynamoDB configurations.**
