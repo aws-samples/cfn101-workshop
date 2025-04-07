@@ -254,7 +254,7 @@ You can review stack and Hook execution status in the AWS Console, by following 
 To analyze validation logs, follow these steps:
 
 1. Open **Amazon CloudWatch Console**.
-2. Navigate to **Log Groups**.
+2. Navigate to **Logs > Log Groups**.
 3. Locate **`/aws/lambda/DynamoDBConfigValidationHook`**.
 4. Review log messages to confirm validation checks and errors:
 
@@ -263,5 +263,7 @@ To analyze validation logs, follow these steps:
 
 - In contrast, the screenshot below illustrates **an example log of a failed stack** creation due to non-compliance with the validation rules enforced by the Lambda Hook:
   ![cloudwatch-hook-fail.png](/static/advanced/hook/cloudwatch-hook-fail.png "non Compliant Hook Logs")
+::alert[In CloudWatch Logs console, you can search log messages with specifc message text shown in the screenshot.]{type="info"}
+
 
 **Congratulations! You have successfully tested and validated your Lambda Hook for DynamoDB configurations.**

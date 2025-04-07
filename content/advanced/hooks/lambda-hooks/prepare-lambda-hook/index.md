@@ -5,8 +5,6 @@ weight: 510
 
 ### **Introduction**
 
-Queston : The user or role that creates the Hook must have sufficient permissions to activate Hooks??? update Workshop Studio persmission model contentspec.yaml.
-
 Before you create a **Lambda Hook** for validating **DynamoDB configurations**, we need to complete the following steps to create an execution role with IAM permissions and a trust policy to allow CloudFormation to invoke a Lambda Hook.
 
 1. **Retrieve the Lambda Function ARN** – This ARN is required to configure the Hook Execution Role.
@@ -36,23 +34,24 @@ Since the Lambda function **DynamoDBConfigValidationHook** has already been depl
 
 ---
 
-### **Step 2: CloudFormation Hook Role Access**
+### **Step 2: Create CloudFormation for Lambda Hook IAM Role**
 
 To enable the **CloudFormation Hook** to validate **DynamoDB configurations** by invoking the Lambda function, we must create an IAM role that CloudFormation Hooks can assume. This role ensures that the hook has the necessary permissions to:
 
-1. **Access DynamoDB**: The hook needs permission to check the table configurations, such as whether Point-In-Time Recovery is enabled.
-2. **Invoke the Lambda Function**: The hook calls the Lambda function, which performs validation checks on the DynamoDB configuration.
+**Invoke the Lambda Function**: The hook calls the Lambda function, which performs validation checks on the DynamoDB configuration.
 
 By defining a dedicated **IAM role**, we ensure that CloudFormation Hooks can securely perform these operations without requiring excessive permissions across AWS services.
 
 #### **Deploy the Hook Execution Role**
 
+::alert[If you've cloned our repo then you can also find this yaml file in our _cfn101-workshop/code/workspace/hooks/hook-role.yaml_ folder.]{type="info"}
+
 1. Copy the **Amazon Resource Name (ARN) of your Lambda function** from the AWS Management Console.
-2. **Replace `<lambda arn>` with the copied ARN** in the following **hook-role.yaml** file:
+2. Open **hook-role.yaml** file then replace `<lambda arn>` with the copied ARN and save the **hook-role.yaml** file:
 
 ```yaml
 AWSTemplateFormatVersion: "2010-09-09"
-Description: "IAM roles for DynamoDB Configuration Hook"
+Description: "IAM role configuration for Lambda Hook"
 
 Resources:
   HookExecutionRole:
@@ -78,9 +77,6 @@ Resources:
                 Resource: "<lambda arn>" # Replace this with the actual Lambda ARN
 ```
 
-3.  Deploy the IAM role using AWS CloudFormation, which grants necessary permissions to the hook.
-
-::alert[If you've cloned our repo then you can also find this yaml file in our _cfn101-workshop/code/workspace/hooks/hook-role.yaml_ folder.]{type="info"}
 
 #### **3.Deploy the Hook Role via AWS Console**
 
@@ -102,8 +98,6 @@ Resources:
    - Click **Next**.
 
 4. **Review and Create**:
-
-   - Ensure the role settings are correct.
    - Click **Create Stack**.
 
 5. **Wait for Deployment Completion**:
