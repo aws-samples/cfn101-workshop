@@ -104,7 +104,7 @@ Resources:
    - Navigate to the **Resources** tab.
    - Look for `HookExecutionRole` and **copy its Physical ID** for later use.
 
-Now, all the preparation is done. The Lambda we created is now ready and we need to activate the Lambda hook.
+Now, all the preparation is done. The Lambda we created is now ready, and we need to activate the Lambda hook.
 
 Choose **Next** to continue!
 
