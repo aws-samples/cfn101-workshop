@@ -1,5 +1,5 @@
 ---
-title: "Lamba Hooks"
+title: "Lambda Hooks"
 weight: 500
 ---
 
@@ -7,7 +7,7 @@ weight: 500
 
 AWS CloudFormation Lambda Hooks enable you to validate CloudFormation and AWS Cloud Control API operations using your custom code logic. When an operation is triggered, your Hook can:
 
-* Evaluate the operation against your defined criteria
+* Evaluate the operation against your defined criteria.
 * Either block the operation if it doesn't meet requirements
   Or allow it to proceed with a warning message.
 
@@ -18,5 +18,8 @@ You can configure Lambda Hooks to intercept and evaluate the following CloudForm
 * Stack operations
 * Change set operations
 
-Now let’s take an example where we can see use of Lambda Hook at resource level operations. So, as a member of security team for an example organization, task is to ensure that all DynamoDB tables deployed via CloudFormation always have encryption enabled.
-So, for this example first we will review and deploy Lambda function required for Lambda Hooks, then register and activate Lambda Hook using deployed function. Once Lambda Hook is activated, then test the Lambda hook functionality with new CloudFormation deployments as well steps for how to validate and troubleshoot errors for Lambda Hook innovations.
+## In This Lab
+
+We will explore how Lambda Hooks can be effectively used for resource-level operations. Consider a common security requirement: as a member of an organization's security team, you need to ensure all DynamoDB tables deployed through CloudFormation have encryption enabled.
+
+In the example, we will review and deploy a Lambda function required for Lambda Hooks, followed by registering and activating the Lambda Hook using the deployed function. After activation, we'll test the Lambda hook functionality with new CloudFormation deployments and explore the steps for validating and troubleshooting Lambda Hook invocations.

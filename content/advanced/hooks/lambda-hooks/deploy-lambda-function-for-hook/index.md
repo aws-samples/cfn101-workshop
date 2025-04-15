@@ -199,7 +199,7 @@ Here is an example input for the request:
 
 ##### Response
 
-Now, lets review how Lambda function needs to respond back to communicate request sucess or failure.
+Now, lets review how Lambda function needs to respond back to communicate request success or failure.
 
 ##### Response Attributes Explanation
 
@@ -253,7 +253,7 @@ Before integrating the Lambda function with CloudFormation hooks, it's helpful t
 
 Let's create a test event to mock the hook's behavior:
 
-1. Navigate to the Lambda console and select the function we've created ealier in step 3.
+1. Navigate to the Lambda console and select the function we've created earlier in step 3.
 2. Click on the "Test" tab
 3. Create a new test event with this sample payload:
 
@@ -281,7 +281,7 @@ Let's create a test event to mock the hook's behavior:
 
 ##### To create a test event in the AWS Management Console, please follow these steps:
 
-1. Go to the Lambda we've created ealier, click on the blue **Test** button to create a test event.
+1. Go to the Lambda we've created earlier, click on the blue **Test** button to create a test event.
 2. A dropdown will appear, click on the **Create a new test event**, then give the test event a name of your choice. (in the example below we've named it **_mytestevent_**)
 3. Paste the above event JSON into the **Event JSON** box.
 4. Save the test and then invoke it to test the lambda.

@@ -41,7 +41,7 @@ To remove the lambda function using the AWS Console:
 
 **Remove Hook Execution Role**
 
-Please use the stackname provided in [Prepare to create a Lambda Hook](../prepare-lambda-hook/#deploy-the-hook-execution-role)  Section
+Please use the stack name provided in [Prepare to create a Lambda Hook](../prepare-lambda-hook/#deploy-the-hook-execution-role)  Section
 ```
 aws cloudformation delete-stack --stack-name HookExecutionRoleStack --region us-east-1
 ```

@@ -20,7 +20,7 @@ When you activate a Lambda Hook, CloudFormation creates an entry in your account
 ##### **Configure Hook Settings**
 
 ![hook-detail.png](/static/advanced/hook/hook-detail.png "hook-detail")
-Use the following parameters when configuing the lambda hook:
+Use the following parameters when configuring the lambda hook:
 
 1. **Hook Name** – `DynamoDBConfigValidationHook`
 2. **Lambda Function ARN** – Enter the **ARN copied earlier**.
