@@ -1,0 +1,19 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Resources:
+  NonCompliantDynamoDB:
+    Type: 'AWS::DynamoDB::Table'
+    Properties:
+      TableName: NonCompliantTable
+      AttributeDefinitions:
+        - AttributeName: "Id"
+          AttributeType: "S"
+      KeySchema:
+        - AttributeName: "Id"
+          KeyType: "HASH"
+      ProvisionedThroughput:
+        ReadCapacityUnits: 25  # Exceeds allowed limit
+        WriteCapacityUnits: 10
+      GlobalSecondaryIndexes: []  # No GSI defined
+      PointInTimeRecoverySpecification:
+        PointInTimeRecoveryEnabled: false  # Must be enabled
+      BillingMode: "PROVISIONED"  # Must be PAY_PER_REQUEST

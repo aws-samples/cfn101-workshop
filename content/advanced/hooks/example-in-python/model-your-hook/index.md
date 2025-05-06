@@ -1,6 +1,6 @@
 ---
 title: "Model your hook"
-weight: 430
+weight: 630
 ---
 
 So far, you've used the CloudFormation CLI to start the structure of a new project for your hook. The security team of an example company now gives you the functional requirements for the example control you'll build:

@@ -1,6 +1,6 @@
 ---
 title: "Write contract tests"
-weight: 460
+weight: 660
 ---
 
 Contract tests help you test your hook locally, thus speeding up the development lifecycle. Moreover, if you plan to make your hook available as a public extension, it is required for it to pass contract tests.

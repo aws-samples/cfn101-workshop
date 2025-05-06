@@ -1,6 +1,6 @@
 ---
 title: "Cleanup"
-weight: 495
+weight: 695
 ---
 
 You'll start with deregistering your hook:

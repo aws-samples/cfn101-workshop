@@ -1,6 +1,6 @@
 ---
 title: "End-to-end test"
-weight: 480
+weight: 680
 ---
 
 Are you ready to test the hook you've worked on? For this, you'll prepare a sample CloudFormation template that describes an S3 bucket, and use it for your end-to-end tests.

@@ -1,6 +1,6 @@
 ---
 title: "Challenge"
-weight: 490
+weight: 690
 ---
 
 Previously on this lab, you've written unit tests to validate the core logic of your hook. One of the requirements you were given was to allow for a mechanism to ignore S3 buckets whose names are specified by the hook administrator in the hook's configuration. You've used contract tests and end-to-end tests to validate aspects for this use case: in this challenge, you are tasked to write unit test code for this use case.
