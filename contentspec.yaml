@@ -19,7 +19,7 @@ params:
 
 awsAccountConfig:
   accountSources:
-    - WorkshopStudio
+    - workshop_studio
   regionConfiguration:
     deployableRegions:
       required:
