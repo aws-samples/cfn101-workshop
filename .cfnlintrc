@@ -9,3 +9,5 @@ ignore_templates:
 ignore_checks:
   # Supress "This code may only work with `package` cli command as the property <xyz> is a string".
   - W3002
+  # Suppress false positive where Ref on SecurityGroup incorrectly flagged as Name instead of ID
+  - E1041

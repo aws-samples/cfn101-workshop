@@ -5,10 +5,10 @@ Description: AWS CloudFormation workshop - Cross-stack references - EC2 template
 Metadata:
   AWS::CloudFormation::Interface:
     ParameterGroups:
-    - Label:
-        default: Amazon EC2 Configuration
-      Parameters:
-      - AmiID
+      - Label:
+          default: Amazon EC2 Configuration
+        Parameters:
+          - AmiID
     ParameterLabels:
       AmiID:
         default: Amazon Machine Image ID
@@ -18,9 +18,9 @@ Parameters:
     Description: Specify the Environment type of the stack.
     Type: String
     AllowedValues:
-    - Dev
-    - Test
-    - Prod
+      - Dev
+      - Test
+      - Prod
     Default: Test
     ConstraintDescription: Specify either Dev, Test or Prod.
 
@@ -69,14 +69,14 @@ Resources:
                         ]
                     ]);
                     $token = file_get_contents($token_url, false, $context);
-                    
+
                     # Create context with token for metadata requests
                     $metadata_context = stream_context_create([
                         "http" => [
                             "header" => "X-aws-ec2-metadata-token: " . $token
                         ]
                     ]);
-                    
+
                     # Get the instance ID from meta-data
                     $url = "http://169.254.169.254/latest/meta-data/instance-id";
                     $instance_id = file_get_contents($url, false, $metadata_context);
@@ -121,8 +121,8 @@ Resources:
                 enabled: true
                 ensureRunning: true
                 files:
-                - /etc/cfn/cfn-hup.conf
-                - /etc/cfn/hooks.d/cfn-auto-reloader.conf
+                  - /etc/cfn/cfn-hup.conf
+                  - /etc/cfn/hooks.d/cfn-auto-reloader.conf
     Properties:
       SubnetId: !ImportValue cfn-workshop-PublicSubnet1
       IamInstanceProfile: !ImportValue cfn-workshop-WebServerInstanceProfile
@@ -132,17 +132,17 @@ Resources:
         - !Ref EnvironmentType
         - InstanceType
       SecurityGroupIds:
-      - !Ref WebServerSecurityGroup
+        - !Ref WebServerSecurityGroup
       MetadataOptions:
         HttpTokens: required
         HttpPutResponseHopLimit: 1
         HttpEndpoint: enabled
       Tags:
-      - Key: Name
-        Value: !Join
-          - ' '
-          - - !Ref EnvironmentType
-            - Web Seryver
+        - Key: Name
+          Value: !Join
+            - ' '
+            - - !Ref EnvironmentType
+              - Web Seryver
       UserData: !Base64
         Fn::Sub: |
           #!/bin/bash -xe
@@ -158,19 +158,19 @@ Resources:
     Properties:
       GroupDescription: Enable HTTP and HTTPS access
       SecurityGroupIngress:
-      - IpProtocol: tcp
-        FromPort: 80
-        ToPort: 80
-        CidrIp: 0.0.0.0/0
+        - IpProtocol: tcp
+          FromPort: 80
+          ToPort: 80
+          CidrIp: 0.0.0.0/0
       SecurityGroupEgress:
-      - IpProtocol: tcp
-        FromPort: 80
-        ToPort: 80
-        CidrIp: 0.0.0.0/0
-      - IpProtocol: tcp
-        FromPort: 443
-        ToPort: 443
-        CidrIp: 0.0.0.0/0
+        - IpProtocol: tcp
+          FromPort: 80
+          ToPort: 80
+          CidrIp: 0.0.0.0/0
+        - IpProtocol: tcp
+          FromPort: 443
+          ToPort: 443
+          CidrIp: 0.0.0.0/0
       VpcId: !ImportValue cfn-workshop-VpcId
 
   WebServerEIP:

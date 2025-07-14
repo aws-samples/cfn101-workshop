@@ -30,7 +30,7 @@ repos:
 
 # CloudFormation
 - repo: https://github.com/aws-cloudformation/cfn-lint
-  rev: v1.20.2
+  rev: v1.37.2
   hooks:
   - id: cfn-lint-rc
     files: code/solutions/.*\.(ya?ml|template)$
@@ -55,7 +55,7 @@ repos:
 
     # Python
 - repo: https://github.com/pycqa/pylint
-  rev: v3.3.2
+  rev: v3.3.7
   hooks:
     - id: pylint
       args:
@@ -63,12 +63,12 @@ repos:
         - --disable=E0401
 
 - repo: https://github.com/psf/black
-  rev: 24.10.0
+  rev: 25.1.0
   hooks:
     - id: black
 
 - repo: https://github.com/PyCQA/isort
-  rev: 5.13.2
+  rev: 6.0.1
   hooks:
     - id: isort
       args: ["--profile", "black"]
