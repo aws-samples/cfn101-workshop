@@ -142,7 +142,7 @@ Resources:
           Value: !Join
             - ' '
             - - !Ref EnvironmentType
-              - Web Seryver
+              - Web Server
       UserData: !Base64
         Fn::Sub: |
           #!/bin/bash -xe
