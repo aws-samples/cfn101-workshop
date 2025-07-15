@@ -60,15 +60,32 @@ Resources:
                 <body>
                   <center>
                     <?php
-                    # Get the instance ID from meta-data and store it in the $instance_id variable
+                    # Get session token for IMDSv2
+                    $token_url = "http://169.254.169.254/latest/api/token";
+                    $context = stream_context_create([
+                        "http" => [
+                            "method" => "PUT",
+                            "header" => "X-aws-ec2-metadata-token-ttl-seconds: 21600"
+                        ]
+                    ]);
+                    $token = file_get_contents($token_url, false, $context);
+
+                    # Create context with token for metadata requests
+                    $metadata_context = stream_context_create([
+                        "http" => [
+                            "header" => "X-aws-ec2-metadata-token: " . $token
+                        ]
+                    ]);
+
+                    # Get the instance ID from meta-data
                     $url = "http://169.254.169.254/latest/meta-data/instance-id";
-                    $instance_id = file_get_contents($url);
-                    # Get the instance's availability zone from metadata and store it in the $zone variable
+                    $instance_id = file_get_contents($url, false, $metadata_context);
+                    # Get the instance's availability zone from metadata
                     $url = "http://169.254.169.254/latest/meta-data/placement/availability-zone";
-                    $zone = file_get_contents($url);
-                    # Get the instance AMI ID and store it in the $ami_id variable
+                    $zone = file_get_contents($url, false, $metadata_context);
+                    # Get the instance AMI ID
                     $url = "http://169.254.169.254/latest/meta-data/ami-id";
-                    $ami_id = file_get_contents($url);
+                    $ami_id = file_get_contents($url, false, $metadata_context);
                     ?>
                     <h2>EC2 Instance ID: <?php echo $instance_id ?></h2>
                     <h2>Availability Zone: <?php echo $zone ?></h2>
@@ -76,7 +93,7 @@ Resources:
                   </center>
                 </body>
                 </html>
-              mode: 000644
+              mode: 644
               owner: apache
               group: apache
             /etc/cfn/cfn-hup.conf:
@@ -85,7 +102,7 @@ Resources:
                 stack=${AWS::StackId}
                 region=${AWS::Region}
                 interval=1
-              mode: 000400
+              mode: 400
               owner: root
               group: root
             /etc/cfn/hooks.d/cfn-auto-reloader.conf:
@@ -116,6 +133,10 @@ Resources:
         - InstanceType
       SecurityGroupIds:
         - !Ref WebServerSecurityGroup
+      MetadataOptions:
+        HttpTokens: required
+        HttpPutResponseHopLimit: 1
+        HttpEndpoint: enabled
       Tags:
         - Key: Name
           Value: !Join
