@@ -1,0 +1,21 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Resources:
+  CompliantS3Bucket:
+    Type: 'AWS::S3::Bucket'
+    Properties:
+      BucketName: compliant-test-bucket
+      # Compliance: Versioning must be enabled
+      VersioningConfiguration:
+        Status: Enabled
+      # Compliance: Public access must be blocked
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: true
+        BlockPublicPolicy: true
+        IgnorePublicAcls: true
+        RestrictPublicBuckets: true
+      # Compliance: Server-side encryption must be enabled
+      BucketEncryption:
+        ServerSideEncryptionConfiguration:
+          - ServerSideEncryptionByDefault:
+              SSEAlgorithm: AES256
+      # Compliance: No public read access (default behavior, no explicit ACL)

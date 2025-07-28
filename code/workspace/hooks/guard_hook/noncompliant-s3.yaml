@@ -1,0 +1,10 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Resources:
+  NonCompliantS3Bucket:
+    Type: 'AWS::S3::Bucket'
+    Properties:
+      BucketName: noncompliant-test-bucket
+      # Missing VersioningConfiguration - violates s3_versioning_enabled rule
+      # Missing PublicAccessBlockConfiguration - violates s3_public_access_blocked rule
+      # Missing BucketEncryption - violates s3_encryption_enabled rule
+      AccessControl: PublicRead  # Violates s3_no_public_read rule
