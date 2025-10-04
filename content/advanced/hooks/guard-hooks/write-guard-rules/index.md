@@ -86,39 +86,23 @@ rule s3_no_public_read {
 
 Let's break down what each rule does:
 
-##### **Rule 1: S3 Versioning Enabled**
-- **Purpose**: Ensures all S3 buckets have versioning enabled for data protection
-- **Logic**: Checks that `VersioningConfiguration.Status` is set to "Enabled"
-- **Security Benefit**: Protects against accidental deletion or modification of objects
+**Rule 1: S3 Versioning Enabled** - Ensures all S3 buckets have versioning enabled for data protection by checking that `VersioningConfiguration.Status` is set to "Enabled", which protects against accidental deletion or modification of objects.
 
-##### **Rule 2: Public Access Blocked**
-- **Purpose**: Prevents S3 buckets from being publicly accessible
-- **Logic**: Verifies all four public access block settings are enabled
-- **Security Benefit**: Prevents data breaches from misconfigured public access
+**Rule 2: Public Access Blocked** - Prevents S3 buckets from being publicly accessible by verifying all four public access block settings are enabled, preventing data breaches from misconfigured public access.
 
-##### **Rule 3: Encryption Enabled**
-- **Purpose**: Ensures data at rest is encrypted
-- **Logic**: Checks for server-side encryption configuration with AES256 or KMS
-- **Security Benefit**: Protects sensitive data stored in S3
+**Rule 3: Encryption Enabled** - Ensures data at rest is encrypted by checking for server-side encryption configuration with AES256 or KMS, protecting sensitive data stored in S3.
 
-##### **Rule 4: No Public Read Access**
-- **Purpose**: Additional check to prevent public read permissions
-- **Logic**: Ensures ACL doesn't allow public read or read-write access
-- **Security Benefit**: Prevents unauthorized data access
+**Rule 4: No Public Read Access** - Provides an additional check to prevent public read permissions by ensuring ACL doesn't allow public read or read-write access, preventing unauthorized data access.
 
 #### **Step 4: Test Guard Rules Locally (Optional)**
 
-Before using the rules in a Hook, you can test them locally using the Guard CLI:
+Before using the rules in a Hook, you can test them locally using the Guard CLI. First, install the Guard CLI for your operating system:
 
-1. **Install Guard CLI** (if not already installed):
-```bash
-# On macOS
-brew install aws/tap/cfn-guard
+**For macOS and Linux:** Use the installation guide at the [AWS CloudFormation Guard documentation](https://docs.aws.amazon.com/cfn-guard/latest/ug/setting-up.html).
 
-# On Linux/Windows, download from GitHub releases
-```
+::alert[For Windows installation, follow the detailed steps in the [Windows installation guide](https://docs.aws.amazon.com/cfn-guard/latest/ug/setting-up-windows.html) which includes installing Rust and Cargo, then running `cargo install cfn-guard`.]{type="info"}
 
-2. **Create a test CloudFormation template** (`test-s3-template.yaml`):
+Once Guard CLI is installed, create a test CloudFormation template (`test-s3-template.yaml`):
 ```yaml
 AWSTemplateFormatVersion: '2010-09-09'
 Resources:
@@ -144,23 +128,66 @@ Resources:
 cfn-guard validate --rules s3-security-rules.guard --data test-s3-template.yaml
 ```
 
+To see how Guard validation works with non-compliant resources, try editing the YAML file to make it non-compliant (for example, change `IgnorePublicAcls: true` to `IgnorePublicAcls: false`) and run the validation again. You'll see detailed error output showing exactly which rules failed and why:
+
+```
+/path/to/test-s3-template.yaml Status = FAIL
+FAILED rules
+s3-security-rules.guard/s3_public_access_blocked    FAIL
+---
+Evaluating data /path/to/test-s3-template.yaml against rules s3-security-rules.guard
+Number of non-compliant resources 1
+Resource = TestBucket {
+  Type      = AWS::S3::Bucket
+  Rule = s3_public_access_blocked {
+    ALL {
+      Check =  PublicAccessBlockConfiguration.IgnorePublicAcls EQUALS  true {
+        ComparisonError {
+          Error            = Check was not compliant as property value [Path=/Resources/TestBucket/Properties/PublicAccessBlockConfiguration/IgnorePublicAcls[L:11,C:26] Value=false] not equal to value [Path=[L:0,C:0] Value=true].
+          PropertyPath    = /Resources/TestBucket/Properties/PublicAccessBlockConfiguration/IgnorePublicAcls[L:11,C:26]
+          Operator        = EQUAL
+          Value           = false
+          ComparedWith    = true
+          Code:
+                9.      PublicAccessBlockConfiguration:
+               10.        BlockPublicAcls: true
+               11.        BlockPublicPolicy: true
+               12.        IgnorePublicAcls: false
+               13.        RestrictPublicBuckets: true
+               14.      BucketEncryption:
+
+        }
+      }
+    }
+  }
+}
+```
+
+This output shows that the `s3_public_access_blocked` rule failed because `IgnorePublicAcls` was set to `false` instead of the required `true` value. The detailed error message includes the exact line number and property path where the violation occurred, making it easy to identify and fix compliance issues.
+
 #### **Step 5: Upload Guard Rules to S3**
 
-Guard Hooks require the rules to be stored in Amazon S3:
+Guard Hooks require the rules to be stored in Amazon S3. Before proceeding, ensure you have configured your local AWS credentials.
 
-1. **Create an S3 bucket** (if you don't have one):
+::alert[Set up your AWS credentials using `aws configure` or by setting up an AWS profile. For detailed guidance, see the [AWS CLI Configuration documentation](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html).]{type="info"}
+
+1. **Create an S3 bucket** (replace `your-guard-rules-bucket` with your desired bucket name):
+
 ```bash
-aws s3 mb s3://your-guard-rules-bucket --region us-east-1
+export GUARD_BUCKET_NAME="your-guard-rules-bucket"
+aws s3 mb s3://$GUARD_BUCKET_NAME --region us-east-1
 ```
 
 2. **Upload the Guard rules file**:
+
 ```bash
-aws s3 cp s3-security-rules.guard s3://your-guard-rules-bucket/hooks/s3-security-rules.guard
+aws s3 cp s3-security-rules.guard s3://$GUARD_BUCKET_NAME/hooks/s3-security-rules.guard
 ```
 
 3. **Note the S3 URI** for later use:
+
 ```
-s3://your-guard-rules-bucket/hooks/s3-security-rules.guard
+s3://$GUARD_BUCKET_NAME/hooks/s3-security-rules.guard
 ```
 
 #### **Step 6: Review Guard Rule Structure**
