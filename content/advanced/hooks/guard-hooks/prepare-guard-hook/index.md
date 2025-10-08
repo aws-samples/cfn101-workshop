@@ -16,6 +16,8 @@ Before you create a **Guard Hook** for validating **S3 configurations**, we need
 
 ### **Step 1: Verify Guard Rules in S3**
 
+::alert[If you haven't uploaded your Guard rules to S3 yet, please complete the [Write Guard rules for Hook](../write-guard-rules/) section first, specifically Step 5: Upload Guard Rules to S3.]{type="warning"}
+
 Since the Guard rules **s3-security-rules.guard** should already be uploaded to S3, follow these steps to verify the **S3 URI**:
 
 1. **Go to the AWS S3 Console**:

@@ -7,6 +7,8 @@ weight: 640
 
 Now that we have deployed the **S3SecurityGuardHook**, we need to test it to ensure it correctly validates S3 configurations before CloudFormation provisions resources.
 
+::alert[Before running the AWS CloudFormation commands in this section, ensure you have configured your AWS credentials using `aws configure` or by setting up an AWS profile. The commands will use your configured AWS account credentials to create and manage CloudFormation stacks.]{type="warning"}
+
 We will test the hook with two different CloudFormation stacks.
 
 1. **A non-compliant S3 bucket** that violates the Guard rules and fails the CloudFormation Stack deployment.
@@ -48,9 +50,11 @@ The cloudformation `create-stack` command will return an output in JSON format l
 
 ```JSON
 {
-    "StackId": "arn:aws:cloudformation:us-east-1:xxxxxxxxxxxx:stack/s3-noncompliant-stack/b2xxxxxxx-fxx-11xxf-9xx4-xxxxxxxxxxx7"
+    "StackId": "arn:aws:cloudformation:us-east-1:123456789012:stack/s3-noncompliant-stack/c997a360-a481-11f0-ae62-1251de0de62d"
 }
 ```
+
+::alert[After seeing the JSON output, press `q` to exit the output view if you're using a pager.]{type="info"}
 
 Then let's check the stack events and hook evaluation results using the following command:
 
@@ -75,37 +79,41 @@ Since the stack contains an S3 bucket definition that is non-compliant according
 ```json
 [
   {
-    "StackId": "arn:aws:cloudformation:region:account-id:stack/s3-noncompliant-stack/stack-id",
-    "EventId": "NonCompliantS3Bucket-example-id-1",
+    "StackId": "arn:aws:cloudformation:us-east-1:123456789012:stack/s3-noncompliant-stack/c997a360-a481-11f0-ae62-1251de0de62d",
+    "EventId": "NonCompliantS3Bucket-9cd25ccd-8b45-4c61-890e-08c042d5be66",
     "StackName": "s3-noncompliant-stack",
     "LogicalResourceId": "NonCompliantS3Bucket",
     "PhysicalResourceId": "",
     "ResourceType": "AWS::S3::Bucket",
-    "Timestamp": "2025-03-14T01:31:49.324000+00:00",
+    "Timestamp": "2025-10-08T20:03:02.446000+00:00",
     "ResourceStatus": "CREATE_IN_PROGRESS",
     "HookType": "Private::Guard::S3SecurityGuardHook",
     "HookStatus": "HOOK_COMPLETE_FAILED",
-    "HookStatusReason": "Hook failed with message: Guard rule validation failed. Multiple rules violated: s3_versioning_enabled, s3_public_access_blocked, s3_encryption_enabled, s3_no_public_read",
+    "HookStatusReason": "Hook failed with message: Template failed validation, the following rule(s) failed: s3_encryption_enabled, s3_no_public_read, s3_public_access_blocked, s3_versioning_enabled.",
     "HookInvocationPoint": "PRE_PROVISION",
+    "HookInvocationId": "2a36aa47-2d4c-4ab8-a263-4162b342545c",
     "HookFailureMode": "FAIL"
   },
   {
-    "StackId": "arn:aws:cloudformation:region:account-id:stack/s3-noncompliant-stack/stack-id",
-    "EventId": "NonCompliantS3Bucket-example-id-2",
+    "StackId": "arn:aws:cloudformation:us-east-1:123456789012:stack/s3-noncompliant-stack/c997a360-a481-11f0-ae62-1251de0de62d",
+    "EventId": "NonCompliantS3Bucket-9cd25ccd-8b45-4c61-890e-08c042d5be66",
     "StackName": "s3-noncompliant-stack",
     "LogicalResourceId": "NonCompliantS3Bucket",
     "PhysicalResourceId": "",
     "ResourceType": "AWS::S3::Bucket",
-    "Timestamp": "2025-03-14T01:31:48.536000+00:00",
+    "Timestamp": "2025-10-08T20:03:01.818000+00:00",
     "ResourceStatus": "CREATE_IN_PROGRESS",
     "HookType": "Private::Guard::S3SecurityGuardHook",
     "HookStatus": "HOOK_IN_PROGRESS",
     "HookStatusReason": "Invoking hook",
     "HookInvocationPoint": "PRE_PROVISION",
+    "HookInvocationId": "2a36aa47-2d4c-4ab8-a263-4162b342545c",
     "HookFailureMode": "FAIL"
   }
 ]
 ```
+
+::alert[After viewing the JSON output, press `q` to exit the view if you're using a pager.]{type="info"}
 
 The stack events show the progression and failure of the non-compliant stack deployment:
 
@@ -125,8 +133,13 @@ In order to understand the detailed reason for stack failure in the AWS Console,
 
 - Navigate to [AWS CloudFormation Console](https://console.aws.amazon.com/cloudformation).
 - Locate the latest deployment for `s3-noncompliant-stack` Stack.
+
+![Failed Stack UI View](/static/advanced/hook/advanced-hook-create-a-hook-with-guard-failed-stack-view-ui-noncomliant-stack.png)
+
 - Navigate to the Events section.
 - Locate the `S3SecurityGuardHook` under the Hook invocations section. This entry will contain details about the status of Hook as _Fail_ and Hook status reason with a detailed error message showing which Guard rules failed.
+
+![Failed Stack Events Output](/static/advanced/hook/advanced-hook-create-a-hook-with-guard-failed-stack-view-events-output-noncomliant.png)
 
 ---
 
@@ -135,13 +148,15 @@ In order to understand the detailed reason for stack failure in the AWS Console,
 Locate and open the `compliant-s3.yaml` file.
 The CloudFormation template in this file **meets all the required Guard rules** that the Guard Hook is currently validating.
 
+::alert[**Important**: S3 bucket names must be globally unique. If you encounter an error like "The requested bucket name is not available", you need to modify the bucket name in the `compliant-s3.yaml` file to use a unique name such as `compliant-test-bucket-<your-name>-<timestamp>`.]{type="warning"}
+
 ```yaml
 AWSTemplateFormatVersion: '2010-09-09'
 Resources:
   CompliantS3Bucket:
     Type: 'AWS::S3::Bucket'
     Properties:
-      BucketName: compliant-test-bucket
+      BucketName: compliant-test-bucket-<your-unique-suffix>
       # Compliance: Versioning must be enabled
       VersioningConfiguration:
         Status: Enabled
@@ -168,6 +183,16 @@ aws cloudformation create-stack \
  --region us-east-1
 :::
 
+The command will return output similar to:
+
+```JSON
+{
+    "StackId": "arn:aws:cloudformation:us-east-1:123456789012:stack/s3-compliant-stack/c7dd3540-a499-11f0-8e05-0affcdb6e4dd"
+}
+```
+
+::alert[After seeing the JSON output, press `q` to exit the output view if you're using a pager.]{type="info"}
+
 To monitor the stack creation progress and view the hook evaluation results, use the following command:
 
 :::code{language=shell showLineNumbers=false showCopyAction=true}
@@ -189,37 +214,41 @@ For a compliant stack, you should see events similar to this:
 ```json
 [
   {
-    "StackId": "arn:aws:cloudformation:region:account-id:stack/s3-compliant-stack/stack-id",
-    "EventId": "CompliantS3Bucket-example-id-1",
+    "StackId": "arn:aws:cloudformation:us-east-1:123456789012:stack/s3-compliant-stack/c7dd3540-a499-11f0-8e05-0affcdb6e4dd",
+    "EventId": "CompliantS3Bucket-c820250f-3c03-44dd-a520-d29bd75f4523",
     "StackName": "s3-compliant-stack",
     "LogicalResourceId": "CompliantS3Bucket",
     "PhysicalResourceId": "",
     "ResourceType": "AWS::S3::Bucket",
-    "Timestamp": "2025-03-14T01:37:48.528000+00:00",
+    "Timestamp": "2025-10-08T22:54:47.524000+00:00",
     "ResourceStatus": "CREATE_IN_PROGRESS",
     "HookType": "Private::Guard::S3SecurityGuardHook",
     "HookStatus": "HOOK_COMPLETE_SUCCEEDED",
-    "HookStatusReason": "Hook succeeded with message: All Guard rules passed validation",
+    "HookStatusReason": "Hook succeeded with message: Successful validation",
     "HookInvocationPoint": "PRE_PROVISION",
+    "HookInvocationId": "3dc80239-9056-4dd4-9716-eec4d2477ca4",
     "HookFailureMode": "FAIL"
   },
   {
-    "StackId": "arn:aws:cloudformation:region:account-id:stack/s3-compliant-stack/stack-id",
-    "EventId": "CompliantS3Bucket-example-id-2",
+    "StackId": "arn:aws:cloudformation:us-east-1:123456789012:stack/s3-compliant-stack/c7dd3540-a499-11f0-8e05-0affcdb6e4dd",
+    "EventId": "CompliantS3Bucket-c5f4dc9e-1145-4af6-ba40-53b36bc28354",
     "StackName": "s3-compliant-stack",
     "LogicalResourceId": "CompliantS3Bucket",
     "PhysicalResourceId": "",
     "ResourceType": "AWS::S3::Bucket",
-    "Timestamp": "2025-03-14T01:37:47.833000+00:00",
+    "Timestamp": "2025-10-08T22:54:47.049000+00:00",
     "ResourceStatus": "CREATE_IN_PROGRESS",
     "HookType": "Private::Guard::S3SecurityGuardHook",
     "HookStatus": "HOOK_IN_PROGRESS",
     "HookStatusReason": "Invoking hook",
     "HookInvocationPoint": "PRE_PROVISION",
+    "HookInvocationId": "3dc80239-9056-4dd4-9716-eec4d2477ca4",
     "HookFailureMode": "FAIL"
   }
 ]
 ```
+
+::alert[After viewing the JSON output, press `q` to exit the view if you're using a pager.]{type="info"}
 
 Unlike the non-compliant stack, these stack events show the successful progression of the compliant stack deployment:
 
@@ -243,6 +272,8 @@ You can review stack and Hook execution status in the AWS Console, by following 
   - If not check the Events output for errors.
 - Navigate to the Events section.
 - Locate the `S3SecurityGuardHook` under the Hook invocations section. This entry will contain details about the status of the Hook and **Hook status reason** with a successful execution message.
+
+![Compliant Stack Events Output](/static/advanced/hook/advanced-hook-create-a-hook-with-guard-failed-stack-view-events-output-compliant.png)
 
 ---
 

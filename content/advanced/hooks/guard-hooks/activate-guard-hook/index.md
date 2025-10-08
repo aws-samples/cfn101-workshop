@@ -17,53 +17,76 @@ When you activate a Guard Hook, CloudFormation creates an entry in your account'
 2. Navigate to the **Hooks** section.
 3. Click on **With Guard** option in the **Create a Hook** dropdown list.
 
-##### **Configure Hook Settings**
+![Create Hook with Guard](/static/advanced/hook/advanced-hook-create-a-hook-with-guard-start-dropdown-option.png)
 
-Use the following parameters when configuring the Guard hook:
+##### **Step 1: Provide your Guard rules**
+
+Configure the Guard Hook source with your S3-stored rules:
+
+![Provide Guard Rules](/static/advanced/hook/advanced-hook-create-a-hook-with-guard-provide-your-guard-rules.png)
+
+Use the following parameters:
+
+1. **Guard Hook source** – Select **Store your Guard rules in S3**
+2. **S3 URI** – Enter the **S3 URI of your Guard rules file** (e.g., `s3://guard-hook-bucket-<your-name>/hooks/s3-security-rules.guard`)
+
+::alert[If you need to find your S3 URI, refer back to the [Write Guard rules for Hook](../write-guard-rules/) section where you uploaded your Guard rules file.]{type="info"}
+
+3. **Object version** – (Optional) If your S3 bucket has versioning enabled, you can specify a version
+4. **S3 bucket for Guard output report** – (Optional) You can use the same bucket for output reports
+
+Click **Next** to continue.
+
+##### **Step 2: Hook details and settings**
+
+Configure the Hook behavior and execution settings:
+
+![Hook Details and Settings](/static/advanced/hook/advanced-hook-create-a-hook-with-guard-hook-details-and-settings.png)
+
+Use the following parameters:
 
 1. **Hook Name** – `S3SecurityGuardHook`
-2. **Guard Hook source** – Select **Store your Guard rules in S3**
-3. **S3 URI** – Enter the **S3 URI of your Guard rules file** (e.g., `s3://your-guard-rules-bucket/hooks/s3-security-rules.guard`)
-4. **Object version** – (Optional) If your S3 bucket has versioning enabled, you can specify a version
-5. **Hook Targets** – Select **Resources**.
-   ::alert[We choose **Resources** as the target because our Guard rules are designed to evaluate individual CloudFormation resources (specifically S3 buckets) rather than the entire template. This approach aligns with our Guard rules logic, which examines specific properties of S3 bucket resources like ***VersioningConfiguration*** and ***PublicAccessBlockConfiguration***. When the hook is triggered for each relevant resource during stack operations, it ensures granular validation of these individual resource configurations.]{type="info"}
-6. **Hook Actions** – Select **Create**.
+2. **Hook Targets** – Select **Resources**.
+   ::alert[We choose **Resources** as the target because our Guard rules are designed to evaluate individual CloudFormation resources (specifically S3 buckets) rather than the entire template.]{type="info"}
+3. **Hook Actions** – Select **Create**.
    ::alert[This implements evaluation during CloudFormation **CREATE** operation]{type="info"}
-7. **Hook Mode** – Set to **Fail**.
+4. **Hook Mode** – Set to **Fail**.
    ::alert[With Hook Mode being Warn the hook will only emit a warning message when a hook fails, without stopping the provisioning operation. While with Fail mode the hook will stop the provisioning operation when a Hook fails.]{type="info"}
-8. **Execution Role** – Choose **Existing Execution Role** and select the **GuardHookExecutionRole** created earlier in the **Prepare to create a Guard Hook** section.
+5. **Execution Role** – Choose **Existing Execution Role** and select the **GuardHookExecutionRole** created earlier.
 
-::alert[You can find more information about the other configuration parameters on the [AWS document page](https://docs.aws.amazon.com/cloudformation-cli/latest/hooks-userguide/guard-hooks-activate-hooks.html)]{type="info"}
+::alert[To find your execution role, look for a role name similar to `GuardHookExecutionRoleStack-GuardHookExecutionRole-<random-string>` that was created in the [Prepare to create a Guard Hook](../prepare-guard-hook/) section.]{type="info"}
 
-##### **Configure S3 Output Report (Optional)**
+Click **Next** to continue.
 
-For **S3 bucket for Guard output report**, you can optionally specify an S3 bucket to store the Guard output report:
+##### **Step 3: Apply Hook filters (Optional)**
 
-1. **S3 URI for output** – Enter an S3 path like `s3://your-guard-rules-bucket/guard-output/`
-2. **Report format** – Choose between **JSON** or **YAML** format for the output report
+Configure which resources the Hook should target:
 
-This report will contain detailed results of your Guard rule validations, including which rules passed or failed and why.
-
-Then click on **Next**.
-
-##### **Apply Hook filters**
+![Apply Hook Filters](/static/advanced/hook/advanced-hook-create-a-hook-with-guard-apply-hook-filters.png)
 
 For **Hook filters** we will add **`AWS::S3::Bucket`** to filter the hook to just check for the creations of S3 buckets.
 
 We will use the default options for the other configurations here so there is no need to update them.
 
-##### **Review and Create Hook**
+Click **Next** to continue.
 
-1. Click **Next**.
-2. Review the settings:
-   - **Hook Name**: S3SecurityGuardHook
-   - **Guard Rules Source**: S3 URI pointing to your rules file
-   - **Target**: Resources (AWS::S3::Bucket)
-   - **Actions**: Create
-   - **Mode**: Fail
-   - **Execution Role**: GuardHookExecutionRole
-3. Click **Create** to register the Hook.
-4. Wait for a few seconds for the Hook to be created and activated.
+##### **Step 4: Review and activate**
+
+Review all your settings before creating the Hook:
+
+![Review and Activate](/static/advanced/hook/advanced-hook-create-a-hook-with-guard-review-and-activate.png)
+
+Review the settings:
+- **Hook Name**: S3SecurityGuardHook
+- **Guard Rules Source**: S3 URI pointing to your rules file
+- **Target**: Resources (AWS::S3::Bucket)
+- **Actions**: Create
+- **Mode**: Fail
+- **Execution Role**: GuardHookExecutionRole
+
+Click **Create** to register the Hook and wait for a few seconds for the Hook to be created and activated.
+
+![Successful Hook Creation](/static/advanced/hook/advanced-hook-create-a-hook-with-guard-successful-creation.png)
 
 ### Alternative: Using AWS CLI to Activate Guard Hook
 

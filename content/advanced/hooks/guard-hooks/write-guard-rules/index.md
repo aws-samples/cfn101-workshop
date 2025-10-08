@@ -12,6 +12,9 @@ This guide will walk you through creating Guard rules that enforce S3 security b
 Before creating the rules, ensure you have access to the Guard rules directory:
 
 ```sh
+# clone our repo if you have not already done so.
+git clone https://github.com/aws-samples/cfn101-workshop.git
+
 # Navigate to the directory where the Guard rules will be stored
 cd cfn101-workshop/code/workspace/hooks/guard_hook
 ```
@@ -98,16 +101,17 @@ Let's break down what each rule does:
 
 Before using the rules in a Hook, you can test them locally using the Guard CLI. First, install the Guard CLI for your operating system:
 
-**For macOS and Linux:** Use the installation guide at the [AWS CloudFormation Guard documentation](https://docs.aws.amazon.com/cfn-guard/latest/ug/setting-up.html).
+**For macOS and Linux:** Use the installation guide at the [AWS CloudFormation Guard documentation](https://docs.aws.amazon.com/cfn-guard/latest/ug/setting-up-linux.html).
 
 ::alert[For Windows installation, follow the detailed steps in the [Windows installation guide](https://docs.aws.amazon.com/cfn-guard/latest/ug/setting-up-windows.html) which includes installing Rust and Cargo, then running `cargo install cfn-guard`.]{type="info"}
 
 Once Guard CLI is installed, create a test CloudFormation template (`test-s3-template.yaml`):
+
 ```yaml
-AWSTemplateFormatVersion: '2010-09-09'
+AWSTemplateFormatVersion: "2010-09-09"
 Resources:
   TestBucket:
-    Type: 'AWS::S3::Bucket'
+    Type: "AWS::S3::Bucket"
     Properties:
       BucketName: test-bucket-compliant
       VersioningConfiguration:
@@ -124,6 +128,7 @@ Resources:
 ```
 
 3. **Test the rules**:
+
 ```bash
 cfn-guard validate --rules s3-security-rules.guard --data test-s3-template.yaml
 ```
@@ -171,12 +176,25 @@ Guard Hooks require the rules to be stored in Amazon S3. Before proceeding, ensu
 
 ::alert[Set up your AWS credentials using `aws configure` or by setting up an AWS profile. For detailed guidance, see the [AWS CLI Configuration documentation](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html).]{type="info"}
 
-1. **Create an S3 bucket** (replace `your-guard-rules-bucket` with your desired bucket name):
+1. **Create an S3 bucket**:
 
+You can create the bucket using the AWS CLI or through the [Amazon S3 Console](https://s3.console.aws.amazon.com/s3/buckets). 
+
+**Bucket Naming Suggestion**: Use a unique name like `guard-hook-bucket-<your-name>` (e.g., `guard-hook-bucket-john-doe`)
+
+**Using AWS CLI** (replace with your chosen bucket name):
 ```bash
-export GUARD_BUCKET_NAME="your-guard-rules-bucket"
+export GUARD_BUCKET_NAME="guard-hook-bucket-<your-name>"
 aws s3 mb s3://$GUARD_BUCKET_NAME --region us-east-1
 ```
+
+**Using S3 Console**:
+- Navigate to the [Amazon S3 Console](https://s3.console.aws.amazon.com/s3/buckets)
+- Click "Create bucket"
+- Enter your bucket name: `guard-hook-bucket-<your-name>`
+- Select region: `us-east-1`
+- **Best Practice**: Keep the default "Block all public access" settings enabled for security
+- Click "Create bucket"
 
 2. **Upload the Guard rules file**:
 

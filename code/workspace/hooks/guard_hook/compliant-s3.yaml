@@ -1,9 +1,9 @@
-AWSTemplateFormatVersion: '2010-09-09'
+AWSTemplateFormatVersion: "2010-09-09"
 Resources:
   CompliantS3Bucket:
-    Type: 'AWS::S3::Bucket'
+    Type: "AWS::S3::Bucket"
     Properties:
-      BucketName: compliant-test-bucket
+      BucketName: compliant-test-bucket-oct-8-1554
       # Compliance: Versioning must be enabled
       VersioningConfiguration:
         Status: Enabled
