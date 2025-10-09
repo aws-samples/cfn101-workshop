@@ -178,7 +178,7 @@ Guard Hooks require the rules to be stored in Amazon S3. Before proceeding, ensu
 
 1. **Create an S3 bucket**:
 
-You can create the bucket using the AWS CLI or through the [Amazon S3 Console](https://s3.console.aws.amazon.com/s3/buckets). 
+You can create the bucket using the AWS CLI or through the [Amazon S3 Console](https://s3.console.aws.amazon.com/s3/buckets).
 
 **Bucket Naming Suggestion**: Use a unique name like `guard-hook-bucket-<your-name>` (e.g., `guard-hook-bucket-john-doe`)
 

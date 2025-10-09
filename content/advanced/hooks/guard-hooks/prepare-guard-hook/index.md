@@ -83,14 +83,14 @@ Resources:
                   - "s3:ListBucket"
                   - "s3:GetObject"
                   - "s3:GetObjectVersion"
-                Resource: 
+                Resource:
                   - !Sub "arn:aws:s3:::${S3BucketName}"
                   - !Sub "arn:aws:s3:::${S3BucketName}/*"
               - Effect: Allow
                 Action:
                   - "s3:PutObject"
                   - "s3:PutObjectAcl"
-                Resource: 
+                Resource:
                   - !Sub "arn:aws:s3:::${S3BucketName}/guard-output/*"
 
 Outputs:

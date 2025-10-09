@@ -303,7 +303,7 @@ If you configured an S3 output location during Hook activation, you can view det
     },
     {
       "rule_name": "s3_public_access_blocked",
-      "status": "PASS", 
+      "status": "PASS",
       "message": "S3 bucket has public access blocked"
     },
     {
