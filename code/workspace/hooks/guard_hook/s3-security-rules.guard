@@ -1,0 +1,50 @@
+# S3 Security Guard Rules for CloudFormation Hook
+# These rules ensure S3 buckets follow security best practices
+
+# Rule 1: S3 buckets must have versioning enabled
+rule s3_versioning_enabled {
+    Resources.*[ Type == 'AWS::S3::Bucket' ] {
+        Properties {
+            VersioningConfiguration exists
+            VersioningConfiguration.Status == "Enabled"
+        }
+    }
+}
+
+# Rule 2: S3 buckets must have public access blocked
+rule s3_public_access_blocked {
+    Resources.*[ Type == 'AWS::S3::Bucket' ] {
+        Properties {
+            PublicAccessBlockConfiguration exists
+            PublicAccessBlockConfiguration.BlockPublicAcls == true
+            PublicAccessBlockConfiguration.BlockPublicPolicy == true
+            PublicAccessBlockConfiguration.IgnorePublicAcls == true
+            PublicAccessBlockConfiguration.RestrictPublicBuckets == true
+        }
+    }
+}
+
+# Rule 3: S3 buckets should have server-side encryption enabled
+rule s3_encryption_enabled {
+    Resources.*[ Type == 'AWS::S3::Bucket' ] {
+        Properties {
+            BucketEncryption exists
+            BucketEncryption.ServerSideEncryptionConfiguration exists
+            BucketEncryption.ServerSideEncryptionConfiguration[*].ServerSideEncryptionByDefault exists
+            BucketEncryption.ServerSideEncryptionConfiguration[*].ServerSideEncryptionByDefault.SSEAlgorithm in ["AES256", "aws:kms"]
+        }
+    }
+}
+
+# Rule 4: S3 buckets should not allow public read access
+rule s3_no_public_read {
+    Resources.*[ Type == 'AWS::S3::Bucket' ] {
+        Properties {
+            # Ensure no public read permissions in ACL
+            when AccessControl exists {
+                AccessControl != "PublicRead"
+                AccessControl != "PublicReadWrite"
+            }
+        }
+    }
+}
