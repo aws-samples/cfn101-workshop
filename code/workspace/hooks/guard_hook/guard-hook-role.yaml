@@ -1,5 +1,5 @@
 AWSTemplateFormatVersion: "2010-09-09"
-Description: "IAM role configuration for Guard Hook"
+Description: "IAM role configuration for Guard Hook (uksb-1q9p31idr) (tag:guard-hook)."
 
 Parameters:
   S3BucketName:
