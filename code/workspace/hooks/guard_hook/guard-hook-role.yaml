@@ -1,0 +1,46 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: "IAM role configuration for Guard Hook (uksb-1q9p31idr) (tag:guard-hook)."
+
+Parameters:
+  S3BucketName:
+    Type: String
+    Default: "<s3-bucket-name>"
+    Description: "Name of the S3 bucket containing Guard rules"
+
+Resources:
+  GuardHookExecutionRole:
+    Type: "AWS::IAM::Role"
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: hooks.cloudformation.amazonaws.com
+            Action: "sts:AssumeRole"
+      Policies:
+        - PolicyName: GuardHookS3Access
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action:
+                  - "s3:ListBucket"
+                  - "s3:GetObject"
+                  - "s3:GetObjectVersion"
+                Resource:
+                  - !Sub "arn:aws:s3:::${S3BucketName}"
+                  - !Sub "arn:aws:s3:::${S3BucketName}/*"
+              - Effect: Allow
+                Action:
+                  - "s3:PutObject"
+                  - "s3:PutObjectAcl"
+                Resource:
+                  - !Sub "arn:aws:s3:::${S3BucketName}/guard-output/*"
+
+Outputs:
+  GuardHookExecutionRoleArn:
+    Description: "ARN of the Guard Hook execution role"
+    Value: !GetAtt GuardHookExecutionRole.Arn
+    Export:
+      Name: !Sub "${AWS::StackName}-GuardHookExecutionRoleArn"
