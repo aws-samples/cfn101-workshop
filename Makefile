@@ -28,7 +28,7 @@ $(VENV_NAME)/bin/activate: requirements.txt
 	touch $(VENV_NAME)/bin/activate
 
 pre-commit: $(VENV_NAME)
-	$(VENV_NAME)/bin/pre-commit install
+	GIT_CONFIG=/dev/null $(VENV_NAME)/bin/pre-commit install
 
 # Tests
 test: $(VENV_NAME)
