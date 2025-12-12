@@ -7,7 +7,7 @@ _Setup Duration: ~5 minutes_
 
 ## Overview
 
-Code Editor is an open-source remote integrated development environment (IDE) that lets you write, run, and debug your code with just a browser - think of it as VS Code running in a browser. It includes a code editor, debugger, and terminal. We have included the libraries and tools you will need during the workshop.
+Code Editor is an open-source remote integrated development environment (IDE) that lets you write, run, and debug your code with just a browser - think of it as Visual Studio Code running in a browser. It includes a code editor, debugger, and terminal. We have included the libraries and tools you will need during the workshop.
 
 For the best experience and minimal setup effort, we recommend using Code Editor to run this workshop at AWS-hosted events because it comes with the necessary set of tools pre-installed and the workshop repository already cloned. If you prefer to work locally, follow the [Local Development Setup](/prerequisites/local-development) instead.
 
@@ -31,7 +31,7 @@ You can find the URL for the Code Editor in the Output section of the [Workshop 
 
 ![code-editor-url](/static/prerequisites/code-editor/code-editor-url.png)
 
-Once you click on the URL, you will be presented with the IDE you will be using for the remaining of the labs. The commands can be performed in the terminal section in the bottom part of the window (if the terminal panel is not toggled automatically, click on the second left-most small icon at the top right of your screen):
+Follow the link, you will then be presented with the IDE you will use for the labs. The commands can be performed in the terminal section in the bottom part of the window (if the terminal panel is not toggled automatically, choose the second left-most small icon at the top right of your screen):
 
 ![code-server-welcome](/static/prerequisites/code-editor/code-server-welcome.png)
 
