@@ -58,8 +58,8 @@ Resources:
     1. SQS [キュー](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/aws-resource-sqs-queue.html) の `MessageRetentionPeriod` は 4 日間 (秒単位で表現) です。この値は [デフォルト](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/aws-resource-sqs-queue.html#cfn-sqs-queue-messageretentionperiod) ですが、CloudFormation はテンプレートで明示的に宣言したプロパティに対してのみドリフトを評価することに注意してください。このプロパティを含めない場合、CloudFormation は後でリソースの変更を報告しません。
 1. 次のステップでは、このテンプレートを使用して新しいスタックを作成します。
    :::::tabs{variant="container"}
-   ::::tab{id="cloud9" label="Cloud9"}
-   1. **Cloud9 のターミナル** 上で `cfn101-workshop/code/workspace/drift-detection` ディレクトリに移動します:
+   ::::tab{id="code-editor" label="Code Editor"}
+   1. **Code Editor のターミナル** 上で `cfn101-workshop/code/workspace/drift-detection` ディレクトリに移動します:
    :::code{language=shell showLineNumbers=false showCopyAction=true}
    cd cfn101-workshop/code/workspace/drift-detection
    :::
@@ -100,7 +100,7 @@ Resources:
 このステップでは、CloudFormation ドリフト検出を使用して、元のテンプレートと比較して `Table1` リソースに加えられた変更を特定します。
 
    :::::tabs{variant="container"}
-   ::::tab{id="cloud9" label="Cloud9"}
+   ::::tab{id="code-editor" label="Code Editor"}
    1. **ドリフト検出** を行うために `cfn-workshop-drift-detection` スタックに対して次のコマンドを実行します。
    :::code{language=shell showLineNumbers=false showCopyAction=true}
    aws cloudformation detect-stack-drift \
@@ -212,7 +212,7 @@ Resources:
 このステップでは、CloudFormation を使用してキューリソースのドリフトを検出します。
 
    :::::tabs{variant="container"}
-   ::::tab{id="cloud9" label="Cloud9"}
+   ::::tab{id="code-editor" label="Code Editor"}
    1. **ドリフト検出** を行うために `cfn-workshop-drift-detection` スタックに対して次のコマンドを実行します。
    :::code{language=shell showLineNumbers=false showCopyAction=true}
    aws cloudformation detect-stack-drift \
@@ -299,8 +299,8 @@ Resources:
 1. テンプレートファイルを保存します。
 1. 以下の手順でスタックを更新しましょう。
    :::::tabs{variant="container"}
-   ::::tab{id="cloud9" label="Cloud9"}
-   1. **Cloud9 のターミナル** 上で `cfn101-workshop/code/workspace/drift-detection` ディレクトリに移動します:
+   ::::tab{id="code-editor" label="Code Editor"}
+   1. **Code Editor のターミナル** 上で `cfn101-workshop/code/workspace/drift-detection` ディレクトリに移動します:
    :::code{language=shell showLineNumbers=false showCopyAction=true}
    cd cfn101-workshop/code/workspace/drift-detection
    :::
@@ -413,8 +413,8 @@ Resources:
 この `UserData` スクリプトは、インスタンスの初回起動時にのみ実行されます。起動のたびにスクリプトを実行するために[設定を作成する](https://repost.aws/ja/knowledge-center/execute-user-data-ec2)のも良いですが、今回のワークショップではテンプレートの複雑さを低く抑えるため、このテンプレートでは簡単な内容だけを紹介します。
 :::
 :::::tabs{variant="container"}
-::::tab{id="cloud9" label="Cloud9"}
-1. **Cloud9 のターミナル** 上で `cfn101-workshop/code/workspace/drift-detection` ディレクトリに移動します:
+::::tab{id="code-editor" label="Code Editor"}
+1. **Code Editor のターミナル** 上で `cfn101-workshop/code/workspace/drift-detection` ディレクトリに移動します:
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 cd cfn101-workshop/code/workspace/drift-detection
 :::
@@ -496,7 +496,7 @@ echo Hello Universe
 このステップでは、CloudFormation ドリフト検出を使用して、元のテンプレートと比較して `Instance1` リソースに加えられた変更を特定します。
 
 :::::tabs{variant="container"}
-::::tab{id="cloud9" label="Cloud9"}
+::::tab{id="code-editor" label="Code Editor"}
 1. `Instance1` の変更を特定しましょう。
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 aws cloudformation detect-stack-drift \
@@ -622,7 +622,7 @@ Resources:
         echo Hello Universe
 :::
 :::::tabs{variant="container"}
-::::tab{id="cloud9" label="Cloud9"}
+::::tab{id="code-editor" label="Code Editor"}
 1. IMPORT 操作のためにリソースを記述するテキストファイルを作成します。
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 touch resources-import.txt
@@ -712,7 +712,7 @@ aws cloudformation detect-stack-drift \
 
 次に示す手順に従って、このワークショップで作成したリソースをクリーンアップしてください。
 :::::tabs{variant="container"}
-::::tab{id="cloud9" label="Cloud9"}
+::::tab{id="code-editor" label="Code Editor"}
 1. AWS CLI を使って S3 バケットを削除します。
 :::code{language=shell showLineNumbers=false showCopyAction=false}
 aws s3 rb s3://drift-detection-challenge-AWS_ACCOUNT_ID --force

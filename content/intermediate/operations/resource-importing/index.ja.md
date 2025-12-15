@@ -61,7 +61,7 @@ Resources:
 
 この次のステップでは、AWS CloudFormation コンソールを使用して、`resource-importing.yaml` テンプレートを使用して [スタックを作成](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/resource-import-new-stack.html) します。
 :::::tabs{variant="container"}
-::::tab{id="cloud9" label="Cloud9"}
+::::tab{id="code-editor" label="Code Editor"}
 1. `IMPORT` 操作のためリソースを記述するテキストファイルを作成します。
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 touch resources-import.txt
@@ -180,7 +180,7 @@ SNSTopic2:
 :::
 1. 先ほど更新した `resource-importing.yaml` テンプレートには、2 つのパラメータ (`Topic1Name` と `Topic2Name`) と 2 つのリソース (`SNSTopic1` と `SNSTopic2`) が含まれるようになりました。新しいトピックを既存のスタックにインポートしましょう！
    :::::tabs{variant="container"}
-   ::::tab{id="cloud9" label="Cloud9"}
+   ::::tab{id="code-editor" label="Code Editor"}
    1. 次のコードを `resources-import.txt` ファイルにコピーペーストして保存してください。[**識別子の値**](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/resource-import.html#resource-import-overview) には、`Topic2` を作成した後にメモしたトピック ARN の値を指定します。
    :::code{language=json showLineNumbers=false showCopyAction=true}
    [
@@ -294,7 +294,7 @@ SNSTopic1:
     TopicName: !Ref Topic1Name
 :::
 :::::tabs{variant="container"}
-::::tab{id="cloud9" label="Cloud9"}
+::::tab{id="code-editor" label="Code Editor"}
 1. 次のコマンドを実行してスタックから `SNSTopic1` リソースを削除するための `UPDATE` タイプの変更セットを作成しましょう。スタック名を `cfn-workshop-resource-importing` とし、変更セット名を `cfn-workshop-resource-import-change-set` とし `Topic2Name` パラメータの値を `Topic2` にします。
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 aws cloudformation create-change-set \
@@ -409,7 +409,7 @@ Resources:
       TopicName: !Ref Topic1Name
 :::
 :::::tabs{variant="container"}
-::::tab{id="cloud9" label="Cloud9"}
+::::tab{id="code-editor" label="Code Editor"}
 1. 以下のコードをコピーして `resources-import.txt` ファイルの内容を置き換えてください。
 :::code{language=json showLineNumbers=false showCopyAction=true}
 [
@@ -579,7 +579,7 @@ Resources:
           Value: InstanceImport
 :::
 :::::tabs{variant="container"}
-::::tab{id="cloud9" label="Cloud9"}
+::::tab{id="code-editor" label="Code Editor"}
 1. 次のコマンドを実行して **スタックの作成** を行いましょう。 **スタック名** は `cfn-workshop-resource-import-challenge` とし `InstanceType` パラメータの値は `t2.nano` とします。
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 aws cloudformation create-stack \
@@ -670,7 +670,7 @@ aws cloudformation update-stack \
 1. スタックを更新したあと、ステップ 3 で 2 つの削除したコードブロックを `resource-import-challenge.yaml` に追加して保存します。
 1. **スタックにリソースをインポート** しましょう
    :::::tabs{variant="container"}
-   ::::tab{id="cloud9" label="Cloud9"}
+   ::::tab{id="code-editor" label="Code Editor"}
    1. 以下のコードをコピーして `resources-import.txt` にペーストします。[**識別子**](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/resource-import.html#resource-import-overview)の値はこのパートの前に、メモをしたインスンスの **物理 ID** に置き換えます。
    :::code{language=json showLineNumbers=false showCopyAction=true}
    [
@@ -733,7 +733,7 @@ aws cloudformation update-stack \
 1. `code/workspace/resource-importing` というディレクトリにいることを確認します。
 1. `resource-importing.yaml` テンプレートファイルを更新して、`SNSTopic2` リソース定義から `deletionPolicy: Retain` 行を削除し、テンプレートを保存します。
    :::::tabs{variant="container"}
-   ::::tab{id="cloud9" label="Cloud9"}
+   ::::tab{id="code-editor" label="Code Editor"}
    1. 次のコマンドを実行して **スタック** を更新します。
    :::code{language=shell showLineNumbers=false showCopyAction=true}
    aws cloudformation update-stack \

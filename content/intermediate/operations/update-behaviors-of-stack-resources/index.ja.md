@@ -53,7 +53,7 @@ Resources:
 変更をファイルに保存します。次に、`update-behaviors-of-stack-resources.yaml` テンプレートを使用してスタックを作成します。
 
 :::::tabs{variant="container"}
-::::tab{id="cloud9" label="Cloud9"}
+::::tab{id="code-editor" label="Code Editor"}
 1. **Cloud9 ターミナル** で `code/workspace/update-behaviors-of-stack-resources` ディレクトリに移動します。
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 cd code/workspace/update-behaviors-of-stack-resources
@@ -153,7 +153,7 @@ EC2Instance:
 変更をファイルに保存します。次に、スタックを更新します。
 
 :::::tabs{variant="container"}
-::::tab{id="cloud9" label="Cloud9"}
+::::tab{id="code-editor" label="Code Editor"}
 1. **Cloud9 ターミナル** で `code/workspace/update-behaviors-of-stack-resources` ディレクトリに移動します。
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 cd code/workspace/update-behaviors-of-stack-resources
@@ -211,7 +211,7 @@ EC2Instance:
 スタックの更新:
 
 :::::tabs{variant="container"}
-::::tab{id="cloud9" label="Cloud9"}
+::::tab{id="code-editor" label="Code Editor"}
 1. **Cloud9 ターミナル** で `code/workspace/update-behaviors-of-stack-resources` ディレクトリに移動します。
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 cd code/workspace/update-behaviors-of-stack-resources

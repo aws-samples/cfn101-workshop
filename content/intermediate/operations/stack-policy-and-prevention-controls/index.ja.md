@@ -53,9 +53,9 @@ Resources:
 
 この次のステップでは、`stack-policy-lab.yaml` テンプレートファイルを使用してスタックを作成します。次の手順に沿って進んでください。
 :::::tabs{variant="container"}
-::::tab{id="cloud9" label="Cloud9"}
+::::tab{id="code-editor" label="Code Editor"}
 次の手順でスタックを作成します。
-1. **Cloud9 のターミナル** で `code/workspace/stack-policy-and-prevention-controls` ディレクトリに移動します。
+1. **Code Editor のターミナル** で `code/workspace/stack-policy-and-prevention-controls` ディレクトリに移動します。
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 cd cfn101-workshop/code/workspace/stack-policy-and-prevention-controls
 :::
@@ -138,7 +138,7 @@ aws cloudformation wait stack-create-complete \
 それでは、作成したスタックを更新して、適用したスタックポリシーをテストしてみましょう。
 
 :::::tabs{variant="container"}
-::::tab{id="cloud9" label="Cloud9"}
+::::tab{id="code-editor" label="Code Editor"}
 次のコマンドを使って `SNSTopicTagValue` の値を `Topic-Tag-1` から `Topic-Tag-2` に更新します。
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 aws cloudformation update-stack \
@@ -193,7 +193,7 @@ Resources:
       TopicName: Topic-2
 :::
 :::::tabs{variant="container"}
-::::tab{id="cloud9" label="Cloud9"}
+::::tab{id="code-editor" label="Code Editor"}
 **スタックの作成** を行うためにターミナルで次のコマンドを実行します
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 aws cloudformation create-stack \

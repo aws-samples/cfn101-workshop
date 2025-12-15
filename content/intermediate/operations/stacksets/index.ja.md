@@ -80,7 +80,7 @@ StackSets の管理者ロールを作成しました。次に実行ロールを�
 
 次のステップでは、AWS CloudFormation コンソールを使用して　`example_network.yaml` テンプレートからスタックセットを作成します。
 :::::tabs{variant="container"}
-::::tab{id="cloud9" label="Cloud9"}
+::::tab{id="code-editor" label="Code Editor"}
 1. 次の AWS CLI コマンドを使用して、**Create StackSet** をしてみましょう。
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 aws cloudformation create-stack-set \
@@ -153,7 +153,7 @@ aws cloudformation describe-stack-set-operation \
 
 次のステップでは、AWS CloudFormation コンソールを使用して `example_securitygroup.yaml` テンプレートからスタックセットを作成します。
 :::::tabs{variant="container"}
-::::tab{id="cloud9" label="Cloud9"}
+::::tab{id="code-editor" label="Code Editor"}
 1. 次の AWS CLI コマンドを使用して、**Create StackSet** を実行しましょう。
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 aws cloudformation create-stack-set \
@@ -235,7 +235,7 @@ LatestAmiId:
 
 EC2 インスタンスのプロパティにこのコードを追加します: `SubnetId: !ImportValue AWS-CloudFormationWorkshop-SubnetId1`
 :::::tabs{variant="container"}
-::::tab{id="cloud9" label="Cloud9"}
+::::tab{id="code-editor" label="Code Editor"}
 1. ディレクトリを `cfn101-workshop/code/solutions/stacksets` に変更します。
 2. 更新したテンプレートを使用し、次の AWS CLI コマンドを使用して新しい **StackSet** を作成します。
 :::code{language=shell showLineNumbers=false showCopyAction=true}
@@ -263,7 +263,7 @@ aws cloudformation create-stack-instances \
 最後に、作成したリソースを削除します。スタックセットを削除するには、まずスタックインスタンスを削除し、次に空のスタックセットを削除します。
 
 :::::tabs{variant="container"}
-::::tab{id="cloud9" label="Cloud9"}
+::::tab{id="code-editor" label="Code Editor"}
 1. AWS CLI からスタックセットを削除する前に、**StackSet** のスタックインスタンスを削除してください。
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 aws cloudformation delete-stack-instances \
