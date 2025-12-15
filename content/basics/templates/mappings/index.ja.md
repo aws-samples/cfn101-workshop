@@ -111,8 +111,8 @@ Tags:
 テンプレートにマッピングセクションを追加したので、AWS コンソールに移動して CloudFormation スタックを作成します。
 
 :::::tabs{variant="container"}
-::::tab{id="cloud9" label="Cloud9"}
-1. **Cloud9 のターミナル** で `code/workspace` に移動します。
+::::tab{id="code-editor" label="Code Editor"}
+1. **Code Editor のターミナル** で `code/workspace` に移動します。
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 cd cfn101-workshop/code/workspace
 :::
@@ -183,8 +183,8 @@ Mappings:
 ソリューションの動作を確認するために、以下のステップを実施します。
 
 :::::tabs{variant="container"}
-::::tab{id="cloud9" label="Cloud9"}
-1. **Cloud9 のターミナル** で `code/workspace` に移動します。
+::::tab{id="code-editor" label="Code Editor"}
+1. **Code Editor のターミナル** で `code/workspace` に移動します。
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 cd cfn101-workshop/code/workspace
 :::

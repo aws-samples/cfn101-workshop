@@ -85,8 +85,8 @@ Outputs:
 それでは、`resource-return-values.yaml` テンプレートを使ってスタックを作成し、ここまで説明してきた動作を実際に見ていきます。
 
 :::::tabs{variant="container"}
-::::tab{id="cloud9" label="Cloud9"}
-1. **Cloud9 のターミナル** で `code/workspace` に移動します。
+::::tab{id="code-editor" label="Code Editor"}
+1. **Code Editor のターミナル** で `code/workspace` に移動します。
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 cd cfn101-workshop/code/workspace/resource-return-values
 :::
@@ -174,8 +174,8 @@ Outputs:
     Value: !GetAtt InstanceSecurityGroup.GroupId
 :::
 :::::tabs{variant="container"}
-::::tab{id="cloud9" label="Cloud9"}
-1. **Cloud9 のターミナル** で `code/workspace/resource-return-values` に移動します。
+::::tab{id="code-editor" label="Code Editor"}
+1. **Code Editor のターミナル** で `code/workspace/resource-return-values` に移動します。
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 cd cfn101-workshop/code/workspace/resource-return-values
 :::

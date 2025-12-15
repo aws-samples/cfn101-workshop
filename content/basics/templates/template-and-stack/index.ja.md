@@ -33,8 +33,8 @@ _ラボ実施時間 : 10分程度_
 4. 以下の手順の通りにスタックを作成します。
 
   :::::tabs{variant="container"}
-	::::tab{id="cloud9" label="Cloud9"}
-  1. **Cloud9 のターミナル** で `code/workspace` に移動します。
+	::::tab{id="code-editor" label="Code Editor"}
+  1. **Code Editor のターミナル** で `code/workspace` に移動します。
   :::code{language=shell showLineNumbers=false showCopyAction=true}
   cd cfn101-workshop/code/workspace
   :::
@@ -90,8 +90,8 @@ _ラボ実施時間 : 10分程度_
 1. 次は、以下の手順の通りにスタックを更新します。
 
   :::::tabs{variant="container"}
-	::::tab{id="cloud9" label="Cloud9"}
-  1. **Cloud9 のターミナル** で `code/workspace` に移動します。
+	::::tab{id="code-editor" label="Code Editor"}
+  1. **Code Editor のターミナル** で `code/workspace` に移動します。
   :::code{language=shell showLineNumbers=false showCopyAction=true}
   cd cfn101-workshop/code/workspace
   :::
