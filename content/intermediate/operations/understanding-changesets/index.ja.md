@@ -28,11 +28,11 @@ _ラボ実施時間 : 20分程度_
 :::::tabs{variant="container"}
 ::::tab{id="code-editor" label="Code Editor"}
 
-1. **Cloud9 ターミナル** で `code/workspace/understanding-changesets` ディレクトリに移動します。
+1. **Code Editor ターミナル** で `code/workspace/understanding-changesets` ディレクトリに移動します。
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 cd cfn101-workshop/code/workspace/understanding-changesets
 :::
-1. `Cloud9` エディターで `bucket.yaml` CloudFormation テンプレートを開き、サンプルテンプレートの内容をよく理解してください。
+1. `Code Editor` エディターで `bucket.yaml` CloudFormation テンプレートを開き、サンプルテンプレートの内容をよく理解してください。
 1. 次の手順に従ってスタックを作成します。
    1. このテンプレートでは、`BucketName` 入力パラメータに一意の値を指定する必要があります。詳細については、 [バケットの名前付け](https://docs.aws.amazon.com/ja_jp/AmazonS3/latest/userguide/bucketnamingrules.html)を参照してください。
    1. 次のコマンドを使用してテンプレートからスタックを作成しましょう (この例では AWS リージョンに `us-east-1` を使用しています。必要に応じてこの値を変更してください)。
@@ -74,7 +74,7 @@ cd cfn101-workshop/code/workspace/understanding-changesets
 
 :::::tabs{variant="container"}
 ::::tab{id="code-editor" label="Code Editor"}
-`Cloud9` エディタで `bucket.yaml` CloudFormation テンプレートを開き、以下に示すように `VersioningConfiguration` を追加します。ファイルを保存します。
+`Code Editor` エディタで `bucket.yaml` CloudFormation テンプレートを開き、以下に示すように `VersioningConfiguration` を追加します。ファイルを保存します。
 :::code{language=yaml showLineNumbers=false showCopyAction=true}
 MyS3Bucket:
   Type: AWS::S3::Bucket

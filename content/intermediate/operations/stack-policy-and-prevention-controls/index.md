@@ -62,7 +62,7 @@ cd cfn101-workshop/code/workspace/stack-policy-and-prevention-controls
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 touch policy-body.json
 :::
-1. Open this file in Cloud9 editor and paste in the following JSON code:
+1. Open this file in Code Editor and paste in the following JSON code:
 :::code{language=json showLineNumbers=false showCopyAction=true}
 {
   "Statement" : [
