@@ -19,7 +19,8 @@ params:
 
 awsAccountConfig:
   accountSources:
-    - workshop_studio
+    - WorkshopStudio
+    - CustomerProvided
   regionConfiguration:
     deployableRegions:
       required:
@@ -34,3 +35,19 @@ awsAccountConfig:
   participantRole:
     managedPolicies:
       - "arn:aws:iam::aws:policy/AdministratorAccess"
+
+infrastructure:
+  cloudformationTemplates:
+    - templateLocation: static/cfn/code-editor.yaml
+      label: Code Editor
+      participantVisibleStackOutputs:
+        - URL
+      parameters:
+        - templateParameter: InstanceType
+          defaultValue: t4g.medium
+        - templateParameter: InstanceOperatingSystem
+          defaultValue: AmazonLinux-2023
+        - templateParameter: HomeFolder
+          defaultValue: /cfn101-workshop
+        - templateParameter: RepoUrl
+          defaultValue: 'https://github.com/aws-samples/cfn101-workshop.git'
