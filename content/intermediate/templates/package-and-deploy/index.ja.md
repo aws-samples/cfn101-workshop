@@ -301,7 +301,7 @@ more response.json
 
 次の手順に従ってこのラボで作成したリソースをクリーンアップしてください。
 :::::tabs{variant="container"}
-::::tab{id="cloud9" label="Cloud9"}
+::::tab{id="code-editor" label="Code Editor"}
 1. 次の AWS CLI コマンドを使用して S3 バケットを削除します。
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 aws s3 rb s3://example-bucket-name --force

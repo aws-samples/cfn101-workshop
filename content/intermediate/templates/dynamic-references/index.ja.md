@@ -76,7 +76,7 @@ aws ssm put-parameter \
 
 5. いよいよスタックを作成しましょう！ 以下の手順に従ってください。
    :::::tabs{variant="container"}
-   ::::tab{id="cloud9" label="Cloud9"}
+   ::::tab{id="code-editor" label="Code Editor"}
    1. **Cloud9 ターミナル** で `code/workspace/dynamic-references` ディレクトリに移動します
    :::code{language=shell showLineNumbers=false showCopyAction=true}
    cd cfn101-workshop/code/workspace/dynamic-references
@@ -148,7 +148,7 @@ aws ec2 describe-instances \
        :::
 2. データベーススタックをデプロイするには、以下の手順に従います。
    :::::tabs{variant="container"}
-   ::::tab{id="cloud9" label="Cloud9"}
+   ::::tab{id="code-editor" label="Code Editor"}
    1. **Cloud9 ターミナル** で `code/workspace/dynamic-references` ディレクトリに移動します。
    :::code{language=shell showLineNumbers=false showCopyAction=true}
    cd cfn101-workshop/code/workspace/dynamic-references
@@ -196,7 +196,7 @@ aws ec2 describe-instances \
     :::
 1. Lambda スタックをデプロイするには、以下の手順に従います。
    :::::tabs{variant="container"}
-   ::::tab{id="cloud9" label="Cloud9"}
+   ::::tab{id="code-editor" label="Code Editor"}
    1. **Cloud9 ターミナル** で `code/workspace/dynamic-references` ディレクトリに移動します。
    :::code{language=shell showLineNumbers=false showCopyAction=true}
    cd cfn101-workshop/code/workspace/dynamic-references

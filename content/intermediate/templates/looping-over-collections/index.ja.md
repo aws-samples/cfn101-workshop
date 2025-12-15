@@ -163,7 +163,7 @@ Resources:
 これで新しい CloudFormation スタックを作成し、上で記述したコレクションをループして 3 つの S3 バケットがどのようにプロビジョニングされるかを確認します。`us-east-1` リージョンに新しいスタックを作成します。
 
 :::::tabs{variant="container"}
-::::tab{id="cloud9" label="Cloud9"}
+::::tab{id="code-editor" label="Code Editor"}
 次の AWS CLI コマンドを実行します。
 
 :::code{language=shell showLineNumbers=false showCopyAction=true}
@@ -342,7 +342,7 @@ aws cloudformation wait stack-create-complete \
 さて、コードで記述した VPC 関連リソースのインフラストラクチャをプロビジョニングしましょう！ラボのこの部分で行ってきたすべての変更を含む `vpc.yaml` ファイルを保存し、以下の手順に沿って `vpc.yaml` ファイルを使用して `looping-over-collections-vpc` という名前の新しいスタックを作成します。新しいスタックは `us-east-1` リージョンに作成します。
 
 :::::tabs{variant="container"}
-::::tab{id="cloud9" label="Cloud9"}
+::::tab{id="code-editor" label="Code Editor"}
 次の AWS CLI コマンドを実行します。
 
 :::code{language=shell showLineNumbers=false showCopyAction=true}
@@ -427,7 +427,7 @@ Outputs:
 次に、既存の `looping-over-collections-vpc` スタックを以下の `Outputs` 情報を含むテンプレートで更新します。
 
 :::::tabs{variant="container"}
-::::tab{id="cloud9" label="Cloud9"}
+::::tab{id="code-editor" label="Code Editor"}
 次の AWS CLI コマンドを実行します。
 
 :::code{language=shell showLineNumbers=false showCopyAction=true}
@@ -473,7 +473,7 @@ aws cloudformation wait stack-update-complete \
 次に、このラボで作成したリソースを削除します。以下の手順を実行してください。
 
 :::::tabs{variant="container"}
-::::tab{id="cloud9" label="Cloud9"}
+::::tab{id="code-editor" label="Code Editor"}
 次の AWS CLI コマンドを実行して、`looping-over-collections-s3-buckets` スタックを削除します。
 
 :::code{language=shell showLineNumbers=false showCopyAction=true}

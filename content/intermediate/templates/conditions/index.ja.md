@@ -110,7 +110,7 @@ Resources:
 スタックを作成する時に、`test` を `EnvType` の値として渡すと、CloudFormation によって EC2 インスタンスリソースのみがプロビジョニングされることがわかります。更新したテンプレートを保存します。次に、AWS CloudFormation [コンソール](https://console.aws.amazon.com/cloudformation) に移動し、スタックを作成します。
 
 :::::tabs{variant="container"}
-::::tab{id="cloud9" label="Cloud9"}
+::::tab{id="code-editor" label="Code Editor"}
 1. **Cloud9 ターミナル** で `code/workspace/conditions` ディレクトリに移動します。
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 cd cfn101-workshop/code/workspace/conditions
@@ -147,7 +147,7 @@ aws cloudformation create-stack --stack-name cfn-workshop-condition-test \
 次のステップでは、同じテンプレートを使用して新しいスタックを作成します。今回は、`envType` パラメータの値として `prod` を渡し、`Volume` と `MountPoint` リソースもプロビジョニングされることを確認します。AWS CloudFormation [コンソール](https://console.aws.amazon.com/cloudformation)に移動し、既存のテンプレートを使用してスタックを作成します。
 
 :::::tabs{variant="container"}
-::::tab{id="cloud9" label="Cloud9"}
+::::tab{id="code-editor" label="Code Editor"}
 1. **Cloud9 ターミナル** で `code/workspace/conditions` ディレクトリに移動します。
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 cd cfn101-workshop/code/workspace/conditions
@@ -233,7 +233,7 @@ Resources:
 このセクションでは、`EnvType` パラメータの値として `test` を指定、EC2 インスタンスのタイプが `t2.micro` であることを確認します。AWS CloudFormation [コンソール](https://console.aws.amazon.com/cloudformation)に移動し、次のテンプレートを使用してスタックを作成します。
 
 :::::tabs{variant="container"}
-::::tab{id="cloud9" label="Cloud9"}
+::::tab{id="code-editor" label="Code Editor"}
 1. **Cloud9 ターミナル** で `code/workspace/conditions` ディレクトリに移動します。
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 cd cfn101-workshop/code/workspace/conditions
@@ -299,7 +299,7 @@ Outputs:
 次に、AWS CloudFormation [コンソール](https://console.aws.amazon.com/cloudformation)に移動して、`cfn-workshop-condition-prod` スタックの更新を選択します。
 
 :::::tabs{variant="container"}
-::::tab{id="cloud9" label="Cloud9"}
+::::tab{id="code-editor" label="Code Editor"}
 1. **Cloud9 ターミナル** で `code/workspace/conditions` ディレクトリに移動します。
   :::code{language=shell showLineNumbers=false showCopyAction=true}
   cd cfn101-workshop/code/workspace/conditions
