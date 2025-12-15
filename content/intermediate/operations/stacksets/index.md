@@ -80,7 +80,7 @@ You will use the `example_network.yaml` template, that contains the network reso
 
 In this next step, you will use the AWS CloudFormation Console to create a stack set from the `example_network.yaml` template:
 :::::tabs{variant="container"}
-::::tab{id="cloud9" label="Cloud9"}
+::::tab{id="code-editor" label="Code Editor"}
 1. Let's **Create StackSets** by using the following AWS CLI command.
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 aws cloudformation create-stack-set \
@@ -153,7 +153,7 @@ Let’s get started:
 
 In this next step, you will use the AWS CloudFormation console to create a stack set from the `example_securitygroup.yaml` template:
 :::::tabs{variant="container"}
-::::tab{id="cloud9" label="Cloud9"}
+::::tab{id="code-editor" label="Code Editor"}
 1. Let's **Create StackSets** by using the following AWS CLI command.
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 aws cloudformation create-stack-set \
@@ -235,7 +235,7 @@ You can find the full solution in the `code/solutions/stacksets/example_ec2insta
 
 Append the following to the EC2 instance properties: `SubnetId: !ImportValue AWS-CloudFormationWorkshop-SubnetId1`.
 :::::tabs{variant="container"}
-::::tab{id="cloud9" label="Cloud9"}
+::::tab{id="code-editor" label="Code Editor"}
 1. Change the directory to `cfn101-workshop/code/solutions/stacksets`.
 1. Use the updated template, and create a new **StackSet** using the following AWS CLI command.
 :::code{language=shell showLineNumbers=false showCopyAction=true}
@@ -263,7 +263,7 @@ Use the updated template, and create a new `cfn-workshop-ec2instance` stack set 
 You will now tear down the resources you created. To delete a stack set, you will first delete its stack instances, and then delete the empty stack set.
 
 :::::tabs{variant="container"}
-::::tab{id="cloud9" label="Cloud9"}
+::::tab{id="code-editor" label="Code Editor"}
 1. Delete the stack instances from the **StackSet** before you delete the StackSets from AWS CLI.
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 aws cloudformation delete-stack-instances \

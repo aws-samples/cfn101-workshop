@@ -27,9 +27,9 @@ Using a sample template, you will create a CloudFormation stack. You will then c
 Let’s get started!
 
 :::::tabs{variant="container"}
-::::tab{id="cloud9" label="Cloud9"}
+::::tab{id="code-editor" label="Code Editor"}
 
-1. In the **Cloud9 terminal** navigate to `code/workspace/understanding-changesets`:
+1. In the **Code Editor terminal** navigate to `code/workspace/understanding-changesets`:
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 cd cfn101-workshop/code/workspace/understanding-changesets
 :::
@@ -74,7 +74,7 @@ cd cfn101-workshop/code/workspace/understanding-changesets
 In this part of the lab, you will specify a property, for a given resource type, that requires [no interruption](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-updating-stacks-update-behaviors.html#update-no-interrupt) on stack updates. You will then create a change set to preview the changes, and inspect the output of the change set operation.
 
 :::::tabs{variant="container"}
-::::tab{id="cloud9" label="Cloud9"}
+::::tab{id="code-editor" label="Code Editor"}
 Open the `bucket.yaml` CloudFormation template in your `Cloud9` editor, and add `VersioningConfiguration` as shown below. Save the file.
 :::code{language=yaml showLineNumbers=false showCopyAction=true}
 MyS3Bucket:
@@ -170,7 +170,7 @@ You will now modify the value for a property, `BucketName`, that requires a [rep
 Let’s get started!
 
 :::::tabs{variant="container"}
-::::tab{id="cloud9" label="Cloud9"}
+::::tab{id="code-editor" label="Code Editor"}
 1. From Terminal run the following command to **Create change set**, Change the value for `BucketName` parameter by specifying a new unique bucket [name](https://docs.aws.amazon.com/AmazonS3/latest/userguide/bucketnamingrules.html), and follow the rest of the process as before to finish creating the change set.
 
 :::code{language=shell showLineNumbers=false showCopyAction=true}
@@ -316,7 +316,7 @@ When you change the logical ID of a resource in your template, and you update yo
 To clean up resources you created with this lab:
 
 :::::tabs{variant="container"}
-::::tab{id="cloud9" label="Cloud9"}
+::::tab{id="code-editor" label="Code Editor"}
 From the terminal execute the following AWS CLI command to delete the stacks you created.
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 aws cloudformation delete-stack \
