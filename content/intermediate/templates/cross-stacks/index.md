@@ -69,8 +69,8 @@ Outputs:
 
 ##### 2. Deploy the VPC Stack
 :::::tabs{variant="container"}
-::::tab{id="cloud9" label="Cloud9"}
-1. In the **Cloud9 terminal** navigate to `cfn101-workshop/code/workspace/cross-stacks`.
+::::tab{id="code-editor" label="Code Editor"}
+1. In the **Code Editor terminal** navigate to `cfn101-workshop/code/workspace/cross-stacks`.
 1. **Create Stack** by using the following AWS CLI command. The template requires you provide the values for `AvailabilityZones` parameter, For example `us-east-1a` and `us-east-1b` are used below. Please select 2 Availability Zone based on your region.
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 aws cloudformation create-stack \
@@ -113,7 +113,7 @@ aws cloudformation wait stack-create-complete \
 
 ##### 2. Deploy the IAM Stack
 :::::tabs{variant="container"}
-::::tab{id="cloud9" label="Cloud9"}
+::::tab{id="code-editor" label="Code Editor"}
 1. Let's **Create Stack** by using the following AWS CLI command. The template requires you to specify `CAPABILITY_IAM` capability for creating IAM resources.
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 aws cloudformation create-stack \
@@ -214,7 +214,7 @@ WebServerSecurityGroup:
 
 ##### 5. Deploy the EC2 Stack
 :::::tabs{variant="container"}
-::::tab{id="cloud9" label="Cloud9"}
+::::tab{id="code-editor" label="Code Editor"}
 1. Let's **Create Stack** by using the following AWS CLI command. The template requires you to specify `CAPABILITY_IAM` capability for creating IAM resources.
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 aws cloudformation create-stack \
@@ -262,7 +262,7 @@ For example, you can not delete the **VPC stack** before you delete **EC2 stack*
 
 ![delete-export-before-import.png](/static/intermediate/templates/cross-stacks/delete-export-before-import.png)
 :::::tabs{variant="container"}
-::::tab{id="cloud9" label="Cloud9"}
+::::tab{id="code-editor" label="Code Editor"}
 1. **Delete Stack** by running the following AWS CLI command
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 aws cloudformation delete-stack \

@@ -65,8 +65,8 @@ Use the AWS CloudFormation Console to [create a stack](https://docs.aws.amazon.c
 
 :::::tabs{variant="container"}
 
-::::tab{id="cloud9" label="Cloud9"}
-1. In the **Cloud9 terminal** navigate to `code/workspace/resource-dependencies`:
+::::tab{id="code-editor" label="Code Editor"}
+1. In the **Code Editor terminal** navigate to `code/workspace/resource-dependencies`:
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 cd cfn101-workshop/code/workspace/resource-dependencies
 :::
@@ -201,8 +201,8 @@ Let’s create a stack, and verify the above behavior. Use the AWS CloudFormatio
 
 :::::tabs{variant="container"}
 
-::::tab{id="cloud9" label="Cloud9"}
-1. In the **Cloud9 terminal** navigate to `code/workspace/resource-dependencies`:
+::::tab{id="code-editor" label="Code Editor"}
+1. In the **Code Editor terminal** navigate to `code/workspace/resource-dependencies`:
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 cd cfn101-workshop/code/workspace/resource-dependencies
 :::
@@ -292,8 +292,8 @@ S3Bucket:
 ```
 
 :::::tabs{variant="container"}
-::::tab{id="cloud9" label="Cloud9"}
-1. In the **Cloud9 terminal** navigate to `code/workspace/resource-dependencies`:
+::::tab{id="code-editor" label="Code Editor"}
+1. In the **Code Editor terminal** navigate to `code/workspace/resource-dependencies`:
   :::code{language=shell showLineNumbers=false showCopyAction=true}
   cd cfn101-workshop/code/workspace/resource-dependencies
   :::

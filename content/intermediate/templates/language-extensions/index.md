@@ -77,7 +77,7 @@ Save the template file, and proceed to the next steps.
 
 You'll now create a new stack, using the template you modified, in the `us-east-1` region.
 :::::tabs{variant="container"}
-::::tab{id="cloud9" label="Cloud9"}
+::::tab{id="code-editor" label="Code Editor"}
 1. Let's create a stack by running the following AWS CLI command.
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 aws cloudformation create-stack \
@@ -165,7 +165,7 @@ Save the template file, and proceed to the next steps.
 
 You'll now update your existing stack that you created in Part 1. To do so, follow steps shown next:
 :::::tabs{variant="container"}
-::::tab{id="cloud9" label="Cloud9"}
+::::tab{id="code-editor" label="Code Editor"}
 1. Update the stack `cfn-workshop-language-extensions` by running the following AWS CLI command.
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 aws cloudformation update-stack \
@@ -221,7 +221,7 @@ Refer to the [CloudWatch Dashboard structure](https://docs.aws.amazon.com/Amazon
 * You can find the full challenge solution in the template called `language-extensions-solution.yaml`, that is in the `code/solutions/language-extensions` directory.
 
 :::::tabs{variant="container"}
-::::tab{id="cloud9" label="Cloud9"}
+::::tab{id="code-editor" label="Code Editor"}
 1. Let's create the stack by running the following AWS CLI command.
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 aws cloudformation create-stack \
@@ -257,7 +257,7 @@ aws cloudformation wait stack-update-complete \
 
 You'll now tear down the resources you created in this lab. Use following steps:
 :::::tabs{variant="container"}
-::::tab{id="cloud9" label="Cloud9"}
+::::tab{id="code-editor" label="Code Editor"}
 1. Delete the stack `cfn-workshop-language-extensions` by running the following AWS CLI command.
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 aws cloudformation delete-stack \

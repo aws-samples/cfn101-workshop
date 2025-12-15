@@ -162,7 +162,7 @@ The lines starting with `Type: AWS::S3::Bucket` and below, in the example, const
 It’s now time to create a new CloudFormation stack, to see how your three S3 buckets will be provisioned by looping over the collection you described above! You'll create a new stack in the `us-east-1` region.
 
 :::::tabs{variant="container"}
-::::tab{id="cloud9" label="Cloud9"}
+::::tab{id="code-editor" label="Code Editor"}
 Run the following AWS CLI command:
 
 :::code{language=shell showLineNumbers=false showCopyAction=true}
@@ -341,7 +341,7 @@ Moreover, note the `AllocationId` [property](https://docs.aws.amazon.com/AWSClou
 It’s now time to provision the infrastructure for the VPC-related resources you described with code! Save the `vpc.yaml` file with all the changes you’ve been applying along this part of the lab, and follow the indications below to create a new stack, called `looping-over-collections-vpc`, using the `vpc.yaml` file. You'll create the new stack in the `us-east-1` region.
 
 :::::tabs{variant="container"}
-::::tab{id="cloud9" label="Cloud9"}
+::::tab{id="code-editor" label="Code Editor"}
 Run the following AWS CLI command:
 
 :::code{language=shell showLineNumbers=false showCopyAction=true}
@@ -426,7 +426,7 @@ Outputs:
 Next, update the existing `looping-over-collections-vpc` stack with the updated template containing the `Outputs` information below.
 
 :::::tabs{variant="container"}
-::::tab{id="cloud9" label="Cloud9"}
+::::tab{id="code-editor" label="Code Editor"}
 Run the following AWS CLI command:
 
 :::code{language=shell showLineNumbers=false showCopyAction=true}
@@ -472,7 +472,7 @@ When the stack update is complete, you should be able to see the outputs in the 
 You'll now delete the resources you created as part of this lab. Use the following steps:
 
 :::::tabs{variant="container"}
-::::tab{id="cloud9" label="Cloud9"}
+::::tab{id="code-editor" label="Code Editor"}
 Delete the `looping-over-collections-s3-buckets` stack, by running the following AWS CLI command:
 
 :::code{language=shell showLineNumbers=false showCopyAction=true}

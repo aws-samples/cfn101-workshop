@@ -75,8 +75,8 @@ With the dynamic reference above, you describe the intent of resolving the `LATE
 
 5. It’s now time to create your stack! Follow steps below:
    :::::tabs{variant="container"}
-   ::::tab{id="cloud9" label="Cloud9"}
-   1. In the **Cloud9 terminal** navigate to `code/workspace/dynamic-references`:
+   ::::tab{id="code-editor" label="Code Editor"}
+   1. In the **Code Editor terminal** navigate to `code/workspace/dynamic-references`:
    :::code{language=shell showLineNumbers=false showCopyAction=true}
    cd cfn101-workshop/code/workspace/dynamic-references
    :::
@@ -145,8 +145,8 @@ Let’s get started! Choose to follow steps shown next:
        :::
 2. To deploy the Database stack, follow the steps below:
    :::::tabs{variant="container"}
-   ::::tab{id="cloud9" label="Cloud9"}
-   1. In the **Cloud9 terminal** navigate to `code/workspace/dynamic-references`:
+   ::::tab{id="code-editor" label="Code Editor"}
+   1. In the **Code Editor terminal** navigate to `code/workspace/dynamic-references`:
    :::code{language=shell showLineNumbers=false showCopyAction=true}
    cd cfn101-workshop/code/workspace/dynamic-references
    :::
@@ -193,8 +193,8 @@ Let’s get started! Choose to follow steps shown next:
     :::
 4. To Deploy the Lambda stack, follow the steps below:
    :::::tabs{variant="container"}
-   ::::tab{id="cloud9" label="Cloud9"}
-   1. In the **Cloud9 terminal** navigate to `code/workspace/dynamic-references`:
+   ::::tab{id="code-editor" label="Code Editor"}
+   1. In the **Code Editor terminal** navigate to `code/workspace/dynamic-references`:
    :::code{language=shell showLineNumbers=false showCopyAction=true}
    cd cfn101-workshop/code/workspace/dynamic-references
    :::

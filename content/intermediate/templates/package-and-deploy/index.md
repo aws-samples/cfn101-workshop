@@ -301,7 +301,7 @@ more response.json
 
 Choose to follow cleanup steps shown next to clean up resources you created with this lab:
 :::::tabs{variant="container"}
-::::tab{id="cloud9" label="Cloud9"}
+::::tab{id="code-editor" label="Code Editor"}
 1. Delete the S3 bucket by using the following AWS CLI command
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 aws s3 rb s3://example-bucket-name --force
