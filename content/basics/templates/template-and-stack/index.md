@@ -35,8 +35,8 @@ By the end of this lab, you will be able to:
 4. It’s now time to create your stack! Follow steps below:
 
    :::::tabs{variant="container"}
-	::::tab{id="cloud9" label="Cloud9"}
-	1. In the **Cloud9 terminal** navigate to `code/workspace`:
+	::::tab{id="code-editor" label="Code Editor"}
+	1. In the **Code Editor terminal** navigate to `code/workspace`:
     :::code{language=shell showLineNumbers=false showCopyAction=true}
     cd cfn101-workshop/code/workspace
     :::
@@ -94,8 +94,8 @@ overwritten by mistake or to archive objects so that you can retrieve previous v
 1. It’s now time to update your stack! Follow steps below:
 
    :::::tabs{variant="container"}
-	::::tab{id="cloud9" label="Cloud9"}
-	1. In the **Cloud9 terminal** navigate to `code/workspace`:
+	::::tab{id="code-editor" label="Code Editor"}
+	1. In the **Code Editor terminal** navigate to `code/workspace`:
     :::code{language=shell showLineNumbers=false showCopyAction=true}
     cd cfn101-workshop/code/workspace
     :::

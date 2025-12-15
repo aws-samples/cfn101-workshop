@@ -86,8 +86,8 @@ There are two resources in the template snippet you pasted into your template: a
 Let’s create a stack using the `resource-return-values.yaml` template, and see the above in action!
 
 :::::tabs{variant="container"}
-::::tab{id="cloud9" label="Cloud9"}
-1. In the **Cloud9 terminal** navigate to `code/workspace/resource-return-values`:
+::::tab{id="code-editor" label="Code Editor"}
+1. In the **Code Editor terminal** navigate to `code/workspace/resource-return-values`:
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 cd cfn101-workshop/code/workspace/resource-return-values
 :::
@@ -174,8 +174,8 @@ Outputs:
     Value: !GetAtt InstanceSecurityGroup.GroupId
 :::
 :::::tabs{variant="container"}
-::::tab{id="cloud9" label="Cloud9"}
-1. In the **Cloud9 terminal** navigate to `code/workspace/resource-return-values`:
+::::tab{id="code-editor" label="Code Editor"}
+1. In the **Code Editor terminal** navigate to `code/workspace/resource-return-values`:
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 cd cfn101-workshop/code/workspace/resource-return-values
 :::
