@@ -34,8 +34,8 @@ To get started, follow steps shown next:
 
 Use the `sqs-queues.yaml` template, that contains the error mentioned earlier, to test the stack rollback pause functionality, then fix the error, and complete the stack creation:
 :::::tabs{variant="container"}
-::::tab{id="cloud9" label="Cloud9"}
-1. In the **Cloud9 terminal** navigate to `code/workspace/troubleshooting-provisioning-errors`:
+::::tab{id="code-editor" label="Code Editor"}
+1. In the **Code Editor terminal** navigate to `code/workspace/troubleshooting-provisioning-errors`:
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 cd cfn101-workshop/code/workspace/troubleshooting-provisioning-errors
 :::
@@ -73,8 +73,8 @@ Your goal is to troubleshoot and fix the error in the template, and resume provi
  With the `sqs-queues.yaml` template opened in your editor, find `SourceQueue` resource, and change `FifoQueue: false` into `FifoQueue: true`. When done, save your changes.
 
 :::::tabs{variant="container"}
-::::tab{id="cloud9" label="Cloud9"}
-1. In the **Cloud9 terminal** navigate to `code/workspace/troubleshooting-provisioning-errors`:
+::::tab{id="code-editor" label="Code Editor"}
+1. In the **Code Editor terminal** navigate to `code/workspace/troubleshooting-provisioning-errors`:
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 cd cfn101-workshop/code/workspace/troubleshooting-provisioning-errors
 :::
@@ -146,8 +146,8 @@ You choose to describe two [AWS Systems Manager Parameter Store](https://docs.aw
 * Update your template: change `Value: !GetAtt 'SourceQueue.QueueName'` into `Value: !GetAtt 'SourceQueue.Arn'` for the `SourceQueueParameter` resource.
 
 :::::tabs{variant="container"}
-::::tab{id="cloud9" label="Cloud9"}
-1. In the **Cloud9 terminal** navigate to `code/workspace/troubleshooting-provisioning-errors`:
+::::tab{id="code-editor" label="Code Editor"}
+1. In the **Code Editor terminal** navigate to `code/workspace/troubleshooting-provisioning-errors`:
   :::code{language=shell showLineNumbers=false showCopyAction=true}
   cd cfn101-workshop/code/workspace/troubleshooting-provisioning-errors
   :::
