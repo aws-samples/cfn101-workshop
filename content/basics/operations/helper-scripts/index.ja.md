@@ -266,8 +266,8 @@ UserData:
 [こちら](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-instance.html?shortFooter=true#aws-properties-ec2-instance-properties)で EC2 インスタンスの置き換えをトリガーする属性を確認できます。
 
 :::::tabs{variant="container"}
-::::tab{id="cloud9" label="Cloud9"}
-1. **Cloud9 のターミナル** で `code/workspace` に移動します。
+::::tab{id="code-editor" label="Code Editor"}
+1. **Code Editor のターミナル** で `code/workspace` に移動します。
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 cd cfn101-workshop/code/workspace
 :::
@@ -327,8 +327,8 @@ $ami_id = file_get_contents($url);
 `cfn-hup` はメタデータセクションの変更を検出し、新しいバージョンを自動的にデプロイし、既存のインスタンスを更新します。
 
 :::::tabs{variant="container"}
-::::tab{id="cloud9" label="Cloud9"}
-1. **Cloud9 のターミナル** で `code/workspace` に移動します。
+::::tab{id="code-editor" label="Code Editor"}
+1. **Code Editor のターミナル** で `code/workspace` に移動します。
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 cd cfn101-workshop/code/workspace
 :::

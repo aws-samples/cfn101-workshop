@@ -39,10 +39,10 @@ CloudFormation テンプレートの開発を繰り返す中で、CloudFormation
 
 
 :::::tabs{variant="container"}
-::::tab{id="cloud9" label="Cloud9"}
+::::tab{id="code-editor" label="Code Editor"}
 
 
-1. **Cloud9 のターミナル** で `code/workspace/troubleshooting-provisioning-errors` に移動します。
+1. **Code Editor のターミナル** で `code/workspace/troubleshooting-provisioning-errors` に移動します。
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 cd cfn101-workshop/code/workspace/troubleshooting-provisioning-errors
 :::
@@ -80,8 +80,8 @@ aws cloudformation create-stack --stack-name cfn-workshop-troubleshooting-provis
 テキストエディターで `sqs-queues.yaml` テンプレートを開き、`SourceQueue` リソースを探し、`FifoQueue: false` を `FifoQueue: true` に変更します。完了したら、変更を保存します。
 
 :::::tabs{variant="container"}
-::::tab{id="cloud9" label="Cloud9"}
-1. **Cloud9 のターミナル** で `code/workspace/troubleshooting-provisioning-errors` に移動します。
+::::tab{id="code-editor" label="Code Editor"}
+1. **Code Editor のターミナル** で `code/workspace/troubleshooting-provisioning-errors` に移動します。
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 cd cfn101-workshop/code/workspace/troubleshooting-provisioning-errors
 :::
@@ -151,8 +151,8 @@ aws cloudformation update-stack --stack-name cfn-workshop-troubleshooting-provis
 * テンプレートの中で、`SourceQueueParameter` リソースの `Value: !GetAtt 'SourceQueue.QueueName'` を `Value: !GetAtt 'SourceQueue.Arn'` に変更してください。
 
 :::::tabs{variant="container"}
-::::tab{id="cloud9" label="Cloud9"}
-1. **Cloud9 のターミナル** で `code/workspace/troubleshooting-provisioning-errors` に移動します。
+::::tab{id="code-editor" label="Code Editor"}
+1. **Code Editor のターミナル** で `code/workspace/troubleshooting-provisioning-errors` に移動します。
   :::code{language=shell showLineNumbers=false showCopyAction=true}
   cd cfn101-workshop/code/workspace/troubleshooting-provisioning-errors
   :::
