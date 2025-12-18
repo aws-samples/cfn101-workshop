@@ -66,7 +66,7 @@ AWS CloudFormation コンソールにて、`resource-dependencies-without-depend
 :::::tabs{variant="container"}
 
 ::::tab{id="code-editor" label="Code Editor"}
-1. **Cloud9 ターミナル** で `code/workspace/resource-dependencies` ディレクトリに移動します。
+1. **Code Editor ターミナル** で `code/workspace/resource-dependencies` ディレクトリに移動します。
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 cd cfn101-workshop/code/workspace/resource-dependencies
 :::
@@ -202,7 +202,7 @@ Resources:
 :::::tabs{variant="container"}
 
 ::::tab{id="code-editor" label="Code Editor"}
-1. **Cloud9 ターミナル** で `code/workspace/resource-dependencies` ディレクトリに移動します。
+1. **Code Editor ターミナル** で `code/workspace/resource-dependencies` ディレクトリに移動します。
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 cd cfn101-workshop/code/workspace/resource-dependencies
 :::
@@ -292,7 +292,7 @@ S3Bucket:
 
 :::::tabs{variant="container"}
 ::::tab{id="code-editor" label="Code Editor"}
-1. **Cloud9 ターミナル** で `code/workspace/resource-dependencies` ディレクトリに移動します。
+1. **Code Editor ターミナル** で `code/workspace/resource-dependencies` ディレクトリに移動します。
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 cd cfn101-workshop/code/workspace/resource-dependencies
 :::

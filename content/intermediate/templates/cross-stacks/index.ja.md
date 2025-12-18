@@ -71,7 +71,7 @@ Outputs:
 
 :::::tabs{variant="container"}
 ::::tab{id="code-editor" label="Code Editor"}
-1. **Cloud9 ターミナル** で `cfn101-workshop/code/workspace/cross-stacks` ディレクトリに移動します。
+1. **Code Editor ターミナル** で `cfn101-workshop/code/workspace/cross-stacks` ディレクトリに移動します。
 1. **スタックを作成** は、次の AWS CLI コマンドを使用して行います。このテンプレートでは、 `AvailabilityZones` パラメータの値を指定する必要があります。たとえば、 `us-east-1a` と `us-east-1b` は以下で使用されます。利用しているリージョンの 2 つのアベイラビリティーゾーンを選択してください。
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 aws cloudformation create-stack \

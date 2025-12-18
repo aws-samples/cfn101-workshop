@@ -144,7 +144,7 @@ VpcStack:
 
 :::::tabs{variant="container"}
 ::::tab{id="code-editor" label="Code Editor"}
-1. **Cloud9 ターミナル** で `code/workspace/nested-stacks` ディレクトリに移動します。
+1. **Code Editor ターミナル** で `code/workspace/nested-stacks` ディレクトリに移動します。
   :::code{language=shell showLineNumbers=false showCopyAction=true}
   cd cfn101-workshop/code/workspace/nested-stacks
   :::
@@ -169,7 +169,7 @@ VpcStack:
 
 :::::tabs{variant="container"}
 ::::tab{id="code-editor" label="Code Editor"}
-1. **Cloud9 ターミナル** で `code/workspace/nested-stacks` ディレクトリに移動します。
+1. **Code Editor ターミナル** で `code/workspace/nested-stacks` ディレクトリに移動します。
   :::code{language=shell showLineNumbers=false showCopyAction=true}
   cd cfn101-workshop/code/workspace/nested-stacks
   :::
@@ -258,7 +258,7 @@ IamStack:
 [VPC スタック](#3.-vpc-s3) と同様に、IAM テンプレートを S3 にアップロードします。
 :::::tabs{variant="container"}
 ::::tab{id="code-editor" label="Code Editor"}
-1. **Cloud9 ターミナル** で `code/workspace/nested-stacks` ディレクトリに移動します。
+1. **Code Editor ターミナル** で `code/workspace/nested-stacks` ディレクトリに移動します。
   :::code{language=shell showLineNumbers=true showCopyAction=true}
   cd cfn101-workshop/code/workspace/nested-stacks
   :::
@@ -280,7 +280,7 @@ IamStack:
 以前に作成したネストスタックを新しいテンプレートで更新します。
 :::::tabs{variant="container"}
 ::::tab{id="code-editor" label="Code Editor"}
-1. **Cloud9 ターミナル** で `code/workspace/nested-stacks` ディレクトリに移動します。
+1. **Code Editor ターミナル** で `code/workspace/nested-stacks` ディレクトリに移動します。
   :::code{language=shell showLineNumbers=false showCopyAction=true}
   cd cfn101-workshop/code/workspace/nested-stacks
   :::
@@ -502,7 +502,7 @@ Outputs:
 
 :::::tabs{variant="container"}
 ::::tab{id="code-editor" label="Code Editor"}
-1. **Cloud9 ターミナル** で `code/workspace/nested-stacks` ディレクトリに移動します。
+1. **Code Editor ターミナル** で `code/workspace/nested-stacks` ディレクトリに移動します。
   :::code{language=shell showLineNumbers=false showCopyAction=true}
   cd cfn101-workshop/code/workspace/nested-stacks
   :::
@@ -527,7 +527,7 @@ aws s3 cp ec2.yaml s3://{bucket-name}
 
 :::::tabs{variant="container"}
 ::::tab{id="code-editor" label="Code Editor"}
-1. **Cloud9 ターミナル** で `code/workspace/nested-stacks` ディレクトリに移動します。
+1. **Code Editor ターミナル** で `code/workspace/nested-stacks` ディレクトリに移動します。
   :::code{language=shell showLineNumbers=false showCopyAction=true}
   cd cfn101-workshop/code/workspace/nested-stacks
   :::
