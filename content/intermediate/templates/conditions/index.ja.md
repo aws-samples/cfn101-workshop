@@ -111,7 +111,7 @@ Resources:
 
 :::::tabs{variant="container"}
 ::::tab{id="code-editor" label="Code Editor"}
-1. **Cloud9 ターミナル** で `code/workspace/conditions` ディレクトリに移動します。
+1. **Code Editor ターミナル** で `code/workspace/conditions` ディレクトリに移動します。
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 cd cfn101-workshop/code/workspace/conditions
 :::
