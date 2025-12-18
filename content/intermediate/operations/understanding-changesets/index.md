@@ -75,7 +75,7 @@ In this part of the lab, you will specify a property, for a given resource type,
 
 :::::tabs{variant="container"}
 ::::tab{id="code-editor" label="Code Editor"}
-Open the `bucket.yaml` CloudFormation template in your `Code Editor` editor, and add `VersioningConfiguration` as shown below. Save the file.
+Open the `bucket.yaml` CloudFormation template in Code Editor, and add `VersioningConfiguration` as shown below. Save the file.
 :::code{language=yaml showLineNumbers=false showCopyAction=true}
 MyS3Bucket:
   Type: AWS::S3::Bucket
