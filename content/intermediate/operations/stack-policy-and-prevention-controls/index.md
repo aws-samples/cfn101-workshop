@@ -52,9 +52,9 @@ Resources:
 
 In this next step, you will use the AWS CloudFormation to create a stack using the `stack-policy-lab.yaml` template file. Follow steps shown next:
 :::::tabs{variant="container"}
-::::tab{id="cloud9" label="Cloud9"}
+::::tab{id="code-editor" label="Code Editor"}
 Create a stack by following these steps:
-1. In the **Cloud9 terminal** navigate to `code/workspace/stack-policy-and-prevention-controls`:
+1. In the **Code Editor terminal** navigate to `code/workspace/stack-policy-and-prevention-controls`:
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 cd cfn101-workshop/code/workspace/stack-policy-and-prevention-controls
 :::
@@ -62,7 +62,7 @@ cd cfn101-workshop/code/workspace/stack-policy-and-prevention-controls
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 touch policy-body.json
 :::
-1. Open this file in Cloud9 editor and paste in the following JSON code:
+1. Open this file in Code Editor and paste in the following JSON code:
 :::code{language=json showLineNumbers=false showCopyAction=true}
 {
   "Statement" : [
@@ -137,7 +137,7 @@ The stack policy you configured above for your `cfn-workshop-stack-policy` stack
 Let’s now test the stack policy you applied, by updating the stack you created!
 
 :::::tabs{variant="container"}
-::::tab{id="cloud9" label="Cloud9"}
+::::tab{id="code-editor" label="Code Editor"}
 Run the following command in the terminal to update the value of `SNSTopicTagValue` from `Topic-Tag-1` to `Topic-Tag-2`
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 aws cloudformation update-stack \
@@ -191,7 +191,7 @@ Resources:
       TopicName: Topic-2
 :::
 :::::tabs{variant="container"}
-::::tab{id="cloud9" label="Cloud9"}
+::::tab{id="code-editor" label="Code Editor"}
 Run the following command in the terminal to **Create Stack**:
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 aws cloudformation create-stack \

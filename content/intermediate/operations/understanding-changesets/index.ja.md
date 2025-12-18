@@ -26,13 +26,13 @@ _ラボ実施時間 : 20分程度_
 
 それでは、始めましょう。
 :::::tabs{variant="container"}
-::::tab{id="cloud9" label="Cloud9"}
+::::tab{id="code-editor" label="Code Editor"}
 
-1. **Cloud9 ターミナル** で `code/workspace/understanding-changesets` ディレクトリに移動します。
+1. **Code Editor ターミナル** で `code/workspace/understanding-changesets` ディレクトリに移動します。
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 cd cfn101-workshop/code/workspace/understanding-changesets
 :::
-1. `Cloud9` エディターで `bucket.yaml` CloudFormation テンプレートを開き、サンプルテンプレートの内容をよく理解してください。
+1. `Code Editor` エディターで `bucket.yaml` CloudFormation テンプレートを開き、サンプルテンプレートの内容をよく理解してください。
 1. 次の手順に従ってスタックを作成します。
    1. このテンプレートでは、`BucketName` 入力パラメータに一意の値を指定する必要があります。詳細については、 [バケットの名前付け](https://docs.aws.amazon.com/ja_jp/AmazonS3/latest/userguide/bucketnamingrules.html)を参照してください。
    1. 次のコマンドを使用してテンプレートからスタックを作成しましょう (この例では AWS リージョンに `us-east-1` を使用しています。必要に応じてこの値を変更してください)。
@@ -73,8 +73,8 @@ cd cfn101-workshop/code/workspace/understanding-changesets
 ラボのこの部分では、特定のリソースタイプについて、スタックの更新時に [中断を伴わない更新](https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/using-cfn-updating-stacks-update-behaviors.html#update-no-interrupt) を必要とするプロパティを指定します。次に、変更セットを作成して変更をプレビューし、変更セット操作の出力を確認します。
 
 :::::tabs{variant="container"}
-::::tab{id="cloud9" label="Cloud9"}
-`Cloud9` エディタで `bucket.yaml` CloudFormation テンプレートを開き、以下に示すように `VersioningConfiguration` を追加します。ファイルを保存します。
+::::tab{id="code-editor" label="Code Editor"}
+`Code Editor` エディタで `bucket.yaml` CloudFormation テンプレートを開き、以下に示すように `VersioningConfiguration` を追加します。ファイルを保存します。
 :::code{language=yaml showLineNumbers=false showCopyAction=true}
 MyS3Bucket:
   Type: AWS::S3::Bucket
@@ -168,7 +168,7 @@ MyS3Bucket:
 それでは、始めましょう。
 
 :::::tabs{variant="container"}
-::::tab{id="cloud9" label="Cloud9"}
+::::tab{id="code-editor" label="Code Editor"}
 1. ターミナルから次のコマンドで **変更セットの作成** を実行し、新しい固有の[バケット名](https://docs.aws.amazon.com/ja_jp/AmazonS3/latest/userguide/bucketnamingrules.html)を指定して `bucketName` パラメータの値を変更し、前と同じように残りのプロセスを実行して変更セットの作成を完了します。
 
 :::code{language=shell showLineNumbers=false showCopyAction=true}
@@ -315,7 +315,7 @@ CloudFormation では、変更セットを実行した後に初めて値を決�
 このラボで作成したリソースをクリーンアップするには
 
 :::::tabs{variant="container"}
-::::tab{id="cloud9" label="Cloud9"}
+::::tab{id="code-editor" label="Code Editor"}
 ターミナルから次の AWS CLI コマンドを実行して、作成したスタックを削除します。
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 aws cloudformation delete-stack \

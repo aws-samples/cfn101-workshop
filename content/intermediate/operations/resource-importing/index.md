@@ -61,7 +61,7 @@ Resources:
 
 In this next step, you will use the AWS CloudFormation to [create a stack](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/resource-import-new-stack.html) using the `resource-importing.yaml` template:
 :::::tabs{variant="container"}
-::::tab{id="cloud9" label="Cloud9"}
+::::tab{id="code-editor" label="Code Editor"}
 1. Create a text file to describe the resources for an `IMPORT` operation.
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 touch resources-import.txt
@@ -180,7 +180,7 @@ SNSTopic2:
 :::
 1. The `resource-importing.yaml` template you just updated will now include 2 parameters (`Topic1Name` and `Topic2Name`), and 2 resources (`SNSTopic1` and `SNSTopic2`). Let’s import the new topic into the existing stack!
    :::::tabs{variant="container"}
-   ::::tab{id="cloud9" label="Cloud9"}
+   ::::tab{id="code-editor" label="Code Editor"}
    1. Copy the below code and update it to the `resource-import.txt` text file. For the [**ResourceIdentifier Value**](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/resource-import.html#resource-import-overview), update the value for the topic ARN you noted after you created `Topic2`.
    :::code{language=json showLineNumbers=false showCopyAction=true}
    [
@@ -293,7 +293,7 @@ SNSTopic1:
     TopicName: !Ref Topic1Name
 :::
 :::::tabs{variant="container"}
-::::tab{id="cloud9" label="Cloud9"}
+::::tab{id="code-editor" label="Code Editor"}
 1. Let's create the change set of type `UPDATE` to remove the resource `SNSTopic1` from the stack by using the following AWS CLI command. Provide a name for the stack as `cfn-workshop-resource-importing` and for the change set name use `cfn-workshop-resource-import-change-set`, Specify the parameter values for `Topic2Name` to `Topic2`.
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 aws cloudformation create-change-set \
@@ -407,7 +407,7 @@ Resources:
       TopicName: !Ref Topic1Name
 :::
 :::::tabs{variant="container"}
-::::tab{id="cloud9" label="Cloud9"}
+::::tab{id="code-editor" label="Code Editor"}
 1. Copy the code below and replace it to the `resources-import.txt` file.
 :::code{language=json showLineNumbers=false showCopyAction=true}
 [
@@ -577,7 +577,7 @@ Resources:
           Value: InstanceImport
 :::
 :::::tabs{variant="container"}
-::::tab{id="cloud9" label="Cloud9"}
+::::tab{id="code-editor" label="Code Editor"}
 1. Let's **Create Stack** by using the code below. For example, Specify **Stack Name** as `cfn-workshop-resource-import-challenge` and `t2.nano` for `InstanceType` parameter.
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 aws cloudformation create-stack \
@@ -666,7 +666,7 @@ aws cloudformation update-stack \
 1. After this stack update, add the two removed code blocks from Step 3 back to the `resource-import-challenge.yaml` template, and save it.
 1. Let's **Import the Resources to  the Stack**
    :::::tabs{variant="container"}
-   ::::tab{id="cloud9" label="Cloud9"}
+   ::::tab{id="code-editor" label="Code Editor"}
    1. Copy the code below and replace the `resources-import.txt`. For the [**Identifier Value**](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/resource-import.html#resource-import-overview), specify the instance's **Physical ID**, that you noted earlier as part of this challenge.
    :::code{language=json showLineNumbers=false showCopyAction=true}
    [
@@ -729,7 +729,7 @@ Choose to follow cleanup steps shown next to clean up resources you created with
 1. Make sure you are in the directory: `code/workspace/resource-importing`
 2. Update the `resource-importing.yaml` template file to remove the `DeletionPolicy: Retain` line from the `SNSTopic2` resource definition, and save the template.
    :::::tabs{variant="container"}
-   ::::tab{id="cloud9" label="Cloud9"}
+   ::::tab{id="code-editor" label="Code Editor"}
    1. Update the **Stack** by using the following AWS CLI command
    :::code{language=shell showLineNumbers=false showCopyAction=true}
    aws cloudformation update-stack \

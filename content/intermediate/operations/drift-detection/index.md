@@ -58,8 +58,8 @@ Resources:
     2. The SQS [queue](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-sqs-queue.html) has a `MessageRetentionPeriod` of four days (expressed in seconds). Note that although this value is the [default](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-sqs-queue.html#cfn-sqs-queue-messageretentionperiod), CloudFormation only evaluates drift against properties that you explicitly declare in the template. If you do not include this property, CloudFormation will not report a change to it on the resource later on.
 1. In the next step, you will use the AWS CloudFormation to create a new stack using this template:
    :::::tabs{variant="container"}
-   ::::tab{id="cloud9" label="Cloud9"}
-   1. In the **Cloud9 terminal** navigate to `cfn101-workshop/code/workspace/drift-detection`:
+   ::::tab{id="code-editor" label="Code Editor"}
+   1. In the **Code Editor terminal** navigate to `cfn101-workshop/code/workspace/drift-detection`:
    :::code{language=shell showLineNumbers=false showCopyAction=true}
    cd cfn101-workshop/code/workspace/drift-detection
    :::
@@ -99,7 +99,7 @@ Now you will modify the DynamoDB table directly, outside of CloudFormation.
 
 In this step, you will use CloudFormation Drift Detection to identify the changes to the `Table1` resource compared to the original template.
    :::::tabs{variant="container"}
-   ::::tab{id="cloud9" label="Cloud9"}
+   ::::tab{id="code-editor" label="Code Editor"}
    1. Run the following AWS CLI command to **Detect Drift** for your stack `cfn-workshop-drift-detection`.
    :::code{language=shell showLineNumbers=false showCopyAction=true}
    aws cloudformation detect-stack-drift \
@@ -208,7 +208,7 @@ The template you deployed in the previous section also created an Amazon SQS que
 
 In this step, you will detect the drift on the Queue resource using CloudFormation.
    :::::tabs{variant="container"}
-   ::::tab{id="cloud9" label="Cloud9"}
+   ::::tab{id="code-editor" label="Code Editor"}
    1. Run the following AWS CLI command to **Detect Drift** for your stack `cfn-workshop-drift-detection`.
    :::code{language=shell showLineNumbers=false showCopyAction=true}
    aws cloudformation detect-stack-drift \
@@ -294,8 +294,8 @@ You will now update the template to match the new state of the resource and brin
 1. Save the template file.
 1. It’s now time to update your stack! Follow steps below:
    :::::tabs{variant="container"}
-   ::::tab{id="cloud9" label="Cloud9"}
-   1. In the **Cloud9 terminal** ensure your working directory is `cfn101-workshop/code/workspace/drift-detection`:
+   ::::tab{id="code-editor" label="Code Editor"}
+   1. In the **Code Editor terminal** ensure your working directory is `cfn101-workshop/code/workspace/drift-detection`:
    :::code{language=shell showLineNumbers=false showCopyAction=true}
    cd cfn101-workshop/code/workspace/drift-detection
    :::
@@ -405,8 +405,8 @@ Resources:
 This `UserData` script will only run the first time the instance boots. You can [create a configuration](https://aws.amazon.com/premiumsupport/knowledge-center/execute-user-data-ec2/) which will run a script on every boot, but in order to keep the template complexity low for this workshop, this template just shows simple content.
 :::
 :::::tabs{variant="container"}
-::::tab{id="cloud9" label="Cloud9"}
-1. In the **Cloud9 terminal** ensure your working directory is `cfn101-workshop/code/workspace/drift-detection`:
+::::tab{id="code-editor" label="Code Editor"}
+1. In the **Code Editor terminal** ensure your working directory is `cfn101-workshop/code/workspace/drift-detection`:
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 cd cfn101-workshop/code/workspace/drift-detection
 :::
@@ -488,7 +488,7 @@ echo Hello Universe
 In this step, you will use CloudFormation Drift Detection to identity the changes to the `Instance1` resource compared to the original template.
 
 :::::tabs{variant="container"}
-::::tab{id="cloud9" label="Cloud9"}
+::::tab{id="code-editor" label="Code Editor"}
 1. Let's try to identify the changes to the `Instance1`.
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 aws cloudformation detect-stack-drift \
@@ -614,7 +614,7 @@ Resources:
         echo Hello Universe
 :::
 :::::tabs{variant="container"}
-::::tab{id="cloud9" label="Cloud9"}
+::::tab{id="code-editor" label="Code Editor"}
 1. Create a text file to describe the resources for an IMPORT operation.
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 touch resources-import.txt
@@ -704,7 +704,7 @@ Well done! You have now learned how to repair drift without impact by deleting a
 
 Follow steps shown next to clean up the resources you created in this workshop.
 :::::tabs{variant="container"}
-::::tab{id="cloud9" label="Cloud9"}
+::::tab{id="code-editor" label="Code Editor"}
 1. Delete the S3 bucket by using the following AWS CLI command
 :::code{language=shell showLineNumbers=false showCopyAction=false}
 aws s3 rb s3://drift-detection-challenge-AWS_ACCOUNT_ID --force

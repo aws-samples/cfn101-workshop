@@ -51,8 +51,8 @@ Resources:
 
 Save your changes to the file. Next, create your stack with the `update-behaviors-of-stack-resources.yaml` template:
 :::::tabs{variant="container"}
-::::tab{id="cloud9" label="Cloud9"}
-1. In the **Cloud9 terminal** navigate to `code/workspace/update-behaviors-of-stack-resources`:
+::::tab{id="code-editor" label="Code Editor"}
+1. In the **Code Editor terminal** navigate to `code/workspace/update-behaviors-of-stack-resources`:
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 cd code/workspace/update-behaviors-of-stack-resources
 :::
@@ -146,8 +146,8 @@ EC2Instance:
 
 Save your changes to the file. Next, update your stack:
 :::::tabs{variant="container"}
-::::tab{id="cloud9" label="Cloud9"}
-1. In the **Cloud9 terminal** navigate to `code/workspace/update-behaviors-of-stack-resources`:
+::::tab{id="code-editor" label="Code Editor"}
+1. In the **Code Editor terminal** navigate to `code/workspace/update-behaviors-of-stack-resources`:
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 cd code/workspace/update-behaviors-of-stack-resources
 :::
@@ -203,8 +203,8 @@ Save your changes to the `update-behaviors-of-stack-resources.yaml` template. Be
 Update your stack:
 
 :::::tabs{variant="container"}
-::::tab{id="cloud9" label="Cloud9"}
-1. In the **Cloud9 terminal** navigate to `code/workspace/update-behaviors-of-stack-resources`:
+::::tab{id="code-editor" label="Code Editor"}
+1. In the **Code Editor terminal** navigate to `code/workspace/update-behaviors-of-stack-resources`:
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 cd code/workspace/update-behaviors-of-stack-resources
 :::
