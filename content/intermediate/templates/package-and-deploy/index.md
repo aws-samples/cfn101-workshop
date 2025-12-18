@@ -152,7 +152,7 @@ aws s3 cp s3://example-bucket-name/cfn-workshop-package-deploy/1234567890 .
 We know that `package` will generate ZIP files, so even there is no `.zip` extension you can still `unzip` it.
 
 :::::tabs{variant="container"}
-::::tab{id="shell" label="Cloud9/Unix/Linux"}
+::::tab{id="shell" label="Unix/Linux"}
 :::code{language=shell showLineNumbers=false showCopyAction=false}
 unzip -l ce6c47b6c84d94bd207cea18e7d93458
 
@@ -250,7 +250,7 @@ The Lambda function will determinate current UTC date and time. Then it will con
 From your terminal run:
 
 :::::tabs{variant="container"}
-::::tab{id="sh" label="Cloud9/Unix/Linux"}
+::::tab{id="sh" label="Unix/Linux"}
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 aws lambda invoke \
 --function-name cfn-workshop-python-function \
@@ -284,7 +284,7 @@ Lambda will be triggered, and the response form Lambda will be saved in `respons
 You can check the result of the file by running command below:
 
 :::::tabs{variant="container"}
-::::tab{id="sh" label="Cloud9/Unix/Linux"}
+::::tab{id="sh" label="Unix/Linux"}
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 cat response.json
 :::
