@@ -33,7 +33,7 @@ Let’s get started!
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 cd cfn101-workshop/code/workspace/understanding-changesets
 :::
-1. Open the `bucket.yaml` CloudFormation template in your `Code Editor` editor, and familiarize yourself with the sample template content.
+1. Open the `bucket.yaml` CloudFormation template in Code Editor, and familiarize yourself with the sample template content.
 1. Create a stack by following these steps:
    1. The template requires you to provide a unique value for the `BucketName` input parameter. For more information, see [Bucket naming rules](https://docs.aws.amazon.com/AmazonS3/latest/userguide/bucketnamingrules.html)
    1. Let's create the stack from the template using the following command (the example uses `us-east-1` for the AWS region, change this value as needed):
