@@ -110,8 +110,8 @@ EC2 リソースタイプの唯一の必須プロパティは _ImageId_ です�
 :::
 
 :::::tabs{variant="container"}
-::::tab{id="cloud9" label="Cloud9"}
-1. **Cloud9 のターミナル** で `code/workspace` に移動します。
+::::tab{id="code-editor" label="Code Editor"}
+1. **Code Editor のターミナル** で `code/workspace` に移動します。
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 cd cfn101-workshop/code/workspace
 :::
@@ -147,7 +147,7 @@ aws cloudformation create-stack --stack-name cfn-workshop-resources --template-b
 
 この練習問題では、AWS CLI を使って、AWS Systems Manager パラメータストアから最新の Amazon Linux AMI ID を取得します。
 
-::alert[このチャレンジを完了するには、[AWS CLI](../../../prerequisites/local-development) が完了していることをご確認ください。Cloud9 環境には最初からインストールされています。]{type="info"}
+::alert[このチャレンジを完了するには、[AWS CLI](../../../prerequisites/local-development) が完了していることをご確認ください。Code Editor 環境には最初からインストールされています。]{type="info"}
 
 ::expand[[Amazon Web Services ブログ](https://aws.amazon.com/jp/blogs/news/query-for-the-latest-amazon-linux-ami-ids-using-aws-systems-manager-parameter-store/) を確認してみてください。]{header="ヒントが必要ですか？"}
 

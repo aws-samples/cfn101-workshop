@@ -140,8 +140,8 @@ DemoLambdaFunction:
 上記の内容を使って、テンプレートを更新してください。次に [AWS CloudFormation コンソール](https://console.aws.amazon.com/cloudformation) を開き、このテンプレートを使ってスタックを作成してください。
 
 :::::tabs{variant="container"}
-::::tab{id="cloud9" label="Cloud9"}
-1. **Cloud9 のターミナル** で `code/workspace/pseudo-parameters` に移動します。
+::::tab{id="code-editor" label="Code Editor"}
+1. **Code Editor のターミナル** で `code/workspace/pseudo-parameters` に移動します。
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 cd cfn101-workshop/code/workspace/pseudo-parameters
 :::
@@ -230,8 +230,8 @@ DemoBucket:
 完成した解答コードは、`code/solutions/pseudo-parameters/pseudo-parameters.yaml` を見てください。
 
 :::::tabs{variant="container"}
-::::tab{id="cloud9" label="Cloud9"}
-1. **Cloud9 のターミナル** で `code/workspace/pseudo-parameters` に移動します。
+::::tab{id="code-editor" label="Code Editor"}
+1. **Code Editor のターミナル** で `code/workspace/pseudo-parameters` に移動します。
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 cd cfn101-workshop/code/workspace/pseudo-parameters
 :::

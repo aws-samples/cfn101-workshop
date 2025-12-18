@@ -163,8 +163,8 @@ DemoLambdaFunction:
 Save the template you have updated with content above. Next, navigate to the AWS CloudFormation [console](https://console.aws.amazon.com/cloudformation), and choose to create a stack using this template:
 
 :::::tabs{variant="container"}
-::::tab{id="cloud9" label="Cloud9"}
-1. In the **Cloud9 terminal** navigate to `code/workspace/pseudo-parameters`:
+::::tab{id="code-editor" label="Code Editor"}
+1. In the **Code Editor terminal** navigate to `code/workspace/pseudo-parameters`:
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 cd cfn101-workshop/code/workspace/pseudo-parameters
 :::
@@ -255,8 +255,8 @@ DemoBucket:
 See `code/solutions/pseudo-parameters/pseudo-parameters.yaml` for the full solution.
 
 :::::tabs{variant="container"}
-::::tab{id="cloud9" label="Cloud9"}
-1. In the **Cloud9 terminal** navigate to `code/workspace/pseudo-parameters`:
+::::tab{id="code-editor" label="Code Editor"}
+1. In the **Code Editor terminal** navigate to `code/workspace/pseudo-parameters`:
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 cd cfn101-workshop/code/workspace/pseudo-parameters
 :::

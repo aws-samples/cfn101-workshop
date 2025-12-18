@@ -118,8 +118,8 @@ If you have deleted your default VPC, you can create a new one by following the 
 
 :::::tabs{variant="container"}
 
-  ::::tab{id="cloud9" label="Cloud9"}
-  1. In the **Cloud9 terminal** navigate to `code/workspace`:
+  ::::tab{id="code-editor" label="Code Editor"}
+  1. In the **Code Editor terminal** navigate to `code/workspace`:
   :::code{language=shell showLineNumbers=false showCopyAction=true}
   cd cfn101-workshop/code/workspace
   :::
@@ -158,7 +158,7 @@ If you have deleted your default VPC, you can create a new one by following the 
 
 In this exercise, use the AWS CLI to query the AWS Systems Manager Parameter Store to get the latest Amazon Linux AMI ID.
 
-::alert[To complete this challenge, make sure you have the [AWS CLI](../../../prerequisites/local-development) configured. Your Cloud9 environment comes with this pre-configured.]{type="info"}
+::alert[To complete this challenge, make sure you have the [AWS CLI](../../../prerequisites/local-development) configured. Your Code Editor environment comes with this pre-configured.]{type="info"}
 
 ::expand[Check out the [AWS Compute Blog](https://aws.amazon.com/blogs/compute/query-for-the-latest-amazon-linux-ami-ids-using-aws-systems-manager-parameter-store/) to find out.]{header="Need a hint?"}
 

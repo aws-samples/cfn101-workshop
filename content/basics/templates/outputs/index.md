@@ -56,8 +56,8 @@ In this Lab, you will:
 
 :::::tabs{variant="container"}
 
-::::tab{id="cloud9" label="Cloud9"}
-1. In the **Cloud9 terminal** navigate to `code/workspace`:
+::::tab{id="code-editor" label="Code Editor"}
+1. In the **Code Editor terminal** navigate to `code/workspace`:
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 cd cfn101-workshop/code/workspace
 :::
@@ -127,8 +127,8 @@ _Outputs_ section of the template. You should continue using the `outputs.yaml` 
       Value: !Ref WebServerEIP
   ```
 :::::tabs{variant="container"}
-::::tab{id="cloud9" label="Cloud9"}
-1. In the **Cloud9 terminal** navigate to `code/workspace`:
+::::tab{id="code-editor" label="Code Editor"}
+1. In the **Code Editor terminal** navigate to `code/workspace`:
   :::code{language=shell showLineNumbers=false showCopyAction=true}
   cd cfn101-workshop/code/workspace
   :::
