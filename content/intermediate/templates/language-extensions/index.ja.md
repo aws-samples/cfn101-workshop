@@ -77,7 +77,7 @@ Resources:
 
 次に、変更したテンプレートを使用して `us-east-1` リージョンに新しいスタックを作成します。
 :::::tabs{variant="container"}
-::::tab{id="cloud9" label="Cloud9"}
+::::tab{id="code-editor" label="Code Editor"}
 1. 次の AWS CLI コマンドを実行してスタックを作成します。
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 aws cloudformation create-stack \
@@ -165,7 +165,7 @@ Dashboard:
 
 パート 1 で作成した既存のスタックを更新します。そのためには、以下に示す手順を実施します。
 :::::tabs{variant="container"}
-::::tab{id="cloud9" label="Cloud9"}
+::::tab{id="code-editor" label="Code Editor"}
 1. 次の AWS CLI コマンドを実行して、スタック `cfn-workshop-language-extensions` を更新します。
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 aws cloudformation update-stack \
@@ -221,7 +221,7 @@ CloudFormation テンプレートでダッシュボードを記述する時に�
 * チャレンジソリューションの全文は、`code/solutions/language-extensions` ディレクトリにある `language-extensions-solutions.yaml` というテンプレートにあります。
 
 :::::tabs{variant="container"}
-::::tab{id="cloud9" label="Cloud9"}
+::::tab{id="code-editor" label="Code Editor"}
 1. 次の AWS CLI コマンドを実行してスタックを作成しましょう。
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 aws cloudformation create-stack \
@@ -257,7 +257,7 @@ aws cloudformation wait stack-update-complete \
 
 このラボで作成したリソースを削除します。以下の手順を実行してください。
 :::::tabs{variant="container"}
-::::tab{id="cloud9" label="Cloud9"}
+::::tab{id="code-editor" label="Code Editor"}
 1. 次の AWS CLI コマンドを実行して、スタック `cfn-workshop-language-extensions` を削除します。
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 aws cloudformation delete-stack \

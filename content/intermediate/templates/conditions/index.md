@@ -110,8 +110,8 @@ Let’s deploy the solution!
 When you create the stack, you will pass `test` as the value for `EnvType`, and you will observe only an EC2 instance resource will be provisioned by CloudFormation. Save the template you have updated with content above; next, navigate to the AWS CloudFormation [console](https://console.aws.amazon.com/cloudformation), and choose to create a stack using this template:
 
 :::::tabs{variant="container"}
-::::tab{id="cloud9" label="Cloud9"}
-1. In the **Cloud9 terminal** navigate to `code/workspace/conditions`:
+::::tab{id="code-editor" label="Code Editor"}
+1. In the **Code Editor terminal** navigate to `code/workspace/conditions`:
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 cd cfn101-workshop/code/workspace/conditions
 :::
@@ -146,8 +146,8 @@ Once the stack is in the `CREATE_COMPLETE` status, navigate to the **Resources**
 In the next step, you will create a new stack with the same template. This time, you will pass `prod` as the value for the `EnvType` parameter, and verify that you will provision, with CloudFormation, your `Volume` and `MountPoint` resources as well. Navigate to the AWS CloudFormation [console](https://console.aws.amazon.com/cloudformation), and choose to create a stack using your existing template:
 
 :::::tabs{variant="container"}
-::::tab{id="cloud9" label="Cloud9"}
-1. In the **Cloud9 terminal** navigate to `code/workspace/conditions`:
+::::tab{id="code-editor" label="Code Editor"}
+1. In the **Code Editor terminal** navigate to `code/workspace/conditions`:
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 cd cfn101-workshop/code/workspace/conditions
 :::
@@ -232,8 +232,8 @@ Time to deploy your resources!
 In this section, you will pass `test` as the value for the `EnvType` parameter, and verify the type of your EC2 instance will be `t2.micro`. Navigate to the AWS CloudFormation [console](https://console.aws.amazon.com/cloudformation), and choose to create a stack using this template:
 
 :::::tabs{variant="container"}
-::::tab{id="cloud9" label="Cloud9"}
-1. In the **Cloud9 terminal** navigate to `code/workspace/conditions`:
+::::tab{id="code-editor" label="Code Editor"}
+1. In the **Code Editor terminal** navigate to `code/workspace/conditions`:
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 cd cfn101-workshop/code/workspace/conditions
 :::
@@ -298,8 +298,8 @@ Outputs:
 Next, navigate to the AWS CloudFormation [console](https://console.aws.amazon.com/cloudformation), and choose to  update your `cfn-workshop-condition-prod` stack:
 
 :::::tabs{variant="container"}
-::::tab{id="cloud9" label="Cloud9"}
-1. In the **Cloud9 terminal** navigate to `code/workspace/conditions`:
+::::tab{id="code-editor" label="Code Editor"}
+1. In the **Code Editor terminal** navigate to `code/workspace/conditions`:
   :::code{language=shell showLineNumbers=false showCopyAction=true}
   cd cfn101-workshop/code/workspace/conditions
   :::

@@ -145,8 +145,8 @@ VpcStack:
 ##### 3. Upload the VPC stack to S3
 
 :::::tabs{variant="container"}
-::::tab{id="cloud9" label="Cloud9"}
-1. In the **Cloud9 terminal** navigate to `code/workspace/nested-stacks`:
+::::tab{id="code-editor" label="Code Editor"}
+1. In the **Code Editor terminal** navigate to `code/workspace/nested-stacks`:
   :::code{language=shell showLineNumbers=false showCopyAction=true}
   cd cfn101-workshop/code/workspace/nested-stacks
   :::
@@ -173,8 +173,8 @@ See the earlier [Linting and Testing](/basics/templates/linting-and-testing) lab
 :::
 
 :::::tabs{variant="container"}
-::::tab{id="cloud9" label="Cloud9"}
-1. In the **Cloud9 terminal** navigate to `code/workspace/nested-stacks`:
+::::tab{id="code-editor" label="Code Editor"}
+1. In the **Code Editor terminal** navigate to `code/workspace/nested-stacks`:
   :::code{language=shell showLineNumbers=false showCopyAction=true}
   cd cfn101-workshop/code/workspace/nested-stacks
   :::
@@ -262,8 +262,8 @@ IamStack:
 Similarly to the [VPC stack](#3.-upload-the-vpc-stack-to-s3), upload the IAM template to the S3.
 
 :::::tabs{variant="container"}
-::::tab{id="cloud9" label="Cloud9"}
-1. In the **Cloud9 terminal** navigate to `code/workspace/nested-stacks`:
+::::tab{id="code-editor" label="Code Editor"}
+1. In the **Code Editor terminal** navigate to `code/workspace/nested-stacks`:
   :::code{language=shell showLineNumbers=true showCopyAction=true}
   cd cfn101-workshop/code/workspace/nested-stacks
   :::
@@ -284,8 +284,8 @@ Similarly to the [VPC stack](#3.-upload-the-vpc-stack-to-s3), upload the IAM tem
 
 Update the previously created nested stack with a new template.
 :::::tabs{variant="container"}
-::::tab{id="cloud9" label="Cloud9"}
-1. In the **Cloud9 terminal** navigate to `code/workspace/nested-stacks`:
+::::tab{id="code-editor" label="Code Editor"}
+1. In the **Code Editor terminal** navigate to `code/workspace/nested-stacks`:
   :::code{language=shell showLineNumbers=false showCopyAction=true}
   cd cfn101-workshop/code/workspace/nested-stacks
   :::
@@ -507,8 +507,8 @@ and `iam.yaml` templates to your S3 bucket.
 
 
 :::::tabs{variant="container"}
-::::tab{id="cloud9" label="Cloud9"}
-1. In the **Cloud9 terminal** navigate to `code/workspace/nested-stacks`:
+::::tab{id="code-editor" label="Code Editor"}
+1. In the **Code Editor terminal** navigate to `code/workspace/nested-stacks`:
   :::code{language=shell showLineNumbers=false showCopyAction=true}
   cd cfn101-workshop/code/workspace/nested-stacks
   :::
@@ -532,8 +532,8 @@ aws s3 cp ec2.yaml s3://{bucket-name}
 Update the previously created nested stack with a new template.
 
 :::::tabs{variant="container"}
-::::tab{id="cloud9" label="Cloud9"}
-1. In the **Cloud9 terminal** navigate to `code/workspace/nested-stacks`:
+::::tab{id="code-editor" label="Code Editor"}
+1. In the **Code Editor terminal** navigate to `code/workspace/nested-stacks`:
   :::code{language=shell showLineNumbers=false showCopyAction=true}
   cd cfn101-workshop/code/workspace/nested-stacks
   :::

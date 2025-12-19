@@ -70,8 +70,8 @@ Outputs:
 ##### 2. VPC スタックのデプロイ
 
 :::::tabs{variant="container"}
-::::tab{id="cloud9" label="Cloud9"}
-1. **Cloud9 ターミナル** で `cfn101-workshop/code/workspace/cross-stacks` ディレクトリに移動します。
+::::tab{id="code-editor" label="Code Editor"}
+1. **Code Editor ターミナル** で `cfn101-workshop/code/workspace/cross-stacks` ディレクトリに移動します。
 1. **スタックを作成** は、次の AWS CLI コマンドを使用して行います。このテンプレートでは、 `AvailabilityZones` パラメータの値を指定する必要があります。たとえば、 `us-east-1a` と `us-east-1b` は以下で使用されます。利用しているリージョンの 2 つのアベイラビリティーゾーンを選択してください。
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 aws cloudformation create-stack \
@@ -113,7 +113,7 @@ aws cloudformation wait stack-create-complete \
 
 ##### 2. IAM スタックのデプロイ
 :::::tabs{variant="container"}
-::::tab{id="cloud9" label="Cloud9"}
+::::tab{id="code-editor" label="Code Editor"}
 1. 次の AWS CLI コマンドを使用して、 **スタックを作成** してみましょう。このテンプレートでは、IAM リソースを作成するための `CAPABILITY_IAM` 機能を指定する必要があります。
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 aws cloudformation create-stack \
@@ -216,7 +216,7 @@ WebServerSecurityGroup:
 ##### 5. EC2 スタックのデプロイ
 
 :::::tabs{variant="container"}
-::::tab{id="cloud9" label="Cloud9"}
+::::tab{id="code-editor" label="Code Editor"}
 1. 次の AWS CLI コマンドを使用して、 **スタックを作成** してみましょう。このテンプレートでは、IAM リソースを作成するための `CAPABILITY_IAM` 機能を指定する必要があります。
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 aws cloudformation create-stack \
@@ -264,7 +264,7 @@ Session Manager を使用してインスタンスにログインできること�
 
 ![delete-export-before-import.png](/static/intermediate/templates/cross-stacks/delete-export-before-import.ja.png)
 :::::tabs{variant="container"}
-::::tab{id="cloud9" label="Cloud9"}
+::::tab{id="code-editor" label="Code Editor"}
 1. **スタックを削除** するために次の AWS CLI コマンドを実行してください
 :::code{language=shell showLineNumbers=false showCopyAction=true}
 aws cloudformation delete-stack \
