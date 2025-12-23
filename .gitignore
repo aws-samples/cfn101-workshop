@@ -444,3 +444,9 @@ cython_debug/
 assets
 .vale.ini
 .kiro
+
+### Internal content (synced from internal repo)
+content/
+static/
+contentspec.yaml
+docs/
