@@ -1,17 +1,19 @@
 SHELL := /bin/bash
 
-.PHONY : help init test lint nag release clean
+.PHONY : help init test lint nag release clean sync
 .DEFAULT: help
 
-VENV_NAME ?= venv
+VENV_NAME ?= .venv
 PYTHON ?= $(VENV_NAME)/bin/python
+PUBLIC_REPO ?= ../cfn-workshop-github
 
 help:
 	@echo "help	get the full command list"
-	@echo "init	create VirtualEnv and install libraries"
+	@echo "init	create VirtualEnv with uv and install libraries"
 	@echo "test	run pre-commit checks"
 	@echo "lint	GitHub actions cfn-lint test"
 	@echo "nag	GitHub actions cfn-nag test"
+	@echo "sync	sync files to public GitHub repo"
 	@echo "version	[part=major||minor||patch] bump version and tag release (make version part=patch)"
 	@echo "release	push new tag to release branch"
 	@echo "clean	delete VirtualEnv and installed libraries"
@@ -21,14 +23,14 @@ init: $(VENV_NAME) pre-commit
 
 $(VENV_NAME): $(VENV_NAME)/bin/activate
 
-$(VENV_NAME)/bin/activate: requirements.txt
-	test -d $(VENV_NAME) || virtualenv -p python3 $(VENV_NAME)
-	$(PYTHON) -m pip install -U pip
-	$(PYTHON) -m pip install -Ur requirements.txt
-	touch $(VENV_NAME)/bin/activate
+$(VENV_NAME)/bin/activate: pyproject.toml .python-version
+	uv venv --python-preference only-managed
+	uv pip install -r pyproject.toml
 
 pre-commit: $(VENV_NAME)
-	$(VENV_NAME)/bin/pre-commit install
+	# GIT_CONFIG=/dev/null is required for Amazon/AWS corporate machines to bypass
+	# internal Git configuration that interferes with pre-commit hook installation
+	GIT_CONFIG=/dev/null $(VENV_NAME)/bin/pre-commit install
 
 # Tests
 test: $(VENV_NAME)
@@ -53,3 +55,19 @@ release: # run on main branch only
 clean:
 	rm -rf "$(VENV_NAME)"
 	find . -iname "*.pyc" -delete
+
+# Sync to public GitHub repo
+sync:
+	@echo "Syncing to public GitHub repo..."
+	@rsync -av --delete \
+		--exclude='.git/' \
+		--exclude='.venv/' \
+		--exclude='content/' \
+		--exclude='static/' \
+		--exclude='contentspec.yaml' \
+		--exclude='docs/' \
+		--exclude='.gitignore' \
+		--exclude='*.pyc' \
+		--exclude='__pycache__/' \
+		./ $(PUBLIC_REPO)/
+	@echo "Sync complete!"

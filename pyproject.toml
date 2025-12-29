@@ -1,0 +1,22 @@
+[project]
+name = "cfn-workshop"
+version = "1.0.0"
+description = "AWS CloudFormation Workshop"
+requires-python = ">=3.12"
+dependencies = [
+    "awscli",
+    "boto3",
+    "bump2version",
+    "cfn-lint",
+    "pre-commit",
+]
+
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+py-modules = []
+
+[dependency-groups]
+dev = []
