@@ -13,7 +13,7 @@ help:
 	@echo "test	run pre-commit checks"
 	@echo "lint	GitHub actions cfn-lint test"
 	@echo "nag	GitHub actions cfn-nag test"
-	@echo "sync	sync files to public GitHub repo (excludes content/, static/, contentspec.yaml, docs/)"
+	@echo "sync	sync files to public GitHub repo"
 	@echo "version	[part=major||minor||patch] bump version and tag release (make version part=patch)"
 	@echo "release	push new tag to release branch"
 	@echo "clean	delete VirtualEnv and installed libraries"
@@ -26,9 +26,10 @@ $(VENV_NAME): $(VENV_NAME)/bin/activate
 $(VENV_NAME)/bin/activate: pyproject.toml .python-version
 	uv venv --python-preference only-managed
 	uv pip install -r pyproject.toml
-	touch $(VENV_NAME)/bin/activate
 
 pre-commit: $(VENV_NAME)
+	# GIT_CONFIG=/dev/null is required for Amazon/AWS corporate machines to bypass
+	# internal Git configuration that interferes with pre-commit hook installation
 	GIT_CONFIG=/dev/null $(VENV_NAME)/bin/pre-commit install
 
 # Tests
